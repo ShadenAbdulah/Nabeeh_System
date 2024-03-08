@@ -11,6 +11,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+// Login page
+Route::get('/info', function () {
+    return view('info');
+});
+
 // Create and store new object
 Route::get('/object', [SampleController::class, 'create'])->name('object.create');
 Route::post('/object', [SampleController::class, 'store'])->name('object.store');
