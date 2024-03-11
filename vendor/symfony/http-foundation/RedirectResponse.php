@@ -11,11 +11,6 @@
 
 namespace Symfony\Component\HttpFoundation;
 
-use InvalidArgumentException;
-use function array_key_exists;
-use const CASE_LOWER;
-use const ENT_QUOTES;
-
 /**
  * RedirectResponse represents an HTTP response doing a redirect.
  *
@@ -33,7 +28,7 @@ class RedirectResponse extends Response
      * @param int    $status  The HTTP status code (302 "Found" by default)
      * @param array  $headers The headers (Location is always set to the given URL)
      *
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      *
      * @see https://tools.ietf.org/html/rfc2616#section-10.3
      */
@@ -44,10 +39,10 @@ class RedirectResponse extends Response
         $this->setTargetUrl($url);
 
         if (!$this->isRedirect()) {
-            throw new InvalidArgumentException(sprintf('The HTTP status code is not a redirect ("%s" given).', $status));
+            throw new \InvalidArgumentException(sprintf('The HTTP status code is not a redirect ("%s" given).', $status));
         }
 
-        if (301 == $status && !array_key_exists('cache-control', array_change_key_case($headers, CASE_LOWER))) {
+        if (301 == $status && !\array_key_exists('cache-control', array_change_key_case($headers, \CASE_LOWER))) {
             $this->headers->remove('cache-control');
         }
     }
@@ -65,12 +60,12 @@ class RedirectResponse extends Response
      *
      * @return $this
      *
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     public function setTargetUrl(string $url): static
     {
         if ('' === $url) {
-            throw new InvalidArgumentException('Cannot redirect to an empty URL.');
+            throw new \InvalidArgumentException('Cannot redirect to an empty URL.');
         }
 
         $this->targetUrl = $url;
@@ -87,7 +82,7 @@ class RedirectResponse extends Response
     <body>
         Redirecting to <a href="%1$s">%1$s</a>.
     </body>
-</html>', htmlspecialchars($url, ENT_QUOTES, 'UTF-8')));
+</html>', htmlspecialchars($url, \ENT_QUOTES, 'UTF-8')));
 
         $this->headers->set('Location', $url);
 

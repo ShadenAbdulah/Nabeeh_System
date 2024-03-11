@@ -13,7 +13,7 @@ class ArrayTransport implements TransportInterface
     /**
      * The collection of Symfony Messages.
      *
-     * @var Collection
+     * @var \Illuminate\Support\Collection
      */
     protected $messages;
 
@@ -38,7 +38,7 @@ class ArrayTransport implements TransportInterface
     /**
      * Retrieve the collection of messages.
      *
-     * @return Collection
+     * @return \Illuminate\Support\Collection
      */
     public function messages()
     {
@@ -48,7 +48,7 @@ class ArrayTransport implements TransportInterface
     /**
      * Clear all of the messages from the local collection.
      *
-     * @return Collection
+     * @return \Illuminate\Support\Collection
      */
     public function flush()
     {

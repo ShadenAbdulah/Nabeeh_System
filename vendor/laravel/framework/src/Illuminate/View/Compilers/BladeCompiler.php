@@ -7,7 +7,6 @@ use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Contracts\View\Factory as ViewFactory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Illuminate\Support\Traits\ReflectsClosures;
 use Illuminate\View\Component;
@@ -217,7 +216,7 @@ class BladeCompiler extends Compiler implements CompilerInterface
      * Get the open and closing PHP tag tokens from the given string.
      *
      * @param  string  $contents
-     * @return Collection
+     * @return \Illuminate\Support\Collection
      */
     protected function getOpenAndClosingPhpTokens($contents)
     {
@@ -343,7 +342,7 @@ class BladeCompiler extends Compiler implements CompilerInterface
     /**
      * Render a component instance to HTML.
      *
-     * @param Component $component
+     * @param  \Illuminate\View\Component  $component
      * @return string
      */
     public static function renderComponent(Component $component)
@@ -942,7 +941,7 @@ class BladeCompiler extends Compiler implements CompilerInterface
      * @param  callable  $handler
      * @return void
      *
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     public function directive($name, callable $handler)
     {

@@ -9,14 +9,14 @@ class DatabaseTransactionsManager
     /**
      * All of the committed transactions.
      *
-     * @var Collection<int, DatabaseTransactionRecord>
+     * @var \Illuminate\Support\Collection<int, \Illuminate\Database\DatabaseTransactionRecord>
      */
     protected $committedTransactions;
 
     /**
      * All of the pending transactions.
      *
-     * @var Collection<int, DatabaseTransactionRecord>
+     * @var \Illuminate\Support\Collection<int, \Illuminate\Database\DatabaseTransactionRecord>
      */
     protected $pendingTransactions;
 
@@ -83,7 +83,8 @@ class DatabaseTransactionsManager
         // shouldn't be any pending transactions, but going to clear them here anyways just
         // in case. This method could be refactored to receive a level in the future too.
         $this->pendingTransactions = $this->pendingTransactions->reject(
-            fn ($transaction) => $transaction->connection === $connection
+            fn ($transaction) => $transaction->connection === $connection &&
+                $transaction->level >= $levelBeingCommitted
         )->values();
 
         [$forThisConnection, $forOtherConnections] = $this->committedTransactions->partition(
@@ -171,7 +172,7 @@ class DatabaseTransactionsManager
     /**
      * Remove all transactions that are children of the given transaction.
      *
-     * @param DatabaseTransactionRecord $transaction
+     * @param  \Illuminate\Database\DatabaseTransactionRecord  $transaction
      * @return void
      */
     protected function removeCommittedTransactionsThatAreChildrenOf(DatabaseTransactionRecord $transaction)
@@ -207,7 +208,7 @@ class DatabaseTransactionsManager
     /**
      * Get the transactions that are applicable to callbacks.
      *
-     * @return Collection<int, DatabaseTransactionRecord>
+     * @return \Illuminate\Support\Collection<int, \Illuminate\Database\DatabaseTransactionRecord>
      */
     public function callbackApplicableTransactions()
     {
@@ -228,7 +229,7 @@ class DatabaseTransactionsManager
     /**
      * Get all of the pending transactions.
      *
-     * @return Collection
+     * @return \Illuminate\Support\Collection
      */
     public function getPendingTransactions()
     {
@@ -238,7 +239,7 @@ class DatabaseTransactionsManager
     /**
      * Get all of the committed transactions.
      *
-     * @return Collection
+     * @return \Illuminate\Support\Collection
      */
     public function getCommittedTransactions()
     {

@@ -19,7 +19,7 @@ class PendingBatch
     /**
      * The IoC container instance.
      *
-     * @var Container
+     * @var \Illuminate\Contracts\Container\Container
      */
     protected $container;
 
@@ -33,7 +33,7 @@ class PendingBatch
     /**
      * The jobs that belong to the batch.
      *
-     * @var Collection
+     * @var \Illuminate\Support\Collection
      */
     public $jobs;
 
@@ -47,8 +47,8 @@ class PendingBatch
     /**
      * Create a new pending batch instance.
      *
-     * @param Container $container
-     * @param Collection $jobs
+     * @param  \Illuminate\Contracts\Container\Container  $container
+     * @param  \Illuminate\Support\Collection  $jobs
      * @return void
      */
     public function __construct(Container $container, Collection $jobs)
@@ -72,6 +72,31 @@ class PendingBatch
         }
 
         return $this;
+    }
+
+    /**
+     * Add a callback to be executed when the batch is stored.
+     *
+     * @param  callable  $callback
+     * @return $this
+     */
+    public function before($callback)
+    {
+        $this->options['before'][] = $callback instanceof Closure
+            ? new SerializableClosure($callback)
+            : $callback;
+
+        return $this;
+    }
+
+    /**
+     * Get the "before" callbacks that have been registered with the pending batch.
+     *
+     * @return array
+     */
+    public function beforeCallbacks()
+    {
+        return $this->options['before'] ?? [];
     }
 
     /**
@@ -273,16 +298,16 @@ class PendingBatch
     /**
      * Dispatch the batch.
      *
-     * @return Batch
+     * @return \Illuminate\Bus\Batch
      *
-     * @throws Throwable
+     * @throws \Throwable
      */
     public function dispatch()
     {
         $repository = $this->container->make(BatchRepository::class);
 
         try {
-            $batch = $repository->store($this);
+            $batch = $this->store($repository);
 
             $batch = $batch->add($this->jobs);
         } catch (Throwable $e) {
@@ -303,13 +328,13 @@ class PendingBatch
     /**
      * Dispatch the batch after the response is sent to the browser.
      *
-     * @return Batch
+     * @return \Illuminate\Bus\Batch
      */
     public function dispatchAfterResponse()
     {
         $repository = $this->container->make(BatchRepository::class);
 
-        $batch = $repository->store($this);
+        $batch = $this->store($repository);
 
         if ($batch) {
             $this->container->terminating(function () use ($batch) {
@@ -323,10 +348,10 @@ class PendingBatch
     /**
      * Dispatch an existing batch.
      *
-     * @param Batch $batch
+     * @param  \Illuminate\Bus\Batch  $batch
      * @return void
      *
-     * @throws Throwable
+     * @throws \Throwable
      */
     protected function dispatchExistingBatch($batch)
     {
@@ -348,8 +373,8 @@ class PendingBatch
     /**
      * Dispatch the batch if the given truth test passes.
      *
-     * @param  bool|Closure $boolean
-     * @return Batch|null
+     * @param  bool|\Closure  $boolean
+     * @return \Illuminate\Bus\Batch|null
      */
     public function dispatchIf($boolean)
     {
@@ -359,20 +384,19 @@ class PendingBatch
     /**
      * Dispatch the batch unless the given truth test passes.
      *
-     * @param  bool|Closure $boolean
-     * @return Batch|null
+     * @param  bool|\Closure  $boolean
+     * @return \Illuminate\Bus\Batch|null
      */
     public function dispatchUnless($boolean)
     {
         return ! value($boolean) ? $this->dispatch() : null;
     }
-<<<<<<< HEAD
 
     /**
      * Store the batch using the given repository.
      *
-     * @param BatchRepository $repository
-     * @return Batch
+     * @param  \Illuminate\Bus\BatchRepository  $repository
+     * @return \Illuminate\Bus\Batch
      */
     protected function store($repository)
     {
@@ -390,6 +414,4 @@ class PendingBatch
 
         return $batch;
     }
-=======
->>>>>>> parent of c8b1139b (update Ui)
 }

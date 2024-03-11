@@ -9,7 +9,7 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Traits\ForwardsCalls;
 
 /**
- * @mixin Router
+ * @mixin \Illuminate\Routing\Router
  */
 class RouteServiceProvider extends ServiceProvider
 {
@@ -25,7 +25,7 @@ class RouteServiceProvider extends ServiceProvider
     /**
      * The callback that should be used to load the application's routes.
      *
-     * @var Closure|null
+     * @var \Closure|null
      */
     protected $loadRoutesUsing;
 
@@ -65,7 +65,7 @@ class RouteServiceProvider extends ServiceProvider
     /**
      * Register the callback that will be used to load the application's routes.
      *
-     * @param Closure $routesCallback
+     * @param  \Closure  $routesCallback
      * @return $this
      */
     protected function routes(Closure $routesCallback)

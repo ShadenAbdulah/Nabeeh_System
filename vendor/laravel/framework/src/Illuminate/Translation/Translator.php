@@ -3,7 +3,6 @@
 namespace Illuminate\Translation;
 
 use Closure;
-use Countable;
 use Illuminate\Contracts\Translation\Loader;
 use Illuminate\Contracts\Translation\Translator as TranslatorContract;
 use Illuminate\Support\Arr;
@@ -20,7 +19,7 @@ class Translator extends NamespacedItemResolver implements TranslatorContract
     /**
      * The loader implementation.
      *
-     * @var Loader
+     * @var \Illuminate\Contracts\Translation\Loader
      */
     protected $loader;
 
@@ -48,7 +47,7 @@ class Translator extends NamespacedItemResolver implements TranslatorContract
     /**
      * The message selector.
      *
-     * @var MessageSelector
+     * @var \Illuminate\Translation\MessageSelector
      */
     protected $selector;
 
@@ -83,7 +82,7 @@ class Translator extends NamespacedItemResolver implements TranslatorContract
     /**
      * Create a new translator instance.
      *
-     * @param Loader $loader
+     * @param  \Illuminate\Contracts\Translation\Loader  $loader
      * @param  string  $locale
      * @return void
      */
@@ -161,9 +160,9 @@ class Translator extends NamespacedItemResolver implements TranslatorContract
             // the translator was instantiated. Then, we can load the lines and return.
             $locales = $fallback ? $this->localeArray($locale) : [$locale];
 
-            foreach ($locales as $locale) {
+            foreach ($locales as $languageLineLocale) {
                 if (! is_null($line = $this->getLine(
-                    $namespace, $group, $locale, $item, $replace
+                    $namespace, $group, $languageLineLocale, $item, $replace
                 ))) {
                     return $line;
                 }
@@ -184,7 +183,7 @@ class Translator extends NamespacedItemResolver implements TranslatorContract
      * Get a translation according to an integer value.
      *
      * @param  string  $key
-     * @param  Countable|int|float|array  $number
+     * @param  \Countable|int|float|array  $number
      * @param  array  $replace
      * @param  string|null  $locale
      * @return string
@@ -436,7 +435,7 @@ class Translator extends NamespacedItemResolver implements TranslatorContract
     /**
      * Get the message selector instance.
      *
-     * @return MessageSelector
+     * @return \Illuminate\Translation\MessageSelector
      */
     public function getSelector()
     {
@@ -450,7 +449,7 @@ class Translator extends NamespacedItemResolver implements TranslatorContract
     /**
      * Set the message selector instance.
      *
-     * @param MessageSelector $selector
+     * @param  \Illuminate\Translation\MessageSelector  $selector
      * @return void
      */
     public function setSelector(MessageSelector $selector)
@@ -461,7 +460,7 @@ class Translator extends NamespacedItemResolver implements TranslatorContract
     /**
      * Get the language line loader implementation.
      *
-     * @return Loader
+     * @return \Illuminate\Contracts\Translation\Loader
      */
     public function getLoader()
     {
@@ -494,7 +493,7 @@ class Translator extends NamespacedItemResolver implements TranslatorContract
      * @param  string  $locale
      * @return void
      *
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     public function setLocale($locale)
     {

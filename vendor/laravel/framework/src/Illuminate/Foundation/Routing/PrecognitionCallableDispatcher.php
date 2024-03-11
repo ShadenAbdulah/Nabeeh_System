@@ -10,7 +10,7 @@ class PrecognitionCallableDispatcher extends CallableDispatcher
     /**
      * Dispatch a request to a given callable.
      *
-     * @param Route $route
+     * @param  \Illuminate\Routing\Route  $route
      * @param  callable  $callable
      * @return mixed
      */

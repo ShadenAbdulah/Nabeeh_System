@@ -44,14 +44,14 @@ abstract class DatabaseInspectionCommand extends Command
     /**
      * The Composer instance.
      *
-     * @var Composer
+     * @var \Illuminate\Support\Composer
      */
     protected $composer;
 
     /**
      * Create a new command instance.
      *
-     * @param Composer|null  $composer
+     * @param  \Illuminate\Support\Composer|null  $composer
      * @return void
      */
     public function __construct(Composer $composer = null)
@@ -64,7 +64,7 @@ abstract class DatabaseInspectionCommand extends Command
     /**
      * Register the custom Doctrine type mappings for inspection commands.
      *
-     * @param AbstractPlatform $platform
+     * @param  \Doctrine\DBAL\Platforms\AbstractPlatform  $platform
      * @return void
      */
     protected function registerTypeMappings(AbstractPlatform $platform)
@@ -77,7 +77,7 @@ abstract class DatabaseInspectionCommand extends Command
     /**
      * Get a human-readable platform name for the given platform.
      *
-     * @param AbstractPlatform $platform
+     * @param  \Doctrine\DBAL\Platforms\AbstractPlatform  $platform
      * @param  string  $database
      * @return string
      */
@@ -98,7 +98,7 @@ abstract class DatabaseInspectionCommand extends Command
     /**
      * Get the size of a table in bytes.
      *
-     * @param ConnectionInterface $connection
+     * @param  \Illuminate\Database\ConnectionInterface  $connection
      * @param  string  $table
      * @return int|null
      */
@@ -115,7 +115,7 @@ abstract class DatabaseInspectionCommand extends Command
     /**
      * Get the size of a MySQL table in bytes.
      *
-     * @param ConnectionInterface $connection
+     * @param  \Illuminate\Database\ConnectionInterface  $connection
      * @param  string  $table
      * @return mixed
      */
@@ -132,7 +132,7 @@ abstract class DatabaseInspectionCommand extends Command
     /**
      * Get the size of a Postgres table in bytes.
      *
-     * @param ConnectionInterface $connection
+     * @param  \Illuminate\Database\ConnectionInterface  $connection
      * @param  string  $table
      * @return mixed
      */
@@ -148,7 +148,7 @@ abstract class DatabaseInspectionCommand extends Command
     /**
      * Get the size of a SQLite table in bytes.
      *
-     * @param ConnectionInterface $connection
+     * @param  \Illuminate\Database\ConnectionInterface  $connection
      * @param  string  $table
      * @return mixed
      */
@@ -168,7 +168,7 @@ abstract class DatabaseInspectionCommand extends Command
     /**
      * Get the number of open connections for a database.
      *
-     * @param ConnectionInterface $connection
+     * @param  \Illuminate\Database\ConnectionInterface  $connection
      * @return int|null
      */
     protected function getConnectionCount(ConnectionInterface $connection)
@@ -219,7 +219,7 @@ abstract class DatabaseInspectionCommand extends Command
      *
      * @return void
      *
-     * @throws ProcessSignaledException
+     * @throws \Symfony\Component\Process\Exception\ProcessSignaledException
      */
     protected function installDependencies()
     {

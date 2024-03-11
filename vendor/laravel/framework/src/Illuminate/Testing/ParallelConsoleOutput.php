@@ -4,14 +4,13 @@ namespace Illuminate\Testing;
 
 use Illuminate\Support\Str;
 use Symfony\Component\Console\Output\ConsoleOutput;
-use Symfony\Component\Console\Output\OutputInterface;
 
 class ParallelConsoleOutput extends ConsoleOutput
 {
     /**
      * The original output instance.
      *
-     * @var OutputInterface
+     * @var \Symfony\Component\Console\Output\OutputInterface
      */
     protected $output;
 
@@ -28,7 +27,7 @@ class ParallelConsoleOutput extends ConsoleOutput
     /**
      * Create a new Parallel ConsoleOutput instance.
      *
-     * @param  OutputInterface  $output
+     * @param  \Symfony\Component\Console\Output\OutputInterface  $output
      * @return void
      */
     public function __construct($output)

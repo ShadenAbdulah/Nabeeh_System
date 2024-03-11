@@ -17,7 +17,7 @@ class InvokableValidationRule implements Rule, ValidatorAwareRule
     /**
      * The invokable that validates the attribute.
      *
-     * @var ValidationRule|InvokableRule
+     * @var \Illuminate\Contracts\Validation\ValidationRule|\Illuminate\Contracts\Validation\InvokableRule
      */
     protected $invokable;
 
@@ -38,7 +38,7 @@ class InvokableValidationRule implements Rule, ValidatorAwareRule
     /**
      * The current validator.
      *
-     * @var Validator
+     * @var \Illuminate\Validation\Validator
      */
     protected $validator;
 
@@ -52,7 +52,7 @@ class InvokableValidationRule implements Rule, ValidatorAwareRule
     /**
      * Create a new explicit Invokable validation rule.
      *
-     * @param ValidationRule|InvokableRule $invokable
+     * @param  \Illuminate\Contracts\Validation\ValidationRule|\Illuminate\Contracts\Validation\InvokableRule  $invokable
      * @return void
      */
     protected function __construct(ValidationRule|InvokableRule $invokable)
@@ -63,8 +63,8 @@ class InvokableValidationRule implements Rule, ValidatorAwareRule
     /**
      * Create a new implicit or explicit Invokable validation rule.
      *
-     * @param ValidationRule|InvokableRule $invokable
-     * @return Rule|InvokableValidationRule
+     * @param  \Illuminate\Contracts\Validation\ValidationRule|\Illuminate\Contracts\Validation\InvokableRule  $invokable
+     * @return \Illuminate\Contracts\Validation\Rule|\Illuminate\Validation\InvokableValidationRule
      */
     public static function make($invokable)
     {
@@ -111,7 +111,7 @@ class InvokableValidationRule implements Rule, ValidatorAwareRule
     /**
      * Get the underlying invokable rule.
      *
-     * @return ValidationRule|InvokableRule
+     * @return \Illuminate\Contracts\Validation\ValidationRule|\Illuminate\Contracts\Validation\InvokableRule
      */
     public function invokable()
     {
@@ -144,7 +144,7 @@ class InvokableValidationRule implements Rule, ValidatorAwareRule
     /**
      * Set the current validator.
      *
-     * @param Validator $validator
+     * @param  \Illuminate\Validation\Validator  $validator
      * @return $this
      */
     public function setValidator($validator)

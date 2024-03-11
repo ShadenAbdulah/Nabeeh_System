@@ -19,7 +19,7 @@ trait CompilesLoops
      * @param  string  $expression
      * @return string
      *
-     * @throws ViewCompilationException
+     * @throws \Illuminate\Contracts\View\ViewCompilationException
      */
     protected function compileForelse($expression)
     {
@@ -96,7 +96,7 @@ trait CompilesLoops
      * @param  string  $expression
      * @return string
      *
-     * @throws ViewCompilationException
+     * @throws \Illuminate\Contracts\View\ViewCompilationException
      */
     protected function compileForeach($expression)
     {

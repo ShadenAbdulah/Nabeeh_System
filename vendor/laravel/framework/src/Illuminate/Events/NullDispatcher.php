@@ -2,7 +2,6 @@
 
 namespace Illuminate\Events;
 
-use Closure;
 use Illuminate\Contracts\Events\Dispatcher as DispatcherContract;
 use Illuminate\Support\Traits\ForwardsCalls;
 
@@ -13,14 +12,14 @@ class NullDispatcher implements DispatcherContract
     /**
      * The underlying event dispatcher instance.
      *
-     * @var DispatcherContract
+     * @var \Illuminate\Contracts\Events\Dispatcher
      */
     protected $dispatcher;
 
     /**
      * Create a new event dispatcher instance that does not fire.
      *
-     * @param DispatcherContract $dispatcher
+     * @param  \Illuminate\Contracts\Events\Dispatcher  $dispatcher
      * @return void
      */
     public function __construct(DispatcherContract $dispatcher)
@@ -68,8 +67,8 @@ class NullDispatcher implements DispatcherContract
     /**
      * Register an event listener with the dispatcher.
      *
-     * @param  Closure|string|array  $events
-     * @param  Closure|string|array|null  $listener
+     * @param  \Closure|string|array  $events
+     * @param  \Closure|string|array|null  $listener
      * @return void
      */
     public function listen($events, $listener = null)

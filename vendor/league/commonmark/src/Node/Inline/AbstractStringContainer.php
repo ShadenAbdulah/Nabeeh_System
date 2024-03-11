@@ -17,7 +17,6 @@ declare(strict_types=1);
 namespace League\CommonMark\Node\Inline;
 
 use League\CommonMark\Node\StringContainerInterface;
-use function count;
 
 abstract class AbstractStringContainer extends AbstractInline implements StringContainerInterface
 {
@@ -31,7 +30,7 @@ abstract class AbstractStringContainer extends AbstractInline implements StringC
         parent::__construct();
 
         $this->literal = $contents;
-        if (count($data) > 0) {
+        if (\count($data) > 0) {
             $this->data->import($data);
         }
     }

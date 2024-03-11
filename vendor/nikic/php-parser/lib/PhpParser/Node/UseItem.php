@@ -5,7 +5,6 @@ namespace PhpParser\Node;
 use PhpParser\Node;
 use PhpParser\NodeAbstract;
 use PhpParser\Node\Stmt\Use_;
-use function is_string;
 
 class UseItem extends NodeAbstract {
     /**
@@ -29,7 +28,7 @@ class UseItem extends NodeAbstract {
         $this->attributes = $attributes;
         $this->type = $type;
         $this->name = $name;
-        $this->alias = is_string($alias) ? new Identifier($alias) : $alias;
+        $this->alias = \is_string($alias) ? new Identifier($alias) : $alias;
     }
 
     public function getSubNodeNames(): array {

@@ -3,14 +3,14 @@
 namespace Illuminate\Database\Eloquent;
 
 /**
- * @mixin Builder
+ * @mixin \Illuminate\Database\Eloquent\Builder
  */
 class HigherOrderBuilderProxy
 {
     /**
      * The collection being operated on.
      *
-     * @var Builder
+     * @var \Illuminate\Database\Eloquent\Builder
      */
     protected $builder;
 
@@ -24,7 +24,7 @@ class HigherOrderBuilderProxy
     /**
      * Create a new proxy instance.
      *
-     * @param Builder $builder
+     * @param  \Illuminate\Database\Eloquent\Builder  $builder
      * @param  string  $method
      * @return void
      */

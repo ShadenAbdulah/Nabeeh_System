@@ -2,9 +2,7 @@
 
 namespace Illuminate\Testing;
 
-use Closure;
 use Illuminate\Contracts\Container\Container;
-use Illuminate\Foundation\Testing\TestCase;
 use Illuminate\Support\Str;
 
 class ParallelTesting
@@ -12,21 +10,21 @@ class ParallelTesting
     /**
      * The container instance.
      *
-     * @var Container
+     * @var \Illuminate\Contracts\Container\Container
      */
     protected $container;
 
     /**
      * The options resolver callback.
      *
-     * @var Closure|null
+     * @var \Closure|null
      */
     protected $optionsResolver;
 
     /**
      * The token resolver callback.
      *
-     * @var Closure|null
+     * @var \Closure|null
      */
     protected $tokenResolver;
 
@@ -68,7 +66,7 @@ class ParallelTesting
     /**
      * Create a new parallel testing instance.
      *
-     * @param Container $container
+     * @param  \Illuminate\Contracts\Container\Container  $container
      * @return void
      */
     public function __construct(Container $container)
@@ -79,7 +77,7 @@ class ParallelTesting
     /**
      * Set a callback that should be used when resolving options.
      *
-     * @param  Closure|null  $resolver
+     * @param  \Closure|null  $resolver
      * @return void
      */
     public function resolveOptionsUsing($resolver)
@@ -90,7 +88,7 @@ class ParallelTesting
     /**
      * Set a callback that should be used when resolving the unique process token.
      *
-     * @param  Closure|null  $resolver
+     * @param  \Closure|null  $resolver
      * @return void
      */
     public function resolveTokenUsing($resolver)
@@ -172,7 +170,7 @@ class ParallelTesting
     /**
      * Call all of the "setUp" test case callbacks.
      *
-     * @param  TestCase  $testCase
+     * @param  \Illuminate\Foundation\Testing\TestCase  $testCase
      * @return void
      */
     public function callSetUpTestCaseCallbacks($testCase)
@@ -224,7 +222,7 @@ class ParallelTesting
     /**
      * Call all of the "tearDown" test case callbacks.
      *
-     * @param  TestCase  $testCase
+     * @param  \Illuminate\Foundation\Testing\TestCase  $testCase
      * @return void
      */
     public function callTearDownTestCaseCallbacks($testCase)

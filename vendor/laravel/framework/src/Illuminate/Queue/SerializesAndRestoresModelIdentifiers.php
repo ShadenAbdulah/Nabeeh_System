@@ -5,9 +5,7 @@ namespace Illuminate\Queue;
 use Illuminate\Contracts\Database\ModelIdentifier;
 use Illuminate\Contracts\Queue\QueueableCollection;
 use Illuminate\Contracts\Queue\QueueableEntity;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Concerns\AsPivot;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 
@@ -67,8 +65,8 @@ trait SerializesAndRestoresModelIdentifiers
     /**
      * Restore a queueable collection instance.
      *
-     * @param ModelIdentifier $value
-     * @return EloquentCollection
+     * @param  \Illuminate\Contracts\Database\ModelIdentifier  $value
+     * @return \Illuminate\Database\Eloquent\Collection
      */
     protected function restoreCollection($value)
     {
@@ -101,8 +99,8 @@ trait SerializesAndRestoresModelIdentifiers
     /**
      * Restore the model from the model identifier instance.
      *
-     * @param ModelIdentifier $value
-     * @return Model
+     * @param  \Illuminate\Contracts\Database\ModelIdentifier  $value
+     * @return \Illuminate\Database\Eloquent\Model
      */
     public function restoreModel($value)
     {
@@ -114,9 +112,9 @@ trait SerializesAndRestoresModelIdentifiers
     /**
      * Get the query for model restoration.
      *
-     * @param  Model  $model
+     * @param  \Illuminate\Database\Eloquent\Model  $model
      * @param  array|int  $ids
-     * @return Builder
+     * @return \Illuminate\Database\Eloquent\Builder
      */
     protected function getQueryForModelRestoration($model, $ids)
     {

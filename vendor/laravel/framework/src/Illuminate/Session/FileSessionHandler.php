@@ -12,7 +12,7 @@ class FileSessionHandler implements SessionHandlerInterface
     /**
      * The filesystem instance.
      *
-     * @var Filesystem
+     * @var \Illuminate\Filesystem\Filesystem
      */
     protected $files;
 
@@ -33,7 +33,7 @@ class FileSessionHandler implements SessionHandlerInterface
     /**
      * Create a new file driven handler instance.
      *
-     * @param Filesystem $files
+     * @param  \Illuminate\Filesystem\Filesystem  $files
      * @param  string  $path
      * @param  int  $minutes
      * @return void

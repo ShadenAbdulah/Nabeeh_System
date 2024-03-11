@@ -43,10 +43,10 @@ abstract class Grammar extends BaseGrammar
      * Compile a create database command.
      *
      * @param  string  $name
-     * @param Connection $connection
+     * @param  \Illuminate\Database\Connection  $connection
      * @return void
      *
-     * @throws LogicException
+     * @throws \LogicException
      */
     public function compileCreateDatabase($name, $connection)
     {
@@ -59,7 +59,7 @@ abstract class Grammar extends BaseGrammar
      * @param  string  $name
      * @return void
      *
-     * @throws LogicException
+     * @throws \LogicException
      */
     public function compileDropDatabaseIfExists($name)
     {
@@ -69,9 +69,9 @@ abstract class Grammar extends BaseGrammar
     /**
      * Compile a rename column command.
      *
-     * @param Blueprint $blueprint
-     * @param Fluent $command
-     * @param Connection $connection
+     * @param  \Illuminate\Database\Schema\Blueprint  $blueprint
+     * @param  \Illuminate\Support\Fluent  $command
+     * @param  \Illuminate\Database\Connection  $connection
      * @return array|string
      */
     public function compileRenameColumn(Blueprint $blueprint, Fluent $command, Connection $connection)
@@ -82,12 +82,12 @@ abstract class Grammar extends BaseGrammar
     /**
      * Compile a change column command into a series of SQL statements.
      *
-     * @param Blueprint $blueprint
-     * @param Fluent $command
-     * @param Connection $connection
+     * @param  \Illuminate\Database\Schema\Blueprint  $blueprint
+     * @param  \Illuminate\Support\Fluent  $command
+     * @param  \Illuminate\Database\Connection  $connection
      * @return array|string
      *
-     * @throws RuntimeException
+     * @throws \RuntimeException
      */
     public function compileChange(Blueprint $blueprint, Fluent $command, Connection $connection)
     {
@@ -97,11 +97,11 @@ abstract class Grammar extends BaseGrammar
     /**
      * Compile a fulltext index key command.
      *
-     * @param Blueprint $blueprint
-     * @param Fluent $command
+     * @param  \Illuminate\Database\Schema\Blueprint  $blueprint
+     * @param  \Illuminate\Support\Fluent  $command
      * @return string
      *
-     * @throws RuntimeException
+     * @throws \RuntimeException
      */
     public function compileFulltext(Blueprint $blueprint, Fluent $command)
     {
@@ -111,11 +111,11 @@ abstract class Grammar extends BaseGrammar
     /**
      * Compile a drop fulltext index command.
      *
-     * @param Blueprint $blueprint
-     * @param Fluent $command
+     * @param  \Illuminate\Database\Schema\Blueprint  $blueprint
+     * @param  \Illuminate\Support\Fluent  $command
      * @return string
      *
-     * @throws RuntimeException
+     * @throws \RuntimeException
      */
     public function compileDropFullText(Blueprint $blueprint, Fluent $command)
     {
@@ -125,8 +125,8 @@ abstract class Grammar extends BaseGrammar
     /**
      * Compile a foreign key command.
      *
-     * @param Blueprint $blueprint
-     * @param Fluent $command
+     * @param  \Illuminate\Database\Schema\Blueprint  $blueprint
+     * @param  \Illuminate\Support\Fluent  $command
      * @return string
      */
     public function compileForeign(Blueprint $blueprint, Fluent $command)
@@ -165,7 +165,7 @@ abstract class Grammar extends BaseGrammar
     /**
      * Compile the blueprint's added column definitions.
      *
-     * @param Blueprint $blueprint
+     * @param  \Illuminate\Database\Schema\Blueprint  $blueprint
      * @return array
      */
     protected function getColumns(Blueprint $blueprint)
@@ -187,7 +187,7 @@ abstract class Grammar extends BaseGrammar
     /**
      * Get the SQL for the column data type.
      *
-     * @param Fluent $column
+     * @param  \Illuminate\Support\Fluent  $column
      * @return string
      */
     protected function getType(Fluent $column)
@@ -198,10 +198,10 @@ abstract class Grammar extends BaseGrammar
     /**
      * Create the column definition for a generated, computed column type.
      *
-     * @param Fluent $column
+     * @param  \Illuminate\Support\Fluent  $column
      * @return void
      *
-     * @throws RuntimeException
+     * @throws \RuntimeException
      */
     protected function typeComputed(Fluent $column)
     {
@@ -212,8 +212,8 @@ abstract class Grammar extends BaseGrammar
      * Add the column modifiers to the definition.
      *
      * @param  string  $sql
-     * @param Blueprint $blueprint
-     * @param Fluent $column
+     * @param  \Illuminate\Database\Schema\Blueprint  $blueprint
+     * @param  \Illuminate\Support\Fluent  $column
      * @return string
      */
     protected function addModifiers($sql, Blueprint $blueprint, Fluent $column)
@@ -230,9 +230,9 @@ abstract class Grammar extends BaseGrammar
     /**
      * Get the primary key command if it exists on the blueprint.
      *
-     * @param Blueprint $blueprint
+     * @param  \Illuminate\Database\Schema\Blueprint  $blueprint
      * @param  string  $name
-     * @return Fluent|null
+     * @return \Illuminate\Support\Fluent|null
      */
     protected function getCommandByName(Blueprint $blueprint, $name)
     {
@@ -246,7 +246,7 @@ abstract class Grammar extends BaseGrammar
     /**
      * Get all of the commands with a given name.
      *
-     * @param Blueprint $blueprint
+     * @param  \Illuminate\Database\Schema\Blueprint  $blueprint
      * @param  string  $name
      * @return array
      */
@@ -287,7 +287,7 @@ abstract class Grammar extends BaseGrammar
     /**
      * Wrap a value in keyword identifiers.
      *
-     * @param Fluent|Expression|string  $value
+     * @param  \Illuminate\Support\Fluent|\Illuminate\Contracts\Database\Query\Expression|string  $value
      * @param  bool  $prefixAlias
      * @return string
      */
@@ -322,9 +322,9 @@ abstract class Grammar extends BaseGrammar
     /**
      * Create an empty Doctrine DBAL TableDiff from the Blueprint.
      *
-     * @param Blueprint $blueprint
-     * @param SchemaManager $schema
-     * @return TableDiff
+     * @param  \Illuminate\Database\Schema\Blueprint  $blueprint
+     * @param  \Doctrine\DBAL\Schema\AbstractSchemaManager  $schema
+     * @return \Doctrine\DBAL\Schema\TableDiff
      */
     public function getDoctrineTableDiff(Blueprint $blueprint, SchemaManager $schema)
     {

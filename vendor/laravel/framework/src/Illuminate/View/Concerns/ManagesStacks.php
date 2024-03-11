@@ -50,7 +50,7 @@ trait ManagesStacks
      *
      * @return string
      *
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     public function stopPush()
     {
@@ -106,7 +106,7 @@ trait ManagesStacks
      *
      * @return string
      *
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     public function stopPrepend()
     {

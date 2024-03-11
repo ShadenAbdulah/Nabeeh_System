@@ -2,37 +2,34 @@
 
 namespace Illuminate\Support\Facades;
 
-use Closure;
-use Illuminate\Contracts\Container\Container;
 use Illuminate\Notifications\AnonymousNotifiable;
 use Illuminate\Notifications\ChannelManager;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Testing\Fakes\NotificationFake;
 
 /**
- * @method static void send(Collection|array|mixed $notifiables, mixed $notification)
- * @method static void sendNow(Collection|array|mixed $notifiables, mixed $notification, array|null $channels = null)
+ * @method static void send(\Illuminate\Support\Collection|array|mixed $notifiables, mixed $notification)
+ * @method static void sendNow(\Illuminate\Support\Collection|array|mixed $notifiables, mixed $notification, array|null $channels = null)
  * @method static mixed channel(string|null $name = null)
  * @method static string getDefaultDriver()
  * @method static string deliversVia()
  * @method static void deliverVia(string $channel)
- * @method static ChannelManager locale(string $locale)
+ * @method static \Illuminate\Notifications\ChannelManager locale(string $locale)
  * @method static mixed driver(string|null $driver = null)
- * @method static ChannelManager extend(string $driver, Closure $callback)
+ * @method static \Illuminate\Notifications\ChannelManager extend(string $driver, \Closure $callback)
  * @method static array getDrivers()
- * @method static Container getContainer()
- * @method static ChannelManager setContainer(Container $container)
- * @method static ChannelManager forgetDrivers()
- * @method static void assertSentOnDemand(string|Closure $notification, callable|null $callback = null)
- * @method static void assertSentTo(mixed $notifiable, string|Closure $notification, callable|null $callback = null)
+ * @method static \Illuminate\Contracts\Container\Container getContainer()
+ * @method static \Illuminate\Notifications\ChannelManager setContainer(\Illuminate\Contracts\Container\Container $container)
+ * @method static \Illuminate\Notifications\ChannelManager forgetDrivers()
+ * @method static void assertSentOnDemand(string|\Closure $notification, callable|null $callback = null)
+ * @method static void assertSentTo(mixed $notifiable, string|\Closure $notification, callable|null $callback = null)
  * @method static void assertSentOnDemandTimes(string $notification, int $times = 1)
  * @method static void assertSentToTimes(mixed $notifiable, string $notification, int $times = 1)
- * @method static void assertNotSentTo(mixed $notifiable, string|Closure $notification, callable|null $callback = null)
+ * @method static void assertNotSentTo(mixed $notifiable, string|\Closure $notification, callable|null $callback = null)
  * @method static void assertNothingSent()
  * @method static void assertNothingSentTo(mixed $notifiable)
  * @method static void assertSentTimes(string $notification, int $expectedCount)
  * @method static void assertCount(int $expectedCount)
- * @method static Collection sent(mixed $notifiable, string $notification, callable|null $callback = null)
+ * @method static \Illuminate\Support\Collection sent(mixed $notifiable, string $notification, callable|null $callback = null)
  * @method static bool hasSent(mixed $notifiable, string $notification)
  * @method static array sentNotifications()
  * @method static void macro(string $name, object|callable $macro)
@@ -40,15 +37,15 @@ use Illuminate\Support\Testing\Fakes\NotificationFake;
  * @method static bool hasMacro(string $name)
  * @method static void flushMacros()
  *
- * @see ChannelManager
- * @see NotificationFake
+ * @see \Illuminate\Notifications\ChannelManager
+ * @see \Illuminate\Support\Testing\Fakes\NotificationFake
  */
 class Notification extends Facade
 {
     /**
      * Replace the bound instance with a fake.
      *
-     * @return NotificationFake
+     * @return \Illuminate\Support\Testing\Fakes\NotificationFake
      */
     public static function fake()
     {
@@ -58,11 +55,10 @@ class Notification extends Facade
     }
 
     /**
-<<<<<<< HEAD
      * Begin sending a notification to an anonymous notifiable on the given channels.
      *
      * @param  array  $channels
-     * @return AnonymousNotifiable
+     * @return \Illuminate\Notifications\AnonymousNotifiable
      */
     public static function routes(array $channels)
     {
@@ -76,13 +72,11 @@ class Notification extends Facade
     }
 
     /**
-=======
->>>>>>> parent of c8b1139b (update Ui)
      * Begin sending a notification to an anonymous notifiable.
      *
      * @param  string  $channel
      * @param  mixed  $route
-     * @return AnonymousNotifiable
+     * @return \Illuminate\Notifications\AnonymousNotifiable
      */
     public static function route($channel, $route)
     {

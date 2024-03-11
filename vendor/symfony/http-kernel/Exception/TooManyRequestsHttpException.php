@@ -11,8 +11,6 @@
 
 namespace Symfony\Component\HttpKernel\Exception;
 
-use Throwable;
-
 /**
  * @author Ben Ramsey <ben@benramsey.com>
  *
@@ -23,11 +21,7 @@ class TooManyRequestsHttpException extends HttpException
     /**
      * @param int|string|null $retryAfter The number of seconds or HTTP-date after which the request may be retried
      */
-<<<<<<< HEAD
-    public function __construct(int|string|null $retryAfter = null, string $message = '', ?Throwable $previous = null, int $code = 0, array $headers = [])
-=======
-    public function __construct(int|string $retryAfter = null, string $message = '', \Throwable $previous = null, int $code = 0, array $headers = [])
->>>>>>> parent of c8b1139b (update Ui)
+    public function __construct(int|string|null $retryAfter = null, string $message = '', ?\Throwable $previous = null, int $code = 0, array $headers = [])
     {
         if ($retryAfter) {
             $headers['Retry-After'] = $retryAfter;

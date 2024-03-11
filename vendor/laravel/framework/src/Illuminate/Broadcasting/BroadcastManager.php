@@ -11,30 +11,25 @@ use Illuminate\Broadcasting\Broadcasters\NullBroadcaster;
 use Illuminate\Broadcasting\Broadcasters\PusherBroadcaster;
 use Illuminate\Broadcasting\Broadcasters\RedisBroadcaster;
 use Illuminate\Bus\UniqueLock;
-use Illuminate\Contracts\Broadcasting\Broadcaster;
 use Illuminate\Contracts\Broadcasting\Factory as FactoryContract;
 use Illuminate\Contracts\Broadcasting\ShouldBeUnique;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Illuminate\Contracts\Bus\Dispatcher as BusDispatcherContract;
 use Illuminate\Contracts\Cache\Repository as Cache;
-use Illuminate\Contracts\Container\Container;
-use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Foundation\CachesRoutes;
-use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
-use Illuminate\Http\Request;
 use InvalidArgumentException;
 use Psr\Log\LoggerInterface;
 use Pusher\Pusher;
 
 /**
- * @mixin Broadcaster
+ * @mixin \Illuminate\Contracts\Broadcasting\Broadcaster
  */
 class BroadcastManager implements FactoryContract
 {
     /**
      * The application instance.
      *
-     * @var Container
+     * @var \Illuminate\Contracts\Container\Container
      */
     protected $app;
 
@@ -55,7 +50,7 @@ class BroadcastManager implements FactoryContract
     /**
      * Create a new manager instance.
      *
-     * @param  Container  $app
+     * @param  \Illuminate\Contracts\Container\Container  $app
      * @return void
      */
     public function __construct($app)
@@ -81,7 +76,7 @@ class BroadcastManager implements FactoryContract
             $router->match(
                 ['get', 'post'], '/broadcasting/auth',
                 '\\'.BroadcastController::class.'@authenticate'
-            )->withoutMiddleware([VerifyCsrfToken::class]);
+            )->withoutMiddleware([\Illuminate\Foundation\Http\Middleware\VerifyCsrfToken::class]);
         });
     }
 
@@ -103,7 +98,7 @@ class BroadcastManager implements FactoryContract
             $router->match(
                 ['get', 'post'], '/broadcasting/user-auth',
                 '\\'.BroadcastController::class.'@authenticateUser'
-            )->withoutMiddleware([VerifyCsrfToken::class]);
+            )->withoutMiddleware([\Illuminate\Foundation\Http\Middleware\VerifyCsrfToken::class]);
         });
     }
 
@@ -123,7 +118,7 @@ class BroadcastManager implements FactoryContract
     /**
      * Get the socket ID for the given request.
      *
-     * @param  Request|null  $request
+     * @param  \Illuminate\Http\Request|null  $request
      * @return string|null
      */
     public function socket($request = null)
@@ -141,7 +136,7 @@ class BroadcastManager implements FactoryContract
      * Begin broadcasting an event.
      *
      * @param  mixed|null  $event
-     * @return PendingBroadcast
+     * @return \Illuminate\Broadcasting\PendingBroadcast
      */
     public function event($event = null)
     {
@@ -231,7 +226,7 @@ class BroadcastManager implements FactoryContract
      * Attempt to get the connection from the local cache.
      *
      * @param  string  $name
-     * @return Broadcaster
+     * @return \Illuminate\Contracts\Broadcasting\Broadcaster
      */
     protected function get($name)
     {
@@ -242,9 +237,9 @@ class BroadcastManager implements FactoryContract
      * Resolve the given broadcaster.
      *
      * @param  string  $name
-     * @return Broadcaster
+     * @return \Illuminate\Contracts\Broadcasting\Broadcaster
      *
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     protected function resolve($name)
     {
@@ -282,9 +277,8 @@ class BroadcastManager implements FactoryContract
      * Create an instance of the driver.
      *
      * @param  array  $config
-     * @return Broadcaster
+     * @return \Illuminate\Contracts\Broadcasting\Broadcaster
      */
-<<<<<<< HEAD
     protected function createReverbDriver(array $config)
     {
         return $this->createPusherDriver($config);
@@ -294,10 +288,8 @@ class BroadcastManager implements FactoryContract
      * Create an instance of the driver.
      *
      * @param  array  $config
-     * @return Broadcaster
+     * @return \Illuminate\Contracts\Broadcasting\Broadcaster
      */
-=======
->>>>>>> parent of c8b1139b (update Ui)
     protected function createPusherDriver(array $config)
     {
         return new PusherBroadcaster($this->pusher($config));
@@ -307,7 +299,7 @@ class BroadcastManager implements FactoryContract
      * Get a Pusher instance for the given configuration.
      *
      * @param  array  $config
-     * @return Pusher
+     * @return \Pusher\Pusher
      */
     public function pusher(array $config)
     {
@@ -332,7 +324,7 @@ class BroadcastManager implements FactoryContract
      * Create an instance of the driver.
      *
      * @param  array  $config
-     * @return Broadcaster
+     * @return \Illuminate\Contracts\Broadcasting\Broadcaster
      */
     protected function createAblyDriver(array $config)
     {
@@ -343,7 +335,7 @@ class BroadcastManager implements FactoryContract
      * Get an Ably instance for the given configuration.
      *
      * @param  array  $config
-     * @return AblyRest
+     * @return \Ably\AblyRest
      */
     public function ably(array $config)
     {
@@ -354,7 +346,7 @@ class BroadcastManager implements FactoryContract
      * Create an instance of the driver.
      *
      * @param  array  $config
-     * @return Broadcaster
+     * @return \Illuminate\Contracts\Broadcasting\Broadcaster
      */
     protected function createRedisDriver(array $config)
     {
@@ -368,7 +360,7 @@ class BroadcastManager implements FactoryContract
      * Create an instance of the driver.
      *
      * @param  array  $config
-     * @return Broadcaster
+     * @return \Illuminate\Contracts\Broadcasting\Broadcaster
      */
     protected function createLogDriver(array $config)
     {
@@ -381,7 +373,7 @@ class BroadcastManager implements FactoryContract
      * Create an instance of the driver.
      *
      * @param  array  $config
-     * @return Broadcaster
+     * @return \Illuminate\Contracts\Broadcasting\Broadcaster
      */
     protected function createNullDriver(array $config)
     {
@@ -441,7 +433,7 @@ class BroadcastManager implements FactoryContract
      * Register a custom driver creator Closure.
      *
      * @param  string  $driver
-     * @param Closure $callback
+     * @param  \Closure  $callback
      * @return $this
      */
     public function extend($driver, Closure $callback)
@@ -454,7 +446,7 @@ class BroadcastManager implements FactoryContract
     /**
      * Get the application instance used by the manager.
      *
-     * @return Application
+     * @return \Illuminate\Contracts\Foundation\Application
      */
     public function getApplication()
     {
@@ -464,7 +456,7 @@ class BroadcastManager implements FactoryContract
     /**
      * Set the application instance used by the manager.
      *
-     * @param  Application  $app
+     * @param  \Illuminate\Contracts\Foundation\Application  $app
      * @return $this
      */
     public function setApplication($app)

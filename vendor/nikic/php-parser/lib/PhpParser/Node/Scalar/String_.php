@@ -4,8 +4,6 @@ namespace PhpParser\Node\Scalar;
 
 use PhpParser\Error;
 use PhpParser\Node\Scalar;
-use function is_int;
-use const PHP_INT_MAX;
 
 class String_ extends Scalar {
     /* For use in "kind" attribute */
@@ -124,7 +122,7 @@ class String_ extends Scalar {
                 if ('u' === $str[0]) {
                     $dec = hexdec($matches[2]);
                     // If it overflowed to float, treat as INT_MAX, it will throw an error anyway.
-                    return self::codePointToUtf8(is_int($dec) ? $dec : PHP_INT_MAX);
+                    return self::codePointToUtf8(\is_int($dec) ? $dec : \PHP_INT_MAX);
                 } else {
                     return chr(octdec($str));
                 }

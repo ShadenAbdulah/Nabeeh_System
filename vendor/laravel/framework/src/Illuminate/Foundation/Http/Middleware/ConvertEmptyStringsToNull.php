@@ -3,7 +3,6 @@
 namespace Illuminate\Foundation\Http\Middleware;
 
 use Closure;
-use Illuminate\Http\Request;
 
 class ConvertEmptyStringsToNull extends TransformsRequest
 {
@@ -17,8 +16,8 @@ class ConvertEmptyStringsToNull extends TransformsRequest
     /**
      * Handle an incoming request.
      *
-     * @param  Request  $request
-     * @param Closure $next
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Closure  $next
      * @return mixed
      */
     public function handle($request, Closure $next)
@@ -47,7 +46,7 @@ class ConvertEmptyStringsToNull extends TransformsRequest
     /**
      * Register a callback that instructs the middleware to be skipped.
      *
-     * @param Closure $callback
+     * @param  \Closure  $callback
      * @return void
      */
     public static function skipWhen(Closure $callback)

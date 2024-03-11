@@ -9,7 +9,6 @@ use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Queue\CallQueuedClosure;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Enumerable;
 use JsonSerializable;
 use Throwable;
 
@@ -18,14 +17,14 @@ class Batch implements Arrayable, JsonSerializable
     /**
      * The queue factory implementation.
      *
-     * @var QueueFactory
+     * @var \Illuminate\Contracts\Queue\Factory
      */
     protected $queue;
 
     /**
      * The repository implementation.
      *
-     * @var BatchRepository
+     * @var \Illuminate\Bus\BatchRepository
      */
     protected $repository;
 
@@ -81,29 +80,29 @@ class Batch implements Arrayable, JsonSerializable
     /**
      * The date indicating when the batch was created.
      *
-     * @var CarbonImmutable
+     * @var \Carbon\CarbonImmutable
      */
     public $createdAt;
 
     /**
      * The date indicating when the batch was cancelled.
      *
-     * @var CarbonImmutable|null
+     * @var \Carbon\CarbonImmutable|null
      */
     public $cancelledAt;
 
     /**
      * The date indicating when the batch was finished.
      *
-     * @var CarbonImmutable|null
+     * @var \Carbon\CarbonImmutable|null
      */
     public $finishedAt;
 
     /**
      * Create a new batch instance.
      *
-     * @param QueueFactory $queue
-     * @param BatchRepository $repository
+     * @param  \Illuminate\Contracts\Queue\Factory  $queue
+     * @param  \Illuminate\Bus\BatchRepository  $repository
      * @param  string  $id
      * @param  string  $name
      * @param  int  $totalJobs
@@ -111,9 +110,9 @@ class Batch implements Arrayable, JsonSerializable
      * @param  int  $failedJobs
      * @param  array  $failedJobIds
      * @param  array  $options
-     * @param CarbonImmutable $createdAt
-     * @param CarbonImmutable|null  $cancelledAt
-     * @param CarbonImmutable|null  $finishedAt
+     * @param  \Carbon\CarbonImmutable  $createdAt
+     * @param  \Carbon\CarbonImmutable|null  $cancelledAt
+     * @param  \Carbon\CarbonImmutable|null  $finishedAt
      * @return void
      */
     public function __construct(QueueFactory $queue,
@@ -156,7 +155,7 @@ class Batch implements Arrayable, JsonSerializable
     /**
      * Add additional jobs to the batch.
      *
-     * @param  Enumerable|object|array  $jobs
+     * @param  \Illuminate\Support\Enumerable|object|array  $jobs
      * @return self
      */
     public function add($jobs)
@@ -201,7 +200,7 @@ class Batch implements Arrayable, JsonSerializable
      * Prepare a chain that exists within the jobs being added.
      *
      * @param  array  $chain
-     * @return Collection
+     * @return \Illuminate\Support\Collection
      */
     protected function prepareBatchedChain(array $chain)
     {
@@ -275,7 +274,7 @@ class Batch implements Arrayable, JsonSerializable
      * Decrement the pending jobs for the batch.
      *
      * @param  string  $jobId
-     * @return UpdatedBatchJobCounts
+     * @return \Illuminate\Bus\UpdatedBatchJobCounts
      */
     public function decrementPendingJobs(string $jobId)
     {
@@ -336,7 +335,7 @@ class Batch implements Arrayable, JsonSerializable
      * Record that a job within the batch failed to finish successfully, executing any callbacks if necessary.
      *
      * @param  string  $jobId
-     * @param Throwable $e
+     * @param  \Throwable  $e
      * @return void
      */
     public function recordFailedJob(string $jobId, $e)
@@ -376,7 +375,7 @@ class Batch implements Arrayable, JsonSerializable
      * Increment the failed jobs for the batch.
      *
      * @param  string  $jobId
-     * @return UpdatedBatchJobCounts
+     * @return \Illuminate\Bus\UpdatedBatchJobCounts
      */
     public function incrementFailedJobs(string $jobId)
     {
@@ -447,8 +446,8 @@ class Batch implements Arrayable, JsonSerializable
      * Invoke a batch callback handler.
      *
      * @param  callable  $handler
-     * @param Batch $batch
-     * @param Throwable|null  $e
+     * @param  \Illuminate\Bus\Batch  $batch
+     * @param  \Throwable|null  $e
      * @return void
      */
     protected function invokeHandlerCallback($handler, Batch $batch, Throwable $e = null)

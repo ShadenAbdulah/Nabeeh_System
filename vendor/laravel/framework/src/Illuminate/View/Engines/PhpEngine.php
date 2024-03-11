@@ -11,14 +11,14 @@ class PhpEngine implements Engine
     /**
      * The filesystem instance.
      *
-     * @var Filesystem
+     * @var \Illuminate\Filesystem\Filesystem
      */
     protected $files;
 
     /**
      * Create a new file engine instance.
      *
-     * @param Filesystem $files
+     * @param  \Illuminate\Filesystem\Filesystem  $files
      * @return void
      */
     public function __construct(Filesystem $files)
@@ -66,11 +66,11 @@ class PhpEngine implements Engine
     /**
      * Handle a view exception.
      *
-     * @param Throwable $e
+     * @param  \Throwable  $e
      * @param  int  $obLevel
      * @return void
      *
-     * @throws Throwable
+     * @throws \Throwable
      */
     protected function handleViewException(Throwable $e, $obLevel)
     {

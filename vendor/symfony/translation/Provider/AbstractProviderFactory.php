@@ -12,13 +12,12 @@
 namespace Symfony\Component\Translation\Provider;
 
 use Symfony\Component\Translation\Exception\IncompleteDsnException;
-use function in_array;
 
 abstract class AbstractProviderFactory implements ProviderFactoryInterface
 {
     public function supports(Dsn $dsn): bool
     {
-        return in_array($dsn->getScheme(), $this->getSupportedSchemes(), true);
+        return \in_array($dsn->getScheme(), $this->getSupportedSchemes(), true);
     }
 
     /**

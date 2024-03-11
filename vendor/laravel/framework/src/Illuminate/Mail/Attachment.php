@@ -5,7 +5,6 @@ namespace Illuminate\Mail;
 use Closure;
 use Illuminate\Container\Container;
 use Illuminate\Contracts\Filesystem\Factory as FilesystemFactory;
-use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Support\Traits\Macroable;
 use RuntimeException;
 
@@ -30,14 +29,14 @@ class Attachment
     /**
      * A callback that attaches the attachment to the mail message.
      *
-     * @var Closure
+     * @var \Closure
      */
     protected $resolver;
 
     /**
      * Create a mail attachment.
      *
-     * @param Closure $resolver
+     * @param  \Closure  $resolver
      * @return void
      */
     private function __construct(Closure $resolver)
@@ -59,7 +58,7 @@ class Attachment
     /**
      * Create a mail attachment from in-memory data.
      *
-     * @param Closure $data
+     * @param  \Closure  $data
      * @param  string|null  $name
      * @return static
      */
@@ -132,8 +131,8 @@ class Attachment
     /**
      * Attach the attachment with the given strategies.
      *
-     * @param Closure $pathStrategy
-     * @param Closure $dataStrategy
+     * @param  \Closure  $pathStrategy
+     * @param  \Closure  $dataStrategy
      * @return mixed
      */
     public function attachWith(Closure $pathStrategy, Closure $dataStrategy)
@@ -144,7 +143,7 @@ class Attachment
     /**
      * Attach the attachment to a built-in mail type.
      *
-     * @param Mailable|Message|MailMessage  $mail
+     * @param  \Illuminate\Mail\Mailable|\Illuminate\Mail\Message|\Illuminate\Notifications\Messages\MailMessage  $mail
      * @param  array  $options
      * @return mixed
      */
@@ -173,7 +172,7 @@ class Attachment
     /**
      * Determine if the given attachment is equivalent to this attachment.
      *
-     * @param Attachment $attachment
+     * @param  \Illuminate\Mail\Attachment  $attachment
      * @param  array  $options
      * @return bool
      */

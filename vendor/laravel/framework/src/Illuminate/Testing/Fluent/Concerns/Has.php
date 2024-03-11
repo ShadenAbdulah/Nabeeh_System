@@ -44,8 +44,8 @@ trait Has
      * Ensure that the given prop exists.
      *
      * @param  string|int  $key
-     * @param  int|Closure|null  $length
-     * @param Closure|null  $callback
+     * @param  int|\Closure|null  $length
+     * @param  \Closure|null  $callback
      * @return $this
      */
     public function has($key, $length = null, Closure $callback = null): self
@@ -191,7 +191,7 @@ trait Has
      * Instantiate a new "scope" at the path of the given key.
      *
      * @param  string  $key
-     * @param Closure $callback
+     * @param  \Closure  $callback
      * @return $this
      */
     abstract protected function scope(string $key, Closure $callback);
@@ -206,7 +206,7 @@ trait Has
     /**
      * Instantiate a new "scope" on the first element.
      *
-     * @param Closure $callback
+     * @param  \Closure  $callback
      * @return $this
      */
     abstract public function first(Closure $callback);

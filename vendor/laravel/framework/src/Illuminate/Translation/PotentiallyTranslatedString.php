@@ -2,7 +2,6 @@
 
 namespace Illuminate\Translation;
 
-use Countable;
 use Stringable;
 
 class PotentiallyTranslatedString implements Stringable
@@ -58,7 +57,7 @@ class PotentiallyTranslatedString implements Stringable
     /**
      * Translates the string based on a count.
      *
-     * @param  Countable|int|float|array  $number
+     * @param  \Countable|int|float|array  $number
      * @param  array  $replace
      * @param  string|null  $locale
      * @return $this

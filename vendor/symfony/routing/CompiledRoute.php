@@ -11,15 +11,12 @@
 
 namespace Symfony\Component\Routing;
 
-use BadMethodCallException;
-use Serializable;
-
 /**
  * CompiledRoutes are returned by the RouteCompiler class.
  *
  * @author Fabien Potencier <fabien@symfony.com>
  */
-class CompiledRoute implements Serializable
+class CompiledRoute implements \Serializable
 {
     private array $variables;
     private array $tokens;
@@ -40,7 +37,7 @@ class CompiledRoute implements Serializable
      * @param array       $hostVariables An array of host variables
      * @param array       $variables     An array of variables (variables defined in the path and in the host patterns)
      */
-    public function __construct(string $staticPrefix, string $regex, array $tokens, array $pathVariables, string $hostRegex = null, array $hostTokens = [], array $hostVariables = [], array $variables = [])
+    public function __construct(string $staticPrefix, string $regex, array $tokens, array $pathVariables, ?string $hostRegex = null, array $hostTokens = [], array $hostVariables = [], array $variables = [])
     {
         $this->staticPrefix = $staticPrefix;
         $this->regex = $regex;
@@ -71,7 +68,7 @@ class CompiledRoute implements Serializable
      */
     final public function serialize(): string
     {
-        throw new BadMethodCallException('Cannot serialize '.__CLASS__);
+        throw new \BadMethodCallException('Cannot serialize '.__CLASS__);
     }
 
     public function __unserialize(array $data): void

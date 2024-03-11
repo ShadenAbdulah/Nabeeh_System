@@ -11,16 +11,12 @@
 
 namespace Symfony\Component\Console\Tester;
 
-use LogicException;
 use PHPUnit\Framework\Assert;
-use ReflectionObject;
-use RuntimeException;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Output\StreamOutput;
 use Symfony\Component\Console\Tester\Constraint\CommandIsSuccessful;
-use const PHP_EOL;
 
 /**
  * @author Amrouche Hamza <hamza.simperfit@gmail.com>
@@ -36,12 +32,12 @@ trait TesterTrait
     /**
      * Gets the display returned by the last execution of the command or application.
      *
-     * @throws RuntimeException If it's called before the execute method
+     * @throws \RuntimeException If it's called before the execute method
      */
     public function getDisplay(bool $normalize = false): string
     {
         if (!isset($this->output)) {
-            throw new RuntimeException('Output not initialized, did you execute the command before requesting the display?');
+            throw new \RuntimeException('Output not initialized, did you execute the command before requesting the display?');
         }
 
         rewind($this->output->getStream());
@@ -49,7 +45,7 @@ trait TesterTrait
         $display = stream_get_contents($this->output->getStream());
 
         if ($normalize) {
-            $display = str_replace(PHP_EOL, "\n", $display);
+            $display = str_replace(\PHP_EOL, "\n", $display);
         }
 
         return $display;
@@ -63,7 +59,7 @@ trait TesterTrait
     public function getErrorOutput(bool $normalize = false): string
     {
         if (!$this->captureStreamsIndependently) {
-            throw new LogicException('The error output is not available when the tester is run without "capture_stderr_separately" option set.');
+            throw new \LogicException('The error output is not available when the tester is run without "capture_stderr_separately" option set.');
         }
 
         rewind($this->output->getErrorOutput()->getStream());
@@ -71,7 +67,7 @@ trait TesterTrait
         $display = stream_get_contents($this->output->getErrorOutput()->getStream());
 
         if ($normalize) {
-            $display = str_replace(PHP_EOL, "\n", $display);
+            $display = str_replace(\PHP_EOL, "\n", $display);
         }
 
         return $display;
@@ -96,11 +92,11 @@ trait TesterTrait
     /**
      * Gets the status code returned by the last execution of the command or application.
      *
-     * @throws RuntimeException If it's called before the execute method
+     * @throws \RuntimeException If it's called before the execute method
      */
     public function getStatusCode(): int
     {
-        return $this->statusCode ?? throw new RuntimeException('Status code not initialized, did you execute the command before requesting the status code?');
+        return $this->statusCode ?? throw new \RuntimeException('Status code not initialized, did you execute the command before requesting the status code?');
     }
 
     public function assertCommandIsSuccessful(string $message = ''): void
@@ -154,7 +150,7 @@ trait TesterTrait
             $errorOutput->setVerbosity($this->output->getVerbosity());
             $errorOutput->setDecorated($this->output->isDecorated());
 
-            $reflectedOutput = new ReflectionObject($this->output);
+            $reflectedOutput = new \ReflectionObject($this->output);
             $strErrProperty = $reflectedOutput->getProperty('stderr');
             $strErrProperty->setValue($this->output, $errorOutput);
 
@@ -172,7 +168,7 @@ trait TesterTrait
         $stream = fopen('php://memory', 'r+', false);
 
         foreach ($inputs as $input) {
-            fwrite($stream, $input. PHP_EOL);
+            fwrite($stream, $input.\PHP_EOL);
         }
 
         rewind($stream);

@@ -10,7 +10,7 @@ class CacheBasedSessionHandler implements SessionHandlerInterface
     /**
      * The cache repository instance.
      *
-     * @var CacheContract
+     * @var \Illuminate\Contracts\Cache\Repository
      */
     protected $cache;
 
@@ -24,7 +24,7 @@ class CacheBasedSessionHandler implements SessionHandlerInterface
     /**
      * Create a new cache driven handler instance.
      *
-     * @param CacheContract $cache
+     * @param  \Illuminate\Contracts\Cache\Repository  $cache
      * @param  int  $minutes
      * @return void
      */
@@ -97,7 +97,7 @@ class CacheBasedSessionHandler implements SessionHandlerInterface
     /**
      * Get the underlying cache repository.
      *
-     * @return CacheContract
+     * @return \Illuminate\Contracts\Cache\Repository
      */
     public function getCache()
     {

@@ -12,14 +12,14 @@ class ControllerDispatcher implements ControllerDispatcherContract
     /**
      * The container instance.
      *
-     * @var Container
+     * @var \Illuminate\Container\Container
      */
     protected $container;
 
     /**
      * Create a new controller dispatcher instance.
      *
-     * @param Container $container
+     * @param  \Illuminate\Container\Container  $container
      * @return void
      */
     public function __construct(Container $container)
@@ -30,7 +30,7 @@ class ControllerDispatcher implements ControllerDispatcherContract
     /**
      * Dispatch a request to a given controller and method.
      *
-     * @param Route $route
+     * @param  \Illuminate\Routing\Route  $route
      * @param  mixed  $controller
      * @param  string  $method
      * @return mixed
@@ -49,7 +49,7 @@ class ControllerDispatcher implements ControllerDispatcherContract
     /**
      * Resolve the parameters for the controller.
      *
-     * @param Route $route
+     * @param  \Illuminate\Routing\Route  $route
      * @param  mixed  $controller
      * @param  string  $method
      * @return array
@@ -64,7 +64,7 @@ class ControllerDispatcher implements ControllerDispatcherContract
     /**
      * Get the middleware for the controller instance.
      *
-     * @param Controller $controller
+     * @param  \Illuminate\Routing\Controller  $controller
      * @param  string  $method
      * @return array
      */

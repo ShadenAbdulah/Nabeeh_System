@@ -11,12 +11,8 @@
 
 namespace Symfony\Component\EventDispatcher;
 
-use Closure;
 use Psr\EventDispatcher\StoppableEventInterface;
 use Symfony\Component\EventDispatcher\Debug\WrappedListener;
-use function count;
-use function is_array;
-use function is_string;
 
 /**
  * The EventDispatcherInterface is the central point of Symfony's event listener system.
@@ -46,7 +42,7 @@ class EventDispatcher implements EventDispatcherInterface
         }
     }
 
-    public function dispatch(object $event, string $eventName = null): object
+    public function dispatch(object $event, ?string $eventName = null): object
     {
         $eventName ??= $event::class;
 
@@ -63,7 +59,7 @@ class EventDispatcher implements EventDispatcherInterface
         return $event;
     }
 
-    public function getListeners(string $eventName = null): array
+    public function getListeners(?string $eventName = null): array
     {
         if (null !== $eventName) {
             if (empty($this->listeners[$eventName])) {
@@ -92,18 +88,18 @@ class EventDispatcher implements EventDispatcherInterface
             return null;
         }
 
-        if (is_array($listener) && isset($listener[0]) && $listener[0] instanceof Closure && 2 >= count($listener)) {
+        if (\is_array($listener) && isset($listener[0]) && $listener[0] instanceof \Closure && 2 >= \count($listener)) {
             $listener[0] = $listener[0]();
             $listener[1] ??= '__invoke';
         }
 
         foreach ($this->listeners[$eventName] as $priority => &$listeners) {
             foreach ($listeners as &$v) {
-                if ($v !== $listener && is_array($v) && isset($v[0]) && $v[0] instanceof Closure && 2 >= count($v)) {
+                if ($v !== $listener && \is_array($v) && isset($v[0]) && $v[0] instanceof \Closure && 2 >= \count($v)) {
                     $v[0] = $v[0]();
                     $v[1] ??= '__invoke';
                 }
-                if ($v === $listener || ($listener instanceof Closure && $v == $listener)) {
+                if ($v === $listener || ($listener instanceof \Closure && $v == $listener)) {
                     return $priority;
                 }
             }
@@ -112,7 +108,7 @@ class EventDispatcher implements EventDispatcherInterface
         return null;
     }
 
-    public function hasListeners(string $eventName = null): bool
+    public function hasListeners(?string $eventName = null): bool
     {
         if (null !== $eventName) {
             return !empty($this->listeners[$eventName]);
@@ -139,18 +135,18 @@ class EventDispatcher implements EventDispatcherInterface
             return;
         }
 
-        if (is_array($listener) && isset($listener[0]) && $listener[0] instanceof Closure && 2 >= count($listener)) {
+        if (\is_array($listener) && isset($listener[0]) && $listener[0] instanceof \Closure && 2 >= \count($listener)) {
             $listener[0] = $listener[0]();
             $listener[1] ??= '__invoke';
         }
 
         foreach ($this->listeners[$eventName] as $priority => &$listeners) {
             foreach ($listeners as $k => &$v) {
-                if ($v !== $listener && is_array($v) && isset($v[0]) && $v[0] instanceof Closure && 2 >= count($v)) {
+                if ($v !== $listener && \is_array($v) && isset($v[0]) && $v[0] instanceof \Closure && 2 >= \count($v)) {
                     $v[0] = $v[0]();
                     $v[1] ??= '__invoke';
                 }
-                if ($v === $listener || ($listener instanceof Closure && $v == $listener)) {
+                if ($v === $listener || ($listener instanceof \Closure && $v == $listener)) {
                     unset($listeners[$k], $this->sorted[$eventName], $this->optimized[$eventName]);
                 }
             }
@@ -164,9 +160,9 @@ class EventDispatcher implements EventDispatcherInterface
     public function addSubscriber(EventSubscriberInterface $subscriber): void
     {
         foreach ($subscriber->getSubscribedEvents() as $eventName => $params) {
-            if (is_string($params)) {
+            if (\is_string($params)) {
                 $this->addListener($eventName, [$subscriber, $params]);
-            } elseif (is_string($params[0])) {
+            } elseif (\is_string($params[0])) {
                 $this->addListener($eventName, [$subscriber, $params[0]], $params[1] ?? 0);
             } else {
                 foreach ($params as $listener) {
@@ -179,12 +175,12 @@ class EventDispatcher implements EventDispatcherInterface
     public function removeSubscriber(EventSubscriberInterface $subscriber): void
     {
         foreach ($subscriber->getSubscribedEvents() as $eventName => $params) {
-            if (is_array($params) && is_array($params[0])) {
+            if (\is_array($params) && \is_array($params[0])) {
                 foreach ($params as $listener) {
                     $this->removeListener($eventName, [$subscriber, $listener[0]]);
                 }
             } else {
-                $this->removeListener($eventName, [$subscriber, is_string($params) ? $params : $params[0]]);
+                $this->removeListener($eventName, [$subscriber, \is_string($params) ? $params : $params[0]]);
             }
         }
     }
@@ -221,7 +217,7 @@ class EventDispatcher implements EventDispatcherInterface
 
         foreach ($this->listeners[$eventName] as &$listeners) {
             foreach ($listeners as &$listener) {
-                if (is_array($listener) && isset($listener[0]) && $listener[0] instanceof Closure && 2 >= count($listener)) {
+                if (\is_array($listener) && isset($listener[0]) && $listener[0] instanceof \Closure && 2 >= \count($listener)) {
                     $listener[0] = $listener[0]();
                     $listener[1] ??= '__invoke';
                 }
@@ -241,9 +237,9 @@ class EventDispatcher implements EventDispatcherInterface
         foreach ($this->listeners[$eventName] as &$listeners) {
             foreach ($listeners as &$listener) {
                 $closure = &$this->optimized[$eventName][];
-                if (is_array($listener) && isset($listener[0]) && $listener[0] instanceof Closure && 2 >= count($listener)) {
+                if (\is_array($listener) && isset($listener[0]) && $listener[0] instanceof \Closure && 2 >= \count($listener)) {
                     $closure = static function (...$args) use (&$listener, &$closure) {
-                        if ($listener[0] instanceof Closure) {
+                        if ($listener[0] instanceof \Closure) {
                             $listener[0] = $listener[0]();
                             $listener[1] ??= '__invoke';
                         }

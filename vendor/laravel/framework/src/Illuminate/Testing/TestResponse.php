@@ -11,8 +11,6 @@ use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
-use Illuminate\Session\Store;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
@@ -28,11 +26,11 @@ use LogicException;
 use PHPUnit\Framework\ExpectationFailedException;
 use ReflectionProperty;
 use Symfony\Component\HttpFoundation\Cookie;
+use Symfony\Component\HttpFoundation\StreamedJsonResponse;
 use Symfony\Component\HttpFoundation\StreamedResponse;
-use Throwable;
 
 /**
- * @mixin Response
+ * @mixin \Illuminate\Http\Response
  */
 class TestResponse implements ArrayAccess
 {
@@ -43,14 +41,14 @@ class TestResponse implements ArrayAccess
     /**
      * The response to delegate to.
      *
-     * @var Response
+     * @var \Illuminate\Http\Response
      */
     public $baseResponse;
 
     /**
      * The collection of logged exceptions for the request.
      *
-     * @var Collection
+     * @var \Illuminate\Support\Collection
      */
     public $exceptions;
 
@@ -64,7 +62,7 @@ class TestResponse implements ArrayAccess
     /**
      * Create a new test response instance.
      *
-     * @param  Response  $response
+     * @param  \Illuminate\Http\Response  $response
      * @return void
      */
     public function __construct($response)
@@ -76,7 +74,7 @@ class TestResponse implements ArrayAccess
     /**
      * Create a new TestResponse from another response.
      *
-     * @param  Response  $response
+     * @param  \Illuminate\Http\Response  $response
      * @return static
      */
     public static function fromBaseResponse($response)
@@ -478,7 +476,7 @@ class TestResponse implements ArrayAccess
      * @param  string  $cookieName
      * @param  bool  $decrypt
      * @param  bool  $unserialize
-     * @return Cookie|null
+     * @return \Symfony\Component\HttpFoundation\Cookie|null
      */
     public function getCookie($cookieName, $decrypt = true, $unserialize = false)
     {
@@ -532,6 +530,17 @@ class TestResponse implements ArrayAccess
         PHPUnit::assertSame($value, $this->streamedContent());
 
         return $this;
+    }
+
+    /**
+     * Assert that the given array matches the streamed JSON response content.
+     *
+     * @param  array  $value
+     * @return $this
+     */
+    public function assertStreamedJsonContent($value)
+    {
+        return $this->assertStreamedContent(json_encode($value, JSON_THROW_ON_ERROR));
     }
 
     /**
@@ -974,9 +983,9 @@ class TestResponse implements ArrayAccess
     /**
      * Validate and return the decoded response JSON.
      *
-     * @return AssertableJsonString
+     * @return \Illuminate\Testing\AssertableJsonString
      *
-     * @throws Throwable
+     * @throws \Throwable
      */
     public function decodeResponseJson()
     {
@@ -1010,7 +1019,7 @@ class TestResponse implements ArrayAccess
      * Get the JSON decoded body of the response as a collection.
      *
      * @param  string|null  $key
-     * @return Collection
+     * @return \Illuminate\Support\Collection
      */
     public function collect($key = null)
     {
@@ -1450,7 +1459,7 @@ class TestResponse implements ArrayAccess
     /**
      * Get the current session store.
      *
-     * @return Store
+     * @return \Illuminate\Session\Store
      */
     protected function session()
     {
@@ -1567,7 +1576,8 @@ class TestResponse implements ArrayAccess
             return $this->streamedContent;
         }
 
-        if (! $this->baseResponse instanceof StreamedResponse) {
+        if (! $this->baseResponse instanceof StreamedResponse
+            && ! $this->baseResponse instanceof StreamedJsonResponse) {
             PHPUnit::fail('The response is not a streamed response.');
         }
 
@@ -1587,7 +1597,7 @@ class TestResponse implements ArrayAccess
     /**
      * Set the previous exceptions on the response.
      *
-     * @param Collection $exceptions
+     * @param  \Illuminate\Support\Collection  $exceptions
      * @return $this
      */
     public function withExceptions(Collection $exceptions)
@@ -1600,8 +1610,8 @@ class TestResponse implements ArrayAccess
     /**
      * This method is called when test method did not execute successfully.
      *
-     * @param  Throwable  $exception
-     * @return Throwable
+     * @param  \Throwable  $exception
+     * @return \Throwable
      */
     public function transformNotSuccessfulException($exception)
     {
@@ -1635,13 +1645,13 @@ class TestResponse implements ArrayAccess
     /**
      * Append an exception to the message of another exception.
      *
-     * @param  Throwable  $exceptionToAppend
-     * @param  Throwable  $exception
-     * @return Throwable
+     * @param  \Throwable  $exceptionToAppend
+     * @param  \Throwable  $exception
+     * @return \Throwable
      */
     protected function appendExceptionToException($exceptionToAppend, $exception)
     {
-        $exceptionMessage = $exceptionToAppend->getMessage();
+        $exceptionMessage = is_string($exceptionToAppend) ? $exceptionToAppend : $exceptionToAppend->getMessage();
 
         $exceptionToAppend = (string) $exceptionToAppend;
 
@@ -1662,9 +1672,9 @@ class TestResponse implements ArrayAccess
      * Append errors to an exception message.
      *
      * @param  array  $errors
-     * @param  Throwable  $exception
+     * @param  \Throwable  $exception
      * @param  bool  $json
-     * @return Throwable
+     * @return \Throwable
      */
     protected function appendErrorsToException($errors, $exception, $json = false)
     {
@@ -1690,8 +1700,8 @@ class TestResponse implements ArrayAccess
      * Append a message to an exception.
      *
      * @param  string  $message
-     * @param  Throwable  $exception
-     * @return Throwable
+     * @param  \Throwable  $exception
+     * @return \Throwable
      */
     protected function appendMessageToException($message, $exception)
     {
@@ -1760,7 +1770,7 @@ class TestResponse implements ArrayAccess
      * @param  mixed  $value
      * @return void
      *
-     * @throws LogicException
+     * @throws \LogicException
      */
     public function offsetSet($offset, $value): void
     {
@@ -1773,7 +1783,7 @@ class TestResponse implements ArrayAccess
      * @param  string  $offset
      * @return void
      *
-     * @throws LogicException
+     * @throws \LogicException
      */
     public function offsetUnset($offset): void
     {

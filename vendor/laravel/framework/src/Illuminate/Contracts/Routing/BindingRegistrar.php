@@ -2,8 +2,6 @@
 
 namespace Illuminate\Contracts\Routing;
 
-use Closure;
-
 interface BindingRegistrar
 {
     /**
@@ -19,7 +17,7 @@ interface BindingRegistrar
      * Get the binding callback for a given binding.
      *
      * @param  string  $key
-     * @return Closure
+     * @return \Closure
      */
     public function getBindingCallback($key);
 }

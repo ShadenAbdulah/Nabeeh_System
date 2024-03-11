@@ -10,8 +10,6 @@ declare(strict_types=1);
 namespace Nette\Localization;
 
 
-use Stringable;
-
 /**
  * Translator adapter.
  */
@@ -20,7 +18,7 @@ interface Translator
 	/**
 	 * Translates the given string.
 	 */
-	function translate(string|Stringable $message, mixed ...$parameters): string|Stringable;
+	function translate(string|\Stringable $message, mixed ...$parameters): string|\Stringable;
 }
 
 

@@ -2,10 +2,8 @@
 
 namespace Illuminate\View\Concerns;
 
-use Countable;
 use Illuminate\Support\Arr;
 use Illuminate\Support\LazyCollection;
-use stdClass;
 
 trait ManagesLoops
 {
@@ -19,7 +17,7 @@ trait ManagesLoops
     /**
      * Add new loop to the stack.
      *
-     * @param  Countable|array  $data
+     * @param  \Countable|array  $data
      * @return void
      */
     public function addLoop($data)
@@ -77,7 +75,7 @@ trait ManagesLoops
     /**
      * Get an instance of the last loop in the stack.
      *
-     * @return stdClass|null
+     * @return \stdClass|null
      */
     public function getLastLoop()
     {

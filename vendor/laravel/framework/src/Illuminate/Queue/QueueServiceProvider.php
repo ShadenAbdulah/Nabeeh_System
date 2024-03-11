@@ -97,7 +97,7 @@ class QueueServiceProvider extends ServiceProvider implements DeferrableProvider
     /**
      * Register the connectors on the queue manager.
      *
-     * @param QueueManager $manager
+     * @param  \Illuminate\Queue\QueueManager  $manager
      * @return void
      */
     public function registerConnectors($manager)
@@ -110,7 +110,7 @@ class QueueServiceProvider extends ServiceProvider implements DeferrableProvider
     /**
      * Register the Null queue connector.
      *
-     * @param QueueManager $manager
+     * @param  \Illuminate\Queue\QueueManager  $manager
      * @return void
      */
     protected function registerNullConnector($manager)
@@ -123,7 +123,7 @@ class QueueServiceProvider extends ServiceProvider implements DeferrableProvider
     /**
      * Register the Sync queue connector.
      *
-     * @param QueueManager $manager
+     * @param  \Illuminate\Queue\QueueManager  $manager
      * @return void
      */
     protected function registerSyncConnector($manager)
@@ -136,7 +136,7 @@ class QueueServiceProvider extends ServiceProvider implements DeferrableProvider
     /**
      * Register the database queue connector.
      *
-     * @param QueueManager $manager
+     * @param  \Illuminate\Queue\QueueManager  $manager
      * @return void
      */
     protected function registerDatabaseConnector($manager)
@@ -149,7 +149,7 @@ class QueueServiceProvider extends ServiceProvider implements DeferrableProvider
     /**
      * Register the Redis queue connector.
      *
-     * @param QueueManager $manager
+     * @param  \Illuminate\Queue\QueueManager  $manager
      * @return void
      */
     protected function registerRedisConnector($manager)
@@ -162,7 +162,7 @@ class QueueServiceProvider extends ServiceProvider implements DeferrableProvider
     /**
      * Register the Beanstalkd queue connector.
      *
-     * @param QueueManager $manager
+     * @param  \Illuminate\Queue\QueueManager  $manager
      * @return void
      */
     protected function registerBeanstalkdConnector($manager)
@@ -175,7 +175,7 @@ class QueueServiceProvider extends ServiceProvider implements DeferrableProvider
     /**
      * Register the Amazon SQS queue connector.
      *
-     * @param QueueManager $manager
+     * @param  \Illuminate\Queue\QueueManager  $manager
      * @return void
      */
     protected function registerSqsConnector($manager)
@@ -275,7 +275,7 @@ class QueueServiceProvider extends ServiceProvider implements DeferrableProvider
      * Create a new database failed job provider.
      *
      * @param  array  $config
-     * @return DatabaseFailedJobProvider
+     * @return \Illuminate\Queue\Failed\DatabaseFailedJobProvider
      */
     protected function databaseFailedJobProvider($config)
     {
@@ -288,7 +288,7 @@ class QueueServiceProvider extends ServiceProvider implements DeferrableProvider
      * Create a new database failed job provider that uses UUIDs as IDs.
      *
      * @param  array  $config
-     * @return DatabaseUuidFailedJobProvider
+     * @return \Illuminate\Queue\Failed\DatabaseUuidFailedJobProvider
      */
     protected function databaseUuidFailedJobProvider($config)
     {
@@ -301,7 +301,7 @@ class QueueServiceProvider extends ServiceProvider implements DeferrableProvider
      * Create a new DynamoDb failed job provider.
      *
      * @param  array  $config
-     * @return DynamoDbFailedJobProvider
+     * @return \Illuminate\Queue\Failed\DynamoDbFailedJobProvider
      */
     protected function dynamoFailedJobProvider($config)
     {

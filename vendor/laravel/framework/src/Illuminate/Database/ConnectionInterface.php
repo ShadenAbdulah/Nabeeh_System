@@ -3,19 +3,15 @@
 namespace Illuminate\Database;
 
 use Closure;
-use Generator;
-use Illuminate\Contracts\Database\Query\Expression;
-use Illuminate\Database\Query\Builder;
-use Throwable;
 
 interface ConnectionInterface
 {
     /**
      * Begin a fluent query against a database table.
      *
-     * @param Closure|Builder|string  $table
+     * @param  \Closure|\Illuminate\Database\Query\Builder|string  $table
      * @param  string|null  $as
-     * @return Builder
+     * @return \Illuminate\Database\Query\Builder
      */
     public function table($table, $as = null);
 
@@ -23,7 +19,7 @@ interface ConnectionInterface
      * Get a new raw query expression.
      *
      * @param  mixed  $value
-     * @return Expression
+     * @return \Illuminate\Contracts\Database\Query\Expression
      */
     public function raw($value);
 
@@ -53,7 +49,7 @@ interface ConnectionInterface
      * @param  string  $query
      * @param  array  $bindings
      * @param  bool  $useReadPdo
-     * @return Generator
+     * @return \Generator
      */
     public function cursor($query, $bindings = [], $useReadPdo = true);
 
@@ -121,11 +117,11 @@ interface ConnectionInterface
     /**
      * Execute a Closure within a transaction.
      *
-     * @param Closure $callback
+     * @param  \Closure  $callback
      * @param  int  $attempts
      * @return mixed
      *
-     * @throws Throwable
+     * @throws \Throwable
      */
     public function transaction(Closure $callback, $attempts = 1);
 
@@ -160,7 +156,7 @@ interface ConnectionInterface
     /**
      * Execute the given callback in "dry run" mode.
      *
-     * @param Closure $callback
+     * @param  \Closure  $callback
      * @return array
      */
     public function pretend(Closure $callback);

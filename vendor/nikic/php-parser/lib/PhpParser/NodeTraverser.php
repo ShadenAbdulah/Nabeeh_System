@@ -2,10 +2,6 @@
 
 namespace PhpParser;
 
-use LogicException;
-use function count;
-use function is_array;
-
 class NodeTraverser implements NodeTraverserInterface {
     /**
      * @deprecated Use NodeVisitor::DONT_TRAVERSE_CHILDREN instead.
@@ -79,7 +75,7 @@ class NodeTraverser implements NodeTraverserInterface {
 
         $nodes = $this->traverseArray($nodes);
 
-        for ($i = count($this->visitors) - 1; $i >= 0; --$i) {
+        for ($i = \count($this->visitors) - 1; $i >= 0; --$i) {
             $visitor = $this->visitors[$i];
             if (null !== $return = $visitor->afterTraverse($nodes)) {
                 $nodes = $return;
@@ -98,7 +94,7 @@ class NodeTraverser implements NodeTraverserInterface {
         foreach ($node->getSubNodeNames() as $name) {
             $subNode = $node->$name;
 
-            if (is_array($subNode)) {
+            if (\is_array($subNode)) {
                 $node->$name = $this->traverseArray($subNode);
                 if ($this->stopTraversal) {
                     break;
@@ -125,7 +121,7 @@ class NodeTraverser implements NodeTraverserInterface {
                             $node->$name = null;
                             continue 2;
                         } else {
-                            throw new LogicException(
+                            throw new \LogicException(
                                 'enterNode() returned invalid value of type ' . gettype($return)
                             );
                         }
@@ -153,13 +149,13 @@ class NodeTraverser implements NodeTraverserInterface {
                         } elseif (NodeVisitor::REPLACE_WITH_NULL === $return) {
                             $node->$name = null;
                             break;
-                        } elseif (is_array($return)) {
-                            throw new LogicException(
+                        } elseif (\is_array($return)) {
+                            throw new \LogicException(
                                 'leaveNode() may only return an array ' .
                                 'if the parent structure is an array'
                             );
                         } else {
-                            throw new LogicException(
+                            throw new \LogicException(
                                 'leaveNode() returned invalid value of type ' . gettype($return)
                             );
                         }
@@ -190,7 +186,7 @@ class NodeTraverser implements NodeTraverserInterface {
                         if ($return instanceof Node) {
                             $this->ensureReplacementReasonable($node, $return);
                             $nodes[$i] = $node = $return;
-                        } elseif (is_array($return)) {
+                        } elseif (\is_array($return)) {
                             $doNodes[] = [$i, $return];
                             continue 2;
                         } elseif (NodeVisitor::REMOVE_NODE === $return) {
@@ -205,10 +201,10 @@ class NodeTraverser implements NodeTraverserInterface {
                             $this->stopTraversal = true;
                             break 2;
                         } elseif (NodeVisitor::REPLACE_WITH_NULL === $return) {
-                            throw new LogicException(
+                            throw new \LogicException(
                                 'REPLACE_WITH_NULL can not be used if the parent structure is an array');
                         } else {
-                            throw new LogicException(
+                            throw new \LogicException(
                                 'enterNode() returned invalid value of type ' . gettype($return)
                             );
                         }
@@ -230,7 +226,7 @@ class NodeTraverser implements NodeTraverserInterface {
                         if ($return instanceof Node) {
                             $this->ensureReplacementReasonable($node, $return);
                             $nodes[$i] = $node = $return;
-                        } elseif (is_array($return)) {
+                        } elseif (\is_array($return)) {
                             $doNodes[] = [$i, $return];
                             break;
                         } elseif (NodeVisitor::REMOVE_NODE === $return) {
@@ -240,17 +236,17 @@ class NodeTraverser implements NodeTraverserInterface {
                             $this->stopTraversal = true;
                             break 2;
                         } elseif (NodeVisitor::REPLACE_WITH_NULL === $return) {
-                            throw new LogicException(
+                            throw new \LogicException(
                                 'REPLACE_WITH_NULL can not be used if the parent structure is an array');
                         } else {
-                            throw new LogicException(
+                            throw new \LogicException(
                                 'leaveNode() returned invalid value of type ' . gettype($return)
                             );
                         }
                     }
                 }
-            } elseif (is_array($node)) {
-                throw new LogicException('Invalid node structure: Contains nested arrays');
+            } elseif (\is_array($node)) {
+                throw new \LogicException('Invalid node structure: Contains nested arrays');
             }
         }
 
@@ -265,7 +261,7 @@ class NodeTraverser implements NodeTraverserInterface {
 
     private function ensureReplacementReasonable(Node $old, Node $new): void {
         if ($old instanceof Node\Stmt && $new instanceof Node\Expr) {
-            throw new LogicException(
+            throw new \LogicException(
                 "Trying to replace statement ({$old->getType()}) " .
                 "with expression ({$new->getType()}). Are you missing a " .
                 "Stmt_Expression wrapper?"
@@ -273,7 +269,7 @@ class NodeTraverser implements NodeTraverserInterface {
         }
 
         if ($old instanceof Node\Expr && $new instanceof Node\Stmt) {
-            throw new LogicException(
+            throw new \LogicException(
                 "Trying to replace expression ({$old->getType()}) " .
                 "with statement ({$new->getType()})"
             );

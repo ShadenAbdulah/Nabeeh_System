@@ -11,9 +11,7 @@
 
 namespace Symfony\Component\Mime\Part;
 
-use ReflectionProperty;
 use Symfony\Component\Mime\Header\Headers;
-use function is_string;
 
 /**
  * @author Sebastiaan Stok <s.stok@rollerscapes.net>
@@ -50,7 +48,7 @@ class SMimePart extends AbstractPart
 
     public function bodyToString(): string
     {
-        if (is_string($this->body)) {
+        if (\is_string($this->body)) {
             return $this->body;
         }
 
@@ -65,7 +63,7 @@ class SMimePart extends AbstractPart
 
     public function bodyToIterable(): iterable
     {
-        if (is_string($this->body)) {
+        if (\is_string($this->body)) {
             yield $this->body;
 
             return;
@@ -106,7 +104,7 @@ class SMimePart extends AbstractPart
 
     public function __wakeup(): void
     {
-        $r = new ReflectionProperty(AbstractPart::class, 'headers');
+        $r = new \ReflectionProperty(AbstractPart::class, 'headers');
         $r->setValue($this, $this->_headers);
         unset($this->_headers);
     }

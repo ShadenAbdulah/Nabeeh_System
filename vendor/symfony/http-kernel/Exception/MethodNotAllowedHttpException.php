@@ -11,8 +11,6 @@
 
 namespace Symfony\Component\HttpKernel\Exception;
 
-use Throwable;
-
 /**
  * @author Kris Wallsmith <kris@symfony.com>
  */
@@ -21,11 +19,7 @@ class MethodNotAllowedHttpException extends HttpException
     /**
      * @param string[] $allow An array of allowed methods
      */
-<<<<<<< HEAD
-    public function __construct(array $allow, string $message = '', ?Throwable $previous = null, int $code = 0, array $headers = [])
-=======
-    public function __construct(array $allow, string $message = '', \Throwable $previous = null, int $code = 0, array $headers = [])
->>>>>>> parent of c8b1139b (update Ui)
+    public function __construct(array $allow, string $message = '', ?\Throwable $previous = null, int $code = 0, array $headers = [])
     {
         $headers['Allow'] = strtoupper(implode(', ', $allow));
 

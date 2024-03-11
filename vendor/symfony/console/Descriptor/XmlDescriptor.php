@@ -11,15 +11,11 @@
 
 namespace Symfony\Component\Console\Descriptor;
 
-use DOMDocument;
-use DOMNode;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputOption;
-use function is_array;
-use function is_bool;
 
 /**
  * XML descriptor.
@@ -30,9 +26,9 @@ use function is_bool;
  */
 class XmlDescriptor extends Descriptor
 {
-    public function getInputDefinitionDocument(InputDefinition $definition): DOMDocument
+    public function getInputDefinitionDocument(InputDefinition $definition): \DOMDocument
     {
-        $dom = new DOMDocument('1.0', 'UTF-8');
+        $dom = new \DOMDocument('1.0', 'UTF-8');
         $dom->appendChild($definitionXML = $dom->createElement('definition'));
 
         $definitionXML->appendChild($argumentsXML = $dom->createElement('arguments'));
@@ -48,9 +44,9 @@ class XmlDescriptor extends Descriptor
         return $dom;
     }
 
-    public function getCommandDocument(Command $command, bool $short = false): DOMDocument
+    public function getCommandDocument(Command $command, bool $short = false): \DOMDocument
     {
-        $dom = new DOMDocument('1.0', 'UTF-8');
+        $dom = new \DOMDocument('1.0', 'UTF-8');
         $dom->appendChild($commandXML = $dom->createElement('command'));
 
         $commandXML->setAttribute('id', $command->getName());
@@ -83,13 +79,9 @@ class XmlDescriptor extends Descriptor
         return $dom;
     }
 
-<<<<<<< HEAD
-    public function getApplicationDocument(Application $application, ?string $namespace = null, bool $short = false): DOMDocument
-=======
-    public function getApplicationDocument(Application $application, string $namespace = null, bool $short = false): \DOMDocument
->>>>>>> parent of c8b1139b (update Ui)
+    public function getApplicationDocument(Application $application, ?string $namespace = null, bool $short = false): \DOMDocument
     {
-        $dom = new DOMDocument('1.0', 'UTF-8');
+        $dom = new \DOMDocument('1.0', 'UTF-8');
         $dom->appendChild($rootXml = $dom->createElement('symfony'));
 
         if ('UNKNOWN' !== $application->getName()) {
@@ -156,7 +148,7 @@ class XmlDescriptor extends Descriptor
     /**
      * Appends document children to parent node.
      */
-    private function appendDocument(DOMNode $parentNode, DOMNode $importedParent): void
+    private function appendDocument(\DOMNode $parentNode, \DOMNode $importedParent): void
     {
         foreach ($importedParent->childNodes as $childNode) {
             $parentNode->appendChild($parentNode->ownerDocument->importNode($childNode, true));
@@ -166,15 +158,15 @@ class XmlDescriptor extends Descriptor
     /**
      * Writes DOM document.
      */
-    private function writeDocument(DOMDocument $dom): void
+    private function writeDocument(\DOMDocument $dom): void
     {
         $dom->formatOutput = true;
         $this->write($dom->saveXML());
     }
 
-    private function getInputArgumentDocument(InputArgument $argument): DOMDocument
+    private function getInputArgumentDocument(InputArgument $argument): \DOMDocument
     {
-        $dom = new DOMDocument('1.0', 'UTF-8');
+        $dom = new \DOMDocument('1.0', 'UTF-8');
 
         $dom->appendChild($objectXML = $dom->createElement('argument'));
         $objectXML->setAttribute('name', $argument->getName());
@@ -184,7 +176,7 @@ class XmlDescriptor extends Descriptor
         $descriptionXML->appendChild($dom->createTextNode($argument->getDescription()));
 
         $objectXML->appendChild($defaultsXML = $dom->createElement('defaults'));
-        $defaults = is_array($argument->getDefault()) ? $argument->getDefault() : (is_bool($argument->getDefault()) ? [var_export($argument->getDefault(), true)] : ($argument->getDefault() ? [$argument->getDefault()] : []));
+        $defaults = \is_array($argument->getDefault()) ? $argument->getDefault() : (\is_bool($argument->getDefault()) ? [var_export($argument->getDefault(), true)] : ($argument->getDefault() ? [$argument->getDefault()] : []));
         foreach ($defaults as $default) {
             $defaultsXML->appendChild($defaultXML = $dom->createElement('default'));
             $defaultXML->appendChild($dom->createTextNode($default));
@@ -193,9 +185,9 @@ class XmlDescriptor extends Descriptor
         return $dom;
     }
 
-    private function getInputOptionDocument(InputOption $option): DOMDocument
+    private function getInputOptionDocument(InputOption $option): \DOMDocument
     {
-        $dom = new DOMDocument('1.0', 'UTF-8');
+        $dom = new \DOMDocument('1.0', 'UTF-8');
 
         $dom->appendChild($objectXML = $dom->createElement('option'));
         $objectXML->setAttribute('name', '--'.$option->getName());
@@ -213,7 +205,7 @@ class XmlDescriptor extends Descriptor
         $descriptionXML->appendChild($dom->createTextNode($option->getDescription()));
 
         if ($option->acceptValue()) {
-            $defaults = is_array($option->getDefault()) ? $option->getDefault() : (is_bool($option->getDefault()) ? [var_export($option->getDefault(), true)] : ($option->getDefault() ? [$option->getDefault()] : []));
+            $defaults = \is_array($option->getDefault()) ? $option->getDefault() : (\is_bool($option->getDefault()) ? [var_export($option->getDefault(), true)] : ($option->getDefault() ? [$option->getDefault()] : []));
             $objectXML->appendChild($defaultsXML = $dom->createElement('defaults'));
 
             if (!empty($defaults)) {

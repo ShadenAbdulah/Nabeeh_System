@@ -11,7 +11,6 @@
 
 namespace Symfony\Component\Mailer\Transport;
 
-use Stringable;
 use Symfony\Component\Mailer\Envelope;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\SentMessage;
@@ -25,10 +24,10 @@ use Symfony\Component\Mime\RawMessage;
  *
  * @author Fabien Potencier <fabien@symfony.com>
  */
-interface TransportInterface extends Stringable
+interface TransportInterface extends \Stringable
 {
     /**
      * @throws TransportExceptionInterface
      */
-    public function send(RawMessage $message, Envelope $envelope = null): ?SentMessage;
+    public function send(RawMessage $message, ?Envelope $envelope = null): ?SentMessage;
 }

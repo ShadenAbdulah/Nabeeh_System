@@ -11,7 +11,7 @@ class SqsJob extends Job implements JobContract
     /**
      * The Amazon SQS client instance.
      *
-     * @var SqsClient
+     * @var \Aws\Sqs\SqsClient
      */
     protected $sqs;
 
@@ -25,8 +25,8 @@ class SqsJob extends Job implements JobContract
     /**
      * Create a new job instance.
      *
-     * @param Container $container
-     * @param SqsClient $sqs
+     * @param  \Illuminate\Container\Container  $container
+     * @param  \Aws\Sqs\SqsClient  $sqs
      * @param  array  $job
      * @param  string  $connectionName
      * @param  string  $queue
@@ -105,7 +105,7 @@ class SqsJob extends Job implements JobContract
     /**
      * Get the underlying SQS client instance.
      *
-     * @return SqsClient
+     * @return \Aws\Sqs\SqsClient
      */
     public function getSqs()
     {

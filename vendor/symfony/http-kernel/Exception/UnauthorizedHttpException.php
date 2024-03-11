@@ -11,8 +11,6 @@
 
 namespace Symfony\Component\HttpKernel\Exception;
 
-use Throwable;
-
 /**
  * @author Ben Ramsey <ben@benramsey.com>
  */
@@ -21,11 +19,7 @@ class UnauthorizedHttpException extends HttpException
     /**
      * @param string $challenge WWW-Authenticate challenge string
      */
-<<<<<<< HEAD
-    public function __construct(string $challenge, string $message = '', ?Throwable $previous = null, int $code = 0, array $headers = [])
-=======
-    public function __construct(string $challenge, string $message = '', \Throwable $previous = null, int $code = 0, array $headers = [])
->>>>>>> parent of c8b1139b (update Ui)
+    public function __construct(string $challenge, string $message = '', ?\Throwable $previous = null, int $code = 0, array $headers = [])
     {
         $headers['WWW-Authenticate'] = $challenge;
 

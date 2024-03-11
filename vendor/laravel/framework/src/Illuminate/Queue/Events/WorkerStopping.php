@@ -2,8 +2,6 @@
 
 namespace Illuminate\Queue\Events;
 
-use Illuminate\Queue\WorkerOptions;
-
 class WorkerStopping
 {
     /**
@@ -16,7 +14,7 @@ class WorkerStopping
     /**
      * The worker options.
      *
-     * @var WorkerOptions|null
+     * @var \Illuminate\Queue\WorkerOptions|null
      */
     public $workerOptions;
 
@@ -24,7 +22,7 @@ class WorkerStopping
      * Create a new event instance.
      *
      * @param  int  $status
-     * @param  WorkerOptions|null  $workerOptions
+     * @param  \Illuminate\Queue\WorkerOptions|null  $workerOptions
      * @return void
      */
     public function __construct($status = 0, $workerOptions = null)

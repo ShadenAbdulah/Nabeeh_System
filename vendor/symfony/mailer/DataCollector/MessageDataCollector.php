@@ -16,7 +16,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\DataCollector\DataCollector;
 use Symfony\Component\Mailer\Event\MessageEvents;
 use Symfony\Component\Mailer\EventListener\MessageLoggerListener;
-use Throwable;
 
 /**
  * @author Fabien Potencier <fabien@symfony.com>
@@ -30,11 +29,7 @@ final class MessageDataCollector extends DataCollector
         $this->events = $logger->getEvents();
     }
 
-<<<<<<< HEAD
-    public function collect(Request $request, Response $response, ?Throwable $exception = null): void
-=======
-    public function collect(Request $request, Response $response, \Throwable $exception = null): void
->>>>>>> parent of c8b1139b (update Ui)
+    public function collect(Request $request, Response $response, ?\Throwable $exception = null): void
     {
         $this->data['events'] = $this->events;
     }

@@ -11,14 +11,10 @@
 
 namespace Symfony\Component\HttpKernel\Fragment;
 
-use LogicException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\UriSigner;
 use Symfony\Component\HttpKernel\Controller\ControllerReference;
-use function is_array;
-use function is_scalar;
-use function strlen;
 
 /**
  * Generates a fragment URI.
@@ -32,21 +28,21 @@ final class FragmentUriGenerator implements FragmentUriGeneratorInterface
     private ?UriSigner $signer;
     private ?RequestStack $requestStack;
 
-    public function __construct(string $fragmentPath, UriSigner $signer = null, RequestStack $requestStack = null)
+    public function __construct(string $fragmentPath, ?UriSigner $signer = null, ?RequestStack $requestStack = null)
     {
         $this->fragmentPath = $fragmentPath;
         $this->signer = $signer;
         $this->requestStack = $requestStack;
     }
 
-    public function generate(ControllerReference $controller, Request $request = null, bool $absolute = false, bool $strict = true, bool $sign = true): string
+    public function generate(ControllerReference $controller, ?Request $request = null, bool $absolute = false, bool $strict = true, bool $sign = true): string
     {
         if (null === $request && (null === $this->requestStack || null === $request = $this->requestStack->getCurrentRequest())) {
-            throw new LogicException('Generating a fragment URL can only be done when handling a Request.');
+            throw new \LogicException('Generating a fragment URL can only be done when handling a Request.');
         }
 
         if ($sign && null === $this->signer) {
-            throw new LogicException('You must use a URI when using the ESI rendering strategy or set a URL signer.');
+            throw new \LogicException('You must use a URI when using the ESI rendering strategy or set a URL signer.');
         }
 
         if ($strict) {
@@ -78,16 +74,16 @@ final class FragmentUriGenerator implements FragmentUriGeneratorInterface
 
         $fragmentUri = $this->signer->sign($fragmentUri);
 
-        return $absolute ? $fragmentUri : substr($fragmentUri, strlen($request->getSchemeAndHttpHost()));
+        return $absolute ? $fragmentUri : substr($fragmentUri, \strlen($request->getSchemeAndHttpHost()));
     }
 
     private function checkNonScalar(array $values): void
     {
         foreach ($values as $key => $value) {
-            if (is_array($value)) {
+            if (\is_array($value)) {
                 $this->checkNonScalar($value);
-            } elseif (!is_scalar($value) && null !== $value) {
-                throw new LogicException(sprintf('Controller attributes cannot contain non-scalar/non-null values (value for key "%s" is not a scalar or null).', $key));
+            } elseif (!\is_scalar($value) && null !== $value) {
+                throw new \LogicException(sprintf('Controller attributes cannot contain non-scalar/non-null values (value for key "%s" is not a scalar or null).', $key));
             }
         }
     }

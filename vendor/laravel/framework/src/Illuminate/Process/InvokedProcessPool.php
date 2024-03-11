@@ -3,7 +3,6 @@
 namespace Illuminate\Process;
 
 use Countable;
-use Illuminate\Support\Collection;
 
 class InvokedProcessPool implements Countable
 {
@@ -29,7 +28,7 @@ class InvokedProcessPool implements Countable
      * Send a signal to each running process in the pool, returning the processes that were signalled.
      *
      * @param  int  $signal
-     * @return Collection
+     * @return \Illuminate\Support\Collection
      */
     public function signal(int $signal)
     {
@@ -39,7 +38,7 @@ class InvokedProcessPool implements Countable
     /**
      * Get the processes in the pool that are still currently running.
      *
-     * @return Collection
+     * @return \Illuminate\Support\Collection
      */
     public function running()
     {
@@ -49,7 +48,7 @@ class InvokedProcessPool implements Countable
     /**
      * Wait for the processes to finish.
      *
-     * @return ProcessPoolResults
+     * @return \Illuminate\Process\ProcessPoolResults
      */
     public function wait()
     {

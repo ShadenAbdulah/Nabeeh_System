@@ -21,7 +21,7 @@ class RequestGuard implements Guard
     /**
      * The request instance.
      *
-     * @var Request
+     * @var \Illuminate\Http\Request
      */
     protected $request;
 
@@ -29,8 +29,8 @@ class RequestGuard implements Guard
      * Create a new authentication guard.
      *
      * @param  callable  $callback
-     * @param Request $request
-     * @param UserProvider|null  $provider
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Contracts\Auth\UserProvider|null  $provider
      * @return void
      */
     public function __construct(callable $callback, Request $request, UserProvider $provider = null)
@@ -75,7 +75,7 @@ class RequestGuard implements Guard
     /**
      * Set the current request instance.
      *
-     * @param Request $request
+     * @param  \Illuminate\Http\Request  $request
      * @return $this
      */
     public function setRequest(Request $request)

@@ -2,10 +2,6 @@
 
 namespace Illuminate\Contracts\Filesystem;
 
-use Illuminate\Http\File;
-use Illuminate\Http\UploadedFile;
-use Psr\Http\Message\StreamInterface;
-
 interface Filesystem
 {
     /**
@@ -50,7 +46,7 @@ interface Filesystem
      * Write the contents of a file.
      *
      * @param  string  $path
-     * @param  StreamInterface|File|UploadedFile|string|resource  $contents
+     * @param  \Psr\Http\Message\StreamInterface|\Illuminate\Http\File|\Illuminate\Http\UploadedFile|string|resource  $contents
      * @param  mixed  $options
      * @return bool
      */

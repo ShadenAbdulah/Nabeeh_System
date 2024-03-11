@@ -30,9 +30,9 @@ class Connector
      * @param  string  $dsn
      * @param  array  $config
      * @param  array  $options
-     * @return PDO
+     * @return \PDO
      *
-     * @throws Exception
+     * @throws \Exception
      */
     public function createConnection($dsn, array $config, array $options)
     {
@@ -58,7 +58,7 @@ class Connector
      * @param  string  $username
      * @param  string  $password
      * @param  array  $options
-     * @return PDO
+     * @return \PDO
      */
     protected function createPdoConnection($dsn, $username, $password, $options)
     {
@@ -68,14 +68,14 @@ class Connector
     /**
      * Handle an exception that occurred during connect execution.
      *
-     * @param Throwable $e
+     * @param  \Throwable  $e
      * @param  string  $dsn
      * @param  string  $username
      * @param  string  $password
      * @param  array  $options
-     * @return PDO
+     * @return \PDO
      *
-     * @throws Exception
+     * @throws \Exception
      */
     protected function tryAgainIfCausedByLostConnection(Throwable $e, $dsn, $username, $password, $options)
     {

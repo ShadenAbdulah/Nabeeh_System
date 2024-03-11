@@ -9,7 +9,7 @@ class PhpRedisLock extends RedisLock
     /**
      * Create a new phpredis lock instance.
      *
-     * @param PhpRedisConnection $redis
+     * @param  \Illuminate\Redis\Connections\PhpRedisConnection  $redis
      * @param  string  $name
      * @param  int  $seconds
      * @param  string|null  $owner

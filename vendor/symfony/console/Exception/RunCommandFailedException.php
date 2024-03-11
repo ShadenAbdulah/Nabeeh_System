@@ -12,19 +12,18 @@
 namespace Symfony\Component\Console\Exception;
 
 use Symfony\Component\Console\Messenger\RunCommandContext;
-use Throwable;
 
 /**
  * @author Kevin Bond <kevinbond@gmail.com>
  */
 final class RunCommandFailedException extends RuntimeException
 {
-    public function __construct(Throwable|string $exception, public readonly RunCommandContext $context)
+    public function __construct(\Throwable|string $exception, public readonly RunCommandContext $context)
     {
         parent::__construct(
-            $exception instanceof Throwable ? $exception->getMessage() : $exception,
-            $exception instanceof Throwable ? $exception->getCode() : 0,
-            $exception instanceof Throwable ? $exception : null,
+            $exception instanceof \Throwable ? $exception->getMessage() : $exception,
+            $exception instanceof \Throwable ? $exception->getCode() : 0,
+            $exception instanceof \Throwable ? $exception : null,
         );
     }
 }

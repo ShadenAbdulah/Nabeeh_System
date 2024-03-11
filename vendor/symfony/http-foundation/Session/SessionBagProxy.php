@@ -11,8 +11,6 @@
 
 namespace Symfony\Component\HttpFoundation\Session;
 
-use Closure;
-
 /**
  * @author Nicolas Grekas <p@tchwork.com>
  *
@@ -23,7 +21,7 @@ final class SessionBagProxy implements SessionBagInterface
     private SessionBagInterface $bag;
     private array $data;
     private ?int $usageIndex;
-    private ?Closure $usageReporter;
+    private ?\Closure $usageReporter;
 
     public function __construct(SessionBagInterface $bag, array &$data, ?int &$usageIndex, ?callable $usageReporter)
     {

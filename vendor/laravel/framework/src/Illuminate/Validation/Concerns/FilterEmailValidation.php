@@ -5,7 +5,6 @@ namespace Illuminate\Validation\Concerns;
 use Egulias\EmailValidator\EmailLexer;
 use Egulias\EmailValidator\Result\InvalidEmail;
 use Egulias\EmailValidator\Validation\EmailValidation;
-use Egulias\EmailValidator\Warning\Warning;
 
 class FilterEmailValidation implements EmailValidation
 {
@@ -41,7 +40,7 @@ class FilterEmailValidation implements EmailValidation
      * Returns true if the given email is valid.
      *
      * @param  string  $email
-     * @param EmailLexer $emailLexer
+     * @param  \Egulias\EmailValidator\EmailLexer  $emailLexer
      * @return bool
      */
     public function isValid(string $email, EmailLexer $emailLexer): bool
@@ -54,7 +53,7 @@ class FilterEmailValidation implements EmailValidation
     /**
      * Returns the validation error.
      *
-     * @return InvalidEmail|null
+     * @return \Egulias\EmailValidator\Result\InvalidEmail|null
      */
     public function getError(): ?InvalidEmail
     {
@@ -64,7 +63,7 @@ class FilterEmailValidation implements EmailValidation
     /**
      * Returns the validation warnings.
      *
-     * @return Warning[]
+     * @return \Egulias\EmailValidator\Warning\Warning[]
      */
     public function getWarnings(): array
     {

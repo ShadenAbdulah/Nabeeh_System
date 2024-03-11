@@ -11,19 +11,16 @@
 
 namespace Symfony\Component\HttpFoundation\File;
 
-use LogicException;
-use SplFileInfo;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException;
 use Symfony\Component\Mime\MimeTypes;
-use const DIRECTORY_SEPARATOR;
 
 /**
  * A file in the file system.
  *
  * @author Bernhard Schussek <bschussek@gmail.com>
  */
-class File extends SplFileInfo
+class File extends \SplFileInfo
 {
     /**
      * Constructs a new file from the given path.
@@ -56,7 +53,7 @@ class File extends SplFileInfo
     public function guessExtension(): ?string
     {
         if (!class_exists(MimeTypes::class)) {
-            throw new LogicException('You cannot guess the extension as the Mime component is not installed. Try running "composer require symfony/mime".');
+            throw new \LogicException('You cannot guess the extension as the Mime component is not installed. Try running "composer require symfony/mime".');
         }
 
         return MimeTypes::getDefault()->getExtensions($this->getMimeType())[0] ?? null;
@@ -74,7 +71,7 @@ class File extends SplFileInfo
     public function getMimeType(): ?string
     {
         if (!class_exists(MimeTypes::class)) {
-            throw new LogicException('You cannot guess the mime type as the Mime component is not installed. Try running "composer require symfony/mime".');
+            throw new \LogicException('You cannot guess the mime type as the Mime component is not installed. Try running "composer require symfony/mime".');
         }
 
         return MimeTypes::getDefault()->guessMimeType($this->getPathname());
@@ -85,7 +82,7 @@ class File extends SplFileInfo
      *
      * @throws FileException if the target file could not be created
      */
-    public function move(string $directory, string $name = null): self
+    public function move(string $directory, ?string $name = null): self
     {
         $target = $this->getTargetFile($directory, $name);
 
@@ -115,7 +112,7 @@ class File extends SplFileInfo
         return $content;
     }
 
-    protected function getTargetFile(string $directory, string $name = null): self
+    protected function getTargetFile(string $directory, ?string $name = null): self
     {
         if (!is_dir($directory)) {
             if (false === @mkdir($directory, 0777, true) && !is_dir($directory)) {
@@ -125,7 +122,7 @@ class File extends SplFileInfo
             throw new FileException(sprintf('Unable to write in the "%s" directory.', $directory));
         }
 
-        $target = rtrim($directory, '/\\'). DIRECTORY_SEPARATOR.(null === $name ? $this->getBasename() : $this->getName($name));
+        $target = rtrim($directory, '/\\').\DIRECTORY_SEPARATOR.(null === $name ? $this->getBasename() : $this->getName($name));
 
         return new self($target, false);
     }

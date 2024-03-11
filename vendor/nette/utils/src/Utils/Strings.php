@@ -11,8 +11,6 @@ namespace Nette\Utils;
 
 use JetBrains\PhpStorm\Language;
 use Nette;
-use Normalizer;
-use Transliterator;
 use function is_array, is_object, strlen;
 
 
@@ -23,7 +21,7 @@ class Strings
 {
 	use Nette\StaticClass;
 
-	public const TrimCharacters = " \t\n\r\0\x0B\u{A0}";
+	public const TrimCharacters = " \t\n\r\0\x0B\u{A0}\u{2000}\u{2001}\u{2002}\u{2003}\u{2004}\u{2005}\u{2006}\u{2007}\u{2008}\u{2009}\u{200A}\u{200B}";
 
 	/** @deprecated use Strings::TrimCharacters */
 	public const TRIM_CHARACTERS = self::TrimCharacters;
@@ -136,7 +134,7 @@ class Strings
 	public static function normalize(string $s): string
 	{
 		// convert to compressed normal form (NFC)
-		if (class_exists('Normalizer', false) && ($n = Normalizer::normalize($s, Normalizer::FORM_C)) !== false) {
+		if (class_exists('Normalizer', false) && ($n = \Normalizer::normalize($s, \Normalizer::FORM_C)) !== false) {
 			$s = $n;
 		}
 
@@ -191,7 +189,7 @@ class Strings
 		static $transliterator = null;
 		if ($transliterator === null) {
 			if (class_exists('Transliterator', false)) {
-				$transliterator = Transliterator::create('Any-Latin; Latin-ASCII');
+				$transliterator = \Transliterator::create('Any-Latin; Latin-ASCII');
 			} else {
 				trigger_error(__METHOD__ . "(): it is recommended to enable PHP extensions 'intl'.", E_USER_NOTICE);
 				$transliterator = false;
@@ -354,8 +352,8 @@ class Strings
 	public static function compare(string $left, string $right, ?int $length = null): bool
 	{
 		if (class_exists('Normalizer', false)) {
-			$left = Normalizer::normalize($left, Normalizer::FORM_D); // form NFD is faster
-			$right = Normalizer::normalize($right, Normalizer::FORM_D); // form NFD is faster
+			$left = \Normalizer::normalize($left, \Normalizer::FORM_D); // form NFD is faster
+			$right = \Normalizer::normalize($right, \Normalizer::FORM_D); // form NFD is faster
 		}
 
 		if ($length < 0) {

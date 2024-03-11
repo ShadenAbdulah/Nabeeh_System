@@ -5,14 +5,13 @@ namespace Illuminate\Console\Scheduling;
 use Illuminate\Cache\DynamoDbStore;
 use Illuminate\Contracts\Cache\Factory as Cache;
 use Illuminate\Contracts\Cache\LockProvider;
-use Illuminate\Contracts\Cache\Store;
 
 class CacheEventMutex implements EventMutex, CacheAware
 {
     /**
      * The cache repository implementation.
      *
-     * @var Cache
+     * @var \Illuminate\Contracts\Cache\Factory
      */
     public $cache;
 
@@ -26,7 +25,7 @@ class CacheEventMutex implements EventMutex, CacheAware
     /**
      * Create a new overlapping strategy.
      *
-     * @param Cache $cache
+     * @param  \Illuminate\Contracts\Cache\Factory  $cache
      * @return void
      */
     public function __construct(Cache $cache)
@@ -37,7 +36,7 @@ class CacheEventMutex implements EventMutex, CacheAware
     /**
      * Attempt to obtain an event mutex for the given event.
      *
-     * @param Event $event
+     * @param  \Illuminate\Console\Scheduling\Event  $event
      * @return bool
      */
     public function create(Event $event)
@@ -56,7 +55,7 @@ class CacheEventMutex implements EventMutex, CacheAware
     /**
      * Determine if an event mutex exists for the given event.
      *
-     * @param Event $event
+     * @param  \Illuminate\Console\Scheduling\Event  $event
      * @return bool
      */
     public function exists(Event $event)
@@ -73,7 +72,7 @@ class CacheEventMutex implements EventMutex, CacheAware
     /**
      * Clear the event mutex for the given event.
      *
-     * @param Event $event
+     * @param  \Illuminate\Console\Scheduling\Event  $event
      * @return void
      */
     public function forget(Event $event)
@@ -92,7 +91,7 @@ class CacheEventMutex implements EventMutex, CacheAware
     /**
      * Determine if the given store should use locks for cache event mutexes.
      *
-     * @param  Store  $store
+     * @param  \Illuminate\Contracts\Cache\Store  $store
      * @return bool
      */
     protected function shouldUseLocks($store)

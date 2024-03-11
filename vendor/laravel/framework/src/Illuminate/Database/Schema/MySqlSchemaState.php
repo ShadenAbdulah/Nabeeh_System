@@ -5,7 +5,6 @@ namespace Illuminate\Database\Schema;
 use Exception;
 use Illuminate\Database\Connection;
 use Illuminate\Support\Str;
-use PDO;
 use Symfony\Component\Process\Process;
 
 class MySqlSchemaState extends SchemaState
@@ -13,7 +12,7 @@ class MySqlSchemaState extends SchemaState
     /**
      * Dump the database's schema into a file.
      *
-     * @param Connection $connection
+     * @param  \Illuminate\Database\Connection  $connection
      * @param  string  $path
      * @return void
      */
@@ -110,7 +109,7 @@ class MySqlSchemaState extends SchemaState
                         ? ' --socket="${:LARAVEL_LOAD_SOCKET}"'
                         : ' --host="${:LARAVEL_LOAD_HOST}" --port="${:LARAVEL_LOAD_PORT}"';
 
-        if (isset($config['options'][PDO::MYSQL_ATTR_SSL_CA])) {
+        if (isset($config['options'][\PDO::MYSQL_ATTR_SSL_CA])) {
             $value .= ' --ssl-ca="${:LARAVEL_LOAD_SSL_CA}"';
         }
 
@@ -134,17 +133,17 @@ class MySqlSchemaState extends SchemaState
             'LARAVEL_LOAD_USER' => $config['username'],
             'LARAVEL_LOAD_PASSWORD' => $config['password'] ?? '',
             'LARAVEL_LOAD_DATABASE' => $config['database'],
-            'LARAVEL_LOAD_SSL_CA' => $config['options'][PDO::MYSQL_ATTR_SSL_CA] ?? '',
+            'LARAVEL_LOAD_SSL_CA' => $config['options'][\PDO::MYSQL_ATTR_SSL_CA] ?? '',
         ];
     }
 
     /**
      * Execute the given dump process.
      *
-     * @param Process $process
+     * @param  \Symfony\Component\Process\Process  $process
      * @param  callable  $output
      * @param  array  $variables
-     * @return Process
+     * @return \Symfony\Component\Process\Process
      */
     protected function executeDumpProcess(Process $process, $output, array $variables)
     {

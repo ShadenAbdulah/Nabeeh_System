@@ -14,13 +14,6 @@ declare(strict_types=1);
 namespace League\CommonMark\Util;
 
 use League\CommonMark\Exception\IOException;
-use function assert;
-use function file_get_contents;
-use function preg_match_all;
-use function preg_replace;
-use function sprintf;
-use function str_replace;
-use function trim;
 
 /**
  * Reads in a CommonMark spec document and extracts the input/output examples for testing against them
@@ -37,11 +30,11 @@ final class SpecReader
     public static function read(string $data): iterable
     {
         // Normalize newlines for platform independence
-        $data = preg_replace('/\r\n?/', "\n", $data);
-        assert($data !== null);
-        $data = preg_replace('/<!-- END TESTS -->.*$/', '', $data);
-        assert($data !== null);
-        preg_match_all('/^`{32} (example ?\w*)\n([\s\S]*?)^\.\n([\s\S]*?)^`{32}$|^#{1,6} *(.*)$/m', $data, $matches, PREG_SET_ORDER);
+        $data = \preg_replace('/\r\n?/', "\n", $data);
+        \assert($data !== null);
+        $data = \preg_replace('/<!-- END TESTS -->.*$/', '', $data);
+        \assert($data !== null);
+        \preg_match_all('/^`{32} (example ?\w*)\n([\s\S]*?)^\.\n([\s\S]*?)^`{32}$|^#{1,6} *(.*)$/m', $data, $matches, PREG_SET_ORDER);
 
         $currentSection = 'Example';
         $exampleNumber  = 0;
@@ -52,9 +45,9 @@ final class SpecReader
                 continue;
             }
 
-            yield trim($currentSection . ' #' . $exampleNumber) => [
-                'input'   => str_replace('→', "\t", $match[2]),
-                'output'  => str_replace('→', "\t", $match[3]),
+            yield \trim($currentSection . ' #' . $exampleNumber) => [
+                'input'   => \str_replace('→', "\t", $match[2]),
+                'output'  => \str_replace('→', "\t", $match[3]),
                 'type'    => $match[1],
                 'section' => $currentSection,
                 'number'  => $exampleNumber++,
@@ -69,8 +62,8 @@ final class SpecReader
      */
     public static function readFile(string $filename): iterable
     {
-        if (($data = file_get_contents($filename)) === false) {
-            throw new IOException(sprintf('Failed to load spec from %s', $filename));
+        if (($data = \file_get_contents($filename)) === false) {
+            throw new IOException(\sprintf('Failed to load spec from %s', $filename));
         }
 
         return self::read($data);

@@ -50,7 +50,7 @@ class UniqueBroadcastEvent extends BroadcastEvent implements ShouldBeUnique
     /**
      * Resolve the cache implementation that should manage the event's uniqueness.
      *
-     * @return Repository
+     * @return \Illuminate\Contracts\Cache\Repository
      */
     public function uniqueVia()
     {

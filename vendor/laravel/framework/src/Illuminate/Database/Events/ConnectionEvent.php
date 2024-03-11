@@ -2,8 +2,6 @@
 
 namespace Illuminate\Database\Events;
 
-use Illuminate\Database\Connection;
-
 abstract class ConnectionEvent
 {
     /**
@@ -16,14 +14,14 @@ abstract class ConnectionEvent
     /**
      * The database connection instance.
      *
-     * @var Connection
+     * @var \Illuminate\Database\Connection
      */
     public $connection;
 
     /**
      * Create a new event instance.
      *
-     * @param  Connection  $connection
+     * @param  \Illuminate\Database\Connection  $connection
      * @return void
      */
     public function __construct($connection)

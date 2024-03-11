@@ -11,7 +11,6 @@
 
 namespace Symfony\Component\HttpFoundation\Session;
 
-use RuntimeException;
 use Symfony\Component\HttpFoundation\Session\Storage\MetadataBag;
 
 /**
@@ -24,7 +23,7 @@ interface SessionInterface
     /**
      * Starts the session storage.
      *
-     * @throws RuntimeException if session fails to start
+     * @throws \RuntimeException if session fails to start
      */
     public function start(): bool;
 
@@ -63,7 +62,7 @@ interface SessionInterface
      *                           to expire with browser session. Time is in seconds, and is
      *                           not a Unix timestamp.
      */
-    public function invalidate(int $lifetime = null): bool;
+    public function invalidate(?int $lifetime = null): bool;
 
     /**
      * Migrates the current session to a new session id while maintaining all
@@ -75,7 +74,7 @@ interface SessionInterface
      *                           to expire with browser session. Time is in seconds, and is
      *                           not a Unix timestamp.
      */
-    public function migrate(bool $destroy = false, int $lifetime = null): bool;
+    public function migrate(bool $destroy = false, ?int $lifetime = null): bool;
 
     /**
      * Force the session to be saved and closed.

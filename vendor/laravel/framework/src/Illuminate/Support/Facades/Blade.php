@@ -2,16 +2,13 @@
 
 namespace Illuminate\Support\Facades;
 
-use Illuminate\View\Compilers\BladeCompiler;
-use Illuminate\View\Component;
-
 /**
  * @method static void compile(string|null $path = null)
  * @method static string getPath()
  * @method static void setPath(string $path)
  * @method static string compileString(string $value)
  * @method static string render(string $string, array $data = [], bool $deleteCachedView = false)
- * @method static string renderComponent(Component $component)
+ * @method static string renderComponent(\Illuminate\View\Component $component)
  * @method static string stripParentheses(string $expression)
  * @method static void extend(callable $compiler)
  * @method static array getExtensions()
@@ -31,7 +28,7 @@ use Illuminate\View\Component;
  * @method static void aliasInclude(string $path, string|null $alias = null)
  * @method static void directive(string $name, callable $handler)
  * @method static array getCustomDirectives()
- * @method static BladeCompiler prepareStringsForCompilationUsing(callable $callback)
+ * @method static \Illuminate\View\Compilers\BladeCompiler prepareStringsForCompilationUsing(callable $callback)
  * @method static void precompiler(callable $precompiler)
  * @method static void setEchoFormat(string $format)
  * @method static void withDoubleEncoding()

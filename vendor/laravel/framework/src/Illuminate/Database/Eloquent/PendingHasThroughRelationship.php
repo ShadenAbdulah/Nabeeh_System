@@ -4,9 +4,6 @@ namespace Illuminate\Database\Eloquent;
 
 use BadMethodCallException;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\HasManyThrough;
-use Illuminate\Database\Eloquent\Relations\HasOne;
-use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 use Illuminate\Support\Str;
 
 class PendingHasThroughRelationship
@@ -14,22 +11,22 @@ class PendingHasThroughRelationship
     /**
      * The root model that the relationship exists on.
      *
-     * @var Model
+     * @var \Illuminate\Database\Eloquent\Model
      */
     protected $rootModel;
 
     /**
      * The local relationship.
      *
-     * @var HasMany|HasOne
+     * @var \Illuminate\Database\Eloquent\Relations\HasMany|\Illuminate\Database\Eloquent\Relations\HasOne
      */
     protected $localRelationship;
 
     /**
      * Create a pending has-many-through or has-one-through relationship.
      *
-     * @param Model $rootModel
-     * @param HasMany|HasOne  $localRelationship
+     * @param  \Illuminate\Database\Eloquent\Model  $rootModel
+     * @param  \Illuminate\Database\Eloquent\Relations\HasMany|\Illuminate\Database\Eloquent\Relations\HasOne  $localRelationship
      */
     public function __construct($rootModel, $localRelationship)
     {
@@ -41,8 +38,8 @@ class PendingHasThroughRelationship
     /**
      * Define the distant relationship that this model has.
      *
-     * @param  string|(callable(Model): (HasOne|HasMany))  $callback
-     * @return HasManyThrough|HasOneThrough
+     * @param  string|(callable(\Illuminate\Database\Eloquent\Model): (\Illuminate\Database\Eloquent\Relations\HasOne|\Illuminate\Database\Eloquent\Relations\HasMany))  $callback
+     * @return \Illuminate\Database\Eloquent\Relations\HasManyThrough|\Illuminate\Database\Eloquent\Relations\HasOneThrough
      */
     public function has($callback)
     {

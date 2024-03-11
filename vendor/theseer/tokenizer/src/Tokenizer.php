@@ -1,15 +1,6 @@
 <?php declare(strict_types = 1);
 namespace TheSeer\Tokenizer;
 
-<<<<<<< HEAD
-use function is_string;
-use function preg_split;
-use function token_get_all;
-use function token_name;
-=======
-use function var_dump;
->>>>>>> parent of c8b1139b (update Ui)
-
 class Tokenizer {
 
     /**
@@ -55,7 +46,7 @@ class Tokenizer {
             return $result;
         }
 
-        $tokens = token_get_all($source);
+        $tokens = \token_get_all($source);
 
         $lastToken = new Token(
             $tokens[0][2],
@@ -64,7 +55,7 @@ class Tokenizer {
         );
 
         foreach ($tokens as $pos => $tok) {
-            if (is_string($tok)) {
+            if (\is_string($tok)) {
                 $token = new Token(
                     $lastToken->getLine(),
                     $this->map[$tok],
@@ -77,13 +68,13 @@ class Tokenizer {
             }
 
             $line   = $tok[2];
-            $values = preg_split('/\R+/Uu', $tok[1]);
+            $values = \preg_split('/\R+/Uu', $tok[1]);
 
             if (!$values) {
                 $result->addToken(
                     new Token(
                         $line,
-                        token_name($tok[0]),
+                        \token_name($tok[0]),
                         '{binary data}'
                     )
                 );
@@ -94,7 +85,7 @@ class Tokenizer {
             foreach ($values as $v) {
                 $token = new Token(
                     $line,
-                    token_name($tok[0]),
+                    \token_name($tok[0]),
                     $v
                 );
                 $lastToken = $token;

@@ -11,13 +11,9 @@
 
 namespace Symfony\Component\HttpKernel\HttpCache;
 
-use Exception;
-use RuntimeException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
-use function assert;
-use function strlen;
 
 /**
  * Abstract class implementing Surrogate capabilities to Request and Response instances.
@@ -93,11 +89,11 @@ abstract class AbstractSurrogate implements SurrogateInterface
             $response = $cache->handle($subRequest, HttpKernelInterface::SUB_REQUEST, true);
 
             if (!$response->isSuccessful() && Response::HTTP_NOT_MODIFIED !== $response->getStatusCode()) {
-                throw new RuntimeException(sprintf('Error when rendering "%s" (Status code is %d).', $subRequest->getUri(), $response->getStatusCode()));
+                throw new \RuntimeException(sprintf('Error when rendering "%s" (Status code is %d).', $subRequest->getUri(), $response->getStatusCode()));
             }
 
             return $response->getContent();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             if ($alt) {
                 return $this->handle($cache, $alt, '', $ignoreErrors);
             }
@@ -139,7 +135,7 @@ abstract class AbstractSurrogate implements SurrogateInterface
         $cookie = hash('xxh128', $cookie ?? $cookie = random_bytes(16), true);
         $boundary = base64_encode($cookie);
 
-        assert(HttpCache::BODY_EVAL_BOUNDARY_LENGTH === strlen($boundary));
+        \assert(HttpCache::BODY_EVAL_BOUNDARY_LENGTH === \strlen($boundary));
 
         return $boundary;
     }

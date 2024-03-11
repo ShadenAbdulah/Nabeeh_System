@@ -11,10 +11,6 @@
 
 namespace Symfony\Component\Routing\Attribute;
 
-use Attribute;
-use Stringable;
-use function is_array;
-
 /**
  * Annotation class for @Route().
  *
@@ -24,10 +20,8 @@ use function is_array;
  *
  * @author Fabien Potencier <fabien@symfony.com>
  * @author Alexander M. Turek <me@derrabus.de>
- *
- * @final since Symfony 6.4
  */
-#[Attribute(Attribute::IS_REPEATABLE | Attribute::TARGET_CLASS | Attribute::TARGET_METHOD)]
+#[\Attribute(\Attribute::IS_REPEATABLE | \Attribute::TARGET_CLASS | \Attribute::TARGET_METHOD)]
 class Route
 {
     private ?string $path = null;
@@ -36,12 +30,12 @@ class Route
     private array $schemes;
 
     /**
-     * @param array<string|Stringable> $requirements
+     * @param array<string|\Stringable> $requirements
      * @param string[]|string           $methods
      * @param string[]|string           $schemes
      */
     public function __construct(
-        string|array $path = null,
+        string|array|null $path = null,
         private ?string $name = null,
         private array $requirements = [],
         private array $options = [],
@@ -51,13 +45,13 @@ class Route
         array|string $schemes = [],
         private ?string $condition = null,
         private ?int $priority = null,
-        string $locale = null,
-        string $format = null,
-        bool $utf8 = null,
-        bool $stateless = null,
+        ?string $locale = null,
+        ?string $format = null,
+        ?bool $utf8 = null,
+        ?bool $stateless = null,
         private ?string $env = null
     ) {
-        if (is_array($path)) {
+        if (\is_array($path)) {
             $this->localizedPaths = $path;
         } else {
             $this->path = $path;

@@ -5,11 +5,9 @@ namespace Illuminate\Console\Scheduling;
 use Closure;
 use Cron\CronExpression;
 use DateTimeZone;
-use Exception;
 use Illuminate\Console\Application;
 use Illuminate\Console\Command;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Collection;
 use ReflectionClass;
 use ReflectionFunction;
 use Symfony\Component\Console\Attribute\AsCommand;
@@ -38,17 +36,17 @@ class ScheduleListCommand extends Command
     /**
      * The terminal width resolver callback.
      *
-     * @var Closure|null
+     * @var \Closure|null
      */
     protected static $terminalWidthResolver;
 
     /**
      * Execute the console command.
      *
-     * @param Schedule $schedule
+     * @param  \Illuminate\Console\Scheduling\Schedule  $schedule
      * @return void
      *
-     * @throws Exception
+     * @throws \Exception
      */
     public function handle(Schedule $schedule)
     {
@@ -82,7 +80,7 @@ class ScheduleListCommand extends Command
     /**
      * Get the spacing to be used on each event row.
      *
-     * @param  Collection  $events
+     * @param  \Illuminate\Support\Collection  $events
      * @return array<int, int>
      */
     private function getCronExpressionSpacing($events)
@@ -95,7 +93,7 @@ class ScheduleListCommand extends Command
     /**
      * Get the spacing to be used on each event row.
      *
-     * @param  Collection  $events
+     * @param  \Illuminate\Support\Collection  $events
      * @return int
      */
     private function getRepeatExpressionSpacing($events)
@@ -106,12 +104,12 @@ class ScheduleListCommand extends Command
     /**
      * List the given even in the console.
      *
-     * @param Event
+     * @param  \Illuminate\Console\Scheduling\Event
      * @param  int  $terminalWidth
      * @param  array  $expressionSpacing
      * @param  int  $repeatExpressionSpacing
      * @param  array  $repeatExpressionSpacing
-     * @param DateTimeZone $timezone
+     * @param  \DateTimeZone  $timezone
      * @return \Illuminate\Support\DateTimeZone
      */
     private function listEvent($event, $terminalWidth, $expressionSpacing, $repeatExpressionSpacing, $timezone)
@@ -178,7 +176,7 @@ class ScheduleListCommand extends Command
     /**
      * Get the repeat expression for an event.
      *
-     * @param Event $event
+     * @param  \Illuminate\Console\Scheduling\Event  $event
      * @return string
      */
     private function getRepeatExpression($event)
@@ -189,11 +187,11 @@ class ScheduleListCommand extends Command
     /**
      * Sort the events by due date if option set.
      *
-     * @param  Collection  $events
-     * @param DateTimeZone $timezone
-     * @return Collection
+     * @param  \Illuminate\Support\Collection  $events
+     * @param  \DateTimeZone  $timezone
+     * @return \Illuminate\Support\Collection
      */
-    private function sortEvents(Collection $events, DateTimeZone $timezone)
+    private function sortEvents(\Illuminate\Support\Collection $events, DateTimeZone $timezone)
     {
         return $this->option('next')
                     ? $events->sortBy(fn ($event) => $this->getNextDueDateForEvent($event, $timezone))
@@ -203,9 +201,9 @@ class ScheduleListCommand extends Command
     /**
      * Get the next due date for an event.
      *
-     * @param Event $event
-     * @param DateTimeZone $timezone
-     * @return Carbon
+     * @param  \Illuminate\Console\Scheduling\Event  $event
+     * @param  \DateTimeZone  $timezone
+     * @return \Illuminate\Support\Carbon
      */
     private function getNextDueDateForEvent($event, DateTimeZone $timezone)
     {
@@ -255,7 +253,7 @@ class ScheduleListCommand extends Command
     /**
      * Get the file and line number for the event closure.
      *
-     * @param CallbackEvent $event
+     * @param  \Illuminate\Console\Scheduling\CallbackEvent  $event
      * @return string
      */
     private function getClosureLocation(CallbackEvent $event)
@@ -300,7 +298,7 @@ class ScheduleListCommand extends Command
     /**
      * Set a callback that should be used when resolving the terminal width.
      *
-     * @param Closure|null  $resolver
+     * @param  \Closure|null  $resolver
      * @return void
      */
     public static function resolveTerminalWidthUsing($resolver)

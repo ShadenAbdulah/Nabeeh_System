@@ -17,7 +17,6 @@ namespace League\CommonMark\Extension\Footnote\Event;
 use League\CommonMark\Event\DocumentParsedEvent;
 use League\CommonMark\Extension\Footnote\Node\FootnoteRef;
 use League\CommonMark\Reference\Reference;
-use function array_key_exists;
 
 final class NumberFootnotesListener
 {
@@ -38,7 +37,7 @@ final class NumberFootnotesListener
             $counter             = $nextCounter;
             $canIncrementCounter = true;
 
-            if (array_key_exists($label, $usedLabels)) {
+            if (\array_key_exists($label, $usedLabels)) {
                 /*
                  * Reference is used again, we need to point
                  * to the same footnote. But with a different ID

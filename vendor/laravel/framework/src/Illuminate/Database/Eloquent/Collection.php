@@ -12,9 +12,9 @@ use LogicException;
 
 /**
  * @template TKey of array-key
- * @template TModel of Model
+ * @template TModel of \Illuminate\Database\Eloquent\Model
  *
- * @extends BaseCollection<TKey, TModel>
+ * @extends \Illuminate\Support\Collection<TKey, TModel>
  */
 class Collection extends BaseCollection implements QueueableCollection
 {
@@ -53,7 +53,7 @@ class Collection extends BaseCollection implements QueueableCollection
     /**
      * Load a set of relationships onto the collection.
      *
-     * @param  array<array-key, (callable(Builder): mixed)|string>|string  $relations
+     * @param  array<array-key, (callable(\Illuminate\Database\Eloquent\Builder): mixed)|string>|string  $relations
      * @return $this
      */
     public function load($relations)
@@ -74,7 +74,7 @@ class Collection extends BaseCollection implements QueueableCollection
     /**
      * Load a set of aggregations over relationship's column onto the collection.
      *
-     * @param  array<array-key, (callable(Builder): mixed)|string>|string  $relations
+     * @param  array<array-key, (callable(\Illuminate\Database\Eloquent\Builder): mixed)|string>|string  $relations
      * @param  string  $column
      * @param  string|null  $function
      * @return $this
@@ -111,7 +111,7 @@ class Collection extends BaseCollection implements QueueableCollection
     /**
      * Load a set of relationship counts onto the collection.
      *
-     * @param  array<array-key, (callable(Builder): mixed)|string>|string  $relations
+     * @param  array<array-key, (callable(\Illuminate\Database\Eloquent\Builder): mixed)|string>|string  $relations
      * @return $this
      */
     public function loadCount($relations)
@@ -122,7 +122,7 @@ class Collection extends BaseCollection implements QueueableCollection
     /**
      * Load a set of relationship's max column values onto the collection.
      *
-     * @param  array<array-key, (callable(Builder): mixed)|string>|string  $relations
+     * @param  array<array-key, (callable(\Illuminate\Database\Eloquent\Builder): mixed)|string>|string  $relations
      * @param  string  $column
      * @return $this
      */
@@ -134,7 +134,7 @@ class Collection extends BaseCollection implements QueueableCollection
     /**
      * Load a set of relationship's min column values onto the collection.
      *
-     * @param  array<array-key, (callable(Builder): mixed)|string>|string  $relations
+     * @param  array<array-key, (callable(\Illuminate\Database\Eloquent\Builder): mixed)|string>|string  $relations
      * @param  string  $column
      * @return $this
      */
@@ -146,7 +146,7 @@ class Collection extends BaseCollection implements QueueableCollection
     /**
      * Load a set of relationship's column summations onto the collection.
      *
-     * @param  array<array-key, (callable(Builder): mixed)|string>|string  $relations
+     * @param  array<array-key, (callable(\Illuminate\Database\Eloquent\Builder): mixed)|string>|string  $relations
      * @param  string  $column
      * @return $this
      */
@@ -158,7 +158,7 @@ class Collection extends BaseCollection implements QueueableCollection
     /**
      * Load a set of relationship's average column values onto the collection.
      *
-     * @param  array<array-key, (callable(Builder): mixed)|string>|string  $relations
+     * @param  array<array-key, (callable(\Illuminate\Database\Eloquent\Builder): mixed)|string>|string  $relations
      * @param  string  $column
      * @return $this
      */
@@ -170,7 +170,7 @@ class Collection extends BaseCollection implements QueueableCollection
     /**
      * Load a set of related existences onto the collection.
      *
-     * @param  array<array-key, (callable(Builder): mixed)|string>|string  $relations
+     * @param  array<array-key, (callable(\Illuminate\Database\Eloquent\Builder): mixed)|string>|string  $relations
      * @return $this
      */
     public function loadExists($relations)
@@ -181,7 +181,7 @@ class Collection extends BaseCollection implements QueueableCollection
     /**
      * Load a set of relationships onto the collection if they are not already eager loaded.
      *
-     * @param  array<array-key, (callable(Builder): mixed)|string>|string  $relations
+     * @param  array<array-key, (callable(\Illuminate\Database\Eloquent\Builder): mixed)|string>|string  $relations
      * @return $this
      */
     public function loadMissing($relations)
@@ -220,7 +220,7 @@ class Collection extends BaseCollection implements QueueableCollection
     /**
      * Load a relationship path if it is not already eager loaded.
      *
-     * @param Collection $models
+     * @param  \Illuminate\Database\Eloquent\Collection  $models
      * @param  array  $path
      * @return void
      */
@@ -253,7 +253,7 @@ class Collection extends BaseCollection implements QueueableCollection
      * Load a set of relationships onto the mixed relationship collection.
      *
      * @param  string  $relation
-     * @param  array<array-key, (callable(Builder): mixed)|string>  $relations
+     * @param  array<array-key, (callable(\Illuminate\Database\Eloquent\Builder): mixed)|string>  $relations
      * @return $this
      */
     public function loadMorph($relation, $relations)
@@ -270,7 +270,7 @@ class Collection extends BaseCollection implements QueueableCollection
      * Load a set of relationship counts onto the mixed relationship collection.
      *
      * @param  string  $relation
-     * @param  array<array-key, (callable(Builder): mixed)|string>  $relations
+     * @param  array<array-key, (callable(\Illuminate\Database\Eloquent\Builder): mixed)|string>  $relations
      * @return $this
      */
     public function loadMorphCount($relation, $relations)
@@ -337,7 +337,7 @@ class Collection extends BaseCollection implements QueueableCollection
      * @template TMapValue
      *
      * @param  callable(TModel, TKey): TMapValue  $callback
-     * @return BaseCollection<TKey, TMapValue>|static<TKey, TMapValue>
+     * @return \Illuminate\Support\Collection<TKey, TMapValue>|static<TKey, TMapValue>
      */
     public function map(callable $callback)
     {
@@ -355,7 +355,7 @@ class Collection extends BaseCollection implements QueueableCollection
      * @template TMapWithKeysValue
      *
      * @param  callable(TModel, TKey): array<TMapWithKeysKey, TMapWithKeysValue>  $callback
-     * @return BaseCollection<TMapWithKeysKey, TMapWithKeysValue>|static<TMapWithKeysKey, TMapWithKeysValue>
+     * @return \Illuminate\Support\Collection<TMapWithKeysKey, TMapWithKeysValue>|static<TMapWithKeysKey, TMapWithKeysValue>
      */
     public function mapWithKeys(callable $callback)
     {
@@ -566,7 +566,7 @@ class Collection extends BaseCollection implements QueueableCollection
      * Count the number of items in the collection by a field or using a callback.
      *
      * @param  (callable(TModel, TKey): array-key)|string|null  $countBy
-     * @return BaseCollection<array-key, int>
+     * @return \Illuminate\Support\Collection<array-key, int>
      */
     public function countBy($countBy = null)
     {
@@ -576,7 +576,7 @@ class Collection extends BaseCollection implements QueueableCollection
     /**
      * Collapse the collection of items into a single array.
      *
-     * @return BaseCollection<int, mixed>
+     * @return \Illuminate\Support\Collection<int, mixed>
      */
     public function collapse()
     {
@@ -587,7 +587,7 @@ class Collection extends BaseCollection implements QueueableCollection
      * Get a flattened array of the items in the collection.
      *
      * @param  int  $depth
-     * @return BaseCollection<int, mixed>
+     * @return \Illuminate\Support\Collection<int, mixed>
      */
     public function flatten($depth = INF)
     {
@@ -597,7 +597,7 @@ class Collection extends BaseCollection implements QueueableCollection
     /**
      * Flip the items in the collection.
      *
-     * @return BaseCollection<TModel, TKey>
+     * @return \Illuminate\Support\Collection<TModel, TKey>
      */
     public function flip()
     {
@@ -607,7 +607,7 @@ class Collection extends BaseCollection implements QueueableCollection
     /**
      * Get the keys of the collection items.
      *
-     * @return BaseCollection<int, TKey>
+     * @return \Illuminate\Support\Collection<int, TKey>
      */
     public function keys()
     {
@@ -621,7 +621,7 @@ class Collection extends BaseCollection implements QueueableCollection
      *
      * @param  int  $size
      * @param  TPadValue  $value
-     * @return BaseCollection<int, TModel|TPadValue>
+     * @return \Illuminate\Support\Collection<int, TModel|TPadValue>
      */
     public function pad($size, $value)
     {
@@ -633,7 +633,7 @@ class Collection extends BaseCollection implements QueueableCollection
      *
      * @param  string|array<array-key, string>  $value
      * @param  string|null  $key
-     * @return BaseCollection<array-key, mixed>
+     * @return \Illuminate\Support\Collection<array-key, mixed>
      */
     public function pluck($value, $key = null)
     {
@@ -645,8 +645,8 @@ class Collection extends BaseCollection implements QueueableCollection
      *
      * @template TZipValue
      *
-     * @param Arrayable<array-key, TZipValue>|iterable<array-key, TZipValue>  ...$items
-     * @return BaseCollection<int, BaseCollection<int, TModel|TZipValue>>
+     * @param  \Illuminate\Contracts\Support\Arrayable<array-key, TZipValue>|iterable<array-key, TZipValue>  ...$items
+     * @return \Illuminate\Support\Collection<int, \Illuminate\Support\Collection<int, TModel|TZipValue>>
      */
     public function zip($items)
     {
@@ -669,7 +669,7 @@ class Collection extends BaseCollection implements QueueableCollection
      *
      * @return string|null
      *
-     * @throws LogicException
+     * @throws \LogicException
      */
     public function getQueueableClass()
     {
@@ -691,7 +691,7 @@ class Collection extends BaseCollection implements QueueableCollection
     /**
      * Get the queueable class name for the given model.
      *
-     * @param Model $model
+     * @param  \Illuminate\Database\Eloquent\Model  $model
      * @return string
      */
     protected function getQueueableModelClass($model)
@@ -744,7 +744,7 @@ class Collection extends BaseCollection implements QueueableCollection
      *
      * @return string|null
      *
-     * @throws LogicException
+     * @throws \LogicException
      */
     public function getQueueableConnection()
     {
@@ -766,9 +766,9 @@ class Collection extends BaseCollection implements QueueableCollection
     /**
      * Get the Eloquent query builder from the collection.
      *
-     * @return Builder
+     * @return \Illuminate\Database\Eloquent\Builder
      *
-     * @throws LogicException
+     * @throws \LogicException
      */
     public function toQuery()
     {

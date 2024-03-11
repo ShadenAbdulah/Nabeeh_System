@@ -3,8 +3,6 @@
 namespace Illuminate\Support;
 
 use Closure;
-use Countable;
-use DateTimeInterface;
 use Illuminate\Support\Traits\Macroable;
 use JsonException;
 use League\CommonMark\Environment\Environment;
@@ -16,7 +14,6 @@ use Ramsey\Uuid\Codec\TimestampFirstCombCodec;
 use Ramsey\Uuid\Generator\CombGenerator;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidFactory;
-use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\Uid\Ulid;
 use Throwable;
 use Traversable;
@@ -72,7 +69,7 @@ class Str
      * Get a new stringable object from the given string.
      *
      * @param  string  $string
-     * @return Stringable
+     * @return \Illuminate\Support\Stringable
      */
     public static function of($string)
     {
@@ -394,6 +391,27 @@ class Str
     }
 
     /**
+     * Unwrap the string with the given strings.
+     *
+     * @param  string  $value
+     * @param  string  $before
+     * @param  string|null  $after
+     * @return string
+     */
+    public static function unwrap($value, $before, $after = null)
+    {
+        if (static::startsWith($value, $before)) {
+            $value = static::substr($value, static::length($before));
+        }
+
+        if (static::endsWith($value, $after ??= $before)) {
+            $value = static::substr($value, 0, -static::length($after));
+        }
+
+        return $value;
+    }
+
+    /**
      * Determine if a given string matches a given pattern.
      *
      * @param  string|iterable<string>  $pattern
@@ -524,7 +542,7 @@ class Str
             return false;
         }
 
-        return preg_match('/^[\da-f]{8}-[\da-f]{4}-[\da-f]{4}-[\da-f]{4}-[\da-f]{12}$/iD', $value) > 0;
+        return preg_match('/^[\da-fA-F]{8}-[\da-fA-F]{4}-[\da-fA-F]{4}-[\da-fA-F]{4}-[\da-fA-F]{12}$/D', $value) > 0;
     }
 
     /**
@@ -730,7 +748,7 @@ class Str
      *
      * @param  string  $pattern
      * @param  string  $subject
-     * @return Collection
+     * @return \Illuminate\Support\Collection
      */
     public static function matchAll($pattern, $subject)
     {
@@ -831,7 +849,7 @@ class Str
      * Get the plural form of an English word.
      *
      * @param  string  $value
-     * @param  int|array|Countable  $count
+     * @param  int|array|\Countable  $count
      * @return string
      */
     public static function plural($value, $count = 2)
@@ -843,7 +861,7 @@ class Str
      * Pluralize the last word of an English, studly caps case string.
      *
      * @param  string  $value
-     * @param  int|array|Countable  $count
+     * @param  int|array|\Countable  $count
      * @return string
      */
     public static function pluralStudly($value, $count = 2)
@@ -1170,13 +1188,8 @@ class Str
     /**
      * Replace the patterns matching the given regular expression.
      *
-<<<<<<< HEAD
      * @param  array|string  $pattern
-     * @param Closure|string  $replace
-=======
-     * @param  string  $pattern
      * @param  \Closure|string  $replace
->>>>>>> parent of c8b1139b (update Ui)
      * @param  array|string  $subject
      * @param  int  $limit
      * @return string|string[]|null
@@ -1285,6 +1298,10 @@ class Str
      */
     public static function apa($value)
     {
+        if (trim($value) === '') {
+            return $value;
+        }
+
         $minorWords = [
             'and', 'as', 'but', 'for', 'if', 'nor', 'or', 'so', 'yet', 'a', 'an',
             'the', 'at', 'by', 'for', 'in', 'of', 'off', 'on', 'per', 'to', 'up', 'via',
@@ -1523,6 +1540,29 @@ class Str
     }
 
     /**
+     * Convert the given string to Base64 encoding.
+     *
+     * @param  string  $string
+     * @return string
+     */
+    public static function toBase64($string): string
+    {
+        return base64_encode($string);
+    }
+
+    /**
+     * Decode the given Base64 encoded string.
+     *
+     * @param  string  $string
+     * @param  bool  $strict
+     * @return string|false
+     */
+    public static function fromBase64($string, $strict = false)
+    {
+        return base64_decode($string, $strict);
+    }
+
+    /**
      * Make a string's first character lowercase.
      *
      * @param  string  $string
@@ -1584,7 +1624,7 @@ class Str
     /**
      * Generate a UUID (version 4).
      *
-     * @return UuidInterface
+     * @return \Ramsey\Uuid\UuidInterface
      */
     public static function uuid()
     {
@@ -1594,9 +1634,9 @@ class Str
     }
 
     /**
-     * Generate a time-ordered UUID (version 4).
+     * Generate a time-ordered UUID.
      *
-     * @return UuidInterface
+     * @return \Ramsey\Uuid\UuidInterface
      */
     public static function orderedUuid()
     {
@@ -1666,8 +1706,8 @@ class Str
     /**
      * Always return the same UUID when generating new UUIDs.
      *
-     * @param Closure|null  $callback
-     * @return UuidInterface
+     * @param  \Closure|null  $callback
+     * @return \Ramsey\Uuid\UuidInterface
      */
     public static function freezeUuids(Closure $callback = null)
     {
@@ -1699,8 +1739,8 @@ class Str
     /**
      * Generate a ULID.
      *
-     * @param  DateTimeInterface|null  $time
-     * @return Ulid
+     * @param  \DateTimeInterface|null  $time
+     * @return \Symfony\Component\Uid\Ulid
      */
     public static function ulid($time = null)
     {

@@ -14,8 +14,8 @@ trait PromptsForMissingInput
     /**
      * Interact with the user before validating the input.
      *
-     * @param InputInterface $input
-     * @param OutputInterface $output
+     * @param  \Symfony\Component\Console\Input\InputInterface  $input
+     * @param  \Symfony\Component\Console\Output\OutputInterface  $output
      * @return void
      */
     protected function interact(InputInterface $input, OutputInterface $output)
@@ -30,8 +30,8 @@ trait PromptsForMissingInput
     /**
      * Prompt the user for any missing arguments.
      *
-     * @param InputInterface $input
-     * @param OutputInterface $output
+     * @param  \Symfony\Component\Console\Input\InputInterface  $input
+     * @param  \Symfony\Component\Console\Output\OutputInterface  $output
      * @return void
      */
     protected function promptForMissingArguments(InputInterface $input, OutputInterface $output)
@@ -77,8 +77,8 @@ trait PromptsForMissingInput
     /**
      * Perform actions after the user was prompted for missing arguments.
      *
-     * @param InputInterface $input
-     * @param OutputInterface $output
+     * @param  \Symfony\Component\Console\Input\InputInterface  $input
+     * @param  \Symfony\Component\Console\Output\OutputInterface  $output
      * @return void
      */
     protected function afterPromptingForMissingArguments(InputInterface $input, OutputInterface $output)
@@ -89,7 +89,7 @@ trait PromptsForMissingInput
     /**
      * Whether the input contains any options that differ from the default values.
      *
-     * @param InputInterface $input
+     * @param  \Symfony\Component\Console\Input\InputInterface  $input
      * @return bool
      */
     protected function didReceiveOptions(InputInterface $input)

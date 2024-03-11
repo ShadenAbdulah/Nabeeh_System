@@ -4,7 +4,6 @@ namespace PhpParser\Node;
 
 use PhpParser\Node;
 use PhpParser\NodeAbstract;
-use function is_string;
 
 class PropertyItem extends NodeAbstract {
     /** @var Node\VarLikeIdentifier Name */
@@ -21,7 +20,7 @@ class PropertyItem extends NodeAbstract {
      */
     public function __construct($name, ?Node\Expr $default = null, array $attributes = []) {
         $this->attributes = $attributes;
-        $this->name = is_string($name) ? new Node\VarLikeIdentifier($name) : $name;
+        $this->name = \is_string($name) ? new Node\VarLikeIdentifier($name) : $name;
         $this->default = $default;
     }
 

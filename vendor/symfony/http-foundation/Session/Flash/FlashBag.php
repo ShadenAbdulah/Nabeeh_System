@@ -11,8 +11,6 @@
 
 namespace Symfony\Component\HttpFoundation\Session\Flash;
 
-use function array_key_exists;
-
 /**
  * FlashBag flash message container.
  *
@@ -110,7 +108,7 @@ class FlashBag implements FlashBagInterface
 
     public function has(string $type): bool
     {
-        return array_key_exists($type, $this->flashes) && $this->flashes[$type];
+        return \array_key_exists($type, $this->flashes) && $this->flashes[$type];
     }
 
     public function keys(): array

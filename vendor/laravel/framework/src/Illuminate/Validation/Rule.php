@@ -2,10 +2,7 @@
 
 namespace Illuminate\Validation;
 
-use Closure;
 use Illuminate\Contracts\Support\Arrayable;
-use Illuminate\Contracts\Validation\InvokableRule;
-use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Support\Traits\Macroable;
 use Illuminate\Validation\Rules\Can;
 use Illuminate\Validation\Rules\Dimensions;
@@ -29,7 +26,7 @@ class Rule
      *
      * @param  string  $ability
      * @param  mixed  ...$arguments
-     * @return Can
+     * @return \Illuminate\Validation\Rules\Can
      */
     public static function can($ability, ...$arguments)
     {
@@ -40,15 +37,9 @@ class Rule
      * Apply the given rules if the given condition is truthy.
      *
      * @param  callable|bool  $condition
-<<<<<<< HEAD
-     * @param  ValidationRule|InvokableRule|\Illuminate\Contracts\Validation\Rule|Closure|array|string  $rules
-     * @param  ValidationRule|InvokableRule|\Illuminate\Contracts\Validation\Rule|Closure|array|string  $defaultRules
-     * @return ConditionalRules
-=======
-     * @param  array|string|\Closure  $rules
-     * @param  array|string|\Closure  $defaultRules
+     * @param  \Illuminate\Contracts\Validation\ValidationRule|\Illuminate\Contracts\Validation\InvokableRule|\Illuminate\Contracts\Validation\Rule|\Closure|array|string  $rules
+     * @param  \Illuminate\Contracts\Validation\ValidationRule|\Illuminate\Contracts\Validation\InvokableRule|\Illuminate\Contracts\Validation\Rule|\Closure|array|string  $defaultRules
      * @return \Illuminate\Validation\ConditionalRules
->>>>>>> parent of c8b1139b (update Ui)
      */
     public static function when($condition, $rules, $defaultRules = [])
     {
@@ -59,26 +50,20 @@ class Rule
      * Apply the given rules if the given condition is falsy.
      *
      * @param  callable|bool  $condition
-<<<<<<< HEAD
-     * @param  ValidationRule|InvokableRule|\Illuminate\Contracts\Validation\Rule|Closure|array|string  $rules
-     * @param  ValidationRule|InvokableRule|\Illuminate\Contracts\Validation\Rule|Closure|array|string  $defaultRules
-     * @return ConditionalRules
-=======
-     * @param  array|string|\Closure  $rules
-     * @param  array|string|\Closure  $defaultRules
+     * @param  \Illuminate\Contracts\Validation\ValidationRule|\Illuminate\Contracts\Validation\InvokableRule|\Illuminate\Contracts\Validation\Rule|\Closure|array|string  $rules
+     * @param  \Illuminate\Contracts\Validation\ValidationRule|\Illuminate\Contracts\Validation\InvokableRule|\Illuminate\Contracts\Validation\Rule|\Closure|array|string  $defaultRules
      * @return \Illuminate\Validation\ConditionalRules
->>>>>>> parent of c8b1139b (update Ui)
      */
     public static function unless($condition, $rules, $defaultRules = [])
     {
-        return new ConditionalRules(! $condition, $rules, $defaultRules);
+        return new ConditionalRules($condition, $defaultRules, $rules);
     }
 
     /**
      * Create a new nested rule set.
      *
      * @param  callable  $callback
-     * @return NestedRules
+     * @return \Illuminate\Validation\NestedRules
      */
     public static function forEach($callback)
     {
@@ -90,7 +75,7 @@ class Rule
      *
      * @param  string  $table
      * @param  string  $column
-     * @return Unique
+     * @return \Illuminate\Validation\Rules\Unique
      */
     public static function unique($table, $column = 'NULL')
     {
@@ -102,7 +87,7 @@ class Rule
      *
      * @param  string  $table
      * @param  string  $column
-     * @return Exists
+     * @return \Illuminate\Validation\Rules\Exists
      */
     public static function exists($table, $column = 'NULL')
     {
@@ -112,8 +97,8 @@ class Rule
     /**
      * Get an in constraint builder instance.
      *
-     * @param Arrayable|array|string  $values
-     * @return In
+     * @param  \Illuminate\Contracts\Support\Arrayable|array|string  $values
+     * @return \Illuminate\Validation\Rules\In
      */
     public static function in($values)
     {
@@ -127,8 +112,8 @@ class Rule
     /**
      * Get a not_in constraint builder instance.
      *
-     * @param Arrayable|array|string  $values
-     * @return NotIn
+     * @param  \Illuminate\Contracts\Support\Arrayable|array|string  $values
+     * @return \Illuminate\Validation\Rules\NotIn
      */
     public static function notIn($values)
     {
@@ -143,7 +128,7 @@ class Rule
      * Get a required_if constraint builder instance.
      *
      * @param  callable|bool  $callback
-     * @return RequiredIf
+     * @return \Illuminate\Validation\Rules\RequiredIf
      */
     public static function requiredIf($callback)
     {
@@ -154,7 +139,7 @@ class Rule
      * Get a exclude_if constraint builder instance.
      *
      * @param  callable|bool  $callback
-     * @return ExcludeIf
+     * @return \Illuminate\Validation\Rules\ExcludeIf
      */
     public static function excludeIf($callback)
     {
@@ -165,7 +150,7 @@ class Rule
      * Get a prohibited_if constraint builder instance.
      *
      * @param  callable|bool  $callback
-     * @return ProhibitedIf
+     * @return \Illuminate\Validation\Rules\ProhibitedIf
      */
     public static function prohibitedIf($callback)
     {
@@ -176,7 +161,7 @@ class Rule
      * Get an enum constraint builder instance.
      *
      * @param  string  $type
-     * @return Enum
+     * @return \Illuminate\Validation\Rules\Enum
      */
     public static function enum($type)
     {
@@ -186,7 +171,7 @@ class Rule
     /**
      * Get a file constraint builder instance.
      *
-     * @return File
+     * @return \Illuminate\Validation\Rules\File
      */
     public static function file()
     {
@@ -196,7 +181,7 @@ class Rule
     /**
      * Get an image file constraint builder instance.
      *
-     * @return ImageFile
+     * @return \Illuminate\Validation\Rules\ImageFile
      */
     public static function imageFile()
     {
@@ -207,7 +192,7 @@ class Rule
      * Get a dimensions constraint builder instance.
      *
      * @param  array  $constraints
-     * @return Dimensions
+     * @return \Illuminate\Validation\Rules\Dimensions
      */
     public static function dimensions(array $constraints = [])
     {

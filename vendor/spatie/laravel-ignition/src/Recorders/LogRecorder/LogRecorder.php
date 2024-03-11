@@ -8,7 +8,7 @@ use Throwable;
 
 class LogRecorder
 {
-    /** @var LogMessage[] */
+    /** @var \Spatie\LaravelIgnition\Recorders\LogRecorder\LogMessage[] */
     protected array $logMessages = [];
 
     protected Application $app;

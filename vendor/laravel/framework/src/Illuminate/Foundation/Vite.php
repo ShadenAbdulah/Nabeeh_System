@@ -272,9 +272,9 @@ class Vite implements Htmlable
      *
      * @param  string|string[]  $entrypoints
      * @param  string|null  $buildDirectory
-     * @return HtmlString
+     * @return \Illuminate\Support\HtmlString
      *
-     * @throws Exception
+     * @throws \Exception
      */
     public function __invoke($entrypoints, $buildDirectory = null)
     {
@@ -616,7 +616,7 @@ class Vite implements Htmlable
     /**
      * Generate React refresh runtime script.
      *
-     * @return HtmlString|void
+     * @return \Illuminate\Support\HtmlString|void
      */
     public function reactRefresh()
     {
@@ -682,7 +682,7 @@ class Vite implements Htmlable
      * @param  string|null  $buildDirectory
      * @return string
      *
-     * @throws Exception
+     * @throws \Exception
      */
     public function content($asset, $buildDirectory = null)
     {
@@ -717,7 +717,7 @@ class Vite implements Htmlable
      * @param  string  $buildDirectory
      * @return array
      *
-     * @throws ViteManifestNotFoundException
+     * @throws \Illuminate\Foundation\ViteManifestNotFoundException
      */
     protected function manifest($buildDirectory)
     {
@@ -773,7 +773,7 @@ class Vite implements Htmlable
      * @param  string  $file
      * @return array
      *
-     * @throws Exception
+     * @throws \Exception
      */
     protected function chunk($manifest, $file)
     {

@@ -4,7 +4,6 @@ namespace Illuminate\View\Middleware;
 
 use Closure;
 use Illuminate\Contracts\View\Factory as ViewFactory;
-use Illuminate\Http\Request;
 use Illuminate\Support\ViewErrorBag;
 
 class ShareErrorsFromSession
@@ -12,14 +11,14 @@ class ShareErrorsFromSession
     /**
      * The view factory implementation.
      *
-     * @var ViewFactory
+     * @var \Illuminate\Contracts\View\Factory
      */
     protected $view;
 
     /**
      * Create a new error binder instance.
      *
-     * @param ViewFactory $view
+     * @param  \Illuminate\Contracts\View\Factory  $view
      * @return void
      */
     public function __construct(ViewFactory $view)
@@ -30,8 +29,8 @@ class ShareErrorsFromSession
     /**
      * Handle an incoming request.
      *
-     * @param  Request  $request
-     * @param Closure $next
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Closure  $next
      * @return mixed
      */
     public function handle($request, Closure $next)

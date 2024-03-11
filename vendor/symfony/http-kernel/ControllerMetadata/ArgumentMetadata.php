@@ -11,8 +11,6 @@
 
 namespace Symfony\Component\HttpKernel\ControllerMetadata;
 
-use LogicException;
-
 /**
  * Responsible for storing metadata of an argument.
  *
@@ -91,12 +89,12 @@ class ArgumentMetadata
     /**
      * Returns the default value of the argument.
      *
-     * @throws LogicException if no default value is present; {@see self::hasDefaultValue()}
+     * @throws \LogicException if no default value is present; {@see self::hasDefaultValue()}
      */
     public function getDefaultValue(): mixed
     {
         if (!$this->hasDefaultValue) {
-            throw new LogicException(sprintf('Argument $%s does not have a default value. Use "%s::hasDefaultValue()" to avoid this exception.', $this->name, __CLASS__));
+            throw new \LogicException(sprintf('Argument $%s does not have a default value. Use "%s::hasDefaultValue()" to avoid this exception.', $this->name, __CLASS__));
         }
 
         return $this->defaultValue;
@@ -108,7 +106,7 @@ class ArgumentMetadata
      *
      * @return array<object>
      */
-    public function getAttributes(string $name = null, int $flags = 0): array
+    public function getAttributes(?string $name = null, int $flags = 0): array
     {
         if (!$name) {
             return $this->attributes;

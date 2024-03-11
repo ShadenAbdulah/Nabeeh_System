@@ -11,7 +11,6 @@
 
 namespace Symfony\Component\Mailer\Transport;
 
-use SensitiveParameter;
 use Symfony\Component\Mailer\Exception\InvalidArgumentException;
 
 /**
@@ -26,11 +25,7 @@ final class Dsn
     private ?int $port;
     private array $options;
 
-<<<<<<< HEAD
-    public function __construct(string $scheme, string $host, ?string $user = null, #[SensitiveParameter] ?string $password = null, ?int $port = null, array $options = [])
-=======
-    public function __construct(string $scheme, string $host, string $user = null, #[\SensitiveParameter] string $password = null, int $port = null, array $options = [])
->>>>>>> parent of c8b1139b (update Ui)
+    public function __construct(string $scheme, string $host, ?string $user = null, #[\SensitiveParameter] ?string $password = null, ?int $port = null, array $options = [])
     {
         $this->scheme = $scheme;
         $this->host = $host;
@@ -40,26 +35,26 @@ final class Dsn
         $this->options = $options;
     }
 
-    public static function fromString(#[SensitiveParameter] string $dsn): self
+    public static function fromString(#[\SensitiveParameter] string $dsn): self
     {
-        if (false === $parsedDsn = parse_url($dsn)) {
+        if (false === $params = parse_url($dsn)) {
             throw new InvalidArgumentException('The mailer DSN is invalid.');
         }
 
-        if (!isset($parsedDsn['scheme'])) {
+        if (!isset($params['scheme'])) {
             throw new InvalidArgumentException('The mailer DSN must contain a scheme.');
         }
 
-        if (!isset($parsedDsn['host'])) {
+        if (!isset($params['host'])) {
             throw new InvalidArgumentException('The mailer DSN must contain a host (use "default" by default).');
         }
 
-        $user = '' !== ($parsedDsn['user'] ?? '') ? urldecode($parsedDsn['user']) : null;
-        $password = '' !== ($parsedDsn['pass'] ?? '') ? urldecode($parsedDsn['pass']) : null;
-        $port = $parsedDsn['port'] ?? null;
-        parse_str($parsedDsn['query'] ?? '', $query);
+        $user = '' !== ($params['user'] ?? '') ? rawurldecode($params['user']) : null;
+        $password = '' !== ($params['pass'] ?? '') ? rawurldecode($params['pass']) : null;
+        $port = $params['port'] ?? null;
+        parse_str($params['query'] ?? '', $query);
 
-        return new self($parsedDsn['scheme'], $parsedDsn['host'], $user, $password, $port, $query);
+        return new self($params['scheme'], $params['host'], $user, $password, $port, $query);
     }
 
     public function getScheme(): string
@@ -82,7 +77,7 @@ final class Dsn
         return $this->password;
     }
 
-    public function getPort(int $default = null): ?int
+    public function getPort(?int $default = null): ?int
     {
         return $this->port ?? $default;
     }

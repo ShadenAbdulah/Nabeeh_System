@@ -11,8 +11,6 @@
 
 namespace Symfony\Component\HttpKernel\Attribute;
 
-use Attribute;
-
 /**
  * Describes the default HTTP cache headers on controllers.
  * Headers defined in the Cache attribute are ignored if they are already set
@@ -22,7 +20,7 @@ use Attribute;
  *
  * @author Fabien Potencier <fabien@symfony.com>
  */
-#[Attribute(Attribute::TARGET_CLASS | Attribute::TARGET_METHOD | Attribute::TARGET_FUNCTION)]
+#[\Attribute(\Attribute::TARGET_CLASS | \Attribute::TARGET_METHOD | \Attribute::TARGET_FUNCTION)]
 final class Cache
 {
     public function __construct(

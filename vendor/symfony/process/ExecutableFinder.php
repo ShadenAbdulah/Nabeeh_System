@@ -11,11 +11,6 @@
 
 namespace Symfony\Component\Process;
 
-use function function_exists;
-use const DIRECTORY_SEPARATOR;
-use const PATH_SEPARATOR;
-use const PHP_EOL;
-
 /**
  * Generic executable finder.
  *
@@ -53,21 +48,21 @@ class ExecutableFinder
      * @param string|null $default   The default to return if no executable is found
      * @param array       $extraDirs Additional dirs to check into
      */
-    public function find(string $name, string $default = null, array $extraDirs = []): ?string
+    public function find(string $name, ?string $default = null, array $extraDirs = []): ?string
     {
         $dirs = array_merge(
-            explode(PATH_SEPARATOR, getenv('PATH') ?: getenv('Path')),
+            explode(\PATH_SEPARATOR, getenv('PATH') ?: getenv('Path')),
             $extraDirs
         );
 
         $suffixes = [''];
-        if ('\\' === DIRECTORY_SEPARATOR) {
+        if ('\\' === \DIRECTORY_SEPARATOR) {
             $pathExt = getenv('PATHEXT');
-            $suffixes = array_merge($pathExt ? explode(PATH_SEPARATOR, $pathExt) : $this->suffixes, $suffixes);
+            $suffixes = array_merge($pathExt ? explode(\PATH_SEPARATOR, $pathExt) : $this->suffixes, $suffixes);
         }
         foreach ($suffixes as $suffix) {
             foreach ($dirs as $dir) {
-                if (@is_file($file = $dir. DIRECTORY_SEPARATOR.$name.$suffix) && ('\\' === DIRECTORY_SEPARATOR || @is_executable($file))) {
+                if (@is_file($file = $dir.\DIRECTORY_SEPARATOR.$name.$suffix) && ('\\' === \DIRECTORY_SEPARATOR || @is_executable($file))) {
                     return $file;
                 }
 
@@ -77,13 +72,8 @@ class ExecutableFinder
             }
         }
 
-<<<<<<< HEAD
-        $command = '\\' === DIRECTORY_SEPARATOR ? 'where' : 'command -v --';
-        if (function_exists('exec') && ($executablePath = strtok(@exec($command.' '.escapeshellarg($name)), PHP_EOL)) && @is_executable($executablePath)) {
-=======
-        $command = '\\' === \DIRECTORY_SEPARATOR ? 'where' : 'command -v';
+        $command = '\\' === \DIRECTORY_SEPARATOR ? 'where' : 'command -v --';
         if (\function_exists('exec') && ($executablePath = strtok(@exec($command.' '.escapeshellarg($name)), \PHP_EOL)) && @is_executable($executablePath)) {
->>>>>>> parent of c8b1139b (update Ui)
             return $executablePath;
         }
 

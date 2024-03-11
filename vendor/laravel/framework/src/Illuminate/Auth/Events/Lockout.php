@@ -9,14 +9,14 @@ class Lockout
     /**
      * The throttled request.
      *
-     * @var Request
+     * @var \Illuminate\Http\Request
      */
     public $request;
 
     /**
      * Create a new event instance.
      *
-     * @param Request $request
+     * @param  \Illuminate\Http\Request  $request
      * @return void
      */
     public function __construct(Request $request)

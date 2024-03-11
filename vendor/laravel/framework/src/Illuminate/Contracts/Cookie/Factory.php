@@ -2,8 +2,6 @@
 
 namespace Illuminate\Contracts\Cookie;
 
-use Symfony\Component\HttpFoundation\Cookie;
-
 interface Factory
 {
     /**
@@ -18,7 +16,7 @@ interface Factory
      * @param  bool  $httpOnly
      * @param  bool  $raw
      * @param  string|null  $sameSite
-     * @return Cookie
+     * @return \Symfony\Component\HttpFoundation\Cookie
      */
     public function make($name, $value, $minutes = 0, $path = null, $domain = null, $secure = null, $httpOnly = true, $raw = false, $sameSite = null);
 
@@ -33,7 +31,7 @@ interface Factory
      * @param  bool  $httpOnly
      * @param  bool  $raw
      * @param  string|null  $sameSite
-     * @return Cookie
+     * @return \Symfony\Component\HttpFoundation\Cookie
      */
     public function forever($name, $value, $path = null, $domain = null, $secure = null, $httpOnly = true, $raw = false, $sameSite = null);
 
@@ -43,7 +41,7 @@ interface Factory
      * @param  string  $name
      * @param  string|null  $path
      * @param  string|null  $domain
-     * @return Cookie
+     * @return \Symfony\Component\HttpFoundation\Cookie
      */
     public function forget($name, $path = null, $domain = null);
 }

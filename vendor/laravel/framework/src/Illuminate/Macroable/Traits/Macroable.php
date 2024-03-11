@@ -5,7 +5,6 @@ namespace Illuminate\Support\Traits;
 use BadMethodCallException;
 use Closure;
 use ReflectionClass;
-use ReflectionException;
 use ReflectionMethod;
 
 trait Macroable
@@ -36,7 +35,7 @@ trait Macroable
      * @param  bool  $replace
      * @return void
      *
-     * @throws ReflectionException
+     * @throws \ReflectionException
      */
     public static function mixin($mixin, $replace = true)
     {
@@ -79,7 +78,7 @@ trait Macroable
      * @param  array  $parameters
      * @return mixed
      *
-     * @throws BadMethodCallException
+     * @throws \BadMethodCallException
      */
     public static function __callStatic($method, $parameters)
     {
@@ -105,7 +104,7 @@ trait Macroable
      * @param  array  $parameters
      * @return mixed
      *
-     * @throws BadMethodCallException
+     * @throws \BadMethodCallException
      */
     public function __call($method, $parameters)
     {

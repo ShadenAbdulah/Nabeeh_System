@@ -21,7 +21,7 @@ class DatabaseTransactionRecord
     /**
      * The parent instance of this transaction.
      *
-     * @var DatabaseTransactionRecord
+     * @var \Illuminate\Database\DatabaseTransactionRecord
      */
     public $parent;
 
@@ -37,7 +37,7 @@ class DatabaseTransactionRecord
      *
      * @param  string  $connection
      * @param  int  $level
-     * @param DatabaseTransactionRecord|null  $parent
+     * @param  \Illuminate\Database\DatabaseTransactionRecord|null  $parent
      * @return void
      */
     public function __construct($connection, $level, ?DatabaseTransactionRecord $parent = null)

@@ -2,8 +2,6 @@
 
 namespace Illuminate\Queue\Middleware;
 
-use DateInterval;
-use DateTimeInterface;
 use Illuminate\Container\Container;
 use Illuminate\Contracts\Cache\Repository as Cache;
 use Illuminate\Support\InteractsWithTime;
@@ -22,7 +20,7 @@ class WithoutOverlapping
     /**
      * The number of seconds before a job should be available again if no lock was acquired.
      *
-     * @var DateTimeInterface|int|null
+     * @var \DateTimeInterface|int|null
      */
     public $releaseAfter;
 
@@ -51,8 +49,8 @@ class WithoutOverlapping
      * Create a new middleware instance.
      *
      * @param  string  $key
-     * @param  DateTimeInterface|int|null  $releaseAfter
-     * @param  DateTimeInterface|int  $expiresAfter
+     * @param  \DateTimeInterface|int|null  $releaseAfter
+     * @param  \DateTimeInterface|int  $expiresAfter
      * @return void
      */
     public function __construct($key = '', $releaseAfter = 0, $expiresAfter = 0)
@@ -89,7 +87,7 @@ class WithoutOverlapping
     /**
      * Set the delay (in seconds) to release the job back to the queue.
      *
-     * @param  DateTimeInterface|int  $releaseAfter
+     * @param  \DateTimeInterface|int  $releaseAfter
      * @return $this
      */
     public function releaseAfter($releaseAfter)
@@ -114,7 +112,7 @@ class WithoutOverlapping
     /**
      * Set the maximum number of seconds that can elapse before the lock is released.
      *
-     * @param  DateTimeInterface|DateInterval|int  $expiresAfter
+     * @param  \DateTimeInterface|\DateInterval|int  $expiresAfter
      * @return $this
      */
     public function expireAfter($expiresAfter)

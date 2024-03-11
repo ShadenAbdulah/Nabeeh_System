@@ -35,11 +35,11 @@ class NotificationFake implements Fake, NotificationDispatcher, NotificationFact
     /**
      * Assert if a notification was sent on-demand based on a truth-test callback.
      *
-     * @param  string|Closure $notification
+     * @param  string|\Closure  $notification
      * @param  callable|null  $callback
      * @return void
      *
-     * @throws Exception
+     * @throws \Exception
      */
     public function assertSentOnDemand($notification, $callback = null)
     {
@@ -50,11 +50,11 @@ class NotificationFake implements Fake, NotificationDispatcher, NotificationFact
      * Assert if a notification was sent based on a truth-test callback.
      *
      * @param  mixed  $notifiable
-     * @param  string|Closure $notification
+     * @param  string|\Closure  $notification
      * @param  callable|null  $callback
      * @return void
      *
-     * @throws Exception
+     * @throws \Exception
      */
     public function assertSentTo($notifiable, $notification, $callback = null)
     {
@@ -118,11 +118,11 @@ class NotificationFake implements Fake, NotificationDispatcher, NotificationFact
      * Determine if a notification was sent based on a truth-test callback.
      *
      * @param  mixed  $notifiable
-     * @param  string|Closure $notification
+     * @param  string|\Closure  $notification
      * @param  callable|null  $callback
      * @return void
      *
-     * @throws Exception
+     * @throws \Exception
      */
     public function assertNotSentTo($notifiable, $notification, $callback = null)
     {
@@ -164,7 +164,7 @@ class NotificationFake implements Fake, NotificationDispatcher, NotificationFact
      * @param  mixed  $notifiable
      * @return void
      *
-     * @throws Exception
+     * @throws \Exception
      */
     public function assertNothingSentTo($notifiable)
     {
@@ -227,7 +227,7 @@ class NotificationFake implements Fake, NotificationDispatcher, NotificationFact
      * @param  mixed  $notifiable
      * @param  string  $notification
      * @param  callable|null  $callback
-     * @return Collection
+     * @return \Illuminate\Support\Collection
      */
     public function sent($notifiable, $notification, $callback = null)
     {
@@ -271,7 +271,7 @@ class NotificationFake implements Fake, NotificationDispatcher, NotificationFact
     /**
      * Send the given notification to the given notifiable entities.
      *
-     * @param Collection|array|mixed  $notifiables
+     * @param  \Illuminate\Support\Collection|array|mixed  $notifiables
      * @param  mixed  $notification
      * @return void
      */
@@ -283,7 +283,7 @@ class NotificationFake implements Fake, NotificationDispatcher, NotificationFact
     /**
      * Send the given notification immediately.
      *
-     * @param Collection|array|mixed  $notifiables
+     * @param  \Illuminate\Support\Collection|array|mixed  $notifiables
      * @param  mixed  $notification
      * @param  array|null  $channels
      * @return void

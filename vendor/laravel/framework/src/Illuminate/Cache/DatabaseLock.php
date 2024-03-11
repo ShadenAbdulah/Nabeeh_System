@@ -10,7 +10,7 @@ class DatabaseLock extends Lock
     /**
      * The database connection instance.
      *
-     * @var Connection
+     * @var \Illuminate\Database\Connection
      */
     protected $connection;
 
@@ -38,7 +38,7 @@ class DatabaseLock extends Lock
     /**
      * Create a new lock instance.
      *
-     * @param Connection $connection
+     * @param  \Illuminate\Database\Connection  $connection
      * @param  string  $table
      * @param  string  $name
      * @param  int  $seconds

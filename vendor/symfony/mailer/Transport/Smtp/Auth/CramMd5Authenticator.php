@@ -11,11 +11,8 @@
 
 namespace Symfony\Component\Mailer\Transport\Smtp\Auth;
 
-use SensitiveParameter;
 use Symfony\Component\Mailer\Exception\InvalidArgumentException;
 use Symfony\Component\Mailer\Transport\Smtp\EsmtpTransport;
-use function chr;
-use function strlen;
 
 /**
  * Handles CRAM-MD5 authentication.
@@ -43,22 +40,22 @@ class CramMd5Authenticator implements AuthenticatorInterface
     /**
      * Generates a CRAM-MD5 response from a server challenge.
      */
-    private function getResponse(#[SensitiveParameter] string $secret, string $challenge): string
+    private function getResponse(#[\SensitiveParameter] string $secret, string $challenge): string
     {
         if (!$secret) {
             throw new InvalidArgumentException('A non-empty secret is required.');
         }
 
-        if (strlen($secret) > 64) {
+        if (\strlen($secret) > 64) {
             $secret = pack('H32', md5($secret));
         }
 
-        if (strlen($secret) < 64) {
-            $secret = str_pad($secret, 64, chr(0));
+        if (\strlen($secret) < 64) {
+            $secret = str_pad($secret, 64, \chr(0));
         }
 
-        $kipad = substr($secret, 0, 64) ^ str_repeat(chr(0x36), 64);
-        $kopad = substr($secret, 0, 64) ^ str_repeat(chr(0x5C), 64);
+        $kipad = substr($secret, 0, 64) ^ str_repeat(\chr(0x36), 64);
+        $kopad = substr($secret, 0, 64) ^ str_repeat(\chr(0x5C), 64);
 
         $inner = pack('H32', md5($kipad.$challenge));
         $digest = md5($kopad.$inner);

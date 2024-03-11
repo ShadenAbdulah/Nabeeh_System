@@ -3,7 +3,6 @@
 namespace Illuminate\Foundation\Validation;
 
 use Illuminate\Contracts\Validation\Factory;
-use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Precognition;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
@@ -13,11 +12,11 @@ trait ValidatesRequests
     /**
      * Run the validation routine against the given validator.
      *
-     * @param  Validator|array  $validator
-     * @param Request|null  $request
+     * @param  \Illuminate\Contracts\Validation\Validator|array  $validator
+     * @param  \Illuminate\Http\Request|null  $request
      * @return array
      *
-     * @throws ValidationException
+     * @throws \Illuminate\Validation\ValidationException
      */
     public function validateWith($validator, Request $request = null)
     {
@@ -40,13 +39,13 @@ trait ValidatesRequests
     /**
      * Validate the given request with the given rules.
      *
-     * @param Request $request
+     * @param  \Illuminate\Http\Request  $request
      * @param  array  $rules
      * @param  array  $messages
      * @param  array  $attributes
      * @return array
      *
-     * @throws ValidationException
+     * @throws \Illuminate\Validation\ValidationException
      */
     public function validate(Request $request, array $rules,
                              array $messages = [], array $attributes = [])
@@ -69,13 +68,13 @@ trait ValidatesRequests
      * Validate the given request with the given rules.
      *
      * @param  string  $errorBag
-     * @param Request $request
+     * @param  \Illuminate\Http\Request  $request
      * @param  array  $rules
      * @param  array  $messages
      * @param  array  $attributes
      * @return array
      *
-     * @throws ValidationException
+     * @throws \Illuminate\Validation\ValidationException
      */
     public function validateWithBag($errorBag, Request $request, array $rules,
                                     array $messages = [], array $attributes = [])
@@ -92,7 +91,7 @@ trait ValidatesRequests
     /**
      * Get a validation factory instance.
      *
-     * @return Factory
+     * @return \Illuminate\Contracts\Validation\Factory
      */
     protected function getValidationFactory()
     {

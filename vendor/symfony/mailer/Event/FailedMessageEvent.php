@@ -13,7 +13,6 @@ namespace Symfony\Component\Mailer\Event;
 
 use Symfony\Component\Mime\RawMessage;
 use Symfony\Contracts\EventDispatcher\Event;
-use Throwable;
 
 /**
  * @author Fabien Potencier <fabien@symfony.com>
@@ -22,7 +21,7 @@ final class FailedMessageEvent extends Event
 {
     public function __construct(
         private RawMessage $message,
-        private Throwable $error,
+        private \Throwable $error,
     ) {
     }
 
@@ -31,7 +30,7 @@ final class FailedMessageEvent extends Event
         return $this->message;
     }
 
-    public function getError(): Throwable
+    public function getError(): \Throwable
     {
         return $this->error;
     }

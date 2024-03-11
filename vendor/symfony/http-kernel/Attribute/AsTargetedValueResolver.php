@@ -11,12 +11,10 @@
 
 namespace Symfony\Component\HttpKernel\Attribute;
 
-use Attribute;
-
 /**
  * Service tag to autoconfigure targeted value resolvers.
  */
-#[Attribute(Attribute::TARGET_CLASS)]
+#[\Attribute(\Attribute::TARGET_CLASS)]
 class AsTargetedValueResolver
 {
     public function __construct(

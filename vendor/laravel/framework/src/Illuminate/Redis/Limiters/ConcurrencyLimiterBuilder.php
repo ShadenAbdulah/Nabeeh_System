@@ -3,7 +3,6 @@
 namespace Illuminate\Redis\Limiters;
 
 use Illuminate\Contracts\Redis\LimiterTimeoutException;
-use Illuminate\Redis\Connections\Connection;
 use Illuminate\Support\InteractsWithTime;
 
 class ConcurrencyLimiterBuilder
@@ -13,7 +12,7 @@ class ConcurrencyLimiterBuilder
     /**
      * The Redis connection.
      *
-     * @var Connection
+     * @var \Illuminate\Redis\Connections\Connection
      */
     public $connection;
 
@@ -55,7 +54,7 @@ class ConcurrencyLimiterBuilder
     /**
      * Create a new builder instance.
      *
-     * @param  Connection  $connection
+     * @param  \Illuminate\Redis\Connections\Connection  $connection
      * @param  string  $name
      * @return void
      */
@@ -124,7 +123,7 @@ class ConcurrencyLimiterBuilder
      * @param  callable|null  $failure
      * @return mixed
      *
-     * @throws LimiterTimeoutException
+     * @throws \Illuminate\Contracts\Redis\LimiterTimeoutException
      */
     public function then(callable $callback, callable $failure = null)
     {

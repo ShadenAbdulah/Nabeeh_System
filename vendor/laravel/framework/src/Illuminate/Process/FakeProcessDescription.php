@@ -170,7 +170,7 @@ class FakeProcessDescription
      * Turn the fake process description into an actual process.
      *
      * @param  string  $command
-     * @return Process
+     * @return \Symfony\Component\Process\Process
      */
     public function toSymfonyProcess(string $command)
     {

@@ -9,7 +9,6 @@ use Doctrine\DBAL\Types\DecimalType;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Str;
 use ReflectionClass;
@@ -103,7 +102,7 @@ class ShowModelCommand extends DatabaseInspectionCommand
     /**
      * Get the first policy associated with this model.
      *
-     * @param Model $model
+     * @param  \Illuminate\Database\Eloquent\Model  $model
      * @return string
      */
     protected function getPolicy($model)
@@ -116,8 +115,8 @@ class ShowModelCommand extends DatabaseInspectionCommand
     /**
      * Get the column attributes for the given model.
      *
-     * @param Model $model
-     * @return Collection
+     * @param  \Illuminate\Database\Eloquent\Model  $model
+     * @return \Illuminate\Support\Collection
      */
     protected function getAttributes($model)
     {
@@ -148,9 +147,9 @@ class ShowModelCommand extends DatabaseInspectionCommand
     /**
      * Get the virtual (non-column) attributes for the given model.
      *
-     * @param Model $model
-     * @param Column[] $columns
-     * @return Collection
+     * @param  \Illuminate\Database\Eloquent\Model  $model
+     * @param  \Doctrine\DBAL\Schema\Column[]  $columns
+     * @return \Illuminate\Support\Collection
      */
     protected function getVirtualAttributes($model, $columns)
     {
@@ -190,8 +189,8 @@ class ShowModelCommand extends DatabaseInspectionCommand
     /**
      * Get the relations from the given model.
      *
-     * @param Model $model
-     * @return Collection
+     * @param  \Illuminate\Database\Eloquent\Model  $model
+     * @return \Illuminate\Support\Collection
      */
     protected function getRelations($model)
     {
@@ -234,8 +233,8 @@ class ShowModelCommand extends DatabaseInspectionCommand
     /**
      * Get the Observers watching this model.
      *
-     * @param Model $model
-     * @return Collection
+     * @param  \Illuminate\Database\Eloquent\Model  $model
+     * @return \Illuminate\Support\Collection
      */
     protected function getObservers($model)
     {
@@ -272,9 +271,9 @@ class ShowModelCommand extends DatabaseInspectionCommand
      * @param  string  $database
      * @param  string  $table
      * @param  string  $policy
-     * @param  Collection  $attributes
-     * @param  Collection  $relations
-     * @param  Collection  $observers
+     * @param  \Illuminate\Support\Collection  $attributes
+     * @param  \Illuminate\Support\Collection  $relations
+     * @param  \Illuminate\Support\Collection  $observers
      * @return void
      */
     protected function display($class, $database, $table, $policy, $attributes, $relations, $observers)
@@ -291,9 +290,9 @@ class ShowModelCommand extends DatabaseInspectionCommand
      * @param  string  $database
      * @param  string  $table
      * @param  string  $policy
-     * @param  Collection  $attributes
-     * @param  Collection  $relations
-     * @param  Collection  $observers
+     * @param  \Illuminate\Support\Collection  $attributes
+     * @param  \Illuminate\Support\Collection  $relations
+     * @param  \Illuminate\Support\Collection  $observers
      * @return void
      */
     protected function displayJson($class, $database, $table, $policy, $attributes, $relations, $observers)
@@ -318,9 +317,9 @@ class ShowModelCommand extends DatabaseInspectionCommand
      * @param  string  $database
      * @param  string  $table
      * @param  string  $policy
-     * @param  Collection  $attributes
-     * @param  Collection  $relations
-     * @param  Collection  $observers
+     * @param  \Illuminate\Support\Collection  $attributes
+     * @param  \Illuminate\Support\Collection  $relations
+     * @param  \Illuminate\Support\Collection  $observers
      * @return void
      */
     protected function displayCli($class, $database, $table, $policy, $attributes, $relations, $observers)
@@ -398,7 +397,7 @@ class ShowModelCommand extends DatabaseInspectionCommand
      * Get the cast type for the given column.
      *
      * @param  string  $column
-     * @param Model $model
+     * @param  \Illuminate\Database\Eloquent\Model  $model
      * @return string|null
      */
     protected function getCastType($column, $model)
@@ -417,8 +416,8 @@ class ShowModelCommand extends DatabaseInspectionCommand
     /**
      * Get the model casts, including any date casts.
      *
-     * @param Model $model
-     * @return Collection
+     * @param  \Illuminate\Database\Eloquent\Model  $model
+     * @return \Illuminate\Support\Collection
      */
     protected function getCastsWithDates($model)
     {
@@ -432,7 +431,7 @@ class ShowModelCommand extends DatabaseInspectionCommand
     /**
      * Get the type of the given column.
      *
-     * @param Column $column
+     * @param  \Doctrine\DBAL\Schema\Column  $column
      * @return string
      */
     protected function getColumnType($column)
@@ -456,8 +455,8 @@ class ShowModelCommand extends DatabaseInspectionCommand
     /**
      * Get the default value for the given column.
      *
-     * @param Column $column
-     * @param Model $model
+     * @param  \Doctrine\DBAL\Schema\Column  $column
+     * @param  \Illuminate\Database\Eloquent\Model  $model
      * @return mixed|null
      */
     protected function getColumnDefault($column, $model)
@@ -475,7 +474,7 @@ class ShowModelCommand extends DatabaseInspectionCommand
      * Determine if the given attribute is hidden.
      *
      * @param  string  $attribute
-     * @param Model $model
+     * @param  \Illuminate\Database\Eloquent\Model  $model
      * @return bool
      */
     protected function attributeIsHidden($attribute, $model)
@@ -495,7 +494,7 @@ class ShowModelCommand extends DatabaseInspectionCommand
      * Determine if the given attribute is unique.
      *
      * @param  string  $column
-     * @param Index[] $indexes
+     * @param  \Doctrine\DBAL\Schema\Index[]  $indexes
      * @return bool
      */
     protected function columnIsUnique($column, $indexes)

@@ -2,7 +2,6 @@
 
 namespace Illuminate\Http;
 
-use BadMethodCallException;
 use Illuminate\Contracts\Support\MessageProvider;
 use Illuminate\Session\Store as SessionStore;
 use Illuminate\Support\MessageBag;
@@ -22,14 +21,14 @@ class RedirectResponse extends BaseRedirectResponse
     /**
      * The request instance.
      *
-     * @var Request
+     * @var \Illuminate\Http\Request
      */
     protected $request;
 
     /**
      * The session store instance.
      *
-     * @var SessionStore
+     * @var \Illuminate\Session\Store
      */
     protected $session;
 
@@ -125,7 +124,7 @@ class RedirectResponse extends BaseRedirectResponse
     /**
      * Flash a container of errors to the session.
      *
-     * @param MessageProvider|array|string  $provider
+     * @param  \Illuminate\Contracts\Support\MessageProvider|array|string  $provider
      * @param  string  $key
      * @return $this
      */
@@ -149,8 +148,8 @@ class RedirectResponse extends BaseRedirectResponse
     /**
      * Parse the given errors into an appropriate value.
      *
-     * @param MessageProvider|array|string  $provider
-     * @return MessageBag
+     * @param  \Illuminate\Contracts\Support\MessageProvider|array|string  $provider
+     * @return \Illuminate\Support\MessageBag
      */
     protected function parseErrors($provider)
     {
@@ -196,7 +195,7 @@ class RedirectResponse extends BaseRedirectResponse
     /**
      * Get the request instance.
      *
-     * @return Request|null
+     * @return \Illuminate\Http\Request|null
      */
     public function getRequest()
     {
@@ -206,7 +205,7 @@ class RedirectResponse extends BaseRedirectResponse
     /**
      * Set the request instance.
      *
-     * @param Request $request
+     * @param  \Illuminate\Http\Request  $request
      * @return void
      */
     public function setRequest(Request $request)
@@ -217,7 +216,7 @@ class RedirectResponse extends BaseRedirectResponse
     /**
      * Get the session store instance.
      *
-     * @return SessionStore|null
+     * @return \Illuminate\Session\Store|null
      */
     public function getSession()
     {
@@ -227,7 +226,7 @@ class RedirectResponse extends BaseRedirectResponse
     /**
      * Set the session store instance.
      *
-     * @param SessionStore $session
+     * @param  \Illuminate\Session\Store  $session
      * @return void
      */
     public function setSession(SessionStore $session)
@@ -242,7 +241,7 @@ class RedirectResponse extends BaseRedirectResponse
      * @param  array  $parameters
      * @return mixed
      *
-     * @throws BadMethodCallException
+     * @throws \BadMethodCallException
      */
     public function __call($method, $parameters)
     {

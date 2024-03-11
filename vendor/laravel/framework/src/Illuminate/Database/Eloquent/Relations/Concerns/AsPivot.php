@@ -2,7 +2,6 @@
 
 namespace Illuminate\Database\Eloquent\Relations\Concerns;
 
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
@@ -11,7 +10,7 @@ trait AsPivot
     /**
      * The parent model of the relationship.
      *
-     * @var Model
+     * @var \Illuminate\Database\Eloquent\Model
      */
     public $pivotParent;
 
@@ -32,7 +31,7 @@ trait AsPivot
     /**
      * Create a new pivot model instance.
      *
-     * @param Model $parent
+     * @param  \Illuminate\Database\Eloquent\Model  $parent
      * @param  array  $attributes
      * @param  string  $table
      * @param  bool  $exists
@@ -65,7 +64,7 @@ trait AsPivot
     /**
      * Create a new pivot model from raw values returned from a query.
      *
-     * @param Model $parent
+     * @param  \Illuminate\Database\Eloquent\Model  $parent
      * @param  array  $attributes
      * @param  string  $table
      * @param  bool  $exists
@@ -87,8 +86,8 @@ trait AsPivot
     /**
      * Set the keys for a select query.
      *
-     * @param  Builder  $query
-     * @return Builder
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return \Illuminate\Database\Eloquent\Builder
      */
     protected function setKeysForSelectQuery($query)
     {
@@ -108,8 +107,8 @@ trait AsPivot
     /**
      * Set the keys for a save update query.
      *
-     * @param  Builder  $query
-     * @return Builder
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return \Illuminate\Database\Eloquent\Builder
      */
     protected function setKeysForSaveQuery($query)
     {
@@ -143,7 +142,7 @@ trait AsPivot
     /**
      * Get the query builder for a delete operation on the pivot.
      *
-     * @return Builder
+     * @return \Illuminate\Database\Eloquent\Builder
      */
     protected function getDeleteQuery()
     {
@@ -272,7 +271,7 @@ trait AsPivot
      * Get a new query to restore one or more models by their queueable IDs.
      *
      * @param  int[]|string[]|string  $ids
-     * @return Builder
+     * @return \Illuminate\Database\Eloquent\Builder
      */
     public function newQueryForRestoration($ids)
     {
@@ -295,7 +294,7 @@ trait AsPivot
      * Get a new query to restore multiple models by their queueable IDs.
      *
      * @param  int[]|string[]  $ids
-     * @return Builder
+     * @return \Illuminate\Database\Eloquent\Builder
      */
     protected function newQueryForCollectionRestoration(array $ids)
     {

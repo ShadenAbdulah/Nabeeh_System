@@ -6,10 +6,6 @@ use Illuminate\Contracts\Bus\Dispatcher as Bus;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Contracts\Notifications\Dispatcher as DispatcherContract;
 use Illuminate\Contracts\Notifications\Factory as FactoryContract;
-use Illuminate\Notifications\Channels\BroadcastChannel;
-use Illuminate\Notifications\Channels\DatabaseChannel;
-use Illuminate\Notifications\Channels\MailChannel;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Manager;
 use InvalidArgumentException;
 
@@ -32,7 +28,7 @@ class ChannelManager extends Manager implements DispatcherContract, FactoryContr
     /**
      * Send the given notification to the given notifiable entities.
      *
-     * @param  Collection|array|mixed  $notifiables
+     * @param  \Illuminate\Support\Collection|array|mixed  $notifiables
      * @param  mixed  $notification
      * @return void
      */
@@ -46,7 +42,7 @@ class ChannelManager extends Manager implements DispatcherContract, FactoryContr
     /**
      * Send the given notification immediately.
      *
-     * @param  Collection|array|mixed  $notifiables
+     * @param  \Illuminate\Support\Collection|array|mixed  $notifiables
      * @param  mixed  $notification
      * @param  array|null  $channels
      * @return void
@@ -72,7 +68,7 @@ class ChannelManager extends Manager implements DispatcherContract, FactoryContr
     /**
      * Create an instance of the database driver.
      *
-     * @return DatabaseChannel
+     * @return \Illuminate\Notifications\Channels\DatabaseChannel
      */
     protected function createDatabaseDriver()
     {
@@ -82,7 +78,7 @@ class ChannelManager extends Manager implements DispatcherContract, FactoryContr
     /**
      * Create an instance of the broadcast driver.
      *
-     * @return BroadcastChannel
+     * @return \Illuminate\Notifications\Channels\BroadcastChannel
      */
     protected function createBroadcastDriver()
     {
@@ -92,7 +88,7 @@ class ChannelManager extends Manager implements DispatcherContract, FactoryContr
     /**
      * Create an instance of the mail driver.
      *
-     * @return MailChannel
+     * @return \Illuminate\Notifications\Channels\MailChannel
      */
     protected function createMailDriver()
     {
@@ -105,7 +101,7 @@ class ChannelManager extends Manager implements DispatcherContract, FactoryContr
      * @param  string  $driver
      * @return mixed
      *
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     protected function createDriver($driver)
     {

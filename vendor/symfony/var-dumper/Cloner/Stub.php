@@ -11,12 +11,8 @@
 
 namespace Symfony\Component\VarDumper\Cloner;
 
-<<<<<<< HEAD
-use ReflectionClass;
 use Symfony\Component\VarDumper\Cloner\Internal\NoDefault;
 
-=======
->>>>>>> parent of c8b1139b (update Ui)
 /**
  * Represents the main properties of a PHP variable.
  *
@@ -56,20 +52,20 @@ class Stub
         $properties = [];
 
         if (!isset(self::$defaultProperties[$c = static::class])) {
-<<<<<<< HEAD
-            $reflection = new ReflectionClass($c);
+            $reflection = new \ReflectionClass($c);
             self::$defaultProperties[$c] = [];
-=======
-            self::$defaultProperties[$c] = get_class_vars($c);
->>>>>>> parent of c8b1139b (update Ui)
 
-            foreach ((new \ReflectionClass($c))->getStaticProperties() as $k => $v) {
-                unset(self::$defaultProperties[$c][$k]);
+            foreach ($reflection->getProperties() as $p) {
+                if ($p->isStatic()) {
+                    continue;
+                }
+
+                self::$defaultProperties[$c][$p->name] = $p->hasDefaultValue() ? $p->getDefaultValue() : ($p->hasType() ? NoDefault::NoDefault : null);
             }
         }
 
         foreach (self::$defaultProperties[$c] as $k => $v) {
-            if ($this->$k !== $v) {
+            if (NoDefault::NoDefault === $v || $this->$k !== $v) {
                 $properties[] = $k;
             }
         }

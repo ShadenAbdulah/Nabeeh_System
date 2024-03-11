@@ -11,7 +11,6 @@
 
 namespace Symfony\Component\Routing\Matcher;
 
-use LogicException;
 use Symfony\Component\ExpressionLanguage\ExpressionFunctionProviderInterface;
 use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,12 +20,6 @@ use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use Symfony\Component\Routing\RequestContext;
 use Symfony\Component\Routing\Route;
 use Symfony\Component\Routing\RouteCollection;
-use TypeError;
-use function count;
-use function func_num_args;
-use function in_array;
-use function is_array;
-use function is_int;
 
 /**
  * UrlMatcher matches URL based on a set of routes.
@@ -94,7 +87,7 @@ class UrlMatcher implements UrlMatcherInterface, RequestMatcherInterface
             throw new NoConfigurationException();
         }
 
-        throw 0 < count($this->allow) ? new MethodNotAllowedException(array_unique($this->allow)) : new ResourceNotFoundException(sprintf('No routes found for "%s".', $pathinfo));
+        throw 0 < \count($this->allow) ? new MethodNotAllowedException(array_unique($this->allow)) : new ResourceNotFoundException(sprintf('No routes found for "%s".', $pathinfo));
     }
 
     public function matchRequest(Request $request): array
@@ -155,7 +148,7 @@ class UrlMatcher implements UrlMatcherInterface, RequestMatcherInterface
 
             $hasTrailingVar = $trimmedPathinfo !== $pathinfo && preg_match('#\{[\w\x80-\xFF]+\}/?$#', $route->getPath());
 
-            if ($hasTrailingVar && ($hasTrailingSlash || (null === $m = $matches[count($compiledRoute->getPathVariables())] ?? null) || '/' !== ($m[-1] ?? '/')) && preg_match($regex, $trimmedPathinfo, $m)) {
+            if ($hasTrailingVar && ($hasTrailingSlash || (null === $m = $matches[\count($compiledRoute->getPathVariables())] ?? null) || '/' !== ($m[-1] ?? '/')) && preg_match($regex, $trimmedPathinfo, $m)) {
                 if ($hasTrailingSlash) {
                     $matches = $m;
                 } else {
@@ -177,7 +170,7 @@ class UrlMatcher implements UrlMatcherInterface, RequestMatcherInterface
             }
 
             if ('/' !== $pathinfo && !$hasTrailingVar && $hasTrailingSlash === ($trimmedPathinfo === $pathinfo)) {
-                if ($supportsTrailingSlash && (!$requiredMethods || in_array('GET', $requiredMethods))) {
+                if ($supportsTrailingSlash && (!$requiredMethods || \in_array('GET', $requiredMethods))) {
                     return $this->allow = $this->allowSchemes = [];
                 }
                 continue;
@@ -188,7 +181,7 @@ class UrlMatcher implements UrlMatcherInterface, RequestMatcherInterface
                 continue;
             }
 
-            if ($requiredMethods && !in_array($method, $requiredMethods)) {
+            if ($requiredMethods && !\in_array($method, $requiredMethods)) {
                 $this->allow = array_merge($this->allow, $requiredMethods);
                 continue;
             }
@@ -225,14 +218,14 @@ class UrlMatcher implements UrlMatcherInterface, RequestMatcherInterface
      */
     protected function handleRouteRequirements(string $pathinfo, string $name, Route $route/* , array $routeParameters */): array
     {
-        if (func_num_args() < 4) {
+        if (\func_num_args() < 4) {
             trigger_deprecation('symfony/routing', '6.1', 'The "%s()" method will have a new "array $routeParameters" argument in version 7.0, not defining it is deprecated.', __METHOD__);
             $routeParameters = [];
         } else {
             $routeParameters = func_get_arg(3);
 
-            if (!is_array($routeParameters)) {
-                throw new TypeError(sprintf('"%s": Argument $routeParameters is expected to be an array, got "%s".', __METHOD__, get_debug_type($routeParameters)));
+            if (!\is_array($routeParameters)) {
+                throw new \TypeError(sprintf('"%s": Argument $routeParameters is expected to be an array, got "%s".', __METHOD__, get_debug_type($routeParameters)));
             }
         }
 
@@ -254,7 +247,7 @@ class UrlMatcher implements UrlMatcherInterface, RequestMatcherInterface
     protected function mergeDefaults(array $params, array $defaults): array
     {
         foreach ($params as $key => $value) {
-            if (!is_int($key) && null !== $value) {
+            if (!\is_int($key) && null !== $value) {
                 $defaults[$key] = $value;
             }
         }
@@ -269,7 +262,7 @@ class UrlMatcher implements UrlMatcherInterface, RequestMatcherInterface
     {
         if (!isset($this->expressionLanguage)) {
             if (!class_exists(ExpressionLanguage::class)) {
-                throw new LogicException('Unable to use expressions as the Symfony ExpressionLanguage component is not installed. Try running "composer require symfony/expression-language".');
+                throw new \LogicException('Unable to use expressions as the Symfony ExpressionLanguage component is not installed. Try running "composer require symfony/expression-language".');
             }
             $this->expressionLanguage = new ExpressionLanguage(null, $this->expressionLanguageProviders);
         }

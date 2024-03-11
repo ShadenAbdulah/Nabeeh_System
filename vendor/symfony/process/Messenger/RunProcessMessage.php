@@ -11,12 +11,10 @@
 
 namespace Symfony\Component\Process\Messenger;
 
-use Stringable;
-
 /**
  * @author Kevin Bond <kevinbond@gmail.com>
  */
-class RunProcessMessage implements Stringable
+class RunProcessMessage implements \Stringable
 {
     public function __construct(
         public readonly array $command,

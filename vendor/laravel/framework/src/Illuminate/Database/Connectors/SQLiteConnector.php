@@ -3,7 +3,6 @@
 namespace Illuminate\Database\Connectors;
 
 use Illuminate\Database\SQLiteDatabaseDoesNotExistException;
-use PDO;
 
 class SQLiteConnector extends Connector implements ConnectorInterface
 {
@@ -11,9 +10,9 @@ class SQLiteConnector extends Connector implements ConnectorInterface
      * Establish a database connection.
      *
      * @param  array  $config
-     * @return PDO
+     * @return \PDO
      *
-     * @throws SQLiteDatabaseDoesNotExistException
+     * @throws \Illuminate\Database\SQLiteDatabaseDoesNotExistException
      */
     public function connect(array $config)
     {

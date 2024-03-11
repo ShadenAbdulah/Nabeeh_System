@@ -10,15 +10,13 @@ declare(strict_types=1);
 namespace Nette\Utils;
 
 
-use ReflectionClass;
-
 /**
  * ReflectionMethod preserving the original class name.
  * @internal
  */
 final class ReflectionMethod extends \ReflectionMethod
 {
-	private ReflectionClass $originalClass;
+	private \ReflectionClass $originalClass;
 
 
 	public function __construct(object|string $objectOrMethod, ?string $method = null)
@@ -27,11 +25,11 @@ final class ReflectionMethod extends \ReflectionMethod
 			[$objectOrMethod, $method] = explode('::', $objectOrMethod, 2);
 		}
 		parent::__construct($objectOrMethod, $method);
-		$this->originalClass = new ReflectionClass($objectOrMethod);
+		$this->originalClass = new \ReflectionClass($objectOrMethod);
 	}
 
 
-	public function getOriginalClass(): ReflectionClass
+	public function getOriginalClass(): \ReflectionClass
 	{
 		return $this->originalClass;
 	}

@@ -156,7 +156,7 @@ class Arr
     /**
      * Determine if the given key exists in the provided array.
      *
-     * @param ArrayAccess|array  $array
+     * @param  \ArrayAccess|array  $array
      * @param  string|int  $key
      * @return bool
      */
@@ -223,6 +223,22 @@ class Arr
         }
 
         return static::first(array_reverse($array, true), $callback, $default);
+    }
+
+    /**
+     * Take the first or last {$limit} items from an array.
+     *
+     * @param  array  $array
+     * @param  int  $limit
+     * @return array
+     */
+    public static function take($array, $limit)
+    {
+        if ($limit < 0) {
+            return array_slice($array, $limit, abs($limit));
+        }
+
+        return array_slice($array, 0, $limit);
     }
 
     /**
@@ -302,7 +318,7 @@ class Arr
     /**
      * Get an item from an array using "dot" notation.
      *
-     * @param ArrayAccess|array  $array
+     * @param  \ArrayAccess|array  $array
      * @param  string|int|null  $key
      * @param  mixed  $default
      * @return mixed
@@ -339,7 +355,7 @@ class Arr
     /**
      * Check if an item or items exist in an array using "dot" notation.
      *
-     * @param ArrayAccess|array  $array
+     * @param  \ArrayAccess|array  $array
      * @param  string|array  $keys
      * @return bool
      */
@@ -373,7 +389,7 @@ class Arr
     /**
      * Determine if any of the keys exist in an array using "dot" notation.
      *
-     * @param ArrayAccess|array  $array
+     * @param  \ArrayAccess|array  $array
      * @param  string|array  $keys
      * @return bool
      */
@@ -489,6 +505,32 @@ class Arr
     public static function only($array, $keys)
     {
         return array_intersect_key($array, array_flip((array) $keys));
+    }
+
+    /**
+     * Select an array of values from an array.
+     *
+     * @param  array  $array
+     * @param  array|string  $keys
+     * @return array
+     */
+    public static function select($array, $keys)
+    {
+        $keys = static::wrap($keys);
+
+        return static::map($array, function ($item) use ($keys) {
+            $result = [];
+
+            foreach ($keys as $key) {
+                if (Arr::accessible($item) && Arr::exists($item, $key)) {
+                    $result[$key] = $item[$key];
+                } elseif (is_object($item) && isset($item->{$key})) {
+                    $result[$key] = $item->{$key};
+                }
+            }
+
+            return $result;
+        });
     }
 
     /**
@@ -647,7 +689,7 @@ class Arr
      * @param  bool  $preserveKeys
      * @return mixed
      *
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     public static function random($array, $number = null, $preserveKeys = false)
     {

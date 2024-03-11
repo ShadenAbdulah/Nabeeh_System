@@ -11,7 +11,6 @@
 
 namespace Symfony\Component\Mime\Test\Constraint;
 
-use LogicException;
 use PHPUnit\Framework\Constraint\Constraint;
 use Symfony\Component\Mime\RawMessage;
 
@@ -35,7 +34,7 @@ final class EmailHasHeader extends Constraint
     protected function matches($message): bool
     {
         if (RawMessage::class === $message::class) {
-            throw new LogicException('Unable to test a message header on a RawMessage instance.');
+            throw new \LogicException('Unable to test a message header on a RawMessage instance.');
         }
 
         return $message->getHeaders()->has($this->headerName);

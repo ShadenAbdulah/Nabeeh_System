@@ -14,7 +14,6 @@ namespace Symfony\Component\Routing\Generator;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Routing\Exception\RouteNotFoundException;
 use Symfony\Component\Routing\RequestContext;
-use function in_array;
 
 /**
  * Generates URLs based on rules dumped by CompiledUrlGeneratorDumper.
@@ -24,7 +23,7 @@ class CompiledUrlGenerator extends UrlGenerator
     private array $compiledRoutes = [];
     private ?string $defaultLocale;
 
-    public function __construct(array $compiledRoutes, RequestContext $context, LoggerInterface $logger = null, string $defaultLocale = null)
+    public function __construct(array $compiledRoutes, RequestContext $context, ?LoggerInterface $logger = null, ?string $defaultLocale = null)
     {
         $this->compiledRoutes = $compiledRoutes;
         $this->context = $context;
@@ -58,7 +57,7 @@ class CompiledUrlGenerator extends UrlGenerator
         }
 
         if (isset($defaults['_canonical_route']) && isset($defaults['_locale'])) {
-            if (!in_array('_locale', $variables, true)) {
+            if (!\in_array('_locale', $variables, true)) {
                 unset($parameters['_locale']);
             } elseif (!isset($parameters['_locale'])) {
                 $parameters['_locale'] = $defaults['_locale'];

@@ -74,7 +74,7 @@ class JsonResource implements ArrayAccess, JsonSerializable, Responsable, UrlRou
      * Create a new anonymous resource collection.
      *
      * @param  mixed  $resource
-     * @return AnonymousResourceCollection
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public static function collection($resource)
     {
@@ -89,7 +89,7 @@ class JsonResource implements ArrayAccess, JsonSerializable, Responsable, UrlRou
      * Create a new resource collection instance.
      *
      * @param  mixed  $resource
-     * @return AnonymousResourceCollection
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     protected static function newCollection($resource)
     {
@@ -99,7 +99,7 @@ class JsonResource implements ArrayAccess, JsonSerializable, Responsable, UrlRou
     /**
      * Resolve the resource to an array.
      *
-     * @param Request|null  $request
+     * @param  \Illuminate\Http\Request|null  $request
      * @return array
      */
     public function resolve($request = null)
@@ -120,8 +120,8 @@ class JsonResource implements ArrayAccess, JsonSerializable, Responsable, UrlRou
     /**
      * Transform the resource into an array.
      *
-     * @param Request $request
-     * @return array|Arrayable|JsonSerializable
+     * @param  \Illuminate\Http\Request  $request
+     * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
      */
     public function toArray(Request $request)
     {
@@ -140,7 +140,7 @@ class JsonResource implements ArrayAccess, JsonSerializable, Responsable, UrlRou
      * @param  int  $options
      * @return string
      *
-     * @throws JsonEncodingException
+     * @throws \Illuminate\Database\Eloquent\JsonEncodingException
      */
     public function toJson($options = 0)
     {
@@ -156,7 +156,7 @@ class JsonResource implements ArrayAccess, JsonSerializable, Responsable, UrlRou
     /**
      * Get any additional data that should be returned with the resource array.
      *
-     * @param Request $request
+     * @param  \Illuminate\Http\Request  $request
      * @return array
      */
     public function with(Request $request)
@@ -190,8 +190,8 @@ class JsonResource implements ArrayAccess, JsonSerializable, Responsable, UrlRou
     /**
      * Customize the response for a request.
      *
-     * @param Request $request
-     * @param JsonResponse $response
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\JsonResponse  $response
      * @return void
      */
     public function withResponse(Request $request, JsonResponse $response)
@@ -223,8 +223,8 @@ class JsonResource implements ArrayAccess, JsonSerializable, Responsable, UrlRou
     /**
      * Transform the resource into an HTTP response.
      *
-     * @param Request|null  $request
-     * @return JsonResponse
+     * @param  \Illuminate\Http\Request|null  $request
+     * @return \Illuminate\Http\JsonResponse
      */
     public function response($request = null)
     {
@@ -236,8 +236,8 @@ class JsonResource implements ArrayAccess, JsonSerializable, Responsable, UrlRou
     /**
      * Create an HTTP response that represents the object.
      *
-     * @param Request $request
-     * @return JsonResponse
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\JsonResponse
      */
     public function toResponse($request)
     {

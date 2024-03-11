@@ -13,11 +13,9 @@ declare(strict_types=1);
 
 namespace League\CommonMark\Exception;
 
-use Throwable;
-
 /**
  * Marker interface for all exceptions thrown by this library.
  */
-interface CommonMarkException extends Throwable
+interface CommonMarkException extends \Throwable
 {
 }

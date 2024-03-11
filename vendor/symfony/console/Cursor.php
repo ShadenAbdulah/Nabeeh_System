@@ -12,10 +12,6 @@
 namespace Symfony\Component\Console;
 
 use Symfony\Component\Console\Output\OutputInterface;
-use function defined;
-use const DIRECTORY_SEPARATOR;
-use const STDIN;
-use const STDOUT;
 
 /**
  * @author Pierre du Plessis <pdples@gmail.com>
@@ -32,7 +28,7 @@ final class Cursor
     public function __construct(OutputInterface $output, $input = null)
     {
         $this->output = $output;
-        $this->input = $input ?? (defined('STDIN') ? STDIN : fopen('php://input', 'r+'));
+        $this->input = $input ?? (\defined('STDIN') ? \STDIN : fopen('php://input', 'r+'));
     }
 
     /**
@@ -188,7 +184,7 @@ final class Cursor
     {
         static $isTtySupported;
 
-        if (!$isTtySupported ??= '/' === DIRECTORY_SEPARATOR && stream_isatty(STDOUT)) {
+        if (!$isTtySupported ??= '/' === \DIRECTORY_SEPARATOR && stream_isatty(\STDOUT)) {
             return [1, 1];
         }
 

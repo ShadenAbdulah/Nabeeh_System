@@ -17,7 +17,7 @@ class UploadedFile extends SymfonyUploadedFile
     /**
      * Begin creating a new file fake.
      *
-     * @return FileFactory
+     * @return \Illuminate\Http\Testing\FileFactory
      */
     public static function fake()
     {
@@ -101,7 +101,7 @@ class UploadedFile extends SymfonyUploadedFile
      *
      * @return false|string
      *
-     * @throws FileNotFoundException
+     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      */
     public function get()
     {
@@ -125,7 +125,7 @@ class UploadedFile extends SymfonyUploadedFile
     /**
      * Create a new file instance from a base instance.
      *
-     * @param SymfonyUploadedFile $file
+     * @param  \Symfony\Component\HttpFoundation\File\UploadedFile  $file
      * @param  bool  $test
      * @return static
      */

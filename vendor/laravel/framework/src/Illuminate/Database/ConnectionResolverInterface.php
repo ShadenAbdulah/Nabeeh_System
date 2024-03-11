@@ -8,7 +8,7 @@ interface ConnectionResolverInterface
      * Get a database connection instance.
      *
      * @param  string|null  $name
-     * @return ConnectionInterface
+     * @return \Illuminate\Database\ConnectionInterface
      */
     public function connection($name = null);
 

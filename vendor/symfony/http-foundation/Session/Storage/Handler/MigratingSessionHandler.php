@@ -11,10 +11,6 @@
 
 namespace Symfony\Component\HttpFoundation\Session\Storage\Handler;
 
-use SensitiveParameter;
-use SessionHandlerInterface;
-use SessionUpdateTimestampHandlerInterface;
-
 /**
  * Migrating session handler for migrating from one handler to another. It reads
  * from the current handler and writes both the current and new ones.
@@ -24,17 +20,17 @@ use SessionUpdateTimestampHandlerInterface;
  * @author Ross Motley <ross.motley@amara.com>
  * @author Oliver Radwell <oliver.radwell@amara.com>
  */
-class MigratingSessionHandler implements SessionHandlerInterface, SessionUpdateTimestampHandlerInterface
+class MigratingSessionHandler implements \SessionHandlerInterface, \SessionUpdateTimestampHandlerInterface
 {
-    private SessionHandlerInterface&SessionUpdateTimestampHandlerInterface $currentHandler;
-    private SessionHandlerInterface&SessionUpdateTimestampHandlerInterface $writeOnlyHandler;
+    private \SessionHandlerInterface&\SessionUpdateTimestampHandlerInterface $currentHandler;
+    private \SessionHandlerInterface&\SessionUpdateTimestampHandlerInterface $writeOnlyHandler;
 
-    public function __construct(SessionHandlerInterface $currentHandler, SessionHandlerInterface $writeOnlyHandler)
+    public function __construct(\SessionHandlerInterface $currentHandler, \SessionHandlerInterface $writeOnlyHandler)
     {
-        if (!$currentHandler instanceof SessionUpdateTimestampHandlerInterface) {
+        if (!$currentHandler instanceof \SessionUpdateTimestampHandlerInterface) {
             $currentHandler = new StrictSessionHandler($currentHandler);
         }
-        if (!$writeOnlyHandler instanceof SessionUpdateTimestampHandlerInterface) {
+        if (!$writeOnlyHandler instanceof \SessionUpdateTimestampHandlerInterface) {
             $writeOnlyHandler = new StrictSessionHandler($writeOnlyHandler);
         }
 
@@ -50,7 +46,7 @@ class MigratingSessionHandler implements SessionHandlerInterface, SessionUpdateT
         return $result;
     }
 
-    public function destroy(#[SensitiveParameter] string $sessionId): bool
+    public function destroy(#[\SensitiveParameter] string $sessionId): bool
     {
         $result = $this->currentHandler->destroy($sessionId);
         $this->writeOnlyHandler->destroy($sessionId);
@@ -74,13 +70,13 @@ class MigratingSessionHandler implements SessionHandlerInterface, SessionUpdateT
         return $result;
     }
 
-    public function read(#[SensitiveParameter] string $sessionId): string
+    public function read(#[\SensitiveParameter] string $sessionId): string
     {
         // No reading from new handler until switch-over
         return $this->currentHandler->read($sessionId);
     }
 
-    public function write(#[SensitiveParameter] string $sessionId, string $sessionData): bool
+    public function write(#[\SensitiveParameter] string $sessionId, string $sessionData): bool
     {
         $result = $this->currentHandler->write($sessionId, $sessionData);
         $this->writeOnlyHandler->write($sessionId, $sessionData);
@@ -88,13 +84,13 @@ class MigratingSessionHandler implements SessionHandlerInterface, SessionUpdateT
         return $result;
     }
 
-    public function validateId(#[SensitiveParameter] string $sessionId): bool
+    public function validateId(#[\SensitiveParameter] string $sessionId): bool
     {
         // No reading from new handler until switch-over
         return $this->currentHandler->validateId($sessionId);
     }
 
-    public function updateTimestamp(#[SensitiveParameter] string $sessionId, string $sessionData): bool
+    public function updateTimestamp(#[\SensitiveParameter] string $sessionId, string $sessionData): bool
     {
         $result = $this->currentHandler->updateTimestamp($sessionId, $sessionData);
         $this->writeOnlyHandler->updateTimestamp($sessionId, $sessionData);

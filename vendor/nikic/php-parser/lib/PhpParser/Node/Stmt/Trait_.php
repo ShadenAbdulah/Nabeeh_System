@@ -3,7 +3,6 @@
 namespace PhpParser\Node\Stmt;
 
 use PhpParser\Node;
-use function is_string;
 
 class Trait_ extends ClassLike {
     /**
@@ -20,7 +19,7 @@ class Trait_ extends ClassLike {
      */
     public function __construct($name, array $subNodes = [], array $attributes = []) {
         $this->attributes = $attributes;
-        $this->name = is_string($name) ? new Node\Identifier($name) : $name;
+        $this->name = \is_string($name) ? new Node\Identifier($name) : $name;
         $this->stmts = $subNodes['stmts'] ?? [];
         $this->attrGroups = $subNodes['attrGroups'] ?? [];
     }

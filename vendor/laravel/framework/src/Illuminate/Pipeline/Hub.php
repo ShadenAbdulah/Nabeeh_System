@@ -11,7 +11,7 @@ class Hub implements HubContract
     /**
      * The container implementation.
      *
-     * @var Container|null
+     * @var \Illuminate\Contracts\Container\Container|null
      */
     protected $container;
 
@@ -25,7 +25,7 @@ class Hub implements HubContract
     /**
      * Create a new Hub instance.
      *
-     * @param Container|null  $container
+     * @param  \Illuminate\Contracts\Container\Container|null  $container
      * @return void
      */
     public function __construct(Container $container = null)
@@ -36,7 +36,7 @@ class Hub implements HubContract
     /**
      * Define the default named pipeline.
      *
-     * @param Closure $callback
+     * @param  \Closure  $callback
      * @return void
      */
     public function defaults(Closure $callback)
@@ -48,7 +48,7 @@ class Hub implements HubContract
      * Define a new named pipeline.
      *
      * @param  string  $name
-     * @param Closure $callback
+     * @param  \Closure  $callback
      * @return void
      */
     public function pipeline($name, Closure $callback)
@@ -75,7 +75,7 @@ class Hub implements HubContract
     /**
      * Get the container instance used by the hub.
      *
-     * @return Container
+     * @return \Illuminate\Contracts\Container\Container
      */
     public function getContainer()
     {
@@ -85,7 +85,7 @@ class Hub implements HubContract
     /**
      * Set the container instance used by the hub.
      *
-     * @param Container $container
+     * @param  \Illuminate\Contracts\Container\Container  $container
      * @return $this
      */
     public function setContainer(Container $container)

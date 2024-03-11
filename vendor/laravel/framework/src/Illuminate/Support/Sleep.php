@@ -4,9 +4,7 @@ namespace Illuminate\Support;
 
 use Carbon\Carbon;
 use Carbon\CarbonInterval;
-use Closure;
 use DateInterval;
-use DateTimeInterface;
 use Illuminate\Support\Traits\Macroable;
 use PHPUnit\Framework\Assert as PHPUnit;
 use RuntimeException;
@@ -25,7 +23,7 @@ class Sleep
     /**
      * The total duration to sleep.
      *
-     * @var CarbonInterval
+     * @var \Carbon\CarbonInterval
      */
     public $duration;
 
@@ -46,7 +44,7 @@ class Sleep
     /**
      * The sequence of sleep durations encountered while faking.
      *
-     * @var array<int, CarbonInterval>
+     * @var array<int, \Carbon\CarbonInterval>
      */
     protected static $sequence = [];
 
@@ -60,7 +58,7 @@ class Sleep
     /**
      * Create a new class instance.
      *
-     * @param  int|float|DateInterval $duration
+     * @param  int|float|\DateInterval  $duration
      * @return void
      */
     public function __construct($duration)
@@ -71,7 +69,7 @@ class Sleep
     /**
      * Sleep for the given duration.
      *
-     * @param DateInterval|int|float  $duration
+     * @param  \DateInterval|int|float  $duration
      * @return static
      */
     public static function for($duration)
@@ -82,7 +80,7 @@ class Sleep
     /**
      * Sleep until the given timestamp.
      *
-     * @param  DateTimeInterface|int|float|numeric-string  $timestamp
+     * @param  \DateTimeInterface|int|float|numeric-string  $timestamp
      * @return static
      */
     public static function until($timestamp)
@@ -119,7 +117,7 @@ class Sleep
     /**
      * Sleep for the given duration. Replaces any previously defined duration.
      *
-     * @param DateInterval|int|float  $duration
+     * @param  \DateInterval|int|float  $duration
      * @return $this
      */
     protected function duration($duration)
@@ -324,7 +322,7 @@ class Sleep
     /**
      * Assert a given amount of sleeping occurred a specific number of times.
      *
-     * @param  Closure  $expected
+     * @param  \Closure  $expected
      * @param  int  $times
      * @return void
      */
@@ -429,7 +427,7 @@ class Sleep
     /**
      * Only sleep when the given condition is true.
      *
-     * @param  (Closure($this): bool)|bool  $condition
+     * @param  (\Closure($this): bool)|bool  $condition
      * @return $this
      */
     public function when($condition)
@@ -442,7 +440,7 @@ class Sleep
     /**
      * Don't sleep when the given condition is true.
      *
-     * @param  (Closure($this): bool)|bool  $condition
+     * @param  (\Closure($this): bool)|bool  $condition
      * @return $this
      */
     public function unless($condition)

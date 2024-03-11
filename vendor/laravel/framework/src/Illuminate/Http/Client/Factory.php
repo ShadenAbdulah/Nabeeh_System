@@ -9,13 +9,12 @@ use GuzzleHttp\Promise\PromiseInterface;
 use GuzzleHttp\Psr7\Response as Psr7Response;
 use GuzzleHttp\TransferStats;
 use Illuminate\Contracts\Events\Dispatcher;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Illuminate\Support\Traits\Macroable;
 use PHPUnit\Framework\Assert as PHPUnit;
 
 /**
- * @mixin PendingRequest
+ * @mixin \Illuminate\Http\Client\PendingRequest
  */
 class Factory
 {
@@ -26,7 +25,7 @@ class Factory
     /**
      * The event dispatcher implementation.
      *
-     * @var Dispatcher|null
+     * @var \Illuminate\Contracts\Events\Dispatcher|null
      */
     protected $dispatcher;
 
@@ -38,9 +37,16 @@ class Factory
     protected $globalMiddleware = [];
 
     /**
+     * The options to apply to every request.
+     *
+     * @var array
+     */
+    protected $globalOptions = [];
+
+    /**
      * The stub callables that will handle requests.
      *
-     * @var Collection
+     * @var \Illuminate\Support\Collection
      */
     protected $stubCallbacks;
 
@@ -75,7 +81,7 @@ class Factory
     /**
      * Create a new factory instance.
      *
-     * @param Dispatcher|null  $dispatcher
+     * @param  \Illuminate\Contracts\Events\Dispatcher|null  $dispatcher
      * @return void
      */
     public function __construct(Dispatcher $dispatcher = null)
@@ -125,12 +131,25 @@ class Factory
     }
 
     /**
+     * Set the options to apply to every request.
+     *
+     * @param  array  $options
+     * @return $this
+     */
+    public function globalOptions($options)
+    {
+        $this->globalOptions = $options;
+
+        return $this;
+    }
+
+    /**
      * Create a new response instance for use during stubbing.
      *
      * @param  array|string|null  $body
      * @param  int  $status
      * @param  array  $headers
-     * @return PromiseInterface
+     * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public static function response($body = null, $status = 200, $headers = [])
     {
@@ -149,7 +168,7 @@ class Factory
      * Get an invokable object that returns a sequence of responses in order for use during stubbing.
      *
      * @param  array  $responses
-     * @return ResponseSequence
+     * @return \Illuminate\Http\Client\ResponseSequence
      */
     public function sequence(array $responses = [])
     {
@@ -206,7 +225,7 @@ class Factory
      * Register a response sequence for the given URL pattern.
      *
      * @param  string  $url
-     * @return ResponseSequence
+     * @return \Illuminate\Http\Client\ResponseSequence
      */
     public function fakeSequence($url = '*')
     {
@@ -219,7 +238,7 @@ class Factory
      * Stub the given URL using the given callback.
      *
      * @param  string  $url
-     * @param Response|PromiseInterface|callable  $callback
+     * @param  \Illuminate\Http\Client\Response|\GuzzleHttp\Promise\PromiseInterface|callable  $callback
      * @return $this
      */
     public function stubUrl($url, $callback)
@@ -273,8 +292,8 @@ class Factory
     /**
      * Record a request response pair.
      *
-     * @param Request $request
-     * @param Response $response
+     * @param  \Illuminate\Http\Client\Request  $request
+     * @param  \Illuminate\Http\Client\Response  $response
      * @return void
      */
     public function recordRequestResponsePair($request, $response)
@@ -377,7 +396,7 @@ class Factory
      * Get a collection of the request / response pairs matching the given truth test.
      *
      * @param  callable  $callback
-     * @return Collection
+     * @return \Illuminate\Support\Collection
      */
     public function recorded($callback = null)
     {
@@ -397,17 +416,17 @@ class Factory
     /**
      * Create a new pending request instance for this factory.
      *
-     * @return PendingRequest
+     * @return \Illuminate\Http\Client\PendingRequest
      */
     protected function newPendingRequest()
     {
-        return new PendingRequest($this, $this->globalMiddleware);
+        return (new PendingRequest($this, $this->globalMiddleware))->withOptions($this->globalOptions);
     }
 
     /**
      * Get the current event dispatcher implementation.
      *
-     * @return Dispatcher|null
+     * @return \Illuminate\Contracts\Events\Dispatcher|null
      */
     public function getDispatcher()
     {

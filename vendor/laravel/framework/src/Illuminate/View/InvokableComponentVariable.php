@@ -5,7 +5,6 @@ namespace Illuminate\View;
 use ArrayIterator;
 use Closure;
 use Illuminate\Contracts\Support\DeferringDisplayableValue;
-use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Support\Enumerable;
 use IteratorAggregate;
 use Traversable;
@@ -15,14 +14,14 @@ class InvokableComponentVariable implements DeferringDisplayableValue, IteratorA
     /**
      * The callable instance to resolve the variable value.
      *
-     * @var Closure
+     * @var \Closure
      */
     protected $callable;
 
     /**
      * Create a new variable instance.
      *
-     * @param Closure $callable
+     * @param  \Closure  $callable
      * @return void
      */
     public function __construct(Closure $callable)
@@ -33,7 +32,7 @@ class InvokableComponentVariable implements DeferringDisplayableValue, IteratorA
     /**
      * Resolve the displayable value that the class is deferring.
      *
-     * @return Htmlable|string
+     * @return \Illuminate\Contracts\Support\Htmlable|string
      */
     public function resolveDisplayableValue()
     {
@@ -43,7 +42,7 @@ class InvokableComponentVariable implements DeferringDisplayableValue, IteratorA
     /**
      * Get an iterator instance for the variable.
      *
-     * @return ArrayIterator
+     * @return \ArrayIterator
      */
     public function getIterator(): Traversable
     {

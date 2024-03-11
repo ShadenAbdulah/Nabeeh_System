@@ -13,7 +13,6 @@ namespace Symfony\Component\Console\Output;
 
 use Symfony\Component\Console\Exception\InvalidArgumentException;
 use Symfony\Component\Console\Formatter\OutputFormatterInterface;
-use const PHP_EOL;
 
 /**
  * A BufferedOutput that keeps only the last N chars.
@@ -25,7 +24,7 @@ class TrimmedBufferOutput extends Output
     private int $maxLength;
     private string $buffer = '';
 
-    public function __construct(int $maxLength, ?int $verbosity = self::VERBOSITY_NORMAL, bool $decorated = false, OutputFormatterInterface $formatter = null)
+    public function __construct(int $maxLength, ?int $verbosity = self::VERBOSITY_NORMAL, bool $decorated = false, ?OutputFormatterInterface $formatter = null)
     {
         if ($maxLength <= 0) {
             throw new InvalidArgumentException(sprintf('"%s()" expects a strictly positive maxLength. Got %d.', __METHOD__, $maxLength));
@@ -54,7 +53,7 @@ class TrimmedBufferOutput extends Output
         $this->buffer .= $message;
 
         if ($newline) {
-            $this->buffer .= PHP_EOL;
+            $this->buffer .= \PHP_EOL;
         }
 
         $this->buffer = substr($this->buffer, 0 - $this->maxLength);

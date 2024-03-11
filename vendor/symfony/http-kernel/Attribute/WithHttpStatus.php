@@ -11,12 +11,10 @@
 
 namespace Symfony\Component\HttpKernel\Attribute;
 
-use Attribute;
-
 /**
  * @author Dejan Angelov <angelovdejan@protonmail.com>
  */
-#[Attribute(Attribute::TARGET_CLASS)]
+#[\Attribute(\Attribute::TARGET_CLASS)]
 class WithHttpStatus
 {
     /**

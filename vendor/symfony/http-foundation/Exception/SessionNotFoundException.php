@@ -11,9 +11,6 @@
 
 namespace Symfony\Component\HttpFoundation\Exception;
 
-use LogicException;
-use Throwable;
-
 /**
  * Raised when a session does not exist. This happens in the following cases:
  * - the session is not enabled
@@ -21,13 +18,9 @@ use Throwable;
  *
  * @author Jérémy Derussé <jeremy@derusse.com>
  */
-class SessionNotFoundException extends LogicException implements RequestExceptionInterface
+class SessionNotFoundException extends \LogicException implements RequestExceptionInterface
 {
-<<<<<<< HEAD
-    public function __construct(string $message = 'There is currently no session available.', int $code = 0, ?Throwable $previous = null)
-=======
-    public function __construct(string $message = 'There is currently no session available.', int $code = 0, \Throwable $previous = null)
->>>>>>> parent of c8b1139b (update Ui)
+    public function __construct(string $message = 'There is currently no session available.', int $code = 0, ?\Throwable $previous = null)
     {
         parent::__construct($message, $code, $previous);
     }

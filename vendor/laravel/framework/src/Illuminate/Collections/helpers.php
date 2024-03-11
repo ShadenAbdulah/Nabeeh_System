@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 
@@ -11,8 +10,8 @@ if (! function_exists('collect')) {
      * @template TKey of array-key
      * @template TValue
      *
-     * @param  Arrayable<TKey, TValue>|iterable<TKey, TValue>|null  $value
-     * @return Collection<TKey, TValue>
+     * @param  \Illuminate\Contracts\Support\Arrayable<TKey, TValue>|iterable<TKey, TValue>|null  $value
+     * @return \Illuminate\Support\Collection<TKey, TValue>
      */
     function collect($value = [])
     {

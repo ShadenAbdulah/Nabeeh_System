@@ -3,9 +3,6 @@
 namespace Illuminate\Database\Eloquent\Relations;
 
 use Closure;
-use Illuminate\Contracts\Pagination\CursorPaginator;
-use Illuminate\Contracts\Pagination\LengthAwarePaginator;
-use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
@@ -15,7 +12,6 @@ use Illuminate\Database\Eloquent\Relations\Concerns\AsPivot;
 use Illuminate\Database\Eloquent\Relations\Concerns\InteractsWithDictionary;
 use Illuminate\Database\Eloquent\Relations\Concerns\InteractsWithPivotTable;
 use Illuminate\Database\UniqueConstraintViolationException;
-use Illuminate\Support\LazyCollection;
 use Illuminate\Support\Str;
 use InvalidArgumentException;
 
@@ -138,9 +134,9 @@ class BelongsToMany extends Relation
     /**
      * Create a new belongs to many relationship instance.
      *
-     * @param Builder $query
-     * @param Model $parent
-     * @param  string|class-string<Model>  $table
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  \Illuminate\Database\Eloquent\Model  $parent
+     * @param  string|class-string<\Illuminate\Database\Eloquent\Model>  $table
      * @param  string  $foreignPivotKey
      * @param  string  $relatedPivotKey
      * @param  string  $parentKey
@@ -203,7 +199,7 @@ class BelongsToMany extends Relation
     /**
      * Set the join clause for the relation query.
      *
-     * @param Builder|null  $query
+     * @param  \Illuminate\Database\Eloquent\Builder|null  $query
      * @return $this
      */
     protected function performJoin($query = null)
@@ -274,7 +270,7 @@ class BelongsToMany extends Relation
      * Match the eagerly loaded results to their parents.
      *
      * @param  array  $models
-     * @param Collection $results
+     * @param  \Illuminate\Database\Eloquent\Collection  $results
      * @param  string  $relation
      * @return array
      */
@@ -301,7 +297,7 @@ class BelongsToMany extends Relation
     /**
      * Build model dictionary keyed by the relation's foreign key.
      *
-     * @param Collection $results
+     * @param  \Illuminate\Database\Eloquent\Collection  $results
      * @return array
      */
     protected function buildDictionary(Collection $results)
@@ -461,7 +457,7 @@ class BelongsToMany extends Relation
      * @param  mixed  $value
      * @return $this
      *
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     public function withPivotValue($column, $value = null)
     {
@@ -586,7 +582,7 @@ class BelongsToMany extends Relation
      *
      * @param  mixed  $id
      * @param  array  $columns
-     * @return \Illuminate\Support\Collection|Model
+     * @return \Illuminate\Support\Collection|\Illuminate\Database\Eloquent\Model
      */
     public function findOrNew($id, $columns = ['*'])
     {
@@ -602,7 +598,7 @@ class BelongsToMany extends Relation
      *
      * @param  array  $attributes
      * @param  array  $values
-     * @return Model
+     * @return \Illuminate\Database\Eloquent\Model
      */
     public function firstOrNew(array $attributes = [], array $values = [])
     {
@@ -620,7 +616,7 @@ class BelongsToMany extends Relation
      * @param  array  $values
      * @param  array  $joining
      * @param  bool  $touch
-     * @return Model
+     * @return \Illuminate\Database\Eloquent\Model
      */
     public function firstOrCreate(array $attributes = [], array $values = [], array $joining = [], $touch = true)
     {
@@ -646,7 +642,7 @@ class BelongsToMany extends Relation
      * @param  array  $values
      * @param  array  $joining
      * @param  bool  $touch
-     * @return Model
+     * @return \Illuminate\Database\Eloquent\Model
      */
     public function createOrFirst(array $attributes = [], array $values = [], array $joining = [], $touch = true)
     {
@@ -672,7 +668,7 @@ class BelongsToMany extends Relation
      * @param  array  $values
      * @param  array  $joining
      * @param  bool  $touch
-     * @return Model
+     * @return \Illuminate\Database\Eloquent\Model
      */
     public function updateOrCreate(array $attributes, array $values = [], array $joining = [], $touch = true)
     {
@@ -690,7 +686,7 @@ class BelongsToMany extends Relation
      *
      * @param  mixed  $id
      * @param  array  $columns
-     * @return Model|Collection|null
+     * @return \Illuminate\Database\Eloquent\Model|\Illuminate\Database\Eloquent\Collection|null
      */
     public function find($id, $columns = ['*'])
     {
@@ -706,9 +702,9 @@ class BelongsToMany extends Relation
     /**
      * Find multiple related models by their primary keys.
      *
-     * @param Arrayable|array  $ids
+     * @param  \Illuminate\Contracts\Support\Arrayable|array  $ids
      * @param  array  $columns
-     * @return Collection
+     * @return \Illuminate\Database\Eloquent\Collection
      */
     public function findMany($ids, $columns = ['*'])
     {
@@ -728,9 +724,9 @@ class BelongsToMany extends Relation
      *
      * @param  mixed  $id
      * @param  array  $columns
-     * @return Model|Collection
+     * @return \Illuminate\Database\Eloquent\Model|\Illuminate\Database\Eloquent\Collection
      *
-     * @throws ModelNotFoundException<Model>
+     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException<\Illuminate\Database\Eloquent\Model>
      */
     public function findOrFail($id, $columns = ['*'])
     {
@@ -753,9 +749,9 @@ class BelongsToMany extends Relation
      * Find a related model by its primary key or call a callback.
      *
      * @param  mixed  $id
-     * @param Closure|array  $columns
-     * @param Closure|null  $callback
-     * @return Model|Collection|mixed
+     * @param  \Closure|array  $columns
+     * @param  \Closure|null  $callback
+     * @return \Illuminate\Database\Eloquent\Model|\Illuminate\Database\Eloquent\Collection|mixed
      */
     public function findOr($id, $columns = ['*'], Closure $callback = null)
     {
@@ -783,11 +779,11 @@ class BelongsToMany extends Relation
     /**
      * Add a basic where clause to the query, and return the first result.
      *
-     * @param Closure|string|array  $column
+     * @param  \Closure|string|array  $column
      * @param  mixed  $operator
      * @param  mixed  $value
      * @param  string  $boolean
-     * @return Model|static
+     * @return \Illuminate\Database\Eloquent\Model|static
      */
     public function firstWhere($column, $operator = null, $value = null, $boolean = 'and')
     {
@@ -811,9 +807,9 @@ class BelongsToMany extends Relation
      * Execute the query and get the first result or throw an exception.
      *
      * @param  array  $columns
-     * @return Model|static
+     * @return \Illuminate\Database\Eloquent\Model|static
      *
-     * @throws ModelNotFoundException<Model>
+     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException<\Illuminate\Database\Eloquent\Model>
      */
     public function firstOrFail($columns = ['*'])
     {
@@ -827,9 +823,9 @@ class BelongsToMany extends Relation
     /**
      * Execute the query and get the first result or call a callback.
      *
-     * @param Closure|array  $columns
-     * @param Closure|null  $callback
-     * @return Model|static|mixed
+     * @param  \Closure|array  $columns
+     * @param  \Closure|null  $callback
+     * @return \Illuminate\Database\Eloquent\Model|static|mixed
      */
     public function firstOr($columns = ['*'], Closure $callback = null)
     {
@@ -862,7 +858,7 @@ class BelongsToMany extends Relation
      * Execute the query as a "select" statement.
      *
      * @param  array  $columns
-     * @return Collection
+     * @return \Illuminate\Database\Eloquent\Collection
      */
     public function get($columns = ['*'])
     {
@@ -927,7 +923,7 @@ class BelongsToMany extends Relation
      * @param  array  $columns
      * @param  string  $pageName
      * @param  int|null  $page
-     * @return LengthAwarePaginator
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */
     public function paginate($perPage = null, $columns = ['*'], $pageName = 'page', $page = null)
     {
@@ -945,7 +941,7 @@ class BelongsToMany extends Relation
      * @param  array  $columns
      * @param  string  $pageName
      * @param  int|null  $page
-     * @return Paginator
+     * @return \Illuminate\Contracts\Pagination\Paginator
      */
     public function simplePaginate($perPage = null, $columns = ['*'], $pageName = 'page', $page = null)
     {
@@ -963,7 +959,7 @@ class BelongsToMany extends Relation
      * @param  array  $columns
      * @param  string  $cursorName
      * @param  string|null  $cursor
-     * @return CursorPaginator
+     * @return \Illuminate\Contracts\Pagination\CursorPaginator
      */
     public function cursorPaginate($perPage = null, $columns = ['*'], $cursorName = 'cursor', $cursor = null)
     {
@@ -1038,7 +1034,7 @@ class BelongsToMany extends Relation
      * Query lazily, by chunks of the given size.
      *
      * @param  int  $chunkSize
-     * @return LazyCollection
+     * @return \Illuminate\Support\LazyCollection
      */
     public function lazy($chunkSize = 1000)
     {
@@ -1055,7 +1051,7 @@ class BelongsToMany extends Relation
      * @param  int  $chunkSize
      * @param  string|null  $column
      * @param  string|null  $alias
-     * @return LazyCollection
+     * @return \Illuminate\Support\LazyCollection
      */
     public function lazyById($chunkSize = 1000, $column = null, $alias = null)
     {
@@ -1075,7 +1071,7 @@ class BelongsToMany extends Relation
     /**
      * Get a lazy collection for the given query.
      *
-     * @return LazyCollection
+     * @return \Illuminate\Support\LazyCollection
      */
     public function cursor()
     {
@@ -1089,7 +1085,7 @@ class BelongsToMany extends Relation
     /**
      * Prepare the query builder for query execution.
      *
-     * @return Builder
+     * @return \Illuminate\Database\Eloquent\Builder
      */
     protected function prepareQueryBuilder()
     {
@@ -1117,7 +1113,7 @@ class BelongsToMany extends Relation
     /**
      * Get the pivot attributes from a model.
      *
-     * @param Model $model
+     * @param  \Illuminate\Database\Eloquent\Model  $model
      * @return array
      */
     protected function migratePivotAttributes(Model $model)
@@ -1183,6 +1179,10 @@ class BelongsToMany extends Relation
      */
     public function touch()
     {
+        if ($this->related->isIgnoringTouch()) {
+            return;
+        }
+
         $columns = [
             $this->related->getUpdatedAtColumn() => $this->related->freshTimestampString(),
         ];
@@ -1208,10 +1208,10 @@ class BelongsToMany extends Relation
     /**
      * Save a new model and attach it to the parent model.
      *
-     * @param Model $model
+     * @param  \Illuminate\Database\Eloquent\Model  $model
      * @param  array  $pivotAttributes
      * @param  bool  $touch
-     * @return Model
+     * @return \Illuminate\Database\Eloquent\Model
      */
     public function save(Model $model, array $pivotAttributes = [], $touch = true)
     {
@@ -1225,10 +1225,10 @@ class BelongsToMany extends Relation
     /**
      * Save a new model without raising any events and attach it to the parent model.
      *
-     * @param Model $model
+     * @param  \Illuminate\Database\Eloquent\Model  $model
      * @param  array  $pivotAttributes
      * @param  bool  $touch
-     * @return Model
+     * @return \Illuminate\Database\Eloquent\Model
      */
     public function saveQuietly(Model $model, array $pivotAttributes = [], $touch = true)
     {
@@ -1275,7 +1275,7 @@ class BelongsToMany extends Relation
      * @param  array  $attributes
      * @param  array  $joining
      * @param  bool  $touch
-     * @return Model
+     * @return \Illuminate\Database\Eloquent\Model
      */
     public function create(array $attributes = [], array $joining = [], $touch = true)
     {
@@ -1314,10 +1314,10 @@ class BelongsToMany extends Relation
     /**
      * Add the constraints for a relationship query.
      *
-     * @param Builder $query
-     * @param Builder $parentQuery
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  \Illuminate\Database\Eloquent\Builder  $parentQuery
      * @param  array|mixed  $columns
-     * @return Builder
+     * @return \Illuminate\Database\Eloquent\Builder
      */
     public function getRelationExistenceQuery(Builder $query, Builder $parentQuery, $columns = ['*'])
     {
@@ -1333,10 +1333,10 @@ class BelongsToMany extends Relation
     /**
      * Add the constraints for a relationship query on the same table.
      *
-     * @param Builder $query
-     * @param Builder $parentQuery
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  \Illuminate\Database\Eloquent\Builder  $parentQuery
      * @param  array|mixed  $columns
-     * @return Builder
+     * @return \Illuminate\Database\Eloquent\Builder
      */
     public function getRelationExistenceQueryForSelfJoin(Builder $query, Builder $parentQuery, $columns = ['*'])
     {

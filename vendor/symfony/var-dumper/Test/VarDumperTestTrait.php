@@ -13,7 +13,6 @@ namespace Symfony\Component\VarDumper\Test;
 
 use Symfony\Component\VarDumper\Cloner\VarCloner;
 use Symfony\Component\VarDumper\Dumper\CliDumper;
-use function is_string;
 
 /**
  * @author Nicolas Grekas <p@tchwork.com>
@@ -28,7 +27,7 @@ trait VarDumperTestTrait
         'flags' => null,
     ];
 
-    protected function setUpVarDumper(array $casters, int $flags = null): void
+    protected function setUpVarDumper(array $casters, ?int $flags = null): void
     {
         $this->varDumperConfig['casters'] = $casters;
         $this->varDumperConfig['flags'] = $flags;
@@ -53,7 +52,7 @@ trait VarDumperTestTrait
         $this->assertStringMatchesFormat($this->prepareExpectation($expected, $filter), $this->getDump($data, null, $filter), $message);
     }
 
-    protected function getDump(mixed $data, string|int $key = null, int $filter = 0): ?string
+    protected function getDump(mixed $data, string|int|null $key = null, int $filter = 0): ?string
     {
         if (null === $flags = $this->varDumperConfig['flags']) {
             $flags = getenv('DUMP_LIGHT_ARRAY') ? CliDumper::DUMP_LIGHT_ARRAY : 0;
@@ -76,7 +75,7 @@ trait VarDumperTestTrait
 
     private function prepareExpectation(mixed $expected, int $filter): string
     {
-        if (!is_string($expected)) {
+        if (!\is_string($expected)) {
             $expected = $this->getDump($expected, null, $filter);
         }
 

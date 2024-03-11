@@ -4,7 +4,6 @@ namespace Illuminate\Foundation\Console;
 
 use Illuminate\Foundation\Concerns\ResolvesDumpSource;
 use Symfony\Component\Console\Output\ConsoleOutput;
-use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\VarDumper\Caster\ReflectionCaster;
 use Symfony\Component\VarDumper\Cloner\Data;
 use Symfony\Component\VarDumper\Cloner\VarCloner;
@@ -25,7 +24,7 @@ class CliDumper extends BaseCliDumper
     /**
      * The output instance.
      *
-     * @var OutputInterface
+     * @var \Symfony\Component\Console\Output\OutputInterface
      */
     protected $output;
 
@@ -46,7 +45,7 @@ class CliDumper extends BaseCliDumper
     /**
      * Create a new CLI dumper instance.
      *
-     * @param  OutputInterface  $output
+     * @param  \Symfony\Component\Console\Output\OutputInterface  $output
      * @param  string  $basePath
      * @param  string  $compiledViewPath
      * @return void
@@ -79,7 +78,7 @@ class CliDumper extends BaseCliDumper
     /**
      * Dump a variable with its source file / line.
      *
-     * @param Data $data
+     * @param  \Symfony\Component\VarDumper\Cloner\Data  $data
      * @return void
      */
     public function dumpWithSource(Data $data)

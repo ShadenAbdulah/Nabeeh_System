@@ -3,10 +3,7 @@
 namespace Illuminate\Queue;
 
 use Aws\Sqs\SqsClient;
-use DateInterval;
-use DateTimeInterface;
 use Illuminate\Contracts\Queue\ClearableQueue;
-use Illuminate\Contracts\Queue\Job;
 use Illuminate\Contracts\Queue\Queue as QueueContract;
 use Illuminate\Queue\Jobs\SqsJob;
 use Illuminate\Support\Str;
@@ -16,7 +13,7 @@ class SqsQueue extends Queue implements QueueContract, ClearableQueue
     /**
      * The Amazon SQS instance.
      *
-     * @var SqsClient
+     * @var \Aws\Sqs\SqsClient
      */
     protected $sqs;
 
@@ -44,7 +41,7 @@ class SqsQueue extends Queue implements QueueContract, ClearableQueue
     /**
      * Create a new Amazon SQS queue instance.
      *
-     * @param SqsClient $sqs
+     * @param  \Aws\Sqs\SqsClient  $sqs
      * @param  string  $default
      * @param  string  $prefix
      * @param  string  $suffix
@@ -121,7 +118,7 @@ class SqsQueue extends Queue implements QueueContract, ClearableQueue
     /**
      * Push a new job onto the queue after (n) seconds.
      *
-     * @param  DateTimeInterface|DateInterval|int  $delay
+     * @param  \DateTimeInterface|\DateInterval|int  $delay
      * @param  string  $job
      * @param  mixed  $data
      * @param  string|null  $queue
@@ -167,7 +164,7 @@ class SqsQueue extends Queue implements QueueContract, ClearableQueue
      * Pop the next job off of the queue.
      *
      * @param  string|null  $queue
-     * @return Job|null
+     * @return \Illuminate\Contracts\Queue\Job|null
      */
     public function pop($queue = null)
     {
@@ -235,7 +232,7 @@ class SqsQueue extends Queue implements QueueContract, ClearableQueue
     /**
      * Get the underlying SQS instance.
      *
-     * @return SqsClient
+     * @return \Aws\Sqs\SqsClient
      */
     public function getSqs()
     {

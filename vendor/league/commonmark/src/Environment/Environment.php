@@ -43,16 +43,6 @@ use Nette\Schema\Expect;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Psr\EventDispatcher\ListenerProviderInterface;
 use Psr\EventDispatcher\StoppableEventInterface;
-use function assert;
-use function call_user_func;
-use function class_exists;
-use function count;
-use function get_parent_class;
-use function is_a;
-use function is_array;
-use function is_object;
-use function trigger_error;
-use const E_USER_DEPRECATED;
 
 final class Environment implements EnvironmentInterface, EnvironmentBuilderInterface, ListenerProviderInterface
 {
@@ -141,7 +131,7 @@ final class Environment implements EnvironmentInterface, EnvironmentBuilderInter
      */
     public function mergeConfig(array $config): void
     {
-        @trigger_error('Environment::mergeConfig() is deprecated since league/commonmark v2.0 and will be removed in v3.0. Configuration should be set when instantiating the environment instead.', E_USER_DEPRECATED);
+        @\trigger_error('Environment::mergeConfig() is deprecated since league/commonmark v2.0 and will be removed in v3.0. Configuration should be set when instantiating the environment instead.', \E_USER_DEPRECATED);
 
         $this->assertUninitialized('Failed to modify configuration.');
 
@@ -227,7 +217,7 @@ final class Environment implements EnvironmentInterface, EnvironmentBuilderInter
         }
 
         /** @psalm-suppress TypeDoesNotContainType -- Bug: https://github.com/vimeo/psalm/issues/3332 */
-        while (class_exists($parent ??= $nodeClass) && $parent = get_parent_class($parent)) {
+        while (\class_exists($parent ??= $nodeClass) && $parent = \get_parent_class($parent)) {
             if (! isset($this->renderersByClass[$parent])) {
                 continue;
             }
@@ -272,7 +262,7 @@ final class Environment implements EnvironmentInterface, EnvironmentBuilderInter
         $this->getSlugNormalizer();
 
         // Ask all extensions to register their components
-        while (count($this->uninitializedExtensions) > 0) {
+        while (\count($this->uninitializedExtensions) > 0) {
             foreach ($this->uninitializedExtensions as $i => $extension) {
                 $extension->register($this);
                 unset($this->uninitializedExtensions[$i]);
@@ -331,9 +321,9 @@ final class Environment implements EnvironmentInterface, EnvironmentBuilderInter
 
         $this->listenerData->add(new ListenerData($eventClass, $listener), $priority);
 
-        if (is_object($listener)) {
+        if (\is_object($listener)) {
             $this->injectEnvironmentAndConfigurationIfNeeded($listener);
-        } elseif (is_array($listener) && is_object($listener[0])) {
+        } elseif (\is_array($listener) && \is_object($listener[0])) {
             $this->injectEnvironmentAndConfigurationIfNeeded($listener[0]);
         }
 
@@ -374,10 +364,10 @@ final class Environment implements EnvironmentInterface, EnvironmentBuilderInter
     public function getListenersForEvent(object $event): iterable
     {
         foreach ($this->listenerData as $listenerData) {
-            assert($listenerData instanceof ListenerData);
+            \assert($listenerData instanceof ListenerData);
 
             /** @psalm-suppress ArgumentTypeCoercion */
-            if (! is_a($event, $listenerData->getEvent())) {
+            if (! \is_a($event, $listenerData->getEvent())) {
                 continue;
             }
 
@@ -386,7 +376,7 @@ final class Environment implements EnvironmentInterface, EnvironmentBuilderInter
                     $this->initializeExtensions();
                 }
 
-                return call_user_func($listenerData->getListener(), $event);
+                return \call_user_func($listenerData->getListener(), $event);
             };
         }
     }
@@ -407,7 +397,7 @@ final class Environment implements EnvironmentInterface, EnvironmentBuilderInter
     {
         if ($this->slugNormalizer === null) {
             $normalizer = $this->config->get('slug_normalizer/instance');
-            assert($normalizer instanceof TextNormalizerInterface);
+            \assert($normalizer instanceof TextNormalizerInterface);
             $this->injectEnvironmentAndConfigurationIfNeeded($normalizer);
 
             if ($this->config->get('slug_normalizer/unique') !== UniqueSlugNormalizerInterface::DISABLED && ! $normalizer instanceof UniqueSlugNormalizer) {

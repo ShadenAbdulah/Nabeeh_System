@@ -22,7 +22,7 @@ class ComponentTagCompiler
     /**
      * The Blade compiler instance.
      *
-     * @var BladeCompiler
+     * @var \Illuminate\View\Compilers\BladeCompiler
      */
     protected $blade;
 
@@ -52,7 +52,7 @@ class ComponentTagCompiler
      *
      * @param  array  $aliases
      * @param  array  $namespaces
-     * @param BladeCompiler|null  $blade
+     * @param  \Illuminate\View\Compilers\BladeCompiler|null  $blade
      * @return void
      */
     public function __construct(array $aliases = [], array $namespaces = [], ?BladeCompiler $blade = null)
@@ -82,7 +82,7 @@ class ComponentTagCompiler
      * @param  string  $value
      * @return string
      *
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     public function compileTags(string $value)
     {
@@ -99,7 +99,7 @@ class ComponentTagCompiler
      * @param  string  $value
      * @return string
      *
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     protected function compileOpeningTags(string $value)
     {
@@ -163,7 +163,7 @@ class ComponentTagCompiler
      * @param  string  $value
      * @return string
      *
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     protected function compileSelfClosingTags(string $value)
     {
@@ -228,7 +228,7 @@ class ComponentTagCompiler
      * @param  array  $attributes
      * @return string
      *
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     protected function componentString(string $component, array $attributes)
     {
@@ -271,7 +271,7 @@ class ComponentTagCompiler
      * @param  string  $component
      * @return string
      *
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     public function componentClass(string $component)
     {
@@ -316,7 +316,7 @@ class ComponentTagCompiler
     /**
      * Attempt to find an anonymous component using the registered anonymous component paths.
      *
-     * @param Factory $viewFactory
+     * @param  \Illuminate\Contracts\View\Factory  $viewFactory
      * @param  string  $component
      * @return string|null
      */
@@ -351,7 +351,7 @@ class ComponentTagCompiler
     /**
      * Attempt to find an anonymous component using the registered anonymous component namespaces.
      *
-     * @param Factory $viewFactory
+     * @param  \Illuminate\Contracts\View\Factory  $viewFactory
      * @param  string  $component
      * @return string|null
      */

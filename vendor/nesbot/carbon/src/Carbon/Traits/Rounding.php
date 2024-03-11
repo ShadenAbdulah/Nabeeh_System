@@ -13,7 +13,6 @@ namespace Carbon\Traits;
 
 use Carbon\CarbonInterface;
 use Carbon\Exceptions\UnknownUnitException;
-use DateInterval;
 
 /**
  * Trait Rounding.
@@ -168,7 +167,7 @@ trait Rounding
     /**
      * Round the current instance second with given precision if specified.
      *
-     * @param float|int|string|DateInterval|null $precision
+     * @param float|int|string|\DateInterval|null $precision
      * @param string                              $function
      *
      * @return CarbonInterface
@@ -181,7 +180,7 @@ trait Rounding
     /**
      * Round the current instance second with given precision if specified.
      *
-     * @param float|int|string|DateInterval|null $precision
+     * @param float|int|string|\DateInterval|null $precision
      *
      * @return CarbonInterface
      */
@@ -193,7 +192,7 @@ trait Rounding
     /**
      * Ceil the current instance second with given precision if specified.
      *
-     * @param float|int|string|DateInterval|null $precision
+     * @param float|int|string|\DateInterval|null $precision
      *
      * @return CarbonInterface
      */

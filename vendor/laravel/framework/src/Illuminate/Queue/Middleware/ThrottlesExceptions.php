@@ -60,7 +60,7 @@ class ThrottlesExceptions
     /**
      * The rate limiter instance.
      *
-     * @var RateLimiter
+     * @var \Illuminate\Cache\RateLimiter
      */
     protected $limiter;
 

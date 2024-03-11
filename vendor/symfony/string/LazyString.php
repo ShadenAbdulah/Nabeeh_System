@@ -11,36 +11,22 @@
 
 namespace Symfony\Component\String;
 
-use Closure;
-use JsonSerializable;
-use ReflectionFunction;
-use Stringable;
-use Throwable;
-use TypeError;
-use function count;
-use function is_array;
-use function is_callable;
-use function is_object;
-use function is_scalar;
-use function is_string;
-use function strlen;
-
 /**
  * A string whose value is computed lazily by a callback.
  *
  * @author Nicolas Grekas <p@tchwork.com>
  */
-class LazyString implements Stringable, JsonSerializable
+class LazyString implements \Stringable, \JsonSerializable
 {
-    private Closure|string $value;
+    private \Closure|string $value;
 
     /**
      * @param callable|array $callback A callable or a [Closure, method] lazy-callable
      */
     public static function fromCallable(callable|array $callback, mixed ...$arguments): static
     {
-        if (is_array($callback) && !is_callable($callback) && !(($callback[0] ?? null) instanceof Closure || 2 < count($callback))) {
-            throw new TypeError(sprintf('Argument 1 passed to "%s()" must be a callable or a [Closure, method] lazy-callable, "%s" given.', __METHOD__, '['.implode(', ', array_map('get_debug_type', $callback)).']'));
+        if (\is_array($callback) && !\is_callable($callback) && !(($callback[0] ?? null) instanceof \Closure || 2 < \count($callback))) {
+            throw new \TypeError(sprintf('Argument 1 passed to "%s()" must be a callable or a [Closure, method] lazy-callable, "%s" given.', __METHOD__, '['.implode(', ', array_map('get_debug_type', $callback)).']'));
         }
 
         $lazyString = new static();
@@ -48,16 +34,12 @@ class LazyString implements Stringable, JsonSerializable
             static $value;
 
             if (null !== $arguments) {
-                if (!is_callable($callback)) {
+                if (!\is_callable($callback)) {
                     $callback[0] = $callback[0]();
                     $callback[1] ??= '__invoke';
                 }
                 $value = $callback(...$arguments);
-<<<<<<< HEAD
-                $callback = !is_scalar($value) && !$value instanceof Stringable ? self::getPrettyName($callback) : 'callable';
-=======
-                $callback = self::getPrettyName($callback);
->>>>>>> parent of c8b1139b (update Ui)
+                $callback = !\is_scalar($value) && !$value instanceof \Stringable ? self::getPrettyName($callback) : 'callable';
                 $arguments = null;
             }
 
@@ -67,9 +49,9 @@ class LazyString implements Stringable, JsonSerializable
         return $lazyString;
     }
 
-    public static function fromStringable(string|int|float|bool|Stringable $value): static
+    public static function fromStringable(string|int|float|bool|\Stringable $value): static
     {
-        if (is_object($value)) {
+        if (\is_object($value)) {
             return static::fromCallable($value->__toString(...));
         }
 
@@ -84,35 +66,35 @@ class LazyString implements Stringable, JsonSerializable
      */
     final public static function isStringable(mixed $value): bool
     {
-        return is_string($value) || $value instanceof Stringable || is_scalar($value);
+        return \is_string($value) || $value instanceof \Stringable || \is_scalar($value);
     }
 
     /**
      * Casts scalars and stringable objects to strings.
      *
-     * @throws TypeError When the provided value is not stringable
+     * @throws \TypeError When the provided value is not stringable
      */
-    final public static function resolve(Stringable|string|int|float|bool $value): string
+    final public static function resolve(\Stringable|string|int|float|bool $value): string
     {
         return $value;
     }
 
     public function __toString(): string
     {
-        if (is_string($this->value)) {
+        if (\is_string($this->value)) {
             return $this->value;
         }
 
         try {
             return $this->value = ($this->value)();
-        } catch (Throwable $e) {
-            if (TypeError::class === $e::class && __FILE__ === $e->getFile()) {
+        } catch (\Throwable $e) {
+            if (\TypeError::class === $e::class && __FILE__ === $e->getFile()) {
                 $type = explode(', ', $e->getMessage());
-                $type = substr(array_pop($type), 0, -strlen(' returned'));
-                $r = new ReflectionFunction($this->value);
+                $type = substr(array_pop($type), 0, -\strlen(' returned'));
+                $r = new \ReflectionFunction($this->value);
                 $callback = $r->getStaticVariables()['callback'];
 
-                $e = new TypeError(sprintf('Return value of %s() passed to %s::fromCallable() must be of the type string, %s returned.', $callback, static::class, $type));
+                $e = new \TypeError(sprintf('Return value of %s() passed to %s::fromCallable() must be of the type string, %s returned.', $callback, static::class, $type));
             }
 
             throw $e;
@@ -137,15 +119,15 @@ class LazyString implements Stringable, JsonSerializable
 
     private static function getPrettyName(callable $callback): string
     {
-        if (is_string($callback)) {
+        if (\is_string($callback)) {
             return $callback;
         }
 
-        if (is_array($callback)) {
-            $class = is_object($callback[0]) ? get_debug_type($callback[0]) : $callback[0];
+        if (\is_array($callback)) {
+            $class = \is_object($callback[0]) ? get_debug_type($callback[0]) : $callback[0];
             $method = $callback[1];
-        } elseif ($callback instanceof Closure) {
-            $r = new ReflectionFunction($callback);
+        } elseif ($callback instanceof \Closure) {
+            $r = new \ReflectionFunction($callback);
 
             if (str_contains($r->name, '{closure}') || !$class = $r->getClosureCalledClass()) {
                 return $r->name;

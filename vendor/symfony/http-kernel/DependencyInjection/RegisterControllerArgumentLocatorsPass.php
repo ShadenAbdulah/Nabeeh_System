@@ -11,9 +11,6 @@
 
 namespace Symfony\Component\HttpKernel\DependencyInjection;
 
-use ReflectionAttribute;
-use ReflectionMethod;
-use ReflectionParameter;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\DependencyInjection\Attribute\AutowireCallable;
 use Symfony\Component\DependencyInjection\Attribute\Target;
@@ -29,8 +26,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\VarExporter\ProxyHelper;
-use UnitEnum;
-use const JSON_UNESCAPED_UNICODE;
 
 /**
  * Creates the service-locators required by ServiceValueResolver.
@@ -50,6 +45,7 @@ class RegisterControllerArgumentLocatorsPass implements CompilerPassInterface
 
         $parameterBag = $container->getParameterBag();
         $controllers = [];
+        $controllerClasses = [];
 
         $publicAliases = [];
         foreach ($container->getAliases() as $id => $alias) {
@@ -79,10 +75,12 @@ class RegisterControllerArgumentLocatorsPass implements CompilerPassInterface
                 throw new InvalidArgumentException(sprintf('Class "%s" used for service "%s" cannot be found.', $class, $id));
             }
 
+            $controllerClasses[] = $class;
+
             // get regular public methods
             $methods = [];
             $arguments = [];
-            foreach ($r->getMethods(ReflectionMethod::IS_PUBLIC) as $r) {
+            foreach ($r->getMethods(\ReflectionMethod::IS_PUBLIC) as $r) {
                 if ('setContainer' === $r->name) {
                     continue;
                 }
@@ -99,7 +97,7 @@ class RegisterControllerArgumentLocatorsPass implements CompilerPassInterface
                 }
                 foreach (['action', 'argument', 'id'] as $k) {
                     if (!isset($attributes[$k][0])) {
-                        throw new InvalidArgumentException(sprintf('Missing "%s" attribute on tag "controller.service_arguments" %s for service "%s".', $k, json_encode($attributes, JSON_UNESCAPED_UNICODE), $id));
+                        throw new InvalidArgumentException(sprintf('Missing "%s" attribute on tag "controller.service_arguments" %s for service "%s".', $k, json_encode($attributes, \JSON_UNESCAPED_UNICODE), $id));
                     }
                 }
                 if (!isset($methods[$action = strtolower($attributes['action'])])) {
@@ -124,12 +122,12 @@ class RegisterControllerArgumentLocatorsPass implements CompilerPassInterface
             }
 
             foreach ($methods as [$r, $parameters]) {
-                /** @var ReflectionMethod $r */
+                /** @var \ReflectionMethod $r */
 
                 // create a per-method map of argument-names to service/type-references
                 $args = [];
                 foreach ($parameters as $p) {
-                    /** @var ReflectionParameter $p */
+                    /** @var \ReflectionParameter $p */
                     $type = preg_replace('/(^|[(|&])\\\\/', '\1', $target = ltrim(ProxyHelper::exportType($p) ?? '', '?'));
                     $invalidBehavior = ContainerInterface::IGNORE_ON_INVALID_REFERENCE;
                     $autowireAttributes = $autowire ? $emptyAutowireAttributes : [];
@@ -158,9 +156,9 @@ class RegisterControllerArgumentLocatorsPass implements CompilerPassInterface
                         $args[$p->name] = $bindingValue;
 
                         continue;
-                    } elseif (!$autowire || (!($autowireAttributes ??= $p->getAttributes(Autowire::class, ReflectionAttribute::IS_INSTANCEOF)) && (!$type || '\\' !== $target[0]))) {
+                    } elseif (!$autowire || (!($autowireAttributes ??= $p->getAttributes(Autowire::class, \ReflectionAttribute::IS_INSTANCEOF)) && (!$type || '\\' !== $target[0]))) {
                         continue;
-                    } elseif (is_subclass_of($type, UnitEnum::class)) {
+                    } elseif (is_subclass_of($type, \UnitEnum::class)) {
                         // do not attempt to register enum typed arguments if not already present in bindings
                         continue;
                     } elseif (!$p->allowsNull()) {
@@ -232,5 +230,10 @@ class RegisterControllerArgumentLocatorsPass implements CompilerPassInterface
         }
 
         $container->setAlias('argument_resolver.controller_locator', (string) $controllerLocatorRef);
+
+        if ($container->hasDefinition('controller_resolver')) {
+            $container->getDefinition('controller_resolver')
+                ->addMethodCall('allowControllers', [array_unique($controllerClasses)]);
+        }
     }
 }

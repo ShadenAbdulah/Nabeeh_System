@@ -11,13 +11,12 @@
 
 namespace Symfony\Component\Console\Messenger;
 
-use Stringable;
 use Symfony\Component\Console\Exception\RunCommandFailedException;
 
 /**
  * @author Kevin Bond <kevinbond@gmail.com>
  */
-class RunCommandMessage implements Stringable
+class RunCommandMessage implements \Stringable
 {
     /**
      * @param bool $throwOnFailure  If the command has a non-zero exit code, throw {@see RunCommandFailedException}

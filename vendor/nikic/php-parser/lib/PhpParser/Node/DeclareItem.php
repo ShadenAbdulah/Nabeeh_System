@@ -4,7 +4,6 @@ namespace PhpParser\Node;
 
 use PhpParser\Node;
 use PhpParser\NodeAbstract;
-use function is_string;
 
 class DeclareItem extends NodeAbstract {
     /** @var Node\Identifier Key */
@@ -21,7 +20,7 @@ class DeclareItem extends NodeAbstract {
      */
     public function __construct($key, Node\Expr $value, array $attributes = []) {
         $this->attributes = $attributes;
-        $this->key = is_string($key) ? new Node\Identifier($key) : $key;
+        $this->key = \is_string($key) ? new Node\Identifier($key) : $key;
         $this->value = $value;
     }
 

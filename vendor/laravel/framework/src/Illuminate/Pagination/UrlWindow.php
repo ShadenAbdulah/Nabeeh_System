@@ -9,14 +9,14 @@ class UrlWindow
     /**
      * The paginator implementation.
      *
-     * @var PaginatorContract
+     * @var \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */
     protected $paginator;
 
     /**
      * Create a new URL window instance.
      *
-     * @param PaginatorContract $paginator
+     * @param  \Illuminate\Contracts\Pagination\LengthAwarePaginator  $paginator
      * @return void
      */
     public function __construct(PaginatorContract $paginator)
@@ -27,7 +27,7 @@ class UrlWindow
     /**
      * Create a new URL window instance.
      *
-     * @param PaginatorContract $paginator
+     * @param  \Illuminate\Contracts\Pagination\LengthAwarePaginator  $paginator
      * @return array
      */
     public static function make(PaginatorContract $paginator)

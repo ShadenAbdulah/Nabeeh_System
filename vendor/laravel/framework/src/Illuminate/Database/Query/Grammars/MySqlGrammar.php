@@ -3,11 +3,7 @@
 namespace Illuminate\Database\Query\Grammars;
 
 use Illuminate\Database\Query\Builder;
-<<<<<<< HEAD
-use Illuminate\Database\Query\IndexHint;
 use Illuminate\Database\Query\JoinLateralClause;
-=======
->>>>>>> parent of c8b1139b (update Ui)
 use Illuminate\Support\Str;
 
 class MySqlGrammar extends Grammar
@@ -22,7 +18,7 @@ class MySqlGrammar extends Grammar
     /**
      * Add a "where null" clause to the query.
      *
-     * @param Builder $query
+     * @param  \Illuminate\Database\Query\Builder  $query
      * @param  array  $where
      * @return string
      */
@@ -42,7 +38,7 @@ class MySqlGrammar extends Grammar
     /**
      * Add a "where not null" clause to the query.
      *
-     * @param Builder $query
+     * @param  \Illuminate\Database\Query\Builder  $query
      * @param  array  $where
      * @return string
      */
@@ -62,7 +58,7 @@ class MySqlGrammar extends Grammar
     /**
      * Compile a "where fulltext" clause.
      *
-     * @param Builder $query
+     * @param  \Illuminate\Database\Query\Builder  $query
      * @param  array  $where
      * @return string
      */
@@ -86,8 +82,8 @@ class MySqlGrammar extends Grammar
     /**
      * Compile the index hints for the query.
      *
-     * @param Builder $query
-     * @param  IndexHint  $indexHint
+     * @param  \Illuminate\Database\Query\Builder  $query
+     * @param  \Illuminate\Database\Query\IndexHint  $indexHint
      * @return string
      */
     protected function compileIndexHint(Builder $query, $indexHint)
@@ -102,7 +98,7 @@ class MySqlGrammar extends Grammar
     /**
      * Compile an insert ignore statement into SQL.
      *
-     * @param Builder $query
+     * @param  \Illuminate\Database\Query\Builder  $query
      * @param  array  $values
      * @return string
      */
@@ -112,10 +108,9 @@ class MySqlGrammar extends Grammar
     }
 
     /**
-<<<<<<< HEAD
      * Compile an insert ignore statement using a subquery into SQL.
      *
-     * @param Builder $query
+     * @param  \Illuminate\Database\Query\Builder  $query
      * @param  array  $columns
      * @param  string  $sql
      * @return string
@@ -126,8 +121,6 @@ class MySqlGrammar extends Grammar
     }
 
     /**
-=======
->>>>>>> parent of c8b1139b (update Ui)
      * Compile a "JSON contains" statement into SQL.
      *
      * @param  string  $column
@@ -194,7 +187,7 @@ class MySqlGrammar extends Grammar
     /**
      * Compile the lock into SQL.
      *
-     * @param Builder $query
+     * @param  \Illuminate\Database\Query\Builder  $query
      * @param  bool|string  $value
      * @return string
      */
@@ -210,7 +203,7 @@ class MySqlGrammar extends Grammar
     /**
      * Compile an insert statement into SQL.
      *
-     * @param Builder $query
+     * @param  \Illuminate\Database\Query\Builder  $query
      * @param  array  $values
      * @return string
      */
@@ -226,7 +219,7 @@ class MySqlGrammar extends Grammar
     /**
      * Compile the columns for an update statement.
      *
-     * @param Builder $query
+     * @param  \Illuminate\Database\Query\Builder  $query
      * @param  array  $values
      * @return string
      */
@@ -244,7 +237,7 @@ class MySqlGrammar extends Grammar
     /**
      * Compile an "upsert" statement into SQL.
      *
-     * @param Builder $query
+     * @param  \Illuminate\Database\Query\Builder  $query
      * @param  array  $values
      * @param  array  $uniqueBy
      * @param  array  $update
@@ -276,10 +269,9 @@ class MySqlGrammar extends Grammar
     }
 
     /**
-<<<<<<< HEAD
      * Compile a "lateral join" clause.
      *
-     * @param JoinLateralClause $join
+     * @param  \Illuminate\Database\Query\JoinLateralClause  $join
      * @param  string  $expression
      * @return string
      */
@@ -289,8 +281,6 @@ class MySqlGrammar extends Grammar
     }
 
     /**
-=======
->>>>>>> parent of c8b1139b (update Ui)
      * Prepare a JSON column being updated using the JSON_SET function.
      *
      * @param  string  $key
@@ -315,7 +305,7 @@ class MySqlGrammar extends Grammar
     /**
      * Compile an update statement without joins into SQL.
      *
-     * @param Builder $query
+     * @param  \Illuminate\Database\Query\Builder  $query
      * @param  string  $table
      * @param  string  $columns
      * @param  string  $where
@@ -359,7 +349,7 @@ class MySqlGrammar extends Grammar
     /**
      * Compile a delete query that does not use joins.
      *
-     * @param Builder $query
+     * @param  \Illuminate\Database\Query\Builder  $query
      * @param  string  $table
      * @param  string  $where
      * @return string

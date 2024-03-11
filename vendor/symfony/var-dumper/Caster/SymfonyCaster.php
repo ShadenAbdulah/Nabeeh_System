@@ -16,8 +16,6 @@ use Symfony\Component\Uid\Ulid;
 use Symfony\Component\Uid\Uuid;
 use Symfony\Component\VarDumper\Cloner\Stub;
 use Symfony\Component\VarExporter\Internal\LazyObjectState;
-use function array_key_exists;
-use function count;
 
 /**
  * @final
@@ -42,7 +40,7 @@ class SymfonyCaster
 
         foreach (self::REQUEST_GETTERS as $prop => $getter) {
             $key = Caster::PREFIX_PROTECTED.$prop;
-            if (array_key_exists($key, $a) && null === $a[$key]) {
+            if (\array_key_exists($key, $a) && null === $a[$key]) {
                 $clone ??= clone $request;
                 $a[Caster::PREFIX_VIRTUAL.$prop] = $clone->{$getter}();
             }
@@ -69,7 +67,7 @@ class SymfonyCaster
      */
     public static function castHttpClientResponse($response, array $a, Stub $stub, bool $isNested)
     {
-        $stub->cut += count($a);
+        $stub->cut += \count($a);
         $a = [];
 
         foreach ($response->getInfo() as $k => $v) {
@@ -88,7 +86,7 @@ class SymfonyCaster
             return $a;
         }
 
-        $stub->cut += count($a) - 1;
+        $stub->cut += \count($a) - 1;
 
         $instance = $a['realInstance'] ?? null;
 

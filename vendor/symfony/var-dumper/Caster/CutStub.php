@@ -11,11 +11,7 @@
 
 namespace Symfony\Component\VarDumper\Caster;
 
-use Closure;
 use Symfony\Component\VarDumper\Cloner\Stub;
-use function count;
-use function gettype;
-use function strlen;
 
 /**
  * Represents the main properties of a PHP variable, pre-casted by a caster.
@@ -28,12 +24,12 @@ class CutStub extends Stub
     {
         $this->value = $value;
 
-        switch (gettype($value)) {
+        switch (\gettype($value)) {
             case 'object':
                 $this->type = self::TYPE_OBJECT;
                 $this->class = $value::class;
 
-                if ($value instanceof Closure) {
+                if ($value instanceof \Closure) {
                     ReflectionCaster::castClosure($value, [], $this, true, Caster::EXCLUDE_VERBOSE);
                 }
 
@@ -43,7 +39,7 @@ class CutStub extends Stub
             case 'array':
                 $this->type = self::TYPE_ARRAY;
                 $this->class = self::ARRAY_ASSOC;
-                $this->cut = $this->value = count($value);
+                $this->cut = $this->value = \count($value);
                 break;
 
             case 'resource':
@@ -60,7 +56,7 @@ class CutStub extends Stub
             case 'string':
                 $this->type = self::TYPE_STRING;
                 $this->class = preg_match('//u', $value) ? self::STRING_UTF8 : self::STRING_BINARY;
-                $this->cut = self::STRING_BINARY === $this->class ? strlen($value) : mb_strlen($value, 'UTF-8');
+                $this->cut = self::STRING_BINARY === $this->class ? \strlen($value) : mb_strlen($value, 'UTF-8');
                 $this->value = '';
                 break;
         }

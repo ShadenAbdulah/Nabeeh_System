@@ -22,7 +22,6 @@ use League\CommonMark\Util\HtmlElement;
 use League\CommonMark\Xml\XmlNodeRendererInterface;
 use League\Config\ConfigurationAwareInterface;
 use League\Config\ConfigurationInterface;
-use Stringable;
 
 final class FootnoteContainerRenderer implements NodeRendererInterface, XmlNodeRendererInterface, ConfigurationAwareInterface
 {
@@ -35,7 +34,7 @@ final class FootnoteContainerRenderer implements NodeRendererInterface, XmlNodeR
      *
      * @psalm-suppress MoreSpecificImplementedParamType
      */
-    public function render(Node $node, ChildNodeRendererInterface $childRenderer): Stringable
+    public function render(Node $node, ChildNodeRendererInterface $childRenderer): \Stringable
     {
         FootnoteContainer::assertInstanceOf($node);
 

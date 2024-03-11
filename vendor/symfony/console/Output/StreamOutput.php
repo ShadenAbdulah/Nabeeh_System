@@ -13,10 +13,6 @@ namespace Symfony\Component\Console\Output;
 
 use Symfony\Component\Console\Exception\InvalidArgumentException;
 use Symfony\Component\Console\Formatter\OutputFormatterInterface;
-use function in_array;
-use function is_resource;
-use const DIRECTORY_SEPARATOR;
-use const PHP_EOL;
 
 /**
  * StreamOutput writes the output to a given stream.
@@ -44,9 +40,9 @@ class StreamOutput extends Output
      *
      * @throws InvalidArgumentException When first argument is not a real stream
      */
-    public function __construct($stream, int $verbosity = self::VERBOSITY_NORMAL, bool $decorated = null, OutputFormatterInterface $formatter = null)
+    public function __construct($stream, int $verbosity = self::VERBOSITY_NORMAL, ?bool $decorated = null, ?OutputFormatterInterface $formatter = null)
     {
-        if (!is_resource($stream) || 'stream' !== get_resource_type($stream)) {
+        if (!\is_resource($stream) || 'stream' !== get_resource_type($stream)) {
             throw new InvalidArgumentException('The StreamOutput class needs a stream as its first argument.');
         }
 
@@ -73,7 +69,7 @@ class StreamOutput extends Output
     protected function doWrite(string $message, bool $newline)
     {
         if ($newline) {
-            $message .= PHP_EOL;
+            $message .= \PHP_EOL;
         }
 
         @fwrite($this->stream, $message);
@@ -101,14 +97,13 @@ class StreamOutput extends Output
             return false;
         }
 
-<<<<<<< HEAD
         // Detect msysgit/mingw and assume this is a tty because detection
         // does not work correctly, see https://github.com/composer/composer/issues/9690
-        if (!@stream_isatty($this->stream) && !in_array(strtoupper((string) getenv('MSYSTEM')), ['MINGW32', 'MINGW64'], true)) {
+        if (!@stream_isatty($this->stream) && !\in_array(strtoupper((string) getenv('MSYSTEM')), ['MINGW32', 'MINGW64'], true)) {
             return false;
         }
 
-        if ('\\' === DIRECTORY_SEPARATOR && @sapi_windows_vt100_support($this->stream)) {
+        if ('\\' === \DIRECTORY_SEPARATOR && @sapi_windows_vt100_support($this->stream)) {
             return true;
         }
 
@@ -116,19 +111,15 @@ class StreamOutput extends Output
             || false !== getenv('COLORTERM')
             || false !== getenv('ANSICON')
             || 'ON' === getenv('ConEmuANSI')
-=======
-        if (\DIRECTORY_SEPARATOR === '\\'
-            && \function_exists('sapi_windows_vt100_support')
-            && @sapi_windows_vt100_support($this->stream)
->>>>>>> parent of c8b1139b (update Ui)
         ) {
             return true;
         }
 
-        return 'Hyper' === getenv('TERM_PROGRAM')
-            || false !== getenv('ANSICON')
-            || 'ON' === getenv('ConEmuANSI')
-            || str_starts_with((string) getenv('TERM'), 'xterm')
-            || stream_isatty($this->stream);
+        if ('dumb' === $term = (string) getenv('TERM')) {
+            return false;
+        }
+
+        // See https://github.com/chalk/supports-color/blob/d4f413efaf8da045c5ab440ed418ef02dbb28bf1/index.js#L157
+        return preg_match('/^((screen|xterm|vt100|vt220|putty|rxvt|ansi|cygwin|linux).*)|(.*-256(color)?(-bce)?)$/', $term);
     }
 }

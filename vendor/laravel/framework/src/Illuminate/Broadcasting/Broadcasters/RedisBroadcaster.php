@@ -4,7 +4,6 @@ namespace Illuminate\Broadcasting\Broadcasters;
 
 use Illuminate\Broadcasting\BroadcastException;
 use Illuminate\Contracts\Redis\Factory as Redis;
-use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Predis\Connection\ConnectionException;
 use RedisException;
@@ -17,7 +16,7 @@ class RedisBroadcaster extends Broadcaster
     /**
      * The Redis instance.
      *
-     * @var Redis
+     * @var \Illuminate\Contracts\Redis\Factory
      */
     protected $redis;
 
@@ -38,7 +37,7 @@ class RedisBroadcaster extends Broadcaster
     /**
      * Create a new broadcaster instance.
      *
-     * @param Redis $redis
+     * @param  \Illuminate\Contracts\Redis\Factory  $redis
      * @param  string|null  $connection
      * @param  string  $prefix
      * @return void
@@ -53,10 +52,10 @@ class RedisBroadcaster extends Broadcaster
     /**
      * Authenticate the incoming request for a given channel.
      *
-     * @param  Request  $request
+     * @param  \Illuminate\Http\Request  $request
      * @return mixed
      *
-     * @throws AccessDeniedHttpException
+     * @throws \Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException
      */
     public function auth($request)
     {
@@ -78,7 +77,7 @@ class RedisBroadcaster extends Broadcaster
     /**
      * Return the valid authentication response.
      *
-     * @param  Request  $request
+     * @param  \Illuminate\Http\Request  $request
      * @param  mixed  $result
      * @return mixed
      */
@@ -110,7 +109,7 @@ class RedisBroadcaster extends Broadcaster
      * @param  array  $payload
      * @return void
      *
-     * @throws BroadcastException
+     * @throws \Illuminate\Broadcasting\BroadcastException
      */
     public function broadcast(array $channels, $event, array $payload = [])
     {

@@ -45,7 +45,7 @@ class Unique
     /**
      * Ignore the given model during the unique check.
      *
-     * @param Model $model
+     * @param  \Illuminate\Database\Eloquent\Model  $model
      * @param  string|null  $idColumn
      * @return $this
      */

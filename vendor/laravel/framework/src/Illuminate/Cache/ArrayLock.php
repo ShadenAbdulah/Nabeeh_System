@@ -9,14 +9,14 @@ class ArrayLock extends Lock
     /**
      * The parent array cache store.
      *
-     * @var ArrayStore
+     * @var \Illuminate\Cache\ArrayStore
      */
     protected $store;
 
     /**
      * Create a new lock instance.
      *
-     * @param ArrayStore $store
+     * @param  \Illuminate\Cache\ArrayStore  $store
      * @param  string  $name
      * @param  int  $seconds
      * @param  string|null  $owner

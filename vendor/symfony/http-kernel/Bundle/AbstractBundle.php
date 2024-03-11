@@ -11,14 +11,12 @@
 
 namespace Symfony\Component\HttpKernel\Bundle;
 
-use ReflectionObject;
 use Symfony\Component\Config\Definition\Configurator\DefinitionConfigurator;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\ConfigurableExtensionInterface;
 use Symfony\Component\DependencyInjection\Extension\ExtensionInterface;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-use function dirname;
 
 /**
  * A Bundle that provides configuration hooks.
@@ -53,9 +51,9 @@ abstract class AbstractBundle extends Bundle implements ConfigurableExtensionInt
     public function getPath(): string
     {
         if (null === $this->path) {
-            $reflected = new ReflectionObject($this);
+            $reflected = new \ReflectionObject($this);
             // assume the modern directory structure by default
-            $this->path = dirname($reflected->getFileName(), 2);
+            $this->path = \dirname($reflected->getFileName(), 2);
         }
 
         return $this->path;

@@ -9,14 +9,14 @@ class RequestException extends HttpClientException
     /**
      * The response instance.
      *
-     * @var Response
+     * @var \Illuminate\Http\Client\Response
      */
     public $response;
 
     /**
      * Create a new exception instance.
      *
-     * @param Response $response
+     * @param  \Illuminate\Http\Client\Response  $response
      * @return void
      */
     public function __construct(Response $response)
@@ -29,7 +29,7 @@ class RequestException extends HttpClientException
     /**
      * Prepare the exception message.
      *
-     * @param Response $response
+     * @param  \Illuminate\Http\Client\Response  $response
      * @return string
      */
     protected function prepareMessage(Response $response)

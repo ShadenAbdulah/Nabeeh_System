@@ -27,14 +27,14 @@ trait CanBeOneOfMany
     /**
      * The one of many inner join subselect query builder instance.
      *
-     * @var Builder|null
+     * @var \Illuminate\Database\Eloquent\Builder|null
      */
     protected $oneOfManySubQuery;
 
     /**
      * Add constraints for inner join subselect for one of many relationships.
      *
-     * @param Builder $query
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
      * @param  string|null  $column
      * @param  string|null  $aggregate
      * @return void
@@ -51,7 +51,7 @@ trait CanBeOneOfMany
     /**
      * Add join query constraints for one of many relationships.
      *
-     * @param JoinClause $join
+     * @param  \Illuminate\Database\Query\JoinClause  $join
      * @return void
      */
     abstract public function addOneOfManyJoinSubQueryConstraints(JoinClause $join);
@@ -60,11 +60,11 @@ trait CanBeOneOfMany
      * Indicate that the relation is a single result of a larger one-to-many relationship.
      *
      * @param  string|array|null  $column
-     * @param  string|Closure|null  $aggregate
+     * @param  string|\Closure|null  $aggregate
      * @param  string|null  $relation
      * @return $this
      *
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     public function ofMany($column = 'id', $aggregate = 'MAX', $relation = null)
     {
@@ -188,7 +188,7 @@ trait CanBeOneOfMany
      * @param  string|array  $groupBy
      * @param  array<string>|null  $columns
      * @param  string|null  $aggregate
-     * @return Builder
+     * @return \Illuminate\Database\Eloquent\Builder
      */
     protected function newOneOfManySubQuery($groupBy, $columns = null, $aggregate = null)
     {
@@ -222,8 +222,8 @@ trait CanBeOneOfMany
     /**
      * Add the join subquery to the given query on the given column and the relationship's foreign key.
      *
-     * @param Builder $parent
-     * @param Builder $subQuery
+     * @param  \Illuminate\Database\Eloquent\Builder  $parent
+     * @param  \Illuminate\Database\Eloquent\Builder  $subQuery
      * @param  array<string>  $on
      * @return void
      */
@@ -245,7 +245,7 @@ trait CanBeOneOfMany
     /**
      * Merge the relationship query joins to the given query builder.
      *
-     * @param Builder $query
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
      * @return void
      */
     protected function mergeOneOfManyJoinsTo(Builder $query)
@@ -258,7 +258,7 @@ trait CanBeOneOfMany
     /**
      * Get the query builder that will contain the relationship constraints.
      *
-     * @return Builder
+     * @return \Illuminate\Database\Eloquent\Builder
      */
     protected function getRelationQuery()
     {
@@ -270,7 +270,7 @@ trait CanBeOneOfMany
     /**
      * Get the one of many inner join subselect builder instance.
      *
-     * @return Builder|void
+     * @return \Illuminate\Database\Eloquent\Builder|void
      */
     public function getOneOfManySubQuery()
     {

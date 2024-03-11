@@ -11,7 +11,7 @@ class CountInDatabase extends Constraint
     /**
      * The database connection.
      *
-     * @var Connection
+     * @var \Illuminate\Database\Connection
      */
     protected $database;
 
@@ -32,7 +32,7 @@ class CountInDatabase extends Constraint
     /**
      * Create a new constraint instance.
      *
-     * @param Connection $database
+     * @param  \Illuminate\Database\Connection  $database
      * @param  int  $expectedCount
      * @return void
      */

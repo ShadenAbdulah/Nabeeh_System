@@ -2,14 +2,12 @@
 
 namespace Illuminate\Contracts\Database\Eloquent;
 
-use Illuminate\Database\Eloquent\Model;
-
 interface DeviatesCastableAttributes
 {
     /**
      * Increment the attribute.
      *
-     * @param  Model  $model
+     * @param  \Illuminate\Database\Eloquent\Model  $model
      * @param  string  $key
      * @param  mixed  $value
      * @param  array  $attributes
@@ -20,7 +18,7 @@ interface DeviatesCastableAttributes
     /**
      * Decrement the attribute.
      *
-     * @param  Model  $model
+     * @param  \Illuminate\Database\Eloquent\Model  $model
      * @param  string  $key
      * @param  mixed  $value
      * @param  array  $attributes

@@ -11,7 +11,7 @@ class EncryptedStore extends Store
     /**
      * The encrypter instance.
      *
-     * @var EncrypterContract
+     * @var \Illuminate\Contracts\Encryption\Encrypter
      */
     protected $encrypter;
 
@@ -19,8 +19,8 @@ class EncryptedStore extends Store
      * Create a new session instance.
      *
      * @param  string  $name
-     * @param SessionHandlerInterface $handler
-     * @param EncrypterContract $encrypter
+     * @param  \SessionHandlerInterface  $handler
+     * @param  \Illuminate\Contracts\Encryption\Encrypter  $encrypter
      * @param  string|null  $id
      * @param  string  $serialization
      * @return void
@@ -61,7 +61,7 @@ class EncryptedStore extends Store
     /**
      * Get the encrypter instance.
      *
-     * @return EncrypterContract
+     * @return \Illuminate\Contracts\Encryption\Encrypter
      */
     public function getEncrypter()
     {

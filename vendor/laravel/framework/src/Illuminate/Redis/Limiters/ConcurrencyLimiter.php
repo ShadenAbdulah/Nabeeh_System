@@ -3,7 +3,6 @@
 namespace Illuminate\Redis\Limiters;
 
 use Illuminate\Contracts\Redis\LimiterTimeoutException;
-use Illuminate\Redis\Connections\Connection;
 use Illuminate\Support\Sleep;
 use Illuminate\Support\Str;
 use Throwable;
@@ -13,7 +12,7 @@ class ConcurrencyLimiter
     /**
      * The Redis factory implementation.
      *
-     * @var Connection
+     * @var \Illuminate\Redis\Connections\Connection
      */
     protected $redis;
 
@@ -41,7 +40,7 @@ class ConcurrencyLimiter
     /**
      * Create a new concurrency limiter instance.
      *
-     * @param  Connection  $redis
+     * @param  \Illuminate\Redis\Connections\Connection  $redis
      * @param  string  $name
      * @param  int  $maxLocks
      * @param  int  $releaseAfter
@@ -63,8 +62,8 @@ class ConcurrencyLimiter
      * @param  int  $sleep
      * @return mixed
      *
-     * @throws LimiterTimeoutException
-     * @throws Throwable
+     * @throws \Illuminate\Contracts\Redis\LimiterTimeoutException
+     * @throws \Throwable
      */
     public function block($timeout, $callback = null, $sleep = 250)
     {

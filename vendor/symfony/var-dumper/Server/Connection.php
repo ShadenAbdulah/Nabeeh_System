@@ -13,7 +13,6 @@ namespace Symfony\Component\VarDumper\Server;
 
 use Symfony\Component\VarDumper\Cloner\Data;
 use Symfony\Component\VarDumper\Dumper\ContextProvider\ContextProviderInterface;
-use const STREAM_SHUT_RDWR;
 
 /**
  * Forwards serialized Data clones to a server.
@@ -69,7 +68,7 @@ class Connection
                 return true;
             }
             if (!$socketIsFresh) {
-                stream_socket_shutdown($this->socket, STREAM_SHUT_RDWR);
+                stream_socket_shutdown($this->socket, \STREAM_SHUT_RDWR);
                 fclose($this->socket);
                 $this->socket = $this->createSocket();
             }

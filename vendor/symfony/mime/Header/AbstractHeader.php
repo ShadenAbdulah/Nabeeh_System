@@ -12,8 +12,6 @@
 namespace Symfony\Component\Mime\Header;
 
 use Symfony\Component\Mime\Encoder\QpMimeHeaderEncoder;
-use function strlen;
-use const PREG_SPLIT_DELIM_CAPTURE;
 
 /**
  * An abstract base MIME Header.
@@ -113,7 +111,7 @@ abstract class AbstractHeader implements HeaderInterface
                 // ... otherwise it needs encoding
                 // Determine space remaining on line if first line
                 if ($shorten) {
-                    $usedLength = strlen($header->getName().': ');
+                    $usedLength = \strlen($header->getName().': ');
                 } else {
                     $usedLength = 0;
                 }
@@ -149,7 +147,7 @@ abstract class AbstractHeader implements HeaderInterface
                 }
 
                 if (-1 == $usedLength) {
-                    $usedLength = strlen($header->getName().': ') + strlen($value);
+                    $usedLength = \strlen($header->getName().': ') + \strlen($value);
                 }
                 $value .= $this->getTokenAsEncodedWord($token, $usedLength);
             } else {
@@ -205,7 +203,7 @@ abstract class AbstractHeader implements HeaderInterface
         if (null !== $this->lang) {
             $charsetDecl .= '*'.$this->lang;
         }
-        $encodingWrapperLength = strlen('=?'.$charsetDecl.'?'.self::$encoder->getName().'??=');
+        $encodingWrapperLength = \strlen('=?'.$charsetDecl.'?'.self::$encoder->getName().'??=');
 
         if ($firstLineOffset >= 75) {
             // Does this logic need to be here?
@@ -233,13 +231,13 @@ abstract class AbstractHeader implements HeaderInterface
      */
     protected function generateTokenLines(string $token): array
     {
-        return preg_split('~(\r\n)~', $token, -1, PREG_SPLIT_DELIM_CAPTURE);
+        return preg_split('~(\r\n)~', $token, -1, \PREG_SPLIT_DELIM_CAPTURE);
     }
 
     /**
      * Generate a list of all tokens in the final header.
      */
-    protected function toTokens(string $string = null): array
+    protected function toTokens(?string $string = null): array
     {
         $string ??= $this->getBodyAsString();
 
@@ -272,7 +270,7 @@ abstract class AbstractHeader implements HeaderInterface
         foreach ($tokens as $i => $token) {
             // Line longer than specified maximum or token was just a new line
             if (("\r\n" === $token)
-                || ($i > 0 && strlen($currentLine.$token) > $this->lineLength)
+                || ($i > 0 && \strlen($currentLine.$token) > $this->lineLength)
                 && '' !== $currentLine) {
                 $headerLines[] = '';
                 $currentLine = &$headerLines[$lineCount++];

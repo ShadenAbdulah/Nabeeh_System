@@ -54,7 +54,7 @@ class Response implements Arrayable
      *
      * @param  string|null  $message
      * @param  mixed  $code
-     * @return Response
+     * @return \Illuminate\Auth\Access\Response
      */
     public static function allow($message = null, $code = null)
     {
@@ -66,7 +66,7 @@ class Response implements Arrayable
      *
      * @param  string|null  $message
      * @param  mixed  $code
-     * @return Response
+     * @return \Illuminate\Auth\Access\Response
      */
     public static function deny($message = null, $code = null)
     {
@@ -79,7 +79,7 @@ class Response implements Arrayable
      * @param  int  $status
      * @param  string|null  $message
      * @param  mixed  $code
-     * @return Response
+     * @return \Illuminate\Auth\Access\Response
      */
     public static function denyWithStatus($status, $message = null, $code = null)
     {
@@ -91,7 +91,7 @@ class Response implements Arrayable
      *
      * @param  string|null  $message
      * @param  mixed  $code
-     * @return Response
+     * @return \Illuminate\Auth\Access\Response
      */
     public static function denyAsNotFound($message = null, $code = null)
     {
@@ -141,9 +141,9 @@ class Response implements Arrayable
     /**
      * Throw authorization exception if response was denied.
      *
-     * @return Response
+     * @return \Illuminate\Auth\Access\Response
      *
-     * @throws AuthorizationException
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function authorize()
     {

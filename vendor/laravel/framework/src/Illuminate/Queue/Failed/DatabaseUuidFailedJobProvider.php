@@ -4,16 +4,14 @@ namespace Illuminate\Queue\Failed;
 
 use DateTimeInterface;
 use Illuminate\Database\ConnectionResolverInterface;
-use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Facades\Date;
-use Throwable;
 
 class DatabaseUuidFailedJobProvider implements CountableFailedJobProvider, FailedJobProviderInterface, PrunableFailedJobProvider
 {
     /**
      * The connection resolver implementation.
      *
-     * @var ConnectionResolverInterface
+     * @var \Illuminate\Database\ConnectionResolverInterface
      */
     protected $resolver;
 
@@ -34,7 +32,7 @@ class DatabaseUuidFailedJobProvider implements CountableFailedJobProvider, Faile
     /**
      * Create a new database failed job provider.
      *
-     * @param ConnectionResolverInterface $resolver
+     * @param  \Illuminate\Database\ConnectionResolverInterface  $resolver
      * @param  string  $database
      * @param  string  $table
      * @return void
@@ -52,7 +50,7 @@ class DatabaseUuidFailedJobProvider implements CountableFailedJobProvider, Faile
      * @param  string  $connection
      * @param  string  $queue
      * @param  string  $payload
-     * @param  Throwable  $exception
+     * @param  \Throwable  $exception
      * @return string|null
      */
     public function log($connection, $queue, $payload, $exception)
@@ -142,7 +140,7 @@ class DatabaseUuidFailedJobProvider implements CountableFailedJobProvider, Faile
     /**
      * Prune all of the entries older than the given date.
      *
-     * @param DateTimeInterface $before
+     * @param  \DateTimeInterface  $before
      * @return int
      */
     public function prune(DateTimeInterface $before)
@@ -178,7 +176,7 @@ class DatabaseUuidFailedJobProvider implements CountableFailedJobProvider, Faile
     /**
      * Get a new query builder instance for the table.
      *
-     * @return Builder
+     * @return \Illuminate\Database\Query\Builder
      */
     protected function getTable()
     {

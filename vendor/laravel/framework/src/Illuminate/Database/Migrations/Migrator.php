@@ -8,16 +8,13 @@ use Illuminate\Console\View\Components\Error;
 use Illuminate\Console\View\Components\Info;
 use Illuminate\Console\View\Components\Task;
 use Illuminate\Console\View\Components\TwoColumnDetail;
-use Illuminate\Contracts\Database\Events\MigrationEvent;
 use Illuminate\Contracts\Events\Dispatcher;
-use Illuminate\Database\Connection;
 use Illuminate\Database\ConnectionResolverInterface as Resolver;
 use Illuminate\Database\Events\MigrationEnded;
 use Illuminate\Database\Events\MigrationsEnded;
 use Illuminate\Database\Events\MigrationsStarted;
 use Illuminate\Database\Events\MigrationStarted;
 use Illuminate\Database\Events\NoPendingMigrations;
-use Illuminate\Database\Schema\Grammars\Grammar;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
@@ -30,28 +27,28 @@ class Migrator
     /**
      * The event dispatcher instance.
      *
-     * @var Dispatcher
+     * @var \Illuminate\Contracts\Events\Dispatcher
      */
     protected $events;
 
     /**
      * The migration repository implementation.
      *
-     * @var MigrationRepositoryInterface
+     * @var \Illuminate\Database\Migrations\MigrationRepositoryInterface
      */
     protected $repository;
 
     /**
      * The filesystem instance.
      *
-     * @var Filesystem
+     * @var \Illuminate\Filesystem\Filesystem
      */
     protected $files;
 
     /**
      * The connection resolver instance.
      *
-     * @var Resolver
+     * @var \Illuminate\Database\ConnectionResolverInterface
      */
     protected $resolver;
 
@@ -72,24 +69,24 @@ class Migrator
     /**
      * The paths that have already been required.
      *
-     * @var array<string, Migration|null>
+     * @var array<string, \Illuminate\Database\Migrations\Migration|null>
      */
     protected static $requiredPathCache = [];
 
     /**
      * The output interface implementation.
      *
-     * @var OutputInterface
+     * @var \Symfony\Component\Console\Output\OutputInterface
      */
     protected $output;
 
     /**
      * Create a new migrator instance.
      *
-     * @param MigrationRepositoryInterface $repository
-     * @param Resolver $resolver
-     * @param Filesystem $files
-     * @param Dispatcher|null  $dispatcher
+     * @param  \Illuminate\Database\Migrations\MigrationRepositoryInterface  $repository
+     * @param  \Illuminate\Database\ConnectionResolverInterface  $resolver
+     * @param  \Illuminate\Filesystem\Filesystem  $files
+     * @param  \Illuminate\Contracts\Events\Dispatcher|null  $dispatcher
      * @return void
      */
     public function __construct(MigrationRepositoryInterface $repository,
@@ -481,7 +478,7 @@ class Migrator
     /**
      * Run a migration method on the given connection.
      *
-     * @param  Connection  $connection
+     * @param  \Illuminate\Database\Connection  $connection
      * @param  object  $migration
      * @param  string  $method
      * @return void
@@ -659,7 +656,7 @@ class Migrator
      * Resolve the database connection instance.
      *
      * @param  string  $connection
-     * @return Connection
+     * @return \Illuminate\Database\Connection
      */
     public function resolveConnection($connection)
     {
@@ -669,8 +666,8 @@ class Migrator
     /**
      * Get the schema grammar out of a migration connection.
      *
-     * @param  Connection  $connection
-     * @return Grammar
+     * @param  \Illuminate\Database\Connection  $connection
+     * @return \Illuminate\Database\Schema\Grammars\Grammar
      */
     protected function getSchemaGrammar($connection)
     {
@@ -686,7 +683,7 @@ class Migrator
     /**
      * Get the migration repository instance.
      *
-     * @return MigrationRepositoryInterface
+     * @return \Illuminate\Database\Migrations\MigrationRepositoryInterface
      */
     public function getRepository()
     {
@@ -726,7 +723,7 @@ class Migrator
     /**
      * Get the file system instance.
      *
-     * @return Filesystem
+     * @return \Illuminate\Filesystem\Filesystem
      */
     public function getFilesystem()
     {
@@ -736,7 +733,7 @@ class Migrator
     /**
      * Set the output implementation that should be used by the console.
      *
-     * @param OutputInterface $output
+     * @param  \Symfony\Component\Console\Output\OutputInterface  $output
      * @return $this
      */
     public function setOutput(OutputInterface $output)
@@ -769,7 +766,7 @@ class Migrator
     /**
      * Fire the given event for the migration.
      *
-     * @param  MigrationEvent  $event
+     * @param  \Illuminate\Contracts\Database\Events\MigrationEvent  $event
      * @return void
      */
     public function fireMigrationEvent($event)

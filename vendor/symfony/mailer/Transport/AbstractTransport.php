@@ -24,7 +24,6 @@ use Symfony\Component\Mailer\SentMessage;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\Mime\BodyRendererInterface;
 use Symfony\Component\Mime\RawMessage;
-use Throwable;
 
 /**
  * @author Fabien Potencier <fabien@symfony.com>
@@ -36,7 +35,7 @@ abstract class AbstractTransport implements TransportInterface
     private float $rate = 0;
     private float $lastSent = 0;
 
-    public function __construct(EventDispatcherInterface $dispatcher = null, LoggerInterface $logger = null)
+    public function __construct(?EventDispatcherInterface $dispatcher = null, ?LoggerInterface $logger = null)
     {
         $this->dispatcher = $dispatcher;
         $this->logger = $logger ?? new NullLogger();
@@ -59,7 +58,7 @@ abstract class AbstractTransport implements TransportInterface
         return $this;
     }
 
-    public function send(RawMessage $message, Envelope $envelope = null): ?SentMessage
+    public function send(RawMessage $message, ?Envelope $envelope = null): ?SentMessage
     {
         $message = clone $message;
         $envelope = null !== $envelope ? clone $envelope : Envelope::create($message);
@@ -89,7 +88,7 @@ abstract class AbstractTransport implements TransportInterface
 
             try {
                 $this->doSend($sentMessage);
-            } catch (Throwable $error) {
+            } catch (\Throwable $error) {
                 $this->dispatcher->dispatch(new FailedMessageEvent($message, $error));
                 $this->checkThrottling();
 

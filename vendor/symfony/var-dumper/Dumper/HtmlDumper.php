@@ -11,16 +11,8 @@
 
 namespace Symfony\Component\VarDumper\Dumper;
 
-use InvalidArgumentException;
 use Symfony\Component\VarDumper\Cloner\Cursor;
 use Symfony\Component\VarDumper\Cloner\Data;
-use function ini_get;
-use function is_scalar;
-use function is_string;
-use function ord;
-use function strlen;
-use const ENT_QUOTES;
-use const JSON_FORCE_OBJECT;
 
 /**
  * HtmlDumper dumps variables as HTML.
@@ -83,11 +75,11 @@ class HtmlDumper extends CliDumper
     ];
     private array $extraDisplayOptions = [];
 
-    public function __construct($output = null, string $charset = null, int $flags = 0)
+    public function __construct($output = null, ?string $charset = null, int $flags = 0)
     {
         AbstractDumper::__construct($output, $charset, $flags);
         $this->dumpId = 'sf-dump-'.mt_rand();
-        $this->displayOptions['fileLinkFormat'] = ini_get('xdebug.file_link_format') ?: get_cfg_var('xdebug.file_link_format');
+        $this->displayOptions['fileLinkFormat'] = \ini_get('xdebug.file_link_format') ?: get_cfg_var('xdebug.file_link_format');
         $this->styles = static::$themes['dark'] ?? self::$themes['dark'];
     }
 
@@ -106,7 +98,7 @@ class HtmlDumper extends CliDumper
     public function setTheme(string $themeName)
     {
         if (!isset(static::$themes[$themeName])) {
-            throw new InvalidArgumentException(sprintf('Theme "%s" does not exist in class "%s".', $themeName, static::class));
+            throw new \InvalidArgumentException(sprintf('Theme "%s" does not exist in class "%s".', $themeName, static::class));
         }
 
         $this->setStyles(static::$themes[$themeName]);
@@ -168,7 +160,7 @@ class HtmlDumper extends CliDumper
             return $this->dumpHeader;
         }
 
-        $line = str_replace('{$options}', json_encode($this->displayOptions, JSON_FORCE_OBJECT), <<<'EOHTML'
+        $line = str_replace('{$options}', json_encode($this->displayOptions, \JSON_FORCE_OBJECT), <<<'EOHTML'
 <script>
 Sfdump = window.Sfdump || (function (doc) {
 
@@ -872,7 +864,7 @@ EOHTML
         }
 
         if ('const' === $style && isset($attr['value'])) {
-            $style .= sprintf(' title="%s"', esc(is_scalar($attr['value']) ? $attr['value'] : json_encode($attr['value'])));
+            $style .= sprintf(' title="%s"', esc(\is_scalar($attr['value']) ? $attr['value'] : json_encode($attr['value'])));
         } elseif ('public' === $style) {
             $style .= sprintf(' title="%s"', empty($attr['dynamic']) ? 'Public property' : 'Runtime added dynamic property');
         } elseif ('str' === $style && 1 < $attr['length']) {
@@ -880,7 +872,7 @@ EOHTML
         } elseif ('note' === $style && 0 < ($attr['depth'] ?? 0) && false !== $c = strrpos($value, '\\')) {
             $style .= ' title=""';
             $attr += [
-                'ellipsis' => strlen($value) - $c,
+                'ellipsis' => \strlen($value) - $c,
                 'ellipsis-type' => 'note',
                 'ellipsis-tail' => 1,
             ];
@@ -899,10 +891,10 @@ EOHTML
             }
             $label = esc(substr($value, -$attr['ellipsis']));
             $style = str_replace(' title="', " title=\"$v\n", $style);
-            $v = sprintf('<span class=%s>%s</span>', $class, substr($v, 0, -strlen($label)));
+            $v = sprintf('<span class=%s>%s</span>', $class, substr($v, 0, -\strlen($label)));
 
             if (!empty($attr['ellipsis-tail'])) {
-                $tail = strlen(esc(substr($value, -$attr['ellipsis'], $attr['ellipsis-tail'])));
+                $tail = \strlen(esc(substr($value, -$attr['ellipsis'], $attr['ellipsis-tail'])));
                 $v .= sprintf('<span class=%s>%s</span>%s', $class, substr($label, 0, $tail), substr($label, $tail));
             } else {
                 $v .= $label;
@@ -926,7 +918,7 @@ EOHTML
                     $s .= '">';
                 }
 
-                $s .= $map[$c[$i]] ?? sprintf('\x%02X', ord($c[$i]));
+                $s .= $map[$c[$i]] ?? sprintf('\x%02X', \ord($c[$i]));
             } while (isset($c[++$i]));
 
             return $s.'</span>';
@@ -973,7 +965,7 @@ EOHTML
         if (-1 === $depth) {
             $args = ['"'.$this->dumpId.'"'];
             if ($this->extraDisplayOptions) {
-                $args[] = json_encode($this->extraDisplayOptions, JSON_FORCE_OBJECT);
+                $args[] = json_encode($this->extraDisplayOptions, \JSON_FORCE_OBJECT);
             }
             // Replace is for BC
             $this->line .= sprintf(str_replace('"%s"', '%s', $this->dumpSuffix), implode(', ', $args));
@@ -993,7 +985,7 @@ EOHTML
         $options = $this->extraDisplayOptions + $this->displayOptions;
 
         if ($fmt = $options['fileLinkFormat']) {
-            return is_string($fmt) ? strtr($fmt, ['%f' => $file, '%l' => $line]) : $fmt->format($file, $line);
+            return \is_string($fmt) ? strtr($fmt, ['%f' => $file, '%l' => $line]) : $fmt->format($file, $line);
         }
 
         return false;
@@ -1002,5 +994,5 @@ EOHTML
 
 function esc(string $str): string
 {
-    return htmlspecialchars($str, ENT_QUOTES, 'UTF-8');
+    return htmlspecialchars($str, \ENT_QUOTES, 'UTF-8');
 }

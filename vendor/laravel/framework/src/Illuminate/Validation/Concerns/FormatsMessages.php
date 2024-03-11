@@ -5,11 +5,7 @@ namespace Illuminate\Validation\Concerns;
 use Closure;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
-<<<<<<< HEAD
-use Illuminate\Validation\Validator;
 use Symfony\Component\HttpFoundation\File\File;
-=======
->>>>>>> parent of c8b1139b (update Ui)
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 trait FormatsMessages
@@ -223,15 +219,13 @@ trait FormatsMessages
         // We assume that the attributes present in the file array are files so that
         // means that if the attribute does not have a numeric rule and the files
         // list doesn't have it we'll just consider it a string by elimination.
-        if ($this->hasRule($attribute, $this->numericRules)) {
-            return 'numeric';
-        } elseif ($this->hasRule($attribute, ['Array'])) {
-            return 'array';
-        } elseif ($this->getValue($attribute) instanceof UploadedFile) {
-            return 'file';
-        }
-
-        return 'string';
+        return match (true) {
+            $this->hasRule($attribute, $this->numericRules) => 'numeric',
+            $this->hasRule($attribute, ['Array']) => 'array',
+            $this->getValue($attribute) instanceof UploadedFile,
+            $this->getValue($attribute) instanceof File => 'file',
+            default => 'string',
+        };
     }
 
     /**
@@ -364,7 +358,7 @@ trait FormatsMessages
      * @param  string  $message
      * @param  string  $attribute
      * @param  string  $placeholder
-     * @param Closure|null  $modifier
+     * @param  \Closure|null  $modifier
      * @return string
      */
     protected function replaceIndexOrPositionPlaceholder($message, $attribute, $placeholder, Closure $modifier = null)
@@ -495,7 +489,7 @@ trait FormatsMessages
      * @param  string  $attribute
      * @param  string  $rule
      * @param  array  $parameters
-     * @param  Validator  $validator
+     * @param  \Illuminate\Validation\Validator  $validator
      * @return string|null
      */
     protected function callReplacer($message, $attribute, $rule, $parameters, $validator)
@@ -517,7 +511,7 @@ trait FormatsMessages
      * @param  string  $attribute
      * @param  string  $rule
      * @param  array  $parameters
-     * @param  Validator  $validator
+     * @param  \Illuminate\Validation\Validator  $validator
      * @return string
      */
     protected function callClassBasedReplacer($callback, $message, $attribute, $rule, $parameters, $validator)

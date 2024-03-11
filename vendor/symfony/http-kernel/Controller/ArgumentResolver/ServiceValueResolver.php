@@ -12,15 +12,11 @@
 namespace Symfony\Component\HttpKernel\Controller\ArgumentResolver;
 
 use Psr\Container\ContainerInterface;
-use ReflectionProperty;
 use Symfony\Component\DependencyInjection\Exception\RuntimeException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Controller\ArgumentValueResolverInterface;
 use Symfony\Component\HttpKernel\Controller\ValueResolverInterface;
 use Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadata;
-use function is_array;
-use function is_callable;
-use function is_string;
 
 /**
  * Yields a service keyed by _controller and argument name.
@@ -45,9 +41,9 @@ final class ServiceValueResolver implements ArgumentValueResolverInterface, Valu
 
         $controller = $request->attributes->get('_controller');
 
-        if (is_array($controller) && is_callable($controller, true) && is_string($controller[0])) {
+        if (\is_array($controller) && \is_callable($controller, true) && \is_string($controller[0])) {
             $controller = $controller[0].'::'.$controller[1];
-        } elseif (!is_string($controller) || '' === $controller) {
+        } elseif (!\is_string($controller) || '' === $controller) {
             return false;
         }
 
@@ -66,9 +62,9 @@ final class ServiceValueResolver implements ArgumentValueResolverInterface, Valu
     {
         $controller = $request->attributes->get('_controller');
 
-        if (is_array($controller) && is_callable($controller, true) && is_string($controller[0])) {
+        if (\is_array($controller) && \is_callable($controller, true) && \is_string($controller[0])) {
             $controller = $controller[0].'::'.$controller[1];
-        } elseif (!is_string($controller) || '' === $controller) {
+        } elseif (!\is_string($controller) || '' === $controller) {
             return [];
         }
 
@@ -94,7 +90,7 @@ final class ServiceValueResolver implements ArgumentValueResolverInterface, Valu
                 $message = sprintf('Cannot resolve %s: %s', $what, $message);
             }
 
-            $r = new ReflectionProperty($e, 'message');
+            $r = new \ReflectionProperty($e, 'message');
             $r->setValue($e, $message);
 
             throw $e;

@@ -17,14 +17,14 @@ class CommandFinished
     /**
      * The console input implementation.
      *
-     * @var InputInterface|null
+     * @var \Symfony\Component\Console\Input\InputInterface|null
      */
     public $input;
 
     /**
      * The command output implementation.
      *
-     * @var OutputInterface|null
+     * @var \Symfony\Component\Console\Output\OutputInterface|null
      */
     public $output;
 
@@ -39,8 +39,8 @@ class CommandFinished
      * Create a new event instance.
      *
      * @param  string  $command
-     * @param InputInterface $input
-     * @param OutputInterface $output
+     * @param  \Symfony\Component\Console\Input\InputInterface  $input
+     * @param  \Symfony\Component\Console\Output\OutputInterface  $output
      * @param  int  $exitCode
      * @return void
      */

@@ -3,11 +3,9 @@
 namespace Illuminate\Filesystem;
 
 use Aws\S3\S3Client;
-use DateTimeInterface;
 use Illuminate\Support\Traits\Conditionable;
 use League\Flysystem\AwsS3V3\AwsS3V3Adapter as S3Adapter;
 use League\Flysystem\FilesystemOperator;
-use RuntimeException;
 
 class AwsS3V3Adapter extends FilesystemAdapter
 {
@@ -16,17 +14,17 @@ class AwsS3V3Adapter extends FilesystemAdapter
     /**
      * The AWS S3 client.
      *
-     * @var S3Client
+     * @var \Aws\S3\S3Client
      */
     protected $client;
 
     /**
      * Create a new AwsS3V3FilesystemAdapter instance.
      *
-     * @param FilesystemOperator $driver
-     * @param S3Adapter $adapter
+     * @param  \League\Flysystem\FilesystemOperator  $driver
+     * @param  \League\Flysystem\AwsS3V3\AwsS3V3Adapter  $adapter
      * @param  array  $config
-     * @param S3Client $client
+     * @param  \Aws\S3\S3Client  $client
      * @return void
      */
     public function __construct(FilesystemOperator $driver, S3Adapter $adapter, array $config, S3Client $client)
@@ -42,7 +40,7 @@ class AwsS3V3Adapter extends FilesystemAdapter
      * @param  string  $path
      * @return string
      *
-     * @throws RuntimeException
+     * @throws \RuntimeException
      */
     public function url($path)
     {
@@ -72,7 +70,7 @@ class AwsS3V3Adapter extends FilesystemAdapter
      * Get a temporary URL for the file at the given path.
      *
      * @param  string  $path
-     * @param  DateTimeInterface  $expiration
+     * @param  \DateTimeInterface  $expiration
      * @param  array  $options
      * @return string
      */
@@ -101,7 +99,7 @@ class AwsS3V3Adapter extends FilesystemAdapter
      * Get a temporary upload URL for the file at the given path.
      *
      * @param  string  $path
-     * @param  DateTimeInterface  $expiration
+     * @param  \DateTimeInterface  $expiration
      * @param  array  $options
      * @return array
      */
@@ -134,7 +132,7 @@ class AwsS3V3Adapter extends FilesystemAdapter
     /**
      * Get the underlying S3 client.
      *
-     * @return S3Client
+     * @return \Aws\S3\S3Client
      */
     public function getClient()
     {

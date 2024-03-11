@@ -21,7 +21,6 @@ use Carbon\Exceptions\UnknownMethodException;
 use Carbon\Exceptions\UnknownSetterException;
 use Closure;
 use DateInterval;
-use DatePeriod;
 use DateTime;
 use DateTimeImmutable;
 use DateTimeInterface;
@@ -829,7 +828,7 @@ interface CarbonInterface extends DateTimeInterface, JsonSerializable
      * Modify the current instance to the average of a given instance (default now) and the current instance
      * (second-precision).
      *
-     * @param Carbon|DateTimeInterface|null $date
+     * @param \Carbon\Carbon|\DateTimeInterface|null $date
      *
      * @return static
      */
@@ -852,12 +851,7 @@ interface CarbonInterface extends DateTimeInterface, JsonSerializable
      * but for when you including/excluding bounds may produce different results in your application,
      * we recommend to use the explicit methods ->betweenIncluded() or ->betweenExcluded() instead.
      *
-     * @param Carbon|DateTimeInterface|mixed $date1
-     * @param Carbon|DateTimeInterface|mixed $date2
-     * @param bool                                    $equal Indicates if an equal to comparison should be done
-     *
-     * @return bool
-     *@example
+     * @example
      * ```
      * Carbon::parse('2018-07-25')->between('2018-07-14', '2018-08-01'); // true
      * Carbon::parse('2018-07-25')->between('2018-08-01', '2018-08-20'); // false
@@ -865,40 +859,45 @@ interface CarbonInterface extends DateTimeInterface, JsonSerializable
      * Carbon::parse('2018-07-25')->between('2018-07-25', '2018-08-01', false); // false
      * ```
      *
+     * @param \Carbon\Carbon|\DateTimeInterface|mixed $date1
+     * @param \Carbon\Carbon|\DateTimeInterface|mixed $date2
+     * @param bool                                    $equal Indicates if an equal to comparison should be done
+     *
+     * @return bool
      */
     public function between($date1, $date2, $equal = true): bool;
 
     /**
      * Determines if the instance is between two others, bounds excluded.
      *
-     * @param Carbon|DateTimeInterface|mixed $date1
-     * @param Carbon|DateTimeInterface|mixed $date2
-     *
-     * @return bool
-     *@example
+     * @example
      * ```
      * Carbon::parse('2018-07-25')->betweenExcluded('2018-07-14', '2018-08-01'); // true
      * Carbon::parse('2018-07-25')->betweenExcluded('2018-08-01', '2018-08-20'); // false
      * Carbon::parse('2018-07-25')->betweenExcluded('2018-07-25', '2018-08-01'); // false
      * ```
      *
+     * @param \Carbon\Carbon|\DateTimeInterface|mixed $date1
+     * @param \Carbon\Carbon|\DateTimeInterface|mixed $date2
+     *
+     * @return bool
      */
     public function betweenExcluded($date1, $date2): bool;
 
     /**
      * Determines if the instance is between two others, bounds included.
      *
-     * @param Carbon|DateTimeInterface|mixed $date1
-     * @param Carbon|DateTimeInterface|mixed $date2
-     *
-     * @return bool
-     *@example
+     * @example
      * ```
      * Carbon::parse('2018-07-25')->betweenIncluded('2018-07-14', '2018-08-01'); // true
      * Carbon::parse('2018-07-25')->betweenIncluded('2018-08-01', '2018-08-20'); // false
      * Carbon::parse('2018-07-25')->betweenIncluded('2018-07-25', '2018-08-01'); // true
      * ```
      *
+     * @param \Carbon\Carbon|\DateTimeInterface|mixed $date1
+     * @param \Carbon\Carbon|\DateTimeInterface|mixed $date2
+     *
+     * @return bool
      */
     public function betweenIncluded($date1, $date2): bool;
 
@@ -908,7 +907,7 @@ interface CarbonInterface extends DateTimeInterface, JsonSerializable
      *
      * Language, date and time formats will change according to the current locale.
      *
-     * @param Carbon|DateTimeInterface|string|null $referenceTime
+     * @param Carbon|\DateTimeInterface|string|null $referenceTime
      * @param array                                 $formats
      *
      * @return string
@@ -936,7 +935,7 @@ interface CarbonInterface extends DateTimeInterface, JsonSerializable
      * Return the Carbon instance passed through, a now instance in the same timezone
      * if null given or parse the input if string given.
      *
-     * @param Carbon|CarbonPeriod|CarbonInterval|DateInterval|DatePeriod|DateTimeInterface|string|null $date
+     * @param Carbon|\Carbon\CarbonPeriod|\Carbon\CarbonInterval|\DateInterval|\DatePeriod|DateTimeInterface|string|null $date
      *
      * @return static
      */
@@ -954,7 +953,7 @@ interface CarbonInterface extends DateTimeInterface, JsonSerializable
     /**
      * Ceil the current instance second with given precision if specified.
      *
-     * @param float|int|string|DateInterval|null $precision
+     * @param float|int|string|\DateInterval|null $precision
      *
      * @return CarbonInterface
      */
@@ -1016,8 +1015,8 @@ interface CarbonInterface extends DateTimeInterface, JsonSerializable
     /**
      * Get the closest date from the instance (second-precision).
      *
-     * @param Carbon|DateTimeInterface|mixed $date1
-     * @param Carbon|DateTimeInterface|mixed $date2
+     * @param \Carbon\Carbon|\DateTimeInterface|mixed $date1
+     * @param \Carbon\Carbon|\DateTimeInterface|mixed $date2
      *
      * @return static
      */
@@ -1091,11 +1090,11 @@ interface CarbonInterface extends DateTimeInterface, JsonSerializable
      * @param string                                             $time
      * @param DateTimeZone|string|false|null                     $tz         optional timezone
      * @param string|null                                        $locale     locale to be used for LTS, LT, LL, LLL, etc. macro-formats (en by fault, unneeded if no such macro-format in use)
-     * @param TranslatorInterface $translator optional custom translator to use for macro-formats
+     * @param \Symfony\Component\Translation\TranslatorInterface $translator optional custom translator to use for macro-formats
+     *
+     * @throws InvalidFormatException
      *
      * @return static|false
-     *@throws InvalidFormatException
-     *
      */
     public static function createFromIsoFormat($format, $time, $tz = null, $locale = 'en', $translator = null);
 
@@ -1159,7 +1158,7 @@ interface CarbonInterface extends DateTimeInterface, JsonSerializable
      * Timestamp input can be given as int, float or a string containing one or more numbers.
      *
      * @param float|int|string          $timestamp
-     * @param DateTimeZone|string|null $tz
+     * @param \DateTimeZone|string|null $tz
      *
      * @return static
      */
@@ -1171,7 +1170,7 @@ interface CarbonInterface extends DateTimeInterface, JsonSerializable
      * Timestamp input can be given as int, float or a string containing one or more numbers.
      *
      * @param float|int|string          $timestamp
-     * @param DateTimeZone|string|null $tz
+     * @param \DateTimeZone|string|null $tz
      *
      * @return static
      */
@@ -1275,7 +1274,7 @@ interface CarbonInterface extends DateTimeInterface, JsonSerializable
      * Return relative interval (negative if $absolute flag is not set to true and the given date is before
      * current one).
      *
-     * @param CarbonInterface|DateTimeInterface|string|null $date
+     * @param \Carbon\CarbonInterface|\DateTimeInterface|string|null $date
      * @param bool                                                   $absolute Get the absolute of the difference
      *
      * @return CarbonInterval
@@ -1287,7 +1286,7 @@ interface CarbonInterface extends DateTimeInterface, JsonSerializable
      *
      * @param CarbonInterval                                         $ci       An interval to traverse by
      * @param Closure                                                $callback
-     * @param CarbonInterface|DateTimeInterface|string|null $date
+     * @param \Carbon\CarbonInterface|\DateTimeInterface|string|null $date
      * @param bool                                                   $absolute Get the absolute of the difference
      *
      * @return int
@@ -1298,10 +1297,19 @@ interface CarbonInterface extends DateTimeInterface, JsonSerializable
      * Get the difference in a human readable format in the current locale from current instance to an other
      * instance given (or now if null given).
      *
-     * @param Carbon|DateTimeInterface|string|array|null $other   if array passed, will be used as parameters array, see $syntax below;
+     * @example
+     * ```
+     * echo Carbon::tomorrow()->diffForHumans() . "\n";
+     * echo Carbon::tomorrow()->diffForHumans(['parts' => 2]) . "\n";
+     * echo Carbon::tomorrow()->diffForHumans(['parts' => 3, 'join' => true]) . "\n";
+     * echo Carbon::tomorrow()->diffForHumans(Carbon::yesterday()) . "\n";
+     * echo Carbon::tomorrow()->diffForHumans(Carbon::yesterday(), ['short' => true]) . "\n";
+     * ```
+     *
+     * @param Carbon|\DateTimeInterface|string|array|null $other   if array passed, will be used as parameters array, see $syntax below;
      *                                                             if null passed, now will be used as comparison reference;
      *                                                             if any other type, it will be converted to date and used as reference.
-     * @param int|array $syntax if array passed, parameters will be extracted from it, the array may contains:
+     * @param int|array                                   $syntax  if array passed, parameters will be extracted from it, the array may contains:
      *                                                             - 'syntax' entry (see below)
      *                                                             - 'short' entry (see below)
      *                                                             - 'parts' entry (see below)
@@ -1331,22 +1339,13 @@ interface CarbonInterface extends DateTimeInterface, JsonSerializable
      * @param int                                         $options human diff options
      *
      * @return string
-     *@example
-     * ```
-     * echo Carbon::tomorrow()->diffForHumans() . "\n";
-     * echo Carbon::tomorrow()->diffForHumans(['parts' => 2]) . "\n";
-     * echo Carbon::tomorrow()->diffForHumans(['parts' => 3, 'join' => true]) . "\n";
-     * echo Carbon::tomorrow()->diffForHumans(Carbon::yesterday()) . "\n";
-     * echo Carbon::tomorrow()->diffForHumans(Carbon::yesterday(), ['short' => true]) . "\n";
-     * ```
-     *
      */
     public function diffForHumans($other = null, $syntax = null, $short = false, $parts = 1, $options = null);
 
     /**
      * Get the difference in days rounded down.
      *
-     * @param CarbonInterface|DateTimeInterface|string|null $date
+     * @param \Carbon\CarbonInterface|\DateTimeInterface|string|null $date
      * @param bool                                                   $absolute Get the absolute of the difference
      *
      * @return int
@@ -1357,7 +1356,7 @@ interface CarbonInterface extends DateTimeInterface, JsonSerializable
      * Get the difference in days using a filter closure rounded down.
      *
      * @param Closure                                                $callback
-     * @param CarbonInterface|DateTimeInterface|string|null $date
+     * @param \Carbon\CarbonInterface|\DateTimeInterface|string|null $date
      * @param bool                                                   $absolute Get the absolute of the difference
      *
      * @return int
@@ -1367,7 +1366,7 @@ interface CarbonInterface extends DateTimeInterface, JsonSerializable
     /**
      * Get the difference in hours rounded down.
      *
-     * @param CarbonInterface|DateTimeInterface|string|null $date
+     * @param \Carbon\CarbonInterface|\DateTimeInterface|string|null $date
      * @param bool                                                   $absolute Get the absolute of the difference
      *
      * @return int
@@ -1378,7 +1377,7 @@ interface CarbonInterface extends DateTimeInterface, JsonSerializable
      * Get the difference in hours using a filter closure rounded down.
      *
      * @param Closure                                                $callback
-     * @param CarbonInterface|DateTimeInterface|string|null $date
+     * @param \Carbon\CarbonInterface|\DateTimeInterface|string|null $date
      * @param bool                                                   $absolute Get the absolute of the difference
      *
      * @return int
@@ -1388,7 +1387,7 @@ interface CarbonInterface extends DateTimeInterface, JsonSerializable
     /**
      * Get the difference in microseconds.
      *
-     * @param CarbonInterface|DateTimeInterface|string|null $date
+     * @param \Carbon\CarbonInterface|\DateTimeInterface|string|null $date
      * @param bool                                                   $absolute Get the absolute of the difference
      *
      * @return int
@@ -1398,7 +1397,7 @@ interface CarbonInterface extends DateTimeInterface, JsonSerializable
     /**
      * Get the difference in milliseconds rounded down.
      *
-     * @param CarbonInterface|DateTimeInterface|string|null $date
+     * @param \Carbon\CarbonInterface|\DateTimeInterface|string|null $date
      * @param bool                                                   $absolute Get the absolute of the difference
      *
      * @return int
@@ -1408,7 +1407,7 @@ interface CarbonInterface extends DateTimeInterface, JsonSerializable
     /**
      * Get the difference in minutes rounded down.
      *
-     * @param CarbonInterface|DateTimeInterface|string|null $date
+     * @param \Carbon\CarbonInterface|\DateTimeInterface|string|null $date
      * @param bool                                                   $absolute Get the absolute of the difference
      *
      * @return int
@@ -1418,7 +1417,7 @@ interface CarbonInterface extends DateTimeInterface, JsonSerializable
     /**
      * Get the difference in months rounded down.
      *
-     * @param CarbonInterface|DateTimeInterface|string|null $date
+     * @param \Carbon\CarbonInterface|\DateTimeInterface|string|null $date
      * @param bool                                                   $absolute Get the absolute of the difference
      *
      * @return int
@@ -1428,7 +1427,7 @@ interface CarbonInterface extends DateTimeInterface, JsonSerializable
     /**
      * Get the difference in quarters rounded down.
      *
-     * @param CarbonInterface|DateTimeInterface|string|null $date
+     * @param \Carbon\CarbonInterface|\DateTimeInterface|string|null $date
      * @param bool                                                   $absolute Get the absolute of the difference
      *
      * @return int
@@ -1438,7 +1437,7 @@ interface CarbonInterface extends DateTimeInterface, JsonSerializable
     /**
      * Get the difference in hours rounded down using timestamps.
      *
-     * @param CarbonInterface|DateTimeInterface|string|null $date
+     * @param \Carbon\CarbonInterface|\DateTimeInterface|string|null $date
      * @param bool                                                   $absolute Get the absolute of the difference
      *
      * @return int
@@ -1448,7 +1447,7 @@ interface CarbonInterface extends DateTimeInterface, JsonSerializable
     /**
      * Get the difference in microseconds using timestamps.
      *
-     * @param CarbonInterface|DateTimeInterface|string|null $date
+     * @param \Carbon\CarbonInterface|\DateTimeInterface|string|null $date
      * @param bool                                                   $absolute Get the absolute of the difference
      *
      * @return int
@@ -1458,7 +1457,7 @@ interface CarbonInterface extends DateTimeInterface, JsonSerializable
     /**
      * Get the difference in milliseconds rounded down using timestamps.
      *
-     * @param CarbonInterface|DateTimeInterface|string|null $date
+     * @param \Carbon\CarbonInterface|\DateTimeInterface|string|null $date
      * @param bool                                                   $absolute Get the absolute of the difference
      *
      * @return int
@@ -1468,7 +1467,7 @@ interface CarbonInterface extends DateTimeInterface, JsonSerializable
     /**
      * Get the difference in minutes rounded down using timestamps.
      *
-     * @param CarbonInterface|DateTimeInterface|string|null $date
+     * @param \Carbon\CarbonInterface|\DateTimeInterface|string|null $date
      * @param bool                                                   $absolute Get the absolute of the difference
      *
      * @return int
@@ -1478,7 +1477,7 @@ interface CarbonInterface extends DateTimeInterface, JsonSerializable
     /**
      * Get the difference in seconds using timestamps.
      *
-     * @param CarbonInterface|DateTimeInterface|string|null $date
+     * @param \Carbon\CarbonInterface|\DateTimeInterface|string|null $date
      * @param bool                                                   $absolute Get the absolute of the difference
      *
      * @return int
@@ -1488,7 +1487,7 @@ interface CarbonInterface extends DateTimeInterface, JsonSerializable
     /**
      * Get the difference in seconds rounded down.
      *
-     * @param CarbonInterface|DateTimeInterface|string|null $date
+     * @param \Carbon\CarbonInterface|\DateTimeInterface|string|null $date
      * @param bool                                                   $absolute Get the absolute of the difference
      *
      * @return int
@@ -1498,7 +1497,7 @@ interface CarbonInterface extends DateTimeInterface, JsonSerializable
     /**
      * Get the difference in weekdays rounded down.
      *
-     * @param CarbonInterface|DateTimeInterface|string|null $date
+     * @param \Carbon\CarbonInterface|\DateTimeInterface|string|null $date
      * @param bool                                                   $absolute Get the absolute of the difference
      *
      * @return int
@@ -1508,7 +1507,7 @@ interface CarbonInterface extends DateTimeInterface, JsonSerializable
     /**
      * Get the difference in weekend days using a filter rounded down.
      *
-     * @param CarbonInterface|DateTimeInterface|string|null $date
+     * @param \Carbon\CarbonInterface|\DateTimeInterface|string|null $date
      * @param bool                                                   $absolute Get the absolute of the difference
      *
      * @return int
@@ -1518,7 +1517,7 @@ interface CarbonInterface extends DateTimeInterface, JsonSerializable
     /**
      * Get the difference in weeks rounded down.
      *
-     * @param CarbonInterface|DateTimeInterface|string|null $date
+     * @param \Carbon\CarbonInterface|\DateTimeInterface|string|null $date
      * @param bool                                                   $absolute Get the absolute of the difference
      *
      * @return int
@@ -1528,7 +1527,7 @@ interface CarbonInterface extends DateTimeInterface, JsonSerializable
     /**
      * Get the difference in years
      *
-     * @param CarbonInterface|DateTimeInterface|string|null $date
+     * @param \Carbon\CarbonInterface|\DateTimeInterface|string|null $date
      * @param bool                                                   $absolute Get the absolute of the difference
      *
      * @return int
@@ -1711,11 +1710,6 @@ interface CarbonInterface extends DateTimeInterface, JsonSerializable
     /**
      * Determines if the instance is equal to another
      *
-     * @param Carbon|DateTimeInterface|mixed $date
-     *
-     * @return bool
-     *@see equalTo()
-     *
      * @example
      * ```
      * Carbon::parse('2018-07-25 12:45:16')->eq('2018-07-25 12:45:16'); // true
@@ -1723,22 +1717,27 @@ interface CarbonInterface extends DateTimeInterface, JsonSerializable
      * Carbon::parse('2018-07-25 12:45:16')->eq('2018-07-25 12:45:17'); // false
      * ```
      *
+     * @param \Carbon\Carbon|\DateTimeInterface|mixed $date
+     *
+     * @see equalTo()
+     *
+     * @return bool
      */
     public function eq($date): bool;
 
     /**
      * Determines if the instance is equal to another
      *
-     * @param Carbon|DateTimeInterface|mixed $date
-     *
-     * @return bool
-     *@example
+     * @example
      * ```
      * Carbon::parse('2018-07-25 12:45:16')->equalTo('2018-07-25 12:45:16'); // true
      * Carbon::parse('2018-07-25 12:45:16')->equalTo(Carbon::parse('2018-07-25 12:45:16')); // true
      * Carbon::parse('2018-07-25 12:45:16')->equalTo('2018-07-25 12:45:17'); // false
      * ```
      *
+     * @param \Carbon\Carbon|\DateTimeInterface|mixed $date
+     *
+     * @return bool
      */
     public function equalTo($date): bool;
 
@@ -1756,8 +1755,8 @@ interface CarbonInterface extends DateTimeInterface, JsonSerializable
     /**
      * Get the farthest date from the instance (second-precision).
      *
-     * @param Carbon|DateTimeInterface|mixed $date1
-     * @param Carbon|DateTimeInterface|mixed $date2
+     * @param \Carbon\Carbon|\DateTimeInterface|mixed $date1
+     * @param \Carbon\Carbon|\DateTimeInterface|mixed $date2
      *
      * @return static
      */
@@ -1802,7 +1801,7 @@ interface CarbonInterface extends DateTimeInterface, JsonSerializable
     /**
      * Get the difference in days as float (microsecond-precision).
      *
-     * @param CarbonInterface|DateTimeInterface|string|null $date
+     * @param \Carbon\CarbonInterface|\DateTimeInterface|string|null $date
      * @param bool                                                   $absolute Get the absolute of the difference
      *
      * @return float
@@ -1812,7 +1811,7 @@ interface CarbonInterface extends DateTimeInterface, JsonSerializable
     /**
      * Get the difference in hours as float (microsecond-precision).
      *
-     * @param CarbonInterface|DateTimeInterface|string|null $date
+     * @param \Carbon\CarbonInterface|\DateTimeInterface|string|null $date
      * @param bool                                                   $absolute Get the absolute of the difference
      *
      * @return float
@@ -1822,7 +1821,7 @@ interface CarbonInterface extends DateTimeInterface, JsonSerializable
     /**
      * Get the difference in minutes as float (microsecond-precision).
      *
-     * @param CarbonInterface|DateTimeInterface|string|null $date
+     * @param \Carbon\CarbonInterface|\DateTimeInterface|string|null $date
      * @param bool                                                   $absolute Get the absolute of the difference
      *
      * @return float
@@ -1832,7 +1831,7 @@ interface CarbonInterface extends DateTimeInterface, JsonSerializable
     /**
      * Get the difference in months as float (microsecond-precision).
      *
-     * @param CarbonInterface|DateTimeInterface|string|null $date
+     * @param \Carbon\CarbonInterface|\DateTimeInterface|string|null $date
      * @param bool                                                   $absolute Get the absolute of the difference
      *
      * @return float
@@ -1842,7 +1841,7 @@ interface CarbonInterface extends DateTimeInterface, JsonSerializable
     /**
      * Get the difference in days as float (microsecond-precision).
      *
-     * @param CarbonInterface|DateTimeInterface|string|null $date
+     * @param \Carbon\CarbonInterface|\DateTimeInterface|string|null $date
      * @param bool                                                   $absolute Get the absolute of the difference
      *
      * @return float
@@ -1852,7 +1851,7 @@ interface CarbonInterface extends DateTimeInterface, JsonSerializable
     /**
      * Get the difference in hours as float (microsecond-precision) using timestamps.
      *
-     * @param CarbonInterface|DateTimeInterface|string|null $date
+     * @param \Carbon\CarbonInterface|\DateTimeInterface|string|null $date
      * @param bool                                                   $absolute Get the absolute of the difference
      *
      * @return float
@@ -1862,7 +1861,7 @@ interface CarbonInterface extends DateTimeInterface, JsonSerializable
     /**
      * Get the difference in minutes as float (microsecond-precision) using timestamps.
      *
-     * @param CarbonInterface|DateTimeInterface|string|null $date
+     * @param \Carbon\CarbonInterface|\DateTimeInterface|string|null $date
      * @param bool                                                   $absolute Get the absolute of the difference
      *
      * @return float
@@ -1872,7 +1871,7 @@ interface CarbonInterface extends DateTimeInterface, JsonSerializable
     /**
      * Get the difference in months as float (microsecond-precision) using timestamps.
      *
-     * @param CarbonInterface|DateTimeInterface|string|null $date
+     * @param \Carbon\CarbonInterface|\DateTimeInterface|string|null $date
      * @param bool                                                   $absolute Get the absolute of the difference
      *
      * @return float
@@ -1882,7 +1881,7 @@ interface CarbonInterface extends DateTimeInterface, JsonSerializable
     /**
      * Get the difference in seconds as float (microsecond-precision) using timestamps.
      *
-     * @param CarbonInterface|DateTimeInterface|string|null $date
+     * @param \Carbon\CarbonInterface|\DateTimeInterface|string|null $date
      * @param bool                                                   $absolute Get the absolute of the difference
      *
      * @return float
@@ -1892,7 +1891,7 @@ interface CarbonInterface extends DateTimeInterface, JsonSerializable
     /**
      * Get the difference in weeks as float (microsecond-precision).
      *
-     * @param CarbonInterface|DateTimeInterface|string|null $date
+     * @param \Carbon\CarbonInterface|\DateTimeInterface|string|null $date
      * @param bool                                                   $absolute Get the absolute of the difference
      *
      * @return float
@@ -1902,7 +1901,7 @@ interface CarbonInterface extends DateTimeInterface, JsonSerializable
     /**
      * Get the difference in year as float (microsecond-precision) using timestamps.
      *
-     * @param CarbonInterface|DateTimeInterface|string|null $date
+     * @param \Carbon\CarbonInterface|\DateTimeInterface|string|null $date
      * @param bool                                                   $absolute Get the absolute of the difference
      *
      * @return float
@@ -1912,7 +1911,7 @@ interface CarbonInterface extends DateTimeInterface, JsonSerializable
     /**
      * Get the difference in seconds as float (microsecond-precision).
      *
-     * @param CarbonInterface|DateTimeInterface|string|null $date
+     * @param \Carbon\CarbonInterface|\DateTimeInterface|string|null $date
      * @param bool                                                   $absolute Get the absolute of the difference
      *
      * @return float
@@ -1922,7 +1921,7 @@ interface CarbonInterface extends DateTimeInterface, JsonSerializable
     /**
      * Get the difference in weeks as float (microsecond-precision).
      *
-     * @param CarbonInterface|DateTimeInterface|string|null $date
+     * @param \Carbon\CarbonInterface|\DateTimeInterface|string|null $date
      * @param bool                                                   $absolute Get the absolute of the difference
      *
      * @return float
@@ -1932,7 +1931,7 @@ interface CarbonInterface extends DateTimeInterface, JsonSerializable
     /**
      * Get the difference in year as float (microsecond-precision).
      *
-     * @param CarbonInterface|DateTimeInterface|string|null $date
+     * @param \Carbon\CarbonInterface|\DateTimeInterface|string|null $date
      * @param bool                                                   $absolute Get the absolute of the difference
      *
      * @return float
@@ -1942,7 +1941,7 @@ interface CarbonInterface extends DateTimeInterface, JsonSerializable
     /**
      * Round the current instance second with given precision if specified.
      *
-     * @param float|int|string|DateInterval|null $precision
+     * @param float|int|string|\DateInterval|null $precision
      *
      * @return CarbonInterface
      */
@@ -1987,7 +1986,7 @@ interface CarbonInterface extends DateTimeInterface, JsonSerializable
      * Get the difference in a human readable format in the current locale from current instance to an other
      * instance given (or now if null given).
      *
-     * @param Carbon|DateTimeInterface|string|array|null $other   if array passed, will be used as parameters array, see $syntax below;
+     * @param Carbon|\DateTimeInterface|string|array|null $other   if array passed, will be used as parameters array, see $syntax below;
      *                                                             if null passed, now will be used as comparison reference;
      *                                                             if any other type, it will be converted to date and used as reference.
      * @param int|array                                   $syntax  if array passed, parameters will be extracted from it, the array may contains:
@@ -2191,7 +2190,7 @@ interface CarbonInterface extends DateTimeInterface, JsonSerializable
     /**
      * Get the translator of the current instance or the default if none set.
      *
-     * @return TranslatorInterface
+     * @return \Symfony\Component\Translation\TranslatorInterface
      */
     public function getLocalTranslator();
 
@@ -2348,7 +2347,7 @@ interface CarbonInterface extends DateTimeInterface, JsonSerializable
      * @param string                                             $key        key to find
      * @param string|null                                        $locale     current locale used if null
      * @param string|null                                        $default    default value if translation returns the key
-     * @param TranslatorInterface $translator an optional translator to use
+     * @param \Symfony\Component\Translation\TranslatorInterface $translator an optional translator to use
      *
      * @return string
      */
@@ -2357,7 +2356,7 @@ interface CarbonInterface extends DateTimeInterface, JsonSerializable
     /**
      * Returns raw translation message for a given key.
      *
-     * @param TranslatorInterface $translator the translator to use
+     * @param \Symfony\Component\Translation\TranslatorInterface $translator the translator to use
      * @param string                                             $key        key to find
      * @param string|null                                        $locale     current locale used if null
      * @param string|null                                        $default    default value if translation returns the key
@@ -2369,7 +2368,7 @@ interface CarbonInterface extends DateTimeInterface, JsonSerializable
     /**
      * Get the default translator instance in use.
      *
-     * @return TranslatorInterface
+     * @return \Symfony\Component\Translation\TranslatorInterface
      */
     public static function getTranslator();
 
@@ -2397,42 +2396,37 @@ interface CarbonInterface extends DateTimeInterface, JsonSerializable
     /**
      * Determines if the instance is greater (after) than another
      *
-     * @param Carbon|DateTimeInterface|mixed $date
-     *
-     * @return bool
-     *@example
+     * @example
      * ```
      * Carbon::parse('2018-07-25 12:45:16')->greaterThan('2018-07-25 12:45:15'); // true
      * Carbon::parse('2018-07-25 12:45:16')->greaterThan('2018-07-25 12:45:16'); // false
      * Carbon::parse('2018-07-25 12:45:16')->greaterThan('2018-07-25 12:45:17'); // false
      * ```
      *
+     * @param \Carbon\Carbon|\DateTimeInterface|mixed $date
+     *
+     * @return bool
      */
     public function greaterThan($date): bool;
 
     /**
      * Determines if the instance is greater (after) than or equal to another
      *
-     * @param Carbon|DateTimeInterface|mixed $date
-     *
-     * @return bool
-     *@example
+     * @example
      * ```
      * Carbon::parse('2018-07-25 12:45:16')->greaterThanOrEqualTo('2018-07-25 12:45:15'); // true
      * Carbon::parse('2018-07-25 12:45:16')->greaterThanOrEqualTo('2018-07-25 12:45:16'); // true
      * Carbon::parse('2018-07-25 12:45:16')->greaterThanOrEqualTo('2018-07-25 12:45:17'); // false
      * ```
      *
+     * @param \Carbon\Carbon|\DateTimeInterface|mixed $date
+     *
+     * @return bool
      */
     public function greaterThanOrEqualTo($date): bool;
 
     /**
      * Determines if the instance is greater (after) than another
-     *
-     * @param Carbon|DateTimeInterface|mixed $date
-     *
-     * @return bool
-     *@see greaterThan()
      *
      * @example
      * ```
@@ -2441,16 +2435,16 @@ interface CarbonInterface extends DateTimeInterface, JsonSerializable
      * Carbon::parse('2018-07-25 12:45:16')->gt('2018-07-25 12:45:17'); // false
      * ```
      *
+     * @param \Carbon\Carbon|\DateTimeInterface|mixed $date
+     *
+     * @see greaterThan()
+     *
+     * @return bool
      */
     public function gt($date): bool;
 
     /**
      * Determines if the instance is greater (after) than or equal to another
-     *
-     * @param Carbon|DateTimeInterface|mixed $date
-     *
-     * @return bool
-     *@see greaterThanOrEqualTo()
      *
      * @example
      * ```
@@ -2459,6 +2453,11 @@ interface CarbonInterface extends DateTimeInterface, JsonSerializable
      * Carbon::parse('2018-07-25 12:45:16')->gte('2018-07-25 12:45:17'); // false
      * ```
      *
+     * @param \Carbon\Carbon|\DateTimeInterface|mixed $date
+     *
+     * @see greaterThanOrEqualTo()
+     *
+     * @return bool
      */
     public function gte($date): bool;
 
@@ -2574,11 +2573,6 @@ interface CarbonInterface extends DateTimeInterface, JsonSerializable
     /**
      * Determines if the instance is greater (after) than another
      *
-     * @param Carbon|DateTimeInterface|mixed $date
-     *
-     * @return bool
-     *@see greaterThan()
-     *
      * @example
      * ```
      * Carbon::parse('2018-07-25 12:45:16')->isAfter('2018-07-25 12:45:15'); // true
@@ -2586,16 +2580,16 @@ interface CarbonInterface extends DateTimeInterface, JsonSerializable
      * Carbon::parse('2018-07-25 12:45:16')->isAfter('2018-07-25 12:45:17'); // false
      * ```
      *
+     * @param \Carbon\Carbon|\DateTimeInterface|mixed $date
+     *
+     * @see greaterThan()
+     *
+     * @return bool
      */
     public function isAfter($date): bool;
 
     /**
      * Determines if the instance is less (before) than another
-     *
-     * @param Carbon|DateTimeInterface|mixed $date
-     *
-     * @return bool
-     *@see lessThan()
      *
      * @example
      * ```
@@ -2604,18 +2598,18 @@ interface CarbonInterface extends DateTimeInterface, JsonSerializable
      * Carbon::parse('2018-07-25 12:45:16')->isBefore('2018-07-25 12:45:17'); // true
      * ```
      *
+     * @param \Carbon\Carbon|\DateTimeInterface|mixed $date
+     *
+     * @see lessThan()
+     *
+     * @return bool
      */
     public function isBefore($date): bool;
 
     /**
      * Determines if the instance is between two others
      *
-     * @param Carbon|DateTimeInterface|mixed $date1
-     * @param Carbon|DateTimeInterface|mixed $date2
-     * @param bool                                    $equal Indicates if an equal to comparison should be done
-     *
-     * @return bool
-     *@example
+     * @example
      * ```
      * Carbon::parse('2018-07-25')->isBetween('2018-07-14', '2018-08-01'); // true
      * Carbon::parse('2018-07-25')->isBetween('2018-08-01', '2018-08-20'); // false
@@ -2623,16 +2617,18 @@ interface CarbonInterface extends DateTimeInterface, JsonSerializable
      * Carbon::parse('2018-07-25')->isBetween('2018-07-25', '2018-08-01', false); // false
      * ```
      *
+     * @param \Carbon\Carbon|\DateTimeInterface|mixed $date1
+     * @param \Carbon\Carbon|\DateTimeInterface|mixed $date2
+     * @param bool                                    $equal Indicates if an equal to comparison should be done
+     *
+     * @return bool
      */
     public function isBetween($date1, $date2, $equal = true): bool;
 
     /**
      * Check if its the birthday. Compares the date/month values of the two dates.
      *
-     * @param Carbon|DateTimeInterface|null $date The instance to compare with or null to use current day.
-     *
-     * @return bool
-     *@example
+     * @example
      * ```
      * Carbon::now()->subYears(5)->isBirthday(); // true
      * Carbon::now()->subYears(5)->subDay()->isBirthday(); // false
@@ -2640,6 +2636,9 @@ interface CarbonInterface extends DateTimeInterface, JsonSerializable
      * Carbon::parse('2019-06-05')->isBirthday(Carbon::parse('2001-06-06')); // false
      * ```
      *
+     * @param \Carbon\Carbon|\DateTimeInterface|null $date The instance to compare with or null to use current day.
+     *
+     * @return bool
      */
     public function isBirthday($date = null);
 
@@ -2852,27 +2851,23 @@ interface CarbonInterface extends DateTimeInterface, JsonSerializable
     /**
      * Compares the formatted values of the two dates.
      *
-     * @param string                                        $format date formats to compare.
-     * @param Carbon|DateTimeInterface|string|null $date   instance to compare with or null to use current day.
-     *
-     * @return bool
-     *@example
+     * @example
      * ```
      * Carbon::parse('2019-06-13')->isSameAs('Y-d', Carbon::parse('2019-12-13')); // true
      * Carbon::parse('2019-06-13')->isSameAs('Y-d', Carbon::parse('2019-06-14')); // false
      * ```
      *
+     * @param string                                        $format date formats to compare.
+     * @param \Carbon\Carbon|\DateTimeInterface|string|null $date   instance to compare with or null to use current day.
+     *
+     * @return bool
      */
     public function isSameAs($format, $date = null);
 
     /**
      * Checks if the passed in date is in the same month as the instance´s month.
      *
-     * @param Carbon|DateTimeInterface|null $date       The instance to compare with or null to use the current date.
-     * @param bool                                   $ofSameYear Check if it is the same month in the same year.
-     *
-     * @return bool
-     *@example
+     * @example
      * ```
      * Carbon::parse('2019-01-12')->isSameMonth(Carbon::parse('2019-01-01')); // true
      * Carbon::parse('2019-01-12')->isSameMonth(Carbon::parse('2019-02-01')); // false
@@ -2880,17 +2875,17 @@ interface CarbonInterface extends DateTimeInterface, JsonSerializable
      * Carbon::parse('2019-01-12')->isSameMonth(Carbon::parse('2018-01-01'), false); // true
      * ```
      *
+     * @param \Carbon\Carbon|\DateTimeInterface|null $date       The instance to compare with or null to use the current date.
+     * @param bool                                   $ofSameYear Check if it is the same month in the same year.
+     *
+     * @return bool
      */
     public function isSameMonth($date = null, $ofSameYear = true);
 
     /**
      * Checks if the passed in date is in the same quarter as the instance quarter (and year if needed).
      *
-     * @param Carbon|DateTimeInterface|string|null $date       The instance to compare with or null to use current day.
-     * @param bool                                          $ofSameYear Check if it is the same month in the same year.
-     *
-     * @return bool
-     *@example
+     * @example
      * ```
      * Carbon::parse('2019-01-12')->isSameQuarter(Carbon::parse('2019-03-01')); // true
      * Carbon::parse('2019-01-12')->isSameQuarter(Carbon::parse('2019-04-01')); // false
@@ -2898,17 +2893,15 @@ interface CarbonInterface extends DateTimeInterface, JsonSerializable
      * Carbon::parse('2019-01-12')->isSameQuarter(Carbon::parse('2018-03-01'), false); // true
      * ```
      *
+     * @param \Carbon\Carbon|\DateTimeInterface|string|null $date       The instance to compare with or null to use current day.
+     * @param bool                                          $ofSameYear Check if it is the same month in the same year.
+     *
+     * @return bool
      */
     public function isSameQuarter($date = null, $ofSameYear = true);
 
     /**
      * Determines if the instance is in the current unit given.
-     *
-     * @param string                                 $unit singular unit string
-     * @param Carbon|DateTimeInterface|null $date instance to compare with or null to use current day.
-     *
-     * @return bool
-     *@throws BadComparisonUnitException
      *
      * @example
      * ```
@@ -2916,6 +2909,12 @@ interface CarbonInterface extends DateTimeInterface, JsonSerializable
      * Carbon::parse('2018-12-13')->isSameUnit('year', Carbon::parse('2019-12-25')); // false
      * ```
      *
+     * @param string                                 $unit singular unit string
+     * @param \Carbon\Carbon|\DateTimeInterface|null $date instance to compare with or null to use current day.
+     *
+     * @throws BadComparisonUnitException
+     *
+     * @return bool
      */
     public function isSameUnit($unit, $date = null);
 
@@ -3121,32 +3120,32 @@ interface CarbonInterface extends DateTimeInterface, JsonSerializable
     /**
      * Determines if the instance is less (before) than another
      *
-     * @param Carbon|DateTimeInterface|mixed $date
-     *
-     * @return bool
-     *@example
+     * @example
      * ```
      * Carbon::parse('2018-07-25 12:45:16')->lessThan('2018-07-25 12:45:15'); // false
      * Carbon::parse('2018-07-25 12:45:16')->lessThan('2018-07-25 12:45:16'); // false
      * Carbon::parse('2018-07-25 12:45:16')->lessThan('2018-07-25 12:45:17'); // true
      * ```
      *
+     * @param \Carbon\Carbon|\DateTimeInterface|mixed $date
+     *
+     * @return bool
      */
     public function lessThan($date): bool;
 
     /**
      * Determines if the instance is less (before) or equal to another
      *
-     * @param Carbon|DateTimeInterface|mixed $date
-     *
-     * @return bool
-     *@example
+     * @example
      * ```
      * Carbon::parse('2018-07-25 12:45:16')->lessThanOrEqualTo('2018-07-25 12:45:15'); // false
      * Carbon::parse('2018-07-25 12:45:16')->lessThanOrEqualTo('2018-07-25 12:45:16'); // true
      * Carbon::parse('2018-07-25 12:45:16')->lessThanOrEqualTo('2018-07-25 12:45:17'); // true
      * ```
      *
+     * @param \Carbon\Carbon|\DateTimeInterface|mixed $date
+     *
+     * @return bool
      */
     public function lessThanOrEqualTo($date): bool;
 
@@ -3213,11 +3212,6 @@ interface CarbonInterface extends DateTimeInterface, JsonSerializable
     /**
      * Determines if the instance is less (before) than another
      *
-     * @param Carbon|DateTimeInterface|mixed $date
-     *
-     * @return bool
-     *@see lessThan()
-     *
      * @example
      * ```
      * Carbon::parse('2018-07-25 12:45:16')->lt('2018-07-25 12:45:15'); // false
@@ -3225,16 +3219,16 @@ interface CarbonInterface extends DateTimeInterface, JsonSerializable
      * Carbon::parse('2018-07-25 12:45:16')->lt('2018-07-25 12:45:17'); // true
      * ```
      *
+     * @param \Carbon\Carbon|\DateTimeInterface|mixed $date
+     *
+     * @see lessThan()
+     *
+     * @return bool
      */
     public function lt($date): bool;
 
     /**
      * Determines if the instance is less (before) or equal to another
-     *
-     * @param Carbon|DateTimeInterface|mixed $date
-     *
-     * @return bool
-     *@see lessThanOrEqualTo()
      *
      * @example
      * ```
@@ -3243,6 +3237,11 @@ interface CarbonInterface extends DateTimeInterface, JsonSerializable
      * Carbon::parse('2018-07-25 12:45:16')->lte('2018-07-25 12:45:17'); // true
      * ```
      *
+     * @param \Carbon\Carbon|\DateTimeInterface|mixed $date
+     *
+     * @see lessThanOrEqualTo()
+     *
+     * @return bool
      */
     public function lte($date): bool;
 
@@ -3285,7 +3284,7 @@ interface CarbonInterface extends DateTimeInterface, JsonSerializable
     /**
      * Get the maximum instance between a given instance (default now) and the current instance.
      *
-     * @param Carbon|DateTimeInterface|mixed $date
+     * @param \Carbon\Carbon|\DateTimeInterface|mixed $date
      *
      * @return static
      */
@@ -3301,11 +3300,11 @@ interface CarbonInterface extends DateTimeInterface, JsonSerializable
     /**
      * Get the maximum instance between a given instance (default now) and the current instance.
      *
-     * @param Carbon|DateTimeInterface|mixed $date
+     * @param \Carbon\Carbon|\DateTimeInterface|mixed $date
+     *
+     * @see max()
      *
      * @return static
-     *@see max()
-     *
      */
     public function maximum($date = null);
 
@@ -3328,7 +3327,7 @@ interface CarbonInterface extends DateTimeInterface, JsonSerializable
     /**
      * Get the minimum instance between a given instance (default now) and the current instance.
      *
-     * @param Carbon|DateTimeInterface|mixed $date
+     * @param \Carbon\Carbon|\DateTimeInterface|mixed $date
      *
      * @return static
      */
@@ -3344,11 +3343,11 @@ interface CarbonInterface extends DateTimeInterface, JsonSerializable
     /**
      * Get the minimum instance between a given instance (default now) and the current instance.
      *
-     * @param Carbon|DateTimeInterface|mixed $date
+     * @param \Carbon\Carbon|\DateTimeInterface|mixed $date
+     *
+     * @see min()
      *
      * @return static
-     *@see min()
-     *
      */
     public function minimum($date = null);
 
@@ -3398,11 +3397,6 @@ interface CarbonInterface extends DateTimeInterface, JsonSerializable
     /**
      * Determines if the instance is not equal to another
      *
-     * @param Carbon|DateTimeInterface|mixed $date
-     *
-     * @return bool
-     *@see notEqualTo()
-     *
      * @example
      * ```
      * Carbon::parse('2018-07-25 12:45:16')->ne('2018-07-25 12:45:16'); // false
@@ -3410,6 +3404,11 @@ interface CarbonInterface extends DateTimeInterface, JsonSerializable
      * Carbon::parse('2018-07-25 12:45:16')->ne('2018-07-25 12:45:17'); // true
      * ```
      *
+     * @param \Carbon\Carbon|\DateTimeInterface|mixed $date
+     *
+     * @see notEqualTo()
+     *
+     * @return bool
      */
     public function ne($date): bool;
 
@@ -3442,16 +3441,16 @@ interface CarbonInterface extends DateTimeInterface, JsonSerializable
     /**
      * Determines if the instance is not equal to another
      *
-     * @param Carbon|DateTimeInterface|mixed $date
-     *
-     * @return bool
-     *@example
+     * @example
      * ```
      * Carbon::parse('2018-07-25 12:45:16')->notEqualTo('2018-07-25 12:45:16'); // false
      * Carbon::parse('2018-07-25 12:45:16')->notEqualTo(Carbon::parse('2018-07-25 12:45:16')); // false
      * Carbon::parse('2018-07-25 12:45:16')->notEqualTo('2018-07-25 12:45:17'); // true
      * ```
      *
+     * @param \Carbon\Carbon|\DateTimeInterface|mixed $date
+     *
+     * @return bool
      */
     public function notEqualTo($date): bool;
 
@@ -3588,8 +3587,8 @@ interface CarbonInterface extends DateTimeInterface, JsonSerializable
     /**
      * Create a iterable CarbonPeriod object from current date to a given end date (and optional interval).
      *
-     * @param DateTimeInterface|Carbon|CarbonImmutable|null $end      period end date
-     * @param int|DateInterval|string|null                  $interval period default interval or number of the given $unit
+     * @param \DateTimeInterface|Carbon|CarbonImmutable|null $end      period end date
+     * @param int|\DateInterval|string|null                  $interval period default interval or number of the given $unit
      * @param string|null                                    $unit     if specified, $interval must be an integer
      *
      * @return CarbonPeriod
@@ -3693,7 +3692,7 @@ interface CarbonInterface extends DateTimeInterface, JsonSerializable
     /**
      * Round the current instance second with given precision if specified.
      *
-     * @param float|int|string|DateInterval|null $precision
+     * @param float|int|string|\DateInterval|null $precision
      * @param string                              $function
      *
      * @return CarbonInterface
@@ -3860,7 +3859,7 @@ interface CarbonInterface extends DateTimeInterface, JsonSerializable
     /**
      * Set the translator for the current instance.
      *
-     * @param TranslatorInterface $translator
+     * @param \Symfony\Component\Translation\TranslatorInterface $translator
      *
      * @return $this
      */
@@ -4009,7 +4008,7 @@ interface CarbonInterface extends DateTimeInterface, JsonSerializable
     /**
      * Set the default translator instance to use.
      *
-     * @param TranslatorInterface $translator
+     * @param \Symfony\Component\Translation\TranslatorInterface $translator
      *
      * @return void
      */
@@ -4419,7 +4418,7 @@ interface CarbonInterface extends DateTimeInterface, JsonSerializable
      * 1 hour before
      * 5 months before
      *
-     * @param Carbon|DateTimeInterface|string|array|null $other if array passed, will be used as parameters array, see $syntax below;
+     * @param Carbon|\DateTimeInterface|string|array|null $other   if array passed, will be used as parameters array, see $syntax below;
      *                                                             if null passed, now will be used as comparison reference;
      *                                                             if any other type, it will be converted to date and used as reference.
      * @param int|array                                   $syntax  if array passed, parameters will be extracted from it, the array may contains:
@@ -4714,8 +4713,8 @@ interface CarbonInterface extends DateTimeInterface, JsonSerializable
     /**
      * Create a iterable CarbonPeriod object from current date to a given end date (and optional interval).
      *
-     * @param DateTimeInterface|Carbon|CarbonImmutable|int|null $end      period end date or recurrences count if int
-     * @param int|DateInterval|string|null                      $interval period default interval or number of the given $unit
+     * @param \DateTimeInterface|Carbon|CarbonImmutable|int|null $end      period end date or recurrences count if int
+     * @param int|\DateInterval|string|null                      $interval period default interval or number of the given $unit
      * @param string|null                                        $unit     if specified, $interval must be an integer
      *
      * @return CarbonPeriod
@@ -4883,7 +4882,7 @@ interface CarbonInterface extends DateTimeInterface, JsonSerializable
      * @param string                                                  $key
      * @param array                                                   $parameters
      * @param string|int|float|null                                   $number
-     * @param TranslatorInterface|null $translator
+     * @param \Symfony\Component\Translation\TranslatorInterface|null $translator
      * @param bool                                                    $altNumbers
      *
      * @return string
@@ -4930,7 +4929,7 @@ interface CarbonInterface extends DateTimeInterface, JsonSerializable
     /**
      * Translate using translation string or callback available.
      *
-     * @param TranslatorInterface $translator
+     * @param \Symfony\Component\Translation\TranslatorInterface $translator
      * @param string                                             $key
      * @param array                                              $parameters
      * @param null                                               $number
@@ -4973,7 +4972,7 @@ interface CarbonInterface extends DateTimeInterface, JsonSerializable
      * Get the difference in a human readable format in the current locale from an other
      * instance given (or now if null given) to current instance.
      *
-     * @param Carbon|DateTimeInterface|string|array|null $other if array passed, will be used as parameters array, see $syntax below;
+     * @param Carbon|\DateTimeInterface|string|array|null $other   if array passed, will be used as parameters array, see $syntax below;
      *                                                             if null passed, now will be used as comparison reference;
      *                                                             if any other type, it will be converted to date and used as reference.
      * @param int|array                                   $syntax  if array passed, parameters will be extracted from it, the array may contains:

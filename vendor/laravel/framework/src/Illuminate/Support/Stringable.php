@@ -3,9 +3,7 @@
 namespace Illuminate\Support;
 
 use ArrayAccess;
-use Carbon\Exceptions\InvalidFormatException;
 use Closure;
-use Countable;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Traits\Conditionable;
 use Illuminate\Support\Traits\Macroable;
@@ -206,7 +204,7 @@ class Stringable implements JsonSerializable, ArrayAccess
      * Convert the case of a string.
      *
      * @param  int  $mode
-     * @param  string  $encoding
+     * @param  string|null  $encoding
      * @return static
      */
     public function convertCase(int $mode = MB_CASE_FOLD, ?string $encoding = 'UTF-8')
@@ -239,7 +237,7 @@ class Stringable implements JsonSerializable, ArrayAccess
     /**
      * Determine if the string is an exact match with the given value.
      *
-     * @param Stringable|string  $value
+     * @param  \Illuminate\Support\Stringable|string  $value
      * @return bool
      */
     public function exactly($value)
@@ -268,7 +266,7 @@ class Stringable implements JsonSerializable, ArrayAccess
      *
      * @param  string  $delimiter
      * @param  int  $limit
-     * @return Collection<int, string>
+     * @return \Illuminate\Support\Collection<int, string>
      */
     public function explode($delimiter, $limit = PHP_INT_MAX)
     {
@@ -281,7 +279,7 @@ class Stringable implements JsonSerializable, ArrayAccess
      * @param  string|int  $pattern
      * @param  int  $limit
      * @param  int  $flags
-     * @return Collection<int, string>
+     * @return \Illuminate\Support\Collection<int, string>
      */
     public function split($pattern, $limit = -1, $flags = 0)
     {
@@ -491,7 +489,7 @@ class Stringable implements JsonSerializable, ArrayAccess
      * Get the string matching the given pattern.
      *
      * @param  string  $pattern
-     * @return Collection
+     * @return \Illuminate\Support\Collection
      */
     public function matchAll($pattern)
     {
@@ -570,7 +568,7 @@ class Stringable implements JsonSerializable, ArrayAccess
     /**
      * Get the plural form of an English word.
      *
-     * @param  int|array|Countable  $count
+     * @param  int|array|\Countable  $count
      * @return static
      */
     public function plural($count = 2)
@@ -581,7 +579,7 @@ class Stringable implements JsonSerializable, ArrayAccess
     /**
      * Pluralize the last word of an English, studly caps case string.
      *
-     * @param  int|array|Countable  $count
+     * @param  int|array|\Countable  $count
      * @return static
      */
     public function pluralStudly($count = 2)
@@ -722,13 +720,8 @@ class Stringable implements JsonSerializable, ArrayAccess
     /**
      * Replace the patterns matching the given regular expression.
      *
-<<<<<<< HEAD
      * @param  array|string  $pattern
-     * @param Closure|string  $replace
-=======
-     * @param  string  $pattern
      * @param  \Closure|string  $replace
->>>>>>> parent of c8b1139b (update Ui)
      * @param  int  $limit
      * @return static
      */
@@ -745,7 +738,7 @@ class Stringable implements JsonSerializable, ArrayAccess
      * Parse input from a string to a collection, according to a format.
      *
      * @param  string  $format
-     * @return Collection
+     * @return \Illuminate\Support\Collection
      */
     public function scan($format)
     {
@@ -1012,7 +1005,7 @@ class Stringable implements JsonSerializable, ArrayAccess
     /**
      * Split a string by uppercase characters.
      *
-     * @return Collection<int, string>
+     * @return \Illuminate\Support\Collection<int, string>
      */
     public function ucsplit()
     {
@@ -1232,13 +1225,46 @@ class Stringable implements JsonSerializable, ArrayAccess
     }
 
     /**
+     * Unwrap the string with the given strings.
+     *
+     * @param  string  $before
+     * @param  string|null  $after
+     * @return static
+     */
+    public function unwrap($before, $after = null)
+    {
+        return new static(Str::unwrap($this->value, $before, $after));
+    }
+
+    /**
      * Convert the string into a `HtmlString` instance.
      *
-     * @return HtmlString
+     * @return \Illuminate\Support\HtmlString
      */
     public function toHtmlString()
     {
         return new HtmlString($this->value);
+    }
+
+    /**
+     * Convert the string to Base64 encoding.
+     *
+     * @return static
+     */
+    public function toBase64()
+    {
+        return new static(base64_encode($this->value));
+    }
+
+    /**
+     * Decode the Base64 encoded string.
+     *
+     * @param  bool  $strict
+     * @return static
+     */
+    public function fromBase64($strict = false)
+    {
+        return new static(base64_decode($this->value, $strict));
     }
 
     /**
@@ -1323,9 +1349,9 @@ class Stringable implements JsonSerializable, ArrayAccess
      *
      * @param  string|null  $format
      * @param  string|null  $tz
-     * @return Carbon
+     * @return \Illuminate\Support\Carbon
      *
-     * @throws InvalidFormatException
+     * @throws \Carbon\Exceptions\InvalidFormatException
      */
     public function toDate($format = null, $tz = null)
     {

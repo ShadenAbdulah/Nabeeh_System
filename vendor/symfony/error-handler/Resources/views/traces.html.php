@@ -25,7 +25,7 @@
                     <p class="break-long-words trace-message"><?= $this->escape($exception['message']); ?></p>
                 <?php } ?>
             </div>
-            <?php if (count($exception['data'] ?? [])) { ?>
+            <?php if (\count($exception['data'] ?? [])) { ?>
                 <details class="exception-properties-wrapper">
                     <summary>Show exception properties</summary>
                     <div class="exception-properties">

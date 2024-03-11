@@ -10,7 +10,7 @@ class CacheSchedulingMutex implements SchedulingMutex, CacheAware
     /**
      * The cache factory implementation.
      *
-     * @var Cache
+     * @var \Illuminate\Contracts\Cache\Factory
      */
     public $cache;
 
@@ -24,7 +24,7 @@ class CacheSchedulingMutex implements SchedulingMutex, CacheAware
     /**
      * Create a new scheduling strategy.
      *
-     * @param Cache $cache
+     * @param  \Illuminate\Contracts\Cache\Factory  $cache
      * @return void
      */
     public function __construct(Cache $cache)
@@ -35,8 +35,8 @@ class CacheSchedulingMutex implements SchedulingMutex, CacheAware
     /**
      * Attempt to obtain a scheduling mutex for the given event.
      *
-     * @param Event $event
-     * @param DateTimeInterface $time
+     * @param  \Illuminate\Console\Scheduling\Event  $event
+     * @param  \DateTimeInterface  $time
      * @return bool
      */
     public function create(Event $event, DateTimeInterface $time)
@@ -49,8 +49,8 @@ class CacheSchedulingMutex implements SchedulingMutex, CacheAware
     /**
      * Determine if a scheduling mutex exists for the given event.
      *
-     * @param Event $event
-     * @param DateTimeInterface $time
+     * @param  \Illuminate\Console\Scheduling\Event  $event
+     * @param  \DateTimeInterface  $time
      * @return bool
      */
     public function exists(Event $event, DateTimeInterface $time)

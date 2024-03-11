@@ -6,14 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasOneOrMany;
 use Illuminate\Database\Eloquent\Relations\MorphOneOrMany;
-use Illuminate\Support\Collection;
 
 class Relationship
 {
     /**
      * The related factory instance.
      *
-     * @var Factory
+     * @var \Illuminate\Database\Eloquent\Factories\Factory
      */
     protected $factory;
 
@@ -27,7 +26,7 @@ class Relationship
     /**
      * Create a new child relationship instance.
      *
-     * @param Factory $factory
+     * @param  \Illuminate\Database\Eloquent\Factories\Factory  $factory
      * @param  string  $relationship
      * @return void
      */
@@ -40,7 +39,7 @@ class Relationship
     /**
      * Create the child relationship for the given parent model.
      *
-     * @param Model $parent
+     * @param  \Illuminate\Database\Eloquent\Model  $parent
      * @return void
      */
     public function createFor(Model $parent)
@@ -64,7 +63,7 @@ class Relationship
     /**
      * Specify the model instances to always use when creating relationships.
      *
-     * @param  Collection  $recycle
+     * @param  \Illuminate\Support\Collection  $recycle
      * @return $this
      */
     public function recycle($recycle)

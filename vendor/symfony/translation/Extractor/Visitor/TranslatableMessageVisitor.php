@@ -13,7 +13,6 @@ namespace Symfony\Component\Translation\Extractor\Visitor;
 
 use PhpParser\Node;
 use PhpParser\NodeVisitor;
-use function in_array;
 
 /**
  * @author Mathieu Santostefano <msantostefano@protonmail.com>
@@ -27,6 +26,11 @@ final class TranslatableMessageVisitor extends AbstractVisitor implements NodeVi
 
     public function enterNode(Node $node): ?Node
     {
+        return null;
+    }
+
+    public function leaveNode(Node $node): ?Node
+    {
         if (!$node instanceof Node\Expr\New_) {
             return null;
         }
@@ -35,11 +39,7 @@ final class TranslatableMessageVisitor extends AbstractVisitor implements NodeVi
             return null;
         }
 
-<<<<<<< HEAD
-        if (!in_array('TranslatableMessage', $className->getParts(), true)) {
-=======
-        if (!\in_array('TranslatableMessage', $className->parts, true)) {
->>>>>>> parent of c8b1139b (update Ui)
+        if (!\in_array('TranslatableMessage', $className->getParts(), true)) {
             return null;
         }
 
@@ -55,11 +55,6 @@ final class TranslatableMessageVisitor extends AbstractVisitor implements NodeVi
             $this->addMessageToCatalogue($message, $domain, $node->getStartLine());
         }
 
-        return null;
-    }
-
-    public function leaveNode(Node $node): ?Node
-    {
         return null;
     }
 

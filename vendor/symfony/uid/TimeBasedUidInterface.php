@@ -11,8 +11,6 @@
 
 namespace Symfony\Component\Uid;
 
-use DateTimeImmutable;
-
 /**
  * Interface to describe UIDs that contain a DateTimeImmutable as part of their behaviour.
  *
@@ -20,5 +18,5 @@ use DateTimeImmutable;
  */
 interface TimeBasedUidInterface
 {
-    public function getDateTime(): DateTimeImmutable;
+    public function getDateTime(): \DateTimeImmutable;
 }

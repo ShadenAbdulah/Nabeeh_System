@@ -2,16 +2,13 @@
 
 namespace Illuminate\Foundation;
 
-use Closure;
-use Illuminate\Http\Request;
-
 class Precognition
 {
     /**
      * Get the "after" validation hook that can be used for precognition requests.
      *
-     * @param  Request  $request
-     * @return Closure
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Closure
      */
     public static function afterValidationHook($request)
     {

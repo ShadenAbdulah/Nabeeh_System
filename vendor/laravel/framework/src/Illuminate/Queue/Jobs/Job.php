@@ -4,7 +4,6 @@ namespace Illuminate\Queue\Jobs;
 
 use Illuminate\Bus\Batchable;
 use Illuminate\Bus\BatchRepository;
-use Illuminate\Container\Container;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Queue\Events\JobFailed;
 use Illuminate\Queue\ManuallyFailedException;
@@ -26,7 +25,7 @@ abstract class Job
     /**
      * The IoC container instance.
      *
-     * @var Container
+     * @var \Illuminate\Container\Container
      */
     protected $container;
 
@@ -177,7 +176,7 @@ abstract class Job
     /**
      * Delete the job, call the "failed" method, and raise the failed job event.
      *
-     * @param Throwable|null  $e
+     * @param  \Throwable|null  $e
      * @return void
      */
     public function fail($e = null)
@@ -224,7 +223,7 @@ abstract class Job
     /**
      * Process an exception that caused the job to fail.
      *
-     * @param Throwable|null  $e
+     * @param  \Throwable|null  $e
      * @return void
      */
     protected function failed($e)
@@ -374,7 +373,7 @@ abstract class Job
     /**
      * Get the service container instance.
      *
-     * @return Container
+     * @return \Illuminate\Container\Container
      */
     public function getContainer()
     {

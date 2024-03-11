@@ -3,7 +3,6 @@
 namespace Illuminate\Support;
 
 use Closure;
-use Illuminate\Contracts\Config\Repository;
 use Illuminate\Contracts\Container\Container;
 use InvalidArgumentException;
 
@@ -12,14 +11,14 @@ abstract class Manager
     /**
      * The container instance.
      *
-     * @var Container
+     * @var \Illuminate\Contracts\Container\Container
      */
     protected $container;
 
     /**
      * The configuration repository instance.
      *
-     * @var Repository
+     * @var \Illuminate\Contracts\Config\Repository
      */
     protected $config;
 
@@ -40,7 +39,7 @@ abstract class Manager
     /**
      * Create a new manager instance.
      *
-     * @param Container $container
+     * @param  \Illuminate\Contracts\Container\Container  $container
      * @return void
      */
     public function __construct(Container $container)
@@ -62,7 +61,7 @@ abstract class Manager
      * @param  string|null  $driver
      * @return mixed
      *
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     public function driver($driver = null)
     {
@@ -90,7 +89,7 @@ abstract class Manager
      * @param  string  $driver
      * @return mixed
      *
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     protected function createDriver($driver)
     {
@@ -125,7 +124,7 @@ abstract class Manager
      * Register a custom driver creator Closure.
      *
      * @param  string  $driver
-     * @param Closure $callback
+     * @param  \Closure  $callback
      * @return $this
      */
     public function extend($driver, Closure $callback)
@@ -148,7 +147,7 @@ abstract class Manager
     /**
      * Get the container instance used by the manager.
      *
-     * @return Container
+     * @return \Illuminate\Contracts\Container\Container
      */
     public function getContainer()
     {
@@ -158,7 +157,7 @@ abstract class Manager
     /**
      * Set the container instance used by the manager.
      *
-     * @param Container $container
+     * @param  \Illuminate\Contracts\Container\Container  $container
      * @return $this
      */
     public function setContainer(Container $container)

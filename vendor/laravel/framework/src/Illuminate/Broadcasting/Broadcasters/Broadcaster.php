@@ -9,13 +9,10 @@ use Illuminate\Contracts\Broadcasting\Broadcaster as BroadcasterContract;
 use Illuminate\Contracts\Broadcasting\HasBroadcastChannel;
 use Illuminate\Contracts\Routing\BindingRegistrar;
 use Illuminate\Contracts\Routing\UrlRoutable;
-use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Reflector;
 use ReflectionClass;
 use ReflectionFunction;
-use ReflectionParameter;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 abstract class Broadcaster implements BroadcasterContract
@@ -23,7 +20,7 @@ abstract class Broadcaster implements BroadcasterContract
     /**
      * The callback to resolve the authenticated user information.
      *
-     * @var Closure|null
+     * @var \Closure|null
      */
     protected $authenticatedUserCallback = null;
 
@@ -44,7 +41,7 @@ abstract class Broadcaster implements BroadcasterContract
     /**
      * The binding registrar instance.
      *
-     * @var BindingRegistrar
+     * @var \Illuminate\Contracts\Routing\BindingRegistrar
      */
     protected $bindingRegistrar;
 
@@ -53,7 +50,7 @@ abstract class Broadcaster implements BroadcasterContract
      *
      * See: https://pusher.com/docs/channels/library_auth_reference/auth-signatures/#user-authentication.
      *
-     * @param  Request  $request
+     * @param  \Illuminate\Http\Request  $request
      * @return array|null
      */
     public function resolveAuthenticatedUser($request)
@@ -68,7 +65,7 @@ abstract class Broadcaster implements BroadcasterContract
      *
      * See: https://pusher.com/docs/channels/library_auth_reference/auth-signatures/#user-authentication.
      *
-     * @param Closure $callback
+     * @param  \Closure  $callback
      * @return void
      */
     public function resolveAuthenticatedUserUsing(Closure $callback)
@@ -79,7 +76,7 @@ abstract class Broadcaster implements BroadcasterContract
     /**
      * Register a channel authenticator.
      *
-     * @param HasBroadcastChannel|string  $channel
+     * @param  \Illuminate\Contracts\Broadcasting\HasBroadcastChannel|string  $channel
      * @param  callable|string  $callback
      * @param  array  $options
      * @return $this
@@ -102,11 +99,11 @@ abstract class Broadcaster implements BroadcasterContract
     /**
      * Authenticate the incoming request for a given channel.
      *
-     * @param  Request  $request
+     * @param  \Illuminate\Http\Request  $request
      * @param  string  $channel
      * @return mixed
      *
-     * @throws AccessDeniedHttpException
+     * @throws \Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException
      */
     protected function verifyUserCanAccessChannel($request, $channel)
     {
@@ -154,9 +151,9 @@ abstract class Broadcaster implements BroadcasterContract
      * Extracts the parameters out of what the user passed to handle the channel authentication.
      *
      * @param  callable|string  $callback
-     * @return ReflectionParameter[]
+     * @return \ReflectionParameter[]
      *
-     * @throws Exception
+     * @throws \Exception
      */
     protected function extractParameters($callback)
     {
@@ -173,9 +170,9 @@ abstract class Broadcaster implements BroadcasterContract
      * Extracts the parameters out of a class channel's "join" method.
      *
      * @param  string  $callback
-     * @return ReflectionParameter[]
+     * @return \ReflectionParameter[]
      *
-     * @throws Exception
+     * @throws \Exception
      */
     protected function extractParametersFromClass($callback)
     {
@@ -245,7 +242,7 @@ abstract class Broadcaster implements BroadcasterContract
      * @param  array  $callbackParameters
      * @return mixed
      *
-     * @throws AccessDeniedHttpException
+     * @throws \Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException
      */
     protected function resolveImplicitBindingIfPossible($key, $value, $callbackParameters)
     {
@@ -270,7 +267,7 @@ abstract class Broadcaster implements BroadcasterContract
      * Determine if a given key and parameter is implicitly bindable.
      *
      * @param  string  $key
-     * @param  ReflectionParameter  $parameter
+     * @param  \ReflectionParameter  $parameter
      * @return bool
      */
     protected function isImplicitlyBindable($key, $parameter)
@@ -295,7 +292,7 @@ abstract class Broadcaster implements BroadcasterContract
     /**
      * Get the model binding registrar instance.
      *
-     * @return BindingRegistrar
+     * @return \Illuminate\Contracts\Routing\BindingRegistrar
      */
     protected function binder()
     {
@@ -325,7 +322,7 @@ abstract class Broadcaster implements BroadcasterContract
     /**
      * Retrieve the authenticated user using the configured guard (if any).
      *
-     * @param  Request  $request
+     * @param  \Illuminate\Http\Request  $request
      * @param  string  $channel
      * @return mixed
      */
@@ -380,7 +377,7 @@ abstract class Broadcaster implements BroadcasterContract
     /**
      * Get all of the registered channels.
      *
-     * @return Collection
+     * @return \Illuminate\Support\Collection
      */
     public function getChannels()
     {

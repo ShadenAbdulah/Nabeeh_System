@@ -26,14 +26,14 @@ class ForgetCommand extends Command
     /**
      * The cache manager instance.
      *
-     * @var CacheManager
+     * @var \Illuminate\Cache\CacheManager
      */
     protected $cache;
 
     /**
      * Create a new cache clear command instance.
      *
-     * @param CacheManager $cache
+     * @param  \Illuminate\Cache\CacheManager  $cache
      * @return void
      */
     public function __construct(CacheManager $cache)

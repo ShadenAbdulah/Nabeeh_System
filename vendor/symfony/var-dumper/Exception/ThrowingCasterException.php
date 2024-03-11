@@ -11,18 +11,15 @@
 
 namespace Symfony\Component\VarDumper\Exception;
 
-use Exception;
-use Throwable;
-
 /**
  * @author Nicolas Grekas <p@tchwork.com>
  */
-class ThrowingCasterException extends Exception
+class ThrowingCasterException extends \Exception
 {
     /**
-     * @param Throwable $prev The exception thrown from the caster
+     * @param \Throwable $prev The exception thrown from the caster
      */
-    public function __construct(Throwable $prev)
+    public function __construct(\Throwable $prev)
     {
         parent::__construct('Unexpected '.$prev::class.' thrown from a caster: '.$prev->getMessage(), 0, $prev);
     }

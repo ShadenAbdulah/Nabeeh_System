@@ -3,15 +3,11 @@
 namespace Illuminate\Http\Resources\Json;
 
 use Countable;
-use Illuminate\Contracts\Support\Arrayable;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\CollectsResources;
 use Illuminate\Pagination\AbstractCursorPaginator;
 use Illuminate\Pagination\AbstractPaginator;
-use Illuminate\Support\Collection;
 use IteratorAggregate;
-use JsonSerializable;
 
 class ResourceCollection extends JsonResource implements Countable, IteratorAggregate
 {
@@ -27,7 +23,7 @@ class ResourceCollection extends JsonResource implements Countable, IteratorAggr
     /**
      * The mapped collection instance.
      *
-     * @var Collection
+     * @var \Illuminate\Support\Collection
      */
     public $collection;
 
@@ -98,8 +94,8 @@ class ResourceCollection extends JsonResource implements Countable, IteratorAggr
     /**
      * Transform the resource into a JSON array.
      *
-     * @param Request $request
-     * @return array|Arrayable|JsonSerializable
+     * @param  \Illuminate\Http\Request  $request
+     * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
      */
     public function toArray(Request $request)
     {
@@ -109,8 +105,8 @@ class ResourceCollection extends JsonResource implements Countable, IteratorAggr
     /**
      * Create an HTTP response that represents the object.
      *
-     * @param Request $request
-     * @return JsonResponse
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\JsonResponse
      */
     public function toResponse($request)
     {
@@ -124,8 +120,8 @@ class ResourceCollection extends JsonResource implements Countable, IteratorAggr
     /**
      * Create a paginate-aware HTTP response.
      *
-     * @param Request $request
-     * @return JsonResponse
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\JsonResponse
      */
     protected function preparePaginatedResponse($request)
     {

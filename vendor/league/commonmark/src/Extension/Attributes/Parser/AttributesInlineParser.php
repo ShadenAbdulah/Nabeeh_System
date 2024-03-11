@@ -20,7 +20,6 @@ use League\CommonMark\Node\StringContainerInterface;
 use League\CommonMark\Parser\Inline\InlineParserInterface;
 use League\CommonMark\Parser\Inline\InlineParserMatch;
 use League\CommonMark\Parser\InlineParserContext;
-use function rtrim;
 
 final class AttributesInlineParser implements InlineParserInterface
 {
@@ -40,7 +39,7 @@ final class AttributesInlineParser implements InlineParserInterface
         }
 
         if ($char === ' ' && ($prev = $inlineContext->getContainer()->lastChild()) instanceof StringContainerInterface) {
-            $prev->setLiteral(rtrim($prev->getLiteral(), ' '));
+            $prev->setLiteral(\rtrim($prev->getLiteral(), ' '));
         }
 
         if ($char === '') {

@@ -12,20 +12,6 @@
 namespace Symfony\Component\HttpFoundation;
 
 // Help opcache.preload discover always-needed symbols
-use DateTimeImmutable;
-use DateTimeInterface;
-use DateTimeZone;
-use InvalidArgumentException;
-use RuntimeException;
-use function count;
-use function func_num_args;
-use function function_exists;
-use function in_array;
-use const PHP_OUTPUT_HANDLER_CLEANABLE;
-use const PHP_OUTPUT_HANDLER_FLUSHABLE;
-use const PHP_OUTPUT_HANDLER_REMOVABLE;
-use const PHP_SAPI;
-
 class_exists(ResponseHeaderBag::class);
 
 /**
@@ -233,7 +219,7 @@ class Response
     /**
      * @param int $status The HTTP status code (200 "OK" by default)
      *
-     * @throws InvalidArgumentException When the HTTP status code is not valid
+     * @throws \InvalidArgumentException When the HTTP status code is not valid
      */
     public function __construct(?string $content = '', int $status = 200, array $headers = [])
     {
@@ -356,9 +342,9 @@ class Response
             return $this;
         }
 
-        $statusCode = func_num_args() > 0 ? func_get_arg(0) : null;
+        $statusCode = \func_num_args() > 0 ? func_get_arg(0) : null;
         $informationalResponse = $statusCode >= 100 && $statusCode < 200;
-        if ($informationalResponse && !function_exists('headers_send')) {
+        if ($informationalResponse && !\function_exists('headers_send')) {
             // skip informational responses if not supported by the SAPI
             return $this;
         }
@@ -369,22 +355,20 @@ class Response
             $replace = false;
 
             // As recommended by RFC 8297, PHP automatically copies headers from previous 103 responses, we need to deal with that if headers changed
-            if (103 === $statusCode) {
-                $previousValues = $this->sentHeaders[$name] ?? null;
-                if ($previousValues === $values) {
-                    // Header already sent in a previous response, it will be automatically copied in this response by PHP
-                    continue;
-                }
-
-                $replace = 0 === strcasecmp($name, 'Content-Type');
-
-                if (null !== $previousValues && array_diff($previousValues, $values)) {
-                    header_remove($name);
-                    $previousValues = null;
-                }
-
-                $newValues = null === $previousValues ? $values : array_diff($values, $previousValues);
+            $previousValues = $this->sentHeaders[$name] ?? null;
+            if ($previousValues === $values) {
+                // Header already sent in a previous response, it will be automatically copied in this response by PHP
+                continue;
             }
+
+            $replace = 0 === strcasecmp($name, 'Content-Type');
+
+            if (null !== $previousValues && array_diff($previousValues, $values)) {
+                header_remove($name);
+                $previousValues = null;
+            }
+
+            $newValues = null === $previousValues ? $values : array_diff($values, $previousValues);
 
             foreach ($newValues as $value) {
                 header($name.': '.$value, $replace, $this->statusCode);
@@ -438,16 +422,16 @@ class Response
         $this->sendHeaders();
         $this->sendContent();
 
-        $flush = 1 <= func_num_args() ? func_get_arg(0) : true;
+        $flush = 1 <= \func_num_args() ? func_get_arg(0) : true;
         if (!$flush) {
             return $this;
         }
 
-        if (function_exists('fastcgi_finish_request')) {
+        if (\function_exists('fastcgi_finish_request')) {
             fastcgi_finish_request();
-        } elseif (function_exists('litespeed_finish_request')) {
+        } elseif (\function_exists('litespeed_finish_request')) {
             litespeed_finish_request();
-        } elseif (!in_array(PHP_SAPI, ['cli', 'phpdbg', 'embed'], true)) {
+        } elseif (!\in_array(\PHP_SAPI, ['cli', 'phpdbg', 'embed'], true)) {
             static::closeOutputBuffers(0, true);
             flush();
         }
@@ -507,15 +491,15 @@ class Response
      *
      * @return $this
      *
-     * @throws InvalidArgumentException When the HTTP status code is not valid
+     * @throws \InvalidArgumentException When the HTTP status code is not valid
      *
      * @final
      */
-    public function setStatusCode(int $code, string $text = null): static
+    public function setStatusCode(int $code, ?string $text = null): static
     {
         $this->statusCode = $code;
         if ($this->isInvalid()) {
-            throw new InvalidArgumentException(sprintf('The HTTP status code "%s" is not valid.', $code));
+            throw new \InvalidArgumentException(sprintf('The HTTP status code "%s" is not valid.', $code));
         }
 
         if (null === $text) {
@@ -582,7 +566,7 @@ class Response
      */
     public function isCacheable(): bool
     {
-        if (!in_array($this->statusCode, [200, 203, 300, 301, 302, 404, 410])) {
+        if (!\in_array($this->statusCode, [200, 203, 300, 301, 302, 404, 410])) {
             return false;
         }
 
@@ -698,11 +682,11 @@ class Response
     /**
      * Returns the Date header as a DateTime instance.
      *
-     * @throws RuntimeException When the header is not parseable
+     * @throws \RuntimeException When the header is not parseable
      *
      * @final
      */
-    public function getDate(): ?DateTimeImmutable
+    public function getDate(): ?\DateTimeImmutable
     {
         return $this->headers->getDate('Date');
     }
@@ -714,10 +698,10 @@ class Response
      *
      * @final
      */
-    public function setDate(DateTimeInterface $date): static
+    public function setDate(\DateTimeInterface $date): static
     {
-        $date = DateTimeImmutable::createFromInterface($date);
-        $date = $date->setTimezone(new DateTimeZone('UTC'));
+        $date = \DateTimeImmutable::createFromInterface($date);
+        $date = $date->setTimezone(new \DateTimeZone('UTC'));
         $this->headers->set('Date', $date->format('D, d M Y H:i:s').' GMT');
 
         return $this;
@@ -757,13 +741,13 @@ class Response
      *
      * @final
      */
-    public function getExpires(): ?DateTimeImmutable
+    public function getExpires(): ?\DateTimeImmutable
     {
         try {
             return $this->headers->getDate('Expires');
-        } catch (RuntimeException) {
+        } catch (\RuntimeException) {
             // according to RFC 2616 invalid date formats (e.g. "0" and "-1") must be treated as in the past
-            return DateTimeImmutable::createFromFormat('U', time() - 172800);
+            return \DateTimeImmutable::createFromFormat('U', time() - 172800);
         }
     }
 
@@ -776,13 +760,9 @@ class Response
      *
      * @final
      */
-<<<<<<< HEAD
-    public function setExpires(?DateTimeInterface $date = null): static
-=======
-    public function setExpires(\DateTimeInterface $date = null): static
->>>>>>> parent of c8b1139b (update Ui)
+    public function setExpires(?\DateTimeInterface $date = null): static
     {
-        if (1 > func_num_args()) {
+        if (1 > \func_num_args()) {
             trigger_deprecation('symfony/http-foundation', '6.2', 'Calling "%s()" without any arguments is deprecated, pass null explicitly instead.', __METHOD__);
         }
         if (null === $date) {
@@ -791,8 +771,8 @@ class Response
             return $this;
         }
 
-        $date = DateTimeImmutable::createFromInterface($date);
-        $date = $date->setTimezone(new DateTimeZone('UTC'));
+        $date = \DateTimeImmutable::createFromInterface($date);
+        $date = $date->setTimezone(new \DateTimeZone('UTC'));
         $this->headers->set('Expires', $date->format('D, d M Y H:i:s').' GMT');
 
         return $this;
@@ -943,11 +923,11 @@ class Response
     /**
      * Returns the Last-Modified HTTP header as a DateTime instance.
      *
-     * @throws RuntimeException When the HTTP header is not parseable
+     * @throws \RuntimeException When the HTTP header is not parseable
      *
      * @final
      */
-    public function getLastModified(): ?DateTimeImmutable
+    public function getLastModified(): ?\DateTimeImmutable
     {
         return $this->headers->getDate('Last-Modified');
     }
@@ -961,13 +941,9 @@ class Response
      *
      * @final
      */
-<<<<<<< HEAD
-    public function setLastModified(?DateTimeInterface $date = null): static
-=======
-    public function setLastModified(\DateTimeInterface $date = null): static
->>>>>>> parent of c8b1139b (update Ui)
+    public function setLastModified(?\DateTimeInterface $date = null): static
     {
-        if (1 > func_num_args()) {
+        if (1 > \func_num_args()) {
             trigger_deprecation('symfony/http-foundation', '6.2', 'Calling "%s()" without any arguments is deprecated, pass null explicitly instead.', __METHOD__);
         }
         if (null === $date) {
@@ -976,8 +952,8 @@ class Response
             return $this;
         }
 
-        $date = DateTimeImmutable::createFromInterface($date);
-        $date = $date->setTimezone(new DateTimeZone('UTC'));
+        $date = \DateTimeImmutable::createFromInterface($date);
+        $date = $date->setTimezone(new \DateTimeZone('UTC'));
         $this->headers->set('Last-Modified', $date->format('D, d M Y H:i:s').' GMT');
 
         return $this;
@@ -1003,9 +979,9 @@ class Response
      *
      * @final
      */
-    public function setEtag(string $etag = null, bool $weak = false): static
+    public function setEtag(?string $etag = null, bool $weak = false): static
     {
-        if (1 > func_num_args()) {
+        if (1 > \func_num_args()) {
             trigger_deprecation('symfony/http-foundation', '6.2', 'Calling "%s()" without any arguments is deprecated, pass null explicitly instead.', __METHOD__);
         }
         if (null === $etag) {
@@ -1028,14 +1004,14 @@ class Response
      *
      * @return $this
      *
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      *
      * @final
      */
     public function setCache(array $options): static
     {
         if ($diff = array_diff(array_keys($options), array_keys(self::HTTP_RESPONSE_CACHE_CONTROL_DIRECTIVES))) {
-            throw new InvalidArgumentException(sprintf('Response does not support the following options: "%s".', implode('", "', $diff)));
+            throw new \InvalidArgumentException(sprintf('Response does not support the following options: "%s".', implode('", "', $diff)));
         }
 
         if (isset($options['etag'])) {
@@ -1306,9 +1282,9 @@ class Response
      *
      * @final
      */
-    public function isRedirect(string $location = null): bool
+    public function isRedirect(?string $location = null): bool
     {
-        return in_array($this->statusCode, [201, 301, 302, 303, 307, 308]) && (null === $location ?: $location == $this->headers->get('Location'));
+        return \in_array($this->statusCode, [201, 301, 302, 303, 307, 308]) && (null === $location ?: $location == $this->headers->get('Location'));
     }
 
     /**
@@ -1318,7 +1294,7 @@ class Response
      */
     public function isEmpty(): bool
     {
-        return in_array($this->statusCode, [204, 304]);
+        return \in_array($this->statusCode, [204, 304]);
     }
 
     /**
@@ -1331,8 +1307,8 @@ class Response
     public static function closeOutputBuffers(int $targetLevel, bool $flush): void
     {
         $status = ob_get_status(true);
-        $level = count($status);
-        $flags = PHP_OUTPUT_HANDLER_REMOVABLE | ($flush ? PHP_OUTPUT_HANDLER_FLUSHABLE : PHP_OUTPUT_HANDLER_CLEANABLE);
+        $level = \count($status);
+        $flags = \PHP_OUTPUT_HANDLER_REMOVABLE | ($flush ? \PHP_OUTPUT_HANDLER_FLUSHABLE : \PHP_OUTPUT_HANDLER_CLEANABLE);
 
         while ($level-- > $targetLevel && ($s = $status[$level]) && (!isset($s['del']) ? !isset($s['flags']) || ($s['flags'] & $flags) === $flags : $s['del'])) {
             if ($flush) {

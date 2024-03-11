@@ -18,7 +18,7 @@ class TestView
     /**
      * The original view.
      *
-     * @var View
+     * @var \Illuminate\View\View
      */
     protected $view;
 
@@ -32,7 +32,7 @@ class TestView
     /**
      * Create a new test view instance.
      *
-     * @param View $view
+     * @param  \Illuminate\View\View  $view
      * @return void
      */
     public function __construct(View $view)

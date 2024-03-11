@@ -9,14 +9,14 @@ class BatchDispatched
     /**
      * The batch instance.
      *
-     * @var Batch
+     * @var \Illuminate\Bus\Batch
      */
     public $batch;
 
     /**
      * Create a new event instance.
      *
-     * @param Batch $batch
+     * @param  \Illuminate\Bus\Batch  $batch
      * @return void
      */
     public function __construct(Batch $batch)

@@ -2,8 +2,6 @@
 
 namespace Illuminate\Queue;
 
-use DateInterval;
-use DateTimeInterface;
 use Illuminate\Contracts\Queue\Job;
 use Illuminate\Contracts\Queue\Queue as QueueContract;
 use Illuminate\Queue\Events\JobExceptionOccurred;
@@ -33,7 +31,7 @@ class SyncQueue extends Queue implements QueueContract
      * @param  string|null  $queue
      * @return mixed
      *
-     * @throws Throwable
+     * @throws \Throwable
      */
     public function push($job, $data = '', $queue = null)
     {
@@ -57,7 +55,7 @@ class SyncQueue extends Queue implements QueueContract
      *
      * @param  string  $payload
      * @param  string  $queue
-     * @return SyncJob
+     * @return \Illuminate\Queue\Jobs\SyncJob
      */
     protected function resolveJob($payload, $queue)
     {
@@ -67,7 +65,7 @@ class SyncQueue extends Queue implements QueueContract
     /**
      * Raise the before queue job event.
      *
-     * @param Job $job
+     * @param  \Illuminate\Contracts\Queue\Job  $job
      * @return void
      */
     protected function raiseBeforeJobEvent(Job $job)
@@ -80,7 +78,7 @@ class SyncQueue extends Queue implements QueueContract
     /**
      * Raise the after queue job event.
      *
-     * @param Job $job
+     * @param  \Illuminate\Contracts\Queue\Job  $job
      * @return void
      */
     protected function raiseAfterJobEvent(Job $job)
@@ -93,8 +91,8 @@ class SyncQueue extends Queue implements QueueContract
     /**
      * Raise the exception occurred queue job event.
      *
-     * @param Job $job
-     * @param Throwable $e
+     * @param  \Illuminate\Contracts\Queue\Job  $job
+     * @param  \Throwable  $e
      * @return void
      */
     protected function raiseExceptionOccurredJobEvent(Job $job, Throwable $e)
@@ -107,11 +105,11 @@ class SyncQueue extends Queue implements QueueContract
     /**
      * Handle an exception that occurred while processing a job.
      *
-     * @param Job $queueJob
-     * @param Throwable $e
+     * @param  \Illuminate\Contracts\Queue\Job  $queueJob
+     * @param  \Throwable  $e
      * @return void
      *
-     * @throws Throwable
+     * @throws \Throwable
      */
     protected function handleException(Job $queueJob, Throwable $e)
     {
@@ -138,7 +136,7 @@ class SyncQueue extends Queue implements QueueContract
     /**
      * Push a new job onto the queue after (n) seconds.
      *
-     * @param  DateTimeInterface|DateInterval|int  $delay
+     * @param  \DateTimeInterface|\DateInterval|int  $delay
      * @param  string  $job
      * @param  mixed  $data
      * @param  string|null  $queue
@@ -153,7 +151,7 @@ class SyncQueue extends Queue implements QueueContract
      * Pop the next job off of the queue.
      *
      * @param  string|null  $queue
-     * @return Job|null
+     * @return \Illuminate\Contracts\Queue\Job|null
      */
     public function pop($queue = null)
     {

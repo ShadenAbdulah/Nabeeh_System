@@ -6,14 +6,14 @@ use Illuminate\Contracts\Hashing\Hasher;
 use Illuminate\Support\Manager;
 
 /**
- * @mixin Hasher
+ * @mixin \Illuminate\Contracts\Hashing\Hasher
  */
 class HashManager extends Manager implements Hasher
 {
     /**
      * Create an instance of the Bcrypt hash Driver.
      *
-     * @return BcryptHasher
+     * @return \Illuminate\Hashing\BcryptHasher
      */
     public function createBcryptDriver()
     {
@@ -23,7 +23,7 @@ class HashManager extends Manager implements Hasher
     /**
      * Create an instance of the Argon2i hash Driver.
      *
-     * @return ArgonHasher
+     * @return \Illuminate\Hashing\ArgonHasher
      */
     public function createArgonDriver()
     {
@@ -33,7 +33,7 @@ class HashManager extends Manager implements Hasher
     /**
      * Create an instance of the Argon2id hash Driver.
      *
-     * @return Argon2IdHasher
+     * @return \Illuminate\Hashing\Argon2IdHasher
      */
     public function createArgon2idDriver()
     {

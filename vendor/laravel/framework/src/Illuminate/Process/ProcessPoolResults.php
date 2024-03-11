@@ -28,7 +28,7 @@ class ProcessPoolResults implements ArrayAccess
     /**
      * Get the results as a collection.
      *
-     * @return Collection
+     * @return \Illuminate\Support\Collection
      */
     public function collect()
     {

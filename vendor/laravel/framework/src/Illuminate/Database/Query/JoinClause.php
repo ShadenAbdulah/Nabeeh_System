@@ -3,10 +3,6 @@
 namespace Illuminate\Database\Query;
 
 use Closure;
-use Illuminate\Database\ConnectionInterface;
-use Illuminate\Database\Query\Grammars\Grammar;
-use Illuminate\Database\Query\Processors\Processor;
-use InvalidArgumentException;
 
 class JoinClause extends Builder
 {
@@ -27,21 +23,21 @@ class JoinClause extends Builder
     /**
      * The connection of the parent query builder.
      *
-     * @var ConnectionInterface
+     * @var \Illuminate\Database\ConnectionInterface
      */
     protected $parentConnection;
 
     /**
      * The grammar of the parent query builder.
      *
-     * @var Grammar
+     * @var \Illuminate\Database\Query\Grammars\Grammar
      */
     protected $parentGrammar;
 
     /**
      * The processor of the parent query builder.
      *
-     * @var Processor
+     * @var \Illuminate\Database\Query\Processors\Processor
      */
     protected $parentProcessor;
 
@@ -55,7 +51,7 @@ class JoinClause extends Builder
     /**
      * Create a new join clause instance.
      *
-     * @param Builder $parentQuery
+     * @param  \Illuminate\Database\Query\Builder  $parentQuery
      * @param  string  $type
      * @param  string  $table
      * @return void
@@ -86,13 +82,13 @@ class JoinClause extends Builder
      *
      * on `contacts`.`user_id` = `users`.`id` and `contacts`.`info_id` = `info`.`id`
      *
-     * @param Closure|string  $first
+     * @param  \Closure|string  $first
      * @param  string|null  $operator
      * @param  \Illuminate\Contracts\Database\Query\Expression|string|null  $second
      * @param  string  $boolean
      * @return $this
      *
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     public function on($first, $operator = null, $second = null, $boolean = 'and')
     {
@@ -106,10 +102,10 @@ class JoinClause extends Builder
     /**
      * Add an "or on" clause to the join.
      *
-     * @param Closure|string  $first
+     * @param  \Closure|string  $first
      * @param  string|null  $operator
      * @param  \Illuminate\Contracts\Database\Query\Expression|string|null  $second
-     * @return JoinClause
+     * @return \Illuminate\Database\Query\JoinClause
      */
     public function orOn($first, $operator = null, $second = null)
     {
@@ -119,7 +115,7 @@ class JoinClause extends Builder
     /**
      * Get a new instance of the join clause builder.
      *
-     * @return JoinClause
+     * @return \Illuminate\Database\Query\JoinClause
      */
     public function newQuery()
     {
@@ -129,7 +125,7 @@ class JoinClause extends Builder
     /**
      * Create a new query instance for sub-query.
      *
-     * @return Builder
+     * @return \Illuminate\Database\Query\Builder
      */
     protected function forSubQuery()
     {
@@ -139,7 +135,7 @@ class JoinClause extends Builder
     /**
      * Create a new parent query instance.
      *
-     * @return Builder
+     * @return \Illuminate\Database\Query\Builder
      */
     protected function newParentQuery()
     {

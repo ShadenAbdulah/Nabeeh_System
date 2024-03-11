@@ -11,8 +11,6 @@
 
 namespace Symfony\Component\HttpKernel\Exception;
 
-use Throwable;
-
 /**
  * @author Ben Ramsey <ben@benramsey.com>
  *
@@ -20,11 +18,7 @@ use Throwable;
  */
 class PreconditionRequiredHttpException extends HttpException
 {
-<<<<<<< HEAD
-    public function __construct(string $message = '', ?Throwable $previous = null, int $code = 0, array $headers = [])
-=======
-    public function __construct(string $message = '', \Throwable $previous = null, int $code = 0, array $headers = [])
->>>>>>> parent of c8b1139b (update Ui)
+    public function __construct(string $message = '', ?\Throwable $previous = null, int $code = 0, array $headers = [])
     {
         parent::__construct(428, $message, $previous, $headers, $code);
     }

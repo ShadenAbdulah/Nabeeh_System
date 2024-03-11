@@ -12,9 +12,6 @@
 namespace Symfony\Component\Routing\Matcher\Dumper;
 
 use Symfony\Component\Routing\RouteCollection;
-use function count;
-use function ord;
-use function strlen;
 
 /**
  * Prefix tree of routes preserving routes order.
@@ -68,7 +65,7 @@ class StaticPrefixCollection
     {
         [$prefix, $staticPrefix] = $this->getCommonPrefix($prefix, $prefix);
 
-        for ($i = count($this->items) - 1; 0 <= $i; --$i) {
+        for ($i = \count($this->items) - 1; 0 <= $i; --$i) {
             $item = $this->items[$i];
 
             [$commonPrefix, $commonStaticPrefix] = $this->getCommonPrefix($prefix, $this->prefixes[$i]);
@@ -147,8 +144,8 @@ class StaticPrefixCollection
      */
     private function getCommonPrefix(string $prefix, string $anotherPrefix): array
     {
-        $baseLength = strlen($this->prefix);
-        $end = min(strlen($prefix), strlen($anotherPrefix));
+        $baseLength = \strlen($this->prefix);
+        $end = min(\strlen($prefix), \strlen($anotherPrefix));
         $staticLength = null;
         set_error_handler(self::handleError(...));
 
@@ -189,11 +186,11 @@ class StaticPrefixCollection
         } finally {
             restore_error_handler();
         }
-        if ($i < $end && 0b10 === (ord($prefix[$i]) >> 6) && preg_match('//u', $prefix.' '.$anotherPrefix)) {
+        if ($i < $end && 0b10 === (\ord($prefix[$i]) >> 6) && preg_match('//u', $prefix.' '.$anotherPrefix)) {
             do {
                 // Prevent cutting in the middle of an UTF-8 characters
                 --$i;
-            } while (0b10 === (ord($prefix[$i]) >> 6));
+            } while (0b10 === (\ord($prefix[$i]) >> 6));
         }
 
         return [substr($prefix, 0, $i), substr($prefix, 0, $staticLength ?? $i)];
@@ -201,6 +198,7 @@ class StaticPrefixCollection
 
     public static function handleError(int $type, string $msg): bool
     {
-        return str_contains($msg, 'Compilation failed: lookbehind assertion is not fixed length');
+        return str_contains($msg, 'Compilation failed: lookbehind assertion is not fixed length')
+            || str_contains($msg, 'Compilation failed: length of lookbehind assertion is not limited');
     }
 }

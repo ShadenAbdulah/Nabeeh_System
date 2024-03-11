@@ -13,7 +13,6 @@ namespace Symfony\Component\Process;
 
 use Symfony\Component\Process\Exception\LogicException;
 use Symfony\Component\Process\Exception\RuntimeException;
-use const PHP_SAPI;
 
 /**
  * PhpProcess runs a PHP script in an independent process.
@@ -33,14 +32,14 @@ class PhpProcess extends Process
      * @param int         $timeout The timeout in seconds
      * @param array|null  $php     Path to the PHP binary to use with any additional arguments
      */
-    public function __construct(string $script, string $cwd = null, array $env = null, int $timeout = 60, array $php = null)
+    public function __construct(string $script, ?string $cwd = null, ?array $env = null, int $timeout = 60, ?array $php = null)
     {
         if (null === $php) {
             $executableFinder = new PhpExecutableFinder();
             $php = $executableFinder->find(false);
             $php = false === $php ? null : array_merge([$php], $executableFinder->findArguments());
         }
-        if ('phpdbg' === PHP_SAPI) {
+        if ('phpdbg' === \PHP_SAPI) {
             $file = tempnam(sys_get_temp_dir(), 'dbg');
             file_put_contents($file, $script);
             register_shutdown_function('unlink', $file);
@@ -51,7 +50,7 @@ class PhpProcess extends Process
         parent::__construct($php, $cwd, $env, $script, $timeout);
     }
 
-    public static function fromShellCommandline(string $command, string $cwd = null, array $env = null, mixed $input = null, ?float $timeout = 60): static
+    public static function fromShellCommandline(string $command, ?string $cwd = null, ?array $env = null, mixed $input = null, ?float $timeout = 60): static
     {
         throw new LogicException(sprintf('The "%s()" method cannot be called when using "%s".', __METHOD__, self::class));
     }
@@ -59,7 +58,7 @@ class PhpProcess extends Process
     /**
      * @return void
      */
-    public function start(callable $callback = null, array $env = [])
+    public function start(?callable $callback = null, array $env = [])
     {
         if (null === $this->getCommandLine()) {
             throw new RuntimeException('Unable to find the PHP executable.');

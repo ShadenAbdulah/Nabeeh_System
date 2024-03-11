@@ -4,9 +4,7 @@ namespace Illuminate\Support;
 
 use Dotenv\Repository\Adapter\PutenvAdapter;
 use Dotenv\Repository\RepositoryBuilder;
-use Dotenv\Repository\RepositoryInterface;
 use PhpOption\Option;
-use PhpOption\Some;
 use RuntimeException;
 
 class Env
@@ -21,7 +19,7 @@ class Env
     /**
      * The environment repository instance.
      *
-     * @var RepositoryInterface|null
+     * @var \Dotenv\Repository\RepositoryInterface|null
      */
     protected static $repository;
 
@@ -50,7 +48,7 @@ class Env
     /**
      * Get the environment repository instance.
      *
-     * @return RepositoryInterface
+     * @return \Dotenv\Repository\RepositoryInterface
      */
     public static function getRepository()
     {
@@ -85,7 +83,7 @@ class Env
      * @param  string  $key
      * @return mixed
      *
-     * @throws RuntimeException
+     * @throws \RuntimeException
      */
     public static function getOrFail($key)
     {
@@ -96,7 +94,7 @@ class Env
      * Get the possible option for this environment variable.
      *
      * @param  string  $key
-     * @return Option|Some
+     * @return \PhpOption\Option|\PhpOption\Some
      */
     protected static function getOption($key)
     {

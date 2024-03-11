@@ -11,10 +11,6 @@
 
 namespace Symfony\Component\HttpFoundation\Session\Storage\Proxy;
 
-use LogicException;
-use SessionHandlerInterface;
-use const PHP_SESSION_ACTIVE;
-
 /**
  * @author Drak <drak@zikula.org>
  */
@@ -45,7 +41,7 @@ abstract class AbstractProxy
      */
     public function isSessionHandlerInterface(): bool
     {
-        return $this instanceof SessionHandlerInterface;
+        return $this instanceof \SessionHandlerInterface;
     }
 
     /**
@@ -61,7 +57,7 @@ abstract class AbstractProxy
      */
     public function isActive(): bool
     {
-        return PHP_SESSION_ACTIVE === session_status();
+        return \PHP_SESSION_ACTIVE === session_status();
     }
 
     /**
@@ -77,12 +73,12 @@ abstract class AbstractProxy
      *
      * @return void
      *
-     * @throws LogicException
+     * @throws \LogicException
      */
     public function setId(string $id)
     {
         if ($this->isActive()) {
-            throw new LogicException('Cannot change the ID of an active session.');
+            throw new \LogicException('Cannot change the ID of an active session.');
         }
 
         session_id($id);
@@ -101,12 +97,12 @@ abstract class AbstractProxy
      *
      * @return void
      *
-     * @throws LogicException
+     * @throws \LogicException
      */
     public function setName(string $name)
     {
         if ($this->isActive()) {
-            throw new LogicException('Cannot change the name of an active session.');
+            throw new \LogicException('Cannot change the name of an active session.');
         }
 
         session_name($name);

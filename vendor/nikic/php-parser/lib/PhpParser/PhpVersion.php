@@ -2,10 +2,6 @@
 
 namespace PhpParser;
 
-use LogicException;
-use const PHP_MAJOR_VERSION;
-use const PHP_MINOR_VERSION;
-
 /**
  * A PHP version, representing only the major and minor version components.
  */
@@ -47,14 +43,14 @@ class PhpVersion {
      * if it is still under development.
      */
     public static function getNewestSupported(): self {
-        return self::fromComponents(8, 2);
+        return self::fromComponents(8, 3);
     }
 
     /**
      * Get the host PHP version, that is the PHP version we're currently running on.
      */
     public static function getHostVersion(): self {
-        return self::fromComponents(PHP_MAJOR_VERSION, PHP_MINOR_VERSION);
+        return self::fromComponents(\PHP_MAJOR_VERSION, \PHP_MINOR_VERSION);
     }
 
     /**
@@ -62,7 +58,7 @@ class PhpVersion {
      */
     public static function fromString(string $version): self {
         if (!preg_match('/^(\d+)\.(\d+)/', $version, $matches)) {
-            throw new LogicException("Invalid PHP version \"$version\"");
+            throw new \LogicException("Invalid PHP version \"$version\"");
         }
         return self::fromComponents((int) $matches[1], (int) $matches[2]);
     }

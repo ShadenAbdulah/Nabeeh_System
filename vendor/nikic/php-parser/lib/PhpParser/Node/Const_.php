@@ -3,7 +3,6 @@
 namespace PhpParser\Node;
 
 use PhpParser\NodeAbstract;
-use function is_string;
 
 class Const_ extends NodeAbstract {
     /** @var Identifier Name */
@@ -23,7 +22,7 @@ class Const_ extends NodeAbstract {
      */
     public function __construct($name, Expr $value, array $attributes = []) {
         $this->attributes = $attributes;
-        $this->name = is_string($name) ? new Identifier($name) : $name;
+        $this->name = \is_string($name) ? new Identifier($name) : $name;
         $this->value = $value;
     }
 

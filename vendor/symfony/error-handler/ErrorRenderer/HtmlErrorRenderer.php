@@ -11,7 +11,6 @@
 
 namespace Symfony\Component\ErrorHandler\ErrorRenderer;
 
-use Closure;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\ErrorHandler\Exception\FlattenException;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -19,20 +18,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Log\DebugLoggerConfigurator;
 use Symfony\Component\VarDumper\Cloner\Data;
 use Symfony\Component\VarDumper\Dumper\HtmlDumper;
-use Throwable;
-use function count;
-use function dirname;
-use function ini_get;
-use function is_array;
-use function is_bool;
-use function is_int;
-use function is_scalar;
-use function is_string;
-use function strlen;
-use const ENT_COMPAT;
-use const ENT_SUBSTITUTE;
-use const EXTR_SKIP;
-use const PHP_VERSION_ID;
 
 /**
  * @author Yonel Ceruto <yonelceruto@gmail.com>
@@ -49,11 +34,11 @@ class HtmlErrorRenderer implements ErrorRendererInterface
     private const GHOST_HEART = 'M125.91386369681868,8.305165958366445 C128.95033202169043,-0.40540639102854037 140.8469835342744,8.305165958366445 125.91386369681868,19.504526138305664 C110.98208663272044,8.305165958366445 122.87795231771452,-0.40540639102854037 125.91386369681868,8.305165958366445 z';
     private const GHOST_PLUS = 'M111.36824226379395,8.969108581542969 L118.69175148010254,8.969108581542969 L118.69175148010254,1.6455793380737305 L126.20429420471191,1.6455793380737305 L126.20429420471191,8.969108581542969 L133.52781105041504,8.969108581542969 L133.52781105041504,16.481630325317383 L126.20429420471191,16.481630325317383 L126.20429420471191,23.805158615112305 L118.69175148010254,23.805158615112305 L118.69175148010254,16.481630325317383 L111.36824226379395,16.481630325317383 z';
 
-    private bool|Closure $debug;
+    private bool|\Closure $debug;
     private string $charset;
     private FileLinkFormatter $fileLinkFormat;
     private ?string $projectDir;
-    private string|Closure $outputBuffer;
+    private string|\Closure $outputBuffer;
     private ?LoggerInterface $logger;
 
     private static string $template = 'views/error.html.php';
@@ -62,20 +47,20 @@ class HtmlErrorRenderer implements ErrorRendererInterface
      * @param bool|callable   $debug        The debugging mode as a boolean or a callable that should return it
      * @param string|callable $outputBuffer The output buffer as a string or a callable that should return it
      */
-    public function __construct(bool|callable $debug = false, string $charset = null, string|FileLinkFormatter $fileLinkFormat = null, string $projectDir = null, string|callable $outputBuffer = '', LoggerInterface $logger = null)
+    public function __construct(bool|callable $debug = false, ?string $charset = null, string|FileLinkFormatter|null $fileLinkFormat = null, ?string $projectDir = null, string|callable $outputBuffer = '', ?LoggerInterface $logger = null)
     {
-        $this->debug = is_bool($debug) ? $debug : $debug(...);
-        $this->charset = $charset ?: (ini_get('default_charset') ?: 'UTF-8');
+        $this->debug = \is_bool($debug) ? $debug : $debug(...);
+        $this->charset = $charset ?: (\ini_get('default_charset') ?: 'UTF-8');
         $this->fileLinkFormat = $fileLinkFormat instanceof FileLinkFormatter ? $fileLinkFormat : new FileLinkFormatter($fileLinkFormat);
         $this->projectDir = $projectDir;
-        $this->outputBuffer = is_string($outputBuffer) ? $outputBuffer : $outputBuffer(...);
+        $this->outputBuffer = \is_string($outputBuffer) ? $outputBuffer : $outputBuffer(...);
         $this->logger = $logger;
     }
 
-    public function render(Throwable $exception): FlattenException
+    public function render(\Throwable $exception): FlattenException
     {
         $headers = ['Content-Type' => 'text/html; charset='.$this->charset];
-        if (is_bool($this->debug) ? $this->debug : ($this->debug)($exception)) {
+        if (\is_bool($this->debug) ? $this->debug : ($this->debug)($exception)) {
             $headers['X-Debug-Exception'] = rawurlencode($exception->getMessage());
             $headers['X-Debug-Exception-File'] = rawurlencode($exception->getFile()).':'.$exception->getLine();
         }
@@ -105,7 +90,7 @@ class HtmlErrorRenderer implements ErrorRendererInterface
         return $this->include('assets/css/exception.css');
     }
 
-    public static function isDebug(RequestStack $requestStack, bool $debug): Closure
+    public static function isDebug(RequestStack $requestStack, bool $debug): \Closure
     {
         return static function () use ($requestStack, $debug): bool {
             if (!$request = $requestStack->getCurrentRequest()) {
@@ -116,7 +101,7 @@ class HtmlErrorRenderer implements ErrorRendererInterface
         };
     }
 
-    public static function getAndCleanOutputBuffer(RequestStack $requestStack): Closure
+    public static function getAndCleanOutputBuffer(RequestStack $requestStack): \Closure
     {
         return static function () use ($requestStack): string {
             if (!$request = $requestStack->getCurrentRequest()) {
@@ -137,7 +122,7 @@ class HtmlErrorRenderer implements ErrorRendererInterface
 
     private function renderException(FlattenException $exception, string $debugTemplate = 'views/exception_full.html.php'): string
     {
-        $debug = is_bool($this->debug) ? $this->debug : ($this->debug)($exception);
+        $debug = \is_bool($this->debug) ? $this->debug : ($this->debug)($exception);
         $statusText = $this->escape($exception->getStatusText());
         $statusCode = $this->escape($exception->getStatusCode());
 
@@ -155,13 +140,8 @@ class HtmlErrorRenderer implements ErrorRendererInterface
             'exceptionMessage' => $exceptionMessage,
             'statusText' => $statusText,
             'statusCode' => $statusCode,
-<<<<<<< HEAD
             'logger' => null !== $this->logger && class_exists(DebugLoggerConfigurator::class) ? DebugLoggerConfigurator::getDebugLogger($this->logger) : null,
-            'currentContent' => is_string($this->outputBuffer) ? $this->outputBuffer : ($this->outputBuffer)(),
-=======
-            'logger' => DebugLoggerConfigurator::getDebugLogger($this->logger),
             'currentContent' => \is_string($this->outputBuffer) ? $this->outputBuffer : ($this->outputBuffer)(),
->>>>>>> parent of c8b1139b (update Ui)
         ]);
     }
 
@@ -180,18 +160,20 @@ class HtmlErrorRenderer implements ErrorRendererInterface
             if ('object' === $item[0]) {
                 $formattedValue = sprintf('<em>object</em>(%s)', $this->abbrClass($item[1]));
             } elseif ('array' === $item[0]) {
-                $formattedValue = sprintf('<em>array</em>(%s)', is_array($item[1]) ? $this->formatArgs($item[1]) : $item[1]);
+                $formattedValue = sprintf('<em>array</em>(%s)', \is_array($item[1]) ? $this->formatArgs($item[1]) : $item[1]);
             } elseif ('null' === $item[0]) {
                 $formattedValue = '<em>null</em>';
             } elseif ('boolean' === $item[0]) {
                 $formattedValue = '<em>'.strtolower(var_export($item[1], true)).'</em>';
             } elseif ('resource' === $item[0]) {
                 $formattedValue = '<em>resource</em>';
+            } elseif (preg_match('/[^\x07-\x0D\x1B\x20-\xFF]/', $item[1])) {
+                $formattedValue = '<em>binary string</em>';
             } else {
                 $formattedValue = str_replace("\n", '', $this->escape(var_export($item[1], true)));
             }
 
-            $result[] = is_int($key) ? $formattedValue : sprintf("'%s' => %s", $this->escape($key), $formattedValue);
+            $result[] = \is_int($key) ? $formattedValue : sprintf("'%s' => %s", $this->escape($key), $formattedValue);
         }
 
         return implode(', ', $result);
@@ -204,7 +186,7 @@ class HtmlErrorRenderer implements ErrorRendererInterface
 
     private function escape(string $string): string
     {
-        return htmlspecialchars($string, ENT_COMPAT | ENT_SUBSTITUTE, $this->charset);
+        return htmlspecialchars($string, \ENT_COMPAT | \ENT_SUBSTITUTE, $this->charset);
     }
 
     private function abbrClass(string $class): string
@@ -220,7 +202,7 @@ class HtmlErrorRenderer implements ErrorRendererInterface
         $file = str_replace('\\', '/', $file);
 
         if (null !== $this->projectDir && str_starts_with($file, $this->projectDir)) {
-            return ltrim(substr($file, strlen($this->projectDir)), '/');
+            return ltrim(substr($file, \strlen($this->projectDir)), '/');
         }
 
         return null;
@@ -233,7 +215,7 @@ class HtmlErrorRenderer implements ErrorRendererInterface
      * @param int    $line The line number
      * @param string $text Use this text for the link rather than the file path
      */
-    private function formatFile(string $file, int $line, string $text = null): string
+    private function formatFile(string $file, int $line, ?string $text = null): string
     {
         $file = trim($file);
 
@@ -267,7 +249,7 @@ class HtmlErrorRenderer implements ErrorRendererInterface
             // highlight_file could throw warnings
             // see https://bugs.php.net/25725
             $code = @highlight_file($file, true);
-            if (PHP_VERSION_ID >= 80300) {
+            if (\PHP_VERSION_ID >= 80300) {
                 // remove main pre/code tags
                 $code = preg_replace('#^<pre.*?>\s*<code.*?>(.*)</code>\s*</pre>#s', '\\1', $code);
                 // split multiline code tags
@@ -285,10 +267,10 @@ class HtmlErrorRenderer implements ErrorRendererInterface
 
             $lines = [];
             if (0 > $srcContext) {
-                $srcContext = count($content);
+                $srcContext = \count($content);
             }
 
-            for ($i = max($line - $srcContext, 1), $max = min($line + $srcContext, count($content)); $i <= $max; ++$i) {
+            for ($i = max($line - $srcContext, 1), $max = min($line + $srcContext, \count($content)); $i <= $max; ++$i) {
                 $lines[] = '<li'.($i == $line ? ' class="selected"' : '').'><code>'.$this->fixCodeMarkup($content[$i - 1]).'</code></li>';
             }
 
@@ -319,7 +301,7 @@ class HtmlErrorRenderer implements ErrorRendererInterface
 
     private function formatFileFromText(string $text): string
     {
-        return preg_replace_callback('/in ("|&quot;)?(.+?)\1(?: +(?:on|at))? +line (\d+)/s', fn ($match) => 'in '.$this->formatFile($match[2], $match[3]), $text);
+        return preg_replace_callback('/in ("|&quot;)?(.+?)\1(?: +(?:on|at))? +line (\d+)/s', fn ($match) => 'in '.$this->formatFile($match[2], $match[3]), $text) ?? $text;
     }
 
     private function formatLogMessage(string $message, array $context): string
@@ -327,7 +309,7 @@ class HtmlErrorRenderer implements ErrorRendererInterface
         if ($context && str_contains($message, '{')) {
             $replacements = [];
             foreach ($context as $key => $val) {
-                if (is_scalar($val)) {
+                if (\is_scalar($val)) {
                     $replacements['{'.$key.'}'] = $val;
                 }
             }
@@ -351,10 +333,10 @@ class HtmlErrorRenderer implements ErrorRendererInterface
 
     private function include(string $name, array $context = []): string
     {
-        extract($context, EXTR_SKIP);
+        extract($context, \EXTR_SKIP);
         ob_start();
 
-        include is_file(dirname(__DIR__).'/Resources/'.$name) ? dirname(__DIR__).'/Resources/'.$name : $name;
+        include is_file(\dirname(__DIR__).'/Resources/'.$name) ? \dirname(__DIR__).'/Resources/'.$name : $name;
 
         return trim(ob_get_clean());
     }

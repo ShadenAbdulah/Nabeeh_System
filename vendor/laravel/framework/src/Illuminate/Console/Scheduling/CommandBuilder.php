@@ -10,7 +10,7 @@ class CommandBuilder
     /**
      * Build the command for the given event.
      *
-     * @param Event $event
+     * @param  \Illuminate\Console\Scheduling\Event  $event
      * @return string
      */
     public function buildCommand(Event $event)
@@ -25,7 +25,7 @@ class CommandBuilder
     /**
      * Build the command for running the event in the foreground.
      *
-     * @param Event $event
+     * @param  \Illuminate\Console\Scheduling\Event  $event
      * @return string
      */
     protected function buildForegroundCommand(Event $event)
@@ -40,7 +40,7 @@ class CommandBuilder
     /**
      * Build the command for running the event in the background.
      *
-     * @param Event $event
+     * @param  \Illuminate\Console\Scheduling\Event  $event
      * @return string
      */
     protected function buildBackgroundCommand(Event $event)
@@ -64,7 +64,7 @@ class CommandBuilder
     /**
      * Finalize the event's command syntax with the correct user.
      *
-     * @param Event $event
+     * @param  \Illuminate\Console\Scheduling\Event  $event
      * @param  string  $command
      * @return string
      */

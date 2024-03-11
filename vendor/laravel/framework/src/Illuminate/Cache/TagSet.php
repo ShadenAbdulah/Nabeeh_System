@@ -9,7 +9,7 @@ class TagSet
     /**
      * The cache store implementation.
      *
-     * @var Store
+     * @var \Illuminate\Contracts\Cache\Store
      */
     protected $store;
 
@@ -23,7 +23,7 @@ class TagSet
     /**
      * Create a new TagSet instance.
      *
-     * @param Store $store
+     * @param  \Illuminate\Contracts\Cache\Store  $store
      * @param  array  $names
      * @return void
      */

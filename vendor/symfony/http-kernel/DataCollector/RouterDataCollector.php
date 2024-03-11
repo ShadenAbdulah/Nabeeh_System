@@ -11,12 +11,10 @@
 
 namespace Symfony\Component\HttpKernel\DataCollector;
 
-use SplObjectStorage;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\ControllerEvent;
-use Throwable;
 
 /**
  * @author Fabien Potencier <fabien@symfony.com>
@@ -24,7 +22,7 @@ use Throwable;
 class RouterDataCollector extends DataCollector
 {
     /**
-     * @var SplObjectStorage<Request, callable>
+     * @var \SplObjectStorage<Request, callable>
      */
     protected $controllers;
 
@@ -36,11 +34,7 @@ class RouterDataCollector extends DataCollector
     /**
      * @final
      */
-<<<<<<< HEAD
-    public function collect(Request $request, Response $response, ?Throwable $exception = null): void
-=======
-    public function collect(Request $request, Response $response, \Throwable $exception = null): void
->>>>>>> parent of c8b1139b (update Ui)
+    public function collect(Request $request, Response $response, ?\Throwable $exception = null): void
     {
         if ($response instanceof RedirectResponse) {
             $this->data['redirect'] = true;
@@ -59,7 +53,7 @@ class RouterDataCollector extends DataCollector
      */
     public function reset()
     {
-        $this->controllers = new SplObjectStorage();
+        $this->controllers = new \SplObjectStorage();
 
         $this->data = [
             'redirect' => false,

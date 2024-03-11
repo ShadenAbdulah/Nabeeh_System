@@ -2,17 +2,13 @@
 
 namespace Illuminate\Contracts\Mail;
 
-use Closure;
-use Illuminate\Mail\PendingMail;
-use Illuminate\Mail\SentMessage;
-
 interface Mailer
 {
     /**
      * Begin the process of mailing a mailable class instance.
      *
      * @param  mixed  $users
-     * @return PendingMail
+     * @return \Illuminate\Mail\PendingMail
      */
     public function to($users);
 
@@ -20,7 +16,7 @@ interface Mailer
      * Begin the process of mailing a mailable class instance.
      *
      * @param  mixed  $users
-     * @return PendingMail
+     * @return \Illuminate\Mail\PendingMail
      */
     public function bcc($users);
 
@@ -29,17 +25,17 @@ interface Mailer
      *
      * @param  string  $text
      * @param  mixed  $callback
-     * @return SentMessage|null
+     * @return \Illuminate\Mail\SentMessage|null
      */
     public function raw($text, $callback);
 
     /**
      * Send a new message using a view.
      *
-     * @param Mailable|string|array  $view
+     * @param  \Illuminate\Contracts\Mail\Mailable|string|array  $view
      * @param  array  $data
-     * @param  Closure|string|null  $callback
-     * @return SentMessage|null
+     * @param  \Closure|string|null  $callback
+     * @return \Illuminate\Mail\SentMessage|null
      */
     public function send($view, array $data = [], $callback = null);
 }

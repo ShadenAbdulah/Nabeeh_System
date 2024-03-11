@@ -11,14 +11,12 @@
 
 namespace Symfony\Component\HttpKernel\Exception;
 
-use Throwable;
-
 /**
  * Interface for HTTP error exceptions.
  *
  * @author Kris Wallsmith <kris@symfony.com>
  */
-interface HttpExceptionInterface extends Throwable
+interface HttpExceptionInterface extends \Throwable
 {
     /**
      * Returns the status code.

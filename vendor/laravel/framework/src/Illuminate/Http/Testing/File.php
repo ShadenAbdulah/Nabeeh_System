@@ -57,7 +57,7 @@ class File extends UploadedFile
      *
      * @param  string  $name
      * @param  string|int  $kilobytes
-     * @return File
+     * @return \Illuminate\Http\Testing\File
      */
     public static function create($name, $kilobytes = 0)
     {
@@ -69,7 +69,7 @@ class File extends UploadedFile
      *
      * @param  string  $name
      * @param  string  $content
-     * @return File
+     * @return \Illuminate\Http\Testing\File
      */
     public static function createWithContent($name, $content)
     {
@@ -82,7 +82,7 @@ class File extends UploadedFile
      * @param  string  $name
      * @param  int  $width
      * @param  int  $height
-     * @return File
+     * @return \Illuminate\Http\Testing\File
      */
     public static function image($name, $width = 10, $height = 10)
     {

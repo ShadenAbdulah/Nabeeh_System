@@ -4,9 +4,6 @@ namespace PhpParser\Lexer\TokenEmulator;
 
 use PhpParser\PhpVersion;
 use PhpParser\Token;
-use const T_DNUMBER;
-use const T_LNUMBER;
-use const T_STRING;
 
 class ExplicitOctalEmulator extends TokenEmulator {
     public function getPhpVersion(): PhpVersion {
@@ -20,8 +17,8 @@ class ExplicitOctalEmulator extends TokenEmulator {
     public function emulate(string $code, array $tokens): array {
         for ($i = 0, $c = count($tokens); $i < $c; ++$i) {
             $token = $tokens[$i];
-            if ($token->id == T_LNUMBER && $token->text === '0' &&
-                isset($tokens[$i + 1]) && $tokens[$i + 1]->id == T_STRING &&
+            if ($token->id == \T_LNUMBER && $token->text === '0' &&
+                isset($tokens[$i + 1]) && $tokens[$i + 1]->id == \T_STRING &&
                 preg_match('/[oO][0-7]+(?:_[0-7]+)*/', $tokens[$i + 1]->text)
             ) {
                 $tokenKind = $this->resolveIntegerOrFloatToken($tokens[$i + 1]->text);
@@ -38,7 +35,7 @@ class ExplicitOctalEmulator extends TokenEmulator {
         $str = substr($str, 1);
         $str = str_replace('_', '', $str);
         $num = octdec($str);
-        return is_float($num) ? T_DNUMBER : T_LNUMBER;
+        return is_float($num) ? \T_DNUMBER : \T_LNUMBER;
     }
 
     public function reverseEmulate(string $code, array $tokens): array {

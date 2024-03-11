@@ -11,13 +11,7 @@
 
 namespace Symfony\Component\VarDumper\Caster;
 
-use ReflectionException;
-use ReflectionFunction;
-use ReflectionMethod;
 use Symfony\Component\VarDumper\Cloner\Stub;
-use function array_slice;
-use function count;
-use function is_scalar;
 
 /**
  * Represents a list of function arguments.
@@ -34,17 +28,17 @@ class ArgsStub extends EnumStub
 
         $values = [];
         foreach ($args as $k => $v) {
-            $values[$k] = !is_scalar($v) && !$v instanceof Stub ? new CutStub($v) : $v;
+            $values[$k] = !\is_scalar($v) && !$v instanceof Stub ? new CutStub($v) : $v;
         }
         if (null === $params) {
             parent::__construct($values, false);
 
             return;
         }
-        if (count($values) < count($params)) {
-            $params = array_slice($params, 0, count($values));
-        } elseif (count($values) > count($params)) {
-            $values[] = new EnumStub(array_splice($values, count($params)), false);
+        if (\count($values) < \count($params)) {
+            $params = \array_slice($params, 0, \count($values));
+        } elseif (\count($values) > \count($params)) {
+            $values[] = new EnumStub(array_splice($values, \count($params)), false);
             $params[] = $variadic;
         }
         if (['...'] === $params) {
@@ -62,8 +56,8 @@ class ArgsStub extends EnumStub
         }
 
         try {
-            $r = null !== $class ? new ReflectionMethod($class, $function) : new ReflectionFunction($function);
-        } catch (ReflectionException) {
+            $r = null !== $class ? new \ReflectionMethod($class, $function) : new \ReflectionFunction($function);
+        } catch (\ReflectionException) {
             return [null, null];
         }
 

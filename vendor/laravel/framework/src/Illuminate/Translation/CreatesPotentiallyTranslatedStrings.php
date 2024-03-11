@@ -2,8 +2,6 @@
 
 namespace Illuminate\Translation;
 
-use Closure;
-
 trait CreatesPotentiallyTranslatedStrings
 {
     /**
@@ -11,7 +9,7 @@ trait CreatesPotentiallyTranslatedStrings
      *
      * @param  string  $attribute
      * @param  string|null  $message
-     * @return PotentiallyTranslatedString
+     * @return \Illuminate\Translation\PotentiallyTranslatedString
      */
     protected function pendingPotentiallyTranslatedString($attribute, $message)
     {
@@ -24,7 +22,7 @@ trait CreatesPotentiallyTranslatedStrings
             /**
              * The callback to call when the object destructs.
              *
-             * @var Closure
+             * @var \Closure
              */
             protected $destructor;
 
@@ -33,7 +31,7 @@ trait CreatesPotentiallyTranslatedStrings
              *
              * @param  string  $message
              * @param  \Illuminate\Contracts\Translation\Translator  $translator
-             * @param  Closure  $destructor
+             * @param  \Closure  $destructor
              */
             public function __construct($message, $translator, $destructor)
             {

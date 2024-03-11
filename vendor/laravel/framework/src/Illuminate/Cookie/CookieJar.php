@@ -43,7 +43,7 @@ class CookieJar implements JarContract
     /**
      * All of the cookies queued for sending.
      *
-     * @var Cookie[]
+     * @var \Symfony\Component\HttpFoundation\Cookie[]
      */
     protected $queued = [];
 
@@ -59,7 +59,7 @@ class CookieJar implements JarContract
      * @param  bool  $httpOnly
      * @param  bool  $raw
      * @param  string|null  $sameSite
-     * @return Cookie
+     * @return \Symfony\Component\HttpFoundation\Cookie
      */
     public function make($name, $value, $minutes = 0, $path = null, $domain = null, $secure = null, $httpOnly = true, $raw = false, $sameSite = null)
     {
@@ -81,7 +81,7 @@ class CookieJar implements JarContract
      * @param  bool  $httpOnly
      * @param  bool  $raw
      * @param  string|null  $sameSite
-     * @return Cookie
+     * @return \Symfony\Component\HttpFoundation\Cookie
      */
     public function forever($name, $value, $path = null, $domain = null, $secure = null, $httpOnly = true, $raw = false, $sameSite = null)
     {
@@ -94,7 +94,7 @@ class CookieJar implements JarContract
      * @param  string  $name
      * @param  string|null  $path
      * @param  string|null  $domain
-     * @return Cookie
+     * @return \Symfony\Component\HttpFoundation\Cookie
      */
     public function forget($name, $path = null, $domain = null)
     {
@@ -119,7 +119,7 @@ class CookieJar implements JarContract
      * @param  string  $key
      * @param  mixed  $default
      * @param  string|null  $path
-     * @return Cookie|null
+     * @return \Symfony\Component\HttpFoundation\Cookie|null
      */
     public function queued($key, $default = null, $path = null)
     {
@@ -221,7 +221,7 @@ class CookieJar implements JarContract
     /**
      * Get the cookies which have been queued for the next request.
      *
-     * @return Cookie[]
+     * @return \Symfony\Component\HttpFoundation\Cookie[]
      */
     public function getQueuedCookies()
     {

@@ -4,7 +4,6 @@ namespace PhpParser\Node\Stmt;
 
 use PhpParser\Node;
 use PhpParser\Node\AttributeGroup;
-use function is_string;
 
 class EnumCase extends Node\Stmt {
     /** @var Node\Identifier Enum case name */
@@ -22,7 +21,7 @@ class EnumCase extends Node\Stmt {
      */
     public function __construct($name, ?Node\Expr $expr = null, array $attrGroups = [], array $attributes = []) {
         parent::__construct($attributes);
-        $this->name = is_string($name) ? new Node\Identifier($name) : $name;
+        $this->name = \is_string($name) ? new Node\Identifier($name) : $name;
         $this->expr = $expr;
         $this->attrGroups = $attrGroups;
     }

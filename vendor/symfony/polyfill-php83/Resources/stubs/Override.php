@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-if (PHP_VERSION_ID < 80300) {
+if (\PHP_VERSION_ID < 80300) {
     #[Attribute(Attribute::TARGET_METHOD)]
     final class Override
     {

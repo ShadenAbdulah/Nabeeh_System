@@ -2,26 +2,21 @@
 
 namespace Illuminate\Support\Facades;
 
-use Countable;
-use Illuminate\Contracts\Translation\Loader;
-use Illuminate\Translation\MessageSelector;
-use Illuminate\Translation\Translator;
-
 /**
  * @method static bool hasForLocale(string $key, string|null $locale = null)
  * @method static bool has(string $key, string|null $locale = null, bool $fallback = true)
  * @method static string|array get(string $key, array $replace = [], string|null $locale = null, bool $fallback = true)
- * @method static string choice(string $key, Countable|int|float|array $number, array $replace = [], string|null $locale = null)
+ * @method static string choice(string $key, \Countable|int|float|array $number, array $replace = [], string|null $locale = null)
  * @method static void addLines(array $lines, string $locale, string $namespace = '*')
  * @method static void load(string $namespace, string $group, string $locale)
- * @method static Translator handleMissingKeysUsing(callable|null $callback)
+ * @method static \Illuminate\Translation\Translator handleMissingKeysUsing(callable|null $callback)
  * @method static void addNamespace(string $namespace, string $hint)
  * @method static void addJsonPath(string $path)
  * @method static array parseKey(string $key)
  * @method static void determineLocalesUsing(callable $callback)
- * @method static MessageSelector getSelector()
- * @method static void setSelector(MessageSelector $selector)
- * @method static Loader getLoader()
+ * @method static \Illuminate\Translation\MessageSelector getSelector()
+ * @method static void setSelector(\Illuminate\Translation\MessageSelector $selector)
+ * @method static \Illuminate\Contracts\Translation\Loader getLoader()
  * @method static string locale()
  * @method static string getLocale()
  * @method static void setLocale(string $locale)

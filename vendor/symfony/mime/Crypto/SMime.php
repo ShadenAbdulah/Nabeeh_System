@@ -13,7 +13,6 @@ namespace Symfony\Component\Mime\Crypto;
 
 use Symfony\Component\Mime\Exception\RuntimeException;
 use Symfony\Component\Mime\Part\SMimePart;
-use function strlen;
 
 /**
  * @author Sebastiaan Stok <s.stok@rollerscapes.net>
@@ -58,7 +57,7 @@ abstract class SMime
 
         $headers = $this->getMessageHeaders(trim(substr($headers, 0, $headersPosEnd)));
 
-        fseek($stream, $headersPosEnd + strlen($headerBodySeparator));
+        fseek($stream, $headersPosEnd + \strlen($headerBodySeparator));
 
         return new SMimePart($this->getStreamIterator($stream), $type, $subtype, $this->getParametersFromHeader($headers['content-type']));
     }

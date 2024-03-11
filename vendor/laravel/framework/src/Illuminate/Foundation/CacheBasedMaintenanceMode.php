@@ -11,7 +11,7 @@ class CacheBasedMaintenanceMode implements MaintenanceMode
     /**
      * The cache factory.
      *
-     * @var Factory
+     * @var \Illuminate\Contracts\Cache\Factory
      */
     protected $cache;
 
@@ -32,7 +32,7 @@ class CacheBasedMaintenanceMode implements MaintenanceMode
     /**
      * Create a new cache based maintenance mode implementation.
      *
-     * @param Factory $cache
+     * @param  \Illuminate\Contracts\Cache\Factory  $cache
      * @param  string  $store
      * @param  string  $key
      * @return void
@@ -88,7 +88,7 @@ class CacheBasedMaintenanceMode implements MaintenanceMode
     /**
      * Get the cache store to use.
      *
-     * @return Repository
+     * @return \Illuminate\Contracts\Cache\Repository
      */
     protected function getStore(): Repository
     {

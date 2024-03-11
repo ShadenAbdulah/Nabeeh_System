@@ -17,11 +17,6 @@ declare(strict_types=1);
 namespace League\CommonMark\Util;
 
 use League\CommonMark\Parser\Cursor;
-use function mb_strlen;
-use function preg_match;
-use function preg_quote;
-use function sprintf;
-use function substr;
 
 /**
  * @psalm-immutable
@@ -38,7 +33,7 @@ final class LinkParserHelper
         if ($res = $cursor->match(RegexHelper::REGEX_LINK_DESTINATION_BRACES)) {
             // Chop off surrounding <..>:
             return UrlEncoder::unescapeAndEncode(
-                RegexHelper::unescape(substr($res, 1, -1))
+                RegexHelper::unescape(\substr($res, 1, -1))
             );
         }
 
@@ -63,7 +58,7 @@ final class LinkParserHelper
             return 0;
         }
 
-        $length = mb_strlen($match, 'UTF-8');
+        $length = \mb_strlen($match, 'UTF-8');
 
         if ($length > 1001) {
             return 0;
@@ -86,7 +81,7 @@ final class LinkParserHelper
     {
         if ($title = $cursor->match('/' . RegexHelper::PARTIAL_LINK_TITLE . '/')) {
             // Chop off quotes from title and unescape
-            return RegexHelper::unescape(substr($title, 1, -1));
+            return RegexHelper::unescape(\substr($title, 1, -1));
         }
 
         return null;
@@ -94,8 +89,8 @@ final class LinkParserHelper
 
     public static function parsePartialLinkTitle(Cursor $cursor, string $endDelimiter): ?string
     {
-        $endDelimiter = preg_quote($endDelimiter, '/');
-        $regex        = sprintf('/(%s|[^%s\x00])*(?:%s)?/', RegexHelper::PARTIAL_ESCAPED_CHAR, $endDelimiter, $endDelimiter);
+        $endDelimiter = \preg_quote($endDelimiter, '/');
+        $regex        = \sprintf('/(%s|[^%s\x00])*(?:%s)?/', RegexHelper::PARTIAL_ESCAPED_CHAR, $endDelimiter, $endDelimiter);
         if (($partialTitle = $cursor->match($regex)) === null) {
             return null;
         }
@@ -122,7 +117,7 @@ final class LinkParserHelper
 
                 $cursor->advanceBy(1);
                 $openParens--;
-            } elseif (preg_match(RegexHelper::REGEX_WHITESPACE_CHAR, $c)) {
+            } elseif (\preg_match(RegexHelper::REGEX_WHITESPACE_CHAR, $c)) {
                 break;
             } else {
                 $cursor->advanceBy(1);

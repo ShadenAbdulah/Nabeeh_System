@@ -12,7 +12,6 @@
 namespace Symfony\Component\Translation\Provider;
 
 use Symfony\Component\Translation\Exception\InvalidArgumentException;
-use function is_array;
 
 /**
  * @author Mathieu Santostefano <msantostefano@protonmail.com>
@@ -29,7 +28,7 @@ final class TranslationProviderCollection
      */
     public function __construct(iterable $providers)
     {
-        $this->providers = is_array($providers) ? $providers : iterator_to_array($providers);
+        $this->providers = \is_array($providers) ? $providers : iterator_to_array($providers);
     }
 
     public function __toString(): string

@@ -2,7 +2,6 @@
 
 namespace Illuminate\Database\Eloquent\Relations\Concerns;
 
-use Closure;
 use Illuminate\Database\Eloquent\Model;
 
 trait SupportsDefaultModels
@@ -12,22 +11,22 @@ trait SupportsDefaultModels
      *
      * Alternatively, may be a Closure or array.
      *
-     * @var Closure|array|bool
+     * @var \Closure|array|bool
      */
     protected $withDefault;
 
     /**
      * Make a new related instance for the given model.
      *
-     * @param Model $parent
-     * @return Model
+     * @param  \Illuminate\Database\Eloquent\Model  $parent
+     * @return \Illuminate\Database\Eloquent\Model
      */
     abstract protected function newRelatedInstanceFor(Model $parent);
 
     /**
      * Return a new model instance in case the relationship does not exist.
      *
-     * @param  Closure|array|bool  $callback
+     * @param  \Closure|array|bool  $callback
      * @return $this
      */
     public function withDefault($callback = true)
@@ -40,8 +39,8 @@ trait SupportsDefaultModels
     /**
      * Get the default value for this relation.
      *
-     * @param Model $parent
-     * @return Model|null
+     * @param  \Illuminate\Database\Eloquent\Model  $parent
+     * @return \Illuminate\Database\Eloquent\Model|null
      */
     protected function getDefaultFor(Model $parent)
     {

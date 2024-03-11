@@ -3,8 +3,6 @@
 namespace Illuminate\Contracts\Validation;
 
 use Illuminate\Contracts\Support\MessageProvider;
-use Illuminate\Support\MessageBag;
-use Illuminate\Validation\ValidationException;
 
 interface Validator extends MessageProvider
 {
@@ -13,7 +11,7 @@ interface Validator extends MessageProvider
      *
      * @return array
      *
-     * @throws ValidationException
+     * @throws \Illuminate\Validation\ValidationException
      */
     public function validate();
 
@@ -22,7 +20,7 @@ interface Validator extends MessageProvider
      *
      * @return array
      *
-     * @throws ValidationException
+     * @throws \Illuminate\Validation\ValidationException
      */
     public function validated();
 
@@ -61,7 +59,7 @@ interface Validator extends MessageProvider
     /**
      * Get all of the validation error messages.
      *
-     * @return MessageBag
+     * @return \Illuminate\Support\MessageBag
      */
     public function errors();
 }

@@ -38,7 +38,7 @@ trait ManagesFragments
      *
      * @return string
      *
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     public function stopFragment()
     {

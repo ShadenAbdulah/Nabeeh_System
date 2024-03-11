@@ -8,21 +8,20 @@ use Illuminate\Foundation\Vite;
 use Illuminate\Support\Facades\Facade;
 use Illuminate\Support\HtmlString;
 use Mockery;
-use Mockery\MockInterface;
 
 trait InteractsWithContainer
 {
     /**
      * The original Vite handler.
      *
-     * @var Vite|null
+     * @var \Illuminate\Foundation\Vite|null
      */
     protected $originalVite;
 
     /**
      * The original Laravel Mix handler.
      *
-     * @var Mix|null
+     * @var \Illuminate\Foundation\Mix|null
      */
     protected $originalMix;
 
@@ -56,8 +55,8 @@ trait InteractsWithContainer
      * Mock an instance of an object in the container.
      *
      * @param  string  $abstract
-     * @param Closure|null  $mock
-     * @return MockInterface
+     * @param  \Closure|null  $mock
+     * @return \Mockery\MockInterface
      */
     protected function mock($abstract, Closure $mock = null)
     {
@@ -68,8 +67,8 @@ trait InteractsWithContainer
      * Mock a partial instance of an object in the container.
      *
      * @param  string  $abstract
-     * @param Closure|null  $mock
-     * @return MockInterface
+     * @param  \Closure|null  $mock
+     * @return \Mockery\MockInterface
      */
     protected function partialMock($abstract, Closure $mock = null)
     {
@@ -80,8 +79,8 @@ trait InteractsWithContainer
      * Spy an instance of an object in the container.
      *
      * @param  string  $abstract
-     * @param Closure|null  $mock
-     * @return MockInterface
+     * @param  \Closure|null  $mock
+     * @return \Mockery\MockInterface
      */
     protected function spy($abstract, Closure $mock = null)
     {

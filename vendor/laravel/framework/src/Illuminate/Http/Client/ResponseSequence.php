@@ -2,8 +2,6 @@
 
 namespace Illuminate\Http\Client;
 
-use Closure;
-use GuzzleHttp\Promise\PromiseInterface;
 use Illuminate\Support\Traits\Macroable;
 use OutOfBoundsException;
 
@@ -28,7 +26,7 @@ class ResponseSequence
     /**
      * The response that should be returned when the sequence is empty.
      *
-     * @var PromiseInterface
+     * @var \GuzzleHttp\Promise\PromiseInterface
      */
     protected $emptyResponse;
 
@@ -105,7 +103,7 @@ class ResponseSequence
     /**
      * Make the sequence return a default response when it is empty.
      *
-     * @param  PromiseInterface|Closure  $response
+     * @param  \GuzzleHttp\Promise\PromiseInterface|\Closure  $response
      * @return $this
      */
     public function whenEmpty($response)
@@ -141,7 +139,7 @@ class ResponseSequence
      *
      * @return mixed
      *
-     * @throws OutOfBoundsException
+     * @throws \OutOfBoundsException
      */
     public function __invoke()
     {

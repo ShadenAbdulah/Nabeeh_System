@@ -34,7 +34,7 @@ trait RoutesNotifications
      * Get the notification routing information for the given driver.
      *
      * @param  string  $driver
-     * @param Notification|null  $notification
+     * @param  \Illuminate\Notifications\Notification|null  $notification
      * @return mixed
      */
     public function routeNotificationFor($driver, $notification = null)

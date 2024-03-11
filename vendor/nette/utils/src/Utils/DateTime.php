@@ -9,17 +9,13 @@ declare(strict_types=1);
 
 namespace Nette\Utils;
 
-use DateTimeInterface;
-use DateTimeZone;
-use Exception;
-use JsonSerializable;
 use Nette;
 
 
 /**
  * DateTime.
  */
-class DateTime extends \DateTime implements JsonSerializable
+class DateTime extends \DateTime implements \JsonSerializable
 {
 	use Nette\SmartObject;
 
@@ -44,11 +40,11 @@ class DateTime extends \DateTime implements JsonSerializable
 
 	/**
 	 * Creates a DateTime object from a string, UNIX timestamp, or other DateTimeInterface object.
-	 * @throws Exception if the date and time are not valid.
+	 * @throws \Exception if the date and time are not valid.
 	 */
-	public static function from(string|int|DateTimeInterface|null $time): static
+	public static function from(string|int|\DateTimeInterface|null $time): static
 	{
-		if ($time instanceof DateTimeInterface) {
+		if ($time instanceof \DateTimeInterface) {
 			return new static($time->format('Y-m-d H:i:s.u'), $time->getTimezone());
 
 		} elseif (is_numeric($time)) {
@@ -98,16 +94,16 @@ class DateTime extends \DateTime implements JsonSerializable
 	 * Returns new DateTime object formatted according to the specified format.
 	 */
 	public static function createFromFormat(
-		string                   $format,
-		string                   $time,
-		string|DateTimeZone|null $timezone = null,
+		string $format,
+		string $time,
+		string|\DateTimeZone|null $timezone = null,
 	): static|false
 	{
 		if ($timezone === null) {
-			$timezone = new DateTimeZone(date_default_timezone_get());
+			$timezone = new \DateTimeZone(date_default_timezone_get());
 
 		} elseif (is_string($timezone)) {
-			$timezone = new DateTimeZone($timezone);
+			$timezone = new \DateTimeZone($timezone);
 		}
 
 		$date = parent::createFromFormat($format, $time, $timezone);

@@ -14,8 +14,6 @@ namespace Symfony\Component\CssSelector\Parser;
 use Symfony\Component\CssSelector\Exception\SyntaxErrorException;
 use Symfony\Component\CssSelector\Node;
 use Symfony\Component\CssSelector\Parser\Tokenizer\Tokenizer;
-use function count;
-use function in_array;
 
 /**
  * CSS selector parser.
@@ -31,7 +29,7 @@ class Parser implements ParserInterface
 {
     private Tokenizer $tokenizer;
 
-    public function __construct(Tokenizer $tokenizer = null)
+    public function __construct(?Tokenizer $tokenizer = null)
     {
         $this->tokenizer = $tokenizer ?? new Tokenizer();
     }
@@ -147,7 +145,7 @@ class Parser implements ParserInterface
     {
         $stream->skipWhitespace();
 
-        $selectorStart = count($stream->getUsed());
+        $selectorStart = \count($stream->getUsed());
         $result = $this->parseElementNode($stream);
         $pseudoElement = null;
 
@@ -184,7 +182,7 @@ class Parser implements ParserInterface
                 }
 
                 $identifier = $stream->getNextIdentifier();
-                if (in_array(strtolower($identifier), ['first-line', 'first-letter', 'before', 'after'])) {
+                if (\in_array(strtolower($identifier), ['first-line', 'first-letter', 'before', 'after'])) {
                     // Special case: CSS 2.1 pseudo-elements can have a single ':'.
                     // Any new pseudo-element must have two.
                     $pseudoElement = $identifier;
@@ -195,7 +193,7 @@ class Parser implements ParserInterface
                 if (!$stream->getPeek()->isDelimiter(['('])) {
                     $result = new Node\PseudoNode($result, $identifier);
                     if ('Pseudo[Element[*]:scope]' === $result->__toString()) {
-                        $used = count($stream->getUsed());
+                        $used = \count($stream->getUsed());
                         if (!(2 === $used
                            || 3 === $used && $stream->getUsed()[0]->isWhiteSpace()
                            || $used >= 3 && $stream->getUsed()[$used - 3]->isDelimiter([','])
@@ -261,7 +259,7 @@ class Parser implements ParserInterface
             }
         }
 
-        if (count($stream->getUsed()) === $selectorStart) {
+        if (\count($stream->getUsed()) === $selectorStart) {
             throw SyntaxErrorException::unexpectedToken('selector', $stream->getPeek());
         }
 

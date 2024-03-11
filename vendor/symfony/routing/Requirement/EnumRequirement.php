@@ -11,24 +11,21 @@
 
 namespace Symfony\Component\Routing\Requirement;
 
-use BackedEnum;
-use Stringable;
 use Symfony\Component\Routing\Exception\InvalidArgumentException;
-use function is_string;
 
-final class EnumRequirement implements Stringable
+final class EnumRequirement implements \Stringable
 {
     private string $requirement;
 
     /**
-     * @template T of BackedEnum
+     * @template T of \BackedEnum
      *
      * @param class-string<T>|list<T> $cases
      */
     public function __construct(string|array $cases = [])
     {
-        if (is_string($cases)) {
-            if (!is_subclass_of($cases, BackedEnum::class, true)) {
+        if (\is_string($cases)) {
+            if (!is_subclass_of($cases, \BackedEnum::class, true)) {
                 throw new InvalidArgumentException(sprintf('"%s" is not a "BackedEnum" class.', $cases));
             }
 
@@ -37,7 +34,7 @@ final class EnumRequirement implements Stringable
             $class = null;
 
             foreach ($cases as $case) {
-                if (!$case instanceof BackedEnum) {
+                if (!$case instanceof \BackedEnum) {
                     throw new InvalidArgumentException(sprintf('Case must be a "BackedEnum" instance, "%s" given.', get_debug_type($case)));
                 }
 

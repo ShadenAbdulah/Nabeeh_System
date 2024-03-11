@@ -194,7 +194,7 @@ function parseArgs($args) {
             default:
                 if (preg_match('/^--version=(.*)$/', $arg, $matches)) {
                     $attributes['version'] = PhpParser\PhpVersion::fromString($matches[1]);
-                } elseif ($arg[0] === '-' && strlen($arg[0]) > 1) {
+                } elseif ($arg[0] === '-' && \strlen($arg[0]) > 1) {
                     showHelp("Invalid operation $arg.");
                 } else {
                     $files[] = $arg;

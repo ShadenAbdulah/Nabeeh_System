@@ -2,14 +2,7 @@
 
 namespace PhpParser;
 
-use function constant;
-use function define;
-use function defined;
-use function function_exists;
-use function gettype;
-use function is_int;
-
-if (!function_exists('PhpParser\defineCompatibilityTokens')) {
+if (!\function_exists('PhpParser\defineCompatibilityTokens')) {
     function defineCompatibilityTokens(): void {
         $compatTokens = [
             // PHP 8.0
@@ -31,20 +24,15 @@ if (!function_exists('PhpParser\defineCompatibilityTokens')) {
         // assigned a unique ID.
         $usedTokenIds = [];
         foreach ($compatTokens as $token) {
-<<<<<<< HEAD
-            if (defined($token)) {
-                $tokenId = constant($token);
-                if (!is_int($tokenId)) {
+            if (\defined($token)) {
+                $tokenId = \constant($token);
+                if (!\is_int($tokenId)) {
                     throw new \Error(sprintf(
                         'Token %s has ID of type %s, should be int. ' .
                         'You may be using a library with broken token emulation',
-                        $token, gettype($tokenId)
+                        $token, \gettype($tokenId)
                     ));
                 }
-=======
-            if (\defined($token)) {
-                $tokenId = \constant($token);
->>>>>>> parent of c8b1139b (update Ui)
                 $clashingToken = $usedTokenIds[$tokenId] ?? null;
                 if ($clashingToken !== null) {
                     throw new \Error(sprintf(
@@ -61,11 +49,11 @@ if (!function_exists('PhpParser\defineCompatibilityTokens')) {
         // downwards, but skip any IDs that may already be in use.
         $newTokenId = -1;
         foreach ($compatTokens as $token) {
-            if (!defined($token)) {
+            if (!\defined($token)) {
                 while (isset($usedTokenIds[$newTokenId])) {
                     $newTokenId--;
                 }
-                define($token, $newTokenId);
+                \define($token, $newTokenId);
                 $newTokenId--;
             }
         }

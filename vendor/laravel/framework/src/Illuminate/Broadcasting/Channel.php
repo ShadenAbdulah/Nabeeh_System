@@ -16,7 +16,7 @@ class Channel
     /**
      * Create a new channel instance.
      *
-     * @param HasBroadcastChannel|string  $name
+     * @param  \Illuminate\Contracts\Broadcasting\HasBroadcastChannel|string  $name
      * @return void
      */
     public function __construct($name)

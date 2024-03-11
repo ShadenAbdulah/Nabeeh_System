@@ -11,11 +11,9 @@
 
 namespace Symfony\Component\Console\Helper;
 
-use Closure;
 use Symfony\Component\Console\Exception\InvalidArgumentException;
 use Symfony\Component\Console\Exception\LogicException;
 use Symfony\Component\Console\Output\OutputInterface;
-use function count;
 
 /**
  * @author Kevin Bond <kevinbond@gmail.com>
@@ -52,7 +50,7 @@ class ProgressIndicator
      * @param int        $indicatorChangeInterval Change interval in milliseconds
      * @param array|null $indicatorValues         Animated indicator characters
      */
-    public function __construct(OutputInterface $output, string $format = null, int $indicatorChangeInterval = 100, array $indicatorValues = null)
+    public function __construct(OutputInterface $output, ?string $format = null, int $indicatorChangeInterval = 100, ?array $indicatorValues = null)
     {
         $this->output = $output;
 
@@ -60,7 +58,7 @@ class ProgressIndicator
         $indicatorValues ??= ['-', '\\', '|', '/'];
         $indicatorValues = array_values($indicatorValues);
 
-        if (2 > count($indicatorValues)) {
+        if (2 > \count($indicatorValues)) {
             throw new InvalidArgumentException('Must have at least 2 indicator value characters.');
         }
 
@@ -223,12 +221,12 @@ class ProgressIndicator
     }
 
     /**
-     * @return array<string, Closure>
+     * @return array<string, \Closure>
      */
     private static function initPlaceholderFormatters(): array
     {
         return [
-            'indicator' => fn (self $indicator) => $indicator->indicatorValues[$indicator->indicatorCurrent % count($indicator->indicatorValues)],
+            'indicator' => fn (self $indicator) => $indicator->indicatorValues[$indicator->indicatorCurrent % \count($indicator->indicatorValues)],
             'message' => fn (self $indicator) => $indicator->message,
             'elapsed' => fn (self $indicator) => Helper::formatTime(time() - $indicator->startTime, 2),
             'memory' => fn () => Helper::formatMemory(memory_get_usage(true)),

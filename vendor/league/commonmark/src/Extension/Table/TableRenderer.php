@@ -20,8 +20,6 @@ use League\CommonMark\Renderer\ChildNodeRendererInterface;
 use League\CommonMark\Renderer\NodeRendererInterface;
 use League\CommonMark\Util\HtmlElement;
 use League\CommonMark\Xml\XmlNodeRendererInterface;
-use Stringable;
-use function trim;
 
 final class TableRenderer implements NodeRendererInterface, XmlNodeRendererInterface
 {
@@ -32,7 +30,7 @@ final class TableRenderer implements NodeRendererInterface, XmlNodeRendererInter
      *
      * @psalm-suppress MoreSpecificImplementedParamType
      */
-    public function render(Node $node, ChildNodeRendererInterface $childRenderer): Stringable
+    public function render(Node $node, ChildNodeRendererInterface $childRenderer): \Stringable
     {
         Table::assertInstanceOf($node);
 
@@ -42,7 +40,7 @@ final class TableRenderer implements NodeRendererInterface, XmlNodeRendererInter
 
         $children = $childRenderer->renderNodes($node->children());
 
-        return new HtmlElement('table', $attrs, $separator . trim($children) . $separator);
+        return new HtmlElement('table', $attrs, $separator . \trim($children) . $separator);
     }
 
     public function getXmlTagName(Node $node): string

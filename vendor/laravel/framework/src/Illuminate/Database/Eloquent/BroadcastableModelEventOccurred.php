@@ -14,7 +14,7 @@ class BroadcastableModelEventOccurred implements ShouldBroadcast
     /**
      * The model instance corresponding to the event.
      *
-     * @var Model
+     * @var \Illuminate\Database\Eloquent\Model
      */
     public $model;
 
@@ -56,7 +56,7 @@ class BroadcastableModelEventOccurred implements ShouldBroadcast
     /**
      * Create a new event instance.
      *
-     * @param Model $model
+     * @param  \Illuminate\Database\Eloquent\Model  $model
      * @param  string  $event
      * @return void
      */

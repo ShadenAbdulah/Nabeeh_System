@@ -12,7 +12,6 @@ use RuntimeException;
 use SplFileObject;
 use Symfony\Component\Filesystem\Filesystem as SymfonyFilesystem;
 use Symfony\Component\Finder\Finder;
-use Symfony\Component\Finder\SplFileInfo;
 use Symfony\Component\Mime\MimeTypes;
 
 class Filesystem
@@ -49,7 +48,7 @@ class Filesystem
      * @param  bool  $lock
      * @return string
      *
-     * @throws FileNotFoundException
+     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      */
     public function get($path, $lock = false)
     {
@@ -68,7 +67,7 @@ class Filesystem
      * @param  bool  $lock
      * @return array
      *
-     * @throws FileNotFoundException
+     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      */
     public function json($path, $flags = 0, $lock = false)
     {
@@ -111,7 +110,7 @@ class Filesystem
      * @param  array  $data
      * @return mixed
      *
-     * @throws FileNotFoundException
+     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      */
     public function getRequire($path, array $data = [])
     {
@@ -136,7 +135,7 @@ class Filesystem
      * @param  array  $data
      * @return mixed
      *
-     * @throws FileNotFoundException
+     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      */
     public function requireOnce($path, array $data = [])
     {
@@ -158,9 +157,9 @@ class Filesystem
      * Get the contents of a file one line at a time.
      *
      * @param  string  $path
-     * @return LazyCollection
+     * @return \Illuminate\Support\LazyCollection
      *
-     * @throws FileNotFoundException
+     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      */
     public function lines($path)
     {
@@ -369,7 +368,7 @@ class Filesystem
      * @param  string  $link
      * @return void
      *
-     * @throws RuntimeException
+     * @throws \RuntimeException
      */
     public function relativeLink($target, $link)
     {
@@ -434,7 +433,7 @@ class Filesystem
      * @param  string  $path
      * @return string|null
      *
-     * @throws RuntimeException
+     * @throws \RuntimeException
      */
     public function guessExtension($path)
     {
@@ -547,7 +546,7 @@ class Filesystem
     {
         $hash = @md5_file($firstFile);
 
-        return $hash && $hash === @md5_file($secondFile);
+        return $hash && hash_equals($hash, (string) @md5_file($secondFile));
     }
 
     /**
@@ -578,7 +577,7 @@ class Filesystem
      *
      * @param  string  $directory
      * @param  bool  $hidden
-     * @return SplFileInfo[]
+     * @return \Symfony\Component\Finder\SplFileInfo[]
      */
     public function files($directory, $hidden = false)
     {
@@ -593,7 +592,7 @@ class Filesystem
      *
      * @param  string  $directory
      * @param  bool  $hidden
-     * @return SplFileInfo[]
+     * @return \Symfony\Component\Finder\SplFileInfo[]
      */
     public function allFiles($directory, $hidden = false)
     {

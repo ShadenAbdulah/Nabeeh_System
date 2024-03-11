@@ -25,14 +25,14 @@ class HandleExceptions
     /**
      * The application instance.
      *
-     * @var Application
+     * @var \Illuminate\Contracts\Foundation\Application
      */
     protected static $app;
 
     /**
      * Bootstrap the given application.
      *
-     * @param Application $app
+     * @param  \Illuminate\Contracts\Foundation\Application  $app
      * @return void
      */
     public function bootstrap(Application $app)
@@ -63,7 +63,7 @@ class HandleExceptions
      * @param  int  $line
      * @return void
      *
-     * @throws ErrorException
+     * @throws \ErrorException
      */
     public function handleError($level, $message, $file = '', $line = 0)
     {
@@ -172,7 +172,7 @@ class HandleExceptions
      * the HTTP and Console kernels. But, fatal error exceptions must
      * be handled differently since they are not normal exceptions.
      *
-     * @param Throwable $e
+     * @param  \Throwable  $e
      * @return void
      */
     public function handleException(Throwable $e)
@@ -199,7 +199,7 @@ class HandleExceptions
     /**
      * Render an exception to the console.
      *
-     * @param Throwable $e
+     * @param  \Throwable  $e
      * @return void
      */
     protected function renderForConsole(Throwable $e)
@@ -210,7 +210,7 @@ class HandleExceptions
     /**
      * Render an exception as an HTTP response and send it.
      *
-     * @param Throwable $e
+     * @param  \Throwable  $e
      * @return void
      */
     protected function renderHttpResponse(Throwable $e)
@@ -237,7 +237,7 @@ class HandleExceptions
      *
      * @param  array  $error
      * @param  int|null  $traceOffset
-     * @return FatalError
+     * @return \Symfony\Component\ErrorHandler\Error\FatalError
      */
     protected function fatalErrorFromPhpError(array $error, $traceOffset = null)
     {
@@ -281,7 +281,7 @@ class HandleExceptions
     /**
      * Get an instance of the exception handler.
      *
-     * @return ExceptionHandler
+     * @return \Illuminate\Contracts\Debug\ExceptionHandler
      */
     protected function getExceptionHandler()
     {

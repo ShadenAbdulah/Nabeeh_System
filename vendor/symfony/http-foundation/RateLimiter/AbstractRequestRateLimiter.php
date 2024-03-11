@@ -15,7 +15,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\RateLimiter\LimiterInterface;
 use Symfony\Component\RateLimiter\Policy\NoLimiter;
 use Symfony\Component\RateLimiter\RateLimit;
-use function count;
 
 /**
  * An implementation of PeekableRequestRateLimiterInterface that
@@ -38,7 +37,7 @@ abstract class AbstractRequestRateLimiter implements PeekableRequestRateLimiterI
     private function doConsume(Request $request, int $tokens): RateLimit
     {
         $limiters = $this->getLimiters($request);
-        if (0 === count($limiters)) {
+        if (0 === \count($limiters)) {
             $limiters = [new NoLimiter()];
         }
 

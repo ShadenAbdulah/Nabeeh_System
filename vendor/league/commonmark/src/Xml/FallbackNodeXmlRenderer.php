@@ -16,15 +16,6 @@ namespace League\CommonMark\Xml;
 use League\CommonMark\Node\Block\AbstractBlock;
 use League\CommonMark\Node\Inline\AbstractInline;
 use League\CommonMark\Node\Node;
-use ReflectionClass;
-use function get_class;
-use function in_array;
-use function is_bool;
-use function is_float;
-use function is_int;
-use function is_string;
-use function sprintf;
-use function strtolower;
 
 /**
  * @internal
@@ -43,15 +34,15 @@ final class FallbackNodeXmlRenderer implements XmlNodeRendererInterface
      */
     public function getXmlTagName(Node $node): string
     {
-        $className = get_class($node);
+        $className = \get_class($node);
         if (isset($this->classCache[$className])) {
             return $this->classCache[$className];
         }
 
         $type      = $node instanceof AbstractBlock ? 'block' : 'inline';
-        $shortName = strtolower((new ReflectionClass($node))->getShortName());
+        $shortName = \strtolower((new \ReflectionClass($node))->getShortName());
 
-        return $this->classCache[$className] = sprintf('custom_%s_%s', $type, $shortName);
+        return $this->classCache[$className] = \sprintf('custom_%s_%s', $type, $shortName);
     }
 
     /**
@@ -66,9 +57,9 @@ final class FallbackNodeXmlRenderer implements XmlNodeRendererInterface
             }
         }
 
-        $reflClass = new ReflectionClass($node);
+        $reflClass = new \ReflectionClass($node);
         foreach ($reflClass->getProperties() as $property) {
-            if (in_array($property->getDeclaringClass()->getName(), [Node::class, AbstractBlock::class, AbstractInline::class], true)) {
+            if (\in_array($property->getDeclaringClass()->getName(), [Node::class, AbstractBlock::class, AbstractInline::class], true)) {
                 continue;
             }
 
@@ -89,6 +80,6 @@ final class FallbackNodeXmlRenderer implements XmlNodeRendererInterface
      */
     private static function isValueUsable($var): bool
     {
-        return is_string($var) || is_int($var) || is_float($var) || is_bool($var);
+        return \is_string($var) || \is_int($var) || \is_float($var) || \is_bool($var);
     }
 }

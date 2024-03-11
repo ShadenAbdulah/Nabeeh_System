@@ -3,7 +3,6 @@
 namespace PhpParser\Lexer\TokenEmulator;
 
 use PhpParser\PhpVersion;
-use const T_READONLY;
 
 /*
  * In PHP 8.1, "readonly(" was special cased in the lexer in order to support functions with
@@ -18,7 +17,7 @@ class ReadonlyFunctionTokenEmulator extends KeywordEmulator {
     }
 
     public function getKeywordToken(): int {
-        return T_READONLY;
+        return \T_READONLY;
     }
 
     public function getPhpVersion(): PhpVersion {

@@ -3,7 +3,6 @@
 namespace Illuminate\Database\Query\Grammars;
 
 use Illuminate\Database\Query\Builder;
-use Illuminate\Database\Query\IndexHint;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
@@ -23,7 +22,7 @@ class SQLiteGrammar extends Grammar
     /**
      * Compile the lock into SQL.
      *
-     * @param Builder $query
+     * @param  \Illuminate\Database\Query\Builder  $query
      * @param  bool|string  $value
      * @return string
      */
@@ -46,7 +45,7 @@ class SQLiteGrammar extends Grammar
     /**
      * Compile a "where date" clause.
      *
-     * @param Builder $query
+     * @param  \Illuminate\Database\Query\Builder  $query
      * @param  array  $where
      * @return string
      */
@@ -58,7 +57,7 @@ class SQLiteGrammar extends Grammar
     /**
      * Compile a "where day" clause.
      *
-     * @param Builder $query
+     * @param  \Illuminate\Database\Query\Builder  $query
      * @param  array  $where
      * @return string
      */
@@ -70,7 +69,7 @@ class SQLiteGrammar extends Grammar
     /**
      * Compile a "where month" clause.
      *
-     * @param Builder $query
+     * @param  \Illuminate\Database\Query\Builder  $query
      * @param  array  $where
      * @return string
      */
@@ -82,7 +81,7 @@ class SQLiteGrammar extends Grammar
     /**
      * Compile a "where year" clause.
      *
-     * @param Builder $query
+     * @param  \Illuminate\Database\Query\Builder  $query
      * @param  array  $where
      * @return string
      */
@@ -94,7 +93,7 @@ class SQLiteGrammar extends Grammar
     /**
      * Compile a "where time" clause.
      *
-     * @param Builder $query
+     * @param  \Illuminate\Database\Query\Builder  $query
      * @param  array  $where
      * @return string
      */
@@ -107,7 +106,7 @@ class SQLiteGrammar extends Grammar
      * Compile a date based where clause.
      *
      * @param  string  $type
-     * @param Builder $query
+     * @param  \Illuminate\Database\Query\Builder  $query
      * @param  array  $where
      * @return string
      */
@@ -121,8 +120,8 @@ class SQLiteGrammar extends Grammar
     /**
      * Compile the index hints for the query.
      *
-     * @param Builder $query
-     * @param  IndexHint  $indexHint
+     * @param  \Illuminate\Database\Query\Builder  $query
+     * @param  \Illuminate\Database\Query\IndexHint  $indexHint
      * @return string
      */
     protected function compileIndexHint(Builder $query, $indexHint)
@@ -188,7 +187,7 @@ class SQLiteGrammar extends Grammar
     /**
      * Compile an update statement into SQL.
      *
-     * @param Builder $query
+     * @param  \Illuminate\Database\Query\Builder  $query
      * @param  array  $values
      * @return string
      */
@@ -204,7 +203,7 @@ class SQLiteGrammar extends Grammar
     /**
      * Compile an insert ignore statement into SQL.
      *
-     * @param Builder $query
+     * @param  \Illuminate\Database\Query\Builder  $query
      * @param  array  $values
      * @return string
      */
@@ -214,10 +213,9 @@ class SQLiteGrammar extends Grammar
     }
 
     /**
-<<<<<<< HEAD
      * Compile an insert ignore statement using a subquery into SQL.
      *
-     * @param Builder $query
+     * @param  \Illuminate\Database\Query\Builder  $query
      * @param  array  $columns
      * @param  string  $sql
      * @return string
@@ -228,11 +226,9 @@ class SQLiteGrammar extends Grammar
     }
 
     /**
-=======
->>>>>>> parent of c8b1139b (update Ui)
      * Compile the columns for an update statement.
      *
-     * @param Builder $query
+     * @param  \Illuminate\Database\Query\Builder  $query
      * @param  array  $values
      * @return string
      */
@@ -254,7 +250,7 @@ class SQLiteGrammar extends Grammar
     /**
      * Compile an "upsert" statement into SQL.
      *
-     * @param Builder $query
+     * @param  \Illuminate\Database\Query\Builder  $query
      * @param  array  $values
      * @param  array  $uniqueBy
      * @param  array  $update
@@ -309,7 +305,7 @@ class SQLiteGrammar extends Grammar
     /**
      * Compile an update statement with joins or limit into SQL.
      *
-     * @param Builder $query
+     * @param  \Illuminate\Database\Query\Builder  $query
      * @param  array  $values
      * @return string
      */
@@ -353,7 +349,7 @@ class SQLiteGrammar extends Grammar
     /**
      * Compile a delete statement into SQL.
      *
-     * @param Builder $query
+     * @param  \Illuminate\Database\Query\Builder  $query
      * @return string
      */
     public function compileDelete(Builder $query)
@@ -368,7 +364,7 @@ class SQLiteGrammar extends Grammar
     /**
      * Compile a delete statement with joins or limit into SQL.
      *
-     * @param Builder $query
+     * @param  \Illuminate\Database\Query\Builder  $query
      * @return string
      */
     protected function compileDeleteWithJoinsOrLimit(Builder $query)
@@ -385,13 +381,13 @@ class SQLiteGrammar extends Grammar
     /**
      * Compile a truncate table statement into SQL.
      *
-     * @param Builder $query
+     * @param  \Illuminate\Database\Query\Builder  $query
      * @return array
      */
     public function compileTruncate(Builder $query)
     {
         return [
-            'delete from sqlite_sequence where name = ?' => [$query->from],
+            'delete from sqlite_sequence where name = ?' => [$this->getTablePrefix().$query->from],
             'delete from '.$this->wrapTable($query->from) => [],
         ];
     }

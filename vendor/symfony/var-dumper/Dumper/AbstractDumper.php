@@ -11,14 +11,8 @@
 
 namespace Symfony\Component\VarDumper\Dumper;
 
-use RuntimeException;
 use Symfony\Component\VarDumper\Cloner\Data;
 use Symfony\Component\VarDumper\Cloner\DumperInterface;
-use function function_exists;
-use function ini_get;
-use function is_callable;
-use function is_string;
-use const LC_NUMERIC;
 
 /**
  * Abstract mechanism for dumping a Data object.
@@ -51,12 +45,12 @@ abstract class AbstractDumper implements DataDumperInterface, DumperInterface
      * @param string|null                   $charset The default character encoding to use for non-UTF8 strings
      * @param int                           $flags   A bit field of static::DUMP_* constants to fine tune dumps representation
      */
-    public function __construct($output = null, string $charset = null, int $flags = 0)
+    public function __construct($output = null, ?string $charset = null, int $flags = 0)
     {
         $this->flags = $flags;
-        $this->setCharset($charset ?: ini_get('php.output_encoding') ?: ini_get('default_charset') ?: 'UTF-8');
+        $this->setCharset($charset ?: \ini_get('php.output_encoding') ?: \ini_get('default_charset') ?: 'UTF-8');
         $this->setOutput($output ?: static::$defaultOutput);
-        if (!$output && is_string(static::$defaultOutput)) {
+        if (!$output && \is_string(static::$defaultOutput)) {
             static::$defaultOutput = $this->outputStream;
         }
     }
@@ -72,11 +66,11 @@ abstract class AbstractDumper implements DataDumperInterface, DumperInterface
     {
         $prev = $this->outputStream ?? $this->lineDumper;
 
-        if (is_callable($output)) {
+        if (\is_callable($output)) {
             $this->outputStream = null;
             $this->lineDumper = $output;
         } else {
-            if (is_string($output)) {
+            if (\is_string($output)) {
                 $output = fopen($output, 'w');
             }
             $this->outputStream = $output;
@@ -127,8 +121,8 @@ abstract class AbstractDumper implements DataDumperInterface, DumperInterface
      */
     public function dump(Data $data, $output = null): ?string
     {
-        if ($locale = $this->flags & (self::DUMP_COMMA_SEPARATOR | self::DUMP_TRAILING_COMMA) ? setlocale(LC_NUMERIC, 0) : null) {
-            setlocale(LC_NUMERIC, 'C');
+        if ($locale = $this->flags & (self::DUMP_COMMA_SEPARATOR | self::DUMP_TRAILING_COMMA) ? setlocale(\LC_NUMERIC, 0) : null) {
+            setlocale(\LC_NUMERIC, 'C');
         }
 
         if ($returnDump = true === $output) {
@@ -152,7 +146,7 @@ abstract class AbstractDumper implements DataDumperInterface, DumperInterface
                 $this->setOutput($prevOutput);
             }
             if ($locale) {
-                setlocale(LC_NUMERIC, $locale);
+                setlocale(\LC_NUMERIC, $locale);
             }
         }
 
@@ -194,8 +188,8 @@ abstract class AbstractDumper implements DataDumperInterface, DumperInterface
             return $s;
         }
 
-        if (!function_exists('iconv')) {
-            throw new RuntimeException('Unable to convert a non-UTF-8 string to UTF-8: required function iconv() does not exist. You should install ext-iconv or symfony/polyfill-iconv.');
+        if (!\function_exists('iconv')) {
+            throw new \RuntimeException('Unable to convert a non-UTF-8 string to UTF-8: required function iconv() does not exist. You should install ext-iconv or symfony/polyfill-iconv.');
         }
 
         if (false !== $c = @iconv($this->charset, 'UTF-8', $s)) {

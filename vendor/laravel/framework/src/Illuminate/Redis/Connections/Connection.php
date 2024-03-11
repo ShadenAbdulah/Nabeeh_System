@@ -8,7 +8,6 @@ use Illuminate\Redis\Events\CommandExecuted;
 use Illuminate\Redis\Limiters\ConcurrencyLimiterBuilder;
 use Illuminate\Redis\Limiters\DurationLimiterBuilder;
 use Illuminate\Support\Traits\Macroable;
-use Redis;
 
 abstract class Connection
 {
@@ -19,7 +18,7 @@ abstract class Connection
     /**
      * The Redis client.
      *
-     * @var Redis
+     * @var \Redis
      */
     protected $client;
 
@@ -33,7 +32,7 @@ abstract class Connection
     /**
      * The event dispatcher instance.
      *
-     * @var Dispatcher
+     * @var \Illuminate\Contracts\Events\Dispatcher
      */
     protected $events;
 
@@ -41,7 +40,7 @@ abstract class Connection
      * Subscribe to a set of given channels for messages.
      *
      * @param  array|string  $channels
-     * @param Closure $callback
+     * @param  \Closure  $callback
      * @param  string  $method
      * @return void
      */
@@ -51,7 +50,7 @@ abstract class Connection
      * Funnel a callback for a maximum number of simultaneous executions.
      *
      * @param  string  $name
-     * @return ConcurrencyLimiterBuilder
+     * @return \Illuminate\Redis\Limiters\ConcurrencyLimiterBuilder
      */
     public function funnel($name)
     {
@@ -62,7 +61,7 @@ abstract class Connection
      * Throttle a callback for a maximum number of executions over a given duration.
      *
      * @param  string  $name
-     * @return DurationLimiterBuilder
+     * @return \Illuminate\Redis\Limiters\DurationLimiterBuilder
      */
     public function throttle($name)
     {
@@ -83,7 +82,7 @@ abstract class Connection
      * Subscribe to a set of given channels for messages.
      *
      * @param  array|string  $channels
-     * @param Closure $callback
+     * @param  \Closure  $callback
      * @return void
      */
     public function subscribe($channels, Closure $callback)
@@ -95,7 +94,7 @@ abstract class Connection
      * Subscribe to a set of given channels with wildcards.
      *
      * @param  array|string  $channels
-     * @param Closure $callback
+     * @param  \Closure  $callback
      * @return void
      */
     public function psubscribe($channels, Closure $callback)
@@ -152,7 +151,7 @@ abstract class Connection
     /**
      * Register a Redis command listener with the connection.
      *
-     * @param Closure $callback
+     * @param  \Closure  $callback
      * @return void
      */
     public function listen(Closure $callback)
@@ -186,7 +185,7 @@ abstract class Connection
     /**
      * Get the event dispatcher used by the connection.
      *
-     * @return Dispatcher
+     * @return \Illuminate\Contracts\Events\Dispatcher
      */
     public function getEventDispatcher()
     {
@@ -196,7 +195,7 @@ abstract class Connection
     /**
      * Set the event dispatcher instance on the connection.
      *
-     * @param Dispatcher $events
+     * @param  \Illuminate\Contracts\Events\Dispatcher  $events
      * @return void
      */
     public function setEventDispatcher(Dispatcher $events)

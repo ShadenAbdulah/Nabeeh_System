@@ -7,7 +7,6 @@ use PhpParser\Node\Arg;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Identifier;
 use PhpParser\Node\VariadicPlaceholder;
-use function is_string;
 
 class StaticCall extends CallLike {
     /** @var Node\Name|Expr Class name */
@@ -28,7 +27,7 @@ class StaticCall extends CallLike {
     public function __construct(Node $class, $name, array $args = [], array $attributes = []) {
         $this->attributes = $attributes;
         $this->class = $class;
-        $this->name = is_string($name) ? new Identifier($name) : $name;
+        $this->name = \is_string($name) ? new Identifier($name) : $name;
         $this->args = $args;
     }
 

@@ -9,14 +9,14 @@ class UniqueLock
     /**
      * The cache repository implementation.
      *
-     * @var Cache
+     * @var \Illuminate\Contracts\Cache\Repository
      */
     protected $cache;
 
     /**
      * Create a new unique lock manager instance.
      *
-     * @param Cache $cache
+     * @param  \Illuminate\Contracts\Cache\Repository  $cache
      * @return void
      */
     public function __construct(Cache $cache)

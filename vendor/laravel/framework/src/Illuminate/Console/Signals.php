@@ -2,8 +2,6 @@
 
 namespace Illuminate\Console;
 
-use Symfony\Component\Console\SignalRegistry\SignalRegistry;
-
 /**
  * @internal
  */
@@ -12,7 +10,7 @@ class Signals
     /**
      * The signal registry instance.
      *
-     * @var SignalRegistry
+     * @var \Symfony\Component\Console\SignalRegistry\SignalRegistry
      */
     protected $registry;
 
@@ -33,7 +31,7 @@ class Signals
     /**
      * Create a new signal registrar instance.
      *
-     * @param  SignalRegistry  $registry
+     * @param  \Symfony\Component\Console\SignalRegistry\SignalRegistry  $registry
      * @return void
      */
     public function __construct($registry)

@@ -2,7 +2,6 @@
 
 namespace Illuminate\Notifications;
 
-use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Contracts\Translation\HasLocalePreference;
 use Illuminate\Database\Eloquent\Collection as ModelCollection;
@@ -20,7 +19,7 @@ class NotificationSender
     /**
      * The notification manager instance.
      *
-     * @var ChannelManager
+     * @var \Illuminate\Notifications\ChannelManager
      */
     protected $manager;
 
@@ -34,7 +33,7 @@ class NotificationSender
     /**
      * The event dispatcher.
      *
-     * @var Dispatcher
+     * @var \Illuminate\Contracts\Events\Dispatcher
      */
     protected $events;
 
@@ -48,9 +47,9 @@ class NotificationSender
     /**
      * Create a new notification sender instance.
      *
-     * @param ChannelManager $manager
+     * @param  \Illuminate\Notifications\ChannelManager  $manager
      * @param  \Illuminate\Contracts\Bus\Dispatcher  $bus
-     * @param  Dispatcher  $events
+     * @param  \Illuminate\Contracts\Events\Dispatcher  $events
      * @param  string|null  $locale
      * @return void
      */
@@ -65,7 +64,7 @@ class NotificationSender
     /**
      * Send the given notification to the given notifiable entities.
      *
-     * @param Collection|array|mixed  $notifiables
+     * @param  \Illuminate\Support\Collection|array|mixed  $notifiables
      * @param  mixed  $notification
      * @return void
      */
@@ -83,7 +82,7 @@ class NotificationSender
     /**
      * Send the given notification immediately.
      *
-     * @param Collection|array|mixed  $notifiables
+     * @param  \Illuminate\Support\Collection|array|mixed  $notifiables
      * @param  mixed  $notification
      * @param  array|null  $channels
      * @return void
@@ -177,7 +176,7 @@ class NotificationSender
      * Queue the given notification instances.
      *
      * @param  mixed  $notifiables
-     * @param Notification $notification
+     * @param  \Illuminate\Notifications\Notification  $notification
      * @return void
      */
     protected function queueNotification($notifiables, $notification)
@@ -242,7 +241,7 @@ class NotificationSender
      * Format the notifiables into a Collection / array if necessary.
      *
      * @param  mixed  $notifiables
-     * @return ModelCollection|array
+     * @return \Illuminate\Database\Eloquent\Collection|array
      */
     protected function formatNotifiables($notifiables)
     {

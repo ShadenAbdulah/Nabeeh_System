@@ -9,14 +9,14 @@ class ScheduledTaskSkipped
     /**
      * The scheduled event being run.
      *
-     * @var Event
+     * @var \Illuminate\Console\Scheduling\Event
      */
     public $task;
 
     /**
      * Create a new event instance.
      *
-     * @param Event $task
+     * @param  \Illuminate\Console\Scheduling\Event  $task
      * @return void
      */
     public function __construct(Event $task)

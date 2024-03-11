@@ -2,9 +2,6 @@
 
 namespace Illuminate\Database\Eloquent;
 
-use Illuminate\Broadcasting\Channel;
-use Illuminate\Broadcasting\PendingBroadcast;
-use Illuminate\Contracts\Broadcasting\HasBroadcastChannel;
 use Illuminate\Support\Arr;
 
 trait BroadcastsEvents
@@ -42,8 +39,8 @@ trait BroadcastsEvents
     /**
      * Broadcast that the model was created.
      *
-     * @param  Channel|HasBroadcastChannel|array|null  $channels
-     * @return PendingBroadcast
+     * @param  \Illuminate\Broadcasting\Channel|\Illuminate\Contracts\Broadcasting\HasBroadcastChannel|array|null  $channels
+     * @return \Illuminate\Broadcasting\PendingBroadcast
      */
     public function broadcastCreated($channels = null)
     {
@@ -55,8 +52,8 @@ trait BroadcastsEvents
     /**
      * Broadcast that the model was updated.
      *
-     * @param  Channel|HasBroadcastChannel|array|null  $channels
-     * @return PendingBroadcast
+     * @param  \Illuminate\Broadcasting\Channel|\Illuminate\Contracts\Broadcasting\HasBroadcastChannel|array|null  $channels
+     * @return \Illuminate\Broadcasting\PendingBroadcast
      */
     public function broadcastUpdated($channels = null)
     {
@@ -68,8 +65,8 @@ trait BroadcastsEvents
     /**
      * Broadcast that the model was trashed.
      *
-     * @param  Channel|HasBroadcastChannel|array|null  $channels
-     * @return PendingBroadcast
+     * @param  \Illuminate\Broadcasting\Channel|\Illuminate\Contracts\Broadcasting\HasBroadcastChannel|array|null  $channels
+     * @return \Illuminate\Broadcasting\PendingBroadcast
      */
     public function broadcastTrashed($channels = null)
     {
@@ -81,8 +78,8 @@ trait BroadcastsEvents
     /**
      * Broadcast that the model was restored.
      *
-     * @param  Channel|HasBroadcastChannel|array|null  $channels
-     * @return PendingBroadcast
+     * @param  \Illuminate\Broadcasting\Channel|\Illuminate\Contracts\Broadcasting\HasBroadcastChannel|array|null  $channels
+     * @return \Illuminate\Broadcasting\PendingBroadcast
      */
     public function broadcastRestored($channels = null)
     {
@@ -94,8 +91,8 @@ trait BroadcastsEvents
     /**
      * Broadcast that the model was deleted.
      *
-     * @param  Channel|HasBroadcastChannel|array|null  $channels
-     * @return PendingBroadcast
+     * @param  \Illuminate\Broadcasting\Channel|\Illuminate\Contracts\Broadcasting\HasBroadcastChannel|array|null  $channels
+     * @return \Illuminate\Broadcasting\PendingBroadcast
      */
     public function broadcastDeleted($channels = null)
     {
@@ -110,7 +107,7 @@ trait BroadcastsEvents
      * @param  mixed  $instance
      * @param  string  $event
      * @param  mixed  $channels
-     * @return PendingBroadcast|null
+     * @return \Illuminate\Broadcasting\PendingBroadcast|null
      */
     protected function broadcastIfBroadcastChannelsExistForEvent($instance, $event, $channels = null)
     {
@@ -150,7 +147,7 @@ trait BroadcastsEvents
      * Create a new broadcastable model event for the model.
      *
      * @param  string  $event
-     * @return BroadcastableModelEventOccurred
+     * @return \Illuminate\Database\Eloquent\BroadcastableModelEventOccurred
      */
     protected function newBroadcastableEvent(string $event)
     {
@@ -161,7 +158,7 @@ trait BroadcastsEvents
      * Get the channels that model events should broadcast on.
      *
      * @param  string  $event
-     * @return Channel|array
+     * @return \Illuminate\Broadcasting\Channel|array
      */
     public function broadcastOn($event)
     {

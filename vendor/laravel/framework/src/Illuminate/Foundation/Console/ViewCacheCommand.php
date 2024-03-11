@@ -51,7 +51,7 @@ class ViewCacheCommand extends Command
     /**
      * Compile the given view files.
      *
-     * @param Collection $views
+     * @param  \Illuminate\Support\Collection  $views
      * @return void
      */
     protected function compileViews(Collection $views)
@@ -73,7 +73,7 @@ class ViewCacheCommand extends Command
      * Get the Blade files in the given path.
      *
      * @param  array  $paths
-     * @return Collection
+     * @return \Illuminate\Support\Collection
      */
     protected function bladeFilesIn(array $paths)
     {
@@ -95,7 +95,7 @@ class ViewCacheCommand extends Command
     /**
      * Get all of the possible view paths.
      *
-     * @return Collection
+     * @return \Illuminate\Support\Collection
      */
     protected function paths()
     {

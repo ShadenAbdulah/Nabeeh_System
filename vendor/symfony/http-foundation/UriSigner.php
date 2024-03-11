@@ -11,10 +11,6 @@
 
 namespace Symfony\Component\HttpFoundation;
 
-use InvalidArgumentException;
-use SensitiveParameter;
-use const SORT_STRING;
-
 /**
  * @author Fabien Potencier <fabien@symfony.com>
  */
@@ -26,10 +22,10 @@ class UriSigner
     /**
      * @param string $parameter Query string parameter to use
      */
-    public function __construct(#[SensitiveParameter] string $secret, string $parameter = '_hash')
+    public function __construct(#[\SensitiveParameter] string $secret, string $parameter = '_hash')
     {
         if (!$secret) {
-            throw new InvalidArgumentException('A non-empty secret is required.');
+            throw new \InvalidArgumentException('A non-empty secret is required.');
         }
 
         $this->secret = $secret;
@@ -94,7 +90,7 @@ class UriSigner
 
     private function buildUrl(array $url, array $params = []): string
     {
-        ksort($params, SORT_STRING);
+        ksort($params, \SORT_STRING);
         $url['query'] = http_build_query($params, '', '&');
 
         $scheme = isset($url['scheme']) ? $url['scheme'].'://' : '';

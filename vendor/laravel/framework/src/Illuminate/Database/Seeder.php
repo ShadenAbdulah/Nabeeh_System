@@ -14,14 +14,14 @@ abstract class Seeder
     /**
      * The container instance.
      *
-     * @var Container
+     * @var \Illuminate\Contracts\Container\Container
      */
     protected $container;
 
     /**
      * The console command instance.
      *
-     * @var Command
+     * @var \Illuminate\Console\Command
      */
     protected $command;
 
@@ -121,7 +121,7 @@ abstract class Seeder
      * Resolve an instance of the given seeder class.
      *
      * @param  string  $class
-     * @return Seeder
+     * @return \Illuminate\Database\Seeder
      */
     protected function resolve($class)
     {
@@ -143,7 +143,7 @@ abstract class Seeder
     /**
      * Set the IoC container instance.
      *
-     * @param Container $container
+     * @param  \Illuminate\Contracts\Container\Container  $container
      * @return $this
      */
     public function setContainer(Container $container)
@@ -156,7 +156,7 @@ abstract class Seeder
     /**
      * Set the console command instance.
      *
-     * @param Command $command
+     * @param  \Illuminate\Console\Command  $command
      * @return $this
      */
     public function setCommand(Command $command)
@@ -172,7 +172,7 @@ abstract class Seeder
      * @param  array  $parameters
      * @return mixed
      *
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     public function __invoke(array $parameters = [])
     {

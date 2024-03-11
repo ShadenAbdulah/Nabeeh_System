@@ -12,11 +12,8 @@
         "ext-pdo": "*",
         "aws/aws-sdk-php": "^3.295",
         "guzzlehttp/guzzle": "^7.2",
-<<<<<<< HEAD
         "laravel-lang/json-fallback": "*",
         "laravel-lang/locales": "^2.5",
-=======
->>>>>>> parent of c8b1139b (update Ui)
         "laravel/fortify": "^1.20",
         "laravel/framework": "^10.10",
         "laravel/sanctum": "^3.3",
@@ -45,13 +42,6 @@
         }
     },
     "scripts": {
-        "post-autoload-dump": [
-            "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
-            "@php artisan package:discover --ansi"
-        ],
-        "post-update-cmd": [
-            "@php artisan vendor:publish --tag=laravel-assets --ansi --force"
-        ],
         "post-root-package-install": [
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
         ],

@@ -2,8 +2,6 @@
 
 namespace PhpParser\PrettyPrinter;
 
-use Exception;
-use LogicException;
 use PhpParser\Node;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\AssignOp;
@@ -14,10 +12,6 @@ use PhpParser\Node\Scalar;
 use PhpParser\Node\Scalar\MagicConst;
 use PhpParser\Node\Stmt;
 use PhpParser\PrettyPrinterAbstract;
-use function count;
-use const INF;
-use const PHP_INT_MAX;
-use const STR_PAD_LEFT;
 
 class Standard extends PrettyPrinterAbstract {
     // Special nodes
@@ -175,7 +169,7 @@ class Standard extends PrettyPrinterAbstract {
             case Scalar\String_::KIND_DOUBLE_QUOTED:
                 return '"' . $this->escapeString($node->value, '"') . '"';
         }
-        throw new Exception('Invalid string kind');
+        throw new \Exception('Invalid string kind');
     }
 
     protected function pScalar_InterpolatedString(Scalar\InterpolatedString $node): string {
@@ -198,10 +192,10 @@ class Standard extends PrettyPrinterAbstract {
     }
 
     protected function pScalar_Int(Scalar\Int_ $node): string {
-        if ($node->value === -PHP_INT_MAX - 1) {
+        if ($node->value === -\PHP_INT_MAX - 1) {
             // PHP_INT_MIN cannot be represented as a literal,
             // because the sign is not part of the literal
-            return '(-' . PHP_INT_MAX . '-1)';
+            return '(-' . \PHP_INT_MAX . '-1)';
         }
 
         $kind = $node->getAttribute('kind', Scalar\Int_::KIND_DEC);
@@ -224,15 +218,15 @@ class Standard extends PrettyPrinterAbstract {
             case Scalar\Int_::KIND_HEX:
                 return $sign . '0x' . base_convert($str, 10, 16);
         }
-        throw new Exception('Invalid number kind');
+        throw new \Exception('Invalid number kind');
     }
 
     protected function pScalar_Float(Scalar\Float_ $node): string {
         if (!is_finite($node->value)) {
-            if ($node->value === INF) {
+            if ($node->value === \INF) {
                 return '1.0E+1000';
             }
-            if ($node->value === -INF) {
+            if ($node->value === -\INF) {
                 return '-1.0E+1000';
             } else {
                 return '\NAN';
@@ -581,7 +575,7 @@ class Standard extends PrettyPrinterAbstract {
     // Other
 
     protected function pExpr_Error(Expr\Error $node): string {
-        throw new LogicException('Cannot pretty-print AST with Error nodes');
+        throw new \LogicException('Cannot pretty-print AST with Error nodes');
     }
 
     protected function pExpr_Variable(Expr\Variable $node): string {
@@ -673,7 +667,7 @@ class Standard extends PrettyPrinterAbstract {
     protected function pMatchArm(Node\MatchArm $node): string {
         $result = '';
         if ($node->conds) {
-            for ($i = 0, $c = count($node->conds); $i + 1 < $c; $i++) {
+            for ($i = 0, $c = \count($node->conds); $i + 1 < $c; $i++) {
                 $result .= $this->p($node->conds[$i]) . ', ';
             }
             $result .= $this->pKey($node->conds[$i]);
@@ -896,7 +890,7 @@ class Standard extends PrettyPrinterAbstract {
     }
 
     protected function pStmt_Else(Stmt\Else_ $node): string {
-        if (count($node->stmts) === 1 && $node->stmts[0] instanceof Stmt\If_) {
+        if (\count($node->stmts) === 1 && $node->stmts[0] instanceof Stmt\If_) {
             // Print as "else if" rather than "else { if }"
             return 'else ' . $this->p($node->stmts[0]);
         }
@@ -1095,7 +1089,7 @@ class Standard extends PrettyPrinterAbstract {
         return preg_replace_callback($regex, function ($matches): string {
             assert(strlen($matches[0]) === 1);
             $hex = dechex(ord($matches[0]));
-            return '\\x' . str_pad($hex, 2, '0', STR_PAD_LEFT);
+            return '\\x' . str_pad($hex, 2, '0', \STR_PAD_LEFT);
         }, $escaped);
     }
 

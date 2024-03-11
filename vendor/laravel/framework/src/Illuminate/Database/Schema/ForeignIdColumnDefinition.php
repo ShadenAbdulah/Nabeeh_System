@@ -9,14 +9,14 @@ class ForeignIdColumnDefinition extends ColumnDefinition
     /**
      * The schema builder blueprint instance.
      *
-     * @var Blueprint
+     * @var \Illuminate\Database\Schema\Blueprint
      */
     protected $blueprint;
 
     /**
      * Create a new foreign ID column definition.
      *
-     * @param Blueprint $blueprint
+     * @param  \Illuminate\Database\Schema\Blueprint  $blueprint
      * @param  array  $attributes
      * @return void
      */
@@ -33,7 +33,7 @@ class ForeignIdColumnDefinition extends ColumnDefinition
      * @param  string|null  $table
      * @param  string|null  $column
      * @param  string|null  $indexName
-     * @return ForeignKeyDefinition
+     * @return \Illuminate\Database\Schema\ForeignKeyDefinition
      */
     public function constrained($table = null, $column = 'id', $indexName = null)
     {
@@ -45,7 +45,7 @@ class ForeignIdColumnDefinition extends ColumnDefinition
      *
      * @param  string  $column
      * @param  string  $indexName
-     * @return ForeignKeyDefinition
+     * @return \Illuminate\Database\Schema\ForeignKeyDefinition
      */
     public function references($column, $indexName = null)
     {

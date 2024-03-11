@@ -11,8 +11,6 @@
 
 namespace Symfony\Component\Translation\Extractor;
 
-use function chr;
-
 trigger_deprecation('symfony/translation', '6.2', '"%s" is deprecated.', PhpStringTokenParser::class);
 
 /*
@@ -96,7 +94,7 @@ class PhpStringTokenParser
      * @param string      $str   String without quotes
      * @param string|null $quote Quote type
      */
-    public static function parseEscapeSequences(string $str, string $quote = null): string
+    public static function parseEscapeSequences(string $str, ?string $quote = null): string
     {
         if (null !== $quote) {
             $str = str_replace('\\'.$quote, $quote, $str);
@@ -116,9 +114,9 @@ class PhpStringTokenParser
         if (isset(self::$replacements[$str])) {
             return self::$replacements[$str];
         } elseif ('x' === $str[0] || 'X' === $str[0]) {
-            return chr(hexdec($str));
+            return \chr(hexdec($str));
         } else {
-            return chr(octdec($str));
+            return \chr(octdec($str));
         }
     }
 

@@ -31,33 +31,6 @@ use PhpParser\Node\Stmt\Property;
 use PhpParser\Node\Stmt\TryCatch;
 use PhpParser\Node\UseItem;
 use PhpParser\NodeVisitor\CommentAnnotatingVisitor;
-use RangeException;
-use RuntimeException;
-use SplObjectStorage;
-use function count;
-use function is_string;
-use function strlen;
-use const T_AMPERSAND_FOLLOWED_BY_VAR_OR_VARARG;
-use const T_AMPERSAND_NOT_FOLLOWED_BY_VAR_OR_VARARG;
-use const T_ATTRIBUTE;
-use const T_BAD_CHARACTER;
-use const T_CLOSE_TAG;
-use const T_COALESCE_EQUAL;
-use const T_COMMENT;
-use const T_DOC_COMMENT;
-use const T_DOUBLE_COLON;
-use const T_ENUM;
-use const T_FN;
-use const T_INLINE_HTML;
-use const T_MATCH;
-use const T_NAME_FULLY_QUALIFIED;
-use const T_NAME_QUALIFIED;
-use const T_NAME_RELATIVE;
-use const T_NULLSAFE_OBJECT_OPERATOR;
-use const T_OPEN_TAG;
-use const T_OPEN_TAG_WITH_ECHO;
-use const T_READONLY;
-use const T_WHITESPACE;
 
 abstract class ParserAbstract implements Parser {
     private const SYMBOL_NONE = -1;
@@ -152,8 +125,8 @@ abstract class ParserAbstract implements Parser {
     /** @var int Error state, used to avoid error floods */
     protected int $errorState;
 
-    /** @var SplObjectStorage<Array_, null>|null Array nodes created during parsing, for postprocessing of empty elements. */
-    protected ?SplObjectStorage $createdArrays;
+    /** @var \SplObjectStorage<Array_, null>|null Array nodes created during parsing, for postprocessing of empty elements. */
+    protected ?\SplObjectStorage $createdArrays;
 
     /** @var Token[] Tokens for the current parse */
     protected array $tokens;
@@ -185,7 +158,7 @@ abstract class ParserAbstract implements Parser {
         $this->initReduceCallbacks();
         $this->phpTokenToSymbol = $this->createTokenMap();
         $this->dropTokens = array_fill_keys(
-            [T_WHITESPACE, T_OPEN_TAG, T_COMMENT, T_DOC_COMMENT, T_BAD_CHARACTER], true
+            [\T_WHITESPACE, \T_OPEN_TAG, \T_COMMENT, \T_DOC_COMMENT, \T_BAD_CHARACTER], true
         );
     }
 
@@ -204,7 +177,7 @@ abstract class ParserAbstract implements Parser {
      */
     public function parse(string $code, ?ErrorHandler $errorHandler = null): ?array {
         $this->errorHandler = $errorHandler ?: new ErrorHandler\Throwing();
-        $this->createdArrays = new SplObjectStorage();
+        $this->createdArrays = new \SplObjectStorage();
 
         $this->tokens = $this->lexer->tokenize($code, $this->errorHandler);
         $result = $this->doParse();
@@ -279,7 +252,7 @@ abstract class ParserAbstract implements Parser {
                     // Map the lexer token id to the internally used symbols.
                     $tokenValue = $token->text;
                     if (!isset($this->phpTokenToSymbol[$tokenId])) {
-                        throw new RangeException(sprintf(
+                        throw new \RangeException(sprintf(
                             'The lexer returned an invalid token (id=%d, value=%s)',
                             $tokenId, $tokenValue
                         ));
@@ -345,7 +318,7 @@ abstract class ParserAbstract implements Parser {
                     try {
                         $callback = $this->reduceCallbacks[$rule];
                         if ($callback !== null) {
-                            $callback($stackPos);
+                            $callback($this, $stackPos);
                         } elseif ($ruleLength > 0) {
                             $this->semValue = $this->semStack[$stackPos - $ruleLength + 1];
                         }
@@ -437,7 +410,7 @@ abstract class ParserAbstract implements Parser {
             }
         }
 
-        throw new RuntimeException('Reached end of parser loop');
+        throw new \RuntimeException('Reached end of parser loop');
     }
 
     protected function emitError(Error $error): void {
@@ -522,7 +495,7 @@ abstract class ParserAbstract implements Parser {
      * @return array<string, mixed> Attributes
      */
     protected function getAttributesForToken(int $tokenPos): array {
-        if ($tokenPos < count($this->tokens) - 1) {
+        if ($tokenPos < \count($this->tokens) - 1) {
             return $this->getAttributes($tokenPos, $tokenPos);
         }
 
@@ -668,7 +641,7 @@ abstract class ParserAbstract implements Parser {
             $attrs['endTokenPos'] = $attrs['startTokenPos'];
         }
         if (isset($attrs['startFilePos'])) {
-            $attrs['endFilePos'] = $attrs['startFilePos'] + strlen('namespace') - 1;
+            $attrs['endFilePos'] = $attrs['startFilePos'] + \strlen('namespace') - 1;
         }
         return $attrs;
     }
@@ -863,10 +836,10 @@ abstract class ParserAbstract implements Parser {
             $indentation = '';
         }
 
-        $indentLen = strlen($indentation);
+        $indentLen = \strlen($indentation);
         $indentChar = $indentHasSpaces ? " " : "\t";
 
-        if (is_string($contents)) {
+        if (\is_string($contents)) {
             if ($contents === '') {
                 $attributes['rawValue'] = $contents;
                 return new String_('', $attributes);
@@ -895,7 +868,7 @@ abstract class ParserAbstract implements Parser {
             $newContents = [];
             foreach ($contents as $i => $part) {
                 if ($part instanceof Node\InterpolatedStringPart) {
-                    $isLast = $i === count($contents) - 1;
+                    $isLast = $i === \count($contents) - 1;
                     $part->value = $this->stripIndentation(
                         $part->value, $indentLen, $indentChar,
                         $i === 0, $isLast, $part->getAttributes()
@@ -916,8 +889,8 @@ abstract class ParserAbstract implements Parser {
     }
 
     protected function createCommentFromToken(Token $token, int $tokenPos): Comment {
-        assert($token->id === T_COMMENT || $token->id == T_DOC_COMMENT);
-        return T_DOC_COMMENT === $token->id
+        assert($token->id === \T_COMMENT || $token->id == \T_DOC_COMMENT);
+        return \T_DOC_COMMENT === $token->id
             ? new Comment\Doc($token->text, $token->line, $token->pos, $tokenPos,
                 $token->getEndLine(), $token->getEndPos() - 1, $tokenPos)
             : new Comment($token->text, $token->line, $token->pos, $tokenPos,
@@ -934,7 +907,7 @@ abstract class ParserAbstract implements Parser {
                 break;
             }
 
-            if ($token->id === T_COMMENT || $token->id === T_DOC_COMMENT) {
+            if ($token->id === \T_COMMENT || $token->id === \T_DOC_COMMENT) {
                 return $this->createCommentFromToken($token, $tokenPos);
             }
         }
@@ -974,19 +947,19 @@ abstract class ParserAbstract implements Parser {
     protected function handleHaltCompiler(): string {
         // Prevent the lexer from returning any further tokens.
         $nextToken = $this->tokens[$this->tokenPos + 1];
-        $this->tokenPos = count($this->tokens) - 2;
+        $this->tokenPos = \count($this->tokens) - 2;
 
         // Return text after __halt_compiler.
-        return $nextToken->id === T_INLINE_HTML ? $nextToken->text : '';
+        return $nextToken->id === \T_INLINE_HTML ? $nextToken->text : '';
     }
 
     protected function inlineHtmlHasLeadingNewline(int $stackPos): bool {
         $tokenPos = $this->tokenStartStack[$stackPos];
         $token = $this->tokens[$tokenPos];
-        assert($token->id == T_INLINE_HTML);
+        assert($token->id == \T_INLINE_HTML);
         if ($tokenPos > 0) {
             $prevToken = $this->tokens[$tokenPos - 1];
-            assert($prevToken->id == T_CLOSE_TAG);
+            assert($prevToken->id == \T_CLOSE_TAG);
             return false !== strpos($prevToken->text, "\n")
                 || false !== strpos($prevToken->text, "\r");
         }
@@ -1028,7 +1001,7 @@ abstract class ParserAbstract implements Parser {
     /** @param ElseIf_|Else_ $node */
     protected function fixupAlternativeElse($node): void {
         // Make sure a trailing nop statement carrying comments is part of the node.
-        $numStmts = count($node->stmts);
+        $numStmts = \count($node->stmts);
         if ($numStmts !== 0 && $node->stmts[$numStmts - 1] instanceof Nop) {
             $nopAttrs = $node->stmts[$numStmts - 1]->getAttributes();
             if (isset($nopAttrs['endLine'])) {
@@ -1221,13 +1194,13 @@ abstract class ParserAbstract implements Parser {
             if ($i < 256) {
                 // Single-char tokens use an identity mapping.
                 $tokenMap[$i] = $i;
-            } elseif (T_DOUBLE_COLON === $i) {
+            } elseif (\T_DOUBLE_COLON === $i) {
                 // T_DOUBLE_COLON is equivalent to T_PAAMAYIM_NEKUDOTAYIM
                 $tokenMap[$i] = static::T_PAAMAYIM_NEKUDOTAYIM;
-            } elseif (T_OPEN_TAG_WITH_ECHO === $i) {
+            } elseif (\T_OPEN_TAG_WITH_ECHO === $i) {
                 // T_OPEN_TAG_WITH_ECHO with dropped T_OPEN_TAG results in T_ECHO
                 $tokenMap[$i] = static::T_ECHO;
-            } elseif (T_CLOSE_TAG === $i) {
+            } elseif (\T_CLOSE_TAG === $i) {
                 // T_CLOSE_TAG is equivalent to ';'
                 $tokenMap[$i] = ord(';');
             } elseif ('UNKNOWN' !== $name = token_name($i)) {
@@ -1239,18 +1212,18 @@ abstract class ParserAbstract implements Parser {
         }
 
         // Assign tokens for which we define compatibility constants, as token_name() does not know them.
-        $tokenMap[T_FN] = static::T_FN;
-        $tokenMap[T_COALESCE_EQUAL] = static::T_COALESCE_EQUAL;
-        $tokenMap[T_NAME_QUALIFIED] = static::T_NAME_QUALIFIED;
-        $tokenMap[T_NAME_FULLY_QUALIFIED] = static::T_NAME_FULLY_QUALIFIED;
-        $tokenMap[T_NAME_RELATIVE] = static::T_NAME_RELATIVE;
-        $tokenMap[T_MATCH] = static::T_MATCH;
-        $tokenMap[T_NULLSAFE_OBJECT_OPERATOR] = static::T_NULLSAFE_OBJECT_OPERATOR;
-        $tokenMap[T_ATTRIBUTE] = static::T_ATTRIBUTE;
-        $tokenMap[T_AMPERSAND_NOT_FOLLOWED_BY_VAR_OR_VARARG] = static::T_AMPERSAND_NOT_FOLLOWED_BY_VAR_OR_VARARG;
-        $tokenMap[T_AMPERSAND_FOLLOWED_BY_VAR_OR_VARARG] = static::T_AMPERSAND_FOLLOWED_BY_VAR_OR_VARARG;
-        $tokenMap[T_ENUM] = static::T_ENUM;
-        $tokenMap[T_READONLY] = static::T_READONLY;
+        $tokenMap[\T_FN] = static::T_FN;
+        $tokenMap[\T_COALESCE_EQUAL] = static::T_COALESCE_EQUAL;
+        $tokenMap[\T_NAME_QUALIFIED] = static::T_NAME_QUALIFIED;
+        $tokenMap[\T_NAME_FULLY_QUALIFIED] = static::T_NAME_FULLY_QUALIFIED;
+        $tokenMap[\T_NAME_RELATIVE] = static::T_NAME_RELATIVE;
+        $tokenMap[\T_MATCH] = static::T_MATCH;
+        $tokenMap[\T_NULLSAFE_OBJECT_OPERATOR] = static::T_NULLSAFE_OBJECT_OPERATOR;
+        $tokenMap[\T_ATTRIBUTE] = static::T_ATTRIBUTE;
+        $tokenMap[\T_AMPERSAND_NOT_FOLLOWED_BY_VAR_OR_VARARG] = static::T_AMPERSAND_NOT_FOLLOWED_BY_VAR_OR_VARARG;
+        $tokenMap[\T_AMPERSAND_FOLLOWED_BY_VAR_OR_VARARG] = static::T_AMPERSAND_FOLLOWED_BY_VAR_OR_VARARG;
+        $tokenMap[\T_ENUM] = static::T_ENUM;
+        $tokenMap[\T_READONLY] = static::T_READONLY;
 
         // We have create a map from PHP token IDs to external symbol IDs.
         // Now map them to the internal symbol ID.

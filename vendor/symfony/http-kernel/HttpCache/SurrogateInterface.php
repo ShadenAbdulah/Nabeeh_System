@@ -11,8 +11,6 @@
 
 namespace Symfony\Component\HttpKernel\HttpCache;
 
-use Exception;
-use RuntimeException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -60,7 +58,7 @@ interface SurrogateInterface
      * @param string|null $alt     An alternate URI
      * @param string      $comment A comment to add as an esi:include tag
      */
-    public function renderIncludeTag(string $uri, string $alt = null, bool $ignoreErrors = true, string $comment = ''): string;
+    public function renderIncludeTag(string $uri, ?string $alt = null, bool $ignoreErrors = true, string $comment = ''): string;
 
     /**
      * Replaces a Response Surrogate tags with the included resource content.
@@ -72,8 +70,8 @@ interface SurrogateInterface
      *
      * @param string $alt An alternative URI
      *
-     * @throws RuntimeException
-     * @throws Exception
+     * @throws \RuntimeException
+     * @throws \Exception
      */
     public function handle(HttpCache $cache, string $uri, string $alt, bool $ignoreErrors): string;
 }

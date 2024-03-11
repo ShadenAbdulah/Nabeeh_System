@@ -13,14 +13,14 @@ class DynamoBatchRepository implements BatchRepository
     /**
      * The batch factory instance.
      *
-     * @var BatchFactory
+     * @var \Illuminate\Bus\BatchFactory
      */
     protected $factory;
 
     /**
      * The database connection instance.
      *
-     * @var DynamoDbClient
+     * @var \Aws\DynamoDb\DynamoDbClient
      */
     protected $dynamoDbClient;
 
@@ -55,7 +55,7 @@ class DynamoBatchRepository implements BatchRepository
     /**
      * The DynamoDB marshaler instance.
      *
-     * @var Marshaler
+     * @var \Aws\DynamoDb\Marshaler
      */
     protected $marshaler;
 
@@ -84,7 +84,7 @@ class DynamoBatchRepository implements BatchRepository
      *
      * @param  int  $limit
      * @param  mixed  $before
-     * @return Batch[]
+     * @return \Illuminate\Bus\Batch[]
      */
     public function get($limit = 50, $before = null)
     {
@@ -115,7 +115,7 @@ class DynamoBatchRepository implements BatchRepository
      * Retrieve information about an existing batch.
      *
      * @param  string  $batchId
-     * @return Batch|null
+     * @return \Illuminate\Bus\Batch|null
      */
     public function find(string $batchId)
     {
@@ -157,8 +157,8 @@ class DynamoBatchRepository implements BatchRepository
     /**
      * Store a new pending batch.
      *
-     * @param PendingBatch $batch
-     * @return Batch
+     * @param  \Illuminate\Bus\PendingBatch  $batch
+     * @return \Illuminate\Bus\Batch
      */
     public function store(PendingBatch $batch)
     {
@@ -227,7 +227,7 @@ class DynamoBatchRepository implements BatchRepository
      *
      * @param  string  $batchId
      * @param  string  $jobId
-     * @return UpdatedBatchJobCounts
+     * @return \Illuminate\Bus\UpdatedBatchJobCounts
      */
     public function decrementPendingJobs(string $batchId, string $jobId)
     {
@@ -265,7 +265,7 @@ class DynamoBatchRepository implements BatchRepository
      *
      * @param  string  $batchId
      * @param  string  $jobId
-     * @return UpdatedBatchJobCounts
+     * @return \Illuminate\Bus\UpdatedBatchJobCounts
      */
     public function incrementFailedJobs(string $batchId, string $jobId)
     {
@@ -377,7 +377,7 @@ class DynamoBatchRepository implements BatchRepository
     /**
      * Execute the given Closure within a storage specific transaction.
      *
-     * @param Closure $callback
+     * @param  \Closure  $callback
      * @return mixed
      */
     public function transaction(Closure $callback)
@@ -398,7 +398,7 @@ class DynamoBatchRepository implements BatchRepository
      * Convert the given raw batch to a Batch object.
      *
      * @param  object  $batch
-     * @return Batch
+     * @return \Illuminate\Bus\Batch
      */
     protected function toBatch($batch)
     {
@@ -517,7 +517,7 @@ class DynamoBatchRepository implements BatchRepository
     /**
      * Get the underlying DynamoDB client instance.
      *
-     * @return DynamoDbClient
+     * @return \Aws\DynamoDb\DynamoDbClient
      */
     public function getDynamoClient(): DynamoDbClient
     {

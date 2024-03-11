@@ -11,12 +11,6 @@
 
 namespace Symfony\Component\HttpFoundation\Session\Storage\Handler;
 
-use LogicException;
-use SensitiveParameter;
-use SessionHandler;
-use SessionHandlerInterface;
-use SessionUpdateTimestampHandlerInterface;
-
 /**
  * Adds basic `SessionUpdateTimestampHandlerInterface` behaviors to another `SessionHandlerInterface`.
  *
@@ -24,13 +18,13 @@ use SessionUpdateTimestampHandlerInterface;
  */
 class StrictSessionHandler extends AbstractSessionHandler
 {
-    private SessionHandlerInterface $handler;
+    private \SessionHandlerInterface $handler;
     private bool $doDestroy;
 
-    public function __construct(SessionHandlerInterface $handler)
+    public function __construct(\SessionHandlerInterface $handler)
     {
-        if ($handler instanceof SessionUpdateTimestampHandlerInterface) {
-            throw new LogicException(sprintf('"%s" is already an instance of "SessionUpdateTimestampHandlerInterface", you cannot wrap it with "%s".', get_debug_type($handler), self::class));
+        if ($handler instanceof \SessionUpdateTimestampHandlerInterface) {
+            throw new \LogicException(sprintf('"%s" is already an instance of "SessionUpdateTimestampHandlerInterface", you cannot wrap it with "%s".', get_debug_type($handler), self::class));
         }
 
         $this->handler = $handler;
@@ -43,7 +37,7 @@ class StrictSessionHandler extends AbstractSessionHandler
      */
     public function isWrapper(): bool
     {
-        return $this->handler instanceof SessionHandler;
+        return $this->handler instanceof \SessionHandler;
     }
 
     public function open(string $savePath, string $sessionName): bool
@@ -53,22 +47,22 @@ class StrictSessionHandler extends AbstractSessionHandler
         return $this->handler->open($savePath, $sessionName);
     }
 
-    protected function doRead(#[SensitiveParameter] string $sessionId): string
+    protected function doRead(#[\SensitiveParameter] string $sessionId): string
     {
         return $this->handler->read($sessionId);
     }
 
-    public function updateTimestamp(#[SensitiveParameter] string $sessionId, string $data): bool
+    public function updateTimestamp(#[\SensitiveParameter] string $sessionId, string $data): bool
     {
         return $this->write($sessionId, $data);
     }
 
-    protected function doWrite(#[SensitiveParameter] string $sessionId, string $data): bool
+    protected function doWrite(#[\SensitiveParameter] string $sessionId, string $data): bool
     {
         return $this->handler->write($sessionId, $data);
     }
 
-    public function destroy(#[SensitiveParameter] string $sessionId): bool
+    public function destroy(#[\SensitiveParameter] string $sessionId): bool
     {
         $this->doDestroy = true;
         $destroyed = parent::destroy($sessionId);
@@ -76,7 +70,7 @@ class StrictSessionHandler extends AbstractSessionHandler
         return $this->doDestroy ? $this->doDestroy($sessionId) : $destroyed;
     }
 
-    protected function doDestroy(#[SensitiveParameter] string $sessionId): bool
+    protected function doDestroy(#[\SensitiveParameter] string $sessionId): bool
     {
         $this->doDestroy = false;
 

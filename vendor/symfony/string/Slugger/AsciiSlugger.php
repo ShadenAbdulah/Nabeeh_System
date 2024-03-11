@@ -11,22 +11,13 @@
 
 namespace Symfony\Component\String\Slugger;
 
-use Closure;
-use IntlException;
-use LogicException;
 use Symfony\Component\Intl\Transliterator\EmojiTransliterator;
 use Symfony\Component\String\AbstractUnicodeString;
 use Symfony\Component\String\UnicodeString;
 use Symfony\Contracts\Translation\LocaleAwareInterface;
-use Transliterator;
-use function array_key_exists;
-use function function_exists;
-use function is_array;
-use function is_string;
-use function strlen;
 
 if (!interface_exists(LocaleAwareInterface::class)) {
-    throw new LogicException('You cannot use the "Symfony\Component\String\Slugger\AsciiSlugger" as the "symfony/translation-contracts" package is not installed. Try running "composer require symfony/translation-contracts".');
+    throw new \LogicException('You cannot use the "Symfony\Component\String\Slugger\AsciiSlugger" as the "symfony/translation-contracts" package is not installed. Try running "composer require symfony/translation-contracts".');
 }
 
 /**
@@ -65,7 +56,7 @@ class AsciiSlugger implements SluggerInterface, LocaleAwareInterface
     ];
 
     private ?string $defaultLocale;
-    private Closure|array $symbolsMap = [
+    private \Closure|array $symbolsMap = [
         'en' => ['@' => 'at', '&' => 'and'],
     ];
     private bool|string $emoji = false;
@@ -73,15 +64,11 @@ class AsciiSlugger implements SluggerInterface, LocaleAwareInterface
     /**
      * Cache of transliterators per locale.
      *
-     * @var Transliterator[]
+     * @var \Transliterator[]
      */
     private array $transliterators = [];
 
-<<<<<<< HEAD
-    public function __construct(?string $defaultLocale = null, array|Closure|null $symbolsMap = null)
-=======
-    public function __construct(string $defaultLocale = null, array|\Closure $symbolsMap = null)
->>>>>>> parent of c8b1139b (update Ui)
+    public function __construct(?string $defaultLocale = null, array|\Closure|null $symbolsMap = null)
     {
         $this->defaultLocale = $defaultLocale;
         $this->symbolsMap = $symbolsMap ?? $this->symbolsMap;
@@ -105,7 +92,7 @@ class AsciiSlugger implements SluggerInterface, LocaleAwareInterface
     public function withEmoji(bool|string $emoji = true): static
     {
         if (false !== $emoji && !class_exists(EmojiTransliterator::class)) {
-            throw new LogicException(sprintf('You cannot use the "%s()" method as the "symfony/intl" package is not installed. Try running "composer require symfony/intl".', __METHOD__));
+            throw new \LogicException(sprintf('You cannot use the "%s()" method as the "symfony/intl" package is not installed. Try running "composer require symfony/intl".', __METHOD__));
         }
 
         $new = clone $this;
@@ -114,7 +101,7 @@ class AsciiSlugger implements SluggerInterface, LocaleAwareInterface
         return $new;
     }
 
-    public function slug(string $string, string $separator = '-', string $locale = null): AbstractUnicodeString
+    public function slug(string $string, string $separator = '-', ?string $locale = null): AbstractUnicodeString
     {
         $locale ??= $this->defaultLocale;
 
@@ -122,7 +109,7 @@ class AsciiSlugger implements SluggerInterface, LocaleAwareInterface
         if ($locale && ('de' === $locale || str_starts_with($locale, 'de_'))) {
             // Use the shortcut for German in UnicodeString::ascii() if possible (faster and no requirement on intl)
             $transliterator = ['de-ASCII'];
-        } elseif (function_exists('transliterator_transliterate') && $locale) {
+        } elseif (\function_exists('transliterator_transliterate') && $locale) {
             $transliterator = (array) $this->createTransliterator($locale);
         }
 
@@ -130,7 +117,7 @@ class AsciiSlugger implements SluggerInterface, LocaleAwareInterface
             $transliterator[] = $emojiTransliterator;
         }
 
-        if ($this->symbolsMap instanceof Closure) {
+        if ($this->symbolsMap instanceof \Closure) {
             // If the symbols map is passed as a closure, there is no need to fallback to the parent locale
             // as the closure can just provide substitutions for all locales of interest.
             $symbolsMap = $this->symbolsMap;
@@ -139,7 +126,7 @@ class AsciiSlugger implements SluggerInterface, LocaleAwareInterface
 
         $unicodeString = (new UnicodeString($string))->ascii($transliterator);
 
-        if (is_array($this->symbolsMap)) {
+        if (\is_array($this->symbolsMap)) {
             $map = null;
             if (isset($this->symbolsMap[$locale])) {
                 $map = $this->symbolsMap[$locale];
@@ -162,15 +149,15 @@ class AsciiSlugger implements SluggerInterface, LocaleAwareInterface
         ;
     }
 
-    private function createTransliterator(string $locale): ?Transliterator
+    private function createTransliterator(string $locale): ?\Transliterator
     {
-        if (array_key_exists($locale, $this->transliterators)) {
+        if (\array_key_exists($locale, $this->transliterators)) {
             return $this->transliterators[$locale];
         }
 
         // Exact locale supported, cache and return
         if ($id = self::LOCALE_TO_TRANSLITERATOR_ID[$locale] ?? null) {
-            return $this->transliterators[$locale] = Transliterator::create($id.'/BGN') ?? Transliterator::create($id);
+            return $this->transliterators[$locale] = \Transliterator::create($id.'/BGN') ?? \Transliterator::create($id);
         }
 
         // Locale not supported and no parent, fallback to any-latin
@@ -180,7 +167,7 @@ class AsciiSlugger implements SluggerInterface, LocaleAwareInterface
 
         // Try to use the parent locale (ie. try "de" for "de_AT") and cache both locales
         if ($id = self::LOCALE_TO_TRANSLITERATOR_ID[$parent] ?? null) {
-            $transliterator = Transliterator::create($id.'/BGN') ?? Transliterator::create($id);
+            $transliterator = \Transliterator::create($id.'/BGN') ?? \Transliterator::create($id);
         }
 
         return $this->transliterators[$locale] = $this->transliterators[$parent] = $transliterator ?? null;
@@ -188,7 +175,7 @@ class AsciiSlugger implements SluggerInterface, LocaleAwareInterface
 
     private function createEmojiTransliterator(?string $locale): ?EmojiTransliterator
     {
-        if (is_string($this->emoji)) {
+        if (\is_string($this->emoji)) {
             $locale = $this->emoji;
         } elseif (!$this->emoji) {
             return null;
@@ -197,7 +184,7 @@ class AsciiSlugger implements SluggerInterface, LocaleAwareInterface
         while (null !== $locale) {
             try {
                 return EmojiTransliterator::create("emoji-$locale");
-            } catch (IntlException) {
+            } catch (\IntlException) {
                 $locale = self::getParentLocale($locale);
             }
         }
@@ -215,6 +202,6 @@ class AsciiSlugger implements SluggerInterface, LocaleAwareInterface
             return null;
         }
 
-        return substr($locale, 0, -strlen($str));
+        return substr($locale, 0, -\strlen($str));
     }
 }

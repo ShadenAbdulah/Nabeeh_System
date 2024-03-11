@@ -47,7 +47,7 @@ class Factory
      * @param  array|string  $output
      * @param  array|string  $errorOutput
      * @param  int  $exitCode
-     * @return FakeProcessResult
+     * @return \Illuminate\Process\FakeProcessResult
      */
     public function result(array|string $output = '', array|string $errorOutput = '', int $exitCode = 0)
     {
@@ -61,7 +61,7 @@ class Factory
     /**
      * Begin describing a fake process lifecycle.
      *
-     * @return FakeProcessDescription
+     * @return \Illuminate\Process\FakeProcessDescription
      */
     public function describe()
     {
@@ -72,7 +72,7 @@ class Factory
      * Begin describing a fake process sequence.
      *
      * @param  array  $processes
-     * @return FakeProcessSequence
+     * @return \Illuminate\Process\FakeProcessSequence
      */
     public function sequence(array $processes = [])
     {
@@ -82,7 +82,7 @@ class Factory
     /**
      * Indicate that the process factory should fake processes.
      *
-     * @param Closure|array|null  $callback
+     * @param  \Closure|array|null  $callback
      * @return $this
      */
     public function fake(Closure|array $callback = null)
@@ -123,8 +123,8 @@ class Factory
     /**
      * Record the given process if processes should be recorded.
      *
-     * @param PendingProcess $process
-     * @param ProcessResultContract $result
+     * @param  \Illuminate\Process\PendingProcess  $process
+     * @param  \Illuminate\Contracts\Process\ProcessResult  $result
      * @return $this
      */
     public function recordIfRecording(PendingProcess $process, ProcessResultContract $result)
@@ -139,8 +139,8 @@ class Factory
     /**
      * Record the given process.
      *
-     * @param PendingProcess $process
-     * @param ProcessResultContract $result
+     * @param  \Illuminate\Process\PendingProcess  $process
+     * @param  \Illuminate\Contracts\Process\ProcessResult  $result
      * @return $this
      */
     public function record(PendingProcess $process, ProcessResultContract $result)
@@ -176,7 +176,7 @@ class Factory
     /**
      * Assert that a process was recorded matching a given truth test.
      *
-     * @param Closure|string  $callback
+     * @param  \Closure|string  $callback
      * @return $this
      */
     public function assertRan(Closure|string $callback)
@@ -196,7 +196,7 @@ class Factory
     /**
      * Assert that a process was recorded a given number of times matching a given truth test.
      *
-     * @param Closure|string  $callback
+     * @param  \Closure|string  $callback
      * @param  int  $times
      * @return $this
      */
@@ -219,7 +219,7 @@ class Factory
     /**
      * Assert that a process was not recorded matching a given truth test.
      *
-     * @param Closure|string  $callback
+     * @param  \Closure|string  $callback
      * @return $this
      */
     public function assertNotRan(Closure|string $callback)
@@ -239,7 +239,7 @@ class Factory
     /**
      * Assert that a process was not recorded matching a given truth test.
      *
-     * @param Closure|string  $callback
+     * @param  \Closure|string  $callback
      * @return $this
      */
     public function assertDidntRun(Closure|string $callback)
@@ -266,7 +266,7 @@ class Factory
      * Start defining a pool of processes.
      *
      * @param  callable  $callback
-     * @return Pool
+     * @return \Illuminate\Process\Pool
      */
     public function pool(callable $callback)
     {
@@ -277,7 +277,7 @@ class Factory
      * Start defining a series of piped processes.
      *
      * @param  callable|array  $callback
-     * @return ProcessResultContract
+     * @return \Illuminate\Contracts\Process\ProcessResult
      */
     public function pipe(callable|array $callback, ?callable $output = null)
     {
@@ -293,7 +293,7 @@ class Factory
      *
      * @param  callable  $callback
      * @param  callable|null  $output
-     * @return ProcessPoolResults
+     * @return \Illuminate\Process\ProcessPoolResults
      */
     public function concurrently(callable $callback, ?callable $output = null)
     {
@@ -303,7 +303,7 @@ class Factory
     /**
      * Create a new pending process associated with this factory.
      *
-     * @return PendingProcess
+     * @return \Illuminate\Process\PendingProcess
      */
     public function newPendingProcess()
     {

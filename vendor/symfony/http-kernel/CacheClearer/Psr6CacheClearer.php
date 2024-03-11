@@ -11,7 +11,6 @@
 
 namespace Symfony\Component\HttpKernel\CacheClearer;
 
-use InvalidArgumentException;
 use Psr\Cache\CacheItemPoolInterface;
 
 /**
@@ -35,24 +34,24 @@ class Psr6CacheClearer implements CacheClearerInterface
     }
 
     /**
-     * @throws InvalidArgumentException If the cache pool with the given name does not exist
+     * @throws \InvalidArgumentException If the cache pool with the given name does not exist
      */
     public function getPool(string $name): CacheItemPoolInterface
     {
         if (!$this->hasPool($name)) {
-            throw new InvalidArgumentException(sprintf('Cache pool not found: "%s".', $name));
+            throw new \InvalidArgumentException(sprintf('Cache pool not found: "%s".', $name));
         }
 
         return $this->pools[$name];
     }
 
     /**
-     * @throws InvalidArgumentException If the cache pool with the given name does not exist
+     * @throws \InvalidArgumentException If the cache pool with the given name does not exist
      */
     public function clearPool(string $name): bool
     {
         if (!isset($this->pools[$name])) {
-            throw new InvalidArgumentException(sprintf('Cache pool not found: "%s".', $name));
+            throw new \InvalidArgumentException(sprintf('Cache pool not found: "%s".', $name));
         }
 
         return $this->pools[$name]->clear();

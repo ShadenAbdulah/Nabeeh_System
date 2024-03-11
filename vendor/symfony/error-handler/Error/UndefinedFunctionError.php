@@ -11,13 +11,9 @@
 
 namespace Symfony\Component\ErrorHandler\Error;
 
-use Error;
-use ReflectionProperty;
-use Throwable;
-
-class UndefinedFunctionError extends Error
+class UndefinedFunctionError extends \Error
 {
-    public function __construct(string $message, Throwable $previous)
+    public function __construct(string $message, \Throwable $previous)
     {
         parent::__construct($message, $previous->getCode(), $previous->getPrevious());
 
@@ -26,7 +22,7 @@ class UndefinedFunctionError extends Error
             'line' => $previous->getLine(),
             'trace' => $previous->getTrace(),
         ] as $property => $value) {
-            $refl = new ReflectionProperty(Error::class, $property);
+            $refl = new \ReflectionProperty(\Error::class, $property);
             $refl->setValue($this, $value);
         }
     }

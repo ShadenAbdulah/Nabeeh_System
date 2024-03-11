@@ -11,14 +11,6 @@
 
 namespace Symfony\Component\Process;
 
-use function function_exists;
-use function in_array;
-use const DIRECTORY_SEPARATOR;
-use const PHP_BINARY;
-use const PHP_BINDIR;
-use const PHP_EOL;
-use const PHP_SAPI;
-
 /**
  * An executable finder specifically designed for the PHP executable.
  *
@@ -41,13 +33,8 @@ class PhpExecutableFinder
     {
         if ($php = getenv('PHP_BINARY')) {
             if (!is_executable($php)) {
-<<<<<<< HEAD
-                $command = '\\' === DIRECTORY_SEPARATOR ? 'where' : 'command -v --';
-                if (function_exists('exec') && $php = strtok(exec($command.' '.escapeshellarg($php)), PHP_EOL)) {
-=======
-                $command = '\\' === \DIRECTORY_SEPARATOR ? 'where' : 'command -v';
+                $command = '\\' === \DIRECTORY_SEPARATOR ? 'where' : 'command -v --';
                 if (\function_exists('exec') && $php = strtok(exec($command.' '.escapeshellarg($php)), \PHP_EOL)) {
->>>>>>> parent of c8b1139b (update Ui)
                     if (!is_executable($php)) {
                         return false;
                     }
@@ -67,8 +54,8 @@ class PhpExecutableFinder
         $args = $includeArgs && $args ? ' '.implode(' ', $args) : '';
 
         // PHP_BINARY return the current sapi executable
-        if (PHP_BINARY && in_array(PHP_SAPI, ['cli', 'cli-server', 'phpdbg'], true)) {
-            return PHP_BINARY.$args;
+        if (\PHP_BINARY && \in_array(\PHP_SAPI, ['cli', 'cli-server', 'phpdbg'], true)) {
+            return \PHP_BINARY.$args;
         }
 
         if ($php = getenv('PHP_PATH')) {
@@ -85,12 +72,12 @@ class PhpExecutableFinder
             }
         }
 
-        if (@is_executable($php = PHP_BINDIR.('\\' === DIRECTORY_SEPARATOR ? '\\php.exe' : '/php')) && !@is_dir($php)) {
+        if (@is_executable($php = \PHP_BINDIR.('\\' === \DIRECTORY_SEPARATOR ? '\\php.exe' : '/php')) && !@is_dir($php)) {
             return $php;
         }
 
-        $dirs = [PHP_BINDIR];
-        if ('\\' === DIRECTORY_SEPARATOR) {
+        $dirs = [\PHP_BINDIR];
+        if ('\\' === \DIRECTORY_SEPARATOR) {
             $dirs[] = 'C:\xampp\php\\';
         }
 
@@ -103,7 +90,7 @@ class PhpExecutableFinder
     public function findArguments(): array
     {
         $arguments = [];
-        if ('phpdbg' === PHP_SAPI) {
+        if ('phpdbg' === \PHP_SAPI) {
             $arguments[] = '-qrr';
         }
 

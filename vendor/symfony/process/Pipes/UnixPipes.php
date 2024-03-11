@@ -11,7 +11,6 @@
 
 namespace Symfony\Component\Process\Pipes;
 
-use BadMethodCallException;
 use Symfony\Component\Process\Process;
 
 /**
@@ -38,12 +37,12 @@ class UnixPipes extends AbstractPipes
 
     public function __sleep(): array
     {
-        throw new BadMethodCallException('Cannot serialize '.__CLASS__);
+        throw new \BadMethodCallException('Cannot serialize '.__CLASS__);
     }
 
     public function __wakeup(): void
     {
-        throw new BadMethodCallException('Cannot unserialize '.__CLASS__);
+        throw new \BadMethodCallException('Cannot unserialize '.__CLASS__);
     }
 
     public function __destruct()

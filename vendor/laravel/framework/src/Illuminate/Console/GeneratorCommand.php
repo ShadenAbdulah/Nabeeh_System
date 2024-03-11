@@ -4,7 +4,6 @@ namespace Illuminate\Console;
 
 use Illuminate\Console\Concerns\CreatesMatchingTest;
 use Illuminate\Contracts\Console\PromptsForMissingInput;
-use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Str;
 use Symfony\Component\Console\Input\InputArgument;
@@ -15,7 +14,7 @@ abstract class GeneratorCommand extends Command implements PromptsForMissingInpu
     /**
      * The filesystem instance.
      *
-     * @var Filesystem
+     * @var \Illuminate\Filesystem\Filesystem
      */
     protected $files;
 
@@ -85,6 +84,7 @@ abstract class GeneratorCommand extends Command implements PromptsForMissingInpu
         'namespace',
         'new',
         'or',
+        'parent',
         'print',
         'private',
         'protected',
@@ -119,7 +119,7 @@ abstract class GeneratorCommand extends Command implements PromptsForMissingInpu
     /**
      * Create a new controller creator command instance.
      *
-     * @param Filesystem $files
+     * @param  \Illuminate\Filesystem\Filesystem  $files
      * @return void
      */
     public function __construct(Filesystem $files)
@@ -145,7 +145,7 @@ abstract class GeneratorCommand extends Command implements PromptsForMissingInpu
      *
      * @return bool|null
      *
-     * @throws FileNotFoundException
+     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      */
     public function handle()
     {
@@ -333,7 +333,7 @@ abstract class GeneratorCommand extends Command implements PromptsForMissingInpu
      * @param  string  $name
      * @return string
      *
-     * @throws FileNotFoundException
+     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      */
     protected function buildClass($name)
     {

@@ -11,8 +11,6 @@
 
 namespace Symfony\Component\HttpKernel\Fragment;
 
-use Closure;
-use Exception;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Controller\ControllerReference;
@@ -32,7 +30,7 @@ class InlineFragmentRenderer extends RoutableFragmentRenderer
     private HttpKernelInterface $kernel;
     private ?EventDispatcherInterface $dispatcher;
 
-    public function __construct(HttpKernelInterface $kernel, EventDispatcherInterface $dispatcher = null)
+    public function __construct(HttpKernelInterface $kernel, ?EventDispatcherInterface $dispatcher = null)
     {
         $this->kernel = $kernel;
         $this->dispatcher = $dispatcher;
@@ -78,7 +76,7 @@ class InlineFragmentRenderer extends RoutableFragmentRenderer
         $level = ob_get_level();
         try {
             return SubRequestHandler::handle($this->kernel, $subRequest, HttpKernelInterface::SUB_REQUEST, false);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             // we dispatch the exception event to trigger the logging
             // the response that comes back is ignored
             if (isset($options['ignore_errors']) && $options['ignore_errors'] && $this->dispatcher) {
@@ -123,7 +121,7 @@ class InlineFragmentRenderer extends RoutableFragmentRenderer
 
         static $setSession;
 
-        $setSession ??= Closure::bind(static function ($subRequest, $request) { $subRequest->session = $request->session; }, null, Request::class);
+        $setSession ??= \Closure::bind(static function ($subRequest, $request) { $subRequest->session = $request->session; }, null, Request::class);
         $setSession($subRequest, $request);
 
         if ($request->get('_format')) {

@@ -4,7 +4,6 @@ namespace Illuminate\Process;
 
 use Illuminate\Contracts\Process\ProcessResult as ProcessResultContract;
 use Illuminate\Process\Exceptions\ProcessFailedException;
-use Throwable;
 
 class FakeProcessResult implements ProcessResultContract
 {
@@ -174,7 +173,7 @@ class FakeProcessResult implements ProcessResultContract
      * @param  callable|null  $callback
      * @return $this
      *
-     * @throws ProcessFailedException
+     * @throws \Illuminate\Process\Exceptions\ProcessFailedException
      */
     public function throw(callable $callback = null)
     {
@@ -198,7 +197,7 @@ class FakeProcessResult implements ProcessResultContract
      * @param  callable|null  $callback
      * @return $this
      *
-     * @throws Throwable
+     * @throws \Throwable
      */
     public function throwIf(bool $condition, callable $callback = null)
     {

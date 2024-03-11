@@ -2,8 +2,6 @@
 
 namespace Illuminate\Queue\Failed;
 
-use Throwable;
-
 class NullFailedJobProvider implements CountableFailedJobProvider, FailedJobProviderInterface
 {
     /**
@@ -12,7 +10,7 @@ class NullFailedJobProvider implements CountableFailedJobProvider, FailedJobProv
      * @param  string  $connection
      * @param  string  $queue
      * @param  string  $payload
-     * @param  Throwable  $exception
+     * @param  \Throwable  $exception
      * @return int|null
      */
     public function log($connection, $queue, $payload, $exception)

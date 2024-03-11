@@ -22,21 +22,21 @@ abstract class Relation implements BuilderContract
     /**
      * The Eloquent query builder instance.
      *
-     * @var Builder
+     * @var \Illuminate\Database\Eloquent\Builder
      */
     protected $query;
 
     /**
      * The parent model instance.
      *
-     * @var Model
+     * @var \Illuminate\Database\Eloquent\Model
      */
     protected $parent;
 
     /**
      * The related model instance.
      *
-     * @var Model
+     * @var \Illuminate\Database\Eloquent\Model
      */
     protected $related;
 
@@ -78,8 +78,8 @@ abstract class Relation implements BuilderContract
     /**
      * Create a new relation instance.
      *
-     * @param Builder $query
-     * @param Model $parent
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  \Illuminate\Database\Eloquent\Model  $parent
      * @return void
      */
     public function __construct(Builder $query, Model $parent)
@@ -94,7 +94,7 @@ abstract class Relation implements BuilderContract
     /**
      * Run a callback with constraints disabled on the relation.
      *
-     * @param Closure $callback
+     * @param  \Closure  $callback
      * @return mixed
      */
     public static function noConstraints(Closure $callback)
@@ -141,7 +141,7 @@ abstract class Relation implements BuilderContract
      * Match the eagerly loaded results to their parents.
      *
      * @param  array  $models
-     * @param Collection $results
+     * @param  \Illuminate\Database\Eloquent\Collection  $results
      * @param  string  $relation
      * @return array
      */
@@ -157,7 +157,7 @@ abstract class Relation implements BuilderContract
     /**
      * Get the relationship for eager loading.
      *
-     * @return Collection
+     * @return \Illuminate\Database\Eloquent\Collection
      */
     public function getEager()
     {
@@ -170,10 +170,10 @@ abstract class Relation implements BuilderContract
      * Execute the query and get the first result if it's the sole matching record.
      *
      * @param  array|string  $columns
-     * @return Model
+     * @return \Illuminate\Database\Eloquent\Model
      *
-     * @throws ModelNotFoundException<Model>
-     * @throws MultipleRecordsFoundException
+     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException<\Illuminate\Database\Eloquent\Model>
+     * @throws \Illuminate\Database\MultipleRecordsFoundException
      */
     public function sole($columns = ['*'])
     {
@@ -196,7 +196,7 @@ abstract class Relation implements BuilderContract
      * Execute the query as a "select" statement.
      *
      * @param  array  $columns
-     * @return Collection
+     * @return \Illuminate\Database\Eloquent\Collection
      */
     public function get($columns = ['*'])
     {
@@ -233,9 +233,9 @@ abstract class Relation implements BuilderContract
     /**
      * Add the constraints for a relationship count query.
      *
-     * @param Builder $query
-     * @param Builder $parentQuery
-     * @return Builder
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  \Illuminate\Database\Eloquent\Builder  $parentQuery
+     * @return \Illuminate\Database\Eloquent\Builder
      */
     public function getRelationExistenceCountQuery(Builder $query, Builder $parentQuery)
     {
@@ -249,10 +249,10 @@ abstract class Relation implements BuilderContract
      *
      * Essentially, these queries compare on column names like whereColumn.
      *
-     * @param Builder $query
-     * @param Builder $parentQuery
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  \Illuminate\Database\Eloquent\Builder  $parentQuery
      * @param  array|mixed  $columns
-     * @return Builder
+     * @return \Illuminate\Database\Eloquent\Builder
      */
     public function getRelationExistenceQuery(Builder $query, Builder $parentQuery, $columns = ['*'])
     {
@@ -289,7 +289,7 @@ abstract class Relation implements BuilderContract
     /**
      * Get the query builder that will contain the relationship constraints.
      *
-     * @return Builder
+     * @return \Illuminate\Database\Eloquent\Builder
      */
     protected function getRelationQuery()
     {
@@ -299,7 +299,7 @@ abstract class Relation implements BuilderContract
     /**
      * Get the underlying query for the relation.
      *
-     * @return Builder
+     * @return \Illuminate\Database\Eloquent\Builder
      */
     public function getQuery()
     {
@@ -329,7 +329,7 @@ abstract class Relation implements BuilderContract
     /**
      * Get the parent model of the relation.
      *
-     * @return Model
+     * @return \Illuminate\Database\Eloquent\Model
      */
     public function getParent()
     {
@@ -349,7 +349,7 @@ abstract class Relation implements BuilderContract
     /**
      * Get the related model of the relation.
      *
-     * @return Model
+     * @return \Illuminate\Database\Eloquent\Model
      */
     public function getRelated()
     {
@@ -392,7 +392,7 @@ abstract class Relation implements BuilderContract
      * @param  string  $whereIn
      * @param  string  $key
      * @param  array  $modelKeys
-     * @param Builder $query
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
      * @return void
      */
     protected function whereInEager(string $whereIn, string $key, array $modelKeys, $query = null)
@@ -407,7 +407,7 @@ abstract class Relation implements BuilderContract
     /**
      * Get the name of the "where in" method for eager loading.
      *
-     * @param Model $model
+     * @param  \Illuminate\Database\Eloquent\Model  $model
      * @param  string  $key
      * @return string
      */

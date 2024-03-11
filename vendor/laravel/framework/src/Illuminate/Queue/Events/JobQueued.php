@@ -2,7 +2,6 @@
 
 namespace Illuminate\Queue\Events;
 
-use Closure;
 use RuntimeException;
 
 class JobQueued
@@ -24,7 +23,7 @@ class JobQueued
     /**
      * The job instance.
      *
-     * @var Closure|string|object
+     * @var \Closure|string|object
      */
     public $job;
 
@@ -40,7 +39,7 @@ class JobQueued
      *
      * @param  string  $connectionName
      * @param  string|int|null  $id
-     * @param  Closure|string|object  $job
+     * @param  \Closure|string|object  $job
      * @param  string|null  $payload
      * @return void
      */

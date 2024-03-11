@@ -13,7 +13,6 @@ namespace Symfony\Component\Translation;
 
 use Symfony\Component\Config\Resource\ResourceInterface;
 use Symfony\Component\Translation\Exception\LogicException;
-use function strlen;
 
 /**
  * @author Fabien Potencier <fabien@symfony.com>
@@ -48,7 +47,7 @@ class MessageCatalogue implements MessageCatalogueInterface, MetadataAwareInterf
 
         foreach ($this->messages as $domain => $messages) {
             if (str_ends_with($domain, self::INTL_DOMAIN_SUFFIX)) {
-                $domain = substr($domain, 0, -strlen(self::INTL_DOMAIN_SUFFIX));
+                $domain = substr($domain, 0, -\strlen(self::INTL_DOMAIN_SUFFIX));
             }
             $domains[$domain] = $domain;
         }
@@ -56,7 +55,7 @@ class MessageCatalogue implements MessageCatalogueInterface, MetadataAwareInterf
         return array_values($domains);
     }
 
-    public function all(string $domain = null): array
+    public function all(?string $domain = null): array
     {
         if (null !== $domain) {
             // skip messages merge if intl-icu requested explicitly
@@ -71,7 +70,7 @@ class MessageCatalogue implements MessageCatalogueInterface, MetadataAwareInterf
 
         foreach ($this->messages as $domain => $messages) {
             if (str_ends_with($domain, self::INTL_DOMAIN_SUFFIX)) {
-                $domain = substr($domain, 0, -strlen(self::INTL_DOMAIN_SUFFIX));
+                $domain = substr($domain, 0, -\strlen(self::INTL_DOMAIN_SUFFIX));
                 $allMessages[$domain] = $messages + ($allMessages[$domain] ?? []);
             } else {
                 $allMessages[$domain] = ($allMessages[$domain] ?? []) + $messages;
@@ -139,7 +138,7 @@ class MessageCatalogue implements MessageCatalogueInterface, MetadataAwareInterf
      */
     public function add(array $messages, string $domain = 'messages')
     {
-        $altDomain = str_ends_with($domain, self::INTL_DOMAIN_SUFFIX) ? substr($domain, 0, -strlen(self::INTL_DOMAIN_SUFFIX)) : $domain.self::INTL_DOMAIN_SUFFIX;
+        $altDomain = str_ends_with($domain, self::INTL_DOMAIN_SUFFIX) ? substr($domain, 0, -\strlen(self::INTL_DOMAIN_SUFFIX)) : $domain.self::INTL_DOMAIN_SUFFIX;
         foreach ($messages as $id => $message) {
             unset($this->messages[$altDomain][$id]);
             $this->messages[$domain][$id] = $message;

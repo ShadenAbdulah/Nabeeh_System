@@ -2,7 +2,6 @@
 
 namespace Illuminate\Auth\Events;
 
-use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Queue\SerializesModels;
 
 class PasswordReset
@@ -12,14 +11,14 @@ class PasswordReset
     /**
      * The user.
      *
-     * @var Authenticatable
+     * @var \Illuminate\Contracts\Auth\Authenticatable
      */
     public $user;
 
     /**
      * Create a new event instance.
      *
-     * @param  Authenticatable  $user
+     * @param  \Illuminate\Contracts\Auth\Authenticatable  $user
      * @return void
      */
     public function __construct($user)

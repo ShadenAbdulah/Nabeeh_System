@@ -2,7 +2,6 @@
 
 namespace Illuminate\Queue\Connectors;
 
-use Illuminate\Contracts\Queue\Queue;
 use Illuminate\Contracts\Redis\Factory as Redis;
 use Illuminate\Queue\RedisQueue;
 
@@ -11,7 +10,7 @@ class RedisConnector implements ConnectorInterface
     /**
      * The Redis database instance.
      *
-     * @var Redis
+     * @var \Illuminate\Contracts\Redis\Factory
      */
     protected $redis;
 
@@ -25,7 +24,7 @@ class RedisConnector implements ConnectorInterface
     /**
      * Create a new Redis queue connector instance.
      *
-     * @param Redis $redis
+     * @param  \Illuminate\Contracts\Redis\Factory  $redis
      * @param  string|null  $connection
      * @return void
      */
@@ -39,7 +38,7 @@ class RedisConnector implements ConnectorInterface
      * Establish a queue connection.
      *
      * @param  array  $config
-     * @return Queue
+     * @return \Illuminate\Contracts\Queue\Queue
      */
     public function connect(array $config)
     {

@@ -11,14 +11,14 @@ class StreamedResponseException extends RuntimeException
     /**
      * The actual exception thrown during the stream.
      *
-     * @var Throwable
+     * @var \Throwable
      */
     public $originalException;
 
     /**
      * Create a new exception instance.
      *
-     * @param Throwable $originalException
+     * @param  \Throwable  $originalException
      * @return void
      */
     public function __construct(Throwable $originalException)
@@ -31,7 +31,7 @@ class StreamedResponseException extends RuntimeException
     /**
      * Render the exception.
      *
-     * @return Response
+     * @return \Illuminate\Http\Response
      */
     public function render()
     {
@@ -41,7 +41,7 @@ class StreamedResponseException extends RuntimeException
     /**
      * Get the actual exception thrown during the stream.
      *
-     * @return Throwable
+     * @return \Throwable
      */
     public function getInnerException()
     {

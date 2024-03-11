@@ -7,11 +7,9 @@ use Illuminate\Console\PromptValidationException;
 use Illuminate\Contracts\Console\Kernel;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Contracts\Support\Arrayable;
-use Illuminate\Foundation\Testing\TestCase;
 use Illuminate\Support\Arr;
 use Mockery;
 use Mockery\Exception\NoMatchingExpectationException;
-use Mockery\MockInterface;
 use PHPUnit\Framework\TestCase as PHPUnitTestCase;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\Table;
@@ -23,14 +21,14 @@ class PendingCommand
     /**
      * The test being run.
      *
-     * @var TestCase
+     * @var \Illuminate\Foundation\Testing\TestCase
      */
     public $test;
 
     /**
      * The application instance.
      *
-     * @var Container
+     * @var \Illuminate\Contracts\Container\Container
      */
     protected $app;
 
@@ -72,8 +70,8 @@ class PendingCommand
     /**
      * Create a new pending console command run.
      *
-     * @param PHPUnitTestCase $test
-     * @param Container $app
+     * @param  \PHPUnit\Framework\TestCase  $test
+     * @param  \Illuminate\Contracts\Container\Container  $app
      * @param  string  $command
      * @param  array  $parameters
      * @return void
@@ -187,7 +185,7 @@ class PendingCommand
      * Specify a table that should be printed when the command runs.
      *
      * @param  array  $headers
-     * @param Arrayable|array  $rows
+     * @param  \Illuminate\Contracts\Support\Arrayable|array  $rows
      * @param  string  $tableStyle
      * @param  array  $columnStyles
      * @return $this
@@ -287,7 +285,7 @@ class PendingCommand
      *
      * @return int
      *
-     * @throws NoMatchingExpectationException
+     * @throws \Mockery\Exception\NoMatchingExpectationException
      */
     public function run()
     {
@@ -368,7 +366,7 @@ class PendingCommand
     /**
      * Mock the application's console output.
      *
-     * @return MockInterface
+     * @return \Mockery\MockInterface
      */
     protected function mockConsoleOutput()
     {
@@ -404,7 +402,7 @@ class PendingCommand
     /**
      * Create a mock for the buffered output.
      *
-     * @return MockInterface
+     * @return \Mockery\MockInterface
      */
     private function createABufferedOutputMock()
     {

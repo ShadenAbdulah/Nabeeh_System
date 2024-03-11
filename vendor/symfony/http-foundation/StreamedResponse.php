@@ -11,10 +11,6 @@
 
 namespace Symfony\Component\HttpFoundation;
 
-use Closure;
-use LogicException;
-use function func_num_args;
-
 /**
  * StreamedResponse represents a streamed HTTP response.
  *
@@ -37,7 +33,7 @@ class StreamedResponse extends Response
     /**
      * @param int $status The HTTP status code (200 "OK" by default)
      */
-    public function __construct(callable $callback = null, int $status = 200, array $headers = [])
+    public function __construct(?callable $callback = null, int $status = 200, array $headers = [])
     {
         parent::__construct(null, $status, $headers);
 
@@ -60,7 +56,7 @@ class StreamedResponse extends Response
         return $this;
     }
 
-    public function getCallback(): ?Closure
+    public function getCallback(): ?\Closure
     {
         if (!isset($this->callback)) {
             return null;
@@ -82,7 +78,7 @@ class StreamedResponse extends Response
             return $this;
         }
 
-        $statusCode = func_num_args() > 0 ? func_get_arg(0) : null;
+        $statusCode = \func_num_args() > 0 ? func_get_arg(0) : null;
         if ($statusCode < 100 || $statusCode >= 200) {
             $this->headersSent = true;
         }
@@ -104,7 +100,7 @@ class StreamedResponse extends Response
         $this->streamed = true;
 
         if (!isset($this->callback)) {
-            throw new LogicException('The Response callback must be set.');
+            throw new \LogicException('The Response callback must be set.');
         }
 
         ($this->callback)();
@@ -115,12 +111,12 @@ class StreamedResponse extends Response
     /**
      * @return $this
      *
-     * @throws LogicException when the content is not null
+     * @throws \LogicException when the content is not null
      */
     public function setContent(?string $content): static
     {
         if (null !== $content) {
-            throw new LogicException('The content cannot be set on a StreamedResponse instance.');
+            throw new \LogicException('The content cannot be set on a StreamedResponse instance.');
         }
 
         $this->streamed = true;

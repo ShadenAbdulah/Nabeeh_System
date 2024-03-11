@@ -2,14 +2,11 @@
 
 namespace Illuminate\Database\Capsule;
 
-use Closure;
 use Illuminate\Container\Container;
 use Illuminate\Contracts\Events\Dispatcher;
-use Illuminate\Database\Connection;
 use Illuminate\Database\Connectors\ConnectionFactory;
 use Illuminate\Database\DatabaseManager;
 use Illuminate\Database\Eloquent\Model as Eloquent;
-use Illuminate\Database\Schema\Builder;
 use Illuminate\Support\Traits\CapsuleManagerTrait;
 use PDO;
 
@@ -20,14 +17,14 @@ class Manager
     /**
      * The database manager instance.
      *
-     * @var DatabaseManager
+     * @var \Illuminate\Database\DatabaseManager
      */
     protected $manager;
 
     /**
      * Create a new database capsule manager.
      *
-     * @param Container|null  $container
+     * @param  \Illuminate\Container\Container|null  $container
      * @return void
      */
     public function __construct(Container $container = null)
@@ -70,7 +67,7 @@ class Manager
      * Get a connection instance from the global manager.
      *
      * @param  string|null  $connection
-     * @return Connection
+     * @return \Illuminate\Database\Connection
      */
     public static function connection($connection = null)
     {
@@ -80,7 +77,7 @@ class Manager
     /**
      * Get a fluent query builder instance.
      *
-     * @param  Closure|\Illuminate\Database\Query\Builder|string  $table
+     * @param  \Closure|\Illuminate\Database\Query\Builder|string  $table
      * @param  string|null  $as
      * @param  string|null  $connection
      * @return \Illuminate\Database\Query\Builder
@@ -94,7 +91,7 @@ class Manager
      * Get a schema builder instance.
      *
      * @param  string|null  $connection
-     * @return Builder
+     * @return \Illuminate\Database\Schema\Builder
      */
     public static function schema($connection = null)
     {
@@ -105,7 +102,7 @@ class Manager
      * Get a registered connection instance.
      *
      * @param  string|null  $name
-     * @return Connection
+     * @return \Illuminate\Database\Connection
      */
     public function getConnection($name = null)
     {
@@ -161,7 +158,7 @@ class Manager
     /**
      * Get the database manager instance.
      *
-     * @return DatabaseManager
+     * @return \Illuminate\Database\DatabaseManager
      */
     public function getDatabaseManager()
     {
@@ -171,7 +168,7 @@ class Manager
     /**
      * Get the current event dispatcher instance.
      *
-     * @return Dispatcher|null
+     * @return \Illuminate\Contracts\Events\Dispatcher|null
      */
     public function getEventDispatcher()
     {
@@ -183,7 +180,7 @@ class Manager
     /**
      * Set the event dispatcher instance to be used by connections.
      *
-     * @param Dispatcher $dispatcher
+     * @param  \Illuminate\Contracts\Events\Dispatcher  $dispatcher
      * @return void
      */
     public function setEventDispatcher(Dispatcher $dispatcher)

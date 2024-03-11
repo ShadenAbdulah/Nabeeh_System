@@ -2,13 +2,9 @@
 
 namespace Illuminate\Http\Concerns;
 
-use Carbon\Exceptions\InvalidFormatException;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Carbon;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Date;
-use Illuminate\Support\Stringable;
 use SplFileInfo;
 use stdClass;
 use Symfony\Component\HttpFoundation\InputBag;
@@ -314,7 +310,7 @@ trait InteractsWithInput
      *
      * @param  string  $key
      * @param  mixed  $default
-     * @return Stringable
+     * @return \Illuminate\Support\Stringable
      */
     public function str($key, $default = null)
     {
@@ -326,7 +322,7 @@ trait InteractsWithInput
      *
      * @param  string  $key
      * @param  mixed  $default
-     * @return Stringable
+     * @return \Illuminate\Support\Stringable
      */
     public function string($key, $default = null)
     {
@@ -377,9 +373,9 @@ trait InteractsWithInput
      * @param  string  $key
      * @param  string|null  $format
      * @param  string|null  $tz
-     * @return Carbon|null
+     * @return \Illuminate\Support\Carbon|null
      *
-     * @throws InvalidFormatException
+     * @throws \Carbon\Exceptions\InvalidFormatException
      */
     public function date($key, $format = null, $tz = null)
     {
@@ -418,7 +414,7 @@ trait InteractsWithInput
      * Retrieve input from the request as a collection.
      *
      * @param  array|string|null  $key
-     * @return Collection
+     * @return \Illuminate\Support\Collection
      */
     public function collect($key = null)
     {
@@ -582,7 +578,7 @@ trait InteractsWithInput
      *
      * @param  string|null  $key
      * @param  mixed  $default
-     * @return UploadedFile|UploadedFile[]|array|null
+     * @return \Illuminate\Http\UploadedFile|\Illuminate\Http\UploadedFile[]|array|null
      */
     public function file($key = null, $default = null)
     {

@@ -9,25 +9,25 @@ use Illuminate\Support\Reflector;
 use InvalidArgumentException;
 
 /**
- * @method Route any(string $uri, Closure|array|string|null $action = null)
- * @method Route delete(string $uri, Closure|array|string|null $action = null)
- * @method Route get(string $uri, Closure|array|string|null $action = null)
- * @method Route options(string $uri, Closure|array|string|null $action = null)
- * @method Route patch(string $uri, Closure|array|string|null $action = null)
- * @method Route post(string $uri, Closure|array|string|null $action = null)
- * @method Route put(string $uri, Closure|array|string|null $action = null)
- * @method RouteRegistrar as(string $value)
- * @method RouteRegistrar controller(string $controller)
- * @method RouteRegistrar domain(string $value)
- * @method RouteRegistrar middleware(array|string|null $middleware)
- * @method RouteRegistrar missing(Closure $missing)
- * @method RouteRegistrar name(string $value)
- * @method RouteRegistrar namespace(string|null $value)
- * @method RouteRegistrar prefix(string $prefix)
- * @method RouteRegistrar scopeBindings()
- * @method RouteRegistrar where(array $where)
- * @method RouteRegistrar withoutMiddleware(array|string $middleware)
- * @method RouteRegistrar withoutScopedBindings()
+ * @method \Illuminate\Routing\Route any(string $uri, \Closure|array|string|null $action = null)
+ * @method \Illuminate\Routing\Route delete(string $uri, \Closure|array|string|null $action = null)
+ * @method \Illuminate\Routing\Route get(string $uri, \Closure|array|string|null $action = null)
+ * @method \Illuminate\Routing\Route options(string $uri, \Closure|array|string|null $action = null)
+ * @method \Illuminate\Routing\Route patch(string $uri, \Closure|array|string|null $action = null)
+ * @method \Illuminate\Routing\Route post(string $uri, \Closure|array|string|null $action = null)
+ * @method \Illuminate\Routing\Route put(string $uri, \Closure|array|string|null $action = null)
+ * @method \Illuminate\Routing\RouteRegistrar as(string $value)
+ * @method \Illuminate\Routing\RouteRegistrar controller(string $controller)
+ * @method \Illuminate\Routing\RouteRegistrar domain(string $value)
+ * @method \Illuminate\Routing\RouteRegistrar middleware(array|string|null $middleware)
+ * @method \Illuminate\Routing\RouteRegistrar missing(\Closure $missing)
+ * @method \Illuminate\Routing\RouteRegistrar name(string $value)
+ * @method \Illuminate\Routing\RouteRegistrar namespace(string|null $value)
+ * @method \Illuminate\Routing\RouteRegistrar prefix(string $prefix)
+ * @method \Illuminate\Routing\RouteRegistrar scopeBindings()
+ * @method \Illuminate\Routing\RouteRegistrar where(array $where)
+ * @method \Illuminate\Routing\RouteRegistrar withoutMiddleware(array|string $middleware)
+ * @method \Illuminate\Routing\RouteRegistrar withoutScopedBindings()
  */
 class RouteRegistrar
 {
@@ -36,7 +36,7 @@ class RouteRegistrar
     /**
      * The router instance.
      *
-     * @var Router
+     * @var \Illuminate\Routing\Router
      */
     protected $router;
 
@@ -89,7 +89,7 @@ class RouteRegistrar
     /**
      * Create a new route registrar instance.
      *
-     * @param Router $router
+     * @param  \Illuminate\Routing\Router  $router
      * @return void
      */
     public function __construct(Router $router)
@@ -104,7 +104,7 @@ class RouteRegistrar
      * @param  mixed  $value
      * @return $this
      *
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     public function attribute($key, $value)
     {
@@ -137,7 +137,7 @@ class RouteRegistrar
      * @param  string  $name
      * @param  string  $controller
      * @param  array  $options
-     * @return PendingResourceRegistration
+     * @return \Illuminate\Routing\PendingResourceRegistration
      */
     public function resource($name, $controller, array $options = [])
     {
@@ -150,7 +150,7 @@ class RouteRegistrar
      * @param  string  $name
      * @param  string  $controller
      * @param  array  $options
-     * @return PendingResourceRegistration
+     * @return \Illuminate\Routing\PendingResourceRegistration
      */
     public function apiResource($name, $controller, array $options = [])
     {
@@ -163,7 +163,7 @@ class RouteRegistrar
      * @param  string  $name
      * @param  string  $controller
      * @param  array  $options
-     * @return PendingSingletonResourceRegistration
+     * @return \Illuminate\Routing\PendingSingletonResourceRegistration
      */
     public function singleton($name, $controller, array $options = [])
     {
@@ -176,7 +176,7 @@ class RouteRegistrar
      * @param  string  $name
      * @param  string  $controller
      * @param  array  $options
-     * @return PendingSingletonResourceRegistration
+     * @return \Illuminate\Routing\PendingSingletonResourceRegistration
      */
     public function apiSingleton($name, $controller, array $options = [])
     {
@@ -186,7 +186,7 @@ class RouteRegistrar
     /**
      * Create a route group with shared attributes.
      *
-     * @param Closure|array|string  $callback
+     * @param  \Closure|array|string  $callback
      * @return $this
      */
     public function group($callback)
@@ -201,8 +201,8 @@ class RouteRegistrar
      *
      * @param  array|string  $methods
      * @param  string  $uri
-     * @param Closure|array|string|null  $action
-     * @return Route
+     * @param  \Closure|array|string|null  $action
+     * @return \Illuminate\Routing\Route
      */
     public function match($methods, $uri, $action = null)
     {
@@ -214,8 +214,8 @@ class RouteRegistrar
      *
      * @param  string  $method
      * @param  string  $uri
-     * @param Closure|array|string|null  $action
-     * @return Route
+     * @param  \Closure|array|string|null  $action
+     * @return \Illuminate\Routing\Route
      */
     protected function registerRoute($method, $uri, $action = null)
     {
@@ -229,7 +229,7 @@ class RouteRegistrar
     /**
      * Compile the action into an array including the attributes.
      *
-     * @param Closure|array|string|null  $action
+     * @param  \Closure|array|string|null  $action
      * @return array
      */
     protected function compileAction($action)
@@ -262,9 +262,9 @@ class RouteRegistrar
      *
      * @param  string  $method
      * @param  array  $parameters
-     * @return Route|$this
+     * @return \Illuminate\Routing\Route|$this
      *
-     * @throws BadMethodCallException
+     * @throws \BadMethodCallException
      */
     public function __call($method, $parameters)
     {

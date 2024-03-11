@@ -11,13 +11,10 @@
 
 namespace Symfony\Component\Console\Helper;
 
-use InvalidArgumentException;
-use LogicException;
 use Symfony\Component\Console\Output\ConsoleOutputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
-use function is_string;
 
 /**
  * The ProcessHelper class provides helpers to run external processes.
@@ -35,10 +32,10 @@ class ProcessHelper extends Helper
      * @param callable|null $callback A PHP callback to run whenever there is some
      *                                output available on STDOUT or STDERR
      */
-    public function run(OutputInterface $output, array|Process $cmd, string $error = null, callable $callback = null, int $verbosity = OutputInterface::VERBOSITY_VERY_VERBOSE): Process
+    public function run(OutputInterface $output, array|Process $cmd, ?string $error = null, ?callable $callback = null, int $verbosity = OutputInterface::VERBOSITY_VERY_VERBOSE): Process
     {
         if (!class_exists(Process::class)) {
-            throw new LogicException('The ProcessHelper cannot be run as the Process component is not installed. Try running "compose require symfony/process".');
+            throw new \LogicException('The ProcessHelper cannot be run as the Process component is not installed. Try running "compose require symfony/process".');
         }
 
         if ($output instanceof ConsoleOutputInterface) {
@@ -51,14 +48,14 @@ class ProcessHelper extends Helper
             $cmd = [$cmd];
         }
 
-        if (is_string($cmd[0] ?? null)) {
+        if (\is_string($cmd[0] ?? null)) {
             $process = new Process($cmd);
             $cmd = [];
         } elseif (($cmd[0] ?? null) instanceof Process) {
             $process = $cmd[0];
             unset($cmd[0]);
         } else {
-            throw new InvalidArgumentException(sprintf('Invalid command provided to "%s()": the command should be an array whose first element is either the path to the binary to run or a "Process" object.', __METHOD__));
+            throw new \InvalidArgumentException(sprintf('Invalid command provided to "%s()": the command should be an array whose first element is either the path to the binary to run or a "Process" object.', __METHOD__));
         }
 
         if ($verbosity <= $output->getVerbosity()) {
@@ -97,7 +94,7 @@ class ProcessHelper extends Helper
      *
      * @see run()
      */
-    public function mustRun(OutputInterface $output, array|Process $cmd, string $error = null, callable $callback = null): Process
+    public function mustRun(OutputInterface $output, array|Process $cmd, ?string $error = null, ?callable $callback = null): Process
     {
         $process = $this->run($output, $cmd, $error, $callback);
 
@@ -111,7 +108,7 @@ class ProcessHelper extends Helper
     /**
      * Wraps a Process callback to add debugging output.
      */
-    public function wrapCallback(OutputInterface $output, Process $process, callable $callback = null): callable
+    public function wrapCallback(OutputInterface $output, Process $process, ?callable $callback = null): callable
     {
         if ($output instanceof ConsoleOutputInterface) {
             $output = $output->getErrorOutput();

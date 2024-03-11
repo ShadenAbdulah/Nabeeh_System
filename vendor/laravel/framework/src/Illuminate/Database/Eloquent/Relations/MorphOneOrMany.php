@@ -24,8 +24,8 @@ abstract class MorphOneOrMany extends HasOneOrMany
     /**
      * Create a new morph one or many relationship instance.
      *
-     * @param Builder $query
-     * @param Model $parent
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  \Illuminate\Database\Eloquent\Model  $parent
      * @param  string  $type
      * @param  string  $id
      * @param  string  $localKey
@@ -71,7 +71,7 @@ abstract class MorphOneOrMany extends HasOneOrMany
      * Create a new instance of the related model. Allow mass-assignment.
      *
      * @param  array  $attributes
-     * @return Model
+     * @return \Illuminate\Database\Eloquent\Model
      */
     public function forceCreate(array $attributes = [])
     {
@@ -84,7 +84,7 @@ abstract class MorphOneOrMany extends HasOneOrMany
     /**
      * Set the foreign ID and type for creating a related model.
      *
-     * @param Model $model
+     * @param  \Illuminate\Database\Eloquent\Model  $model
      * @return void
      */
     protected function setForeignAttributesForCreate(Model $model)
@@ -97,10 +97,10 @@ abstract class MorphOneOrMany extends HasOneOrMany
     /**
      * Get the relationship query.
      *
-     * @param Builder $query
-     * @param Builder $parentQuery
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  \Illuminate\Database\Eloquent\Builder  $parentQuery
      * @param  array|mixed  $columns
-     * @return Builder
+     * @return \Illuminate\Database\Eloquent\Builder
      */
     public function getRelationExistenceQuery(Builder $query, Builder $parentQuery, $columns = ['*'])
     {

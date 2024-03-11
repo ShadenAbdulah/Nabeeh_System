@@ -12,7 +12,6 @@
 namespace Symfony\Component\Console\EventListener;
 
 use Psr\Log\LoggerInterface;
-use Stringable;
 use Symfony\Component\Console\ConsoleEvents;
 use Symfony\Component\Console\Event\ConsoleErrorEvent;
 use Symfony\Component\Console\Event\ConsoleEvent;
@@ -27,7 +26,7 @@ class ErrorListener implements EventSubscriberInterface
 {
     private ?LoggerInterface $logger;
 
-    public function __construct(LoggerInterface $logger = null)
+    public function __construct(?LoggerInterface $logger = null)
     {
         $this->logger = $logger;
     }
@@ -89,7 +88,7 @@ class ErrorListener implements EventSubscriberInterface
         $commandName = $event->getCommand()?->getName();
         $input = $event->getInput();
 
-        if ($input instanceof Stringable) {
+        if ($input instanceof \Stringable) {
             if ($commandName) {
                 return str_replace(["'$commandName'", "\"$commandName\""], $commandName, (string) $input);
             }

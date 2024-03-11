@@ -9,7 +9,6 @@
  */
 namespace SebastianBergmann\CodeCoverage\Node;
 
-use SebastianBergmann\CodeCoverage\StaticAnalysis\FileAnalyser;
 use const DIRECTORY_SEPARATOR;
 use function array_merge;
 use function str_ends_with;
@@ -21,10 +20,10 @@ use SebastianBergmann\CodeCoverage\Util\Percentage;
 /**
  * @internal This class is not covered by the backward compatibility promise for phpunit/php-code-coverage
  *
- * @psalm-import-type LinesOfCodeType from FileAnalyser
- * @psalm-import-type ProcessedFunctionType from File
- * @psalm-import-type ProcessedClassType from File
- * @psalm-import-type ProcessedTraitType from File
+ * @psalm-import-type LinesOfCodeType from \SebastianBergmann\CodeCoverage\StaticAnalysis\FileAnalyser
+ * @psalm-import-type ProcessedFunctionType from \SebastianBergmann\CodeCoverage\Node\File
+ * @psalm-import-type ProcessedClassType from \SebastianBergmann\CodeCoverage\Node\File
+ * @psalm-import-type ProcessedTraitType from \SebastianBergmann\CodeCoverage\Node\File
  */
 abstract class AbstractNode implements Countable
 {
@@ -34,7 +33,7 @@ abstract class AbstractNode implements Countable
     private readonly ?AbstractNode $parent;
     private string $id;
 
-    public function __construct(string $name, self $parent = null)
+    public function __construct(string $name, ?self $parent = null)
     {
         if (str_ends_with($name, DIRECTORY_SEPARATOR)) {
             $name = substr($name, 0, -1);
@@ -132,7 +131,7 @@ abstract class AbstractNode implements Countable
     {
         return Percentage::fromFractionAndTotal(
             $this->numberOfExecutedBranches(),
-            $this->numberOfExecutableBranches()
+            $this->numberOfExecutableBranches(),
         );
     }
 
@@ -140,7 +139,7 @@ abstract class AbstractNode implements Countable
     {
         return Percentage::fromFractionAndTotal(
             $this->numberOfExecutedPaths(),
-            $this->numberOfExecutablePaths()
+            $this->numberOfExecutablePaths(),
         );
     }
 

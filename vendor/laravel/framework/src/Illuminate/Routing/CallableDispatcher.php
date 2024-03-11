@@ -13,14 +13,14 @@ class CallableDispatcher implements CallableDispatcherContract
     /**
      * The container instance.
      *
-     * @var Container
+     * @var \Illuminate\Container\Container
      */
     protected $container;
 
     /**
      * Create a new callable dispatcher instance.
      *
-     * @param Container $container
+     * @param  \Illuminate\Container\Container  $container
      * @return void
      */
     public function __construct(Container $container)
@@ -31,7 +31,7 @@ class CallableDispatcher implements CallableDispatcherContract
     /**
      * Dispatch a request to a given callable.
      *
-     * @param Route $route
+     * @param  \Illuminate\Routing\Route  $route
      * @param  callable  $callable
      * @return mixed
      */
@@ -43,7 +43,7 @@ class CallableDispatcher implements CallableDispatcherContract
     /**
      * Resolve the parameters for the callable.
      *
-     * @param Route $route
+     * @param  \Illuminate\Routing\Route  $route
      * @param  callable  $callable
      * @return array
      */

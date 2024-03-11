@@ -10,7 +10,7 @@ class BelongsToManyRelationship
     /**
      * The related factory instance.
      *
-     * @var Factory|Collection|Model|array
+     * @var \Illuminate\Database\Eloquent\Factories\Factory|\Illuminate\Support\Collection|\Illuminate\Database\Eloquent\Model|array
      */
     protected $factory;
 
@@ -31,7 +31,7 @@ class BelongsToManyRelationship
     /**
      * Create a new attached relationship definition.
      *
-     * @param Factory|Collection|Model|array  $factory
+     * @param  \Illuminate\Database\Eloquent\Factories\Factory|\Illuminate\Support\Collection|\Illuminate\Database\Eloquent\Model|array  $factory
      * @param  callable|array  $pivot
      * @param  string  $relationship
      * @return void
@@ -46,7 +46,7 @@ class BelongsToManyRelationship
     /**
      * Create the attached relationship for the given model.
      *
-     * @param Model $model
+     * @param  \Illuminate\Database\Eloquent\Model  $model
      * @return void
      */
     public function createFor(Model $model)
@@ -62,7 +62,7 @@ class BelongsToManyRelationship
     /**
      * Specify the model instances to always use when creating relationships.
      *
-     * @param Collection $recycle
+     * @param  \Illuminate\Support\Collection  $recycle
      * @return $this
      */
     public function recycle($recycle)

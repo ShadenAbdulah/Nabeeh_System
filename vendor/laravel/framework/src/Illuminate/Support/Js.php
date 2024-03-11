@@ -6,7 +6,6 @@ use BackedEnum;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Contracts\Support\Jsonable;
-use JsonException;
 use JsonSerializable;
 
 class Js implements Htmlable
@@ -33,7 +32,7 @@ class Js implements Htmlable
      * @param  int  $depth
      * @return void
      *
-     * @throws JsonException
+     * @throws \JsonException
      */
     public function __construct($data, $flags = 0, $depth = 512)
     {
@@ -48,7 +47,7 @@ class Js implements Htmlable
      * @param  int  $depth
      * @return static
      *
-     * @throws JsonException
+     * @throws \JsonException
      */
     public static function from($data, $flags = 0, $depth = 512)
     {
@@ -63,7 +62,7 @@ class Js implements Htmlable
      * @param  int  $depth
      * @return string
      *
-     * @throws JsonException
+     * @throws \JsonException
      */
     protected function convertDataToJavaScriptExpression($data, $flags = 0, $depth = 512)
     {
@@ -92,7 +91,7 @@ class Js implements Htmlable
      * @param  int  $depth
      * @return string
      *
-     * @throws JsonException
+     * @throws \JsonException
      */
     public static function encode($data, $flags = 0, $depth = 512)
     {
@@ -114,7 +113,7 @@ class Js implements Htmlable
      * @param  int  $flags
      * @return string
      *
-     * @throws JsonException
+     * @throws \JsonException
      */
     protected function convertJsonToJavaScriptExpression($json, $flags = 0)
     {

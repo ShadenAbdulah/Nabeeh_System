@@ -108,7 +108,7 @@ abstract class Lock implements LockContract
      * @param  callable|null  $callback
      * @return mixed
      *
-     * @throws LockTimeoutException
+     * @throws \Illuminate\Contracts\Cache\LockTimeoutException
      */
     public function block($seconds, $callback = null)
     {

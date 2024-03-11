@@ -6,7 +6,6 @@ use PhpParser\Node;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Identifier;
 use PhpParser\Node\Name;
-use function is_string;
 
 class ClassConstFetch extends Expr {
     /** @var Name|Expr Class name */
@@ -24,7 +23,7 @@ class ClassConstFetch extends Expr {
     public function __construct(Node $class, $name, array $attributes = []) {
         $this->attributes = $attributes;
         $this->class = $class;
-        $this->name = is_string($name) ? new Identifier($name) : $name;
+        $this->name = \is_string($name) ? new Identifier($name) : $name;
     }
 
     public function getSubNodeNames(): array {

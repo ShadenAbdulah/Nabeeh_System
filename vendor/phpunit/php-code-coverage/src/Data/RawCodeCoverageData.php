@@ -9,7 +9,6 @@
  */
 namespace SebastianBergmann\CodeCoverage\Data;
 
-use SebastianBergmann\CodeCoverage\Driver\XdebugDriver;
 use function array_diff;
 use function array_diff_key;
 use function array_flip;
@@ -31,9 +30,9 @@ use SebastianBergmann\CodeCoverage\StaticAnalysis\FileAnalyser;
 /**
  * @internal This class is not covered by the backward compatibility promise for phpunit/php-code-coverage
  *
- * @psalm-import-type XdebugFunctionsCoverageType from XdebugDriver
- * @psalm-import-type XdebugCodeCoverageWithoutPathCoverageType from XdebugDriver
- * @psalm-import-type XdebugCodeCoverageWithPathCoverageType from XdebugDriver
+ * @psalm-import-type XdebugFunctionsCoverageType from \SebastianBergmann\CodeCoverage\Driver\XdebugDriver
+ * @psalm-import-type XdebugCodeCoverageWithoutPathCoverageType from \SebastianBergmann\CodeCoverage\Driver\XdebugDriver
+ * @psalm-import-type XdebugCodeCoverageWithPathCoverageType from \SebastianBergmann\CodeCoverage\Driver\XdebugDriver
  */
 final class RawCodeCoverageData
 {
@@ -145,7 +144,7 @@ final class RawCodeCoverageData
 
         $this->lineCoverage[$filename] = array_intersect_key(
             $this->lineCoverage[$filename],
-            array_flip($lines)
+            array_flip($lines),
         );
     }
 
@@ -224,7 +223,7 @@ final class RawCodeCoverageData
 
         $this->lineCoverage[$filename] = array_diff_key(
             $this->lineCoverage[$filename],
-            array_flip($lines)
+            array_flip($lines),
         );
 
         if (isset($this->functionCoverage[$filename])) {

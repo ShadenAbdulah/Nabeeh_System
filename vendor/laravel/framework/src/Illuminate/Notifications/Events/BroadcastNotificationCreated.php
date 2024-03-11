@@ -6,7 +6,6 @@ use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Notifications\AnonymousNotifiable;
-use Illuminate\Notifications\Notification;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Arr;
 
@@ -24,7 +23,7 @@ class BroadcastNotificationCreated implements ShouldBroadcast
     /**
      * The notification instance.
      *
-     * @var Notification
+     * @var \Illuminate\Notifications\Notification
      */
     public $notification;
 
@@ -39,7 +38,7 @@ class BroadcastNotificationCreated implements ShouldBroadcast
      * Create a new event instance.
      *
      * @param  mixed  $notifiable
-     * @param  Notification  $notification
+     * @param  \Illuminate\Notifications\Notification  $notification
      * @param  array  $data
      * @return void
      */

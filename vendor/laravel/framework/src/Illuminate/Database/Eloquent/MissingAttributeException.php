@@ -9,7 +9,7 @@ class MissingAttributeException extends OutOfBoundsException
     /**
      * Create a new missing attribute exception instance.
      *
-     * @param Model $model
+     * @param  \Illuminate\Database\Eloquent\Model  $model
      * @param  string  $key
      * @return void
      */

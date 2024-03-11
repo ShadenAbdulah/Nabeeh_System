@@ -14,7 +14,6 @@ namespace Symfony\Component\Console\Debug;
 use Symfony\Component\Console\Command\TraceableCommand;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use function get_class;
 
 /**
  * @internal
@@ -25,7 +24,7 @@ final class CliRequest extends Request
         public readonly TraceableCommand $command,
     ) {
         parent::__construct(
-            attributes: ['_controller' => get_class($command->command), '_virtual_type' => 'command'],
+            attributes: ['_controller' => \get_class($command->command), '_virtual_type' => 'command'],
             server: $_SERVER,
         );
     }

@@ -15,9 +15,9 @@ trait ConnectsToDatabase
      * @param  string|null  $username
      * @param  string|null  $password
      * @param  mixed[]  $driverOptions
-     * @return Connection
+     * @return \Illuminate\Database\PDO\Connection
      *
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     public function connect(array $params, $username = null, $password = null, array $driverOptions = [])
     {

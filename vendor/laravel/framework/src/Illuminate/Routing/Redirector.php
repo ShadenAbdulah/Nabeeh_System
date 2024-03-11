@@ -2,8 +2,6 @@
 
 namespace Illuminate\Routing;
 
-use DateInterval;
-use DateTimeInterface;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Session\Store as SessionStore;
 use Illuminate\Support\Traits\Macroable;
@@ -15,21 +13,21 @@ class Redirector
     /**
      * The URL generator instance.
      *
-     * @var UrlGenerator
+     * @var \Illuminate\Routing\UrlGenerator
      */
     protected $generator;
 
     /**
      * The session store instance.
      *
-     * @var SessionStore
+     * @var \Illuminate\Session\Store
      */
     protected $session;
 
     /**
      * Create a new Redirector instance.
      *
-     * @param UrlGenerator $generator
+     * @param  \Illuminate\Routing\UrlGenerator  $generator
      * @return void
      */
     public function __construct(UrlGenerator $generator)
@@ -43,7 +41,7 @@ class Redirector
      * @param  int  $status
      * @param  array  $headers
      * @param  mixed  $fallback
-     * @return RedirectResponse
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function back($status = 302, $headers = [], $fallback = false)
     {
@@ -55,7 +53,7 @@ class Redirector
      *
      * @param  int  $status
      * @param  array  $headers
-     * @return RedirectResponse
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function refresh($status = 302, $headers = [])
     {
@@ -69,7 +67,7 @@ class Redirector
      * @param  int  $status
      * @param  array  $headers
      * @param  bool|null  $secure
-     * @return RedirectResponse
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function guest($path, $status = 302, $headers = [], $secure = null)
     {
@@ -93,7 +91,7 @@ class Redirector
      * @param  int  $status
      * @param  array  $headers
      * @param  bool|null  $secure
-     * @return RedirectResponse
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function intended($default = '/', $status = 302, $headers = [], $secure = null)
     {
@@ -109,7 +107,7 @@ class Redirector
      * @param  int  $status
      * @param  array  $headers
      * @param  bool|null  $secure
-     * @return RedirectResponse
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function to($path, $status = 302, $headers = [], $secure = null)
     {
@@ -122,7 +120,7 @@ class Redirector
      * @param  string  $path
      * @param  int  $status
      * @param  array  $headers
-     * @return RedirectResponse
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function away($path, $status = 302, $headers = [])
     {
@@ -135,7 +133,7 @@ class Redirector
      * @param  string  $path
      * @param  int  $status
      * @param  array  $headers
-     * @return RedirectResponse
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function secure($path, $status = 302, $headers = [])
     {
@@ -149,7 +147,7 @@ class Redirector
      * @param  mixed  $parameters
      * @param  int  $status
      * @param  array  $headers
-     * @return RedirectResponse
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function route($route, $parameters = [], $status = 302, $headers = [])
     {
@@ -161,10 +159,10 @@ class Redirector
      *
      * @param  string  $route
      * @param  mixed  $parameters
-     * @param  DateTimeInterface|DateInterval|int|null  $expiration
+     * @param  \DateTimeInterface|\DateInterval|int|null  $expiration
      * @param  int  $status
      * @param  array  $headers
-     * @return RedirectResponse
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function signedRoute($route, $parameters = [], $expiration = null, $status = 302, $headers = [])
     {
@@ -175,11 +173,11 @@ class Redirector
      * Create a new redirect response to a signed named route.
      *
      * @param  string  $route
-     * @param  DateTimeInterface|DateInterval|int|null  $expiration
+     * @param  \DateTimeInterface|\DateInterval|int|null  $expiration
      * @param  mixed  $parameters
      * @param  int  $status
      * @param  array  $headers
-     * @return RedirectResponse
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function temporarySignedRoute($route, $expiration, $parameters = [], $status = 302, $headers = [])
     {
@@ -193,7 +191,7 @@ class Redirector
      * @param  mixed  $parameters
      * @param  int  $status
      * @param  array  $headers
-     * @return RedirectResponse
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function action($action, $parameters = [], $status = 302, $headers = [])
     {
@@ -206,7 +204,7 @@ class Redirector
      * @param  string  $path
      * @param  int  $status
      * @param  array  $headers
-     * @return RedirectResponse
+     * @return \Illuminate\Http\RedirectResponse
      */
     protected function createRedirect($path, $status, $headers)
     {
@@ -222,7 +220,7 @@ class Redirector
     /**
      * Get the URL generator instance.
      *
-     * @return UrlGenerator
+     * @return \Illuminate\Routing\UrlGenerator
      */
     public function getUrlGenerator()
     {
@@ -232,7 +230,7 @@ class Redirector
     /**
      * Set the active session store.
      *
-     * @param SessionStore $session
+     * @param  \Illuminate\Session\Store  $session
      * @return void
      */
     public function setSession(SessionStore $session)

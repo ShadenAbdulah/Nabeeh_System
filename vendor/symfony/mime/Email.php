@@ -11,8 +11,6 @@
 
 namespace Symfony\Component\Mime;
 
-use DateTimeImmutable;
-use DateTimeInterface;
 use Symfony\Component\Mime\Exception\LogicException;
 use Symfony\Component\Mime\Part\AbstractPart;
 use Symfony\Component\Mime\Part\DataPart;
@@ -21,9 +19,6 @@ use Symfony\Component\Mime\Part\Multipart\AlternativePart;
 use Symfony\Component\Mime\Part\Multipart\MixedPart;
 use Symfony\Component\Mime\Part\Multipart\RelatedPart;
 use Symfony\Component\Mime\Part\TextPart;
-use TypeError;
-use function is_resource;
-use function is_string;
 
 /**
  * @author Fabien Potencier <fabien@symfony.com>
@@ -76,12 +71,12 @@ class Email extends Message
     /**
      * @return $this
      */
-    public function date(DateTimeInterface $dateTime): static
+    public function date(\DateTimeInterface $dateTime): static
     {
         return $this->setHeaderBody('Date', 'Date', $dateTime);
     }
 
-    public function getDate(): ?DateTimeImmutable
+    public function getDate(): ?\DateTimeImmutable
     {
         return $this->getHeaders()->getHeaderBody('Date');
     }
@@ -125,6 +120,10 @@ class Email extends Message
      */
     public function from(Address|string ...$addresses): static
     {
+        if (!$addresses) {
+            throw new LogicException('"from()" must be called with at least one address.');
+        }
+
         return $this->setListAddressHeaderBody('From', $addresses);
     }
 
@@ -270,8 +269,8 @@ class Email extends Message
      */
     public function text($body, string $charset = 'utf-8'): static
     {
-        if (null !== $body && !is_string($body) && !is_resource($body)) {
-            throw new TypeError(sprintf('The body must be a string, a resource or null (got "%s").', get_debug_type($body)));
+        if (null !== $body && !\is_string($body) && !\is_resource($body)) {
+            throw new \TypeError(sprintf('The body must be a string, a resource or null (got "%s").', get_debug_type($body)));
         }
 
         $this->cachedBody = null;
@@ -301,8 +300,8 @@ class Email extends Message
      */
     public function html($body, string $charset = 'utf-8'): static
     {
-        if (null !== $body && !is_string($body) && !is_resource($body)) {
-            throw new TypeError(sprintf('The body must be a string, a resource or null (got "%s").', get_debug_type($body)));
+        if (null !== $body && !\is_string($body) && !\is_resource($body)) {
+            throw new \TypeError(sprintf('The body must be a string, a resource or null (got "%s").', get_debug_type($body)));
         }
 
         $this->cachedBody = null;
@@ -330,7 +329,7 @@ class Email extends Message
      *
      * @return $this
      */
-    public function attach($body, string $name = null, string $contentType = null): static
+    public function attach($body, ?string $name = null, ?string $contentType = null): static
     {
         return $this->addPart(new DataPart($body, $name, $contentType));
     }
@@ -338,7 +337,7 @@ class Email extends Message
     /**
      * @return $this
      */
-    public function attachFromPath(string $path, string $name = null, string $contentType = null): static
+    public function attachFromPath(string $path, ?string $name = null, ?string $contentType = null): static
     {
         return $this->addPart(new DataPart(new File($path), $name, $contentType));
     }
@@ -348,7 +347,7 @@ class Email extends Message
      *
      * @return $this
      */
-    public function embed($body, string $name = null, string $contentType = null): static
+    public function embed($body, ?string $name = null, ?string $contentType = null): static
     {
         return $this->addPart((new DataPart($body, $name, $contentType))->asInline());
     }
@@ -356,7 +355,7 @@ class Email extends Message
     /**
      * @return $this
      */
-    public function embedFromPath(string $path, string $name = null, string $contentType = null): static
+    public function embedFromPath(string $path, ?string $name = null, ?string $contentType = null): static
     {
         return $this->addPart((new DataPart(new File($path), $name, $contentType))->asInline());
     }
@@ -569,11 +568,11 @@ class Email extends Message
      */
     public function __serialize(): array
     {
-        if (is_resource($this->text)) {
+        if (\is_resource($this->text)) {
             $this->text = (new TextPart($this->text))->getBody();
         }
 
-        if (is_resource($this->html)) {
+        if (\is_resource($this->html)) {
             $this->html = (new TextPart($this->html))->getBody();
         }
 

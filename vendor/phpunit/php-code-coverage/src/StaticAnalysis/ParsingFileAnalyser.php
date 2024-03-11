@@ -32,12 +32,12 @@ use SebastianBergmann\LinesOfCode\LineCountingVisitor;
 /**
  * @internal This class is not covered by the backward compatibility promise for phpunit/php-code-coverage
  *
- * @psalm-import-type CodeUnitFunctionType from CodeUnitFindingVisitor
- * @psalm-import-type CodeUnitMethodType from CodeUnitFindingVisitor
- * @psalm-import-type CodeUnitClassType from CodeUnitFindingVisitor
- * @psalm-import-type CodeUnitTraitType from CodeUnitFindingVisitor
- * @psalm-import-type LinesOfCodeType from FileAnalyser
- * @psalm-import-type LinesType from FileAnalyser
+ * @psalm-import-type CodeUnitFunctionType from \SebastianBergmann\CodeCoverage\StaticAnalysis\CodeUnitFindingVisitor
+ * @psalm-import-type CodeUnitMethodType from \SebastianBergmann\CodeCoverage\StaticAnalysis\CodeUnitFindingVisitor
+ * @psalm-import-type CodeUnitClassType from \SebastianBergmann\CodeCoverage\StaticAnalysis\CodeUnitFindingVisitor
+ * @psalm-import-type CodeUnitTraitType from \SebastianBergmann\CodeCoverage\StaticAnalysis\CodeUnitFindingVisitor
+ * @psalm-import-type LinesOfCodeType from \SebastianBergmann\CodeCoverage\StaticAnalysis\FileAnalyser
+ * @psalm-import-type LinesType from \SebastianBergmann\CodeCoverage\StaticAnalysis\FileAnalyser
  */
 final class ParsingFileAnalyser implements FileAnalyser
 {
@@ -167,10 +167,10 @@ final class ParsingFileAnalyser implements FileAnalyser
                 sprintf(
                     'Cannot parse %s: %s',
                     $filename,
-                    $error->getMessage()
+                    $error->getMessage(),
                 ),
                 $error->getCode(),
-                $error
+                $error,
             );
         }
         // @codeCoverageIgnoreEnd
@@ -186,8 +186,8 @@ final class ParsingFileAnalyser implements FileAnalyser
         $this->ignoredLines[$filename] = array_unique(
             array_merge(
                 $this->ignoredLines[$filename],
-                $ignoredLinesFindingVisitor->ignoredLines()
-            )
+                $ignoredLinesFindingVisitor->ignoredLines(),
+            ),
         );
 
         sort($this->ignoredLines[$filename]);
@@ -239,7 +239,7 @@ final class ParsingFileAnalyser implements FileAnalyser
 
                 $this->ignoredLines[$filename] = array_merge(
                     $this->ignoredLines[$filename],
-                    range($start, $token[2])
+                    range($start, $token[2]),
                 );
             }
         }

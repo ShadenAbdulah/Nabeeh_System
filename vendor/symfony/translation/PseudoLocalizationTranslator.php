@@ -11,18 +11,7 @@
 
 namespace Symfony\Component\Translation;
 
-use DOMAttr;
-use DOMDocument;
-use DOMElement;
-use DOMNode;
-use InvalidArgumentException;
 use Symfony\Contracts\Translation\TranslatorInterface;
-use function in_array;
-use function strlen;
-use const ENT_QUOTES;
-use const PREG_SPLIT_DELIM_CAPTURE;
-use const PREG_SPLIT_NO_EMPTY;
-use const SORT_NUMERIC;
 
 /**
  * This translator should only be used in a development environment.
@@ -81,7 +70,7 @@ final class PseudoLocalizationTranslator implements TranslatorInterface
         $this->accents = $options['accents'] ?? true;
 
         if (1.0 > ($this->expansionFactor = $options['expansion_factor'] ?? 1.0)) {
-            throw new InvalidArgumentException('The expansion factor must be greater than or equal to 1.');
+            throw new \InvalidArgumentException('The expansion factor must be greater than or equal to 1.');
         }
 
         $this->brackets = $options['brackets'] ?? true;
@@ -94,7 +83,7 @@ final class PseudoLocalizationTranslator implements TranslatorInterface
         $this->localizableHTMLAttributes = $options['localizable_html_attributes'] ?? [];
     }
 
-    public function trans(string $id, array $parameters = [], string $domain = null, string $locale = null): string
+    public function trans(string $id, array $parameters = [], ?string $domain = null, ?string $locale = null): string
     {
         $trans = '';
         $visibleText = '';
@@ -131,11 +120,11 @@ final class PseudoLocalizationTranslator implements TranslatorInterface
             return [[true, true, $originalTrans]];
         }
 
-        $html = mb_encode_numericentity($originalTrans, [0x80, 0xFFFF, 0, 0xFFFF], mb_detect_encoding($originalTrans, null, true) ?: 'UTF-8');
+        $html = mb_encode_numericentity($originalTrans, [0x80, 0x10FFFF, 0, 0x1FFFFF], mb_detect_encoding($originalTrans, null, true) ?: 'UTF-8');
 
         $useInternalErrors = libxml_use_internal_errors(true);
 
-        $dom = new DOMDocument();
+        $dom = new \DOMDocument();
         $dom->loadHTML('<trans>'.$html.'</trans>');
 
         libxml_clear_errors();
@@ -144,12 +133,12 @@ final class PseudoLocalizationTranslator implements TranslatorInterface
         return $this->parseNode($dom->childNodes->item(1)->childNodes->item(0)->childNodes->item(0));
     }
 
-    private function parseNode(DOMNode $node): array
+    private function parseNode(\DOMNode $node): array
     {
         $parts = [];
 
         foreach ($node->childNodes as $childNode) {
-            if (!$childNode instanceof DOMElement) {
+            if (!$childNode instanceof \DOMElement) {
                 $parts[] = [true, true, $childNode->nodeValue];
 
                 continue;
@@ -157,12 +146,12 @@ final class PseudoLocalizationTranslator implements TranslatorInterface
 
             $parts[] = [false, false, '<'.$childNode->tagName];
 
-            /** @var DOMAttr $attribute */
+            /** @var \DOMAttr $attribute */
             foreach ($childNode->attributes as $attribute) {
                 $parts[] = [false, false, ' '.$attribute->nodeName.'="'];
 
-                $localizableAttribute = in_array($attribute->nodeName, $this->localizableHTMLAttributes, true);
-                foreach (preg_split('/(&(?:amp|quot|#039|lt|gt);+)/', htmlspecialchars($attribute->nodeValue, ENT_QUOTES, 'UTF-8'), -1, PREG_SPLIT_DELIM_CAPTURE) as $i => $match) {
+                $localizableAttribute = \in_array($attribute->nodeName, $this->localizableHTMLAttributes, true);
+                foreach (preg_split('/(&(?:amp|quot|#039|lt|gt);+)/', htmlspecialchars($attribute->nodeValue, \ENT_QUOTES, 'UTF-8'), -1, \PREG_SPLIT_DELIM_CAPTURE) as $i => $match) {
                     if ('' === $match) {
                         continue;
                     }
@@ -302,7 +291,7 @@ final class PseudoLocalizationTranslator implements TranslatorInterface
 
         $words = [];
         $wordsCount = 0;
-        foreach (preg_split('/ +/', $visibleText, -1, PREG_SPLIT_NO_EMPTY) as $word) {
+        foreach (preg_split('/ +/', $visibleText, -1, \PREG_SPLIT_NO_EMPTY) as $word) {
             $wordLength = $this->strlen($word);
 
             if ($wordLength >= $missingLength) {
@@ -323,7 +312,7 @@ final class PseudoLocalizationTranslator implements TranslatorInterface
             return;
         }
 
-        arsort($words, SORT_NUMERIC);
+        arsort($words, \SORT_NUMERIC);
 
         $longestWordLength = max(array_keys($words));
 
@@ -371,6 +360,6 @@ final class PseudoLocalizationTranslator implements TranslatorInterface
 
     private function strlen(string $s): int
     {
-        return false === ($encoding = mb_detect_encoding($s, null, true)) ? strlen($s) : mb_strlen($s, $encoding);
+        return false === ($encoding = mb_detect_encoding($s, null, true)) ? \strlen($s) : mb_strlen($s, $encoding);
     }
 }

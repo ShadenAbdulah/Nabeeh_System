@@ -11,9 +11,7 @@
 
 namespace Symfony\Component\HttpKernel\HttpCache;
 
-use DateTimeInterface;
 use Symfony\Component\HttpFoundation\Response;
-use function in_array;
 
 /**
  * ResponseCacheStrategy knows how to compute the Response cache HTTP header
@@ -39,7 +37,7 @@ class ResponseCacheStrategy implements ResponseCacheStrategyInterface
     private int $embeddedResponses = 0;
     private bool $isNotCacheableResponseEmbedded = false;
     private int $age = 0;
-    private DateTimeInterface|null|false $lastModified = null;
+    private \DateTimeInterface|null|false $lastModified = null;
     private array $flagDirectives = [
         'no-cache' => null,
         'no-store' => null,
@@ -178,7 +176,7 @@ class ResponseCacheStrategy implements ResponseCacheStrategyInterface
 
         // Etag headers cannot be merged, they render the response uncacheable
         // by default (except if the response also has max-age etc.).
-        if (null === $response->getEtag() && in_array($response->getStatusCode(), [200, 203, 300, 301, 410])) {
+        if (null === $response->getEtag() && \in_array($response->getStatusCode(), [200, 203, 300, 301, 410])) {
             return false;
         }
 

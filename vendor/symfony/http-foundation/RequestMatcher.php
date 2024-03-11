@@ -11,10 +11,6 @@
 
 namespace Symfony\Component\HttpFoundation;
 
-use function count;
-use function in_array;
-use function is_string;
-
 trigger_deprecation('symfony/http-foundation', '6.2', 'The "%s" class is deprecated, use "%s" instead.', RequestMatcher::class, ChainRequestMatcher::class);
 
 /**
@@ -55,7 +51,7 @@ class RequestMatcher implements RequestMatcherInterface
      * @param string|string[]|null $ips
      * @param string|string[]|null $schemes
      */
-    public function __construct(string $path = null, string $host = null, string|array $methods = null, string|array $ips = null, array $attributes = [], string|array $schemes = null, int $port = null)
+    public function __construct(?string $path = null, ?string $host = null, string|array|null $methods = null, string|array|null $ips = null, array $attributes = [], string|array|null $schemes = null, ?int $port = null)
     {
         $this->matchPath($path);
         $this->matchHost($host);
@@ -163,17 +159,17 @@ class RequestMatcher implements RequestMatcherInterface
 
     public function matches(Request $request): bool
     {
-        if ($this->schemes && !in_array($request->getScheme(), $this->schemes, true)) {
+        if ($this->schemes && !\in_array($request->getScheme(), $this->schemes, true)) {
             return false;
         }
 
-        if ($this->methods && !in_array($request->getMethod(), $this->methods, true)) {
+        if ($this->methods && !\in_array($request->getMethod(), $this->methods, true)) {
             return false;
         }
 
         foreach ($this->attributes as $key => $pattern) {
             $requestAttribute = $request->attributes->get($key);
-            if (!is_string($requestAttribute)) {
+            if (!\is_string($requestAttribute)) {
                 return false;
             }
             if (!preg_match('{'.$pattern.'}', $requestAttribute)) {
@@ -199,6 +195,6 @@ class RequestMatcher implements RequestMatcherInterface
 
         // Note to future implementors: add additional checks above the
         // foreach above or else your check might not be run!
-        return 0 === count($this->ips);
+        return 0 === \count($this->ips);
     }
 }

@@ -11,10 +11,6 @@
 
 namespace Symfony\Component\HttpKernel\Profiler;
 
-use Closure;
-use DateTimeImmutable;
-use Exception;
-use InvalidArgumentException;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Exception\ConflictingHeadersException;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,8 +18,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\DataCollector\DataCollectorInterface;
 use Symfony\Component\HttpKernel\DataCollector\LateDataCollectorInterface;
 use Symfony\Contracts\Service\ResetInterface;
-use Throwable;
-use function func_num_args;
 
 /**
  * Profiler.
@@ -43,7 +37,7 @@ class Profiler implements ResetInterface
     private bool $initiallyEnabled = true;
     private bool $enabled = true;
 
-    public function __construct(ProfilerStorageInterface $storage, LoggerInterface $logger = null, bool $enable = true)
+    public function __construct(ProfilerStorageInterface $storage, ?LoggerInterface $logger = null, bool $enable = true)
     {
         $this->storage = $storage;
         $this->logger = $logger;
@@ -130,13 +124,13 @@ class Profiler implements ResetInterface
      * @param int|null      $limit  The maximum number of tokens to return
      * @param string|null   $start  The start date to search from
      * @param string|null   $end    The end date to search to
-     * @param Closure|null $filter A filter to apply on the list of tokens
+     * @param \Closure|null $filter A filter to apply on the list of tokens
      *
      * @see https://php.net/datetime.formats for the supported date/time formats
      */
-    public function find(?string $ip, ?string $url, ?int $limit, ?string $method, ?string $start, ?string $end, string $statusCode = null/* , \Closure $filter = null */): array
+    public function find(?string $ip, ?string $url, ?int $limit, ?string $method, ?string $start, ?string $end, ?string $statusCode = null/* , \Closure $filter = null */): array
     {
-        $filter = 7 < func_num_args() ? func_get_arg(7) : null;
+        $filter = 7 < \func_num_args() ? func_get_arg(7) : null;
 
         return $this->storage->find($ip, $url, $limit, $method, $this->getTimestamp($start), $this->getTimestamp($end), $statusCode, $filter);
     }
@@ -144,11 +138,7 @@ class Profiler implements ResetInterface
     /**
      * Collects data for the given Response.
      */
-<<<<<<< HEAD
-    public function collect(Request $request, Response $response, ?Throwable $exception = null): ?Profile
-=======
-    public function collect(Request $request, Response $response, \Throwable $exception = null): ?Profile
->>>>>>> parent of c8b1139b (update Ui)
+    public function collect(Request $request, Response $response, ?\Throwable $exception = null): ?Profile
     {
         if (false === $this->enabled) {
             return null;
@@ -244,12 +234,12 @@ class Profiler implements ResetInterface
      *
      * @param string $name A collector name
      *
-     * @throws InvalidArgumentException if the collector does not exist
+     * @throws \InvalidArgumentException if the collector does not exist
      */
     public function get(string $name): DataCollectorInterface
     {
         if (!isset($this->collectors[$name])) {
-            throw new InvalidArgumentException(sprintf('Collector "%s" does not exist.', $name));
+            throw new \InvalidArgumentException(sprintf('Collector "%s" does not exist.', $name));
         }
 
         return $this->collectors[$name];
@@ -262,8 +252,8 @@ class Profiler implements ResetInterface
         }
 
         try {
-            $value = new DateTimeImmutable(is_numeric($value) ? '@'.$value : $value);
-        } catch (Exception) {
+            $value = new \DateTimeImmutable(is_numeric($value) ? '@'.$value : $value);
+        } catch (\Exception) {
             return null;
         }
 

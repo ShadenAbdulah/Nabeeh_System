@@ -11,12 +11,10 @@
 
 namespace Symfony\Component\Translation\Catalogue;
 
-use MessageFormatter;
 use Symfony\Component\Translation\Exception\InvalidArgumentException;
 use Symfony\Component\Translation\Exception\LogicException;
 use Symfony\Component\Translation\MessageCatalogue;
 use Symfony\Component\Translation\MessageCatalogueInterface;
-use function in_array;
 
 /**
  * Base catalogues binary operation class.
@@ -98,7 +96,7 @@ abstract class AbstractOperation implements OperationInterface
 
     public function getMessages(string $domain): array
     {
-        if (!in_array($domain, $this->getDomains())) {
+        if (!\in_array($domain, $this->getDomains())) {
             throw new InvalidArgumentException(sprintf('Invalid domain: "%s".', $domain));
         }
 
@@ -111,7 +109,7 @@ abstract class AbstractOperation implements OperationInterface
 
     public function getNewMessages(string $domain): array
     {
-        if (!in_array($domain, $this->getDomains())) {
+        if (!\in_array($domain, $this->getDomains())) {
             throw new InvalidArgumentException(sprintf('Invalid domain: "%s".', $domain));
         }
 
@@ -124,7 +122,7 @@ abstract class AbstractOperation implements OperationInterface
 
     public function getObsoleteMessages(string $domain): array
     {
-        if (!in_array($domain, $this->getDomains())) {
+        if (!\in_array($domain, $this->getDomains())) {
             throw new InvalidArgumentException(sprintf('Invalid domain: "%s".', $domain));
         }
 
@@ -152,7 +150,7 @@ abstract class AbstractOperation implements OperationInterface
     public function moveMessagesToIntlDomainsIfPossible(string $batch = self::ALL_BATCH): void
     {
         // If MessageFormatter class does not exists, intl domains are not supported.
-        if (!class_exists(MessageFormatter::class)) {
+        if (!class_exists(\MessageFormatter::class)) {
             return;
         }
 

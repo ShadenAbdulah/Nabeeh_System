@@ -12,11 +12,6 @@
 namespace Symfony\Component\Translation\Loader;
 
 use Symfony\Component\Translation\Exception\InvalidResourceException;
-use const JSON_ERROR_CTRL_CHAR;
-use const JSON_ERROR_DEPTH;
-use const JSON_ERROR_STATE_MISMATCH;
-use const JSON_ERROR_SYNTAX;
-use const JSON_ERROR_UTF8;
 
 /**
  * JsonFileLoader loads translations from an json file.
@@ -45,11 +40,11 @@ class JsonFileLoader extends FileLoader
     private function getJSONErrorMessage(int $errorCode): string
     {
         return match ($errorCode) {
-            JSON_ERROR_DEPTH => 'Maximum stack depth exceeded',
-            JSON_ERROR_STATE_MISMATCH => 'Underflow or the modes mismatch',
-            JSON_ERROR_CTRL_CHAR => 'Unexpected control character found',
-            JSON_ERROR_SYNTAX => 'Syntax error, malformed JSON',
-            JSON_ERROR_UTF8 => 'Malformed UTF-8 characters, possibly incorrectly encoded',
+            \JSON_ERROR_DEPTH => 'Maximum stack depth exceeded',
+            \JSON_ERROR_STATE_MISMATCH => 'Underflow or the modes mismatch',
+            \JSON_ERROR_CTRL_CHAR => 'Unexpected control character found',
+            \JSON_ERROR_SYNTAX => 'Syntax error, malformed JSON',
+            \JSON_ERROR_UTF8 => 'Malformed UTF-8 characters, possibly incorrectly encoded',
             default => 'Unknown error',
         };
     }

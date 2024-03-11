@@ -12,7 +12,7 @@ abstract class Compiler
     /**
      * The filesystem instance.
      *
-     * @var Filesystem
+     * @var \Illuminate\Filesystem\Filesystem
      */
     protected $files;
 
@@ -47,14 +47,14 @@ abstract class Compiler
     /**
      * Create a new compiler instance.
      *
-     * @param Filesystem $files
+     * @param  \Illuminate\Filesystem\Filesystem  $files
      * @param  string  $cachePath
      * @param  string  $basePath
      * @param  bool  $shouldCache
      * @param  string  $compiledExtension
      * @return void
      *
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     public function __construct(
         Filesystem $files,
@@ -91,7 +91,7 @@ abstract class Compiler
      * @param  string  $path
      * @return bool
      *
-     * @throws ErrorException
+     * @throws \ErrorException
      */
     public function isExpired($path)
     {

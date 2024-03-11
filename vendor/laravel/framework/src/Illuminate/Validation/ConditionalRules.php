@@ -2,9 +2,6 @@
 
 namespace Illuminate\Validation;
 
-use Closure;
-use Illuminate\Contracts\Validation\InvokableRule;
-use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Support\Fluent;
 
 class ConditionalRules
@@ -19,22 +16,14 @@ class ConditionalRules
     /**
      * The rules to be added to the attribute.
      *
-<<<<<<< HEAD
-     * @var ValidationRule|InvokableRule|\Illuminate\Contracts\Validation\Rule|Closure|array|string
-=======
-     * @var array|string|\Closure
->>>>>>> parent of c8b1139b (update Ui)
+     * @var \Illuminate\Contracts\Validation\ValidationRule|\Illuminate\Contracts\Validation\InvokableRule|\Illuminate\Contracts\Validation\Rule|\Closure|array|string
      */
     protected $rules;
 
     /**
      * The rules to be added to the attribute if the condition fails.
      *
-<<<<<<< HEAD
-     * @var ValidationRule|InvokableRule|\Illuminate\Contracts\Validation\Rule|Closure|array|string
-=======
-     * @var array|string|\Closure
->>>>>>> parent of c8b1139b (update Ui)
+     * @var \Illuminate\Contracts\Validation\ValidationRule|\Illuminate\Contracts\Validation\InvokableRule|\Illuminate\Contracts\Validation\Rule|\Closure|array|string
      */
     protected $defaultRules;
 
@@ -42,13 +31,8 @@ class ConditionalRules
      * Create a new conditional rules instance.
      *
      * @param  callable|bool  $condition
-<<<<<<< HEAD
-     * @param  ValidationRule|InvokableRule|\Illuminate\Contracts\Validation\Rule|Closure|array|string  $rules
-     * @param  ValidationRule|InvokableRule|\Illuminate\Contracts\Validation\Rule|Closure|array|string  $defaultRules
-=======
-     * @param  array|string|\Closure  $rules
-     * @param  array|string|\Closure  $defaultRules
->>>>>>> parent of c8b1139b (update Ui)
+     * @param  \Illuminate\Contracts\Validation\ValidationRule|\Illuminate\Contracts\Validation\InvokableRule|\Illuminate\Contracts\Validation\Rule|\Closure|array|string  $rules
+     * @param  \Illuminate\Contracts\Validation\ValidationRule|\Illuminate\Contracts\Validation\InvokableRule|\Illuminate\Contracts\Validation\Rule|\Closure|array|string  $defaultRules
      * @return void
      */
     public function __construct($condition, $rules, $defaultRules = [])

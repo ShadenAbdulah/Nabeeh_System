@@ -103,7 +103,7 @@ if (! function_exists('e')) {
     /**
      * Encode HTML special characters in a string.
      *
-     * @param DeferringDisplayableValue|Htmlable|BackedEnum|string|null  $value
+     * @param  \Illuminate\Contracts\Support\DeferringDisplayableValue|\Illuminate\Contracts\Support\Htmlable|\BackedEnum|string|null  $value
      * @param  bool  $doubleEncode
      * @return string
      */
@@ -222,11 +222,11 @@ if (! function_exists('retry')) {
      *
      * @param  int|array  $times
      * @param  callable  $callback
-     * @param  int|Closure $sleepMilliseconds
+     * @param  int|\Closure  $sleepMilliseconds
      * @param  callable|null  $when
      * @return mixed
      *
-     * @throws Exception
+     * @throws \Exception
      */
     function retry($times, callable $callback, $sleepMilliseconds = 0, $when = null)
     {
@@ -314,7 +314,7 @@ if (! function_exists('throw_if')) {
     /**
      * Throw the given exception if the given condition is true.
      *
-     * @template TException of Throwable
+     * @template TException of \Throwable
      *
      * @param  mixed  $condition
      * @param  TException|class-string<TException>|string  $exception
@@ -341,7 +341,7 @@ if (! function_exists('throw_unless')) {
     /**
      * Throw the given exception unless the given condition is true.
      *
-     * @template TException of Throwable
+     * @template TException of \Throwable
      *
      * @param  mixed  $condition
      * @param  TException|class-string<TException>|string  $exception

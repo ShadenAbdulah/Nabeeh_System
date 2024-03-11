@@ -11,7 +11,6 @@
 
 namespace Symfony\Component\Mailer\Transport;
 
-use InvalidArgumentException;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Mailer\Envelope;
@@ -50,13 +49,13 @@ class SendmailTransport extends AbstractTransport
      *
      * -f<sender> flag will be appended automatically if one is not present.
      */
-    public function __construct(string $command = null, EventDispatcherInterface $dispatcher = null, LoggerInterface $logger = null)
+    public function __construct(?string $command = null, ?EventDispatcherInterface $dispatcher = null, ?LoggerInterface $logger = null)
     {
         parent::__construct($dispatcher, $logger);
 
         if (null !== $command) {
             if (!str_contains($command, ' -bs') && !str_contains($command, ' -t')) {
-                throw new InvalidArgumentException(sprintf('Unsupported sendmail command flags "%s"; must be one of "-bs" or "-t" but can include additional flags.', $command));
+                throw new \InvalidArgumentException(sprintf('Unsupported sendmail command flags "%s"; must be one of "-bs" or "-t" but can include additional flags.', $command));
             }
 
             $this->command = $command;
@@ -69,7 +68,7 @@ class SendmailTransport extends AbstractTransport
         }
     }
 
-    public function send(RawMessage $message, Envelope $envelope = null): ?SentMessage
+    public function send(RawMessage $message, ?Envelope $envelope = null): ?SentMessage
     {
         if ($this->transport) {
             return $this->transport->send($message, $envelope);

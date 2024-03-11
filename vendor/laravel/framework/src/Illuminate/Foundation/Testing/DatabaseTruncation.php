@@ -73,7 +73,7 @@ trait DatabaseTruncation
     /**
      * Truncate the database tables for the given database connection.
      *
-     * @param ConnectionInterface $connection
+     * @param  \Illuminate\Database\ConnectionInterface  $connection
      * @param  string|null  $name
      * @return void
      */
@@ -98,7 +98,7 @@ trait DatabaseTruncation
     /**
      * Remove the table prefix from a table name, if it exists.
      *
-     * @param ConnectionInterface $connection
+     * @param  \Illuminate\Database\ConnectionInterface  $connection
      * @param  string  $table
      * @return string
      */

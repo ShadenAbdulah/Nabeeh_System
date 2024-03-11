@@ -3,17 +3,16 @@
 namespace Illuminate\Queue;
 
 use Closure;
-use DateInterval;
 use DateTimeInterface;
 use Illuminate\Container\Container;
 use Illuminate\Contracts\Encryption\Encrypter;
 use Illuminate\Contracts\Queue\ShouldBeEncrypted;
 use Illuminate\Contracts\Queue\ShouldQueueAfterCommit;
 use Illuminate\Queue\Events\JobQueued;
+use Illuminate\Queue\Events\JobQueueing;
 use Illuminate\Support\Arr;
 use Illuminate\Support\InteractsWithTime;
 use Illuminate\Support\Str;
-use const JSON_UNESCAPED_UNICODE;
 
 abstract class Queue
 {
@@ -22,7 +21,7 @@ abstract class Queue
     /**
      * The IoC container instance.
      *
-     * @var Container
+     * @var \Illuminate\Container\Container
      */
     protected $container;
 
@@ -64,7 +63,7 @@ abstract class Queue
      * Push a new job onto a specific queue after (n) seconds.
      *
      * @param  string  $queue
-     * @param DateTimeInterface|DateInterval|int  $delay
+     * @param  \DateTimeInterface|\DateInterval|int  $delay
      * @param  string  $job
      * @param  mixed  $data
      * @return mixed
@@ -92,12 +91,12 @@ abstract class Queue
     /**
      * Create a payload string from the given job and data.
      *
-     * @param Closure|string|object  $job
+     * @param  \Closure|string|object  $job
      * @param  string  $queue
      * @param  mixed  $data
      * @return string
      *
-     * @throws InvalidPayloadException
+     * @throws \Illuminate\Queue\InvalidPayloadException
      */
     protected function createPayload($job, $queue, $data = '')
     {
@@ -105,7 +104,7 @@ abstract class Queue
             $job = CallQueuedClosure::create($job);
         }
 
-        $payload = json_encode($value = $this->createPayloadArray($job, $queue, $data), JSON_UNESCAPED_UNICODE);
+        $payload = json_encode($value = $this->createPayloadArray($job, $queue, $data), \JSON_UNESCAPED_UNICODE);
 
         if (json_last_error() !== JSON_ERROR_NONE) {
             throw new InvalidPayloadException(
@@ -316,10 +315,10 @@ abstract class Queue
     /**
      * Enqueue a job using the given callback.
      *
-     * @param Closure|string|object  $job
+     * @param  \Closure|string|object  $job
      * @param  string  $payload
      * @param  string  $queue
-     * @param DateTimeInterface|DateInterval|int|null  $delay
+     * @param  \DateTimeInterface|\DateInterval|int|null  $delay
      * @param  callable  $callback
      * @return mixed
      */
@@ -329,12 +328,16 @@ abstract class Queue
             $this->container->bound('db.transactions')) {
             return $this->container->make('db.transactions')->addCallback(
                 function () use ($payload, $queue, $delay, $callback, $job) {
+                    $this->raiseJobQueueingEvent($job, $payload);
+
                     return tap($callback($payload, $queue, $delay), function ($jobId) use ($job, $payload) {
                         $this->raiseJobQueuedEvent($jobId, $job, $payload);
                     });
                 }
             );
         }
+
+        $this->raiseJobQueueingEvent($job, $payload);
 
         return tap($callback($payload, $queue, $delay), function ($jobId) use ($job, $payload) {
             $this->raiseJobQueuedEvent($jobId, $job, $payload);
@@ -344,7 +347,7 @@ abstract class Queue
     /**
      * Determine if the job should be dispatched after all database transactions have committed.
      *
-     * @param Closure|string|object  $job
+     * @param  \Closure|string|object  $job
      * @return bool
      */
     protected function shouldDispatchAfterCommit($job)
@@ -365,10 +368,9 @@ abstract class Queue
     }
 
     /**
-<<<<<<< HEAD
      * Raise the job queueing event.
      *
-     * @param Closure|string|object  $job
+     * @param  \Closure|string|object  $job
      * @param  string  $payload
      * @return void
      */
@@ -380,12 +382,10 @@ abstract class Queue
     }
 
     /**
-=======
->>>>>>> parent of c8b1139b (update Ui)
      * Raise the job queued event.
      *
      * @param  string|int|null  $jobId
-     * @param Closure|string|object  $job
+     * @param  \Closure|string|object  $job
      * @param  string  $payload
      * @return void
      */
@@ -422,7 +422,7 @@ abstract class Queue
     /**
      * Get the container instance being used by the connection.
      *
-     * @return Container
+     * @return \Illuminate\Container\Container
      */
     public function getContainer()
     {
@@ -432,7 +432,7 @@ abstract class Queue
     /**
      * Set the IoC container instance.
      *
-     * @param Container $container
+     * @param  \Illuminate\Container\Container  $container
      * @return void
      */
     public function setContainer(Container $container)

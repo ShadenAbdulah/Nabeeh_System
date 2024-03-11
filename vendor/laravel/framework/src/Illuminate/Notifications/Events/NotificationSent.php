@@ -3,7 +3,6 @@
 namespace Illuminate\Notifications\Events;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Notification;
 use Illuminate\Queue\SerializesModels;
 
 class NotificationSent
@@ -20,7 +19,7 @@ class NotificationSent
     /**
      * The notification instance.
      *
-     * @var Notification
+     * @var \Illuminate\Notifications\Notification
      */
     public $notification;
 
@@ -42,7 +41,7 @@ class NotificationSent
      * Create a new event instance.
      *
      * @param  mixed  $notifiable
-     * @param  Notification  $notification
+     * @param  \Illuminate\Notifications\Notification  $notification
      * @param  string  $channel
      * @param  mixed  $response
      * @return void

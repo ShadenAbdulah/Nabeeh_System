@@ -11,9 +11,6 @@
 
 namespace Symfony\Component\HttpKernel\DataCollector;
 
-use DateTimeImmutable;
-use DateTimeInterface;
-use ErrorException;
 use Symfony\Component\ErrorHandler\Exception\SilencedErrorContext;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -21,11 +18,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Log\DebugLoggerConfigurator;
 use Symfony\Component\HttpKernel\Log\DebugLoggerInterface;
 use Symfony\Component\VarDumper\Cloner\Data;
-use Throwable;
-use function in_array;
-use const E_DEPRECATED;
-use const E_USER_DEPRECATED;
-use const FILE_IGNORE_NEW_LINES;
 
 /**
  * @author Fabien Potencier <fabien@symfony.com>
@@ -40,18 +32,14 @@ class LoggerDataCollector extends DataCollector implements LateDataCollectorInte
     private ?RequestStack $requestStack;
     private ?array $processedLogs = null;
 
-    public function __construct(object $logger = null, string $containerPathPrefix = null, RequestStack $requestStack = null)
+    public function __construct(?object $logger = null, ?string $containerPathPrefix = null, ?RequestStack $requestStack = null)
     {
         $this->logger = DebugLoggerConfigurator::getDebugLogger($logger);
         $this->containerPathPrefix = $containerPathPrefix;
         $this->requestStack = $requestStack;
     }
 
-<<<<<<< HEAD
-    public function collect(Request $request, Response $response, ?Throwable $exception = null): void
-=======
-    public function collect(Request $request, Response $response, \Throwable $exception = null): void
->>>>>>> parent of c8b1139b (update Ui)
+    public function collect(Request $request, Response $response, ?\Throwable $exception = null): void
     {
         $this->currentRequest = $this->requestStack && $this->requestStack->getMainRequest() !== $request ? $request : null;
     }
@@ -199,7 +187,7 @@ class LoggerDataCollector extends DataCollector implements LateDataCollectorInte
         foreach (unserialize($logContent) as $log) {
             $log['context'] = ['exception' => new SilencedErrorContext($log['type'], $log['file'], $log['line'], $log['trace'], $log['count'])];
             $log['timestamp'] = $bootTime;
-            $log['timestamp_rfc3339'] = (new DateTimeImmutable())->setTimestamp($bootTime)->format(DateTimeInterface::RFC3339_EXTENDED);
+            $log['timestamp_rfc3339'] = (new \DateTimeImmutable())->setTimestamp($bootTime)->format(\DateTimeInterface::RFC3339_EXTENDED);
             $log['priority'] = 100;
             $log['priorityName'] = 'DEBUG';
             $log['channel'] = null;
@@ -211,14 +199,14 @@ class LoggerDataCollector extends DataCollector implements LateDataCollectorInte
         return $logs;
     }
 
-    private function getContainerCompilerLogs(string $compilerLogsFilepath = null): array
+    private function getContainerCompilerLogs(?string $compilerLogsFilepath = null): array
     {
         if (!$compilerLogsFilepath || !is_file($compilerLogsFilepath)) {
             return [];
         }
 
         $logs = [];
-        foreach (file($compilerLogsFilepath, FILE_IGNORE_NEW_LINES) as $log) {
+        foreach (file($compilerLogsFilepath, \FILE_IGNORE_NEW_LINES) as $log) {
             $log = explode(': ', $log, 2);
             if (!isset($log[1]) || !preg_match('/^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*+(?:\\\\[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*+)++$/', $log[0])) {
                 $log = ['Unknown Compiler Pass', implode(': ', $log)];
@@ -291,7 +279,7 @@ class LoggerDataCollector extends DataCollector implements LateDataCollectorInte
             return true;
         }
 
-        if ($exception instanceof ErrorException && in_array($exception->getSeverity(), [E_DEPRECATED, E_USER_DEPRECATED], true)) {
+        if ($exception instanceof \ErrorException && \in_array($exception->getSeverity(), [\E_DEPRECATED, \E_USER_DEPRECATED], true)) {
             return true;
         }
 

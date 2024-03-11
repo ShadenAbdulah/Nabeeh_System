@@ -2,15 +2,12 @@
 
 namespace Illuminate\Contracts\Broadcasting;
 
-use Illuminate\Broadcasting\BroadcastException;
-use Illuminate\Http\Request;
-
 interface Broadcaster
 {
     /**
      * Authenticate the incoming request for a given channel.
      *
-     * @param  Request  $request
+     * @param  \Illuminate\Http\Request  $request
      * @return mixed
      */
     public function auth($request);
@@ -18,7 +15,7 @@ interface Broadcaster
     /**
      * Return the valid authentication response.
      *
-     * @param  Request  $request
+     * @param  \Illuminate\Http\Request  $request
      * @param  mixed  $result
      * @return mixed
      */
@@ -32,7 +29,7 @@ interface Broadcaster
      * @param  array  $payload
      * @return void
      *
-     * @throws BroadcastException
+     * @throws \Illuminate\Broadcasting\BroadcastException
      */
     public function broadcast(array $channels, $event, array $payload = []);
 }

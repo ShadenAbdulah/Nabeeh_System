@@ -14,7 +14,7 @@ class LoadEnvironmentVariables
     /**
      * Bootstrap the given application.
      *
-     * @param Application $app
+     * @param  \Illuminate\Contracts\Foundation\Application  $app
      * @return void
      */
     public function bootstrap(Application $app)
@@ -35,7 +35,7 @@ class LoadEnvironmentVariables
     /**
      * Detect if a custom environment file matching the APP_ENV exists.
      *
-     * @param Application $app
+     * @param  \Illuminate\Contracts\Foundation\Application  $app
      * @return void
      */
     protected function checkForSpecificEnvironmentFile($app)
@@ -60,7 +60,7 @@ class LoadEnvironmentVariables
     /**
      * Load a custom environment file.
      *
-     * @param Application $app
+     * @param  \Illuminate\Contracts\Foundation\Application  $app
      * @param  string  $file
      * @return bool
      */
@@ -78,8 +78,8 @@ class LoadEnvironmentVariables
     /**
      * Create a Dotenv instance.
      *
-     * @param Application $app
-     * @return Dotenv
+     * @param  \Illuminate\Contracts\Foundation\Application  $app
+     * @return \Dotenv\Dotenv
      */
     protected function createDotenv($app)
     {
@@ -93,7 +93,7 @@ class LoadEnvironmentVariables
     /**
      * Write the error information to the screen and exit.
      *
-     * @param InvalidFileException $e
+     * @param  \Dotenv\Exception\InvalidFileException  $e
      * @return void
      */
     protected function writeErrorAndDie(InvalidFileException $e)

@@ -11,7 +11,6 @@
 
 namespace Symfony\Component\Uid\Command;
 
-use InvalidArgumentException;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\TableSeparator;
@@ -52,7 +51,7 @@ EOF
         try {
             /** @var Uuid $uuid */
             $uuid = Uuid::fromString($input->getArgument('uuid'));
-        } catch (InvalidArgumentException $e) {
+        } catch (\InvalidArgumentException $e) {
             $io->error($e->getMessage());
 
             return 1;

@@ -49,7 +49,7 @@ class MorphOne extends MorphOneOrMany implements SupportsPartialRelations
      * Match the eagerly loaded results to their parents.
      *
      * @param  array  $models
-     * @param Collection $results
+     * @param  \Illuminate\Database\Eloquent\Collection  $results
      * @param  string  $relation
      * @return array
      */
@@ -61,10 +61,10 @@ class MorphOne extends MorphOneOrMany implements SupportsPartialRelations
     /**
      * Get the relationship query.
      *
-     * @param Builder $query
-     * @param Builder $parentQuery
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  \Illuminate\Database\Eloquent\Builder  $parentQuery
      * @param  array|mixed  $columns
-     * @return Builder
+     * @return \Illuminate\Database\Eloquent\Builder
      */
     public function getRelationExistenceQuery(Builder $query, Builder $parentQuery, $columns = ['*'])
     {
@@ -78,7 +78,7 @@ class MorphOne extends MorphOneOrMany implements SupportsPartialRelations
     /**
      * Add constraints for inner join subselect for one of many relationships.
      *
-     * @param Builder $query
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
      * @param  string|null  $column
      * @param  string|null  $aggregate
      * @return void
@@ -101,7 +101,7 @@ class MorphOne extends MorphOneOrMany implements SupportsPartialRelations
     /**
      * Add join query constraints for one of many relationships.
      *
-     * @param JoinClause $join
+     * @param  \Illuminate\Database\Query\JoinClause  $join
      * @return void
      */
     public function addOneOfManyJoinSubQueryConstraints(JoinClause $join)
@@ -114,8 +114,8 @@ class MorphOne extends MorphOneOrMany implements SupportsPartialRelations
     /**
      * Make a new related instance for the given model.
      *
-     * @param Model $parent
-     * @return Model
+     * @param  \Illuminate\Database\Eloquent\Model  $parent
+     * @return \Illuminate\Database\Eloquent\Model
      */
     public function newRelatedInstanceFor(Model $parent)
     {
@@ -127,7 +127,7 @@ class MorphOne extends MorphOneOrMany implements SupportsPartialRelations
     /**
      * Get the value of the model's foreign key.
      *
-     * @param Model $model
+     * @param  \Illuminate\Database\Eloquent\Model  $model
      * @return mixed
      */
     protected function getRelatedKeyFrom(Model $model)

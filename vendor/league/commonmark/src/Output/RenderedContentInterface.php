@@ -14,9 +14,8 @@ declare(strict_types=1);
 namespace League\CommonMark\Output;
 
 use League\CommonMark\Node\Block\Document;
-use Stringable;
 
-interface RenderedContentInterface extends Stringable
+interface RenderedContentInterface extends \Stringable
 {
     /**
      * @psalm-mutation-free

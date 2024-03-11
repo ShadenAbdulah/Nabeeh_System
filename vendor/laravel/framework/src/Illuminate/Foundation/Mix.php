@@ -13,9 +13,9 @@ class Mix
      *
      * @param  string  $path
      * @param  string  $manifestDirectory
-     * @return HtmlString|string
+     * @return \Illuminate\Support\HtmlString|string
      *
-     * @throws Exception
+     * @throws \Exception
      */
     public function __invoke($path, $manifestDirectory = '')
     {

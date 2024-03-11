@@ -7,15 +7,13 @@ use Illuminate\Contracts\Auth\Authenticatable as UserContract;
 use Illuminate\Contracts\Auth\UserProvider;
 use Illuminate\Contracts\Hashing\Hasher as HasherContract;
 use Illuminate\Contracts\Support\Arrayable;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
 
 class EloquentUserProvider implements UserProvider
 {
     /**
      * The hasher implementation.
      *
-     * @var HasherContract
+     * @var \Illuminate\Contracts\Hashing\Hasher
      */
     protected $hasher;
 
@@ -29,14 +27,14 @@ class EloquentUserProvider implements UserProvider
     /**
      * The callback that may modify the user retrieval queries.
      *
-     * @var (Closure(Builder):mixed)|null
+     * @var (\Closure(\Illuminate\Database\Eloquent\Builder):mixed)|null
      */
     protected $queryCallback;
 
     /**
      * Create a new database user provider.
      *
-     * @param HasherContract $hasher
+     * @param  \Illuminate\Contracts\Hashing\Hasher  $hasher
      * @param  string  $model
      * @return void
      */
@@ -50,7 +48,7 @@ class EloquentUserProvider implements UserProvider
      * Retrieve a user by their unique identifier.
      *
      * @param  mixed  $identifier
-     * @return UserContract|null
+     * @return \Illuminate\Contracts\Auth\Authenticatable|null
      */
     public function retrieveById($identifier)
     {
@@ -66,7 +64,7 @@ class EloquentUserProvider implements UserProvider
      *
      * @param  mixed  $identifier
      * @param  string  $token
-     * @return UserContract|null
+     * @return \Illuminate\Contracts\Auth\Authenticatable|null
      */
     public function retrieveByToken($identifier, $token)
     {
@@ -88,7 +86,7 @@ class EloquentUserProvider implements UserProvider
     /**
      * Update the "remember me" token for the given user in storage.
      *
-     * @param UserContract $user
+     * @param  \Illuminate\Contracts\Auth\Authenticatable  $user
      * @param  string  $token
      * @return void
      */
@@ -109,7 +107,7 @@ class EloquentUserProvider implements UserProvider
      * Retrieve a user by the given credentials.
      *
      * @param  array  $credentials
-     * @return UserContract|null
+     * @return \Illuminate\Contracts\Auth\Authenticatable|null
      */
     public function retrieveByCredentials(array $credentials)
     {
@@ -144,7 +142,7 @@ class EloquentUserProvider implements UserProvider
     /**
      * Validate a user against the given credentials.
      *
-     * @param UserContract $user
+     * @param  \Illuminate\Contracts\Auth\Authenticatable  $user
      * @param  array  $credentials
      * @return bool
      */
@@ -160,8 +158,8 @@ class EloquentUserProvider implements UserProvider
     /**
      * Get a new query builder for the model instance.
      *
-     * @param  Model|null  $model
-     * @return Builder
+     * @param  \Illuminate\Database\Eloquent\Model|null  $model
+     * @return \Illuminate\Database\Eloquent\Builder
      */
     protected function newModelQuery($model = null)
     {
@@ -177,7 +175,7 @@ class EloquentUserProvider implements UserProvider
     /**
      * Create a new instance of the model.
      *
-     * @return Model
+     * @return \Illuminate\Database\Eloquent\Model
      */
     public function createModel()
     {
@@ -189,7 +187,7 @@ class EloquentUserProvider implements UserProvider
     /**
      * Gets the hasher implementation.
      *
-     * @return HasherContract
+     * @return \Illuminate\Contracts\Hashing\Hasher
      */
     public function getHasher()
     {
@@ -199,7 +197,7 @@ class EloquentUserProvider implements UserProvider
     /**
      * Sets the hasher implementation.
      *
-     * @param HasherContract $hasher
+     * @param  \Illuminate\Contracts\Hashing\Hasher  $hasher
      * @return $this
      */
     public function setHasher(HasherContract $hasher)
@@ -235,7 +233,7 @@ class EloquentUserProvider implements UserProvider
     /**
      * Get the callback that modifies the query before retrieving users.
      *
-     * @return Closure|null
+     * @return \Closure|null
      */
     public function getQueryCallback()
     {
@@ -245,7 +243,7 @@ class EloquentUserProvider implements UserProvider
     /**
      * Sets the callback to modify the query before retrieving users.
      *
-     * @param  (Closure(Builder):mixed)|null  $queryCallback
+     * @param  (\Closure(\Illuminate\Database\Eloquent\Builder):mixed)|null  $queryCallback
      * @return $this
      */
     public function withQuery($queryCallback = null)

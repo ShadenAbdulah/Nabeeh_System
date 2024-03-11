@@ -3,25 +3,22 @@
 namespace Illuminate\Auth\Middleware;
 
 use Closure;
-use Illuminate\Auth\Access\AuthorizationException;
-use Illuminate\Auth\AuthenticationException;
 use Illuminate\Contracts\Auth\Access\Gate;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Http\Request;
 
 class Authorize
 {
     /**
      * The gate instance.
      *
-     * @var Gate
+     * @var \Illuminate\Contracts\Auth\Access\Gate
      */
     protected $gate;
 
     /**
      * Create a new middleware instance.
      *
-     * @param Gate $gate
+     * @param  \Illuminate\Contracts\Auth\Access\Gate  $gate
      * @return void
      */
     public function __construct(Gate $gate)
@@ -44,14 +41,14 @@ class Authorize
     /**
      * Handle an incoming request.
      *
-     * @param  Request  $request
-     * @param Closure $next
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Closure  $next
      * @param  string  $ability
      * @param  array|null  ...$models
      * @return mixed
      *
-     * @throws AuthenticationException
-     * @throws AuthorizationException
+     * @throws \Illuminate\Auth\AuthenticationException
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function handle($request, Closure $next, $ability, ...$models)
     {
@@ -63,9 +60,9 @@ class Authorize
     /**
      * Get the arguments parameter for the gate.
      *
-     * @param  Request  $request
+     * @param  \Illuminate\Http\Request  $request
      * @param  array|null  $models
-     * @return Model|array|string
+     * @return \Illuminate\Database\Eloquent\Model|array|string
      */
     protected function getGateArguments($request, $models)
     {
@@ -81,9 +78,9 @@ class Authorize
     /**
      * Get the model to authorize.
      *
-     * @param  Request  $request
+     * @param  \Illuminate\Http\Request  $request
      * @param  string  $model
-     * @return Model|string
+     * @return \Illuminate\Database\Eloquent\Model|string
      */
     protected function getModel($request, $model)
     {

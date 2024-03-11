@@ -9,9 +9,7 @@ declare(strict_types=1);
 
 namespace Nette\Utils;
 
-use DateTimeInterface;
 use Nette;
-use TypeError;
 
 
 /**
@@ -160,7 +158,7 @@ class Validators
 					if (!static::$validators[$type]($value)) {
 						continue;
 					}
-				} catch (TypeError $e) {
+				} catch (\TypeError $e) {
 					continue;
 				}
 			} elseif ($type === 'pattern') {
@@ -301,8 +299,8 @@ class Validators
 		$limit = $range[0] ?? $range[1];
 		if (is_string($limit)) {
 			$value = (string) $value;
-		} elseif ($limit instanceof DateTimeInterface) {
-			if (!$value instanceof DateTimeInterface) {
+		} elseif ($limit instanceof \DateTimeInterface) {
+			if (!$value instanceof \DateTimeInterface) {
 				return false;
 			}
 		} elseif (is_numeric($value)) {

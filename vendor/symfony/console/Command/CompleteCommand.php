@@ -11,7 +11,6 @@
 
 namespace Symfony\Component\Console\Command;
 
-use RuntimeException;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Completion\CompletionInput;
 use Symfony\Component\Console\Completion\CompletionSuggestions;
@@ -24,11 +23,6 @@ use Symfony\Component\Console\Exception\ExceptionInterface;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Throwable;
-use function in_array;
-use const FILE_APPEND;
-use const FILTER_VALIDATE_BOOL;
-use const PHP_EOL;
 
 /**
  * Responsible for providing the values to the shell completion.
@@ -82,7 +76,7 @@ final class CompleteCommand extends Command
 
     protected function initialize(InputInterface $input, OutputInterface $output): void
     {
-        $this->isDebug = filter_var(getenv('SYMFONY_COMPLETION_DEBUG'), FILTER_VALIDATE_BOOL);
+        $this->isDebug = filter_var(getenv('SYMFONY_COMPLETION_DEBUG'), \FILTER_VALIDATE_BOOL);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -101,11 +95,11 @@ final class CompleteCommand extends Command
 
             $shell = $input->getOption('shell');
             if (!$shell) {
-                throw new RuntimeException('The "--shell" option must be set.');
+                throw new \RuntimeException('The "--shell" option must be set.');
             }
 
             if (!$completionOutput = $this->completionOutputs[$shell] ?? false) {
-                throw new RuntimeException(sprintf('Shell completion is not supported for your shell: "%s" (supported: "%s").', $shell, implode('", "', array_keys($this->completionOutputs))));
+                throw new \RuntimeException(sprintf('Shell completion is not supported for your shell: "%s" (supported: "%s").', $shell, implode('", "', array_keys($this->completionOutputs))));
             }
 
             $completionInput = $this->createCompletionInput($input);
@@ -129,7 +123,7 @@ final class CompleteCommand extends Command
             } elseif (
                 $completionInput->mustSuggestArgumentValuesFor('command')
                 && $command->getName() !== $completionInput->getCompletionValue()
-                && !in_array($completionInput->getCompletionValue(), $command->getAliases(), true)
+                && !\in_array($completionInput->getCompletionValue(), $command->getAliases(), true)
             ) {
                 $this->log('  No command found, completing using the Application class.');
 
@@ -169,7 +163,7 @@ final class CompleteCommand extends Command
             }
 
             $completionOutput->write($suggestions, $output);
-        } catch (Throwable $e) {
+        } catch (\Throwable $e) {
             $this->log([
                 '<error>Error!</error>',
                 (string) $e,
@@ -189,7 +183,7 @@ final class CompleteCommand extends Command
     {
         $currentIndex = $input->getOption('current');
         if (!$currentIndex || !ctype_digit($currentIndex)) {
-            throw new RuntimeException('The "--current" option must be set and it must be an integer.');
+            throw new \RuntimeException('The "--current" option must be set and it must be an integer.');
         }
 
         $completionInput = CompletionInput::fromTokens($input->getOption('input'), (int) $currentIndex);
@@ -224,6 +218,6 @@ final class CompleteCommand extends Command
         }
 
         $commandName = basename($_SERVER['argv'][0]);
-        file_put_contents(sys_get_temp_dir().'/sf_'.$commandName.'.log', implode(PHP_EOL, (array) $messages). PHP_EOL, FILE_APPEND);
+        file_put_contents(sys_get_temp_dir().'/sf_'.$commandName.'.log', implode(\PHP_EOL, (array) $messages).\PHP_EOL, \FILE_APPEND);
     }
 }

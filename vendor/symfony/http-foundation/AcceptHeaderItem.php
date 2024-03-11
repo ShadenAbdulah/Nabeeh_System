@@ -11,8 +11,6 @@
 
 namespace Symfony\Component\HttpFoundation;
 
-use function count;
-
 /**
  * Represents an Accept-* header item.
  *
@@ -52,7 +50,7 @@ class AcceptHeaderItem
     public function __toString(): string
     {
         $string = $this->value.($this->quality < 1 ? ';q='.$this->quality : '');
-        if (count($this->attributes) > 0) {
+        if (\count($this->attributes) > 0) {
             $string .= '; '.HeaderUtils::toString($this->attributes, ';');
         }
 

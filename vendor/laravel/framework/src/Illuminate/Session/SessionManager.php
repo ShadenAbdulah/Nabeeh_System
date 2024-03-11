@@ -2,12 +2,10 @@
 
 namespace Illuminate\Session;
 
-use Illuminate\Database\Connection;
 use Illuminate\Support\Manager;
-use SessionHandlerInterface;
 
 /**
- * @mixin Store
+ * @mixin \Illuminate\Session\Store
  */
 class SessionManager extends Manager
 {
@@ -15,7 +13,7 @@ class SessionManager extends Manager
      * Call a custom driver creator.
      *
      * @param  string  $driver
-     * @return Store
+     * @return \Illuminate\Session\Store
      */
     protected function callCustomCreator($driver)
     {
@@ -25,7 +23,7 @@ class SessionManager extends Manager
     /**
      * Create an instance of the "null" session driver.
      *
-     * @return Store
+     * @return \Illuminate\Session\Store
      */
     protected function createNullDriver()
     {
@@ -35,7 +33,7 @@ class SessionManager extends Manager
     /**
      * Create an instance of the "array" session driver.
      *
-     * @return Store
+     * @return \Illuminate\Session\Store
      */
     protected function createArrayDriver()
     {
@@ -47,7 +45,7 @@ class SessionManager extends Manager
     /**
      * Create an instance of the "cookie" session driver.
      *
-     * @return Store
+     * @return \Illuminate\Session\Store
      */
     protected function createCookieDriver()
     {
@@ -61,7 +59,7 @@ class SessionManager extends Manager
     /**
      * Create an instance of the file session driver.
      *
-     * @return Store
+     * @return \Illuminate\Session\Store
      */
     protected function createFileDriver()
     {
@@ -71,7 +69,7 @@ class SessionManager extends Manager
     /**
      * Create an instance of the file session driver.
      *
-     * @return Store
+     * @return \Illuminate\Session\Store
      */
     protected function createNativeDriver()
     {
@@ -85,7 +83,7 @@ class SessionManager extends Manager
     /**
      * Create an instance of the database session driver.
      *
-     * @return Store
+     * @return \Illuminate\Session\Store
      */
     protected function createDatabaseDriver()
     {
@@ -101,7 +99,7 @@ class SessionManager extends Manager
     /**
      * Get the database connection for the database driver.
      *
-     * @return Connection
+     * @return \Illuminate\Database\Connection
      */
     protected function getDatabaseConnection()
     {
@@ -113,7 +111,7 @@ class SessionManager extends Manager
     /**
      * Create an instance of the APC session driver.
      *
-     * @return Store
+     * @return \Illuminate\Session\Store
      */
     protected function createApcDriver()
     {
@@ -123,7 +121,7 @@ class SessionManager extends Manager
     /**
      * Create an instance of the Memcached session driver.
      *
-     * @return Store
+     * @return \Illuminate\Session\Store
      */
     protected function createMemcachedDriver()
     {
@@ -133,7 +131,7 @@ class SessionManager extends Manager
     /**
      * Create an instance of the Redis session driver.
      *
-     * @return Store
+     * @return \Illuminate\Session\Store
      */
     protected function createRedisDriver()
     {
@@ -149,7 +147,7 @@ class SessionManager extends Manager
     /**
      * Create an instance of the DynamoDB session driver.
      *
-     * @return Store
+     * @return \Illuminate\Session\Store
      */
     protected function createDynamodbDriver()
     {
@@ -160,7 +158,7 @@ class SessionManager extends Manager
      * Create an instance of a cache driven driver.
      *
      * @param  string  $driver
-     * @return Store
+     * @return \Illuminate\Session\Store
      */
     protected function createCacheBased($driver)
     {
@@ -171,7 +169,7 @@ class SessionManager extends Manager
      * Create the cache based session handler instance.
      *
      * @param  string  $driver
-     * @return CacheBasedSessionHandler
+     * @return \Illuminate\Session\CacheBasedSessionHandler
      */
     protected function createCacheHandler($driver)
     {
@@ -186,8 +184,8 @@ class SessionManager extends Manager
     /**
      * Build the session instance.
      *
-     * @param  SessionHandlerInterface  $handler
-     * @return Store
+     * @param  \SessionHandlerInterface  $handler
+     * @return \Illuminate\Session\Store
      */
     protected function buildSession($handler)
     {
@@ -204,8 +202,8 @@ class SessionManager extends Manager
     /**
      * Build the encrypted session instance.
      *
-     * @param  SessionHandlerInterface  $handler
-     * @return EncryptedStore
+     * @param  \SessionHandlerInterface  $handler
+     * @return \Illuminate\Session\EncryptedStore
      */
     protected function buildEncryptedSession($handler)
     {

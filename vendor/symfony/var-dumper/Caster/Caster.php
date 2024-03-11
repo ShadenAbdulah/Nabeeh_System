@@ -11,14 +11,7 @@
 
 namespace Symfony\Component\VarDumper\Caster;
 
-use __PHP_Incomplete_Class;
-use Closure;
-use ReflectionClass;
 use Symfony\Component\VarDumper\Cloner\Stub;
-use Throwable;
-use function array_key_exists;
-use function in_array;
-use function is_array;
 
 /**
  * Helper for filtering out properties in casters.
@@ -54,24 +47,24 @@ class Caster
      *
      * @param bool $hasDebugInfo Whether the __debugInfo method exists on $obj or not
      */
-    public static function castObject(object $obj, string $class, bool $hasDebugInfo = false, string $debugClass = null): array
+    public static function castObject(object $obj, string $class, bool $hasDebugInfo = false, ?string $debugClass = null): array
     {
         if ($hasDebugInfo) {
             try {
                 $debugInfo = $obj->__debugInfo();
-            } catch (Throwable) {
+            } catch (\Throwable) {
                 // ignore failing __debugInfo()
                 $hasDebugInfo = false;
             }
         }
 
-        $a = $obj instanceof Closure ? [] : (array) $obj;
+        $a = $obj instanceof \Closure ? [] : (array) $obj;
 
-        if ($obj instanceof __PHP_Incomplete_Class) {
+        if ($obj instanceof \__PHP_Incomplete_Class) {
             return $a;
         }
 
-        $classProperties = self::$classProperties[$class] ??= self::getClassProperties(new ReflectionClass($class));
+        $classProperties = self::$classProperties[$class] ??= self::getClassProperties(new \ReflectionClass($class));
         $a = array_replace($classProperties, $a);
 
         if ($a) {
@@ -98,10 +91,10 @@ class Caster
             }
         }
 
-        if ($hasDebugInfo && is_array($debugInfo)) {
+        if ($hasDebugInfo && \is_array($debugInfo)) {
             foreach ($debugInfo as $k => $v) {
                 if (!isset($k[0]) || "\0" !== $k[0]) {
-                    if (array_key_exists(self::PREFIX_DYNAMIC.$k, $a)) {
+                    if (\array_key_exists(self::PREFIX_DYNAMIC.$k, $a)) {
                         continue;
                     }
                     $k = self::PREFIX_VIRTUAL.$k;
@@ -141,10 +134,10 @@ class Caster
             } elseif ($v instanceof UninitializedStub) {
                 $type |= self::EXCLUDE_UNINITIALIZED & $filter;
             }
-            if ((self::EXCLUDE_NOT_IMPORTANT & $filter) && !in_array($k, $listedProperties, true)) {
+            if ((self::EXCLUDE_NOT_IMPORTANT & $filter) && !\in_array($k, $listedProperties, true)) {
                 $type |= self::EXCLUDE_NOT_IMPORTANT;
             }
-            if ((self::EXCLUDE_VERBOSE & $filter) && in_array($k, $listedProperties, true)) {
+            if ((self::EXCLUDE_VERBOSE & $filter) && \in_array($k, $listedProperties, true)) {
                 $type |= self::EXCLUDE_VERBOSE;
             }
 
@@ -169,7 +162,7 @@ class Caster
         return $a;
     }
 
-    public static function castPhpIncompleteClass(__PHP_Incomplete_Class $c, array $a, Stub $stub, bool $isNested): array
+    public static function castPhpIncompleteClass(\__PHP_Incomplete_Class $c, array $a, Stub $stub, bool $isNested): array
     {
         if (isset($a['__PHP_Incomplete_Class_Name'])) {
             $stub->class .= '('.$a['__PHP_Incomplete_Class_Name'].')';
@@ -179,7 +172,7 @@ class Caster
         return $a;
     }
 
-    private static function getClassProperties(ReflectionClass $class): array
+    private static function getClassProperties(\ReflectionClass $class): array
     {
         $classProperties = [];
         $className = $class->name;

@@ -2,7 +2,6 @@
 
 namespace Illuminate\Filesystem;
 
-use Exception;
 use Illuminate\Contracts\Filesystem\LockTimeoutException;
 
 class LockableFile
@@ -63,15 +62,11 @@ class LockableFile
      * @param  string  $mode
      * @return void
      *
-     * @throws Exception
+     * @throws \Exception
      */
     protected function createResource($path, $mode)
     {
-        $this->handle = @fopen($path, $mode);
-
-        if (! $this->handle) {
-            throw new Exception('Unable to create lockable file: '.$path.'. Please ensure you have permission to create files in this location.');
-        }
+        $this->handle = fopen($path, $mode);
     }
 
     /**
@@ -132,7 +127,7 @@ class LockableFile
      * @param  bool  $block
      * @return $this
      *
-     * @throws LockTimeoutException
+     * @throws \Illuminate\Contracts\Filesystem\LockTimeoutException
      */
     public function getSharedLock($block = false)
     {
@@ -151,7 +146,7 @@ class LockableFile
      * @param  bool  $block
      * @return bool
      *
-     * @throws LockTimeoutException
+     * @throws \Illuminate\Contracts\Filesystem\LockTimeoutException
      */
     public function getExclusiveLock($block = false)
     {

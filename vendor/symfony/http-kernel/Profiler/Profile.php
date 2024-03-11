@@ -11,7 +11,6 @@
 
 namespace Symfony\Component\HttpKernel\Profiler;
 
-use InvalidArgumentException;
 use Symfony\Component\HttpKernel\DataCollector\DataCollectorInterface;
 
 /**
@@ -228,12 +227,12 @@ class Profile
     /**
      * Gets a Collector by name.
      *
-     * @throws InvalidArgumentException if the collector does not exist
+     * @throws \InvalidArgumentException if the collector does not exist
      */
     public function getCollector(string $name): DataCollectorInterface
     {
         if (!isset($this->collectors[$name])) {
-            throw new InvalidArgumentException(sprintf('Collector "%s" does not exist.', $name));
+            throw new \InvalidArgumentException(sprintf('Collector "%s" does not exist.', $name));
         }
 
         return $this->collectors[$name];

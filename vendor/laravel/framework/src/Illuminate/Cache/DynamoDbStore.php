@@ -4,7 +4,6 @@ namespace Illuminate\Cache;
 
 use Aws\DynamoDb\DynamoDbClient;
 use Aws\DynamoDb\Exception\DynamoDbException;
-use DateTimeInterface;
 use Illuminate\Contracts\Cache\LockProvider;
 use Illuminate\Contracts\Cache\Store;
 use Illuminate\Support\Carbon;
@@ -19,7 +18,7 @@ class DynamoDbStore implements LockProvider, Store
     /**
      * The DynamoDB client instance.
      *
-     * @var DynamoDbClient
+     * @var \Aws\DynamoDb\DynamoDbClient
      */
     protected $dynamo;
 
@@ -61,7 +60,7 @@ class DynamoDbStore implements LockProvider, Store
     /**
      * Create a new store instance.
      *
-     * @param DynamoDbClient $dynamo
+     * @param  \Aws\DynamoDb\DynamoDbClient  $dynamo
      * @param  string  $table
      * @param  string  $keyAttribute
      * @param  string  $valueAttribute
@@ -176,7 +175,7 @@ class DynamoDbStore implements LockProvider, Store
      * Determine if the given item is expired.
      *
      * @param  array  $item
-     * @param  DateTimeInterface|null  $expiration
+     * @param  \DateTimeInterface|null  $expiration
      * @return bool
      */
     protected function isExpired(array $item, $expiration = null)
@@ -453,7 +452,7 @@ class DynamoDbStore implements LockProvider, Store
      *
      * @return bool
      *
-     * @throws RuntimeException
+     * @throws \RuntimeException
      */
     public function flush()
     {
@@ -538,7 +537,7 @@ class DynamoDbStore implements LockProvider, Store
     /**
      * Get the DynamoDb Client instance.
      *
-     * @return DynamoDbClient
+     * @return \Aws\DynamoDb\DynamoDbClient
      */
     public function getClient()
     {

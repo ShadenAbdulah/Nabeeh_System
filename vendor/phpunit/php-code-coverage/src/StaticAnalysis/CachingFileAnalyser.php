@@ -22,7 +22,7 @@ use SebastianBergmann\FileIterator\Facade as FileIteratorFacade;
 /**
  * @internal This class is not covered by the backward compatibility promise for phpunit/php-code-coverage
  *
- * @psalm-import-type LinesOfCodeType from FileAnalyser
+ * @psalm-import-type LinesOfCodeType from \SebastianBergmann\CodeCoverage\StaticAnalysis\FileAnalyser
  */
 final class CachingFileAnalyser implements FileAnalyser
 {
@@ -132,7 +132,7 @@ final class CachingFileAnalyser implements FileAnalyser
 
         return unserialize(
             file_get_contents($cacheFile),
-            ['allowed_classes' => false]
+            ['allowed_classes' => false],
         );
     }
 
@@ -140,7 +140,7 @@ final class CachingFileAnalyser implements FileAnalyser
     {
         file_put_contents(
             $this->cacheFile($filename),
-            serialize($data)
+            serialize($data),
         );
     }
 
@@ -155,8 +155,8 @@ final class CachingFileAnalyser implements FileAnalyser
                     self::cacheVersion(),
                     $this->useAnnotationsForIgnoringCode,
                     $this->ignoreDeprecatedCode,
-                ]
-            )
+                ],
+            ),
         );
 
         return $this->directory . DIRECTORY_SEPARATOR . $cacheKey;

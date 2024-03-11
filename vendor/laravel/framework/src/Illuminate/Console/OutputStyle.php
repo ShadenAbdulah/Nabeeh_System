@@ -13,7 +13,7 @@ class OutputStyle extends SymfonyStyle implements NewLineAware
     /**
      * The output instance.
      *
-     * @var OutputInterface
+     * @var \Symfony\Component\Console\Output\OutputInterface
      */
     private $output;
 
@@ -38,8 +38,8 @@ class OutputStyle extends SymfonyStyle implements NewLineAware
     /**
      * Create a new Console OutputStyle instance.
      *
-     * @param InputInterface $input
-     * @param OutputInterface $output
+     * @param  \Symfony\Component\Console\Input\InputInterface  $input
+     * @param  \Symfony\Component\Console\Output\OutputInterface  $output
      * @return void
      */
     public function __construct(InputInterface $input, OutputInterface $output)
@@ -188,7 +188,7 @@ class OutputStyle extends SymfonyStyle implements NewLineAware
     /**
      * Get the underlying Symfony output implementation.
      *
-     * @return OutputInterface
+     * @return \Symfony\Component\Console\Output\OutputInterface
      */
     public function getOutput()
     {

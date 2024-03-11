@@ -5,23 +5,21 @@ namespace Illuminate\Cache;
 use Aws\DynamoDb\DynamoDbClient;
 use Closure;
 use Illuminate\Contracts\Cache\Factory as FactoryContract;
-use Illuminate\Contracts\Cache\LockProvider;
 use Illuminate\Contracts\Cache\Store;
 use Illuminate\Contracts\Events\Dispatcher as DispatcherContract;
-use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\Arr;
 use InvalidArgumentException;
 
 /**
- * @mixin Repository
- * @mixin LockProvider
+ * @mixin \Illuminate\Cache\Repository
+ * @mixin \Illuminate\Contracts\Cache\LockProvider
  */
 class CacheManager implements FactoryContract
 {
     /**
      * The application instance.
      *
-     * @var Application
+     * @var \Illuminate\Contracts\Foundation\Application
      */
     protected $app;
 
@@ -42,7 +40,7 @@ class CacheManager implements FactoryContract
     /**
      * Create a new Cache manager instance.
      *
-     * @param  Application  $app
+     * @param  \Illuminate\Contracts\Foundation\Application  $app
      * @return void
      */
     public function __construct($app)
@@ -80,7 +78,7 @@ class CacheManager implements FactoryContract
      * @param  string  $name
      * @return \Illuminate\Contracts\Cache\Repository
      *
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     public function resolve($name)
     {
@@ -118,7 +116,7 @@ class CacheManager implements FactoryContract
      * Create an instance of the APC cache driver.
      *
      * @param  array  $config
-     * @return Repository
+     * @return \Illuminate\Cache\Repository
      */
     protected function createApcDriver(array $config)
     {
@@ -131,7 +129,7 @@ class CacheManager implements FactoryContract
      * Create an instance of the array cache driver.
      *
      * @param  array  $config
-     * @return Repository
+     * @return \Illuminate\Cache\Repository
      */
     protected function createArrayDriver(array $config)
     {
@@ -142,7 +140,7 @@ class CacheManager implements FactoryContract
      * Create an instance of the file cache driver.
      *
      * @param  array  $config
-     * @return Repository
+     * @return \Illuminate\Cache\Repository
      */
     protected function createFileDriver(array $config)
     {
@@ -156,7 +154,7 @@ class CacheManager implements FactoryContract
      * Create an instance of the Memcached cache driver.
      *
      * @param  array  $config
-     * @return Repository
+     * @return \Illuminate\Cache\Repository
      */
     protected function createMemcachedDriver(array $config)
     {
@@ -175,7 +173,7 @@ class CacheManager implements FactoryContract
     /**
      * Create an instance of the Null cache driver.
      *
-     * @return Repository
+     * @return \Illuminate\Cache\Repository
      */
     protected function createNullDriver()
     {
@@ -186,7 +184,7 @@ class CacheManager implements FactoryContract
      * Create an instance of the Redis cache driver.
      *
      * @param  array  $config
-     * @return Repository
+     * @return \Illuminate\Cache\Repository
      */
     protected function createRedisDriver(array $config)
     {
@@ -205,7 +203,7 @@ class CacheManager implements FactoryContract
      * Create an instance of the database cache driver.
      *
      * @param  array  $config
-     * @return Repository
+     * @return \Illuminate\Cache\Repository
      */
     protected function createDatabaseDriver(array $config)
     {
@@ -229,7 +227,7 @@ class CacheManager implements FactoryContract
      * Create an instance of the DynamoDB cache driver.
      *
      * @param  array  $config
-     * @return Repository
+     * @return \Illuminate\Cache\Repository
      */
     protected function createDynamodbDriver(array $config)
     {
@@ -250,7 +248,7 @@ class CacheManager implements FactoryContract
     /**
      * Create new DynamoDb Client instance.
      *
-     * @return DynamoDbClient
+     * @return \Aws\DynamoDb\DynamoDbClient
      */
     protected function newDynamodbClient(array $config)
     {
@@ -276,8 +274,8 @@ class CacheManager implements FactoryContract
     /**
      * Create a new cache repository with the given implementation.
      *
-     * @param Store $store
-     * @return Repository
+     * @param  \Illuminate\Contracts\Cache\Store  $store
+     * @return \Illuminate\Cache\Repository
      */
     public function repository(Store $store)
     {
@@ -289,7 +287,7 @@ class CacheManager implements FactoryContract
     /**
      * Set the event dispatcher on the given repository instance.
      *
-     * @param Repository $repository
+     * @param  \Illuminate\Cache\Repository  $repository
      * @return void
      */
     protected function setEventDispatcher(Repository $repository)
@@ -396,7 +394,7 @@ class CacheManager implements FactoryContract
      * Register a custom driver creator Closure.
      *
      * @param  string  $driver
-     * @param Closure $callback
+     * @param  \Closure  $callback
      * @return $this
      */
     public function extend($driver, Closure $callback)
@@ -409,7 +407,7 @@ class CacheManager implements FactoryContract
     /**
      * Set the application instance used by the manager.
      *
-     * @param  Application  $app
+     * @param  \Illuminate\Contracts\Foundation\Application  $app
      * @return $this
      */
     public function setApplication($app)

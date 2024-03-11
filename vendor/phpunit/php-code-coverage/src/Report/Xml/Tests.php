@@ -10,12 +10,11 @@
 namespace SebastianBergmann\CodeCoverage\Report\Xml;
 
 use DOMElement;
-use SebastianBergmann\CodeCoverage\CodeCoverage;
 
 /**
  * @internal This class is not covered by the backward compatibility promise for phpunit/php-code-coverage
  *
- * @psalm-import-type TestType from CodeCoverage
+ * @psalm-import-type TestType from \SebastianBergmann\CodeCoverage\CodeCoverage
  */
 final class Tests
 {
@@ -34,8 +33,8 @@ final class Tests
         $node = $this->contextNode->appendChild(
             $this->contextNode->ownerDocument->createElementNS(
                 'https://schema.phpunit.de/coverage/1.0',
-                'test'
-            )
+                'test',
+            ),
         );
 
         $node->setAttribute('name', $test);

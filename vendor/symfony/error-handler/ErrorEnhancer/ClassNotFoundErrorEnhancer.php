@@ -12,22 +12,16 @@
 namespace Symfony\Component\ErrorHandler\ErrorEnhancer;
 
 use Composer\Autoload\ClassLoader;
-use RecursiveDirectoryIterator;
-use RecursiveIteratorIterator;
 use Symfony\Component\ErrorHandler\DebugClassLoader;
 use Symfony\Component\ErrorHandler\Error\ClassNotFoundError;
 use Symfony\Component\ErrorHandler\Error\FatalError;
-use Throwable;
-use function dirname;
-use function is_array;
-use const DIRECTORY_SEPARATOR;
 
 /**
  * @author Fabien Potencier <fabien@symfony.com>
  */
 class ClassNotFoundErrorEnhancer implements ErrorEnhancerInterface
 {
-    public function enhance(Throwable $error): ?Throwable
+    public function enhance(\Throwable $error): ?\Throwable
     {
         // Some specific versions of PHP produce a fatal error when extending a not found class.
         $message = !$error instanceof FatalError ? $error->getMessage() : $error->getError()['message'];
@@ -73,7 +67,7 @@ class ClassNotFoundErrorEnhancer implements ErrorEnhancerInterface
      */
     private function getClassCandidates(string $class): array
     {
-        if (!is_array($functions = spl_autoload_functions())) {
+        if (!\is_array($functions = spl_autoload_functions())) {
             return [];
         }
 
@@ -81,14 +75,14 @@ class ClassNotFoundErrorEnhancer implements ErrorEnhancerInterface
         $classes = [];
 
         foreach ($functions as $function) {
-            if (!is_array($function)) {
+            if (!\is_array($function)) {
                 continue;
             }
             // get class loaders wrapped by DebugClassLoader
             if ($function[0] instanceof DebugClassLoader) {
                 $function = $function[0]->getClassLoader();
 
-                if (!is_array($function)) {
+                if (!\is_array($function)) {
                     continue;
                 }
             }
@@ -113,18 +107,14 @@ class ClassNotFoundErrorEnhancer implements ErrorEnhancerInterface
 
     private function findClassInPath(string $path, string $class, string $prefix): array
     {
-<<<<<<< HEAD
-        $path = realpath($path.'/'.strtr($prefix, '\\_', '//')) ?: realpath($path.'/'. dirname(strtr($prefix, '\\_', '//'))) ?: realpath($path);
+        $path = realpath($path.'/'.strtr($prefix, '\\_', '//')) ?: realpath($path.'/'.\dirname(strtr($prefix, '\\_', '//'))) ?: realpath($path);
         if (!$path || !is_dir($path)) {
-=======
-        if (!$path = realpath($path.'/'.strtr($prefix, '\\_', '//')) ?: realpath($path.'/'.\dirname(strtr($prefix, '\\_', '//'))) ?: realpath($path)) {
->>>>>>> parent of c8b1139b (update Ui)
             return [];
         }
 
         $classes = [];
         $filename = $class.'.php';
-        foreach (new RecursiveIteratorIterator(new RecursiveDirectoryIterator($path, RecursiveDirectoryIterator::SKIP_DOTS), RecursiveIteratorIterator::LEAVES_ONLY) as $file) {
+        foreach (new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($path, \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::LEAVES_ONLY) as $file) {
             if ($filename == $file->getFileName() && $class = $this->convertFileToClass($path, $file->getPathName(), $prefix)) {
                 $classes[] = $class;
             }
@@ -137,7 +127,7 @@ class ClassNotFoundErrorEnhancer implements ErrorEnhancerInterface
     {
         $candidates = [
             // namespaced class
-            $namespacedClass = str_replace([$path. DIRECTORY_SEPARATOR, '.php', '/'], ['', '', '\\'], $file),
+            $namespacedClass = str_replace([$path.\DIRECTORY_SEPARATOR, '.php', '/'], ['', '', '\\'], $file),
             // namespaced class (with target dir)
             $prefix.$namespacedClass,
             // namespaced class (with target dir and separator)
@@ -173,7 +163,7 @@ class ClassNotFoundErrorEnhancer implements ErrorEnhancerInterface
 
         try {
             require_once $file;
-        } catch (Throwable) {
+        } catch (\Throwable) {
             return null;
         }
 

@@ -2,11 +2,6 @@
 
 namespace Illuminate\Support\Facades;
 
-use Closure;
-use Illuminate\Contracts\Container\Container;
-use Illuminate\Session\SessionManager;
-use SessionHandlerInterface;
-
 /**
  * @method static bool shouldBlock()
  * @method static string|null blockDriver()
@@ -16,11 +11,11 @@ use SessionHandlerInterface;
  * @method static string getDefaultDriver()
  * @method static void setDefaultDriver(string $name)
  * @method static mixed driver(string|null $driver = null)
- * @method static SessionManager extend(string $driver, Closure $callback)
+ * @method static \Illuminate\Session\SessionManager extend(string $driver, \Closure $callback)
  * @method static array getDrivers()
- * @method static Container getContainer()
- * @method static SessionManager setContainer(Container $container)
- * @method static SessionManager forgetDrivers()
+ * @method static \Illuminate\Contracts\Container\Container getContainer()
+ * @method static \Illuminate\Session\SessionManager setContainer(\Illuminate\Contracts\Container\Container $container)
+ * @method static \Illuminate\Session\SessionManager forgetDrivers()
  * @method static bool start()
  * @method static void save()
  * @method static void ageFlashData()
@@ -36,7 +31,7 @@ use SessionHandlerInterface;
  * @method static mixed getOldInput(string|null $key = null, mixed $default = null)
  * @method static void replace(array $attributes)
  * @method static void put(string|array $key, mixed $value = null)
- * @method static mixed remember(string $key, Closure $callback)
+ * @method static mixed remember(string $key, \Closure $callback)
  * @method static void push(string $key, mixed $value)
  * @method static mixed increment(string $key, int $amount = 1)
  * @method static int decrement(string $key, int $amount = 1)
@@ -63,8 +58,8 @@ use SessionHandlerInterface;
  * @method static string|null previousUrl()
  * @method static void setPreviousUrl(string $url)
  * @method static void passwordConfirmed()
- * @method static SessionHandlerInterface getHandler()
- * @method static SessionHandlerInterface setHandler(SessionHandlerInterface $handler)
+ * @method static \SessionHandlerInterface getHandler()
+ * @method static \SessionHandlerInterface setHandler(\SessionHandlerInterface $handler)
  * @method static bool handlerNeedsRequest()
  * @method static void setRequestOnHandler(\Illuminate\Http\Request $request)
  * @method static void macro(string $name, object|callable $macro)

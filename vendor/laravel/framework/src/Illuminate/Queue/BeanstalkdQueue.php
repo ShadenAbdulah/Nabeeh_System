@@ -2,9 +2,6 @@
 
 namespace Illuminate\Queue;
 
-use DateInterval;
-use DateTimeInterface;
-use Illuminate\Contracts\Queue\Job;
 use Illuminate\Contracts\Queue\Queue as QueueContract;
 use Illuminate\Queue\Jobs\BeanstalkdJob;
 use Pheanstalk\Job as PheanstalkJob;
@@ -15,7 +12,7 @@ class BeanstalkdQueue extends Queue implements QueueContract
     /**
      * The Pheanstalk instance.
      *
-     * @var Pheanstalk
+     * @var \Pheanstalk\Pheanstalk
      */
     protected $pheanstalk;
 
@@ -43,7 +40,7 @@ class BeanstalkdQueue extends Queue implements QueueContract
     /**
      * Create a new Beanstalkd queue instance.
      *
-     * @param Pheanstalk $pheanstalk
+     * @param  \Pheanstalk\Pheanstalk  $pheanstalk
      * @param  string  $default
      * @param  int  $timeToRun
      * @param  int  $blockFor
@@ -115,7 +112,7 @@ class BeanstalkdQueue extends Queue implements QueueContract
     /**
      * Push a new job onto the queue after (n) seconds.
      *
-     * @param  DateTimeInterface|DateInterval|int  $delay
+     * @param  \DateTimeInterface|\DateInterval|int  $delay
      * @param  string  $job
      * @param  mixed  $data
      * @param  string|null  $queue
@@ -162,7 +159,7 @@ class BeanstalkdQueue extends Queue implements QueueContract
      * Pop the next job off of the queue.
      *
      * @param  string|null  $queue
-     * @return Job|null
+     * @return \Illuminate\Contracts\Queue\Job|null
      */
     public function pop($queue = null)
     {
@@ -205,7 +202,7 @@ class BeanstalkdQueue extends Queue implements QueueContract
     /**
      * Get the underlying Pheanstalk instance.
      *
-     * @return Pheanstalk
+     * @return \Pheanstalk\Pheanstalk
      */
     public function getPheanstalk()
     {

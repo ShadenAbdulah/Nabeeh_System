@@ -2,9 +2,6 @@
 
 namespace Illuminate\Contracts\View;
 
-use Closure;
-use Illuminate\Contracts\Support\Arrayable;
-
 interface Factory
 {
     /**
@@ -19,9 +16,9 @@ interface Factory
      * Get the evaluated view contents for the given path.
      *
      * @param  string  $path
-     * @param  Arrayable|array  $data
+     * @param  \Illuminate\Contracts\Support\Arrayable|array  $data
      * @param  array  $mergeData
-     * @return View
+     * @return \Illuminate\Contracts\View\View
      */
     public function file($path, $data = [], $mergeData = []);
 
@@ -29,9 +26,9 @@ interface Factory
      * Get the evaluated view contents for the given view.
      *
      * @param  string  $view
-     * @param  Arrayable|array  $data
+     * @param  \Illuminate\Contracts\Support\Arrayable|array  $data
      * @param  array  $mergeData
-     * @return View
+     * @return \Illuminate\Contracts\View\View
      */
     public function make($view, $data = [], $mergeData = []);
 
@@ -48,7 +45,7 @@ interface Factory
      * Register a view composer event.
      *
      * @param  array|string  $views
-     * @param  Closure|string  $callback
+     * @param  \Closure|string  $callback
      * @return array
      */
     public function composer($views, $callback);
@@ -57,7 +54,7 @@ interface Factory
      * Register a view creator event.
      *
      * @param  array|string  $views
-     * @param  Closure|string  $callback
+     * @param  \Closure|string  $callback
      * @return array
      */
     public function creator($views, $callback);

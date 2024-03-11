@@ -17,17 +17,10 @@
 
 namespace Symfony\Component\HttpKernel\HttpCache;
 
-use DateTimeImmutable;
-use Exception;
-use LogicException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\HttpKernel\TerminableInterface;
-use function assert;
-use function count;
-use function in_array;
-use function strlen;
 
 /**
  * Cache provides HTTP caching.
@@ -96,7 +89,7 @@ class HttpCache implements HttpKernelInterface, TerminableInterface
      *                            Unless your application needs to process events on cache hits, it is recommended
      *                            to set this to false to avoid having to bootstrap the Symfony framework on a cache hit.
      */
-    public function __construct(HttpKernelInterface $kernel, StoreInterface $store, SurrogateInterface $surrogate = null, array $options = [])
+    public function __construct(HttpKernelInterface $kernel, StoreInterface $store, ?SurrogateInterface $surrogate = null, array $options = [])
     {
         $this->store = $store;
         $this->kernel = $kernel;
@@ -189,7 +182,7 @@ class HttpCache implements HttpKernelInterface, TerminableInterface
     /**
      * Gets the Surrogate instance.
      *
-     * @throws LogicException
+     * @throws \LogicException
      */
     public function getSurrogate(): SurrogateInterface
     {
@@ -259,7 +252,7 @@ class HttpCache implements HttpKernelInterface, TerminableInterface
         // reverse caching proxy such as Varnish and the like.
         if ($this->options['terminate_on_cache_hit']) {
             trigger_deprecation('symfony/http-kernel', '6.2', 'Setting "terminate_on_cache_hit" to "true" is deprecated and will be changed to "false" in Symfony 7.0.');
-        } elseif (in_array('fresh', $this->traces[$this->getTraceKey($request)] ?? [], true)) {
+        } elseif (\in_array('fresh', $this->traces[$this->getTraceKey($request)] ?? [], true)) {
             return;
         }
 
@@ -285,7 +278,7 @@ class HttpCache implements HttpKernelInterface, TerminableInterface
      *
      * @param bool $catch Whether to process exceptions
      *
-     * @throws Exception
+     * @throws \Exception
      *
      * @see RFC2616 13.10
      */
@@ -308,7 +301,7 @@ class HttpCache implements HttpKernelInterface, TerminableInterface
                 }
 
                 $this->record($request, 'invalidate');
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $this->record($request, 'invalidate-failed');
 
                 if ($this->options['debug']) {
@@ -331,13 +324,13 @@ class HttpCache implements HttpKernelInterface, TerminableInterface
      *
      * @param bool $catch Whether to process exceptions
      *
-     * @throws Exception
+     * @throws \Exception
      */
     protected function lookup(Request $request, bool $catch = false): Response
     {
         try {
             $entry = $this->store->lookup($request);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->record($request, 'lookup-failed');
 
             if ($this->options['debug']) {
@@ -408,7 +401,7 @@ class HttpCache implements HttpKernelInterface, TerminableInterface
 
             // return the response and not the cache entry if the response is valid but not cached
             $etag = $response->getEtag();
-            if ($etag && in_array($etag, $requestEtags) && !in_array($etag, $cachedEtags)) {
+            if ($etag && \in_array($etag, $requestEtags) && !\in_array($etag, $cachedEtags)) {
                 return $response;
             }
 
@@ -472,7 +465,7 @@ class HttpCache implements HttpKernelInterface, TerminableInterface
      *
      * @return Response
      */
-    protected function forward(Request $request, bool $catch = false, Response $entry = null)
+    protected function forward(Request $request, bool $catch = false, ?Response $entry = null)
     {
         $this->surrogate?->addSurrogateCapability($request);
 
@@ -496,7 +489,7 @@ class HttpCache implements HttpKernelInterface, TerminableInterface
          * stale-if-error case even if they have a `s-maxage` Cache-Control directive.
          */
         if (null !== $entry
-            && in_array($response->getStatusCode(), [500, 502, 503, 504])
+            && \in_array($response->getStatusCode(), [500, 502, 503, 504])
             && !$entry->headers->hasCacheControlDirective('no-cache')
             && !$entry->mustRevalidate()
         ) {
@@ -524,7 +517,7 @@ class HttpCache implements HttpKernelInterface, TerminableInterface
             Anyway, a client that received a message without a "Date" header MUST add it.
         */
         if (!$response->headers->has('Date')) {
-            $response->setDate(DateTimeImmutable::createFromFormat('U', time()));
+            $response->setDate(\DateTimeImmutable::createFromFormat('U', time()));
         }
 
         $this->processResponseBody($request, $response);
@@ -604,7 +597,7 @@ class HttpCache implements HttpKernelInterface, TerminableInterface
      *
      * @return void
      *
-     * @throws Exception
+     * @throws \Exception
      */
     protected function store(Request $request, Response $response)
     {
@@ -623,7 +616,7 @@ class HttpCache implements HttpKernelInterface, TerminableInterface
             $this->record($request, 'store');
 
             $response->headers->set('Age', $response->getAge());
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->record($request, 'store-failed');
 
             if ($this->options['debug']) {
@@ -645,7 +638,7 @@ class HttpCache implements HttpKernelInterface, TerminableInterface
     private function restoreResponseBody(Request $request, Response $response): void
     {
         if ($response->headers->has('X-Body-Eval')) {
-            assert(self::BODY_EVAL_BOUNDARY_LENGTH === 24);
+            \assert(self::BODY_EVAL_BOUNDARY_LENGTH === 24);
 
             ob_start();
 
@@ -666,7 +659,7 @@ class HttpCache implements HttpKernelInterface, TerminableInterface
             $response->setContent(ob_get_clean());
             $response->headers->remove('X-Body-Eval');
             if (!$response->headers->has('Transfer-Encoding')) {
-                $response->headers->set('Content-Length', strlen($response->getContent()));
+                $response->headers->set('Content-Length', \strlen($response->getContent()));
             }
         } elseif ($response->headers->has('X-Body-File')) {
             // Response does not include possibly dynamic content (ESI, SSI), so we need
@@ -701,7 +694,7 @@ class HttpCache implements HttpKernelInterface, TerminableInterface
             $key = strtolower(str_replace('HTTP_', '', $key));
 
             if ('cookie' === $key) {
-                if (count($request->cookies->all())) {
+                if (\count($request->cookies->all())) {
                     return true;
                 }
             } elseif ($request->headers->has($key)) {

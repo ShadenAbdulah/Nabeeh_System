@@ -2,16 +2,10 @@
 namespace TheSeer\Tokenizer;
 
 use DOMDocument;
-use XMLWriter;
-use function count;
-use function htmlspecialchars;
-use const ENT_DISALLOWED;
-use const ENT_NOQUOTES;
-use const ENT_XML1;
 
 class XMLSerializer {
 
-    /** @var XMLWriter */
+    /** @var \XMLWriter */
     private $writer;
 
     /** @var Token */
@@ -25,7 +19,7 @@ class XMLSerializer {
      *
      * @param NamespaceUri $xmlns
      */
-    public function __construct(NamespaceUri $xmlns = null) {
+    public function __construct(?NamespaceUri $xmlns = null) {
         if ($xmlns === null) {
             $xmlns = new NamespaceUri('https://github.com/theseer/tokenizer');
         }
@@ -41,14 +35,14 @@ class XMLSerializer {
     }
 
     public function toXML(TokenCollection $tokens): string {
-        $this->writer = new XMLWriter();
+        $this->writer = new \XMLWriter();
         $this->writer->openMemory();
         $this->writer->setIndent(true);
         $this->writer->startDocument();
         $this->writer->startElement('source');
         $this->writer->writeAttribute('xmlns', $this->xmlns->asString());
 
-        if (count($tokens) > 0) {
+        if (\count($tokens) > 0) {
             $this->writer->startElement('line');
             $this->writer->writeAttribute('no', '1');
 
@@ -78,7 +72,7 @@ class XMLSerializer {
         if ($token->getValue() !== '') {
             $this->writer->startElement('token');
             $this->writer->writeAttribute('name', $token->getName());
-            $this->writer->writeRaw(htmlspecialchars($token->getValue(), ENT_NOQUOTES | ENT_DISALLOWED | ENT_XML1));
+            $this->writer->writeRaw(\htmlspecialchars($token->getValue(), \ENT_NOQUOTES | \ENT_DISALLOWED | \ENT_XML1));
             $this->writer->endElement();
         }
     }

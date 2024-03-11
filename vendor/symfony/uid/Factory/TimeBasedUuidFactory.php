@@ -11,7 +11,6 @@
 
 namespace Symfony\Component\Uid\Factory;
 
-use DateTimeInterface;
 use Symfony\Component\Uid\TimeBasedUidInterface;
 use Symfony\Component\Uid\Uuid;
 
@@ -26,17 +25,13 @@ class TimeBasedUuidFactory
     /**
      * @param class-string<Uuid&TimeBasedUidInterface> $class
      */
-    public function __construct(string $class, Uuid $node = null)
+    public function __construct(string $class, ?Uuid $node = null)
     {
         $this->class = $class;
         $this->node = $node;
     }
 
-<<<<<<< HEAD
-    public function create(?DateTimeInterface $time = null): Uuid&TimeBasedUidInterface
-=======
-    public function create(\DateTimeInterface $time = null): Uuid&TimeBasedUidInterface
->>>>>>> parent of c8b1139b (update Ui)
+    public function create(?\DateTimeInterface $time = null): Uuid&TimeBasedUidInterface
     {
         $class = $this->class;
 

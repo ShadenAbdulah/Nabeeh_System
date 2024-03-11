@@ -11,7 +11,6 @@
 
 namespace Symfony\Component\HttpKernel\Attribute;
 
-use Attribute;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Controller\ArgumentResolver\RequestPayloadValueResolver;
 use Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadata;
@@ -22,7 +21,7 @@ use Symfony\Component\Validator\Constraints\GroupSequence;
  *
  * @author Konstantin Myakshin <molodchick@gmail.com>
  */
-#[Attribute(Attribute::TARGET_PARAMETER)]
+#[\Attribute(\Attribute::TARGET_PARAMETER)]
 class MapQueryString extends ValueResolver
 {
     public ArgumentMetadata $metadata;

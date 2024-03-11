@@ -19,7 +19,6 @@ use League\CommonMark\Extension\Mention\Generator\StringTemplateLinkGenerator;
 use League\CommonMark\Parser\Inline\InlineParserInterface;
 use League\CommonMark\Parser\Inline\InlineParserMatch;
 use League\CommonMark\Parser\InlineParserContext;
-use function preg_match;
 
 final class MentionParser implements InlineParserInterface
 {
@@ -57,7 +56,7 @@ final class MentionParser implements InlineParserInterface
 
         // The prefix must not have any other characters immediately prior
         $previousChar = $cursor->peek(-1);
-        if ($previousChar !== null && preg_match('/\w/', $previousChar)) {
+        if ($previousChar !== null && \preg_match('/\w/', $previousChar)) {
             // peek() doesn't modify the cursor, so no need to restore state first
             return false;
         }

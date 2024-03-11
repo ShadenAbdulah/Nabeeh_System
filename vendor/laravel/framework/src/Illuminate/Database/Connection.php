@@ -6,11 +6,8 @@ use Carbon\CarbonInterval;
 use Closure;
 use DateTimeInterface;
 use Doctrine\DBAL\Connection as DoctrineConnection;
-use Doctrine\DBAL\Schema\AbstractSchemaManager;
-use Doctrine\DBAL\Schema\Column;
 use Doctrine\DBAL\Types\Type;
 use Exception;
-use Generator;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Database\Events\QueryExecuted;
 use Illuminate\Database\Events\StatementPrepared;
@@ -41,14 +38,14 @@ class Connection implements ConnectionInterface
     /**
      * The active PDO connection.
      *
-     * @var PDO|Closure
+     * @var \PDO|\Closure
      */
     protected $pdo;
 
     /**
      * The active PDO connection used for reads.
      *
-     * @var PDO|Closure
+     * @var \PDO|\Closure
      */
     protected $readPdo;
 
@@ -90,7 +87,7 @@ class Connection implements ConnectionInterface
     /**
      * The query grammar implementation.
      *
-     * @var QueryGrammar
+     * @var \Illuminate\Database\Query\Grammars\Grammar
      */
     protected $queryGrammar;
 
@@ -104,14 +101,14 @@ class Connection implements ConnectionInterface
     /**
      * The query post processor implementation.
      *
-     * @var Processor
+     * @var \Illuminate\Database\Query\Processors\Processor
      */
     protected $postProcessor;
 
     /**
      * The event dispatcher instance.
      *
-     * @var Dispatcher
+     * @var \Illuminate\Contracts\Events\Dispatcher
      */
     protected $events;
 
@@ -132,7 +129,7 @@ class Connection implements ConnectionInterface
     /**
      * The transaction manager instance.
      *
-     * @var DatabaseTransactionsManager
+     * @var \Illuminate\Database\DatabaseTransactionsManager
      */
     protected $transactionsManager;
 
@@ -186,26 +183,23 @@ class Connection implements ConnectionInterface
     protected $pretending = false;
 
     /**
-<<<<<<< HEAD
      * All of the callbacks that should be invoked before a transaction is started.
      *
-     * @var Closure[]
+     * @var \Closure[]
      */
     protected $beforeStartingTransaction = [];
 
     /**
-=======
->>>>>>> parent of c8b1139b (update Ui)
      * All of the callbacks that should be invoked before a query is executed.
      *
-     * @var Closure[]
+     * @var \Closure[]
      */
     protected $beforeExecutingCallbacks = [];
 
     /**
      * The instance of Doctrine connection.
      *
-     * @var DoctrineConnection
+     * @var \Doctrine\DBAL\Connection
      */
     protected $doctrineConnection;
 
@@ -219,14 +213,14 @@ class Connection implements ConnectionInterface
     /**
      * The connection resolvers.
      *
-     * @var Closure[]
+     * @var \Closure[]
      */
     protected static $resolvers = [];
 
     /**
      * Create a new database connection instance.
      *
-     * @param PDO|Closure $pdo
+     * @param  \PDO|\Closure  $pdo
      * @param  string  $database
      * @param  string  $tablePrefix
      * @param  array  $config
@@ -266,7 +260,7 @@ class Connection implements ConnectionInterface
     /**
      * Get the default query grammar instance.
      *
-     * @return QueryGrammar
+     * @return \Illuminate\Database\Query\Grammars\Grammar
      */
     protected function getDefaultQueryGrammar()
     {
@@ -308,7 +302,7 @@ class Connection implements ConnectionInterface
     /**
      * Get the default post processor instance.
      *
-     * @return Processor
+     * @return \Illuminate\Database\Query\Processors\Processor
      */
     protected function getDefaultPostProcessor()
     {
@@ -318,7 +312,7 @@ class Connection implements ConnectionInterface
     /**
      * Get a schema builder instance for the connection.
      *
-     * @return SchemaBuilder
+     * @return \Illuminate\Database\Schema\Builder
      */
     public function getSchemaBuilder()
     {
@@ -332,9 +326,9 @@ class Connection implements ConnectionInterface
     /**
      * Begin a fluent query against a database table.
      *
-     * @param Closure|QueryBuilder|\Illuminate\Contracts\Database\Query\Expression|string  $table
+     * @param  \Closure|\Illuminate\Database\Query\Builder|\Illuminate\Contracts\Database\Query\Expression|string  $table
      * @param  string|null  $as
-     * @return QueryBuilder
+     * @return \Illuminate\Database\Query\Builder
      */
     public function table($table, $as = null)
     {
@@ -344,7 +338,7 @@ class Connection implements ConnectionInterface
     /**
      * Get a new query builder instance.
      *
-     * @return QueryBuilder
+     * @return \Illuminate\Database\Query\Builder
      */
     public function query()
     {
@@ -376,7 +370,7 @@ class Connection implements ConnectionInterface
      * @param  bool  $useReadPdo
      * @return mixed
      *
-     * @throws MultipleColumnsSelectedException
+     * @throws \Illuminate\Database\MultipleColumnsSelectedException
      */
     public function scalar($query, $bindings = [], $useReadPdo = true)
     {
@@ -476,7 +470,7 @@ class Connection implements ConnectionInterface
      * @param  string  $query
      * @param  array  $bindings
      * @param  bool  $useReadPdo
-     * @return Generator
+     * @return \Generator
      */
     public function cursor($query, $bindings = [], $useReadPdo = true)
     {
@@ -511,8 +505,8 @@ class Connection implements ConnectionInterface
     /**
      * Configure the PDO prepared statement.
      *
-     * @param PDOStatement $statement
-     * @return PDOStatement
+     * @param  \PDOStatement  $statement
+     * @return \PDOStatement
      */
     protected function prepared(PDOStatement $statement)
     {
@@ -527,7 +521,7 @@ class Connection implements ConnectionInterface
      * Get the PDO connection to use for a select query.
      *
      * @param  bool  $useReadPdo
-     * @return PDO
+     * @return \PDO
      */
     protected function getPdoForSelect($useReadPdo = true)
     {
@@ -649,7 +643,7 @@ class Connection implements ConnectionInterface
     /**
      * Execute the given callback in "dry run" mode.
      *
-     * @param Closure $callback
+     * @param  \Closure  $callback
      * @return array
      */
     public function pretend(Closure $callback)
@@ -671,7 +665,7 @@ class Connection implements ConnectionInterface
     /**
      * Execute the given callback without "pretending".
      *
-     * @param Closure $callback
+     * @param  \Closure  $callback
      * @return mixed
      */
     public function withoutPretending(Closure $callback)
@@ -692,7 +686,7 @@ class Connection implements ConnectionInterface
     /**
      * Execute the given callback in "dry run" mode.
      *
-     * @param Closure $callback
+     * @param  \Closure  $callback
      * @return array
      */
     protected function withFreshQueryLog($callback)
@@ -719,7 +713,7 @@ class Connection implements ConnectionInterface
     /**
      * Bind values to their parameters in the given statement.
      *
-     * @param PDOStatement $statement
+     * @param  \PDOStatement  $statement
      * @param  array  $bindings
      * @return void
      */
@@ -767,10 +761,10 @@ class Connection implements ConnectionInterface
      *
      * @param  string  $query
      * @param  array  $bindings
-     * @param Closure $callback
+     * @param  \Closure  $callback
      * @return mixed
      *
-     * @throws QueryException
+     * @throws \Illuminate\Database\QueryException
      */
     protected function run($query, $bindings, Closure $callback)
     {
@@ -808,10 +802,10 @@ class Connection implements ConnectionInterface
      *
      * @param  string  $query
      * @param  array  $bindings
-     * @param Closure $callback
+     * @param  \Closure  $callback
      * @return mixed
      *
-     * @throws QueryException
+     * @throws \Illuminate\Database\QueryException
      */
     protected function runQueryCallback($query, $bindings, Closure $callback)
     {
@@ -841,7 +835,7 @@ class Connection implements ConnectionInterface
     /**
      * Determine if the given database exception was caused by a unique constraint violation.
      *
-     * @param Exception $exception
+     * @param  \Exception  $exception
      * @return bool
      */
     protected function isUniqueConstraintError(Exception $exception)
@@ -886,7 +880,7 @@ class Connection implements ConnectionInterface
     /**
      * Register a callback to be invoked when the connection queries for longer than a given amount of time.
      *
-     * @param DateTimeInterface|CarbonInterval|float|int  $threshold
+     * @param  \DateTimeInterface|\Carbon\CarbonInterval|float|int  $threshold
      * @param  callable  $handler
      * @return void
      */
@@ -951,13 +945,13 @@ class Connection implements ConnectionInterface
     /**
      * Handle a query exception.
      *
-     * @param QueryException $e
+     * @param  \Illuminate\Database\QueryException  $e
      * @param  string  $query
      * @param  array  $bindings
-     * @param Closure $callback
+     * @param  \Closure  $callback
      * @return mixed
      *
-     * @throws QueryException
+     * @throws \Illuminate\Database\QueryException
      */
     protected function handleQueryException(QueryException $e, $query, $bindings, Closure $callback)
     {
@@ -973,13 +967,13 @@ class Connection implements ConnectionInterface
     /**
      * Handle a query exception that occurred during query execution.
      *
-     * @param QueryException $e
+     * @param  \Illuminate\Database\QueryException  $e
      * @param  string  $query
      * @param  array  $bindings
-     * @param Closure $callback
+     * @param  \Closure  $callback
      * @return mixed
      *
-     * @throws QueryException
+     * @throws \Illuminate\Database\QueryException
      */
     protected function tryAgainIfCausedByLostConnection(QueryException $e, $query, $bindings, Closure $callback)
     {
@@ -997,7 +991,7 @@ class Connection implements ConnectionInterface
      *
      * @return mixed|false
      *
-     * @throws LostConnectionException
+     * @throws \Illuminate\Database\LostConnectionException
      */
     public function reconnect()
     {
@@ -1035,10 +1029,9 @@ class Connection implements ConnectionInterface
     }
 
     /**
-<<<<<<< HEAD
      * Register a hook to be run just before a database transaction is started.
      *
-     * @param Closure $callback
+     * @param  \Closure  $callback
      * @return $this
      */
     public function beforeStartingTransaction(Closure $callback)
@@ -1049,11 +1042,9 @@ class Connection implements ConnectionInterface
     }
 
     /**
-=======
->>>>>>> parent of c8b1139b (update Ui)
      * Register a hook to be run just before a database query is executed.
      *
-     * @param Closure $callback
+     * @param  \Closure  $callback
      * @return $this
      */
     public function beforeExecuting(Closure $callback)
@@ -1066,7 +1057,7 @@ class Connection implements ConnectionInterface
     /**
      * Register a database query listener with the connection.
      *
-     * @param Closure $callback
+     * @param  \Closure  $callback
      * @return void
      */
     public function listen(Closure $callback)
@@ -1262,7 +1253,7 @@ class Connection implements ConnectionInterface
      *
      * @param  string  $table
      * @param  string  $column
-     * @return Column
+     * @return \Doctrine\DBAL\Schema\Column
      */
     public function getDoctrineColumn($table, $column)
     {
@@ -1274,7 +1265,7 @@ class Connection implements ConnectionInterface
     /**
      * Get the Doctrine DBAL schema manager for the connection.
      *
-     * @return AbstractSchemaManager
+     * @return \Doctrine\DBAL\Schema\AbstractSchemaManager
      */
     public function getDoctrineSchemaManager()
     {
@@ -1286,7 +1277,7 @@ class Connection implements ConnectionInterface
     /**
      * Get the Doctrine DBAL database connection instance.
      *
-     * @return DoctrineConnection
+     * @return \Doctrine\DBAL\Connection
      */
     public function getDoctrineConnection()
     {
@@ -1319,7 +1310,7 @@ class Connection implements ConnectionInterface
      * @return void
      *
      * @throws \Doctrine\DBAL\Exception
-     * @throws RuntimeException
+     * @throws \RuntimeException
      */
     public function registerDoctrineType(Type|string $class, string $name, string $type): void
     {
@@ -1340,7 +1331,7 @@ class Connection implements ConnectionInterface
     /**
      * Get the current PDO connection.
      *
-     * @return PDO
+     * @return \PDO
      */
     public function getPdo()
     {
@@ -1354,7 +1345,7 @@ class Connection implements ConnectionInterface
     /**
      * Get the current PDO connection parameter without executing any reconnect logic.
      *
-     * @return PDO|Closure|null
+     * @return \PDO|\Closure|null
      */
     public function getRawPdo()
     {
@@ -1364,7 +1355,7 @@ class Connection implements ConnectionInterface
     /**
      * Get the current PDO connection used for reading.
      *
-     * @return PDO
+     * @return \PDO
      */
     public function getReadPdo()
     {
@@ -1387,7 +1378,7 @@ class Connection implements ConnectionInterface
     /**
      * Get the current read PDO connection parameter without executing any reconnect logic.
      *
-     * @return PDO|Closure|null
+     * @return \PDO|\Closure|null
      */
     public function getRawReadPdo()
     {
@@ -1397,7 +1388,7 @@ class Connection implements ConnectionInterface
     /**
      * Set the PDO connection.
      *
-     * @param PDO|Closure|null  $pdo
+     * @param  \PDO|\Closure|null  $pdo
      * @return $this
      */
     public function setPdo($pdo)
@@ -1412,7 +1403,7 @@ class Connection implements ConnectionInterface
     /**
      * Set the PDO connection used for reading.
      *
-     * @param PDO|Closure|null  $pdo
+     * @param  \PDO|\Closure|null  $pdo
      * @return $this
      */
     public function setReadPdo($pdo)
@@ -1479,7 +1470,7 @@ class Connection implements ConnectionInterface
     /**
      * Get the query grammar used by the connection.
      *
-     * @return QueryGrammar
+     * @return \Illuminate\Database\Query\Grammars\Grammar
      */
     public function getQueryGrammar()
     {
@@ -1489,7 +1480,7 @@ class Connection implements ConnectionInterface
     /**
      * Set the query grammar used by the connection.
      *
-     * @param QueryGrammar $grammar
+     * @param  \Illuminate\Database\Query\Grammars\Grammar  $grammar
      * @return $this
      */
     public function setQueryGrammar(Query\Grammars\Grammar $grammar)
@@ -1525,7 +1516,7 @@ class Connection implements ConnectionInterface
     /**
      * Get the query post processor used by the connection.
      *
-     * @return Processor
+     * @return \Illuminate\Database\Query\Processors\Processor
      */
     public function getPostProcessor()
     {
@@ -1535,7 +1526,7 @@ class Connection implements ConnectionInterface
     /**
      * Set the query post processor used by the connection.
      *
-     * @param Processor $processor
+     * @param  \Illuminate\Database\Query\Processors\Processor  $processor
      * @return $this
      */
     public function setPostProcessor(Processor $processor)
@@ -1548,7 +1539,7 @@ class Connection implements ConnectionInterface
     /**
      * Get the event dispatcher used by the connection.
      *
-     * @return Dispatcher
+     * @return \Illuminate\Contracts\Events\Dispatcher
      */
     public function getEventDispatcher()
     {
@@ -1558,7 +1549,7 @@ class Connection implements ConnectionInterface
     /**
      * Set the event dispatcher instance on the connection.
      *
-     * @param Dispatcher $events
+     * @param  \Illuminate\Contracts\Events\Dispatcher  $events
      * @return $this
      */
     public function setEventDispatcher(Dispatcher $events)
@@ -1581,7 +1572,7 @@ class Connection implements ConnectionInterface
     /**
      * Set the transaction manager instance on the connection.
      *
-     * @param DatabaseTransactionsManager $manager
+     * @param  \Illuminate\Database\DatabaseTransactionsManager  $manager
      * @return $this
      */
     public function setTransactionManager($manager)
@@ -1741,8 +1732,8 @@ class Connection implements ConnectionInterface
     /**
      * Set the table prefix and return the grammar.
      *
-     * @param Grammar $grammar
-     * @return Grammar
+     * @param  \Illuminate\Database\Grammar  $grammar
+     * @return \Illuminate\Database\Grammar
      */
     public function withTablePrefix(Grammar $grammar)
     {
@@ -1755,7 +1746,7 @@ class Connection implements ConnectionInterface
      * Register a connection resolver.
      *
      * @param  string  $driver
-     * @param Closure $callback
+     * @param  \Closure  $callback
      * @return void
      */
     public static function resolverFor($driver, Closure $callback)

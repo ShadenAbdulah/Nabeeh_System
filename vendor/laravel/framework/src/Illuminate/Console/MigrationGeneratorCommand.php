@@ -12,14 +12,14 @@ abstract class MigrationGeneratorCommand extends Command
     /**
      * The filesystem instance.
      *
-     * @var Filesystem
+     * @var \Illuminate\Filesystem\Filesystem
      */
     protected $files;
 
     /**
      * The Composer instance.
      *
-     * @var Composer
+     * @var \Illuminate\Support\Composer
      *
      * @deprecated Will be removed in a future Laravel version.
      */
@@ -28,8 +28,8 @@ abstract class MigrationGeneratorCommand extends Command
     /**
      * Create a new migration generator command instance.
      *
-     * @param Filesystem $files
-     * @param Composer $composer
+     * @param  \Illuminate\Filesystem\Filesystem  $files
+     * @param  \Illuminate\Support\Composer  $composer
      * @return void
      */
     public function __construct(Filesystem $files, Composer $composer)

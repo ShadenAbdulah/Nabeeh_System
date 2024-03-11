@@ -8,7 +8,6 @@ use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Mail\Attachment;
 use Illuminate\Mail\Markdown;
-use Illuminate\Support\HtmlString;
 use Illuminate\Support\Traits\Conditionable;
 
 class MailMessage extends SimpleMessage implements Renderable
@@ -259,7 +258,7 @@ class MailMessage extends SimpleMessage implements Renderable
     /**
      * Attach a file to the message.
      *
-     * @param  string|Attachable|Attachment $file
+     * @param  string|\Illuminate\Contracts\Mail\Attachable|\Illuminate\Mail\Attachment  $file
      * @param  array  $options
      * @return $this
      */
@@ -281,7 +280,7 @@ class MailMessage extends SimpleMessage implements Renderable
     /**
      * Attach multiple files to the message.
      *
-     * @param  array<string|Attachable|Attachment|array>  $files
+     * @param  array<string|\Illuminate\Contracts\Mail\Attachable|\Illuminate\Mail\Attachment|array>  $files
      * @return $this
      */
     public function attachMany($files)
@@ -391,7 +390,7 @@ class MailMessage extends SimpleMessage implements Renderable
     /**
      * Render the mail notification message into an HTML string.
      *
-     * @return HtmlString
+     * @return \Illuminate\Support\HtmlString
      */
     public function render()
     {

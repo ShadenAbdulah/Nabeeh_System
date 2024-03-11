@@ -23,10 +23,6 @@ use Symfony\Component\VarDumper\Dumper\ContextProvider\SourceContextProvider;
 use Symfony\Component\VarDumper\Dumper\ContextualizedDumper;
 use Symfony\Component\VarDumper\Dumper\HtmlDumper;
 use Symfony\Component\VarDumper\Dumper\ServerDumper;
-use function func_num_args;
-use function in_array;
-use const PHP_SAPI;
-use const PHP_URL_SCHEME;
 
 // Load the global dump() function
 require_once __DIR__.'/Resources/functions/dump.php';
@@ -48,7 +44,7 @@ class VarDumper
      */
     public static function dump(mixed $var/* , string $label = null */)
     {
-        $label = 2 <= func_num_args() ? func_get_arg(1) : null;
+        $label = 2 <= \func_num_args() ? func_get_arg(1) : null;
         if (null === self::$handler) {
             self::register();
         }
@@ -56,9 +52,9 @@ class VarDumper
         return (self::$handler)($var, $label);
     }
 
-    public static function setHandler(callable $callable = null): ?callable
+    public static function setHandler(?callable $callable = null): ?callable
     {
-        if (1 > func_num_args()) {
+        if (1 > \func_num_args()) {
             trigger_deprecation('symfony/var-dumper', '6.2', 'Calling "%s()" without any arguments is deprecated, pass null explicitly instead.', __METHOD__);
         }
         $prevHandler = self::$handler;
@@ -87,20 +83,20 @@ class VarDumper
                 $dumper = new CliDumper();
                 break;
             case 'server' === $format:
-            case $format && 'tcp' === parse_url($format, PHP_URL_SCHEME):
+            case $format && 'tcp' === parse_url($format, \PHP_URL_SCHEME):
                 $host = 'server' === $format ? $_SERVER['VAR_DUMPER_SERVER'] ?? '127.0.0.1:9912' : $format;
-                $dumper = in_array(PHP_SAPI, ['cli', 'phpdbg', 'embed'], true) ? new CliDumper() : new HtmlDumper();
+                $dumper = \in_array(\PHP_SAPI, ['cli', 'phpdbg', 'embed'], true) ? new CliDumper() : new HtmlDumper();
                 $dumper = new ServerDumper($host, $dumper, self::getDefaultContextProviders());
                 break;
             default:
-                $dumper = in_array(PHP_SAPI, ['cli', 'phpdbg', 'embed'], true) ? new CliDumper() : new HtmlDumper();
+                $dumper = \in_array(\PHP_SAPI, ['cli', 'phpdbg', 'embed'], true) ? new CliDumper() : new HtmlDumper();
         }
 
         if (!$dumper instanceof ServerDumper) {
             $dumper = new ContextualizedDumper($dumper, [new SourceContextProvider()]);
         }
 
-        self::$handler = function ($var, string $label = null) use ($cloner, $dumper) {
+        self::$handler = function ($var, ?string $label = null) use ($cloner, $dumper) {
             $var = $cloner->cloneVar($var);
 
             if (null !== $label) {
@@ -115,7 +111,7 @@ class VarDumper
     {
         $contextProviders = [];
 
-        if (!in_array(PHP_SAPI, ['cli', 'phpdbg', 'embed'], true) && class_exists(Request::class)) {
+        if (!\in_array(\PHP_SAPI, ['cli', 'phpdbg', 'embed'], true) && class_exists(Request::class)) {
             $requestStack = new RequestStack();
             $requestStack->push(Request::createFromGlobals());
             $contextProviders['request'] = new RequestContextProvider($requestStack);

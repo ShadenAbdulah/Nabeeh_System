@@ -5,7 +5,6 @@ namespace Illuminate\Validation;
 use Exception;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Validator as ValidatorFacade;
-use Symfony\Component\HttpFoundation\Response;
 
 class ValidationException extends Exception
 {
@@ -19,7 +18,7 @@ class ValidationException extends Exception
     /**
      * The recommended response to send to the client.
      *
-     * @var Response|null
+     * @var \Symfony\Component\HttpFoundation\Response|null
      */
     public $response;
 
@@ -48,7 +47,7 @@ class ValidationException extends Exception
      * Create a new exception instance.
      *
      * @param  \Illuminate\Contracts\Validation\Validator  $validator
-     * @param  Response|null  $response
+     * @param  \Symfony\Component\HttpFoundation\Response|null  $response
      * @param  string  $errorBag
      * @return void
      */
@@ -155,7 +154,7 @@ class ValidationException extends Exception
     /**
      * Get the underlying response instance.
      *
-     * @return Response|null
+     * @return \Symfony\Component\HttpFoundation\Response|null
      */
     public function getResponse()
     {

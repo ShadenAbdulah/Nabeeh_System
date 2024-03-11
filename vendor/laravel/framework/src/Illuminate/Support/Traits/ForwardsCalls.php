@@ -15,7 +15,7 @@ trait ForwardsCalls
      * @param  array  $parameters
      * @return mixed
      *
-     * @throws BadMethodCallException
+     * @throws \BadMethodCallException
      */
     protected function forwardCallTo($object, $method, $parameters)
     {
@@ -45,7 +45,7 @@ trait ForwardsCalls
      * @param  array  $parameters
      * @return mixed
      *
-     * @throws BadMethodCallException
+     * @throws \BadMethodCallException
      */
     protected function forwardDecoratedCallTo($object, $method, $parameters)
     {
@@ -60,7 +60,7 @@ trait ForwardsCalls
      * @param  string  $method
      * @return void
      *
-     * @throws BadMethodCallException
+     * @throws \BadMethodCallException
      */
     protected static function throwBadMethodCallException($method)
     {

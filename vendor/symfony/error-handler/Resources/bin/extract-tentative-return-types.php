@@ -10,7 +10,7 @@
  * file that was distributed with this source code.
  */
 
-if ('cli' !== PHP_SAPI) {
+if ('cli' !== \PHP_SAPI) {
     throw new Exception('This script must be run from the command line.');
 }
 
@@ -44,14 +44,14 @@ class TentativeTypes
 
 EOPHP;
 
-while (false !== $file = fgets(STDIN)) {
+while (false !== $file = fgets(\STDIN)) {
     $code = file_get_contents(substr($file, 0, -1));
 
     if (!str_contains($code, '@tentative-return-type')) {
         continue;
     }
 
-    $code = preg_split('{^\s*(?:(?:abstract )?class|interface|trait) ([^\s]++)}m', $code, -1, PREG_SPLIT_DELIM_CAPTURE);
+    $code = preg_split('{^\s*(?:(?:abstract )?class|interface|trait) ([^\s]++)}m', $code, -1, \PREG_SPLIT_DELIM_CAPTURE);
 
     if (1 === count($code)) {
         continue;

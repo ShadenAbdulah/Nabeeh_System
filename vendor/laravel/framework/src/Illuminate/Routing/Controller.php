@@ -3,8 +3,6 @@
 namespace Illuminate\Routing;
 
 use BadMethodCallException;
-use Closure;
-use Symfony\Component\HttpFoundation\Response;
 
 abstract class Controller
 {
@@ -18,9 +16,9 @@ abstract class Controller
     /**
      * Register middleware on the controller.
      *
-     * @param  Closure|array|string  $middleware
+     * @param  \Closure|array|string  $middleware
      * @param  array  $options
-     * @return ControllerMiddlewareOptions
+     * @return \Illuminate\Routing\ControllerMiddlewareOptions
      */
     public function middleware($middleware, array $options = [])
     {
@@ -49,7 +47,7 @@ abstract class Controller
      *
      * @param  string  $method
      * @param  array  $parameters
-     * @return Response
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function callAction($method, $parameters)
     {
@@ -63,7 +61,7 @@ abstract class Controller
      * @param  array  $parameters
      * @return mixed
      *
-     * @throws BadMethodCallException
+     * @throws \BadMethodCallException
      */
     public function __call($method, $parameters)
     {

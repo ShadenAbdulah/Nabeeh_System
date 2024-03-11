@@ -10,7 +10,7 @@ class FileViewFinder implements ViewFinderInterface
     /**
      * The filesystem instance.
      *
-     * @var Filesystem
+     * @var \Illuminate\Filesystem\Filesystem
      */
     protected $files;
 
@@ -45,7 +45,7 @@ class FileViewFinder implements ViewFinderInterface
     /**
      * Create a new file view loader instance.
      *
-     * @param Filesystem $files
+     * @param  \Illuminate\Filesystem\Filesystem  $files
      * @param  array  $paths
      * @param  array|null  $extensions
      * @return void
@@ -98,7 +98,7 @@ class FileViewFinder implements ViewFinderInterface
      * @param  string  $name
      * @return array
      *
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     protected function parseNamespaceSegments($name)
     {
@@ -122,7 +122,7 @@ class FileViewFinder implements ViewFinderInterface
      * @param  array  $paths
      * @return string
      *
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     protected function findInPaths($name, $paths)
     {
@@ -268,7 +268,7 @@ class FileViewFinder implements ViewFinderInterface
     /**
      * Get the filesystem instance.
      *
-     * @return Filesystem
+     * @return \Illuminate\Filesystem\Filesystem
      */
     public function getFilesystem()
     {

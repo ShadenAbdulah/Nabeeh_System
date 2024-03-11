@@ -15,7 +15,7 @@ class EncryptCookies
     /**
      * The encrypter instance.
      *
-     * @var EncrypterContract
+     * @var \Illuminate\Contracts\Encryption\Encrypter
      */
     protected $encrypter;
 
@@ -36,7 +36,7 @@ class EncryptCookies
     /**
      * Create a new CookieGuard instance.
      *
-     * @param EncrypterContract $encrypter
+     * @param  \Illuminate\Contracts\Encryption\Encrypter  $encrypter
      * @return void
      */
     public function __construct(EncrypterContract $encrypter)
@@ -59,8 +59,8 @@ class EncryptCookies
      * Handle an incoming request.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param Closure $next
-     * @return Response
+     * @param  \Closure  $next
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function handle($request, Closure $next)
     {
@@ -70,8 +70,8 @@ class EncryptCookies
     /**
      * Decrypt the cookies on the request.
      *
-     * @param Request $request
-     * @return Request
+     * @param  \Symfony\Component\HttpFoundation\Request  $request
+     * @return \Symfony\Component\HttpFoundation\Request
      */
     protected function decrypt(Request $request)
     {
@@ -164,8 +164,8 @@ class EncryptCookies
     /**
      * Encrypt the cookies on an outgoing response.
      *
-     * @param Response $response
-     * @return Response
+     * @param  \Symfony\Component\HttpFoundation\Response  $response
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     protected function encrypt(Response $response)
     {
@@ -189,9 +189,9 @@ class EncryptCookies
     /**
      * Duplicate a cookie with a new value.
      *
-     * @param Cookie $cookie
+     * @param  \Symfony\Component\HttpFoundation\Cookie  $cookie
      * @param  mixed  $value
-     * @return Cookie
+     * @return \Symfony\Component\HttpFoundation\Cookie
      */
     protected function duplicate(Cookie $cookie, $value)
     {

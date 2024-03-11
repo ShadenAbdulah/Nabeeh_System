@@ -11,15 +11,6 @@
 
 namespace Symfony\Polyfill\Intl\Normalizer;
 
-use ValueError;
-use function chr;
-use function defined;
-use function in_array;
-use function ini_get;
-use function ord;
-use function strlen;
-use const PHP_VERSION_ID;
-
 /**
  * Normalizer is a PHP fallback implementation of the Normalizer class provided by the intl extension.
  *
@@ -50,7 +41,7 @@ class Normalizer
 
     public static function isNormalized(string $s, int $form = self::FORM_C)
     {
-        if (!in_array($form, [self::NFD, self::NFKD, self::NFC, self::NFKC])) {
+        if (!\in_array($form, [self::NFD, self::NFKD, self::NFC, self::NFKC])) {
             return false;
         }
         if (!isset($s[strspn($s, self::$ASCII)])) {
@@ -75,15 +66,15 @@ class Normalizer
             case self::NFKC: $C = true; $K = true; break;
             case self::NFKD: $C = false; $K = true; break;
             default:
-                if (defined('Normalizer::NONE') && \Normalizer::NONE == $form) {
+                if (\defined('Normalizer::NONE') && \Normalizer::NONE == $form) {
                     return $s;
                 }
 
-                if (80000 > PHP_VERSION_ID) {
+                if (80000 > \PHP_VERSION_ID) {
                     return false;
                 }
 
-                throw new ValueError('normalizer_normalize(): Argument #2 ($form) must be a a valid normalization form');
+                throw new \ValueError('normalizer_normalize(): Argument #2 ($form) must be a a valid normalization form');
         }
 
         if ('' === $s) {
@@ -99,7 +90,7 @@ class Normalizer
             self::$cC = self::getData('combiningClass');
         }
 
-        if (null !== $mbEncoding = (2 /* MB_OVERLOAD_STRING */ & (int) ini_get('mbstring.func_overload')) ? mb_internal_encoding() : null) {
+        if (null !== $mbEncoding = (2 /* MB_OVERLOAD_STRING */ & (int) \ini_get('mbstring.func_overload')) ? mb_internal_encoding() : null) {
             mb_internal_encoding('8bit');
         }
 
@@ -129,7 +120,7 @@ class Normalizer
         $result = $tail = '';
 
         $i = $s[0] < "\x80" ? 1 : $ulenMask[$s[0] & "\xF0"];
-        $len = strlen($s);
+        $len = \strlen($s);
 
         $lastUchr = substr($s, 0, $i);
         $lastUcls = isset($combClass[$lastUchr]) ? 256 : 0;
@@ -181,20 +172,20 @@ class Normalizer
             } else {
                 // Hangul chars
 
-                $L = ord($lastUchr[2]) - 0x80;
-                $V = ord($uchr[2]) - 0xA1;
+                $L = \ord($lastUchr[2]) - 0x80;
+                $V = \ord($uchr[2]) - 0xA1;
                 $T = 0;
 
                 $uchr = substr($s, $i + $ulen, 3);
 
                 if ("\xE1\x86\xA7" <= $uchr && $uchr <= "\xE1\x87\x82") {
-                    $T = ord($uchr[2]) - 0xA7;
+                    $T = \ord($uchr[2]) - 0xA7;
                     0 > $T && $T += 0x40;
                     $ulen += 3;
                 }
 
                 $L = 0xAC00 + ($L * 21 + $V) * 28 + $T;
-                $lastUchr = chr(0xE0 | $L >> 12). chr(0x80 | $L >> 6 & 0x3F). chr(0x80 | $L & 0x3F);
+                $lastUchr = \chr(0xE0 | $L >> 12).\chr(0x80 | $L >> 6 & 0x3F).\chr(0x80 | $L & 0x3F);
             }
 
             $i += $ulen;
@@ -217,7 +208,7 @@ class Normalizer
 
         $c = [];
         $i = 0;
-        $len = strlen($s);
+        $len = \strlen($s);
 
         while ($i < $len) {
             if ($s[$i] < "\x80") {
@@ -245,7 +236,7 @@ class Normalizer
                 if ($uchr !== $j = $compatMap[$uchr] ?? ($decompMap[$uchr] ?? $uchr)) {
                     $uchr = $j;
 
-                    $j = strlen($uchr);
+                    $j = \strlen($uchr);
                     $ulen = $uchr[0] < "\x80" ? 1 : $ulenMask[$uchr[0] & "\xF0"];
 
                     if ($ulen != $j) {
@@ -282,13 +273,13 @@ class Normalizer
                 $uchr = unpack('C*', $uchr);
                 $j = (($uchr[1] - 224) << 12) + (($uchr[2] - 128) << 6) + $uchr[3] - 0xAC80;
 
-                $uchr = "\xE1\x84". chr(0x80 + (int) ($j / 588))
-                       ."\xE1\x85". chr(0xA1 + (int) (($j % 588) / 28));
+                $uchr = "\xE1\x84".\chr(0x80 + (int) ($j / 588))
+                       ."\xE1\x85".\chr(0xA1 + (int) (($j % 588) / 28));
 
                 if ($j %= 28) {
                     $uchr .= $j < 25
-                        ? ("\xE1\x86". chr(0xA7 + $j))
-                        : ("\xE1\x87". chr(0x67 + $j));
+                        ? ("\xE1\x86".\chr(0xA7 + $j))
+                        : ("\xE1\x87".\chr(0x67 + $j));
                 }
             }
             if ($c) {

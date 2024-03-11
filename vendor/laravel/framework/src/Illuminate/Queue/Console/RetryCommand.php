@@ -2,14 +2,12 @@
 
 namespace Illuminate\Queue\Console;
 
-use __PHP_Incomplete_Class;
 use DateTimeInterface;
 use Illuminate\Console\Command;
 use Illuminate\Contracts\Encryption\Encrypter;
 use Illuminate\Queue\Events\JobRetryRequested;
 use Illuminate\Support\Arr;
 use RuntimeException;
-use stdClass;
 use Symfony\Component\Console\Attribute\AsCommand;
 
 #[AsCommand(name: 'queue:retry')]
@@ -136,7 +134,7 @@ class RetryCommand extends Command
     /**
      * Retry the queue job.
      *
-     * @param  stdClass  $job
+     * @param  \stdClass  $job
      * @return void
      */
     protected function retryJob($job)
@@ -171,7 +169,7 @@ class RetryCommand extends Command
      * @param  string  $payload
      * @return string
      *
-     * @throws RuntimeException
+     * @throws \RuntimeException
      */
     protected function refreshRetryUntil($payload)
     {
@@ -191,7 +189,7 @@ class RetryCommand extends Command
             throw new RuntimeException('Unable to extract job payload.');
         }
 
-        if (is_object($instance) && ! $instance instanceof __PHP_Incomplete_Class && method_exists($instance, 'retryUntil')) {
+        if (is_object($instance) && ! $instance instanceof \__PHP_Incomplete_Class && method_exists($instance, 'retryUntil')) {
             $retryUntil = $instance->retryUntil();
 
             $payload['retryUntil'] = $retryUntil instanceof DateTimeInterface

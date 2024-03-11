@@ -4,7 +4,6 @@ namespace Illuminate\Foundation\Console;
 
 use Illuminate\Console\Command;
 use Illuminate\Contracts\Console\Kernel as ConsoleKernelContract;
-use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Routing\RouteCollection;
 use Symfony\Component\Console\Attribute\AsCommand;
@@ -29,14 +28,14 @@ class RouteCacheCommand extends Command
     /**
      * The filesystem instance.
      *
-     * @var Filesystem
+     * @var \Illuminate\Filesystem\Filesystem
      */
     protected $files;
 
     /**
      * Create a new route command instance.
      *
-     * @param Filesystem $files
+     * @param  \Illuminate\Filesystem\Filesystem  $files
      * @return void
      */
     public function __construct(Filesystem $files)
@@ -75,7 +74,7 @@ class RouteCacheCommand extends Command
     /**
      * Boot a fresh copy of the application and get the routes.
      *
-     * @return RouteCollection
+     * @return \Illuminate\Routing\RouteCollection
      */
     protected function getFreshApplicationRoutes()
     {
@@ -88,7 +87,7 @@ class RouteCacheCommand extends Command
     /**
      * Get a fresh application instance.
      *
-     * @return Application
+     * @return \Illuminate\Contracts\Foundation\Application
      */
     protected function getFreshApplication()
     {
@@ -100,7 +99,7 @@ class RouteCacheCommand extends Command
     /**
      * Build the route cache file.
      *
-     * @param RouteCollection $routes
+     * @param  \Illuminate\Routing\RouteCollection  $routes
      * @return string
      */
     protected function buildRouteCacheFile(RouteCollection $routes)

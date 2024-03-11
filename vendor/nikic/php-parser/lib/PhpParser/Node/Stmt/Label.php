@@ -4,7 +4,6 @@ namespace PhpParser\Node\Stmt;
 
 use PhpParser\Node\Identifier;
 use PhpParser\Node\Stmt;
-use function is_string;
 
 class Label extends Stmt {
     /** @var Identifier Name */
@@ -18,7 +17,7 @@ class Label extends Stmt {
      */
     public function __construct($name, array $attributes = []) {
         $this->attributes = $attributes;
-        $this->name = is_string($name) ? new Identifier($name) : $name;
+        $this->name = \is_string($name) ? new Identifier($name) : $name;
     }
 
     public function getSubNodeNames(): array {

@@ -2,15 +2,12 @@
 
 namespace Illuminate\Notifications;
 
-use Illuminate\Database\Eloquent\Relations\MorphMany;
-use Illuminate\Database\Query\Builder;
-
 trait HasDatabaseNotifications
 {
     /**
      * Get the entity's notifications.
      *
-     * @return MorphMany
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
      */
     public function notifications()
     {
@@ -20,7 +17,7 @@ trait HasDatabaseNotifications
     /**
      * Get the entity's read notifications.
      *
-     * @return Builder
+     * @return \Illuminate\Database\Query\Builder
      */
     public function readNotifications()
     {
@@ -30,7 +27,7 @@ trait HasDatabaseNotifications
     /**
      * Get the entity's unread notifications.
      *
-     * @return Builder
+     * @return \Illuminate\Database\Query\Builder
      */
     public function unreadNotifications()
     {

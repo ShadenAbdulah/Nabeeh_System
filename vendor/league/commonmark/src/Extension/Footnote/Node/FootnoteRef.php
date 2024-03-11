@@ -17,7 +17,6 @@ namespace League\CommonMark\Extension\Footnote\Node;
 use League\CommonMark\Node\Inline\AbstractInline;
 use League\CommonMark\Reference\ReferenceInterface;
 use League\CommonMark\Reference\ReferenceableInterface;
-use function count;
 
 final class FootnoteRef extends AbstractInline implements ReferenceableInterface
 {
@@ -36,7 +35,7 @@ final class FootnoteRef extends AbstractInline implements ReferenceableInterface
         $this->reference = $reference;
         $this->content   = $content;
 
-        if (count($data) > 0) {
+        if (\count($data) > 0) {
             $this->data->import($data);
         }
     }

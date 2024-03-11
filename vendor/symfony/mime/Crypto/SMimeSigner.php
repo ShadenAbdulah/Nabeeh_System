@@ -11,11 +11,8 @@
 
 namespace Symfony\Component\Mime\Crypto;
 
-use LogicException;
 use Symfony\Component\Mime\Exception\RuntimeException;
 use Symfony\Component\Mime\Message;
-use function extension_loaded;
-use const PKCS7_DETACHED;
 
 /**
  * @author Sebastiaan Stok <s.stok@rollerscapes.net>
@@ -34,10 +31,10 @@ final class SMimeSigner extends SMime
      * @param string|null $extraCerts           The path of the file containing intermediate certificates (in PEM format) needed by the signing certificate
      * @param int|null    $signOptions          Bitwise operator options for openssl_pkcs7_sign() (@see https://secure.php.net/manual/en/openssl.pkcs7.flags.php)
      */
-    public function __construct(string $certificate, string $privateKey, string $privateKeyPassphrase = null, string $extraCerts = null, int $signOptions = null)
+    public function __construct(string $certificate, string $privateKey, ?string $privateKeyPassphrase = null, ?string $extraCerts = null, ?int $signOptions = null)
     {
-        if (!extension_loaded('openssl')) {
-            throw new LogicException('PHP extension "openssl" is required to use SMime.');
+        if (!\extension_loaded('openssl')) {
+            throw new \LogicException('PHP extension "openssl" is required to use SMime.');
         }
 
         $this->signCertificate = $this->normalizeFilePath($certificate);
@@ -48,7 +45,7 @@ final class SMimeSigner extends SMime
             $this->signPrivateKey = $this->normalizeFilePath($privateKey);
         }
 
-        $this->signOptions = $signOptions ?? PKCS7_DETACHED;
+        $this->signOptions = $signOptions ?? \PKCS7_DETACHED;
         $this->extraCerts = $extraCerts ? realpath($extraCerts) : null;
     }
 

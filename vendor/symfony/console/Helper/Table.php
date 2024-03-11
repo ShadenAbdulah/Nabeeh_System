@@ -11,22 +11,12 @@
 
 namespace Symfony\Component\Console\Helper;
 
-use LogicException;
-use Stringable;
 use Symfony\Component\Console\Exception\InvalidArgumentException;
 use Symfony\Component\Console\Exception\RuntimeException;
 use Symfony\Component\Console\Formatter\OutputFormatter;
 use Symfony\Component\Console\Formatter\WrappableOutputFormatterInterface;
 use Symfony\Component\Console\Output\ConsoleSectionOutput;
 use Symfony\Component\Console\Output\OutputInterface;
-use Traversable;
-use function array_key_exists;
-use function count;
-use function is_array;
-use function is_scalar;
-use function is_string;
-use function strlen;
-use const STR_PAD_LEFT;
 
 /**
  * Provides helpers to display a table.
@@ -178,7 +168,7 @@ class Table
     public function setColumnMaxWidth(int $columnIndex, int $width): static
     {
         if (!$this->output->getFormatter() instanceof WrappableOutputFormatterInterface) {
-            throw new LogicException(sprintf('Setting a maximum column width is only supported when using a "%s" formatter, got "%s".', WrappableOutputFormatterInterface::class, get_debug_type($this->output->getFormatter())));
+            throw new \LogicException(sprintf('Setting a maximum column width is only supported when using a "%s" formatter, got "%s".', WrappableOutputFormatterInterface::class, get_debug_type($this->output->getFormatter())));
         }
 
         $this->columnMaxWidths[$columnIndex] = $width;
@@ -192,7 +182,7 @@ class Table
     public function setHeaders(array $headers): static
     {
         $headers = array_values($headers);
-        if ($headers && !is_array($headers[0])) {
+        if ($headers && !\is_array($headers[0])) {
             $headers = [$headers];
         }
 
@@ -371,23 +361,24 @@ class Table
                 }
 
                 $headers = $this->headers[0] ?? [];
-                $maxRows = max(count($headers), count($row));
+                $maxRows = max(\count($headers), \count($row));
                 for ($i = 0; $i < $maxRows; ++$i) {
                     $cell = (string) ($row[$i] ?? '');
 
-                    $parts = explode("\n", $cell);
+                    $eol = str_contains($cell, "\r\n") ? "\r\n" : "\n";
+                    $parts = explode($eol, $cell);
                     foreach ($parts as $idx => $part) {
                         if ($headers && !$containsColspan) {
                             if (0 === $idx) {
                                 $rows[] = [sprintf(
                                     '<comment>%s</>: %s',
-                                    str_pad($headers[$i] ?? '', $maxHeaderLength, ' ', STR_PAD_LEFT),
+                                    str_pad($headers[$i] ?? '', $maxHeaderLength, ' ', \STR_PAD_LEFT),
                                     $part
                                 )];
                             } else {
                                 $rows[] = [sprintf(
                                     '%s  %s',
-                                    str_pad('', $maxHeaderLength, ' ', STR_PAD_LEFT),
+                                    str_pad('', $maxHeaderLength, ' ', \STR_PAD_LEFT),
                                     $part
                                 )];
                             }
@@ -476,7 +467,7 @@ class Table
      *
      *     +-----+-----------+-------+
      */
-    private function renderRowSeparator(int $type = self::SEPARATOR_MID, string $title = null, string $titleFormat = null): void
+    private function renderRowSeparator(int $type = self::SEPARATOR_MID, ?string $title = null, ?string $titleFormat = null): void
     {
         if (!$count = $this->numberOfColumns) {
             return;
@@ -541,11 +532,11 @@ class Table
      *
      *     | 9971-5-0210-0 | A Tale of Two Cities  | Charles Dickens  |
      */
-    private function renderRow(array $row, string $cellFormat, string $firstCellFormat = null): void
+    private function renderRow(array $row, string $cellFormat, ?string $firstCellFormat = null): void
     {
         $rowContent = $this->renderColumnSeparator(self::BORDER_OUTSIDE);
         $columns = $this->getRowColumns($row);
-        $last = count($columns) - 1;
+        $last = \count($columns) - 1;
         foreach ($columns as $i => $column) {
             if ($firstCellFormat && 0 === $i) {
                 $rowContent .= $this->renderCell($row, $column, $firstCellFormat);
@@ -573,7 +564,7 @@ class Table
 
         // str_pad won't work properly with multi-byte strings, we need to fix the padding
         if (false !== $encoding = mb_detect_encoding($cell, null, true)) {
-            $width += strlen($cell) - mb_strwidth($cell, $encoding);
+            $width += \strlen($cell) - mb_strwidth($cell, $encoding);
         }
 
         $style = $this->getColumnStyle($column);
@@ -590,7 +581,7 @@ class Table
             $isNotStyledByTag = !preg_match('/^<(\w+|(\w+=[\w,]+;?)*)>.+<\/(\w+|(\w+=\w+;?)*)?>$/', $cell);
             if ($isNotStyledByTag) {
                 $cellFormat = $cell->getStyle()->getCellFormat();
-                if (!is_string($cellFormat)) {
+                if (!\is_string($cellFormat)) {
                     $tag = http_build_query($cell->getStyle()->getTagOptions(), '', ';');
                     $cellFormat = '<'.$tag.'>%s</>';
                 }
@@ -601,7 +592,7 @@ class Table
                 }
                 if (str_contains($content, '<fg=default;bg=default>')) {
                     $content = str_replace('<fg=default;bg=default>', '', $content);
-                    $width -= strlen('<fg=default;bg=default>');
+                    $width -= \strlen('<fg=default;bg=default>');
                 }
             }
 
@@ -633,7 +624,7 @@ class Table
         /** @var WrappableOutputFormatterInterface $formatter */
         $formatter = $this->output->getFormatter();
         $unmergedRows = [];
-        for ($rowKey = 0; $rowKey < count($rows); ++$rowKey) {
+        for ($rowKey = 0; $rowKey < \count($rows); ++$rowKey) {
             $rows = $this->fillNextRows($rows, $rowKey);
 
             // Remove any new line breaks and replace it with a new line
@@ -646,9 +637,10 @@ class Table
                 if (!str_contains($cell ?? '', "\n")) {
                     continue;
                 }
-                $escaped = implode("\n", array_map(OutputFormatter::escapeTrailingBackslash(...), explode("\n", $cell)));
+                $eol = str_contains($cell ?? '', "\r\n") ? "\r\n" : "\n";
+                $escaped = implode($eol, array_map(OutputFormatter::escapeTrailingBackslash(...), explode($eol, $cell)));
                 $cell = $cell instanceof TableCell ? new TableCell($escaped, ['colspan' => $cell->getColspan()]) : $escaped;
-                $lines = explode("\n", str_replace("\n", "<fg=default;bg=default></>\n", $cell));
+                $lines = explode($eol, str_replace($eol, '<fg=default;bg=default></>'.$eol, $cell));
                 foreach ($lines as $lineKey => $line) {
                     if ($colspan > 1) {
                         $line = new TableCell($line, ['colspan' => $colspan]);
@@ -656,7 +648,7 @@ class Table
                     if (0 === $lineKey) {
                         $rows[$rowKey][$column] = $line;
                     } else {
-                        if (!array_key_exists($rowKey, $unmergedRows) || !array_key_exists($lineKey, $unmergedRows[$rowKey])) {
+                        if (!\array_key_exists($rowKey, $unmergedRows) || !\array_key_exists($lineKey, $unmergedRows[$rowKey])) {
                             $unmergedRows[$rowKey][$lineKey] = $this->copyRow($rows, $rowKey);
                         }
                         $unmergedRows[$rowKey][$lineKey][$column] = $line;
@@ -665,7 +657,7 @@ class Table
             }
         }
 
-        return new TableRows(function () use ($rows, $unmergedRows): Traversable {
+        return new TableRows(function () use ($rows, $unmergedRows): \Traversable {
             foreach ($rows as $rowKey => $row) {
                 $rowGroup = [$row instanceof TableSeparator ? $row : $this->fillCells($row)];
 
@@ -681,7 +673,7 @@ class Table
 
     private function calculateRowCount(): int
     {
-        $numberOfRows = count(iterator_to_array($this->buildTableRows(array_merge($this->headers, [new TableSeparator()], $this->rows))));
+        $numberOfRows = \count(iterator_to_array($this->buildTableRows(array_merge($this->headers, [new TableSeparator()], $this->rows))));
 
         if ($this->headers) {
             ++$numberOfRows; // Add row for header separator
@@ -703,21 +695,16 @@ class Table
     {
         $unmergedRows = [];
         foreach ($rows[$line] as $column => $cell) {
-            if (null !== $cell && !$cell instanceof TableCell && !is_scalar($cell) && !$cell instanceof Stringable) {
+            if (null !== $cell && !$cell instanceof TableCell && !\is_scalar($cell) && !$cell instanceof \Stringable) {
                 throw new InvalidArgumentException(sprintf('A cell must be a TableCell, a scalar or an object implementing "__toString()", "%s" given.', get_debug_type($cell)));
             }
             if ($cell instanceof TableCell && $cell->getRowspan() > 1) {
                 $nbLines = $cell->getRowspan() - 1;
                 $lines = [$cell];
                 if (str_contains($cell, "\n")) {
-<<<<<<< HEAD
                     $eol = str_contains($cell, "\r\n") ? "\r\n" : "\n";
                     $lines = explode($eol, str_replace($eol, '<fg=default;bg=default>'.$eol.'</>', $cell));
-                    $nbLines = count($lines) > $nbLines ? substr_count($cell, $eol) : $nbLines;
-=======
-                    $lines = explode("\n", str_replace("\n", "<fg=default;bg=default>\n</>", $cell));
-                    $nbLines = \count($lines) > $nbLines ? substr_count($cell, "\n") : $nbLines;
->>>>>>> parent of c8b1139b (update Ui)
+                    $nbLines = \count($lines) > $nbLines ? substr_count($cell, $eol) : $nbLines;
 
                     $rows[$line][$column] = new TableCell($lines[0], ['colspan' => $cell->getColspan(), 'style' => $cell->getStyle()]);
                     unset($lines[0]);
@@ -737,7 +724,7 @@ class Table
 
         foreach ($unmergedRows as $unmergedRowKey => $unmergedRow) {
             // we need to know if $unmergedRow will be merged or inserted into $rows
-            if (isset($rows[$unmergedRowKey]) && is_array($rows[$unmergedRowKey]) && ($this->getNumberOfColumns($rows[$unmergedRowKey]) + $this->getNumberOfColumns($unmergedRows[$unmergedRowKey]) <= $this->numberOfColumns)) {
+            if (isset($rows[$unmergedRowKey]) && \is_array($rows[$unmergedRowKey]) && ($this->getNumberOfColumns($rows[$unmergedRowKey]) + $this->getNumberOfColumns($unmergedRows[$unmergedRowKey]) <= $this->numberOfColumns)) {
                 foreach ($unmergedRow as $cellKey => $cell) {
                     // insert cell into row at cellKey position
                     array_splice($rows[$unmergedRowKey], $cellKey, 0, [$cell]);
@@ -794,7 +781,7 @@ class Table
      */
     private function getNumberOfColumns(array $row): int
     {
-        $columns = count($row);
+        $columns = \count($row);
         foreach ($row as $column) {
             $columns += $column instanceof TableCell ? ($column->getColspan() - 1) : 0;
         }

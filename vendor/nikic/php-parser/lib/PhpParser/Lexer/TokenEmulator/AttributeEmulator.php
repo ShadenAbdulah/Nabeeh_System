@@ -4,7 +4,6 @@ namespace PhpParser\Lexer\TokenEmulator;
 
 use PhpParser\PhpVersion;
 use PhpParser\Token;
-use const T_ATTRIBUTE;
 
 final class AttributeEmulator extends TokenEmulator {
     public function getPhpVersion(): PhpVersion {
@@ -22,7 +21,7 @@ final class AttributeEmulator extends TokenEmulator {
             $token = $tokens[$i];
             if ($token->text === '#' && isset($tokens[$i + 1]) && $tokens[$i + 1]->text === '[') {
                 array_splice($tokens, $i, 2, [
-                    new Token(T_ATTRIBUTE, '#[', $token->line, $token->pos),
+                    new Token(\T_ATTRIBUTE, '#[', $token->line, $token->pos),
                 ]);
                 $c--;
                 continue;

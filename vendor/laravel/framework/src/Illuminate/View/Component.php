@@ -4,7 +4,6 @@ namespace Illuminate\View;
 
 use Closure;
 use Illuminate\Container\Container;
-use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Contracts\View\View as ViewContract;
 use ReflectionClass;
@@ -30,7 +29,7 @@ abstract class Component
     /**
      * The component attributes.
      *
-     * @var ComponentAttributeBag
+     * @var \Illuminate\View\ComponentAttributeBag
      */
     public $attributes;
 
@@ -44,7 +43,7 @@ abstract class Component
     /**
      * The component resolver callback.
      *
-     * @var (Closure(string, array): Component)|null
+     * @var (\Closure(string, array): Component)|null
      */
     protected static $componentsResolver;
 
@@ -79,7 +78,7 @@ abstract class Component
     /**
      * Get the view / view contents that represent the component.
      *
-     * @return ViewContract|Htmlable|Closure|string
+     * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\Support\Htmlable|\Closure|string
      */
     abstract public function render();
 
@@ -129,7 +128,7 @@ abstract class Component
     /**
      * Resolve the Blade view or view file that should be used when rendering the component.
      *
-     * @return ViewContract|Htmlable|Closure|string
+     * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\Support\Htmlable|\Closure|string
      */
     public function resolveView()
     {
@@ -284,7 +283,7 @@ abstract class Component
     /**
      * Create a callable variable from the given method.
      *
-     * @param ReflectionMethod $method
+     * @param  \ReflectionMethod  $method
      * @return mixed
      */
     protected function createVariableFromMethod(ReflectionMethod $method)
@@ -298,7 +297,7 @@ abstract class Component
      * Create an invokable, toStringable variable for the given component method.
      *
      * @param  string  $method
-     * @return InvokableComponentVariable
+     * @return \Illuminate\View\InvokableComponentVariable
      */
     protected function createInvokableVariable(string $method)
     {
@@ -374,7 +373,7 @@ abstract class Component
      * Get a new attribute bag instance.
      *
      * @param  array  $attributes
-     * @return ComponentAttributeBag
+     * @return \Illuminate\View\ComponentAttributeBag
      */
     protected function newAttributeBag(array $attributes = [])
     {
@@ -395,9 +394,9 @@ abstract class Component
      * Get the evaluated view contents for the given view.
      *
      * @param  string|null  $view
-     * @param  Arrayable|array  $data
+     * @param  \Illuminate\Contracts\Support\Arrayable|array  $data
      * @param  array  $mergeData
-     * @return ViewContract
+     * @return \Illuminate\Contracts\View\View
      */
     public function view($view, $data = [], $mergeData = [])
     {
@@ -456,7 +455,7 @@ abstract class Component
     /**
      * Set the callback that should be used to resolve components within views.
      *
-     * @param Closure(string $component, array $data): Component $resolver
+     * @param  \Closure(string $component, array $data): Component  $resolver
      * @return void
      *
      * @internal

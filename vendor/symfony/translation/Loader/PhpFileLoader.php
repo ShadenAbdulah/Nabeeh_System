@@ -11,12 +11,6 @@
 
 namespace Symfony\Component\Translation\Loader;
 
-use function function_exists;
-use function in_array;
-use function ini_get;
-use const FILTER_VALIDATE_BOOL;
-use const PHP_SAPI;
-
 /**
  * PhpFileLoader loads translations from PHP files returning an array of translations.
  *
@@ -28,7 +22,7 @@ class PhpFileLoader extends FileLoader
 
     protected function loadResource(string $resource): array
     {
-        if ([] === self::$cache && function_exists('opcache_invalidate') && filter_var(ini_get('opcache.enable'), FILTER_VALIDATE_BOOL) && (!in_array(PHP_SAPI, ['cli', 'phpdbg', 'embed'], true) || filter_var(ini_get('opcache.enable_cli'), FILTER_VALIDATE_BOOL))) {
+        if ([] === self::$cache && \function_exists('opcache_invalidate') && filter_var(\ini_get('opcache.enable'), \FILTER_VALIDATE_BOOL) && (!\in_array(\PHP_SAPI, ['cli', 'phpdbg', 'embed'], true) || filter_var(\ini_get('opcache.enable_cli'), \FILTER_VALIDATE_BOOL))) {
             self::$cache = null;
         }
 

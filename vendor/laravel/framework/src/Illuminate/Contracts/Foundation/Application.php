@@ -3,8 +3,6 @@
 namespace Illuminate\Contracts\Foundation;
 
 use Illuminate\Contracts\Container\Container;
-use Illuminate\Support\ServiceProvider;
-use RuntimeException;
 
 interface Application extends Container
 {
@@ -111,7 +109,7 @@ interface Application extends Container
     /**
      * Get an instance of the maintenance mode manager implementation.
      *
-     * @return MaintenanceMode
+     * @return \Illuminate\Contracts\Foundation\MaintenanceMode
      */
     public function maintenanceMode();
 
@@ -132,9 +130,9 @@ interface Application extends Container
     /**
      * Register a service provider with the application.
      *
-     * @param  ServiceProvider|string  $provider
+     * @param  \Illuminate\Support\ServiceProvider|string  $provider
      * @param  bool  $force
-     * @return ServiceProvider
+     * @return \Illuminate\Support\ServiceProvider
      */
     public function register($provider, $force = false);
 
@@ -151,7 +149,7 @@ interface Application extends Container
      * Resolve a service provider instance from the class name.
      *
      * @param  string  $provider
-     * @return ServiceProvider
+     * @return \Illuminate\Support\ServiceProvider
      */
     public function resolveProvider($provider);
 
@@ -198,14 +196,14 @@ interface Application extends Container
      *
      * @return string
      *
-     * @throws RuntimeException
+     * @throws \RuntimeException
      */
     public function getNamespace();
 
     /**
      * Get the registered service provider instances if any exist.
      *
-     * @param  ServiceProvider|string  $provider
+     * @param  \Illuminate\Support\ServiceProvider|string  $provider
      * @return array
      */
     public function getProviders($provider);
@@ -243,7 +241,7 @@ interface Application extends Container
      * Register a terminating callback with the application.
      *
      * @param  callable|string  $callback
-     * @return Application
+     * @return \Illuminate\Contracts\Foundation\Application
      */
     public function terminating($callback);
 

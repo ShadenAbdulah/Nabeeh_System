@@ -34,10 +34,6 @@ use League\CommonMark\Parser\Block\DocumentBlockParser;
 use League\CommonMark\Parser\Block\ParagraphParser;
 use League\CommonMark\Reference\ReferenceInterface;
 use League\CommonMark\Reference\ReferenceMap;
-use function array_pop;
-use function assert;
-use function count;
-use function end;
 
 final class MarkdownParser implements MarkdownParserInterface
 {
@@ -105,7 +101,7 @@ final class MarkdownParser implements MarkdownParserInterface
         }
 
         // finalizeAndProcess
-        $this->closeBlockParsers(count($this->activeBlockParsers), $this->lineNumber);
+        $this->closeBlockParsers(\count($this->activeBlockParsers), $this->lineNumber);
         $this->processInlines();
 
         $this->environment->dispatch(new DocumentParsedEvent($documentParser->getBlock()));
@@ -126,7 +122,7 @@ final class MarkdownParser implements MarkdownParserInterface
             return;
         }
 
-        $unmatchedBlocks = count($this->activeBlockParsers) - $matches;
+        $unmatchedBlocks = \count($this->activeBlockParsers) - $matches;
         $blockParser     = $this->activeBlockParsers[$matches - 1];
         $startedNewBlock = false;
 
@@ -197,7 +193,7 @@ final class MarkdownParser implements MarkdownParserInterface
         // For each containing block, try to parse the associated line start.
         // The document will always match, so we can skip the first block parser and start at 1 matches
         $matches = 1;
-        for ($i = 1; $i < count($this->activeBlockParsers); $i++) {
+        for ($i = 1; $i < \count($this->activeBlockParsers); $i++) {
             $blockParser   = $this->activeBlockParsers[$i];
             $blockContinue = $blockParser->tryContinue(clone $this->cursor, $this->getActiveBlockParser());
             if ($blockContinue === null) {
@@ -205,7 +201,7 @@ final class MarkdownParser implements MarkdownParserInterface
             }
 
             if ($blockContinue->isFinalize()) {
-                $this->closeBlockParsers(count($this->activeBlockParsers) - $i, $this->lineNumber);
+                $this->closeBlockParsers(\count($this->activeBlockParsers) - $i, $this->lineNumber);
 
                 return null;
             }
@@ -225,7 +221,7 @@ final class MarkdownParser implements MarkdownParserInterface
         $matchedBlockParser = new MarkdownParserState($this->getActiveBlockParser(), $lastMatchedBlockParser);
 
         foreach ($this->environment->getBlockStartParsers() as $blockStartParser) {
-            assert($blockStartParser instanceof BlockStartParserInterface);
+            \assert($blockStartParser instanceof BlockStartParserInterface);
             if (($result = $blockStartParser->tryStart(clone $this->cursor, $matchedBlockParser)) !== null) {
                 return $result;
             }
@@ -303,7 +299,7 @@ final class MarkdownParser implements MarkdownParserInterface
      */
     private function deactivateBlockParser(): BlockContinueParserInterface
     {
-        $popped = array_pop($this->activeBlockParsers);
+        $popped = \array_pop($this->activeBlockParsers);
         if ($popped === null) {
             throw new ParserLogicException('The last block parser should not be deactivated');
         }
@@ -340,7 +336,7 @@ final class MarkdownParser implements MarkdownParserInterface
      */
     public function getActiveBlockParser(): BlockContinueParserInterface
     {
-        $active = end($this->activeBlockParsers);
+        $active = \end($this->activeBlockParsers);
         if ($active === false) {
             throw new ParserLogicException('No active block parsers are available');
         }

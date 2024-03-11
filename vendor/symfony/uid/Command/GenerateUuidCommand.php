@@ -11,10 +11,6 @@
 
 namespace Symfony\Component\Uid\Command;
 
-use DateTimeImmutable;
-use Exception;
-use InvalidArgumentException;
-use LogicException;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Completion\CompletionInput;
@@ -26,14 +22,13 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Uid\Factory\UuidFactory;
 use Symfony\Component\Uid\Uuid;
-use function in_array;
 
 #[AsCommand(name: 'uuid:generate', description: 'Generate a UUID')]
 class GenerateUuidCommand extends Command
 {
     private UuidFactory $factory;
 
-    public function __construct(UuidFactory $factory = null)
+    public function __construct(?UuidFactory $factory = null)
     {
         $this->factory = $factory ?? new UuidFactory();
 
@@ -122,7 +117,7 @@ EOF
                 if (null !== $node) {
                     try {
                         $node = Uuid::fromString($node);
-                    } catch (InvalidArgumentException $e) {
+                    } catch (\InvalidArgumentException $e) {
                         $io->error(sprintf('Invalid node "%s": %s', $node, $e->getMessage()));
 
                         return 1;
@@ -130,21 +125,21 @@ EOF
                 }
 
                 try {
-                    new DateTimeImmutable($time);
-                } catch (Exception $e) {
+                    new \DateTimeImmutable($time);
+                } catch (\Exception $e) {
                     $io->error(sprintf('Invalid timestamp "%s": %s', $time, str_replace('DateTimeImmutable::__construct(): ', '', $e->getMessage())));
 
                     return 1;
                 }
 
-                $create = fn (): Uuid => $this->factory->timeBased($node)->create(new DateTimeImmutable($time));
+                $create = fn (): Uuid => $this->factory->timeBased($node)->create(new \DateTimeImmutable($time));
                 break;
 
             case null !== $name:
-                if ($namespace && !in_array($namespace, ['dns', 'url', 'oid', 'x500'], true)) {
+                if ($namespace && !\in_array($namespace, ['dns', 'url', 'oid', 'x500'], true)) {
                     try {
                         $namespace = Uuid::fromString($namespace);
-                    } catch (InvalidArgumentException $e) {
+                    } catch (\InvalidArgumentException $e) {
                         $io->error(sprintf('Invalid namespace "%s": %s', $namespace, $e->getMessage()));
 
                         return 1;
@@ -154,8 +149,8 @@ EOF
                 $create = function () use ($namespace, $name): Uuid {
                     try {
                         $factory = $this->factory->nameBased($namespace);
-                    } catch (LogicException) {
-                        throw new InvalidArgumentException('Missing namespace: use the "--namespace" option or configure a default namespace in the underlying factory.');
+                    } catch (\LogicException) {
+                        throw new \InvalidArgumentException('Missing namespace: use the "--namespace" option or configure a default namespace in the underlying factory.');
                     }
 
                     return $factory->create($name);
@@ -173,7 +168,7 @@ EOF
 
         $formatOption = $input->getOption('format');
 
-        if (in_array($formatOption, $this->getAvailableFormatOptions())) {
+        if (\in_array($formatOption, $this->getAvailableFormatOptions())) {
             $format = 'to'.ucfirst($formatOption);
         } else {
             $io->error(sprintf('Invalid format "%s", supported formats are "%s".', $formatOption, implode('", "', $this->getAvailableFormatOptions())));
@@ -186,7 +181,7 @@ EOF
             for ($i = 0; $i < $count; ++$i) {
                 $output->writeln($create()->$format());
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $io->error($e->getMessage());
 
             return 1;

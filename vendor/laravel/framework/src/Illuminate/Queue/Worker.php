@@ -6,7 +6,6 @@ use Illuminate\Contracts\Cache\Repository as CacheContract;
 use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Contracts\Queue\Factory as QueueManager;
-use Illuminate\Contracts\Queue\Job;
 use Illuminate\Database\DetectsLostConnections;
 use Illuminate\Queue\Events\JobExceptionOccurred;
 use Illuminate\Queue\Events\JobPopped;
@@ -38,28 +37,28 @@ class Worker
     /**
      * The queue manager instance.
      *
-     * @var QueueManager
+     * @var \Illuminate\Contracts\Queue\Factory
      */
     protected $manager;
 
     /**
      * The event dispatcher instance.
      *
-     * @var Dispatcher
+     * @var \Illuminate\Contracts\Events\Dispatcher
      */
     protected $events;
 
     /**
      * The cache repository implementation.
      *
-     * @var CacheContract
+     * @var \Illuminate\Contracts\Cache\Repository
      */
     protected $cache;
 
     /**
      * The exception handler instance.
      *
-     * @var ExceptionHandler
+     * @var \Illuminate\Contracts\Debug\ExceptionHandler
      */
     protected $exceptions;
 
@@ -101,9 +100,9 @@ class Worker
     /**
      * Create a new queue worker.
      *
-     * @param QueueManager $manager
-     * @param Dispatcher $events
-     * @param ExceptionHandler $exceptions
+     * @param  \Illuminate\Contracts\Queue\Factory  $manager
+     * @param  \Illuminate\Contracts\Events\Dispatcher  $events
+     * @param  \Illuminate\Contracts\Debug\ExceptionHandler  $exceptions
      * @param  callable  $isDownForMaintenance
      * @param  callable|null  $resetScope
      * @return void
@@ -126,7 +125,7 @@ class Worker
      *
      * @param  string  $connectionName
      * @param  string  $queue
-     * @param WorkerOptions $options
+     * @param  \Illuminate\Queue\WorkerOptions  $options
      * @return int
      */
     public function daemon($connectionName, $queue, WorkerOptions $options)
@@ -203,8 +202,8 @@ class Worker
     /**
      * Register the worker timeout handler.
      *
-     * @param  Job|null  $job
-     * @param WorkerOptions $options
+     * @param  \Illuminate\Contracts\Queue\Job|null  $job
+     * @param  \Illuminate\Queue\WorkerOptions  $options
      * @return void
      */
     protected function registerTimeoutHandler($job, WorkerOptions $options)
@@ -252,8 +251,8 @@ class Worker
     /**
      * Get the appropriate timeout for the given job.
      *
-     * @param  Job|null  $job
-     * @param WorkerOptions $options
+     * @param  \Illuminate\Contracts\Queue\Job|null  $job
+     * @param  \Illuminate\Queue\WorkerOptions  $options
      * @return int
      */
     protected function timeoutForJob($job, WorkerOptions $options)
@@ -264,7 +263,7 @@ class Worker
     /**
      * Determine if the daemon should process on this iteration.
      *
-     * @param WorkerOptions $options
+     * @param  \Illuminate\Queue\WorkerOptions  $options
      * @param  string  $connectionName
      * @param  string  $queue
      * @return bool
@@ -279,7 +278,7 @@ class Worker
     /**
      * Pause the worker for the current loop.
      *
-     * @param WorkerOptions $options
+     * @param  \Illuminate\Queue\WorkerOptions  $options
      * @param  int  $lastRestart
      * @return int|null
      */
@@ -293,7 +292,7 @@ class Worker
     /**
      * Determine the exit code to stop the process if necessary.
      *
-     * @param WorkerOptions $options
+     * @param  \Illuminate\Queue\WorkerOptions  $options
      * @param  int  $lastRestart
      * @param  int  $startTime
      * @param  int  $jobsProcessed
@@ -318,7 +317,7 @@ class Worker
      *
      * @param  string  $connectionName
      * @param  string  $queue
-     * @param WorkerOptions $options
+     * @param  \Illuminate\Queue\WorkerOptions  $options
      * @return void
      */
     public function runNextJob($connectionName, $queue, WorkerOptions $options)
@@ -342,7 +341,7 @@ class Worker
      *
      * @param  \Illuminate\Contracts\Queue\Queue  $connection
      * @param  string  $queue
-     * @return Job|null
+     * @return \Illuminate\Contracts\Queue\Job|null
      */
     protected function getNextJob($connection, $queue)
     {
@@ -379,9 +378,9 @@ class Worker
     /**
      * Process the given job.
      *
-     * @param  Job  $job
+     * @param  \Illuminate\Contracts\Queue\Job  $job
      * @param  string  $connectionName
-     * @param WorkerOptions $options
+     * @param  \Illuminate\Queue\WorkerOptions  $options
      * @return void
      */
     protected function runJob($job, $connectionName, WorkerOptions $options)
@@ -398,7 +397,7 @@ class Worker
     /**
      * Stop the worker if we have lost connection to a database.
      *
-     * @param Throwable $e
+     * @param  \Throwable  $e
      * @return void
      */
     protected function stopWorkerIfLostConnection($e)
@@ -412,11 +411,11 @@ class Worker
      * Process the given job from the queue.
      *
      * @param  string  $connectionName
-     * @param  Job  $job
-     * @param WorkerOptions $options
+     * @param  \Illuminate\Contracts\Queue\Job  $job
+     * @param  \Illuminate\Queue\WorkerOptions  $options
      * @return void
      *
-     * @throws Throwable
+     * @throws \Throwable
      */
     public function process($connectionName, $job, WorkerOptions $options)
     {
@@ -449,12 +448,12 @@ class Worker
      * Handle an exception that occurred while the job was running.
      *
      * @param  string  $connectionName
-     * @param  Job  $job
-     * @param WorkerOptions $options
-     * @param Throwable $e
+     * @param  \Illuminate\Contracts\Queue\Job  $job
+     * @param  \Illuminate\Queue\WorkerOptions  $options
+     * @param  \Throwable  $e
      * @return void
      *
-     * @throws Throwable
+     * @throws \Throwable
      */
     protected function handleJobException($connectionName, $job, WorkerOptions $options, Throwable $e)
     {
@@ -497,11 +496,11 @@ class Worker
      * This will likely be because the job previously exceeded a timeout.
      *
      * @param  string  $connectionName
-     * @param  Job  $job
+     * @param  \Illuminate\Contracts\Queue\Job  $job
      * @param  int  $maxTries
      * @return void
      *
-     * @throws Throwable
+     * @throws \Throwable
      */
     protected function markJobAsFailedIfAlreadyExceedsMaxAttempts($connectionName, $job, $maxTries)
     {
@@ -526,9 +525,9 @@ class Worker
      * Mark the given job as failed if it has exceeded the maximum allowed attempts.
      *
      * @param  string  $connectionName
-     * @param  Job  $job
+     * @param  \Illuminate\Contracts\Queue\Job  $job
      * @param  int  $maxTries
-     * @param Throwable $e
+     * @param  \Throwable  $e
      * @return void
      */
     protected function markJobAsFailedIfWillExceedMaxAttempts($connectionName, $job, $maxTries, Throwable $e)
@@ -548,8 +547,8 @@ class Worker
      * Mark the given job as failed if it has exceeded the maximum allowed attempts.
      *
      * @param  string  $connectionName
-     * @param  Job  $job
-     * @param Throwable $e
+     * @param  \Illuminate\Contracts\Queue\Job  $job
+     * @param  \Throwable  $e
      * @return void
      */
     protected function markJobAsFailedIfWillExceedMaxExceptions($connectionName, $job, Throwable $e)
@@ -574,8 +573,8 @@ class Worker
      * Mark the given job as failed if it should fail on timeouts.
      *
      * @param  string  $connectionName
-     * @param  Job  $job
-     * @param Throwable $e
+     * @param  \Illuminate\Contracts\Queue\Job  $job
+     * @param  \Throwable  $e
      * @return void
      */
     protected function markJobAsFailedIfItShouldFailOnTimeout($connectionName, $job, Throwable $e)
@@ -588,8 +587,8 @@ class Worker
     /**
      * Mark the given job as failed and raise the relevant event.
      *
-     * @param  Job  $job
-     * @param Throwable $e
+     * @param  \Illuminate\Contracts\Queue\Job  $job
+     * @param  \Throwable  $e
      * @return void
      */
     protected function failJob($job, Throwable $e)
@@ -600,8 +599,8 @@ class Worker
     /**
      * Calculate the backoff for the given job.
      *
-     * @param  Job  $job
-     * @param WorkerOptions $options
+     * @param  \Illuminate\Contracts\Queue\Job  $job
+     * @param  \Illuminate\Queue\WorkerOptions  $options
      * @return int
      */
     protected function calculateBackoff($job, WorkerOptions $options)
@@ -631,7 +630,7 @@ class Worker
      * Raise the after job has been popped.
      *
      * @param  string  $connectionName
-     * @param  Job|null  $job
+     * @param  \Illuminate\Contracts\Queue\Job|null  $job
      * @return void
      */
     protected function raiseAfterJobPopEvent($connectionName, $job)
@@ -645,7 +644,7 @@ class Worker
      * Raise the before queue job event.
      *
      * @param  string  $connectionName
-     * @param  Job  $job
+     * @param  \Illuminate\Contracts\Queue\Job  $job
      * @return void
      */
     protected function raiseBeforeJobEvent($connectionName, $job)
@@ -659,7 +658,7 @@ class Worker
      * Raise the after queue job event.
      *
      * @param  string  $connectionName
-     * @param  Job  $job
+     * @param  \Illuminate\Contracts\Queue\Job  $job
      * @return void
      */
     protected function raiseAfterJobEvent($connectionName, $job)
@@ -673,8 +672,8 @@ class Worker
      * Raise the exception occurred queue job event.
      *
      * @param  string  $connectionName
-     * @param  Job  $job
-     * @param Throwable $e
+     * @param  \Illuminate\Contracts\Queue\Job  $job
+     * @param  \Throwable  $e
      * @return void
      */
     protected function raiseExceptionOccurredJobEvent($connectionName, $job, Throwable $e)
@@ -761,7 +760,7 @@ class Worker
      * Kill the process.
      *
      * @param  int  $status
-     * @param WorkerOptions|null  $options
+     * @param  \Illuminate\Queue\WorkerOptions|null  $options
      * @return never
      */
     public function kill($status = 0, $options = null)
@@ -778,8 +777,8 @@ class Worker
     /**
      * Create an instance of MaxAttemptsExceededException.
      *
-     * @param  Job  $job
-     * @return MaxAttemptsExceededException
+     * @param  \Illuminate\Contracts\Queue\Job  $job
+     * @return \Illuminate\Queue\MaxAttemptsExceededException
      */
     protected function maxAttemptsExceededException($job)
     {
@@ -789,8 +788,8 @@ class Worker
     /**
      * Create an instance of TimeoutExceededException.
      *
-     * @param  Job  $job
-     * @return TimeoutExceededException
+     * @param  \Illuminate\Contracts\Queue\Job  $job
+     * @return \Illuminate\Queue\TimeoutExceededException
      */
     protected function timeoutExceededException($job)
     {
@@ -815,7 +814,7 @@ class Worker
     /**
      * Set the cache repository implementation.
      *
-     * @param CacheContract $cache
+     * @param  \Illuminate\Contracts\Cache\Repository  $cache
      * @return $this
      */
     public function setCache(CacheContract $cache)
@@ -857,7 +856,7 @@ class Worker
     /**
      * Get the queue manager instance.
      *
-     * @return QueueManager
+     * @return \Illuminate\Contracts\Queue\Factory
      */
     public function getManager()
     {
@@ -867,7 +866,7 @@ class Worker
     /**
      * Set the queue manager instance.
      *
-     * @param QueueManager $manager
+     * @param  \Illuminate\Contracts\Queue\Factory  $manager
      * @return void
      */
     public function setManager(QueueManager $manager)

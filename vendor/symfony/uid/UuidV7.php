@@ -11,13 +11,6 @@
 
 namespace Symfony\Component\Uid;
 
-use DateTimeImmutable;
-use DateTimeInterface;
-use InvalidArgumentException;
-use function strlen;
-use const PHP_INT_SIZE;
-use const STR_PAD_LEFT;
-
 /**
  * A v7 UUID is lexicographically sortable and contains a 48-bit timestamp and 74 extra unique bits.
  *
@@ -35,7 +28,7 @@ class UuidV7 extends Uuid implements TimeBasedUidInterface
     private static array $seedParts;
     private static int $seedIndex = 0;
 
-    public function __construct(string $uuid = null)
+    public function __construct(?string $uuid = null)
     {
         if (null === $uuid) {
             $this->uid = static::generate();
@@ -44,29 +37,25 @@ class UuidV7 extends Uuid implements TimeBasedUidInterface
         }
     }
 
-    public function getDateTime(): DateTimeImmutable
+    public function getDateTime(): \DateTimeImmutable
     {
         $time = substr($this->uid, 0, 8).substr($this->uid, 9, 4);
-        $time = PHP_INT_SIZE >= 8 ? (string) hexdec($time) : BinaryUtil::toBase(hex2bin($time), BinaryUtil::BASE10);
+        $time = \PHP_INT_SIZE >= 8 ? (string) hexdec($time) : BinaryUtil::toBase(hex2bin($time), BinaryUtil::BASE10);
 
-        if (4 > strlen($time)) {
+        if (4 > \strlen($time)) {
             $time = '000'.$time;
         }
 
-        return DateTimeImmutable::createFromFormat('U.v', substr_replace($time, '.', -3, 0));
+        return \DateTimeImmutable::createFromFormat('U.v', substr_replace($time, '.', -3, 0));
     }
 
-<<<<<<< HEAD
-    public static function generate(?DateTimeInterface $time = null): string
-=======
-    public static function generate(\DateTimeInterface $time = null): string
->>>>>>> parent of c8b1139b (update Ui)
+    public static function generate(?\DateTimeInterface $time = null): string
     {
         if (null === $mtime = $time) {
             $time = microtime(false);
             $time = substr($time, 11).substr($time, 2, 3);
         } elseif (0 > $time = $time->format('Uv')) {
-            throw new InvalidArgumentException('The timestamp must be positive.');
+            throw new \InvalidArgumentException('The timestamp must be positive.');
         }
 
         if ($time > self::$time || (null !== $mtime && $time !== self::$time)) {
@@ -104,12 +93,12 @@ class UuidV7 extends Uuid implements TimeBasedUidInterface
             self::$rand[1] += $carry >> 16;
 
             if (0xFC00 & self::$rand[1]) {
-                if (PHP_INT_SIZE >= 8 || 10 > strlen($time = self::$time)) {
+                if (\PHP_INT_SIZE >= 8 || 10 > \strlen($time = self::$time)) {
                     $time = (string) (1 + $time);
                 } elseif ('999999999' === $mtime = substr($time, -9)) {
                     $time = (1 + substr($time, 0, -9)).'000000000';
                 } else {
-                    $time = substr_replace($time, str_pad(++$mtime, 9, '0', STR_PAD_LEFT), -9);
+                    $time = substr_replace($time, str_pad(++$mtime, 9, '0', \STR_PAD_LEFT), -9);
                 }
 
                 goto randomize;
@@ -118,7 +107,7 @@ class UuidV7 extends Uuid implements TimeBasedUidInterface
             $time = self::$time;
         }
 
-        if (PHP_INT_SIZE >= 8) {
+        if (\PHP_INT_SIZE >= 8) {
             $time = dechex($time);
         } else {
             $time = bin2hex(BinaryUtil::fromBase($time, BinaryUtil::BASE10));

@@ -3,8 +3,6 @@
 namespace PhpParser\Lexer\TokenEmulator;
 
 use PhpParser\Token;
-use const T_OBJECT_OPERATOR;
-use const T_STRING;
 
 abstract class KeywordEmulator extends TokenEmulator {
     abstract public function getKeywordString(): string;
@@ -17,7 +15,7 @@ abstract class KeywordEmulator extends TokenEmulator {
     /** @param Token[] $tokens */
     protected function isKeywordContext(array $tokens, int $pos): bool {
         $previousNonSpaceToken = $this->getPreviousNonSpaceToken($tokens, $pos);
-        return $previousNonSpaceToken === null || $previousNonSpaceToken->id !== T_OBJECT_OPERATOR;
+        return $previousNonSpaceToken === null || $previousNonSpaceToken->id !== \T_OBJECT_OPERATOR;
     }
 
     public function emulate(string $code, array $tokens): array {
@@ -49,7 +47,7 @@ abstract class KeywordEmulator extends TokenEmulator {
         $keywordToken = $this->getKeywordToken();
         foreach ($tokens as $token) {
             if ($token->id === $keywordToken) {
-                $token->id = T_STRING;
+                $token->id = \T_STRING;
             }
         }
 

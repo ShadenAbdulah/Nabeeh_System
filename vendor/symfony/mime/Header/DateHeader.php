@@ -11,9 +11,6 @@
 
 namespace Symfony\Component\Mime\Header;
 
-use DateTimeImmutable;
-use DateTimeInterface;
-
 /**
  * A Date MIME Header.
  *
@@ -21,9 +18,9 @@ use DateTimeInterface;
  */
 final class DateHeader extends AbstractHeader
 {
-    private DateTimeImmutable $dateTime;
+    private \DateTimeImmutable $dateTime;
 
-    public function __construct(string $name, DateTimeInterface $date)
+    public function __construct(string $name, \DateTimeInterface $date)
     {
         parent::__construct($name);
 
@@ -31,19 +28,19 @@ final class DateHeader extends AbstractHeader
     }
 
     /**
-     * @param DateTimeInterface $body
+     * @param \DateTimeInterface $body
      */
     public function setBody(mixed $body): void
     {
         $this->setDateTime($body);
     }
 
-    public function getBody(): DateTimeImmutable
+    public function getBody(): \DateTimeImmutable
     {
         return $this->getDateTime();
     }
 
-    public function getDateTime(): DateTimeImmutable
+    public function getDateTime(): \DateTimeImmutable
     {
         return $this->dateTime;
     }
@@ -53,13 +50,13 @@ final class DateHeader extends AbstractHeader
      *
      * If a DateTime instance is provided, it is converted to DateTimeImmutable.
      */
-    public function setDateTime(DateTimeInterface $dateTime): void
+    public function setDateTime(\DateTimeInterface $dateTime): void
     {
-        $this->dateTime = DateTimeImmutable::createFromInterface($dateTime);
+        $this->dateTime = \DateTimeImmutable::createFromInterface($dateTime);
     }
 
     public function getBodyAsString(): string
     {
-        return $this->dateTime->format(DateTimeInterface::RFC2822);
+        return $this->dateTime->format(\DateTimeInterface::RFC2822);
     }
 }

@@ -2,7 +2,6 @@
 
 namespace Illuminate\Routing;
 
-use Closure;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Contracts\Routing\ResponseFactory as ResponseFactoryContract;
 use Illuminate\Contracts\Routing\UrlGenerator as UrlGeneratorContract;
@@ -95,7 +94,7 @@ class RoutingServiceProvider extends ServiceProvider
     /**
      * Get the URL generator request rebinder.
      *
-     * @return Closure
+     * @return \Closure
      */
     protected function requestRebinder()
     {
@@ -130,7 +129,7 @@ class RoutingServiceProvider extends ServiceProvider
      *
      * @return void
      *
-     * @throws BindingResolutionException
+     * @throws \Illuminate\Contracts\Container\BindingResolutionException
      */
     protected function registerPsrRequest()
     {
@@ -159,7 +158,7 @@ class RoutingServiceProvider extends ServiceProvider
      *
      * @return void
      *
-     * @throws BindingResolutionException
+     * @throws \Illuminate\Contracts\Container\BindingResolutionException
      */
     protected function registerPsrResponse()
     {

@@ -2,17 +2,15 @@
 
 namespace Illuminate\Database\Eloquent\Factories;
 
-use Closure;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
-use Illuminate\Support\Collection;
 
 class BelongsToRelationship
 {
     /**
      * The related factory instance.
      *
-     * @var Factory|Model
+     * @var \Illuminate\Database\Eloquent\Factories\Factory|\Illuminate\Database\Eloquent\Model
      */
     protected $factory;
 
@@ -33,7 +31,7 @@ class BelongsToRelationship
     /**
      * Create a new "belongs to" relationship definition.
      *
-     * @param Factory|Model $factory
+     * @param  \Illuminate\Database\Eloquent\Factories\Factory|\Illuminate\Database\Eloquent\Model  $factory
      * @param  string  $relationship
      * @return void
      */
@@ -46,7 +44,7 @@ class BelongsToRelationship
     /**
      * Get the parent model attributes and resolvers for the given child model.
      *
-     * @param Model $model
+     * @param  \Illuminate\Database\Eloquent\Model  $model
      * @return array
      */
     public function attributesFor(Model $model)
@@ -65,7 +63,7 @@ class BelongsToRelationship
      * Get the deferred resolver for this relationship's parent ID.
      *
      * @param  string|null  $key
-     * @return Closure
+     * @return \Closure
      */
     protected function resolver($key)
     {
@@ -85,7 +83,7 @@ class BelongsToRelationship
     /**
      * Specify the model instances to always use when creating relationships.
      *
-     * @param  Collection  $recycle
+     * @param  \Illuminate\Support\Collection  $recycle
      * @return $this
      */
     public function recycle($recycle)

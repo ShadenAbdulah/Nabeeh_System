@@ -24,7 +24,7 @@ class FakeProcessSequence
     /**
      * The response that should be returned when the sequence is empty.
      *
-     * @var ProcessResultContract|FakeProcessDescription
+     * @var \Illuminate\Contracts\Process\ProcessResult|\Illuminate\Process\FakeProcessDescription
      */
     protected $emptyProcess;
 
@@ -42,7 +42,7 @@ class FakeProcessSequence
     /**
      * Push a new process result or description onto the sequence.
      *
-     * @param ProcessResultContract|FakeProcessDescription|array|string  $process
+     * @param  \Illuminate\Contracts\Process\ProcessResult|\Illuminate\Process\FakeProcessDescription|array|string  $process
      * @return $this
      */
     public function push(ProcessResultContract|FakeProcessDescription|array|string $process)
@@ -55,7 +55,7 @@ class FakeProcessSequence
     /**
      * Make the sequence return a default result when it is empty.
      *
-     * @param ProcessResultContract|FakeProcessDescription|array|string  $process
+     * @param  \Illuminate\Contracts\Process\ProcessResult|\Illuminate\Process\FakeProcessDescription|array|string  $process
      * @return $this
      */
     public function whenEmpty(ProcessResultContract|FakeProcessDescription|array|string $process)
@@ -69,8 +69,8 @@ class FakeProcessSequence
     /**
      * Convert the given result into an actual process result or description.
      *
-     * @param ProcessResultContract|FakeProcessDescription|array|string  $process
-     * @return ProcessResultContract|FakeProcessDescription
+     * @param  \Illuminate\Contracts\Process\ProcessResult|\Illuminate\Process\FakeProcessDescription|array|string  $process
+     * @return \Illuminate\Contracts\Process\ProcessResult|\Illuminate\Process\FakeProcessDescription
      */
     protected function toProcessResult(ProcessResultContract|FakeProcessDescription|array|string $process)
     {
@@ -102,9 +102,9 @@ class FakeProcessSequence
     /**
      * Get the next process in the sequence.
      *
-     * @return ProcessResultContract|FakeProcessDescription
+     * @return \Illuminate\Contracts\Process\ProcessResult|\Illuminate\Process\FakeProcessDescription
      *
-     * @throws OutOfBoundsException
+     * @throws \OutOfBoundsException
      */
     public function __invoke()
     {

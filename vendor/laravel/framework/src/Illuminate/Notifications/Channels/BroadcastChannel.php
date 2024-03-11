@@ -13,14 +13,14 @@ class BroadcastChannel
     /**
      * The event dispatcher.
      *
-     * @var Dispatcher
+     * @var \Illuminate\Contracts\Events\Dispatcher
      */
     protected $events;
 
     /**
      * Create a new broadcast channel.
      *
-     * @param Dispatcher $events
+     * @param  \Illuminate\Contracts\Events\Dispatcher  $events
      * @return void
      */
     public function __construct(Dispatcher $events)
@@ -32,7 +32,7 @@ class BroadcastChannel
      * Send the given notification.
      *
      * @param  mixed  $notifiable
-     * @param Notification $notification
+     * @param  \Illuminate\Notifications\Notification  $notification
      * @return array|null
      */
     public function send($notifiable, Notification $notification)
@@ -55,10 +55,10 @@ class BroadcastChannel
      * Get the data for the notification.
      *
      * @param  mixed  $notifiable
-     * @param Notification $notification
+     * @param  \Illuminate\Notifications\Notification  $notification
      * @return mixed
      *
-     * @throws RuntimeException
+     * @throws \RuntimeException
      */
     protected function getData($notifiable, Notification $notification)
     {

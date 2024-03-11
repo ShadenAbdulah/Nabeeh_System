@@ -2,7 +2,6 @@
 
 namespace Illuminate\Auth\Events;
 
-use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Queue\SerializesModels;
 
 class Logout
@@ -19,7 +18,7 @@ class Logout
     /**
      * The authenticated user.
      *
-     * @var Authenticatable
+     * @var \Illuminate\Contracts\Auth\Authenticatable
      */
     public $user;
 
@@ -27,7 +26,7 @@ class Logout
      * Create a new event instance.
      *
      * @param  string  $guard
-     * @param  Authenticatable  $user
+     * @param  \Illuminate\Contracts\Auth\Authenticatable  $user
      * @return void
      */
     public function __construct($guard, $user)

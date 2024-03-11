@@ -13,11 +13,6 @@ namespace Symfony\Component\HttpKernel\Debug;
 
 use Psr\Log\LoggerInterface;
 use Symfony\Component\ErrorHandler\ErrorHandler;
-use function is_array;
-use function is_int;
-use const E_ALL;
-use const E_DEPRECATED;
-use const E_USER_DEPRECATED;
 
 /**
  * Configures the error handler.
@@ -41,15 +36,11 @@ class ErrorHandlerConfigurator
      * @param bool           $scream  Enables/disables screaming mode, where even silenced errors are logged
      * @param bool           $scope   Enables/disables scoping mode
      */
-<<<<<<< HEAD
-    public function __construct(?LoggerInterface $logger = null, array|int|null $levels = E_ALL, ?int $throwAt = E_ALL, bool $scream = true, bool $scope = true, ?LoggerInterface $deprecationLogger = null)
-=======
-    public function __construct(LoggerInterface $logger = null, array|int|null $levels = \E_ALL, ?int $throwAt = \E_ALL, bool $scream = true, bool $scope = true, LoggerInterface $deprecationLogger = null)
->>>>>>> parent of c8b1139b (update Ui)
+    public function __construct(?LoggerInterface $logger = null, array|int|null $levels = \E_ALL, ?int $throwAt = \E_ALL, bool $scream = true, bool $scope = true, ?LoggerInterface $deprecationLogger = null)
     {
         $this->logger = $logger;
-        $this->levels = $levels ?? E_ALL;
-        $this->throwAt = is_int($throwAt) ? $throwAt : (null === $throwAt ? null : ($throwAt ? E_ALL : null));
+        $this->levels = $levels ?? \E_ALL;
+        $this->throwAt = \is_int($throwAt) ? $throwAt : (null === $throwAt ? null : ($throwAt ? \E_ALL : null));
         $this->scream = $scream;
         $this->scope = $scope;
         $this->deprecationLogger = $deprecationLogger;
@@ -62,7 +53,7 @@ class ErrorHandlerConfigurator
     {
         if ($this->logger || $this->deprecationLogger) {
             $this->setDefaultLoggers($handler);
-            if (is_array($this->levels)) {
+            if (\is_array($this->levels)) {
                 $levels = 0;
                 foreach ($this->levels as $type => $log) {
                     $levels |= $type;
@@ -75,7 +66,7 @@ class ErrorHandlerConfigurator
                 $handler->screamAt($levels);
             }
             if ($this->scope) {
-                $handler->scopeAt($levels & ~E_USER_DEPRECATED & ~E_DEPRECATED);
+                $handler->scopeAt($levels & ~\E_USER_DEPRECATED & ~\E_DEPRECATED);
             } else {
                 $handler->scopeAt(0, true);
             }
@@ -88,19 +79,19 @@ class ErrorHandlerConfigurator
 
     private function setDefaultLoggers(ErrorHandler $handler): void
     {
-        if (is_array($this->levels)) {
+        if (\is_array($this->levels)) {
             $levelsDeprecatedOnly = [];
             $levelsWithoutDeprecated = [];
             foreach ($this->levels as $type => $log) {
-                if (E_DEPRECATED == $type || E_USER_DEPRECATED == $type) {
+                if (\E_DEPRECATED == $type || \E_USER_DEPRECATED == $type) {
                     $levelsDeprecatedOnly[$type] = $log;
                 } else {
                     $levelsWithoutDeprecated[$type] = $log;
                 }
             }
         } else {
-            $levelsDeprecatedOnly = $this->levels & (E_DEPRECATED | E_USER_DEPRECATED);
-            $levelsWithoutDeprecated = $this->levels & ~E_DEPRECATED & ~E_USER_DEPRECATED;
+            $levelsDeprecatedOnly = $this->levels & (\E_DEPRECATED | \E_USER_DEPRECATED);
+            $levelsWithoutDeprecated = $this->levels & ~\E_DEPRECATED & ~\E_USER_DEPRECATED;
         }
 
         $defaultLoggerLevels = $this->levels;

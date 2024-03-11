@@ -2,15 +2,13 @@
 
 namespace Illuminate\Queue\Connectors;
 
-use Illuminate\Contracts\Queue\Queue;
-
 interface ConnectorInterface
 {
     /**
      * Establish a queue connection.
      *
      * @param  array  $config
-     * @return Queue
+     * @return \Illuminate\Contracts\Queue\Queue
      */
     public function connect(array $config);
 }

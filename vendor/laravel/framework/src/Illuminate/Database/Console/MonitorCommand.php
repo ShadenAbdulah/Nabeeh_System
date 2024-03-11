@@ -5,7 +5,6 @@ namespace Illuminate\Database\Console;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Database\ConnectionResolverInterface;
 use Illuminate\Database\Events\DatabaseBusy;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Composer;
 use Symfony\Component\Console\Attribute\AsCommand;
 
@@ -31,23 +30,23 @@ class MonitorCommand extends DatabaseInspectionCommand
     /**
      * The connection resolver instance.
      *
-     * @var ConnectionResolverInterface
+     * @var \Illuminate\Database\ConnectionResolverInterface
      */
     protected $connection;
 
     /**
      * The events dispatcher instance.
      *
-     * @var Dispatcher
+     * @var \Illuminate\Contracts\Events\Dispatcher
      */
     protected $events;
 
     /**
      * Create a new command instance.
      *
-     * @param ConnectionResolverInterface $connection
-     * @param Dispatcher $events
-     * @param Composer $composer
+     * @param  \Illuminate\Database\ConnectionResolverInterface  $connection
+     * @param  \Illuminate\Contracts\Events\Dispatcher  $events
+     * @param  \Illuminate\Support\Composer  $composer
      */
     public function __construct(ConnectionResolverInterface $connection, Dispatcher $events, Composer $composer)
     {
@@ -77,7 +76,7 @@ class MonitorCommand extends DatabaseInspectionCommand
      * Parse the database into an array of the connections.
      *
      * @param  string  $databases
-     * @return Collection
+     * @return \Illuminate\Support\Collection
      */
     protected function parseDatabases($databases)
     {
@@ -99,7 +98,7 @@ class MonitorCommand extends DatabaseInspectionCommand
     /**
      * Display the databases and their connection counts in the console.
      *
-     * @param  Collection  $databases
+     * @param  \Illuminate\Support\Collection  $databases
      * @return void
      */
     protected function displayConnections($databases)
@@ -120,7 +119,7 @@ class MonitorCommand extends DatabaseInspectionCommand
     /**
      * Dispatch the database monitoring events.
      *
-     * @param  Collection  $databases
+     * @param  \Illuminate\Support\Collection  $databases
      * @return void
      */
     protected function dispatchEvents($databases)

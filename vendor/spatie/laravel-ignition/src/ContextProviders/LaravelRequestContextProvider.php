@@ -4,7 +4,6 @@ namespace Spatie\LaravelIgnition\ContextProviders;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request as LaravelRequest;
-use Illuminate\Routing\Route;
 use Spatie\FlareClient\Context\RequestContextProvider;
 use Symfony\Component\HttpFoundation\Request as SymphonyRequest;
 use Throwable;
@@ -53,7 +52,7 @@ class LaravelRequestContextProvider extends RequestContextProvider
     {
         /**
          * @phpstan-ignore-next-line
-         * @var Route|null $route
+         * @var \Illuminate\Routing\Route|null $route
          */
         $route = $this->request->route();
 

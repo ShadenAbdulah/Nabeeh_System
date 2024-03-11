@@ -11,9 +11,7 @@
 
 namespace Symfony\Component\Console\Question;
 
-use LogicException;
 use Symfony\Component\Console\Exception\InvalidArgumentException;
-use function count;
 
 /**
  * Represents a choice question.
@@ -35,7 +33,7 @@ class ChoiceQuestion extends Question
     public function __construct(string $question, array $choices, mixed $default = null)
     {
         if (!$choices) {
-            throw new LogicException('Choice question must have at least 1 choice available.');
+            throw new \LogicException('Choice question must have at least 1 choice available.');
         }
 
         parent::__construct($question, $default);
@@ -145,7 +143,7 @@ class ChoiceQuestion extends Question
                     }
                 }
 
-                if (count($results) > 1) {
+                if (\count($results) > 1) {
                     throw new InvalidArgumentException(sprintf('The provided answer is ambiguous. Value should be one of "%s".', implode('" or "', $results)));
                 }
 

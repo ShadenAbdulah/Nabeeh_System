@@ -25,8 +25,6 @@ use Symfony\Component\Translation\MessageCatalogue;
 use Symfony\Component\Translation\Provider\TranslationProviderCollection;
 use Symfony\Component\Translation\Reader\TranslationReaderInterface;
 use Symfony\Component\Translation\Writer\TranslationWriterInterface;
-use function count;
-use const PHP_URL_SCHEME;
 
 /**
  * @author Mathieu Santostefano <msantostefano@protonmail.com>
@@ -87,7 +85,7 @@ final class TranslationPullCommand extends Command
     protected function configure(): void
     {
         $keys = $this->providerCollection->keys();
-        $defaultProvider = 1 === count($keys) ? $keys[0] : null;
+        $defaultProvider = 1 === \count($keys) ? $keys[0] : null;
 
         $this
             ->setDefinition([
@@ -165,7 +163,7 @@ EOF
                 $this->writer->write($operation->getResult(), $format, $writeOptions);
             }
 
-            $io->success(sprintf('Local translations has been updated from "%s" (for "%s" locale(s), and "%s" domain(s)).', parse_url($provider, PHP_URL_SCHEME), implode(', ', $locales), implode(', ', $domains)));
+            $io->success(sprintf('Local translations has been updated from "%s" (for "%s" locale(s), and "%s" domain(s)).', parse_url($provider, \PHP_URL_SCHEME), implode(', ', $locales), implode(', ', $domains)));
 
             return 0;
         }
@@ -179,7 +177,7 @@ EOF
             $this->writer->write($catalogue, $format, $writeOptions);
         }
 
-        $io->success(sprintf('New translations from "%s" has been written locally (for "%s" locale(s), and "%s" domain(s)).', parse_url($provider, PHP_URL_SCHEME), implode(', ', $locales), implode(', ', $domains)));
+        $io->success(sprintf('New translations from "%s" has been written locally (for "%s" locale(s), and "%s" domain(s)).', parse_url($provider, \PHP_URL_SCHEME), implode(', ', $locales), implode(', ', $domains)));
 
         return 0;
     }

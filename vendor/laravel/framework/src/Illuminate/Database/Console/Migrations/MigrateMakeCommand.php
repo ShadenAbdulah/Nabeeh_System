@@ -31,14 +31,14 @@ class MigrateMakeCommand extends BaseCommand implements PromptsForMissingInput
     /**
      * The migration creator instance.
      *
-     * @var MigrationCreator
+     * @var \Illuminate\Database\Migrations\MigrationCreator
      */
     protected $creator;
 
     /**
      * The Composer instance.
      *
-     * @var Composer
+     * @var \Illuminate\Support\Composer
      *
      * @deprecated Will be removed in a future Laravel version.
      */
@@ -47,8 +47,8 @@ class MigrateMakeCommand extends BaseCommand implements PromptsForMissingInput
     /**
      * Create a new migration install command instance.
      *
-     * @param MigrationCreator $creator
-     * @param Composer $composer
+     * @param  \Illuminate\Database\Migrations\MigrationCreator  $creator
+     * @param  \Illuminate\Support\Composer  $composer
      * @return void
      */
     public function __construct(MigrationCreator $creator, Composer $composer)

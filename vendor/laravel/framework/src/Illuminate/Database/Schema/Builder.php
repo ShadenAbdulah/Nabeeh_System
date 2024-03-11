@@ -5,7 +5,6 @@ namespace Illuminate\Database\Schema;
 use Closure;
 use Illuminate\Container\Container;
 use Illuminate\Database\Connection;
-use Illuminate\Database\Schema\Grammars\Grammar;
 use Illuminate\Support\Traits\Macroable;
 use InvalidArgumentException;
 use LogicException;
@@ -17,21 +16,21 @@ class Builder
     /**
      * The database connection instance.
      *
-     * @var Connection
+     * @var \Illuminate\Database\Connection
      */
     protected $connection;
 
     /**
      * The schema grammar instance.
      *
-     * @var Grammar
+     * @var \Illuminate\Database\Schema\Grammars\Grammar
      */
     protected $grammar;
 
     /**
      * The Blueprint resolver callback.
      *
-     * @var Closure
+     * @var \Closure
      */
     protected $resolver;
 
@@ -59,7 +58,7 @@ class Builder
     /**
      * Create a new database Schema manager.
      *
-     * @param Connection $connection
+     * @param  \Illuminate\Database\Connection  $connection
      * @return void
      */
     public function __construct(Connection $connection)
@@ -85,7 +84,7 @@ class Builder
      * @param  string  $type
      * @return void
      *
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     public static function defaultMorphKeyType(string $type)
     {
@@ -133,7 +132,7 @@ class Builder
      * @param  string  $name
      * @return bool
      *
-     * @throws LogicException
+     * @throws \LogicException
      */
     public function createDatabase($name)
     {
@@ -146,7 +145,7 @@ class Builder
      * @param  string  $name
      * @return bool
      *
-     * @throws LogicException
+     * @throws \LogicException
      */
     public function dropDatabaseIfExists($name)
     {
@@ -204,6 +203,16 @@ class Builder
     }
 
     /**
+     * Get the names of the tables that belong to the database.
+     *
+     * @return array
+     */
+    public function getTableListing()
+    {
+        return array_column($this->getTables(), 'name');
+    }
+
+    /**
      * Get the views that belong to the database.
      *
      * @return array
@@ -228,11 +237,11 @@ class Builder
     /**
      * Get all of the table names for the database.
      *
+     * @deprecated Will be removed in a future Laravel version.
+     *
      * @return array
      *
-     * @throws LogicException
-     *@deprecated Will be removed in a future Laravel version.
-     *
+     * @throws \LogicException
      */
     public function getAllTables()
     {
@@ -278,7 +287,7 @@ class Builder
      *
      * @param  string  $table
      * @param  string  $column
-     * @param Closure $callback
+     * @param  \Closure  $callback
      * @return void
      */
     public function whenTableHasColumn(string $table, string $column, Closure $callback)
@@ -293,7 +302,7 @@ class Builder
      *
      * @param  string  $table
      * @param  string  $column
-     * @param Closure $callback
+     * @param  \Closure  $callback
      * @return void
      */
     public function whenTableDoesntHaveColumn(string $table, string $column, Closure $callback)
@@ -372,6 +381,43 @@ class Builder
     }
 
     /**
+     * Get the names of the indexes for a given table.
+     *
+     * @param  string  $table
+     * @return array
+     */
+    public function getIndexListing($table)
+    {
+        return array_column($this->getIndexes($table), 'name');
+    }
+
+    /**
+     * Determine if the given table has a given index.
+     *
+     * @param  string  $table
+     * @param  string|array  $index
+     * @param  string|null  $type
+     * @return bool
+     */
+    public function hasIndex($table, $index, $type = null)
+    {
+        $type = is_null($type) ? $type : strtolower($type);
+
+        foreach ($this->getIndexes($table) as $value) {
+            $typeMatches = is_null($type)
+                || ($type === 'primary' && $value['primary'])
+                || ($type === 'unique' && $value['unique'])
+                || $type === $value['type'];
+
+            if (($value['name'] === $index || $value['columns'] === $index) && $typeMatches) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
      * Get the foreign keys for a given table.
      *
      * @param  string  $table
@@ -390,7 +436,7 @@ class Builder
      * Modify a table on the schema.
      *
      * @param  string  $table
-     * @param Closure $callback
+     * @param  \Closure  $callback
      * @return void
      */
     public function table($table, Closure $callback)
@@ -402,7 +448,7 @@ class Builder
      * Create a new table on the schema.
      *
      * @param  string  $table
-     * @param Closure $callback
+     * @param  \Closure  $callback
      * @return void
      */
     public function create($table, Closure $callback)
@@ -459,7 +505,7 @@ class Builder
      *
      * @return void
      *
-     * @throws LogicException
+     * @throws \LogicException
      */
     public function dropAllTables()
     {
@@ -471,7 +517,7 @@ class Builder
      *
      * @return void
      *
-     * @throws LogicException
+     * @throws \LogicException
      */
     public function dropAllViews()
     {
@@ -483,7 +529,7 @@ class Builder
      *
      * @return void
      *
-     * @throws LogicException
+     * @throws \LogicException
      */
     public function dropAllTypes()
     {
@@ -531,7 +577,7 @@ class Builder
     /**
      * Disable foreign key constraints during the execution of a callback.
      *
-     * @param Closure $callback
+     * @param  \Closure  $callback
      * @return mixed
      */
     public function withoutForeignKeyConstraints(Closure $callback)
@@ -548,7 +594,7 @@ class Builder
     /**
      * Execute the blueprint to build / modify the table.
      *
-     * @param Blueprint $blueprint
+     * @param  \Illuminate\Database\Schema\Blueprint  $blueprint
      * @return void
      */
     protected function build(Blueprint $blueprint)
@@ -560,8 +606,8 @@ class Builder
      * Create a new command set with a Closure.
      *
      * @param  string  $table
-     * @param Closure|null  $callback
-     * @return Blueprint
+     * @param  \Closure|null  $callback
+     * @return \Illuminate\Database\Schema\Blueprint
      */
     protected function createBlueprint($table, Closure $callback = null)
     {
@@ -579,7 +625,7 @@ class Builder
     /**
      * Get the database connection instance.
      *
-     * @return Connection
+     * @return \Illuminate\Database\Connection
      */
     public function getConnection()
     {
@@ -589,7 +635,7 @@ class Builder
     /**
      * Set the database connection instance.
      *
-     * @param Connection $connection
+     * @param  \Illuminate\Database\Connection  $connection
      * @return $this
      */
     public function setConnection(Connection $connection)
@@ -602,7 +648,7 @@ class Builder
     /**
      * Set the Schema Blueprint resolver callback.
      *
-     * @param Closure $resolver
+     * @param  \Closure  $resolver
      * @return void
      */
     public function blueprintResolver(Closure $resolver)

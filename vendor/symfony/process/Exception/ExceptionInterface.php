@@ -11,13 +11,11 @@
 
 namespace Symfony\Component\Process\Exception;
 
-use Throwable;
-
 /**
  * Marker Interface for the Process Component.
  *
  * @author Johannes M. Schmitt <schmittjoh@gmail.com>
  */
-interface ExceptionInterface extends Throwable
+interface ExceptionInterface extends \Throwable
 {
 }

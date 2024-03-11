@@ -13,12 +13,10 @@ namespace Symfony\Component\Routing\Annotation;
 
 // do not deprecate in 6.4/7.0, to make it easier for the ecosystem to support 6.4, 7.4 and 8.0 simultaneously
 
-use Attribute;
-
 class_exists(\Symfony\Component\Routing\Attribute\Route::class);
 
 if (false) {
-    #[Attribute(Attribute::IS_REPEATABLE | Attribute::TARGET_CLASS | Attribute::TARGET_METHOD)]
+    #[\Attribute(\Attribute::IS_REPEATABLE | \Attribute::TARGET_CLASS | \Attribute::TARGET_METHOD)]
     class Route extends \Symfony\Component\Routing\Attribute\Route
     {
     }

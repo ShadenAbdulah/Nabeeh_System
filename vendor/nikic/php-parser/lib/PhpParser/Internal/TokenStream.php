@@ -2,16 +2,7 @@
 
 namespace PhpParser\Internal;
 
-use Exception;
 use PhpParser\Token;
-use function count;
-use function strlen;
-use function strrpos;
-use const T_CLOSE_TAG;
-use const T_CONSTANT_ENCAPSED_STRING;
-use const T_ENCAPSED_AND_WHITESPACE;
-use const T_OPEN_TAG;
-use const T_WHITESPACE;
 
 /**
  * Provides operations on token streams, for use by pretty printer.
@@ -95,7 +86,7 @@ class TokenStream {
     public function haveTokenImmediatelyAfter(int $pos, $expectedTokenType): bool {
         $tokens = $this->tokens;
         $pos++;
-        for ($c = count($tokens); $pos < $c; $pos++) {
+        for ($c = \count($tokens); $pos < $c; $pos++) {
             $token = $tokens[$pos];
             if ($token->is($expectedTokenType)) {
                 return true;
@@ -112,13 +103,13 @@ class TokenStream {
         $tokens = $this->tokens;
 
         $pos = $this->skipLeftWhitespace($pos);
-        if ($skipTokenType === T_WHITESPACE) {
+        if ($skipTokenType === \T_WHITESPACE) {
             return $pos;
         }
 
         if (!$tokens[$pos]->is($skipTokenType)) {
             // Shouldn't happen. The skip token MUST be there
-            throw new Exception('Encountered unexpected token');
+            throw new \Exception('Encountered unexpected token');
         }
         $pos--;
 
@@ -130,13 +121,13 @@ class TokenStream {
         $tokens = $this->tokens;
 
         $pos = $this->skipRightWhitespace($pos);
-        if ($skipTokenType === T_WHITESPACE) {
+        if ($skipTokenType === \T_WHITESPACE) {
             return $pos;
         }
 
         if (!$tokens[$pos]->is($skipTokenType)) {
             // Shouldn't happen. The skip token MUST be there
-            throw new Exception('Encountered unexpected token');
+            throw new \Exception('Encountered unexpected token');
         }
         $pos++;
 
@@ -167,7 +158,7 @@ class TokenStream {
      */
     public function skipRightWhitespace(int $pos): int {
         $tokens = $this->tokens;
-        for ($count = count($tokens); $pos < $count; $pos++) {
+        for ($count = \count($tokens); $pos < $count; $pos++) {
             if (!$tokens[$pos]->isIgnorable()) {
                 break;
             }
@@ -178,7 +169,7 @@ class TokenStream {
     /** @param int|string|(int|string)[] $findTokenType */
     public function findRight(int $pos, $findTokenType): int {
         $tokens = $this->tokens;
-        for ($count = count($tokens); $pos < $count; $pos++) {
+        for ($count = \count($tokens); $pos < $count; $pos++) {
             if ($tokens[$pos]->is($findTokenType)) {
                 return $pos;
             }
@@ -205,8 +196,8 @@ class TokenStream {
     }
 
     public function haveTagInRange(int $startPos, int $endPos): bool {
-        return $this->haveTokenInRange($startPos, $endPos, T_OPEN_TAG)
-            || $this->haveTokenInRange($startPos, $endPos, T_CLOSE_TAG);
+        return $this->haveTokenInRange($startPos, $endPos, \T_OPEN_TAG)
+            || $this->haveTokenInRange($startPos, $endPos, \T_CLOSE_TAG);
     }
 
     /**
@@ -236,7 +227,7 @@ class TokenStream {
             $token = $tokens[$pos];
             $id = $token->id;
             $text = $token->text;
-            if ($id === T_CONSTANT_ENCAPSED_STRING || $id === T_ENCAPSED_AND_WHITESPACE) {
+            if ($id === \T_CONSTANT_ENCAPSED_STRING || $id === \T_ENCAPSED_AND_WHITESPACE) {
                 $result .= $text;
             } else {
                 // TODO Handle non-space indentation
@@ -260,22 +251,18 @@ class TokenStream {
     private function calcIndentMap(): array {
         $indentMap = [];
         $indent = 0;
-        foreach ($this->tokens as $token) {
+        foreach ($this->tokens as $i => $token) {
             $indentMap[] = $indent;
 
-            if ($token->id === T_WHITESPACE) {
+            if ($token->id === \T_WHITESPACE) {
                 $content = $token->text;
-                $newlinePos = strrpos($content, "\n");
+                $newlinePos = \strrpos($content, "\n");
                 if (false !== $newlinePos) {
-<<<<<<< HEAD
-                    $indent = strlen($content) - $newlinePos - 1;
-                } elseif ($i === 1 && $this->tokens[0]->id === T_OPEN_TAG &&
-                          $this->tokens[0]->text[strlen($this->tokens[0]->text) - 1] === "\n") {
-                    // Special case: Newline at the end of opening tag followed by whitespace.
-                    $indent = strlen($content);
-=======
                     $indent = \strlen($content) - $newlinePos - 1;
->>>>>>> parent of c8b1139b (update Ui)
+                } elseif ($i === 1 && $this->tokens[0]->id === \T_OPEN_TAG &&
+                          $this->tokens[0]->text[\strlen($this->tokens[0]->text) - 1] === "\n") {
+                    // Special case: Newline at the end of opening tag followed by whitespace.
+                    $indent = \strlen($content);
                 }
             }
         }

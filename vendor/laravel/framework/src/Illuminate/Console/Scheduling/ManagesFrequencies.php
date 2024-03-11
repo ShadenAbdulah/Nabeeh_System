@@ -2,8 +2,6 @@
 
 namespace Illuminate\Console\Scheduling;
 
-use Closure;
-use DateTimeZone;
 use Illuminate\Support\Carbon;
 use InvalidArgumentException;
 
@@ -51,7 +49,7 @@ trait ManagesFrequencies
      *
      * @param  string  $startTime
      * @param  string  $endTime
-     * @return Closure
+     * @return \Closure
      */
     private function inTimeInterval($startTime, $endTime)
     {
@@ -641,7 +639,7 @@ trait ManagesFrequencies
     /**
      * Set the timezone the date should be evaluated on.
      *
-     * @param  DateTimeZone|string  $timezone
+     * @param  \DateTimeZone|string  $timezone
      * @return $this
      */
     public function timezone($timezone)

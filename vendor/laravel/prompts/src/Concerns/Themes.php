@@ -8,8 +8,8 @@ use Laravel\Prompts\MultiSearchPrompt;
 use Laravel\Prompts\MultiSelectPrompt;
 use Laravel\Prompts\Note;
 use Laravel\Prompts\PasswordPrompt;
+use Laravel\Prompts\PausePrompt;
 use Laravel\Prompts\Progress;
-use Laravel\Prompts\Prompt;
 use Laravel\Prompts\SearchPrompt;
 use Laravel\Prompts\SelectPrompt;
 use Laravel\Prompts\Spinner;
@@ -21,6 +21,7 @@ use Laravel\Prompts\Themes\Default\MultiSearchPromptRenderer;
 use Laravel\Prompts\Themes\Default\MultiSelectPromptRenderer;
 use Laravel\Prompts\Themes\Default\NoteRenderer;
 use Laravel\Prompts\Themes\Default\PasswordPromptRenderer;
+use Laravel\Prompts\Themes\Default\PausePromptRenderer;
 use Laravel\Prompts\Themes\Default\ProgressRenderer;
 use Laravel\Prompts\Themes\Default\SearchPromptRenderer;
 use Laravel\Prompts\Themes\Default\SelectPromptRenderer;
@@ -39,7 +40,7 @@ trait Themes
     /**
      * The available themes.
      *
-     * @var array<string, array<class-string<Prompt>, class-string<object&callable>>>
+     * @var array<string, array<class-string<\Laravel\Prompts\Prompt>, class-string<object&callable>>>
      */
     protected static array $themes = [
         'default' => [
@@ -48,6 +49,7 @@ trait Themes
             SelectPrompt::class => SelectPromptRenderer::class,
             MultiSelectPrompt::class => MultiSelectPromptRenderer::class,
             ConfirmPrompt::class => ConfirmPromptRenderer::class,
+            PausePrompt::class => PausePromptRenderer::class,
             SearchPrompt::class => SearchPromptRenderer::class,
             MultiSearchPrompt::class => MultiSearchPromptRenderer::class,
             SuggestPrompt::class => SuggestPromptRenderer::class,
@@ -61,7 +63,7 @@ trait Themes
     /**
      * Get or set the active theme.
      *
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     public static function theme(?string $name = null): string
     {
@@ -79,7 +81,7 @@ trait Themes
     /**
      * Add a new theme.
      *
-     * @param  array<class-string<Prompt>, class-string<object&callable>>  $renderers
+     * @param  array<class-string<\Laravel\Prompts\Prompt>, class-string<object&callable>>  $renderers
      */
     public static function addTheme(string $name, array $renderers): void
     {

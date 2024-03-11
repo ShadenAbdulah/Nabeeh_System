@@ -2,14 +2,12 @@
 
 namespace Illuminate\Queue;
 
-use Illuminate\Contracts\Queue\Job;
-
 class TimeoutExceededException extends MaxAttemptsExceededException
 {
     /**
      * Create a new instance for the job.
      *
-     * @param  Job  $job
+     * @param  \Illuminate\Contracts\Queue\Job  $job
      * @return static
      */
     public static function forJob($job)

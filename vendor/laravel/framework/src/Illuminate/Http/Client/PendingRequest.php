@@ -11,8 +11,6 @@ use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Exception\TransferException;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Middleware;
-use GuzzleHttp\Promise\PromiseInterface;
-use GuzzleHttp\TransferStats;
 use GuzzleHttp\UriTemplate\UriTemplate;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Http\Client\Events\ConnectionFailed;
@@ -28,7 +26,6 @@ use JsonSerializable;
 use OutOfBoundsException;
 use Psr\Http\Message\MessageInterface;
 use Psr\Http\Message\RequestInterface;
-use Psr\Http\Message\StreamInterface;
 use RuntimeException;
 use Symfony\Component\VarDumper\VarDumper;
 
@@ -39,14 +36,14 @@ class PendingRequest
     /**
      * The factory instance.
      *
-     * @var Factory|null
+     * @var \Illuminate\Http\Client\Factory|null
      */
     protected $factory;
 
     /**
      * The Guzzle client instance.
      *
-     * @var Client
+     * @var \GuzzleHttp\Client
      */
     protected $client;
 
@@ -81,7 +78,7 @@ class PendingRequest
     /**
      * The raw body for the request.
      *
-     * @var StreamInterface|string
+     * @var \Psr\Http\Message\StreamInterface|string
      */
     protected $pendingBody;
 
@@ -102,7 +99,7 @@ class PendingRequest
     /**
      * The transfer stats for the request.
      *
-     * @var TransferStats
+     * @var \GuzzleHttp\TransferStats
      */
     protected $transferStats;
 
@@ -116,14 +113,14 @@ class PendingRequest
     /**
      * A callback to run when throwing if a server or client error occurs.
      *
-     * @var Closure
+     * @var \Closure
      */
     protected $throwCallback;
 
     /**
      * A callback to check if an exception should be thrown when a server or client error occurs.
      *
-     * @var Closure
+     * @var \Closure
      */
     protected $throwIfCallback;
 
@@ -158,14 +155,14 @@ class PendingRequest
     /**
      * The callbacks that should execute before the request is sent.
      *
-     * @var Collection
+     * @var \Illuminate\Support\Collection
      */
     protected $beforeSendingCallbacks;
 
     /**
      * The stub callables that will handle requests.
      *
-     * @var Collection|null
+     * @var \Illuminate\Support\Collection|null
      */
     protected $stubCallbacks;
 
@@ -179,7 +176,7 @@ class PendingRequest
     /**
      * The middleware callables added by users that will handle requests.
      *
-     * @var Collection
+     * @var \Illuminate\Support\Collection
      */
     protected $middleware;
 
@@ -193,14 +190,14 @@ class PendingRequest
     /**
      * The pending request promise.
      *
-     * @var PromiseInterface
+     * @var \GuzzleHttp\Promise\PromiseInterface
      */
     protected $promise;
 
     /**
      * The sent request object, if a request has been made.
      *
-     * @var Request|null
+     * @var \Illuminate\Http\Client\Request|null
      */
     protected $request;
 
@@ -221,7 +218,7 @@ class PendingRequest
     /**
      * Create a new HTTP Client instance.
      *
-     * @param Factory|null  $factory
+     * @param  \Illuminate\Http\Client\Factory|null  $factory
      * @param  array  $middleware
      * @return void
      */
@@ -262,7 +259,7 @@ class PendingRequest
     /**
      * Attach a raw body to the request.
      *
-     * @param  StreamInterface|string  $content
+     * @param  \Psr\Http\Message\StreamInterface|string  $content
      * @param  string  $contentType
      * @return $this
      */
@@ -603,13 +600,13 @@ class PendingRequest
     /**
      * Specify the number of times the request should be attempted.
      *
-     * @param  int  $times
+     * @param  array|int  $times
      * @param  Closure|int  $sleepMilliseconds
      * @param  callable|null  $when
      * @param  bool  $throw
      * @return $this
      */
-    public function retry(int $times, Closure|int $sleepMilliseconds = 0, ?callable $when = null, bool $throw = true)
+    public function retry(array|int $times, Closure|int $sleepMilliseconds = 0, ?callable $when = null, bool $throw = true)
     {
         $this->tries = $times;
         $this->retryDelay = $sleepMilliseconds;
@@ -766,7 +763,7 @@ class PendingRequest
      *
      * @param  string  $url
      * @param  array|string|null  $query
-     * @return Response
+     * @return \Illuminate\Http\Client\Response
      */
     public function get(string $url, $query = null)
     {
@@ -780,7 +777,7 @@ class PendingRequest
      *
      * @param  string  $url
      * @param  array|string|null  $query
-     * @return Response
+     * @return \Illuminate\Http\Client\Response
      */
     public function head(string $url, $query = null)
     {
@@ -794,7 +791,7 @@ class PendingRequest
      *
      * @param  string  $url
      * @param  array  $data
-     * @return Response
+     * @return \Illuminate\Http\Client\Response
      */
     public function post(string $url, $data = [])
     {
@@ -808,7 +805,7 @@ class PendingRequest
      *
      * @param  string  $url
      * @param  array  $data
-     * @return Response
+     * @return \Illuminate\Http\Client\Response
      */
     public function patch(string $url, $data = [])
     {
@@ -822,7 +819,7 @@ class PendingRequest
      *
      * @param  string  $url
      * @param  array  $data
-     * @return Response
+     * @return \Illuminate\Http\Client\Response
      */
     public function put(string $url, $data = [])
     {
@@ -836,7 +833,7 @@ class PendingRequest
      *
      * @param  string  $url
      * @param  array  $data
-     * @return Response
+     * @return \Illuminate\Http\Client\Response
      */
     public function delete(string $url, $data = [])
     {
@@ -849,7 +846,7 @@ class PendingRequest
      * Send a pool of asynchronous requests concurrently.
      *
      * @param  callable  $callback
-     * @return array<array-key, Response>
+     * @return array<array-key, \Illuminate\Http\Client\Response>
      */
     public function pool(callable $callback)
     {
@@ -870,9 +867,9 @@ class PendingRequest
      * @param  string  $method
      * @param  string  $url
      * @param  array  $options
-     * @return Response
+     * @return \Illuminate\Http\Client\Response
      *
-     * @throws Exception
+     * @throws \Exception
      */
     public function send(string $method, string $url, array $options = [])
     {
@@ -924,7 +921,7 @@ class PendingRequest
                     }
                 });
             } catch (ConnectException $e) {
-                $this->dispatchConnectionFailedEvent();
+                $this->dispatchConnectionFailedEvent(new Request($e->getRequest()));
 
                 throw new ConnectionException($e->getMessage(), 0, $e);
             }
@@ -1000,7 +997,7 @@ class PendingRequest
      * @param  string  $method
      * @param  string  $url
      * @param  array  $options
-     * @return PromiseInterface
+     * @return \GuzzleHttp\Promise\PromiseInterface
      */
     protected function makePromise(string $method, string $url, array $options = [])
     {
@@ -1013,7 +1010,7 @@ class PendingRequest
             })
             ->otherwise(function (OutOfBoundsException|TransferException $e) {
                 if ($e instanceof ConnectException) {
-                    $this->dispatchConnectionFailedEvent();
+                    $this->dispatchConnectionFailedEvent(new Request($e->getRequest()));
                 }
 
                 return $e instanceof RequestException && $e->hasResponse() ? $this->populateResponse($this->newResponse($e->getResponse())) : $e;
@@ -1026,9 +1023,9 @@ class PendingRequest
      * @param  string  $method
      * @param  string  $url
      * @param  array  $options
-     * @return MessageInterface|PromiseInterface
+     * @return \Psr\Http\Message\MessageInterface|\GuzzleHttp\Promise\PromiseInterface
      *
-     * @throws Exception
+     * @throws \Exception
      */
     protected function sendRequest(string $method, string $url, array $options = [])
     {
@@ -1109,8 +1106,8 @@ class PendingRequest
     /**
      * Populate the given response with additional data.
      *
-     * @param Response $response
-     * @return Response
+     * @param  \Illuminate\Http\Client\Response  $response
+     * @return \Illuminate\Http\Client\Response
      */
     protected function populateResponse(Response $response)
     {
@@ -1124,7 +1121,7 @@ class PendingRequest
     /**
      * Build the Guzzle client.
      *
-     * @return Client
+     * @return \GuzzleHttp\Client
      */
     public function buildClient()
     {
@@ -1144,7 +1141,7 @@ class PendingRequest
     /**
      * Retrieve a reusable Guzzle client.
      *
-     * @return Client
+     * @return \GuzzleHttp\Client
      */
     protected function getReusableClient()
     {
@@ -1154,8 +1151,8 @@ class PendingRequest
     /**
      * Create new Guzzle client.
      *
-     * @param HandlerStack $handlerStack
-     * @return Client
+     * @param  \GuzzleHttp\HandlerStack  $handlerStack
+     * @return \GuzzleHttp\Client
      */
     public function createClient($handlerStack)
     {
@@ -1168,7 +1165,7 @@ class PendingRequest
     /**
      * Build the Guzzle client handler stack.
      *
-     * @return HandlerStack
+     * @return \GuzzleHttp\HandlerStack
      */
     public function buildHandlerStack()
     {
@@ -1178,8 +1175,8 @@ class PendingRequest
     /**
      * Add the necessary handlers to the given handler stack.
      *
-     * @param HandlerStack $handlerStack
-     * @return HandlerStack
+     * @param  \GuzzleHttp\HandlerStack  $handlerStack
+     * @return \GuzzleHttp\HandlerStack
      */
     public function pushHandlers($handlerStack)
     {
@@ -1198,7 +1195,7 @@ class PendingRequest
     /**
      * Build the before sending handler.
      *
-     * @return Closure
+     * @return \Closure
      */
     public function buildBeforeSendingHandler()
     {
@@ -1212,7 +1209,7 @@ class PendingRequest
     /**
      * Build the recorder handler.
      *
-     * @return Closure
+     * @return \Closure
      */
     public function buildRecorderHandler()
     {
@@ -1235,7 +1232,7 @@ class PendingRequest
     /**
      * Build the stub handler.
      *
-     * @return Closure
+     * @return \Closure
      */
     public function buildStubHandler()
     {
@@ -1272,7 +1269,7 @@ class PendingRequest
      * Get the sink stub handler callback.
      *
      * @param  string  $sink
-     * @return Closure
+     * @return \Closure
      */
     protected function sinkStubHandler($sink)
     {
@@ -1331,7 +1328,7 @@ class PendingRequest
     /**
      * Create a new response instance using the given PSR response.
      *
-     * @param MessageInterface $response
+     * @param  \Psr\Http\Message\MessageInterface  $response
      * @return Response
      */
     protected function newResponse($response)
@@ -1381,7 +1378,7 @@ class PendingRequest
     /**
      * Retrieve the pending request promise.
      *
-     * @return PromiseInterface|null
+     * @return \GuzzleHttp\Promise\PromiseInterface|null
      */
     public function getPromise()
     {
@@ -1403,13 +1400,12 @@ class PendingRequest
     /**
      * Dispatch the ResponseReceived event if a dispatcher is available.
      *
-     * @param Response $response
+     * @param  \Illuminate\Http\Client\Response  $response
      * @return void
      */
     protected function dispatchResponseReceivedEvent(Response $response)
     {
-        if (! ($dispatcher = $this->factory?->getDispatcher()) ||
-            ! $this->request) {
+        if (! ($dispatcher = $this->factory?->getDispatcher()) || ! $this->request) {
             return;
         }
 
@@ -1419,23 +1415,20 @@ class PendingRequest
     /**
      * Dispatch the ConnectionFailed event if a dispatcher is available.
      *
-<<<<<<< HEAD
-     * @param Request $request
-=======
->>>>>>> parent of c8b1139b (update Ui)
+     * @param  \Illuminate\Http\Client\Request  $request
      * @return void
      */
-    protected function dispatchConnectionFailedEvent()
+    protected function dispatchConnectionFailedEvent(Request $request)
     {
         if ($dispatcher = $this->factory?->getDispatcher()) {
-            $dispatcher->dispatch(new ConnectionFailed($this->request));
+            $dispatcher->dispatch(new ConnectionFailed($request));
         }
     }
 
     /**
      * Set the client instance.
      *
-     * @param Client $client
+     * @param  \GuzzleHttp\Client  $client
      * @return $this
      */
     public function setClient(Client $client)

@@ -2,15 +2,13 @@
 
 namespace Illuminate\Support\Traits;
 
-use Illuminate\Support\HigherOrderTapProxy;
-
 trait Tappable
 {
     /**
      * Call the given Closure with this instance then return the instance.
      *
      * @param  callable|null  $callback
-     * @return $this|HigherOrderTapProxy
+     * @return $this|\Illuminate\Support\HigherOrderTapProxy
      */
     public function tap($callback = null)
     {

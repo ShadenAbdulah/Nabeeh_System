@@ -2,8 +2,6 @@
 
 namespace Illuminate\Mail;
 
-use DateInterval;
-use DateTimeInterface;
 use Illuminate\Contracts\Mail\Mailable as MailableContract;
 use Illuminate\Contracts\Mail\Mailer as MailerContract;
 use Illuminate\Contracts\Translation\HasLocalePreference;
@@ -16,7 +14,7 @@ class PendingMail
     /**
      * The mailer instance.
      *
-     * @var MailerContract
+     * @var \Illuminate\Contracts\Mail\Mailer
      */
     protected $mailer;
 
@@ -51,7 +49,7 @@ class PendingMail
     /**
      * Create a new mailable mailer instance.
      *
-     * @param MailerContract $mailer
+     * @param  \Illuminate\Contracts\Mail\Mailer  $mailer
      * @return void
      */
     public function __construct(MailerContract $mailer)
@@ -118,8 +116,8 @@ class PendingMail
     /**
      * Send a new mailable message instance.
      *
-     * @param MailableContract $mailable
-     * @return SentMessage|null
+     * @param  \Illuminate\Contracts\Mail\Mailable  $mailable
+     * @return \Illuminate\Mail\SentMessage|null
      */
     public function send(MailableContract $mailable)
     {
@@ -129,7 +127,7 @@ class PendingMail
     /**
      * Push the given mailable onto the queue.
      *
-     * @param MailableContract $mailable
+     * @param  \Illuminate\Contracts\Mail\Mailable  $mailable
      * @return mixed
      */
     public function queue(MailableContract $mailable)
@@ -140,8 +138,8 @@ class PendingMail
     /**
      * Deliver the queued message after (n) seconds.
      *
-     * @param  DateTimeInterface|DateInterval|int  $delay
-     * @param MailableContract $mailable
+     * @param  \DateTimeInterface|\DateInterval|int  $delay
+     * @param  \Illuminate\Contracts\Mail\Mailable  $mailable
      * @return mixed
      */
     public function later($delay, MailableContract $mailable)
@@ -152,8 +150,8 @@ class PendingMail
     /**
      * Populate the mailable with the addresses.
      *
-     * @param MailableContract $mailable
-     * @return Mailable
+     * @param  \Illuminate\Contracts\Mail\Mailable  $mailable
+     * @return \Illuminate\Mail\Mailable
      */
     protected function fill(MailableContract $mailable)
     {

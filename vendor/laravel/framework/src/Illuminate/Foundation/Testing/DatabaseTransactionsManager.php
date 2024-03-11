@@ -2,9 +2,7 @@
 
 namespace Illuminate\Foundation\Testing;
 
-use Illuminate\Database\DatabaseTransactionRecord;
 use Illuminate\Database\DatabaseTransactionsManager as BaseManager;
-use Illuminate\Support\Collection;
 
 class DatabaseTransactionsManager extends BaseManager
 {
@@ -29,7 +27,7 @@ class DatabaseTransactionsManager extends BaseManager
     /**
      * Get the transactions that are applicable to callbacks.
      *
-     * @return Collection<int, DatabaseTransactionRecord>
+     * @return \Illuminate\Support\Collection<int, \Illuminate\Database\DatabaseTransactionRecord>
      */
     public function callbackApplicableTransactions()
     {

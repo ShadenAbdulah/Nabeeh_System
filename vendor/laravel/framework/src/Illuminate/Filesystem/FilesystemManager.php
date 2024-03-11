@@ -4,16 +4,13 @@ namespace Illuminate\Filesystem;
 
 use Aws\S3\S3Client;
 use Closure;
-use Illuminate\Contracts\Filesystem\Cloud;
 use Illuminate\Contracts\Filesystem\Factory as FactoryContract;
-use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\Arr;
 use InvalidArgumentException;
 use League\Flysystem\AwsS3V3\AwsS3V3Adapter as S3Adapter;
 use League\Flysystem\AwsS3V3\PortableVisibilityConverter as AwsS3PortableVisibilityConverter;
 use League\Flysystem\Filesystem as Flysystem;
 use League\Flysystem\FilesystemAdapter as FlysystemAdapter;
-use League\Flysystem\FilesystemOperator;
 use League\Flysystem\Ftp\FtpAdapter;
 use League\Flysystem\Ftp\FtpConnectionOptions;
 use League\Flysystem\Local\LocalFilesystemAdapter as LocalAdapter;
@@ -26,14 +23,14 @@ use League\Flysystem\Visibility;
 
 /**
  * @mixin \Illuminate\Contracts\Filesystem\Filesystem
- * @mixin FilesystemAdapter
+ * @mixin \Illuminate\Filesystem\FilesystemAdapter
  */
 class FilesystemManager implements FactoryContract
 {
     /**
      * The application instance.
      *
-     * @var Application
+     * @var \Illuminate\Contracts\Foundation\Application
      */
     protected $app;
 
@@ -54,7 +51,7 @@ class FilesystemManager implements FactoryContract
     /**
      * Create a new filesystem manager instance.
      *
-     * @param  Application  $app
+     * @param  \Illuminate\Contracts\Foundation\Application  $app
      * @return void
      */
     public function __construct($app)
@@ -89,7 +86,7 @@ class FilesystemManager implements FactoryContract
     /**
      * Get a default cloud filesystem instance.
      *
-     * @return Cloud
+     * @return \Illuminate\Contracts\Filesystem\Cloud
      */
     public function cloud()
     {
@@ -130,7 +127,7 @@ class FilesystemManager implements FactoryContract
      * @param  array|null  $config
      * @return \Illuminate\Contracts\Filesystem\Filesystem
      *
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     protected function resolve($name, $config = null)
     {
@@ -232,7 +229,7 @@ class FilesystemManager implements FactoryContract
      * Create an instance of the Amazon S3 driver.
      *
      * @param  array  $config
-     * @return Cloud
+     * @return \Illuminate\Contracts\Filesystem\Cloud
      */
     public function createS3Driver(array $config)
     {
@@ -305,9 +302,9 @@ class FilesystemManager implements FactoryContract
     /**
      * Create a Flysystem instance with the given adapter.
      *
-     * @param FlysystemAdapter $adapter
+     * @param  \League\Flysystem\FilesystemAdapter  $adapter
      * @param  array  $config
-     * @return FilesystemOperator
+     * @return \League\Flysystem\FilesystemOperator
      */
     protected function createFlysystem(FlysystemAdapter $adapter, array $config)
     {
@@ -406,7 +403,7 @@ class FilesystemManager implements FactoryContract
      * Register a custom driver creator Closure.
      *
      * @param  string  $driver
-     * @param Closure $callback
+     * @param  \Closure  $callback
      * @return $this
      */
     public function extend($driver, Closure $callback)
@@ -419,7 +416,7 @@ class FilesystemManager implements FactoryContract
     /**
      * Set the application instance used by the manager.
      *
-     * @param  Application  $app
+     * @param  \Illuminate\Contracts\Foundation\Application  $app
      * @return $this
      */
     public function setApplication($app)

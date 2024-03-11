@@ -2,8 +2,6 @@
 
 namespace Illuminate\Contracts\Validation;
 
-use Closure;
-
 interface Factory
 {
     /**
@@ -13,7 +11,7 @@ interface Factory
      * @param  array  $rules
      * @param  array  $messages
      * @param  array  $attributes
-     * @return Validator
+     * @return \Illuminate\Contracts\Validation\Validator
      */
     public function make(array $data, array $rules, array $messages = [], array $attributes = []);
 
@@ -21,7 +19,7 @@ interface Factory
      * Register a custom validator extension.
      *
      * @param  string  $rule
-     * @param  Closure|string  $extension
+     * @param  \Closure|string  $extension
      * @param  string|null  $message
      * @return void
      */
@@ -31,7 +29,7 @@ interface Factory
      * Register a custom implicit validator extension.
      *
      * @param  string  $rule
-     * @param  Closure|string  $extension
+     * @param  \Closure|string  $extension
      * @param  string|null  $message
      * @return void
      */
@@ -41,7 +39,7 @@ interface Factory
      * Register a custom implicit validator message replacer.
      *
      * @param  string  $rule
-     * @param  Closure|string  $replacer
+     * @param  \Closure|string  $replacer
      * @return void
      */
     public function replacer($rule, $replacer);

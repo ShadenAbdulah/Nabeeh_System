@@ -39,7 +39,7 @@ trait MassPrunable
     /**
      * Get the prunable model query.
      *
-     * @return Builder
+     * @return \Illuminate\Database\Eloquent\Builder
      */
     public function prunable()
     {

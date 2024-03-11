@@ -11,7 +11,7 @@ class RedisJob extends Job implements JobContract
     /**
      * The Redis queue instance.
      *
-     * @var RedisQueue
+     * @var \Illuminate\Queue\RedisQueue
      */
     protected $redis;
 
@@ -39,8 +39,8 @@ class RedisJob extends Job implements JobContract
     /**
      * Create a new job instance.
      *
-     * @param Container $container
-     * @param RedisQueue $redis
+     * @param  \Illuminate\Container\Container  $container
+     * @param  \Illuminate\Queue\RedisQueue  $redis
      * @param  string  $job
      * @param  string  $reserved
      * @param  string  $connectionName
@@ -120,7 +120,7 @@ class RedisJob extends Job implements JobContract
     /**
      * Get the underlying Redis factory implementation.
      *
-     * @return RedisQueue
+     * @return \Illuminate\Queue\RedisQueue
      */
     public function getRedisQueue()
     {

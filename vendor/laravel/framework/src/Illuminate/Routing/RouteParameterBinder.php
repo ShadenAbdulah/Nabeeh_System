@@ -2,7 +2,6 @@
 
 namespace Illuminate\Routing;
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 
 class RouteParameterBinder
@@ -10,14 +9,14 @@ class RouteParameterBinder
     /**
      * The route instance.
      *
-     * @var Route
+     * @var \Illuminate\Routing\Route
      */
     protected $route;
 
     /**
      * Create a new Route parameter binder instance.
      *
-     * @param Route $route
+     * @param  \Illuminate\Routing\Route  $route
      * @return void
      */
     public function __construct($route)
@@ -28,7 +27,7 @@ class RouteParameterBinder
     /**
      * Get the parameters for the route.
      *
-     * @param  Request  $request
+     * @param  \Illuminate\Http\Request  $request
      * @return array
      */
     public function parameters($request)
@@ -50,7 +49,7 @@ class RouteParameterBinder
     /**
      * Get the parameter matches for the path portion of the URI.
      *
-     * @param  Request  $request
+     * @param  \Illuminate\Http\Request  $request
      * @return array
      */
     protected function bindPathParameters($request)
@@ -65,7 +64,7 @@ class RouteParameterBinder
     /**
      * Extract the parameter list from the host part of the request.
      *
-     * @param  Request  $request
+     * @param  \Illuminate\Http\Request  $request
      * @param  array  $parameters
      * @return array
      */

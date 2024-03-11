@@ -4,7 +4,6 @@ namespace Illuminate\Foundation\Console;
 
 use Illuminate\Console\Concerns\CreatesMatchingTest;
 use Illuminate\Console\GeneratorCommand;
-use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
@@ -43,7 +42,7 @@ class ViewMakeCommand extends GeneratorCommand
      * @param  string  $name
      * @return string
      *
-     * @throws FileNotFoundException
+     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      */
     protected function buildClass($name)
     {

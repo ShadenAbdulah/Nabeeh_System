@@ -2,9 +2,6 @@
 
 namespace Illuminate\Queue;
 
-use DateInterval;
-use DateTimeInterface;
-use Illuminate\Contracts\Queue\Job;
 use Illuminate\Contracts\Queue\Queue as QueueContract;
 
 class NullQueue extends Queue implements QueueContract
@@ -49,7 +46,7 @@ class NullQueue extends Queue implements QueueContract
     /**
      * Push a new job onto the queue after (n) seconds.
      *
-     * @param  DateTimeInterface|DateInterval|int  $delay
+     * @param  \DateTimeInterface|\DateInterval|int  $delay
      * @param  string  $job
      * @param  mixed  $data
      * @param  string|null  $queue
@@ -64,7 +61,7 @@ class NullQueue extends Queue implements QueueContract
      * Pop the next job off of the queue.
      *
      * @param  string|null  $queue
-     * @return Job|null
+     * @return \Illuminate\Contracts\Queue\Job|null
      */
     public function pop($queue = null)
     {

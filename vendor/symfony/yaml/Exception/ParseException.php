@@ -11,10 +11,6 @@
 
 namespace Symfony\Component\Yaml\Exception;
 
-use Throwable;
-use const JSON_UNESCAPED_SLASHES;
-use const JSON_UNESCAPED_UNICODE;
-
 /**
  * Exception class thrown when an error occurs during parsing.
  *
@@ -33,11 +29,7 @@ class ParseException extends RuntimeException
      * @param string|null $snippet    The snippet of code near the problem
      * @param string|null $parsedFile The file name where the error occurred
      */
-<<<<<<< HEAD
-    public function __construct(string $message, int $parsedLine = -1, ?string $snippet = null, ?string $parsedFile = null, ?Throwable $previous = null)
-=======
-    public function __construct(string $message, int $parsedLine = -1, string $snippet = null, string $parsedFile = null, \Throwable $previous = null)
->>>>>>> parent of c8b1139b (update Ui)
+    public function __construct(string $message, int $parsedLine = -1, ?string $snippet = null, ?string $parsedFile = null, ?\Throwable $previous = null)
     {
         $this->parsedFile = $parsedFile;
         $this->parsedLine = $parsedLine;
@@ -116,7 +108,7 @@ class ParseException extends RuntimeException
         }
 
         if (null !== $this->parsedFile) {
-            $this->message .= sprintf(' in %s', json_encode($this->parsedFile, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE));
+            $this->message .= sprintf(' in %s', json_encode($this->parsedFile, \JSON_UNESCAPED_SLASHES | \JSON_UNESCAPED_UNICODE));
         }
 
         if ($this->parsedLine >= 0) {

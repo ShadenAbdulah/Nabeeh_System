@@ -2,8 +2,6 @@
 
 namespace Illuminate\Queue\Events;
 
-use Illuminate\Contracts\Queue\Job;
-
 class JobPopped
 {
     /**
@@ -16,7 +14,7 @@ class JobPopped
     /**
      * The job instance.
      *
-     * @var Job|null
+     * @var \Illuminate\Contracts\Queue\Job|null
      */
     public $job;
 
@@ -24,7 +22,7 @@ class JobPopped
      * Create a new event instance.
      *
      * @param  string  $connectionName
-     * @param  Job|null  $job
+     * @param  \Illuminate\Contracts\Queue\Job|null  $job
      * @return void
      */
     public function __construct($connectionName, $job)

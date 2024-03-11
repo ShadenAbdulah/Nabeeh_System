@@ -11,17 +11,13 @@
 
 namespace Symfony\Component\Console\SignalRegistry;
 
-use function count;
-use function function_exists;
-use function is_callable;
-
 final class SignalRegistry
 {
     private array $signalHandlers = [];
 
     public function __construct()
     {
-        if (function_exists('pcntl_async_signals')) {
+        if (\function_exists('pcntl_async_signals')) {
             pcntl_async_signals(true);
         }
     }
@@ -31,7 +27,7 @@ final class SignalRegistry
         if (!isset($this->signalHandlers[$signal])) {
             $previousCallback = pcntl_signal_get_handler($signal);
 
-            if (is_callable($previousCallback)) {
+            if (\is_callable($previousCallback)) {
                 $this->signalHandlers[$signal][] = $previousCallback;
             }
         }
@@ -43,7 +39,7 @@ final class SignalRegistry
 
     public static function isSupported(): bool
     {
-        return function_exists('pcntl_signal');
+        return \function_exists('pcntl_signal');
     }
 
     /**
@@ -51,7 +47,7 @@ final class SignalRegistry
      */
     public function handle(int $signal): void
     {
-        $count = count($this->signalHandlers[$signal]);
+        $count = \count($this->signalHandlers[$signal]);
 
         foreach ($this->signalHandlers[$signal] as $i => $signalHandler) {
             $hasNext = $i !== $count - 1;

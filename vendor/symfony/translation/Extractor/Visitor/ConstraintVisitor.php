@@ -13,7 +13,6 @@ namespace Symfony\Component\Translation\Extractor\Visitor;
 
 use PhpParser\Node;
 use PhpParser\NodeVisitor;
-use function in_array;
 
 /**
  * @author Mathieu Santostefano <msantostefano@protonmail.com>
@@ -34,6 +33,11 @@ final class ConstraintVisitor extends AbstractVisitor implements NodeVisitor
 
     public function enterNode(Node $node): ?Node
     {
+        return null;
+    }
+
+    public function leaveNode(Node $node): ?Node
+    {
         if (!$node instanceof Node\Expr\New_ && !$node instanceof Node\Attribute) {
             return null;
         }
@@ -43,11 +47,11 @@ final class ConstraintVisitor extends AbstractVisitor implements NodeVisitor
             return null;
         }
 
-        $parts = $className->parts;
+        $parts = $className->getParts();
         $isConstraintClass = false;
 
         foreach ($parts as $part) {
-            if (in_array($part, $this->constraintClassNames, true)) {
+            if (\in_array($part, $this->constraintClassNames, true)) {
                 $isConstraintClass = true;
 
                 break;
@@ -98,11 +102,6 @@ final class ConstraintVisitor extends AbstractVisitor implements NodeVisitor
             $this->addMessageToCatalogue($message, 'validators', $node->getStartLine());
         }
 
-        return null;
-    }
-
-    public function leaveNode(Node $node): ?Node
-    {
         return null;
     }
 

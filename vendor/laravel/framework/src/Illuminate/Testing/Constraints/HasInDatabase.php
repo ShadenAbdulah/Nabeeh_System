@@ -18,7 +18,7 @@ class HasInDatabase extends Constraint
     /**
      * The database connection.
      *
-     * @var Connection
+     * @var \Illuminate\Database\Connection
      */
     protected $database;
 
@@ -32,7 +32,7 @@ class HasInDatabase extends Constraint
     /**
      * Create a new constraint instance.
      *
-     * @param Connection $database
+     * @param  \Illuminate\Database\Connection  $database
      * @param  array  $data
      * @return void
      */

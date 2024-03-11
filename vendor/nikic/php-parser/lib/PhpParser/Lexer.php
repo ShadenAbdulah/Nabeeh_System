@@ -2,17 +2,6 @@
 
 namespace PhpParser;
 
-use function count;
-use function ord;
-use const T_AMPERSAND_FOLLOWED_BY_VAR_OR_VARARG;
-use const T_AMPERSAND_NOT_FOLLOWED_BY_VAR_OR_VARARG;
-use const T_BAD_CHARACTER;
-use const T_COMMENT;
-use const T_DOC_COMMENT;
-use const T_ELLIPSIS;
-use const T_VARIABLE;
-use const T_WHITESPACE;
-
 require __DIR__ . '/compatibility_tokens.php';
 
 class Lexer {
@@ -69,7 +58,7 @@ class Lexer {
     }
 
     private function isUnterminatedComment(Token $token): bool {
-        return $token->is([T_COMMENT, T_DOC_COMMENT])
+        return $token->is([\T_COMMENT, \T_DOC_COMMENT])
             && substr($token->text, 0, 2) === '/*'
             && substr($token->text, -2) !== '*/';
     }
@@ -84,7 +73,7 @@ class Lexer {
         //    T_AMPERSAND_FOLLOWED_BY_VAR_OR_VARARG tokens used to disambiguate intersection types.
         //  * Add a sentinel token with ID 0.
 
-        $numTokens = count($tokens);
+        $numTokens = \count($tokens);
         if ($numTokens === 0) {
             // Empty input edge case: Just add the sentinel token.
             $tokens[] = new Token(0, "\0", 1, 0);
@@ -93,20 +82,20 @@ class Lexer {
 
         for ($i = 0; $i < $numTokens; $i++) {
             $token = $tokens[$i];
-            if ($token->id === T_BAD_CHARACTER) {
+            if ($token->id === \T_BAD_CHARACTER) {
                 $this->handleInvalidCharacter($token, $errorHandler);
             }
 
-            if ($token->id === ord('&')) {
+            if ($token->id === \ord('&')) {
                 $next = $i + 1;
-                while (isset($tokens[$next]) && $tokens[$next]->id === T_WHITESPACE) {
+                while (isset($tokens[$next]) && $tokens[$next]->id === \T_WHITESPACE) {
                     $next++;
                 }
                 $followedByVarOrVarArg = isset($tokens[$next]) &&
-                    $tokens[$next]->is([T_VARIABLE, T_ELLIPSIS]);
+                    $tokens[$next]->is([\T_VARIABLE, \T_ELLIPSIS]);
                 $token->id = $followedByVarOrVarArg
-                    ? T_AMPERSAND_FOLLOWED_BY_VAR_OR_VARARG
-                    : T_AMPERSAND_NOT_FOLLOWED_BY_VAR_OR_VARARG;
+                    ? \T_AMPERSAND_FOLLOWED_BY_VAR_OR_VARARG
+                    : \T_AMPERSAND_NOT_FOLLOWED_BY_VAR_OR_VARARG;
             }
         }
 

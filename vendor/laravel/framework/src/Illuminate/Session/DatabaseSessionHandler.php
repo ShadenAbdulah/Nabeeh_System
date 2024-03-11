@@ -4,15 +4,12 @@ namespace Illuminate\Session;
 
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Contracts\Container\Container;
-use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Database\ConnectionInterface;
-use Illuminate\Database\Query\Builder;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\InteractsWithTime;
 use SessionHandlerInterface;
-use stdClass;
 
 class DatabaseSessionHandler implements ExistenceAwareInterface, SessionHandlerInterface
 {
@@ -21,7 +18,7 @@ class DatabaseSessionHandler implements ExistenceAwareInterface, SessionHandlerI
     /**
      * The database connection instance.
      *
-     * @var ConnectionInterface
+     * @var \Illuminate\Database\ConnectionInterface
      */
     protected $connection;
 
@@ -42,7 +39,7 @@ class DatabaseSessionHandler implements ExistenceAwareInterface, SessionHandlerI
     /**
      * The container instance.
      *
-     * @var Container|null
+     * @var \Illuminate\Contracts\Container\Container|null
      */
     protected $container;
 
@@ -56,10 +53,10 @@ class DatabaseSessionHandler implements ExistenceAwareInterface, SessionHandlerI
     /**
      * Create a new database session handler instance.
      *
-     * @param ConnectionInterface $connection
+     * @param  \Illuminate\Database\ConnectionInterface  $connection
      * @param  string  $table
      * @param  int  $minutes
-     * @param Container|null  $container
+     * @param  \Illuminate\Contracts\Container\Container|null  $container
      * @return void
      */
     public function __construct(ConnectionInterface $connection, $table, $minutes, Container $container = null)
@@ -117,7 +114,7 @@ class DatabaseSessionHandler implements ExistenceAwareInterface, SessionHandlerI
     /**
      * Determine if the session is expired.
      *
-     * @param  stdClass  $session
+     * @param  \stdClass  $session
      * @return bool
      */
     protected function expired($session)
@@ -287,7 +284,7 @@ class DatabaseSessionHandler implements ExistenceAwareInterface, SessionHandlerI
     /**
      * Get a fresh query builder instance for the table.
      *
-     * @return Builder
+     * @return \Illuminate\Database\Query\Builder
      */
     protected function getQuery()
     {
@@ -297,7 +294,7 @@ class DatabaseSessionHandler implements ExistenceAwareInterface, SessionHandlerI
     /**
      * Set the application instance used by the handler.
      *
-     * @param  Application  $container
+     * @param  \Illuminate\Contracts\Foundation\Application  $container
      * @return $this
      */
     public function setContainer($container)

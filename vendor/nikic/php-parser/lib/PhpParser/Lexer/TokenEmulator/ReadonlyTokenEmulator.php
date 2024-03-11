@@ -3,8 +3,6 @@
 namespace PhpParser\Lexer\TokenEmulator;
 
 use PhpParser\PhpVersion;
-use const T_READONLY;
-use const T_WHITESPACE;
 
 final class ReadonlyTokenEmulator extends KeywordEmulator {
     public function getPhpVersion(): PhpVersion {
@@ -16,7 +14,7 @@ final class ReadonlyTokenEmulator extends KeywordEmulator {
     }
 
     public function getKeywordToken(): int {
-        return T_READONLY;
+        return \T_READONLY;
     }
 
     protected function isKeywordContext(array $tokens, int $pos): bool {
@@ -26,7 +24,7 @@ final class ReadonlyTokenEmulator extends KeywordEmulator {
         // Support "function readonly("
         return !(isset($tokens[$pos + 1]) &&
                  ($tokens[$pos + 1]->text === '(' ||
-                  ($tokens[$pos + 1]->id === T_WHITESPACE &&
+                  ($tokens[$pos + 1]->id === \T_WHITESPACE &&
                    isset($tokens[$pos + 2]) &&
                    $tokens[$pos + 2]->text === '(')));
     }

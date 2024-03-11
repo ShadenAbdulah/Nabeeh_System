@@ -11,7 +11,6 @@
 
 namespace Symfony\Component\Routing\Loader\Configurator;
 
-use BadMethodCallException;
 use Symfony\Component\Routing\RouteCollection;
 
 /**
@@ -33,7 +32,7 @@ class ImportConfigurator
 
     public function __sleep(): array
     {
-        throw new BadMethodCallException('Cannot serialize '.__CLASS__);
+        throw new \BadMethodCallException('Cannot serialize '.__CLASS__);
     }
 
     /**
@@ -41,7 +40,7 @@ class ImportConfigurator
      */
     public function __wakeup()
     {
-        throw new BadMethodCallException('Cannot unserialize '.__CLASS__);
+        throw new \BadMethodCallException('Cannot unserialize '.__CLASS__);
     }
 
     public function __destruct()

@@ -2,7 +2,6 @@
 
 namespace Illuminate\Http\Resources;
 
-use ArrayIterator;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Pagination\AbstractCursorPaginator;
 use Illuminate\Pagination\AbstractPaginator;
@@ -86,7 +85,7 @@ trait CollectsResources
     /**
      * Get an iterator for the resource collection.
      *
-     * @return ArrayIterator
+     * @return \ArrayIterator
      */
     public function getIterator(): Traversable
     {

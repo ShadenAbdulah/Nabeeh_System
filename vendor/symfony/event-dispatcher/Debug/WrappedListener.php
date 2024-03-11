@@ -11,16 +11,10 @@
 
 namespace Symfony\Component\EventDispatcher\Debug;
 
-use Closure;
 use Psr\EventDispatcher\StoppableEventInterface;
-use ReflectionFunction;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Stopwatch\Stopwatch;
 use Symfony\Component\VarDumper\Caster\ClassStub;
-use function is_array;
-use function is_callable;
-use function is_object;
-use function is_string;
 
 /**
  * @author Fabien Potencier <fabien@symfony.com>
@@ -28,7 +22,7 @@ use function is_string;
 final class WrappedListener
 {
     private string|array|object $listener;
-    private ?Closure $optimizedListener;
+    private ?\Closure $optimizedListener;
     private string $name;
     private bool $called = false;
     private bool $stoppedPropagation = false;
@@ -40,20 +34,20 @@ final class WrappedListener
     private ?int $priority = null;
     private static bool $hasClassStub;
 
-    public function __construct(callable|array $listener, ?string $name, Stopwatch $stopwatch, EventDispatcherInterface $dispatcher = null, int $priority = null)
+    public function __construct(callable|array $listener, ?string $name, Stopwatch $stopwatch, ?EventDispatcherInterface $dispatcher = null, ?int $priority = null)
     {
         $this->listener = $listener;
-        $this->optimizedListener = $listener instanceof Closure ? $listener : (is_callable($listener) ? $listener(...) : null);
+        $this->optimizedListener = $listener instanceof \Closure ? $listener : (\is_callable($listener) ? $listener(...) : null);
         $this->stopwatch = $stopwatch;
         $this->dispatcher = $dispatcher;
         $this->priority = $priority;
 
-        if (is_array($listener)) {
+        if (\is_array($listener)) {
             [$this->name, $this->callableRef] = $this->parseListener($listener);
             $this->pretty = $this->name.'::'.$listener[1];
             $this->callableRef .= '::'.$listener[1];
-        } elseif ($listener instanceof Closure) {
-            $r = new ReflectionFunction($listener);
+        } elseif ($listener instanceof \Closure) {
+            $r = new \ReflectionFunction($listener);
             if (str_contains($r->name, '{closure}')) {
                 $this->pretty = $this->name = 'closure';
             } elseif ($class = $r->getClosureCalledClass()) {
@@ -62,7 +56,7 @@ final class WrappedListener
             } else {
                 $this->pretty = $this->name = $r->name;
             }
-        } elseif (is_string($listener)) {
+        } elseif (\is_string($listener)) {
             $this->pretty = $this->name = $listener;
         } else {
             $this->name = get_debug_type($listener);
@@ -133,15 +127,15 @@ final class WrappedListener
 
     private function parseListener(array $listener): array
     {
-        if ($listener[0] instanceof Closure) {
-            foreach ((new ReflectionFunction($listener[0]))->getAttributes(Closure::class) as $attribute) {
+        if ($listener[0] instanceof \Closure) {
+            foreach ((new \ReflectionFunction($listener[0]))->getAttributes(\Closure::class) as $attribute) {
                 if ($name = $attribute->getArguments()['name'] ?? false) {
                     return [$name, $attribute->getArguments()['class'] ?? $name];
                 }
             }
         }
 
-        if (is_object($listener[0])) {
+        if (\is_object($listener[0])) {
             return [get_debug_type($listener[0]), $listener[0]::class];
         }
 

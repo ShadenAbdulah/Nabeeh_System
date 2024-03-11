@@ -11,7 +11,6 @@
 
 namespace Symfony\Component\Console\Command;
 
-use DirectoryIterator;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -150,7 +149,7 @@ EOH
 
         $shells = [];
 
-        foreach (new DirectoryIterator(__DIR__.'/../Resources/') as $file) {
+        foreach (new \DirectoryIterator(__DIR__.'/../Resources/') as $file) {
             if (str_starts_with($file->getBasename(), 'completion.') && $file->isFile()) {
                 $shells[] = $file->getExtension();
             }

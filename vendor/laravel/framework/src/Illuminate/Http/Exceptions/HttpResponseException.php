@@ -10,14 +10,14 @@ class HttpResponseException extends RuntimeException
     /**
      * The underlying response instance.
      *
-     * @var Response
+     * @var \Symfony\Component\HttpFoundation\Response
      */
     protected $response;
 
     /**
      * Create a new HTTP response exception instance.
      *
-     * @param Response $response
+     * @param  \Symfony\Component\HttpFoundation\Response  $response
      * @return void
      */
     public function __construct(Response $response)
@@ -28,7 +28,7 @@ class HttpResponseException extends RuntimeException
     /**
      * Get the underlying response instance.
      *
-     * @return Response
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function getResponse()
     {

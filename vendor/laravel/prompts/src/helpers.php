@@ -53,6 +53,14 @@ function confirm(string $label, bool $default = true, string $yes = 'Yes', strin
 }
 
 /**
+ * Prompt the user to continue or cancel after pausing.
+ */
+function pause(string $message = 'Press enter to continue...'): bool
+{
+    return (new PausePrompt(...func_get_args()))->prompt();
+}
+
+/**
  * Prompt the user for text input with auto-completion.
  *
  * @param  array<string>|Collection<int, string>|Closure(string): array<string>  $options
@@ -89,7 +97,7 @@ function multisearch(string $label, Closure $options, string $placeholder = '', 
  *
  * @template TReturn of mixed
  *
- * @param Closure(): TReturn $callback
+ * @param  \Closure(): TReturn  $callback
  * @return TReturn
  */
 function spin(Closure $callback, string $message = ''): mixed

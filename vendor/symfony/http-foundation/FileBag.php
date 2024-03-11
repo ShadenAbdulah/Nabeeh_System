@@ -11,10 +11,7 @@
 
 namespace Symfony\Component\HttpFoundation;
 
-use InvalidArgumentException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
-use function is_array;
-use const UPLOAD_ERR_NO_FILE;
 
 /**
  * FileBag is a container for uploaded files.
@@ -48,8 +45,8 @@ class FileBag extends ParameterBag
      */
     public function set(string $key, mixed $value)
     {
-        if (!is_array($value) && !$value instanceof UploadedFile) {
-            throw new InvalidArgumentException('An uploaded file must be an array or an instance of UploadedFile.');
+        if (!\is_array($value) && !$value instanceof UploadedFile) {
+            throw new \InvalidArgumentException('An uploaded file must be an array or an instance of UploadedFile.');
         }
 
         parent::set($key, $this->convertFileInformation($value));
@@ -81,13 +78,13 @@ class FileBag extends ParameterBag
         sort($keys);
 
         if (self::FILE_KEYS == $keys) {
-            if (UPLOAD_ERR_NO_FILE == $file['error']) {
+            if (\UPLOAD_ERR_NO_FILE == $file['error']) {
                 $file = null;
             } else {
                 $file = new UploadedFile($file['tmp_name'], $file['name'], $file['type'], $file['error'], false);
             }
         } else {
-            $file = array_map(fn ($v) => $v instanceof UploadedFile || is_array($v) ? $this->convertFileInformation($v) : $v, $file);
+            $file = array_map(fn ($v) => $v instanceof UploadedFile || \is_array($v) ? $this->convertFileInformation($v) : $v, $file);
             if (array_keys($keys) === $keys) {
                 $file = array_filter($file);
             }
@@ -115,7 +112,7 @@ class FileBag extends ParameterBag
         $keys = array_keys($data);
         sort($keys);
 
-        if (self::FILE_KEYS != $keys || !isset($data['name']) || !is_array($data['name'])) {
+        if (self::FILE_KEYS != $keys || !isset($data['name']) || !\is_array($data['name'])) {
             return $data;
         }
 

@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace League\CommonMark\Node\Query;
 
 use League\CommonMark\Node\Node;
-use function array_values;
 
 /**
  * @internal
@@ -32,7 +31,7 @@ final class AndExpr implements ExpressionInterface
      */
     public function __construct(callable ...$expressions)
     {
-        $this->conditions = array_values($expressions);
+        $this->conditions = \array_values($expressions);
     }
 
     /**

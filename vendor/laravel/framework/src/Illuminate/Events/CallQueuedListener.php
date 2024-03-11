@@ -7,7 +7,6 @@ use Illuminate\Container\Container;
 use Illuminate\Contracts\Queue\Job;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
-use Throwable;
 
 class CallQueuedListener implements ShouldQueue
 {
@@ -70,6 +69,13 @@ class CallQueuedListener implements ShouldQueue
     public $timeout;
 
     /**
+     * Indicates if the job should fail if the timeout is exceeded.
+     *
+     * @var bool
+     */
+    public $failOnTimeout = false;
+
+    /**
      * Indicates if the job should be encrypted.
      *
      * @var bool
@@ -94,7 +100,7 @@ class CallQueuedListener implements ShouldQueue
     /**
      * Handle the queued job.
      *
-     * @param Container $container
+     * @param  \Illuminate\Container\Container  $container
      * @return void
      */
     public function handle(Container $container)
@@ -111,7 +117,7 @@ class CallQueuedListener implements ShouldQueue
     /**
      * Set the job instance of the given class if necessary.
      *
-     * @param Job $job
+     * @param  \Illuminate\Contracts\Queue\Job  $job
      * @param  object  $instance
      * @return object
      */
@@ -129,7 +135,7 @@ class CallQueuedListener implements ShouldQueue
      *
      * The event instance and the exception will be passed.
      *
-     * @param  Throwable  $e
+     * @param  \Throwable  $e
      * @return void
      */
     public function failed($e)

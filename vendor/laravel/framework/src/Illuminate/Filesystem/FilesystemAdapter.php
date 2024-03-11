@@ -2,9 +2,7 @@
 
 namespace Illuminate\Filesystem;
 
-use BadMethodCallException;
 use Closure;
-use DateTimeInterface;
 use Illuminate\Contracts\Filesystem\Cloud as CloudFilesystemContract;
 use Illuminate\Contracts\Filesystem\Filesystem as FilesystemContract;
 use Illuminate\Http\File;
@@ -34,12 +32,11 @@ use League\Flysystem\UnableToWriteFile;
 use League\Flysystem\Visibility;
 use PHPUnit\Framework\Assert as PHPUnit;
 use Psr\Http\Message\StreamInterface;
-use Psr\Http\Message\UriInterface;
 use RuntimeException;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
 /**
- * @mixin FilesystemOperator
+ * @mixin \League\Flysystem\FilesystemOperator
  */
 class FilesystemAdapter implements CloudFilesystemContract
 {
@@ -51,14 +48,14 @@ class FilesystemAdapter implements CloudFilesystemContract
     /**
      * The Flysystem filesystem implementation.
      *
-     * @var FilesystemOperator
+     * @var \League\Flysystem\FilesystemOperator
      */
     protected $driver;
 
     /**
      * The Flysystem adapter implementation.
      *
-     * @var FlysystemAdapter
+     * @var \League\Flysystem\FilesystemAdapter
      */
     protected $adapter;
 
@@ -72,22 +69,22 @@ class FilesystemAdapter implements CloudFilesystemContract
     /**
      * The Flysystem PathPrefixer instance.
      *
-     * @var PathPrefixer
+     * @var \League\Flysystem\PathPrefixer
      */
     protected $prefixer;
 
     /**
      * The temporary URL builder callback.
      *
-     * @var Closure|null
+     * @var \Closure|null
      */
     protected $temporaryUrlCallback;
 
     /**
      * Create a new filesystem adapter instance.
      *
-     * @param FilesystemOperator $driver
-     * @param FlysystemAdapter $adapter
+     * @param  \League\Flysystem\FilesystemOperator  $driver
+     * @param  \League\Flysystem\FilesystemAdapter  $adapter
      * @param  array  $config
      * @return void
      */
@@ -286,7 +283,7 @@ class FilesystemAdapter implements CloudFilesystemContract
      * @param  string|null  $name
      * @param  array  $headers
      * @param  string|null  $disposition
-     * @return StreamedResponse
+     * @return \Symfony\Component\HttpFoundation\StreamedResponse
      */
     public function response($path, $name = null, array $headers = [], $disposition = 'inline')
     {
@@ -321,7 +318,7 @@ class FilesystemAdapter implements CloudFilesystemContract
      *
      * @param  string  $path
      * @param  string|null  $name
-     * @return StreamedResponse
+     * @return \Symfony\Component\HttpFoundation\StreamedResponse
      */
     public function download($path, $name = null, array $headers = [])
     {
@@ -343,7 +340,7 @@ class FilesystemAdapter implements CloudFilesystemContract
      * Write the contents of a file.
      *
      * @param  string  $path
-     * @param StreamInterface|File|UploadedFile|string|resource  $contents
+     * @param  \Psr\Http\Message\StreamInterface|\Illuminate\Http\File|\Illuminate\Http\UploadedFile|string|resource  $contents
      * @param  mixed  $options
      * @return string|bool
      */
@@ -383,8 +380,8 @@ class FilesystemAdapter implements CloudFilesystemContract
     /**
      * Store the uploaded file on the disk.
      *
-     * @param File|UploadedFile|string  $path
-     * @param File|UploadedFile|string|array|null  $file
+     * @param  \Illuminate\Http\File|\Illuminate\Http\UploadedFile|string  $path
+     * @param  \Illuminate\Http\File|\Illuminate\Http\UploadedFile|string|array|null  $file
      * @param  mixed  $options
      * @return string|false
      */
@@ -402,8 +399,8 @@ class FilesystemAdapter implements CloudFilesystemContract
     /**
      * Store the uploaded file on the disk with a given name.
      *
-     * @param File|UploadedFile|string  $path
-     * @param File|UploadedFile|string|array|null  $file
+     * @param  \Illuminate\Http\File|\Illuminate\Http\UploadedFile|string  $path
+     * @param  \Illuminate\Http\File|\Illuminate\Http\UploadedFile|string|array|null  $file
      * @param  string|array|null  $name
      * @param  mixed  $options
      * @return string|false
@@ -655,7 +652,7 @@ class FilesystemAdapter implements CloudFilesystemContract
      * @param  string  $path
      * @return string
      *
-     * @throws RuntimeException
+     * @throws \RuntimeException
      */
     public function url($path)
     {
@@ -732,11 +729,11 @@ class FilesystemAdapter implements CloudFilesystemContract
      * Get a temporary URL for the file at the given path.
      *
      * @param  string  $path
-     * @param  DateTimeInterface  $expiration
+     * @param  \DateTimeInterface  $expiration
      * @param  array  $options
      * @return string
      *
-     * @throws RuntimeException
+     * @throws \RuntimeException
      */
     public function temporaryUrl($path, $expiration, array $options = [])
     {
@@ -757,11 +754,11 @@ class FilesystemAdapter implements CloudFilesystemContract
      * Get a temporary upload URL for the file at the given path.
      *
      * @param  string  $path
-     * @param  DateTimeInterface  $expiration
+     * @param  \DateTimeInterface  $expiration
      * @param  array  $options
      * @return array
      *
-     * @throws RuntimeException
+     * @throws \RuntimeException
      */
     public function temporaryUploadUrl($path, $expiration, array $options = [])
     {
@@ -787,9 +784,9 @@ class FilesystemAdapter implements CloudFilesystemContract
     /**
      * Replace the scheme, host and port of the given UriInterface with values from the given URL.
      *
-     * @param  UriInterface  $uri
+     * @param  \Psr\Http\Message\UriInterface  $uri
      * @param  string  $url
-     * @return UriInterface
+     * @return \Psr\Http\Message\UriInterface
      */
     protected function replaceBaseUrl($uri, $url)
     {
@@ -903,7 +900,7 @@ class FilesystemAdapter implements CloudFilesystemContract
     /**
      * Get the Flysystem driver.
      *
-     * @return FilesystemOperator
+     * @return \League\Flysystem\FilesystemOperator
      */
     public function getDriver()
     {
@@ -913,7 +910,7 @@ class FilesystemAdapter implements CloudFilesystemContract
     /**
      * Get the Flysystem adapter.
      *
-     * @return FlysystemAdapter
+     * @return \League\Flysystem\FilesystemAdapter
      */
     public function getAdapter()
     {
@@ -936,7 +933,7 @@ class FilesystemAdapter implements CloudFilesystemContract
      * @param  string|null  $visibility
      * @return string|null
      *
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     protected function parseVisibility($visibility)
     {
@@ -954,7 +951,7 @@ class FilesystemAdapter implements CloudFilesystemContract
     /**
      * Define a custom temporary URL builder callback.
      *
-     * @param Closure $callback
+     * @param  \Closure  $callback
      * @return void
      */
     public function buildTemporaryUrlsUsing(Closure $callback)
@@ -979,7 +976,7 @@ class FilesystemAdapter implements CloudFilesystemContract
      * @param  array  $parameters
      * @return mixed
      *
-     * @throws BadMethodCallException
+     * @throws \BadMethodCallException
      */
     public function __call($method, $parameters)
     {

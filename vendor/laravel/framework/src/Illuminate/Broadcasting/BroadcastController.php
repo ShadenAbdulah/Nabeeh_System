@@ -3,7 +3,6 @@
 namespace Illuminate\Broadcasting;
 
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Broadcast;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
@@ -13,8 +12,8 @@ class BroadcastController extends Controller
     /**
      * Authenticate the request for channel access.
      *
-     * @param Request $request
-     * @return Response
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
      */
     public function authenticate(Request $request)
     {
@@ -30,8 +29,8 @@ class BroadcastController extends Controller
      *
      * See: https://pusher.com/docs/channels/server_api/authenticating-users/#user-authentication.
      *
-     * @param Request $request
-     * @return Response
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
      */
     public function authenticateUser(Request $request)
     {

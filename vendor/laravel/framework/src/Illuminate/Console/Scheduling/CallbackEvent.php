@@ -2,7 +2,6 @@
 
 namespace Illuminate\Console\Scheduling;
 
-use DateTimeZone;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Support\Reflector;
 use InvalidArgumentException;
@@ -36,20 +35,20 @@ class CallbackEvent extends Event
     /**
      * The exception that was thrown when calling the callback, if any.
      *
-     * @var Throwable|null
+     * @var \Throwable|null
      */
     protected $exception;
 
     /**
      * Create a new event instance.
      *
-     * @param EventMutex $mutex
+     * @param  \Illuminate\Console\Scheduling\EventMutex  $mutex
      * @param  string|callable  $callback
      * @param  array  $parameters
-     * @param  DateTimeZone|string|null  $timezone
+     * @param  \DateTimeZone|string|null  $timezone
      * @return void
      *
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     public function __construct(EventMutex $mutex, $callback, array $parameters = [], $timezone = null)
     {
@@ -68,10 +67,10 @@ class CallbackEvent extends Event
     /**
      * Run the callback event.
      *
-     * @param Container $container
+     * @param  \Illuminate\Contracts\Container\Container  $container
      * @return mixed
      *
-     * @throws Throwable
+     * @throws \Throwable
      */
     public function run(Container $container)
     {
@@ -99,7 +98,7 @@ class CallbackEvent extends Event
      *
      * @return void
      *
-     * @throws RuntimeException
+     * @throws \RuntimeException
      */
     public function runInBackground()
     {
@@ -109,7 +108,7 @@ class CallbackEvent extends Event
     /**
      * Run the callback.
      *
-     * @param Container $container
+     * @param  \Illuminate\Contracts\Container\Container  $container
      * @return int
      */
     protected function execute($container)
@@ -135,7 +134,7 @@ class CallbackEvent extends Event
      * @param  int  $expiresAt
      * @return $this
      *
-     * @throws LogicException
+     * @throws \LogicException
      */
     public function withoutOverlapping($expiresAt = 1440)
     {
@@ -153,7 +152,7 @@ class CallbackEvent extends Event
      *
      * @return $this
      *
-     * @throws LogicException
+     * @throws \LogicException
      */
     public function onOneServer()
     {

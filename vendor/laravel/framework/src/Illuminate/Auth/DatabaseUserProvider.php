@@ -14,14 +14,14 @@ class DatabaseUserProvider implements UserProvider
     /**
      * The active database connection.
      *
-     * @var ConnectionInterface
+     * @var \Illuminate\Database\ConnectionInterface
      */
     protected $connection;
 
     /**
      * The hasher implementation.
      *
-     * @var HasherContract
+     * @var \Illuminate\Contracts\Hashing\Hasher
      */
     protected $hasher;
 
@@ -35,8 +35,8 @@ class DatabaseUserProvider implements UserProvider
     /**
      * Create a new database user provider.
      *
-     * @param ConnectionInterface $connection
-     * @param HasherContract $hasher
+     * @param  \Illuminate\Database\ConnectionInterface  $connection
+     * @param  \Illuminate\Contracts\Hashing\Hasher  $hasher
      * @param  string  $table
      * @return void
      */
@@ -51,7 +51,7 @@ class DatabaseUserProvider implements UserProvider
      * Retrieve a user by their unique identifier.
      *
      * @param  mixed  $identifier
-     * @return UserContract|null
+     * @return \Illuminate\Contracts\Auth\Authenticatable|null
      */
     public function retrieveById($identifier)
     {
@@ -65,7 +65,7 @@ class DatabaseUserProvider implements UserProvider
      *
      * @param  mixed  $identifier
      * @param  string  $token
-     * @return UserContract|null
+     * @return \Illuminate\Contracts\Auth\Authenticatable|null
      */
     public function retrieveByToken($identifier, $token)
     {
@@ -80,7 +80,7 @@ class DatabaseUserProvider implements UserProvider
     /**
      * Update the "remember me" token for the given user in storage.
      *
-     * @param UserContract $user
+     * @param  \Illuminate\Contracts\Auth\Authenticatable  $user
      * @param  string  $token
      * @return void
      */
@@ -95,7 +95,7 @@ class DatabaseUserProvider implements UserProvider
      * Retrieve a user by the given credentials.
      *
      * @param  array  $credentials
-     * @return UserContract|null
+     * @return \Illuminate\Contracts\Auth\Authenticatable|null
      */
     public function retrieveByCredentials(array $credentials)
     {
@@ -136,7 +136,7 @@ class DatabaseUserProvider implements UserProvider
      * Get the generic user.
      *
      * @param  mixed  $user
-     * @return GenericUser|null
+     * @return \Illuminate\Auth\GenericUser|null
      */
     protected function getGenericUser($user)
     {
@@ -148,7 +148,7 @@ class DatabaseUserProvider implements UserProvider
     /**
      * Validate a user against the given credentials.
      *
-     * @param UserContract $user
+     * @param  \Illuminate\Contracts\Auth\Authenticatable  $user
      * @param  array  $credentials
      * @return bool
      */

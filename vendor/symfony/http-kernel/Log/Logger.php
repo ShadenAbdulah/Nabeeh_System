@@ -11,20 +11,11 @@
 
 namespace Symfony\Component\HttpKernel\Log;
 
-use Closure;
-use DateTimeInterface;
 use Psr\Log\AbstractLogger;
 use Psr\Log\InvalidArgumentException;
 use Psr\Log\LogLevel;
-use Stringable;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
-use function gettype;
-use function is_object;
-use function is_resource;
-use function is_scalar;
-use const DATE_RFC3339_EXTENDED;
-use const PHP_EOL;
 
 /**
  * Minimalist PSR-3 logger designed to write in stderr or any other stream.
@@ -55,7 +46,7 @@ class Logger extends AbstractLogger implements DebugLoggerInterface
     ];
 
     private int $minLevelIndex;
-    private Closure $formatter;
+    private \Closure $formatter;
     private bool $debug = false;
     private array $logs = [];
     private array $errorCount = [];
@@ -66,7 +57,7 @@ class Logger extends AbstractLogger implements DebugLoggerInterface
     /**
      * @param string|resource|null $output
      */
-    public function __construct(string $minLevel = null, $output = null, callable $formatter = null, private readonly ?RequestStack $requestStack = null, bool $debug = false)
+    public function __construct(?string $minLevel = null, $output = null, ?callable $formatter = null, private readonly ?RequestStack $requestStack = null, bool $debug = false)
     {
         if (null === $minLevel) {
             $minLevel = null === $output || 'php://stdout' === $output || 'php://stderr' === $output ? LogLevel::ERROR : LogLevel::WARNING;
@@ -88,7 +79,7 @@ class Logger extends AbstractLogger implements DebugLoggerInterface
 
         $this->minLevelIndex = self::LEVELS[$minLevel];
         $this->formatter = null !== $formatter ? $formatter(...) : $this->format(...);
-        if ($output && false === $this->handle = is_resource($output) ? $output : @fopen($output, 'a')) {
+        if ($output && false === $this->handle = \is_resource($output) ? $output : @fopen($output, 'a')) {
             throw new InvalidArgumentException(sprintf('Unable to open "%s".', $output));
         }
         $this->debug = $debug;
@@ -111,7 +102,7 @@ class Logger extends AbstractLogger implements DebugLoggerInterface
 
         $formatter = $this->formatter;
         if ($this->handle) {
-            @fwrite($this->handle, $formatter($level, $message, $context). PHP_EOL);
+            @fwrite($this->handle, $formatter($level, $message, $context).\PHP_EOL);
         } else {
             error_log($formatter($level, $message, $context, false));
         }
@@ -121,7 +112,7 @@ class Logger extends AbstractLogger implements DebugLoggerInterface
         }
     }
 
-    public function getLogs(Request $request = null): array
+    public function getLogs(?Request $request = null): array
     {
         if ($request) {
             return $this->logs[spl_object_id($request)] ?? [];
@@ -130,7 +121,7 @@ class Logger extends AbstractLogger implements DebugLoggerInterface
         return array_merge(...array_values($this->logs));
     }
 
-    public function countErrors(Request $request = null): int
+    public function countErrors(?Request $request = null): int
     {
         if ($request) {
             return $this->errorCount[spl_object_id($request)] ?? 0;
@@ -150,14 +141,14 @@ class Logger extends AbstractLogger implements DebugLoggerInterface
         if (str_contains($message, '{')) {
             $replacements = [];
             foreach ($context as $key => $val) {
-                if (null === $val || is_scalar($val) || $val instanceof Stringable) {
+                if (null === $val || \is_scalar($val) || $val instanceof \Stringable) {
                     $replacements["{{$key}}"] = $val;
-                } elseif ($val instanceof DateTimeInterface) {
-                    $replacements["{{$key}}"] = $val->format(DateTimeInterface::RFC3339);
-                } elseif (is_object($val)) {
+                } elseif ($val instanceof \DateTimeInterface) {
+                    $replacements["{{$key}}"] = $val->format(\DateTimeInterface::RFC3339);
+                } elseif (\is_object($val)) {
                     $replacements["{{$key}}"] = '[object '.$val::class.']';
                 } else {
-                    $replacements["{{$key}}"] = '['. gettype($val).']';
+                    $replacements["{{$key}}"] = '['.\gettype($val).']';
                 }
             }
 
@@ -166,7 +157,7 @@ class Logger extends AbstractLogger implements DebugLoggerInterface
 
         $log = sprintf('[%s] %s', $level, $message);
         if ($prefixDate) {
-            $log = date(DateTimeInterface::RFC3339).' '.$log;
+            $log = date(\DateTimeInterface::RFC3339).' '.$log;
         }
 
         return $log;
@@ -184,7 +175,7 @@ class Logger extends AbstractLogger implements DebugLoggerInterface
             'priority' => self::PRIORITIES[$level],
             'priorityName' => $level,
             'timestamp' => time(),
-            'timestamp_rfc3339' => date(DATE_RFC3339_EXTENDED),
+            'timestamp_rfc3339' => date(\DATE_RFC3339_EXTENDED),
         ];
 
         $this->errorCount[$key] ??= 0;

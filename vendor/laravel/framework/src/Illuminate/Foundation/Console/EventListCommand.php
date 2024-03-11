@@ -6,8 +6,6 @@ use Closure;
 use Illuminate\Console\Command;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Events\Dispatcher;
-use Illuminate\Support\Collection;
 use ReflectionFunction;
 use Symfony\Component\Console\Attribute\AsCommand;
 
@@ -31,7 +29,7 @@ class EventListCommand extends Command
     /**
      * The events dispatcher resolver callback.
      *
-     * @var Closure|null
+     * @var \Closure|null
      */
     protected static $eventsResolver;
 
@@ -63,7 +61,7 @@ class EventListCommand extends Command
     /**
      * Get all of the events and listeners configured for the application.
      *
-     * @return Collection
+     * @return \Illuminate\Support\Collection
      */
     protected function getEvents()
     {
@@ -149,7 +147,7 @@ class EventListCommand extends Command
     /**
      * Get a displayable string representation of a Closure listener.
      *
-     * @param Closure $rawListener
+     * @param  \Closure  $rawListener
      * @return string
      */
     protected function stringifyClosure(Closure $rawListener)
@@ -164,8 +162,8 @@ class EventListCommand extends Command
     /**
      * Filter the given events using the provided event name filter.
      *
-     * @param  Collection  $events
-     * @return Collection
+     * @param  \Illuminate\Support\Collection  $events
+     * @return \Illuminate\Support\Collection
      */
     protected function filterEvents($events)
     {
@@ -201,7 +199,7 @@ class EventListCommand extends Command
     /**
      * Get the event dispatcher.
      *
-     * @return Dispatcher
+     * @return \Illuminate\Events\Dispatcher
      */
     public function getEventsDispatcher()
     {
@@ -213,7 +211,7 @@ class EventListCommand extends Command
     /**
      * Set a callback that should be used when resolving the events dispatcher.
      *
-     * @param Closure|null  $resolver
+     * @param  \Closure|null  $resolver
      * @return void
      */
     public static function resolveEventsUsing($resolver)

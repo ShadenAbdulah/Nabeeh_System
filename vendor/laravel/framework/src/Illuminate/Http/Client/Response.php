@@ -3,15 +3,9 @@
 namespace Illuminate\Http\Client;
 
 use ArrayAccess;
-use Closure;
-use GuzzleHttp\Cookie\CookieJar;
-use GuzzleHttp\TransferStats;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Traits\Macroable;
 use LogicException;
-use Psr\Http\Message\MessageInterface;
-use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\UriInterface;
 
 class Response implements ArrayAccess
 {
@@ -22,7 +16,7 @@ class Response implements ArrayAccess
     /**
      * The underlying PSR response.
      *
-     * @var ResponseInterface
+     * @var \Psr\Http\Message\ResponseInterface
      */
     protected $response;
 
@@ -36,21 +30,21 @@ class Response implements ArrayAccess
     /**
      * The request cookies.
      *
-     * @var CookieJar
+     * @var \GuzzleHttp\Cookie\CookieJar
      */
     public $cookies;
 
     /**
      * The transfer stats for the request.
      *
-     * @var TransferStats|null
+     * @var \GuzzleHttp\TransferStats|null
      */
     public $transferStats;
 
     /**
      * Create a new response instance.
      *
-     * @param  MessageInterface  $response
+     * @param  \Psr\Http\Message\MessageInterface  $response
      * @return void
      */
     public function __construct($response)
@@ -102,7 +96,7 @@ class Response implements ArrayAccess
      * Get the JSON decoded body of the response as a collection.
      *
      * @param  string|null  $key
-     * @return Collection
+     * @return \Illuminate\Support\Collection
      */
     public function collect($key = null)
     {
@@ -153,7 +147,7 @@ class Response implements ArrayAccess
     /**
      * Get the effective URI of the response.
      *
-     * @return UriInterface|null
+     * @return \Psr\Http\Message\UriInterface|null
      */
     public function effectiveUri()
     {
@@ -228,7 +222,7 @@ class Response implements ArrayAccess
     /**
      * Get the response cookies.
      *
-     * @return CookieJar
+     * @return \GuzzleHttp\Cookie\CookieJar
      */
     public function cookies()
     {
@@ -260,7 +254,7 @@ class Response implements ArrayAccess
     /**
      * Get the underlying PSR response for the response.
      *
-     * @return ResponseInterface
+     * @return \Psr\Http\Message\ResponseInterface
      */
     public function toPsrResponse()
     {
@@ -270,7 +264,7 @@ class Response implements ArrayAccess
     /**
      * Create an exception if a server or client error occurred.
      *
-     * @return RequestException|null
+     * @return \Illuminate\Http\Client\RequestException|null
      */
     public function toException()
     {
@@ -282,10 +276,10 @@ class Response implements ArrayAccess
     /**
      * Throw an exception if a server or client error occurred.
      *
-     * @param  Closure|null  $callback
+     * @param  \Closure|null  $callback
      * @return $this
      *
-     * @throws RequestException
+     * @throws \Illuminate\Http\Client\RequestException
      */
     public function throw()
     {
@@ -305,11 +299,11 @@ class Response implements ArrayAccess
     /**
      * Throw an exception if a server or client error occurred and the given condition evaluates to true.
      *
-     * @param  Closure|bool  $condition
-     * @param  Closure|null  $throwCallback
+     * @param  \Closure|bool  $condition
+     * @param  \Closure|null  $throwCallback
      * @return $this
      *
-     * @throws RequestException
+     * @throws \Illuminate\Http\Client\RequestException
      */
     public function throwIf($condition)
     {
@@ -322,7 +316,7 @@ class Response implements ArrayAccess
      * @param  callable|int  $statusCode
      * @return $this
      *
-     * @throws RequestException
+     * @throws \Illuminate\Http\Client\RequestException
      */
     public function throwIfStatus($statusCode)
     {
@@ -340,7 +334,7 @@ class Response implements ArrayAccess
      * @param  callable|int  $statusCode
      * @return $this
      *
-     * @throws RequestException
+     * @throws \Illuminate\Http\Client\RequestException
      */
     public function throwUnlessStatus($statusCode)
     {
@@ -356,7 +350,7 @@ class Response implements ArrayAccess
      *
      * @return $this
      *
-     * @throws RequestException
+     * @throws \Illuminate\Http\Client\RequestException
      */
     public function throwIfClientError()
     {
@@ -368,7 +362,7 @@ class Response implements ArrayAccess
      *
      * @return $this
      *
-     * @throws RequestException
+     * @throws \Illuminate\Http\Client\RequestException
      */
     public function throwIfServerError()
     {
@@ -404,7 +398,7 @@ class Response implements ArrayAccess
      * @param  mixed  $value
      * @return void
      *
-     * @throws LogicException
+     * @throws \LogicException
      */
     public function offsetSet($offset, $value): void
     {
@@ -417,7 +411,7 @@ class Response implements ArrayAccess
      * @param  string  $offset
      * @return void
      *
-     * @throws LogicException
+     * @throws \LogicException
      */
     public function offsetUnset($offset): void
     {

@@ -18,11 +18,11 @@ class SqlServerConnection extends Connection
     /**
      * Execute a Closure within a transaction.
      *
-     * @param Closure $callback
+     * @param  \Closure  $callback
      * @param  int  $attempts
      * @return mixed
      *
-     * @throws Throwable
+     * @throws \Throwable
      */
     public function transaction(Closure $callback, $attempts = 1)
     {
@@ -71,7 +71,7 @@ class SqlServerConnection extends Connection
     /**
      * Determine if the given database exception was caused by a unique constraint violation.
      *
-     * @param Exception $exception
+     * @param  \Exception  $exception
      * @return bool
      */
     protected function isUniqueConstraintError(Exception $exception)
@@ -82,7 +82,7 @@ class SqlServerConnection extends Connection
     /**
      * Get the default query grammar instance.
      *
-     * @return QueryGrammar
+     * @return \Illuminate\Database\Query\Grammars\SqlServerGrammar
      */
     protected function getDefaultQueryGrammar()
     {
@@ -94,7 +94,7 @@ class SqlServerConnection extends Connection
     /**
      * Get a schema builder instance for the connection.
      *
-     * @return SqlServerBuilder
+     * @return \Illuminate\Database\Schema\SqlServerBuilder
      */
     public function getSchemaBuilder()
     {
@@ -108,7 +108,7 @@ class SqlServerConnection extends Connection
     /**
      * Get the default schema grammar instance.
      *
-     * @return SchemaGrammar
+     * @return \Illuminate\Database\Schema\Grammars\SqlServerGrammar
      */
     protected function getDefaultSchemaGrammar()
     {
@@ -120,10 +120,10 @@ class SqlServerConnection extends Connection
     /**
      * Get the schema state for the connection.
      *
-     * @param Filesystem|null  $files
+     * @param  \Illuminate\Filesystem\Filesystem|null  $files
      * @param  callable|null  $processFactory
      *
-     * @throws RuntimeException
+     * @throws \RuntimeException
      */
     public function getSchemaState(Filesystem $files = null, callable $processFactory = null)
     {
@@ -133,7 +133,7 @@ class SqlServerConnection extends Connection
     /**
      * Get the default post processor instance.
      *
-     * @return SqlServerProcessor
+     * @return \Illuminate\Database\Query\Processors\SqlServerProcessor
      */
     protected function getDefaultPostProcessor()
     {
@@ -143,7 +143,7 @@ class SqlServerConnection extends Connection
     /**
      * Get the Doctrine DBAL driver.
      *
-     * @return SqlServerDriver
+     * @return \Illuminate\Database\PDO\SqlServerDriver
      */
     protected function getDoctrineDriver()
     {

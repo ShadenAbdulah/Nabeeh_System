@@ -5,7 +5,6 @@ namespace Illuminate\Database\Eloquent\Relations;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Collection;
 
 class MorphToMany extends BelongsToMany
 {
@@ -35,8 +34,8 @@ class MorphToMany extends BelongsToMany
     /**
      * Create a new morph to many relationship instance.
      *
-     * @param Builder $query
-     * @param Model $parent
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  \Illuminate\Database\Eloquent\Model  $parent
      * @param  string  $name
      * @param  string  $table
      * @param  string  $foreignPivotKey
@@ -104,10 +103,10 @@ class MorphToMany extends BelongsToMany
     /**
      * Add the constraints for a relationship count query.
      *
-     * @param Builder $query
-     * @param Builder $parentQuery
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  \Illuminate\Database\Eloquent\Builder  $parentQuery
      * @param  array|mixed  $columns
-     * @return Builder
+     * @return \Illuminate\Database\Eloquent\Builder
      */
     public function getRelationExistenceQuery(Builder $query, Builder $parentQuery, $columns = ['*'])
     {
@@ -119,7 +118,7 @@ class MorphToMany extends BelongsToMany
     /**
      * Get the pivot models that are currently attached.
      *
-     * @return Collection
+     * @return \Illuminate\Support\Collection
      */
     protected function getCurrentlyAttachedPivots()
     {
@@ -146,7 +145,7 @@ class MorphToMany extends BelongsToMany
      *
      * @param  array  $attributes
      * @param  bool  $exists
-     * @return Pivot
+     * @return \Illuminate\Database\Eloquent\Relations\Pivot
      */
     public function newPivot(array $attributes = [], $exists = false)
     {
@@ -188,6 +187,16 @@ class MorphToMany extends BelongsToMany
     public function getMorphType()
     {
         return $this->morphType;
+    }
+
+    /**
+     * Get the fully qualified morph type for the relation.
+     *
+     * @return string
+     */
+    public function getQualifiedMorphTypeName()
+    {
+        return $this->qualifyPivotColumn($this->morphType);
     }
 
     /**

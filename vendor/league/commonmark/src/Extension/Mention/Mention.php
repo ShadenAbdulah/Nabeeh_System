@@ -18,7 +18,6 @@ namespace League\CommonMark\Extension\Mention;
 
 use League\CommonMark\Extension\CommonMark\Node\Inline\Link;
 use League\CommonMark\Node\Inline\Text;
-use function sprintf;
 
 class Mention extends Link
 {
@@ -34,7 +33,7 @@ class Mention extends Link
         $this->prefix     = $prefix;
         $this->identifier = $identifier;
 
-        parent::__construct('', $label ?? sprintf('%s%s', $prefix, $identifier));
+        parent::__construct('', $label ?? \sprintf('%s%s', $prefix, $identifier));
     }
 
     public function getLabel(): ?string

@@ -15,19 +15,18 @@ use Carbon\CarbonInterface;
 use PHPStan\Reflection\ReflectionProvider;
 use ReflectionClass;
 use ReflectionException;
-use function is_callable;
 
 final class MacroScanner
 {
     /**
-     * @var ReflectionProvider
+     * @var \PHPStan\Reflection\ReflectionProvider
      */
     private $reflectionProvider;
 
     /**
      * MacroScanner constructor.
      *
-     * @param ReflectionProvider $reflectionProvider
+     * @param \PHPStan\Reflection\ReflectionProvider $reflectionProvider
      */
     public function __construct(ReflectionProvider $reflectionProvider)
     {
@@ -53,7 +52,7 @@ final class MacroScanner
             return false;
         }
 
-        return is_callable([$className, 'hasMacro']) &&
+        return \is_callable([$className, 'hasMacro']) &&
             $className::hasMacro($methodName);
     }
 

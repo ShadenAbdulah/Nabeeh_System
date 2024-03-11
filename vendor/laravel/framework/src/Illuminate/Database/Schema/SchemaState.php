@@ -11,14 +11,14 @@ abstract class SchemaState
     /**
      * The connection instance.
      *
-     * @var Connection
+     * @var \Illuminate\Database\Connection
      */
     protected $connection;
 
     /**
      * The filesystem instance.
      *
-     * @var Filesystem
+     * @var \Illuminate\Filesystem\Filesystem
      */
     protected $files;
 
@@ -46,8 +46,8 @@ abstract class SchemaState
     /**
      * Create a new dumper instance.
      *
-     * @param Connection $connection
-     * @param Filesystem|null  $files
+     * @param  \Illuminate\Database\Connection  $connection
+     * @param  \Illuminate\Filesystem\Filesystem|null  $files
      * @param  callable|null  $processFactory
      * @return void
      */
@@ -69,7 +69,7 @@ abstract class SchemaState
     /**
      * Dump the database's schema into a file.
      *
-     * @param Connection $connection
+     * @param  \Illuminate\Database\Connection  $connection
      * @param  string  $path
      * @return void
      */
@@ -87,7 +87,7 @@ abstract class SchemaState
      * Create a new process instance.
      *
      * @param  mixed  ...$arguments
-     * @return Process
+     * @return \Symfony\Component\Process\Process
      */
     public function makeProcess(...$arguments)
     {

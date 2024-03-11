@@ -11,11 +11,6 @@
 
 namespace Symfony\Component\HttpKernel\ControllerMetadata;
 
-use ReflectionFunction;
-use ReflectionFunctionAbstract;
-use ReflectionNamedType;
-use ReflectionParameter;
-
 /**
  * Builds {@see ArgumentMetadata} objects based on the given Controller.
  *
@@ -23,14 +18,10 @@ use ReflectionParameter;
  */
 final class ArgumentMetadataFactory implements ArgumentMetadataFactoryInterface
 {
-<<<<<<< HEAD
-    public function createArgumentMetadata(string|object|array $controller, ?ReflectionFunctionAbstract $reflector = null): array
-=======
-    public function createArgumentMetadata(string|object|array $controller, \ReflectionFunctionAbstract $reflector = null): array
->>>>>>> parent of c8b1139b (update Ui)
+    public function createArgumentMetadata(string|object|array $controller, ?\ReflectionFunctionAbstract $reflector = null): array
     {
         $arguments = [];
-        $reflector ??= new ReflectionFunction($controller(...));
+        $reflector ??= new \ReflectionFunction($controller(...));
 
         foreach ($reflector->getParameters() as $param) {
             $attributes = [];
@@ -49,12 +40,12 @@ final class ArgumentMetadataFactory implements ArgumentMetadataFactoryInterface
     /**
      * Returns an associated type to the given parameter if available.
      */
-    private function getType(ReflectionParameter $parameter): ?string
+    private function getType(\ReflectionParameter $parameter): ?string
     {
         if (!$type = $parameter->getType()) {
             return null;
         }
-        $name = $type instanceof ReflectionNamedType ? $type->getName() : (string) $type;
+        $name = $type instanceof \ReflectionNamedType ? $type->getName() : (string) $type;
 
         return match (strtolower($name)) {
             'self' => $parameter->getDeclaringClass()?->name,

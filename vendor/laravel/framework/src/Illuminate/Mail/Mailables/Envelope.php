@@ -13,7 +13,7 @@ class Envelope
     /**
      * The address sending the message.
      *
-     * @var Address|string|null
+     * @var \Illuminate\Mail\Mailables\Address|string|null
      */
     public $from;
 
@@ -76,7 +76,7 @@ class Envelope
     /**
      * Create a new message envelope instance.
      *
-     * @param Address|string|null  $from
+     * @param  \Illuminate\Mail\Mailables\Address|string|null  $from
      * @param  array  $to
      * @param  array  $cc
      * @param  array  $bcc
@@ -84,7 +84,7 @@ class Envelope
      * @param  string|null  $subject
      * @param  array  $tags
      * @param  array  $metadata
-     * @param Closure|array  $using
+     * @param  \Closure|array  $using
      * @return void
      *
      * @named-arguments-supported
@@ -118,7 +118,7 @@ class Envelope
     /**
      * Specify who the message will be "from".
      *
-     * @param Address|string  $address
+     * @param  \Illuminate\Mail\Mailables\Address|string  $address
      * @param  string|null  $name
      * @return $this
      */
@@ -132,7 +132,7 @@ class Envelope
     /**
      * Add a "to" recipient to the message envelope.
      *
-     * @param Address|array|string  $address
+     * @param  \Illuminate\Mail\Mailables\Address|array|string  $address
      * @param  string|null  $name
      * @return $this
      */
@@ -148,7 +148,7 @@ class Envelope
     /**
      * Add a "cc" recipient to the message envelope.
      *
-     * @param Address|array|string  $address
+     * @param  \Illuminate\Mail\Mailables\Address|array|string  $address
      * @param  string|null  $name
      * @return $this
      */
@@ -164,7 +164,7 @@ class Envelope
     /**
      * Add a "bcc" recipient to the message envelope.
      *
-     * @param Address|array|string  $address
+     * @param  \Illuminate\Mail\Mailables\Address|array|string  $address
      * @param  string|null  $name
      * @return $this
      */
@@ -180,7 +180,7 @@ class Envelope
     /**
      * Add a "reply to" recipient to the message envelope.
      *
-     * @param Address|array|string  $address
+     * @param  \Illuminate\Mail\Mailables\Address|array|string  $address
      * @param  string|null  $name
      * @return $this
      */
@@ -249,7 +249,7 @@ class Envelope
     /**
      * Add a Symfony Message customization callback to the message.
      *
-     * @param Closure $callback
+     * @param  \Closure  $callback
      * @return $this
      */
     public function using(Closure $callback)

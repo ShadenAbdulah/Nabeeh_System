@@ -11,7 +11,6 @@
 
 namespace Symfony\Component\HttpKernel\Debug;
 
-use LogicException;
 use Symfony\Component\EventDispatcher\Debug\TraceableEventDispatcher as BaseTraceableEventDispatcher;
 use Symfony\Component\HttpKernel\KernelEvents;
 
@@ -50,7 +49,7 @@ class TraceableEventDispatcher extends BaseTraceableEventDispatcher
                 // which must be caught.
                 try {
                     $this->stopwatch->openSection($sectionId);
-                } catch (LogicException) {
+                } catch (\LogicException) {
                 }
                 break;
         }
@@ -78,7 +77,7 @@ class TraceableEventDispatcher extends BaseTraceableEventDispatcher
                 }
                 try {
                     $this->stopwatch->stopSection($sectionId);
-                } catch (LogicException) {
+                } catch (\LogicException) {
                 }
                 break;
         }

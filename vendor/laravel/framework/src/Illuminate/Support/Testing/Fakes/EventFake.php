@@ -7,7 +7,6 @@ use Illuminate\Container\Container;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Contracts\Events\ShouldDispatchAfterCommit;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Illuminate\Support\Traits\ForwardsCalls;
 use Illuminate\Support\Traits\ReflectsClosures;
@@ -21,7 +20,7 @@ class EventFake implements Dispatcher, Fake
     /**
      * The original event dispatcher.
      *
-     * @var Dispatcher
+     * @var \Illuminate\Contracts\Events\Dispatcher
      */
     public $dispatcher;
 
@@ -49,7 +48,7 @@ class EventFake implements Dispatcher, Fake
     /**
      * Create a new event fake instance.
      *
-     * @param Dispatcher $dispatcher
+     * @param  \Illuminate\Contracts\Events\Dispatcher  $dispatcher
      * @param  array|string  $eventsToFake
      * @return void
      */
@@ -128,7 +127,7 @@ class EventFake implements Dispatcher, Fake
     /**
      * Assert if an event was dispatched based on a truth-test callback.
      *
-     * @param  string|Closure $event
+     * @param  string|\Closure  $event
      * @param  callable|int|null  $callback
      * @return void
      */
@@ -168,7 +167,7 @@ class EventFake implements Dispatcher, Fake
     /**
      * Determine if an event was dispatched based on a truth-test callback.
      *
-     * @param  string|Closure $event
+     * @param  string|\Closure  $event
      * @param  callable|null  $callback
      * @return void
      */
@@ -204,7 +203,7 @@ class EventFake implements Dispatcher, Fake
      *
      * @param  string  $event
      * @param  callable|null  $callback
-     * @return Collection
+     * @return \Illuminate\Support\Collection
      */
     public function dispatched($event, $callback = null)
     {
@@ -233,7 +232,7 @@ class EventFake implements Dispatcher, Fake
     /**
      * Register an event listener with the dispatcher.
      *
-     * @param Closure|string|array  $events
+     * @param  \Closure|string|array  $events
      * @param  mixed  $listener
      * @return void
      */

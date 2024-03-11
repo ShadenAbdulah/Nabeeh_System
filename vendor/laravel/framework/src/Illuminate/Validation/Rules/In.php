@@ -25,7 +25,7 @@ class In
     /**
      * Create a new in rule instance.
      *
-     * @param Arrayable|array|string  $values
+     * @param  \Illuminate\Contracts\Support\Arrayable|array|string  $values
      * @return void
      */
     public function __construct($values)

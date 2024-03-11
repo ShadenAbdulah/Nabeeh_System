@@ -11,10 +11,6 @@
 
 namespace Symfony\Component\HttpFoundation;
 
-use InvalidArgumentException;
-use function in_array;
-use const PREG_SET_ORDER;
-
 /**
  * HTTP header utility functions.
  *
@@ -49,7 +45,7 @@ class HeaderUtils
     public static function split(string $header, string $separators): array
     {
         if ('' === $separators) {
-            throw new InvalidArgumentException('At least one separator must be specified.');
+            throw new \InvalidArgumentException('At least one separator must be specified.');
         }
 
         $quotedSeparators = preg_quote($separators, '/');
@@ -70,7 +66,7 @@ class HeaderUtils
                 \s*
                 (?<separator>['.$quotedSeparators.'])
                 \s*
-            /x', trim($header), $matches, PREG_SET_ORDER);
+            /x', trim($header), $matches, \PREG_SET_ORDER);
 
         return self::groupParts($matches, $separators);
     }
@@ -162,14 +158,14 @@ class HeaderUtils
      *                                 is semantically equivalent to $filename. If the filename is already ASCII,
      *                                 it can be omitted, or just copied from $filename
      *
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      *
      * @see RFC 6266
      */
     public static function makeDisposition(string $disposition, string $filename, string $filenameFallback = ''): string
     {
-        if (!in_array($disposition, [self::DISPOSITION_ATTACHMENT, self::DISPOSITION_INLINE])) {
-            throw new InvalidArgumentException(sprintf('The disposition must be either "%s" or "%s".', self::DISPOSITION_ATTACHMENT, self::DISPOSITION_INLINE));
+        if (!\in_array($disposition, [self::DISPOSITION_ATTACHMENT, self::DISPOSITION_INLINE])) {
+            throw new \InvalidArgumentException(sprintf('The disposition must be either "%s" or "%s".', self::DISPOSITION_ATTACHMENT, self::DISPOSITION_INLINE));
         }
 
         if ('' === $filenameFallback) {
@@ -178,17 +174,17 @@ class HeaderUtils
 
         // filenameFallback is not ASCII.
         if (!preg_match('/^[\x20-\x7e]*$/', $filenameFallback)) {
-            throw new InvalidArgumentException('The filename fallback must only contain ASCII characters.');
+            throw new \InvalidArgumentException('The filename fallback must only contain ASCII characters.');
         }
 
         // percent characters aren't safe in fallback.
         if (str_contains($filenameFallback, '%')) {
-            throw new InvalidArgumentException('The filename fallback cannot contain the "%" character.');
+            throw new \InvalidArgumentException('The filename fallback cannot contain the "%" character.');
         }
 
         // path separators aren't allowed in either.
         if (str_contains($filename, '/') || str_contains($filename, '\\') || str_contains($filenameFallback, '/') || str_contains($filenameFallback, '\\')) {
-            throw new InvalidArgumentException('The filename and the fallback cannot contain the "/" and "\\" characters.');
+            throw new \InvalidArgumentException('The filename and the fallback cannot contain the "/" and "\\" characters.');
         }
 
         $params = ['filename' => $filenameFallback];

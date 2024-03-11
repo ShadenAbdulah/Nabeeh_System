@@ -11,9 +11,6 @@
 
 namespace Symfony\Component\HttpFoundation;
 
-use function count;
-use function in_array;
-
 /**
  * ServerBag is a container for HTTP headers from the $_SERVER variable.
  *
@@ -32,11 +29,7 @@ class ServerBag extends ParameterBag
         foreach ($this->parameters as $key => $value) {
             if (str_starts_with($key, 'HTTP_')) {
                 $headers[substr($key, 5)] = $value;
-<<<<<<< HEAD
-            } elseif (in_array($key, ['CONTENT_TYPE', 'CONTENT_LENGTH', 'CONTENT_MD5'], true) && '' !== $value) {
-=======
-            } elseif (\in_array($key, ['CONTENT_TYPE', 'CONTENT_LENGTH', 'CONTENT_MD5'], true)) {
->>>>>>> parent of c8b1139b (update Ui)
+            } elseif (\in_array($key, ['CONTENT_TYPE', 'CONTENT_LENGTH', 'CONTENT_MD5'], true) && '' !== $value) {
                 $headers[$key] = $value;
             }
         }
@@ -70,7 +63,7 @@ class ServerBag extends ParameterBag
                 if (0 === stripos($authorizationHeader, 'basic ')) {
                     // Decode AUTHORIZATION header into PHP_AUTH_USER and PHP_AUTH_PW when authorization header is basic
                     $exploded = explode(':', base64_decode(substr($authorizationHeader, 6)), 2);
-                    if (2 == count($exploded)) {
+                    if (2 == \count($exploded)) {
                         [$headers['PHP_AUTH_USER'], $headers['PHP_AUTH_PW']] = $exploded;
                     }
                 } elseif (empty($this->parameters['PHP_AUTH_DIGEST']) && (0 === stripos($authorizationHeader, 'digest '))) {

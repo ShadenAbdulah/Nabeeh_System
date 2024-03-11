@@ -22,7 +22,6 @@ use League\CommonMark\Renderer\ChildNodeRendererInterface;
 use League\CommonMark\Renderer\NodeRendererInterface;
 use League\CommonMark\Util\HtmlElement;
 use League\CommonMark\Xml\XmlNodeRendererInterface;
-use Stringable;
 
 final class EmphasisRenderer implements NodeRendererInterface, XmlNodeRendererInterface
 {
@@ -33,7 +32,7 @@ final class EmphasisRenderer implements NodeRendererInterface, XmlNodeRendererIn
      *
      * @psalm-suppress MoreSpecificImplementedParamType
      */
-    public function render(Node $node, ChildNodeRendererInterface $childRenderer): Stringable
+    public function render(Node $node, ChildNodeRendererInterface $childRenderer): \Stringable
     {
         Emphasis::assertInstanceOf($node);
 

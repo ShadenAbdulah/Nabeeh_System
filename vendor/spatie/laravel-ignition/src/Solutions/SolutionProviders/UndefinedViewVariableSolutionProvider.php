@@ -47,11 +47,11 @@ class UndefinedViewVariableSolutionProvider implements HasSolutionsForThrowable
     }
 
     /**
-     * @param ViewException $throwable
+     * @param \Spatie\LaravelIgnition\Exceptions\ViewException $throwable
      * @param string $variableName
      * @param string $viewFile
      *
-     * @return array<int, Solution>
+     * @return array<int, \Spatie\Ignition\Contracts\Solution>
      */
     protected function findCorrectVariableSolutions(
         ViewException $throwable,
@@ -88,7 +88,7 @@ class UndefinedViewVariableSolutionProvider implements HasSolutionsForThrowable
     }
 
     /**
-     * @param Throwable $throwable
+     * @param \Throwable $throwable
      *
      * @return array<string, string>|null
      */

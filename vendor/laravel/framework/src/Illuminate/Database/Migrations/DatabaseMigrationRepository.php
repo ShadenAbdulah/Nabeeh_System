@@ -2,16 +2,14 @@
 
 namespace Illuminate\Database\Migrations;
 
-use Illuminate\Database\Connection;
 use Illuminate\Database\ConnectionResolverInterface as Resolver;
-use Illuminate\Database\Query\Builder;
 
 class DatabaseMigrationRepository implements MigrationRepositoryInterface
 {
     /**
      * The database connection resolver instance.
      *
-     * @var Resolver
+     * @var \Illuminate\Database\ConnectionResolverInterface
      */
     protected $resolver;
 
@@ -32,7 +30,7 @@ class DatabaseMigrationRepository implements MigrationRepositoryInterface
     /**
      * Create a new database migration repository instance.
      *
-     * @param Resolver $resolver
+     * @param  \Illuminate\Database\ConnectionResolverInterface  $resolver
      * @param  string  $table
      * @return void
      */
@@ -201,7 +199,7 @@ class DatabaseMigrationRepository implements MigrationRepositoryInterface
     /**
      * Get a query builder for the migration table.
      *
-     * @return Builder
+     * @return \Illuminate\Database\Query\Builder
      */
     protected function table()
     {
@@ -211,7 +209,7 @@ class DatabaseMigrationRepository implements MigrationRepositoryInterface
     /**
      * Get the connection resolver instance.
      *
-     * @return Resolver
+     * @return \Illuminate\Database\ConnectionResolverInterface
      */
     public function getConnectionResolver()
     {
@@ -221,7 +219,7 @@ class DatabaseMigrationRepository implements MigrationRepositoryInterface
     /**
      * Resolve the database connection instance.
      *
-     * @return Connection
+     * @return \Illuminate\Database\Connection
      */
     public function getConnection()
     {

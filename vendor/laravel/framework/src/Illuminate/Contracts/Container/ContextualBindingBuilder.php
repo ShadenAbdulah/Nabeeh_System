@@ -2,8 +2,6 @@
 
 namespace Illuminate\Contracts\Container;
 
-use Closure;
-
 interface ContextualBindingBuilder
 {
     /**
@@ -17,7 +15,7 @@ interface ContextualBindingBuilder
     /**
      * Define the implementation for the contextual binding.
      *
-     * @param  Closure|string|array  $implementation
+     * @param  \Closure|string|array  $implementation
      * @return void
      */
     public function give($implementation);

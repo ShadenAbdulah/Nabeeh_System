@@ -2,7 +2,6 @@
 
 namespace Illuminate\Foundation\Testing;
 
-use DateTimeInterface;
 use Illuminate\Support\Carbon;
 
 class Wormhole
@@ -220,7 +219,7 @@ class Wormhole
     /**
      * Travel back to the current time.
      *
-     * @return DateTimeInterface
+     * @return \DateTimeInterface
      */
     public static function back()
     {

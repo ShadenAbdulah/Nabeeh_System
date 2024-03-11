@@ -13,15 +13,12 @@ namespace Symfony\Component\Mailer\Transport\Smtp;
 
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Psr\Log\LoggerInterface;
-use SensitiveParameter;
 use Symfony\Component\Mailer\Exception\TransportException;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
+use Symfony\Component\Mailer\Exception\UnexpectedResponseException;
 use Symfony\Component\Mailer\Transport\Smtp\Auth\AuthenticatorInterface;
 use Symfony\Component\Mailer\Transport\Smtp\Stream\AbstractStream;
 use Symfony\Component\Mailer\Transport\Smtp\Stream\SocketStream;
-use function array_key_exists;
-use function defined;
-use function in_array;
 
 /**
  * Sends Emails over SMTP with ESMTP support.
@@ -36,7 +33,7 @@ class EsmtpTransport extends SmtpTransport
     private string $password = '';
     private array $capabilities;
 
-    public function __construct(string $host = 'localhost', int $port = 0, bool $tls = null, EventDispatcherInterface $dispatcher = null, LoggerInterface $logger = null, AbstractStream $stream = null, array $authenticators = null)
+    public function __construct(string $host = 'localhost', int $port = 0, ?bool $tls = null, ?EventDispatcherInterface $dispatcher = null, ?LoggerInterface $logger = null, ?AbstractStream $stream = null, ?array $authenticators = null)
     {
         parent::__construct($stream, $dispatcher, $logger);
 
@@ -59,7 +56,7 @@ class EsmtpTransport extends SmtpTransport
             if (465 === $port) {
                 $tls = true;
             } else {
-                $tls = defined('OPENSSL_VERSION_NUMBER') && 0 === $port && 'localhost' !== $host;
+                $tls = \defined('OPENSSL_VERSION_NUMBER') && 0 === $port && 'localhost' !== $host;
             }
         }
         if (!$tls) {
@@ -91,7 +88,7 @@ class EsmtpTransport extends SmtpTransport
     /**
      * @return $this
      */
-    public function setPassword(#[SensitiveParameter] string $password): static
+    public function setPassword(#[\SensitiveParameter] string $password): static
     {
         $this->password = $password;
 
@@ -149,7 +146,7 @@ class EsmtpTransport extends SmtpTransport
         // WARNING: !$stream->isTLS() is right, 100% sure :)
         // if you think that the ! should be removed, read the code again
         // if doing so "fixes" your issue then it probably means your SMTP server behaves incorrectly or is wrongly configured
-        if (!$stream->isTLS() && defined('OPENSSL_VERSION_NUMBER') && array_key_exists('STARTTLS', $this->capabilities)) {
+        if (!$stream->isTLS() && \defined('OPENSSL_VERSION_NUMBER') && \array_key_exists('STARTTLS', $this->capabilities)) {
             $this->executeCommand("STARTTLS\r\n", [220]);
 
             if (!$stream->startTLS()) {
@@ -160,7 +157,7 @@ class EsmtpTransport extends SmtpTransport
             $this->capabilities = $this->parseCapabilities($response);
         }
 
-        if (array_key_exists('AUTH', $this->capabilities)) {
+        if (\array_key_exists('AUTH', $this->capabilities)) {
             $this->handleAuth($this->capabilities['AUTH']);
         }
 
@@ -193,7 +190,7 @@ class EsmtpTransport extends SmtpTransport
         $errors = [];
         $modes = array_map('strtolower', $modes);
         foreach ($this->authenticators as $authenticator) {
-            if (!in_array(strtolower($authenticator->getAuthKeyword()), $modes, true)) {
+            if (!\in_array(strtolower($authenticator->getAuthKeyword()), $modes, true)) {
                 continue;
             }
 
@@ -203,7 +200,7 @@ class EsmtpTransport extends SmtpTransport
                 $authenticator->authenticate($this);
 
                 return;
-            } catch (TransportExceptionInterface $e) {
+            } catch (UnexpectedResponseException $e) {
                 $code = $e->getCode();
 
                 try {

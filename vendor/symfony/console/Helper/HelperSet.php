@@ -11,20 +11,16 @@
 
 namespace Symfony\Component\Console\Helper;
 
-use ArrayIterator;
-use IteratorAggregate;
 use Symfony\Component\Console\Exception\InvalidArgumentException;
-use Traversable;
-use function is_int;
 
 /**
  * HelperSet represents a set of helpers to be used with a command.
  *
  * @author Fabien Potencier <fabien@symfony.com>
  *
- * @implements IteratorAggregate<string, HelperInterface>
+ * @implements \IteratorAggregate<string, HelperInterface>
  */
-class HelperSet implements IteratorAggregate
+class HelperSet implements \IteratorAggregate
 {
     /** @var array<string, HelperInterface> */
     private array $helpers = [];
@@ -35,14 +31,14 @@ class HelperSet implements IteratorAggregate
     public function __construct(array $helpers = [])
     {
         foreach ($helpers as $alias => $helper) {
-            $this->set($helper, is_int($alias) ? null : $alias);
+            $this->set($helper, \is_int($alias) ? null : $alias);
         }
     }
 
     /**
      * @return void
      */
-    public function set(HelperInterface $helper, string $alias = null)
+    public function set(HelperInterface $helper, ?string $alias = null)
     {
         $this->helpers[$helper->getName()] = $helper;
         if (null !== $alias) {
@@ -74,8 +70,8 @@ class HelperSet implements IteratorAggregate
         return $this->helpers[$name];
     }
 
-    public function getIterator(): Traversable
+    public function getIterator(): \Traversable
     {
-        return new ArrayIterator($this->helpers);
+        return new \ArrayIterator($this->helpers);
     }
 }

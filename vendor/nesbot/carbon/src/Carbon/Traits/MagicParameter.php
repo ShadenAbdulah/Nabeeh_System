@@ -11,8 +11,6 @@
 
 namespace Carbon\Traits;
 
-use function array_key_exists;
-
 /**
  * Trait MagicParameter.
  *
@@ -22,11 +20,11 @@ trait MagicParameter
 {
     private function getMagicParameter(array $parameters, int $index, string $key, $default)
     {
-        if (array_key_exists($index, $parameters)) {
+        if (\array_key_exists($index, $parameters)) {
             return $parameters[$index];
         }
 
-        if (array_key_exists($key, $parameters)) {
+        if (\array_key_exists($key, $parameters)) {
             return $parameters[$key];
         }
 

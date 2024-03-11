@@ -40,7 +40,7 @@ class PostgresConnection extends Connection
     /**
      * Determine if the given database exception was caused by a unique constraint violation.
      *
-     * @param Exception $exception
+     * @param  \Exception  $exception
      * @return bool
      */
     protected function isUniqueConstraintError(Exception $exception)
@@ -51,7 +51,7 @@ class PostgresConnection extends Connection
     /**
      * Get the default query grammar instance.
      *
-     * @return QueryGrammar
+     * @return \Illuminate\Database\Query\Grammars\PostgresGrammar
      */
     protected function getDefaultQueryGrammar()
     {
@@ -63,7 +63,7 @@ class PostgresConnection extends Connection
     /**
      * Get a schema builder instance for the connection.
      *
-     * @return PostgresBuilder
+     * @return \Illuminate\Database\Schema\PostgresBuilder
      */
     public function getSchemaBuilder()
     {
@@ -77,7 +77,7 @@ class PostgresConnection extends Connection
     /**
      * Get the default schema grammar instance.
      *
-     * @return SchemaGrammar
+     * @return \Illuminate\Database\Schema\Grammars\PostgresGrammar
      */
     protected function getDefaultSchemaGrammar()
     {
@@ -89,9 +89,9 @@ class PostgresConnection extends Connection
     /**
      * Get the schema state for the connection.
      *
-     * @param Filesystem|null  $files
+     * @param  \Illuminate\Filesystem\Filesystem|null  $files
      * @param  callable|null  $processFactory
-     * @return PostgresSchemaState
+     * @return \Illuminate\Database\Schema\PostgresSchemaState
      */
     public function getSchemaState(Filesystem $files = null, callable $processFactory = null)
     {
@@ -101,7 +101,7 @@ class PostgresConnection extends Connection
     /**
      * Get the default post processor instance.
      *
-     * @return PostgresProcessor
+     * @return \Illuminate\Database\Query\Processors\PostgresProcessor
      */
     protected function getDefaultPostProcessor()
     {
@@ -111,7 +111,7 @@ class PostgresConnection extends Connection
     /**
      * Get the Doctrine DBAL driver.
      *
-     * @return PostgresDriver
+     * @return \Illuminate\Database\PDO\PostgresDriver
      */
     protected function getDoctrineDriver()
     {

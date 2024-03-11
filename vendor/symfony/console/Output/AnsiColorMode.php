@@ -12,7 +12,6 @@
 namespace Symfony\Component\Console\Output;
 
 use Symfony\Component\Console\Exception\InvalidArgumentException;
-use function strlen;
 
 /**
  * @author Fabien Potencier <fabien@symfony.com>
@@ -47,11 +46,11 @@ enum AnsiColorMode
     {
         $hexColor = str_replace('#', '', $hexColor);
 
-        if (3 === strlen($hexColor)) {
+        if (3 === \strlen($hexColor)) {
             $hexColor = $hexColor[0].$hexColor[0].$hexColor[1].$hexColor[1].$hexColor[2].$hexColor[2];
         }
 
-        if (6 !== strlen($hexColor)) {
+        if (6 !== \strlen($hexColor)) {
             throw new InvalidArgumentException(sprintf('Invalid "#%s" color.', $hexColor));
         }
 

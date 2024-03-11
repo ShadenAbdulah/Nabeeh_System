@@ -7,7 +7,6 @@ use Doctrine\DBAL\Schema\ForeignKeyConstraint;
 use Doctrine\DBAL\Schema\Index;
 use Doctrine\DBAL\Schema\Table;
 use Illuminate\Database\ConnectionResolverInterface;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Symfony\Component\Console\Attribute\AsCommand;
 
@@ -84,8 +83,8 @@ class TableCommand extends DatabaseInspectionCommand
     /**
      * Get the information regarding the table's columns.
      *
-     * @param Table $table
-     * @return Collection
+     * @param  \Doctrine\DBAL\Schema\Table  $table
+     * @return \Illuminate\Support\Collection
      */
     protected function columns(Table $table)
     {
@@ -100,8 +99,8 @@ class TableCommand extends DatabaseInspectionCommand
     /**
      * Get the attributes for a table column.
      *
-     * @param Column $column
-     * @return Collection
+     * @param  \Doctrine\DBAL\Schema\Column  $column
+     * @return \Illuminate\Support\Collection
      */
     protected function getAttributesForColumn(Column $column)
     {
@@ -116,8 +115,8 @@ class TableCommand extends DatabaseInspectionCommand
     /**
      * Get the information regarding the table's indexes.
      *
-     * @param Table $table
-     * @return Collection
+     * @param  \Doctrine\DBAL\Schema\Table  $table
+     * @return \Illuminate\Support\Collection
      */
     protected function indexes(Table $table)
     {
@@ -131,8 +130,8 @@ class TableCommand extends DatabaseInspectionCommand
     /**
      * Get the attributes for a table index.
      *
-     * @param Index $index
-     * @return Collection
+     * @param  \Doctrine\DBAL\Schema\Index  $index
+     * @return \Illuminate\Support\Collection
      */
     protected function getAttributesForIndex(Index $index)
     {
@@ -146,8 +145,8 @@ class TableCommand extends DatabaseInspectionCommand
     /**
      * Get the information regarding the table's foreign keys.
      *
-     * @param Table $table
-     * @return Collection
+     * @param  \Doctrine\DBAL\Schema\Table  $table
+     * @return \Illuminate\Support\Collection
      */
     protected function foreignKeys(Table $table)
     {

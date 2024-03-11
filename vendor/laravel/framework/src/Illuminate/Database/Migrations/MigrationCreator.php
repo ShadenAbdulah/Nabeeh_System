@@ -3,7 +3,6 @@
 namespace Illuminate\Database\Migrations;
 
 use Closure;
-use Exception;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Str;
 use InvalidArgumentException;
@@ -13,7 +12,7 @@ class MigrationCreator
     /**
      * The filesystem instance.
      *
-     * @var Filesystem
+     * @var \Illuminate\Filesystem\Filesystem
      */
     protected $files;
 
@@ -34,7 +33,7 @@ class MigrationCreator
     /**
      * Create a new migration creator instance.
      *
-     * @param Filesystem $files
+     * @param  \Illuminate\Filesystem\Filesystem  $files
      * @param  string  $customStubPath
      * @return void
      */
@@ -53,7 +52,7 @@ class MigrationCreator
      * @param  bool  $create
      * @return string
      *
-     * @throws Exception
+     * @throws \Exception
      */
     public function create($name, $path, $table = null, $create = false)
     {
@@ -87,7 +86,7 @@ class MigrationCreator
      * @param  string  $migrationPath
      * @return void
      *
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     protected function ensureMigrationDoesntAlreadyExist($name, $migrationPath = null)
     {
@@ -192,7 +191,7 @@ class MigrationCreator
     /**
      * Register a post migration create hook.
      *
-     * @param Closure $callback
+     * @param  \Closure  $callback
      * @return void
      */
     public function afterCreate(Closure $callback)
@@ -223,7 +222,7 @@ class MigrationCreator
     /**
      * Get the filesystem instance.
      *
-     * @return Filesystem
+     * @return \Illuminate\Filesystem\Filesystem
      */
     public function getFilesystem()
     {

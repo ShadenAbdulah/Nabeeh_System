@@ -11,15 +11,9 @@
 
 namespace Symfony\Component\Translation\Exception;
 
-use Throwable;
-
 class IncompleteDsnException extends InvalidArgumentException
 {
-<<<<<<< HEAD
-    public function __construct(string $message, ?string $dsn = null, ?Throwable $previous = null)
-=======
-    public function __construct(string $message, string $dsn = null, \Throwable $previous = null)
->>>>>>> parent of c8b1139b (update Ui)
+    public function __construct(string $message, ?string $dsn = null, ?\Throwable $previous = null)
     {
         if ($dsn) {
             $message = sprintf('Invalid "%s" provider DSN: ', $dsn).$message;

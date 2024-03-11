@@ -2,7 +2,5 @@
 
 namespace PhpParser\Comment;
 
-use PhpParser\Comment;
-
-class Doc extends Comment {
+class Doc extends \PhpParser\Comment {
 }

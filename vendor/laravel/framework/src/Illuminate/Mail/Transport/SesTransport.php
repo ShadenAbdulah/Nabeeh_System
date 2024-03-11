@@ -15,7 +15,7 @@ class SesTransport extends AbstractTransport
     /**
      * The Amazon SES instance.
      *
-     * @var SesClient
+     * @var \Aws\Ses\SesClient
      */
     protected $ses;
 
@@ -29,7 +29,7 @@ class SesTransport extends AbstractTransport
     /**
      * Create a new SES transport instance.
      *
-     * @param SesClient $ses
+     * @param  \Aws\Ses\SesClient  $ses
      * @param  array  $options
      * @return void
      */
@@ -91,7 +91,7 @@ class SesTransport extends AbstractTransport
     /**
      * Get the Amazon SES client for the SesTransport instance.
      *
-     * @return SesClient
+     * @return \Aws\Ses\SesClient
      */
     public function ses()
     {

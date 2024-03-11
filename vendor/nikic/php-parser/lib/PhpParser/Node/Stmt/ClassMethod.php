@@ -5,7 +5,6 @@ namespace PhpParser\Node\Stmt;
 use PhpParser\Modifiers;
 use PhpParser\Node;
 use PhpParser\Node\FunctionLike;
-use function is_string;
 
 class ClassMethod extends Node\Stmt implements FunctionLike {
     /** @var int Flags */
@@ -68,7 +67,7 @@ class ClassMethod extends Node\Stmt implements FunctionLike {
         $this->attributes = $attributes;
         $this->flags = $subNodes['flags'] ?? $subNodes['type'] ?? 0;
         $this->byRef = $subNodes['byRef'] ?? false;
-        $this->name = is_string($name) ? new Node\Identifier($name) : $name;
+        $this->name = \is_string($name) ? new Node\Identifier($name) : $name;
         $this->params = $subNodes['params'] ?? [];
         $this->returnType = $subNodes['returnType'] ?? null;
         $this->stmts = array_key_exists('stmts', $subNodes) ? $subNodes['stmts'] : [];

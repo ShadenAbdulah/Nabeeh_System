@@ -12,12 +12,7 @@
 namespace Symfony\Component\Translation\Extractor\Visitor;
 
 use PhpParser\Node;
-use ReflectionClass;
-use ReflectionException;
-use SplFileInfo;
 use Symfony\Component\Translation\MessageCatalogue;
-use function is_string;
-use const PHP_INT_MAX;
 
 /**
  * @author Mathieu Santostefano <msantostefano@protonmail.com>
@@ -25,10 +20,10 @@ use const PHP_INT_MAX;
 abstract class AbstractVisitor
 {
     private MessageCatalogue $catalogue;
-    private SplFileInfo $file;
+    private \SplFileInfo $file;
     private string $messagePrefix;
 
-    public function initialize(MessageCatalogue $catalogue, SplFileInfo $file, string $messagePrefix): void
+    public function initialize(MessageCatalogue $catalogue, \SplFileInfo $file, string $messagePrefix): void
     {
         $this->catalogue = $catalogue;
         $this->file = $file;
@@ -47,7 +42,7 @@ abstract class AbstractVisitor
 
     protected function getStringArguments(Node\Expr\CallLike|Node\Attribute|Node\Expr\New_ $node, int|string $index, bool $indexIsRegex = false): array
     {
-        if (is_string($index)) {
+        if (\is_string($index)) {
             return $this->getStringNamedArguments($node, $index, $indexIsRegex);
         }
 
@@ -83,10 +78,10 @@ abstract class AbstractVisitor
             }
         }
 
-        return PHP_INT_MAX;
+        return \PHP_INT_MAX;
     }
 
-    private function getStringNamedArguments(Node\Expr\CallLike|Node\Attribute $node, string $argumentName = null, bool $isArgumentNamePattern = false): array
+    private function getStringNamedArguments(Node\Expr\CallLike|Node\Attribute $node, ?string $argumentName = null, bool $isArgumentNamePattern = false): array
     {
         $args = $node instanceof Node\Expr\CallLike ? $node->getArgs() : $node->args;
         $argumentValues = [];
@@ -124,20 +119,17 @@ abstract class AbstractVisitor
             return $node->expr->value;
         }
 
-<<<<<<< HEAD
         if ($node instanceof Node\Expr\ClassConstFetch) {
             try {
-                $reflection = new ReflectionClass($node->class->toString());
+                $reflection = new \ReflectionClass($node->class->toString());
                 $constant = $reflection->getReflectionConstant($node->name->toString());
-                if (false !== $constant && is_string($constant->getValue())) {
+                if (false !== $constant && \is_string($constant->getValue())) {
                     return $constant->getValue();
                 }
-            } catch (ReflectionException) {
+            } catch (\ReflectionException) {
             }
         }
 
-=======
->>>>>>> parent of c8b1139b (update Ui)
         return null;
     }
 }

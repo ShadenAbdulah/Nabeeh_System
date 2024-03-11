@@ -12,7 +12,6 @@ use DateTimeImmutable;
 use DateTimeInterface;
 use Illuminate\Contracts\Database\Eloquent\Castable;
 use Illuminate\Contracts\Database\Eloquent\CastsInboundAttributes;
-use Illuminate\Contracts\Encryption\Encrypter;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Database\Eloquent\Casts\AsArrayObject;
 use Illuminate\Database\Eloquent\Casts\AsCollection;
@@ -41,8 +40,6 @@ use ReflectionClass;
 use ReflectionMethod;
 use ReflectionNamedType;
 use RuntimeException;
-use UnitEnum;
-use function in_array;
 
 trait HasAttributes
 {
@@ -181,7 +178,7 @@ trait HasAttributes
     /**
      * The encrypter instance that is used to encrypt attributes.
      *
-     * @var Encrypter|null
+     * @var \Illuminate\Contracts\Encryption\Encrypter|null
      */
     public static $encrypter;
 
@@ -464,7 +461,7 @@ trait HasAttributes
      * @param  string  $key
      * @return null
      *
-     * @throws MissingAttributeException
+     * @throws \Illuminate\Database\Eloquent\MissingAttributeException
      */
     protected function throwMissingAttributeExceptionIfApplicable($key)
     {
@@ -573,7 +570,7 @@ trait HasAttributes
      * @param  string  $method
      * @return mixed
      *
-     * @throws LogicException
+     * @throws \LogicException
      */
     protected function getRelationshipFromMethod($method)
     {
@@ -1155,7 +1152,7 @@ trait HasAttributes
      * Set the value of an enum castable attribute.
      *
      * @param  string  $key
-     * @param  UnitEnum|string|int  $value
+     * @param  \UnitEnum|string|int  $value
      * @return void
      */
     protected function setEnumCastableAttribute($key, $value)
@@ -1178,7 +1175,7 @@ trait HasAttributes
      *
      * @param  string  $enumClass
      * @param  string|int  $value
-     * @return UnitEnum|BackedEnum
+     * @return \UnitEnum|\BackedEnum
      */
     protected function getEnumCaseFromValue($enumClass, $value)
     {
@@ -1190,7 +1187,7 @@ trait HasAttributes
     /**
      * Get the storable value from the given enum.
      *
-     * @param  UnitEnum|BackedEnum $value
+     * @param  \UnitEnum|\BackedEnum  $value
      * @return string|int
      */
     protected function getStorableEnumValue($value)
@@ -1303,7 +1300,7 @@ trait HasAttributes
     /**
      * Set the encrypter instance that will be used to encrypt attributes.
      *
-     * @param  Encrypter|null  $encrypter
+     * @param  \Illuminate\Contracts\Encryption\Encrypter|null  $encrypter
      * @return void
      */
     public static function encryptUsing($encrypter)
@@ -1371,7 +1368,7 @@ trait HasAttributes
      * Return a timestamp as DateTime object with time set to 00:00:00.
      *
      * @param  mixed  $value
-     * @return Carbon
+     * @return \Illuminate\Support\Carbon
      */
     protected function asDate($value)
     {
@@ -1382,7 +1379,7 @@ trait HasAttributes
      * Return a timestamp as DateTime object.
      *
      * @param  mixed  $value
-     * @return Carbon
+     * @return \Illuminate\Support\Carbon
      */
     protected function asDateTime($value)
     {
@@ -1468,7 +1465,7 @@ trait HasAttributes
     /**
      * Prepare a date for array / JSON serialization.
      *
-     * @param DateTimeInterface $date
+     * @param  \DateTimeInterface  $date
      * @return string
      */
     protected function serializeDate(DateTimeInterface $date)
@@ -1594,7 +1591,7 @@ trait HasAttributes
      * @param  string  $key
      * @return bool
      *
-     * @throws InvalidCastException
+     * @throws \Illuminate\Database\Eloquent\InvalidCastException
      */
     protected function isClassCastable($key)
     {
@@ -1646,7 +1643,7 @@ trait HasAttributes
      * @param  string  $key
      * @return bool
      *
-     * @throws InvalidCastException
+     * @throws \Illuminate\Database\Eloquent\InvalidCastException
      */
     protected function isClassDeviable($key)
     {
@@ -1665,7 +1662,7 @@ trait HasAttributes
      * @param  string  $key
      * @return bool
      *
-     * @throws InvalidCastException
+     * @throws \Illuminate\Database\Eloquent\InvalidCastException
      */
     protected function isClassSerializable($key)
     {
@@ -2143,7 +2140,7 @@ trait HasAttributes
         // instance on retrieval, which makes it quite convenient to work with
         // date fields without having to create a mutator for each property.
         if ($value !== null
-            && in_array($key, $this->getDates(), false)) {
+            && \in_array($key, $this->getDates(), false)) {
             return $this->asDateTime($value);
         }
 

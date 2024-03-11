@@ -28,13 +28,8 @@ class PruneStaleTagsCommand extends Command
     /**
      * Execute the console command.
      *
-<<<<<<< HEAD
-     * @param CacheManager $cache
-     * @return int|null
-=======
      * @param  \Illuminate\Cache\CacheManager  $cache
-     * @return void
->>>>>>> parent of c8b1139b (update Ui)
+     * @return int|null
      */
     public function handle(CacheManager $cache)
     {

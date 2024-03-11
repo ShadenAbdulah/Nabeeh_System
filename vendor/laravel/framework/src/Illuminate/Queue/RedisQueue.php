@@ -2,14 +2,10 @@
 
 namespace Illuminate\Queue;
 
-use DateInterval;
-use DateTimeInterface;
 use Illuminate\Contracts\Queue\ClearableQueue;
-use Illuminate\Contracts\Queue\Job;
 use Illuminate\Contracts\Queue\Queue as QueueContract;
 use Illuminate\Contracts\Redis\Factory as Redis;
 use Illuminate\Queue\Jobs\RedisJob;
-use Illuminate\Redis\Connections\Connection;
 use Illuminate\Support\Str;
 
 class RedisQueue extends Queue implements QueueContract, ClearableQueue
@@ -17,7 +13,7 @@ class RedisQueue extends Queue implements QueueContract, ClearableQueue
     /**
      * The Redis factory implementation.
      *
-     * @var Redis
+     * @var \Illuminate\Contracts\Redis\Factory
      */
     protected $redis;
 
@@ -61,7 +57,7 @@ class RedisQueue extends Queue implements QueueContract, ClearableQueue
     /**
      * Create a new Redis queue instance.
      *
-     * @param Redis $redis
+     * @param  \Illuminate\Contracts\Redis\Factory  $redis
      * @param  string  $default
      * @param  string|null  $connection
      * @param  int  $retryAfter
@@ -167,7 +163,7 @@ class RedisQueue extends Queue implements QueueContract, ClearableQueue
     /**
      * Push a new job onto the queue after a delay.
      *
-     * @param  DateTimeInterface|DateInterval|int  $delay
+     * @param  \DateTimeInterface|\DateInterval|int  $delay
      * @param  object|string  $job
      * @param  mixed  $data
      * @param  string|null  $queue
@@ -189,7 +185,7 @@ class RedisQueue extends Queue implements QueueContract, ClearableQueue
     /**
      * Push a raw job onto the queue after (n) seconds.
      *
-     * @param  DateTimeInterface|DateInterval|int  $delay
+     * @param  \DateTimeInterface|\DateInterval|int  $delay
      * @param  string  $payload
      * @param  string|null  $queue
      * @return mixed
@@ -223,7 +219,7 @@ class RedisQueue extends Queue implements QueueContract, ClearableQueue
      * Pop the next job off of the queue.
      *
      * @param  string|null  $queue
-     * @return Job|null
+     * @return \Illuminate\Contracts\Queue\Job|null
      */
     public function pop($queue = null)
     {
@@ -301,7 +297,7 @@ class RedisQueue extends Queue implements QueueContract, ClearableQueue
      * Delete a reserved job from the queue.
      *
      * @param  string  $queue
-     * @param RedisJob $job
+     * @param  \Illuminate\Queue\Jobs\RedisJob  $job
      * @return void
      */
     public function deleteReserved($queue, $job)
@@ -313,7 +309,7 @@ class RedisQueue extends Queue implements QueueContract, ClearableQueue
      * Delete a reserved job from the reserved queue and release it.
      *
      * @param  string  $queue
-     * @param RedisJob $job
+     * @param  \Illuminate\Queue\Jobs\RedisJob  $job
      * @param  int  $delay
      * @return void
      */
@@ -367,7 +363,7 @@ class RedisQueue extends Queue implements QueueContract, ClearableQueue
     /**
      * Get the connection for the queue.
      *
-     * @return Connection
+     * @return \Illuminate\Redis\Connections\Connection
      */
     public function getConnection()
     {
@@ -377,7 +373,7 @@ class RedisQueue extends Queue implements QueueContract, ClearableQueue
     /**
      * Get the underlying Redis instance.
      *
-     * @return Redis
+     * @return \Illuminate\Contracts\Redis\Factory
      */
     public function getRedis()
     {

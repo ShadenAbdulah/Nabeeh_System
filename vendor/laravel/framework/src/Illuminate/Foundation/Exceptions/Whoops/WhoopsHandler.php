@@ -11,7 +11,7 @@ class WhoopsHandler
     /**
      * Create a new Whoops handler for debug mode.
      *
-     * @return PrettyPageHandler
+     * @return \Whoops\Handler\PrettyPageHandler
      */
     public function forDebug()
     {
@@ -27,7 +27,7 @@ class WhoopsHandler
     /**
      * Register the application paths with the handler.
      *
-     * @param PrettyPageHandler $handler
+     * @param  \Whoops\Handler\PrettyPageHandler  $handler
      * @return $this
      */
     protected function registerApplicationPaths($handler)
@@ -55,7 +55,7 @@ class WhoopsHandler
     /**
      * Register the blacklist with the handler.
      *
-     * @param PrettyPageHandler $handler
+     * @param  \Whoops\Handler\PrettyPageHandler  $handler
      * @return $this
      */
     protected function registerBlacklist($handler)
@@ -72,7 +72,7 @@ class WhoopsHandler
     /**
      * Register the editor with the handler.
      *
-     * @param PrettyPageHandler $handler
+     * @param  \Whoops\Handler\PrettyPageHandler  $handler
      * @return $this
      */
     protected function registerEditor($handler)

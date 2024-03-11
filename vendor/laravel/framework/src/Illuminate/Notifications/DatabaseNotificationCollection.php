@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Collection;
  * @template TKey of array-key
  * @template TModel of DatabaseNotification
  *
- * @extends Collection<TKey, TModel>
+ * @extends \Illuminate\Database\Eloquent\Collection<TKey, TModel>
  */
 class DatabaseNotificationCollection extends Collection
 {

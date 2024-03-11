@@ -4,7 +4,6 @@ namespace Illuminate\Container;
 
 use Closure;
 use ReflectionNamedType;
-use ReflectionParameter;
 
 /**
  * @internal
@@ -47,7 +46,7 @@ class Util
      *
      * From Reflector::getParameterClassName() in Illuminate\Support.
      *
-     * @param  ReflectionParameter  $parameter
+     * @param  \ReflectionParameter  $parameter
      * @return string|null
      */
     public static function getParameterClassName($parameter)

@@ -18,7 +18,6 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use function count;
 
 /**
  * Markdown descriptor.
@@ -78,7 +77,7 @@ class MarkdownDescriptor extends Descriptor
 
     protected function describeInputDefinition(InputDefinition $definition, array $options = []): void
     {
-        if ($showArguments = count($definition->getArguments()) > 0) {
+        if ($showArguments = \count($definition->getArguments()) > 0) {
             $this->write('### Arguments');
             foreach ($definition->getArguments() as $argument) {
                 $this->write("\n\n");
@@ -86,7 +85,7 @@ class MarkdownDescriptor extends Descriptor
             }
         }
 
-        if (count($definition->getOptions()) > 0) {
+        if (\count($definition->getOptions()) > 0) {
             if ($showArguments) {
                 $this->write("\n\n");
             }

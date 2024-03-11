@@ -2,8 +2,6 @@
 
 namespace Illuminate\Support;
 
-use Countable;
-use Doctrine\Inflector\Inflector;
 use Doctrine\Inflector\InflectorFactory;
 
 class Pluralizer
@@ -38,7 +36,7 @@ class Pluralizer
      * Get the plural form of an English word.
      *
      * @param  string  $value
-     * @param  int|array|Countable  $count
+     * @param  int|array|\Countable  $count
      * @return string
      */
     public static function plural($value, $count = 2)
@@ -103,7 +101,7 @@ class Pluralizer
     /**
      * Get the inflector instance.
      *
-     * @return Inflector
+     * @return \Doctrine\Inflector\Inflector
      */
     public static function inflector()
     {

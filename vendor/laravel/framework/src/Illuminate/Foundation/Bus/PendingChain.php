@@ -3,8 +3,6 @@
 namespace Illuminate\Foundation\Bus;
 
 use Closure;
-use DateInterval;
-use DateTimeInterface;
 use Illuminate\Contracts\Bus\Dispatcher;
 use Illuminate\Queue\CallQueuedClosure;
 use Illuminate\Support\Traits\Conditionable;
@@ -45,7 +43,7 @@ class PendingChain
     /**
      * The number of seconds before the chain should be made available.
      *
-     * @var DateTimeInterface|DateInterval|int|null
+     * @var \DateTimeInterface|\DateInterval|int|null
      */
     public $delay;
 
@@ -98,7 +96,7 @@ class PendingChain
     /**
      * Set the desired delay in seconds for the chain.
      *
-     * @param  DateTimeInterface|DateInterval|int|null  $delay
+     * @param  \DateTimeInterface|\DateInterval|int|null  $delay
      * @return $this
      */
     public function delay($delay)
@@ -136,7 +134,7 @@ class PendingChain
     /**
      * Dispatch the job chain.
      *
-     * @return PendingDispatch
+     * @return \Illuminate\Foundation\Bus\PendingDispatch
      */
     public function dispatch()
     {
@@ -171,8 +169,8 @@ class PendingChain
     /**
      * Dispatch the job chain if the given truth test passes.
      *
-     * @param  bool|Closure $boolean
-     * @return PendingDispatch|null
+     * @param  bool|\Closure  $boolean
+     * @return \Illuminate\Foundation\Bus\PendingDispatch|null
      */
     public function dispatchIf($boolean)
     {
@@ -182,8 +180,8 @@ class PendingChain
     /**
      * Dispatch the job chain unless the given truth test passes.
      *
-     * @param  bool|Closure $boolean
-     * @return PendingDispatch|null
+     * @param  bool|\Closure  $boolean
+     * @return \Illuminate\Foundation\Bus\PendingDispatch|null
      */
     public function dispatchUnless($boolean)
     {

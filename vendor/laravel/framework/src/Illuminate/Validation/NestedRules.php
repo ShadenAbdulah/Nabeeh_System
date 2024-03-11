@@ -3,7 +3,6 @@
 namespace Illuminate\Validation;
 
 use Illuminate\Support\Arr;
-use stdClass;
 
 class NestedRules
 {
@@ -31,7 +30,7 @@ class NestedRules
      * @param  string  $attribute
      * @param  mixed  $value
      * @param  mixed  $data
-     * @return stdClass
+     * @return \stdClass
      */
     public function compile($attribute, $value, $data = null)
     {

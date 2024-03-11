@@ -10,14 +10,14 @@ class BatchFactory
     /**
      * The queue factory implementation.
      *
-     * @var QueueFactory
+     * @var \Illuminate\Contracts\Queue\Factory
      */
     protected $queue;
 
     /**
      * Create a new batch factory instance.
      *
-     * @param QueueFactory $queue
+     * @param  \Illuminate\Contracts\Queue\Factory  $queue
      * @return void
      */
     public function __construct(QueueFactory $queue)
@@ -28,7 +28,7 @@ class BatchFactory
     /**
      * Create a new batch instance.
      *
-     * @param BatchRepository $repository
+     * @param  \Illuminate\Bus\BatchRepository  $repository
      * @param  string  $id
      * @param  string  $name
      * @param  int  $totalJobs
@@ -36,10 +36,10 @@ class BatchFactory
      * @param  int  $failedJobs
      * @param  array  $failedJobIds
      * @param  array  $options
-     * @param CarbonImmutable $createdAt
-     * @param CarbonImmutable|null  $cancelledAt
-     * @param CarbonImmutable|null  $finishedAt
-     * @return Batch
+     * @param  \Carbon\CarbonImmutable  $createdAt
+     * @param  \Carbon\CarbonImmutable|null  $cancelledAt
+     * @param  \Carbon\CarbonImmutable|null  $finishedAt
+     * @return \Illuminate\Bus\Batch
      */
     public function make(BatchRepository $repository,
                          string $id,

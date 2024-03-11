@@ -2,8 +2,6 @@
 
 namespace Illuminate\Database\Eloquent\Relations;
 
-use Illuminate\Database\Eloquent\Builder;
-
 class MorphPivot extends Pivot
 {
     /**
@@ -27,8 +25,8 @@ class MorphPivot extends Pivot
     /**
      * Set the keys for a save update query.
      *
-     * @param  Builder  $query
-     * @return Builder
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return \Illuminate\Database\Eloquent\Builder
      */
     protected function setKeysForSaveQuery($query)
     {
@@ -40,8 +38,8 @@ class MorphPivot extends Pivot
     /**
      * Set the keys for a select query.
      *
-     * @param  Builder  $query
-     * @return Builder
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return \Illuminate\Database\Eloquent\Builder
      */
     protected function setKeysForSelectQuery($query)
     {
@@ -70,6 +68,8 @@ class MorphPivot extends Pivot
         $query->where($this->morphType, $this->morphClass);
 
         return tap($query->delete(), function () {
+            $this->exists = false;
+
             $this->fireModelEvent('deleted', false);
         });
     }
@@ -101,7 +101,7 @@ class MorphPivot extends Pivot
      * Set the morph class for the pivot.
      *
      * @param  string  $morphClass
-     * @return MorphPivot
+     * @return \Illuminate\Database\Eloquent\Relations\MorphPivot
      */
     public function setMorphClass($morphClass)
     {
@@ -133,7 +133,7 @@ class MorphPivot extends Pivot
      * Get a new query to restore one or more models by their queueable IDs.
      *
      * @param  array|int  $ids
-     * @return Builder
+     * @return \Illuminate\Database\Eloquent\Builder
      */
     public function newQueryForRestoration($ids)
     {
@@ -157,7 +157,7 @@ class MorphPivot extends Pivot
      * Get a new query to restore multiple models by their queueable IDs.
      *
      * @param  array  $ids
-     * @return Builder
+     * @return \Illuminate\Database\Eloquent\Builder
      */
     protected function newQueryForCollectionRestoration(array $ids)
     {

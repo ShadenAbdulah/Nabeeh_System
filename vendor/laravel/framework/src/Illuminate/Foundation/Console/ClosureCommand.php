@@ -13,7 +13,7 @@ class ClosureCommand extends Command
     /**
      * The command callback.
      *
-     * @var Closure
+     * @var \Closure
      */
     protected $callback;
 
@@ -21,7 +21,7 @@ class ClosureCommand extends Command
      * Create a new command instance.
      *
      * @param  string  $signature
-     * @param Closure $callback
+     * @param  \Closure  $callback
      * @return void
      */
     public function __construct($signature, Closure $callback)
@@ -35,8 +35,8 @@ class ClosureCommand extends Command
     /**
      * Execute the console command.
      *
-     * @param InputInterface $input
-     * @param OutputInterface $output
+     * @param  \Symfony\Component\Console\Input\InputInterface  $input
+     * @param  \Symfony\Component\Console\Output\OutputInterface  $output
      * @return int
      */
     protected function execute(InputInterface $input, OutputInterface $output)

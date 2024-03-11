@@ -11,16 +11,12 @@
 
 namespace Symfony\Component\HttpFoundation\Session\Storage\Handler;
 
-use Closure;
-use InvalidArgumentException;
 use MongoDB\BSON\Binary;
 use MongoDB\BSON\UTCDateTime;
 use MongoDB\Client;
 use MongoDB\Driver\BulkWrite;
 use MongoDB\Driver\Manager;
 use MongoDB\Driver\Query;
-use SensitiveParameter;
-use function ini_get;
 
 /**
  * Session handler using the MongoDB driver extension.
@@ -35,7 +31,7 @@ class MongoDbSessionHandler extends AbstractSessionHandler
     private Manager $manager;
     private string $namespace;
     private array $options;
-    private int|Closure|null $ttl;
+    private int|\Closure|null $ttl;
 
     /**
      * Constructor.
@@ -66,12 +62,12 @@ class MongoDbSessionHandler extends AbstractSessionHandler
      * If you use such an index, you can drop `gc_probability` to 0 since
      * no garbage-collection is required.
      *
-     * @throws InvalidArgumentException When "database" or "collection" not provided
+     * @throws \InvalidArgumentException When "database" or "collection" not provided
      */
     public function __construct(Client|Manager $mongo, array $options)
     {
         if (!isset($options['database']) || !isset($options['collection'])) {
-            throw new InvalidArgumentException('You must provide the "database" and "collection" option for MongoDBSessionHandler.');
+            throw new \InvalidArgumentException('You must provide the "database" and "collection" option for MongoDBSessionHandler.');
         }
 
         if ($mongo instanceof Client) {
@@ -95,7 +91,7 @@ class MongoDbSessionHandler extends AbstractSessionHandler
         return true;
     }
 
-    protected function doDestroy(#[SensitiveParameter] string $sessionId): bool
+    protected function doDestroy(#[\SensitiveParameter] string $sessionId): bool
     {
         $write = new BulkWrite();
         $write->delete(
@@ -119,9 +115,9 @@ class MongoDbSessionHandler extends AbstractSessionHandler
         return $result->getDeletedCount() ?? false;
     }
 
-    protected function doWrite(#[SensitiveParameter] string $sessionId, string $data): bool
+    protected function doWrite(#[\SensitiveParameter] string $sessionId, string $data): bool
     {
-        $ttl = ($this->ttl instanceof Closure ? ($this->ttl)() : $this->ttl) ?? ini_get('session.gc_maxlifetime');
+        $ttl = ($this->ttl instanceof \Closure ? ($this->ttl)() : $this->ttl) ?? \ini_get('session.gc_maxlifetime');
         $expiry = $this->getUTCDateTime($ttl);
 
         $fields = [
@@ -142,9 +138,9 @@ class MongoDbSessionHandler extends AbstractSessionHandler
         return true;
     }
 
-    public function updateTimestamp(#[SensitiveParameter] string $sessionId, string $data): bool
+    public function updateTimestamp(#[\SensitiveParameter] string $sessionId, string $data): bool
     {
-        $ttl = ($this->ttl instanceof Closure ? ($this->ttl)() : $this->ttl) ?? ini_get('session.gc_maxlifetime');
+        $ttl = ($this->ttl instanceof \Closure ? ($this->ttl)() : $this->ttl) ?? \ini_get('session.gc_maxlifetime');
         $expiry = $this->getUTCDateTime($ttl);
 
         $write = new BulkWrite();
@@ -162,7 +158,7 @@ class MongoDbSessionHandler extends AbstractSessionHandler
         return true;
     }
 
-    protected function doRead(#[SensitiveParameter] string $sessionId): string
+    protected function doRead(#[\SensitiveParameter] string $sessionId): string
     {
         $cursor = $this->manager->executeQuery($this->namespace, new Query([
             $this->options['id_field'] => $sessionId,

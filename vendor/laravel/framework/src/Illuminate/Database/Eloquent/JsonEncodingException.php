@@ -2,7 +2,6 @@
 
 namespace Illuminate\Database\Eloquent;
 
-use Illuminate\Http\Resources\Json\JsonResource;
 use RuntimeException;
 
 class JsonEncodingException extends RuntimeException
@@ -22,7 +21,7 @@ class JsonEncodingException extends RuntimeException
     /**
      * Create a new JSON encoding exception for the resource.
      *
-     * @param  JsonResource  $resource
+     * @param  \Illuminate\Http\Resources\Json\JsonResource  $resource
      * @param  string  $message
      * @return static
      */

@@ -31,7 +31,7 @@ class MissingImportSolutionProvider implements HasSolutionsForThrowable
     }
 
     /**
-     * @param Throwable $throwable
+     * @param \Throwable $throwable
      *
      * @return array<int, SuggestImportSolution>
      */

@@ -13,7 +13,6 @@ namespace Symfony\Component\HttpKernel\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\Compiler\MergeExtensionConfigurationPass as BaseMergeExtensionConfigurationPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use function count;
 
 /**
  * Ensures certain extensions are always loaded.
@@ -35,7 +34,7 @@ class MergeExtensionConfigurationPass extends BaseMergeExtensionConfigurationPas
     public function process(ContainerBuilder $container): void
     {
         foreach ($this->extensions as $extension) {
-            if (!count($container->getExtensionConfig($extension))) {
+            if (!\count($container->getExtensionConfig($extension))) {
                 $container->loadFromExtension($extension, []);
             }
         }

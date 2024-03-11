@@ -2,7 +2,6 @@
 
 namespace Illuminate\Console\Concerns;
 
-use Closure;
 use Illuminate\Console\PromptValidationException;
 use Laravel\Prompts\ConfirmPrompt;
 use Laravel\Prompts\MultiSearchPrompt;
@@ -20,7 +19,7 @@ trait ConfiguresPrompts
     /**
      * Configure the prompt fallbacks.
      *
-     * @param InputInterface $input
+     * @param  \Symfony\Component\Console\Input\InputInterface  $input
      * @return void
      */
     protected function configurePrompts(InputInterface $input)
@@ -121,9 +120,9 @@ trait ConfiguresPrompts
     /**
      * Prompt the user until the given validation callback passes.
      *
-     * @param  Closure  $prompt
+     * @param  \Closure  $prompt
      * @param  bool|string  $required
-     * @param  Closure|null  $validate
+     * @param  \Closure|null  $validate
      * @return mixed
      */
     protected function promptUntilValid($prompt, $required, $validate)

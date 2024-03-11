@@ -5,8 +5,6 @@ namespace Illuminate\Routing;
 use Illuminate\Container\Container;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
-use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class RouteCollection extends AbstractRouteCollection
 {
@@ -20,29 +18,29 @@ class RouteCollection extends AbstractRouteCollection
     /**
      * A flattened array of all of the routes.
      *
-     * @var Route[]
+     * @var \Illuminate\Routing\Route[]
      */
     protected $allRoutes = [];
 
     /**
      * A look-up table of routes by their names.
      *
-     * @var Route[]
+     * @var \Illuminate\Routing\Route[]
      */
     protected $nameList = [];
 
     /**
      * A look-up table of routes by controller action.
      *
-     * @var Route[]
+     * @var \Illuminate\Routing\Route[]
      */
     protected $actionList = [];
 
     /**
      * Add a Route instance to the collection.
      *
-     * @param Route $route
-     * @return Route
+     * @param  \Illuminate\Routing\Route  $route
+     * @return \Illuminate\Routing\Route
      */
     public function add(Route $route)
     {
@@ -56,7 +54,7 @@ class RouteCollection extends AbstractRouteCollection
     /**
      * Add the given route to the arrays of routes.
      *
-     * @param Route $route
+     * @param  \Illuminate\Routing\Route  $route
      * @return void
      */
     protected function addToCollections($route)
@@ -73,7 +71,7 @@ class RouteCollection extends AbstractRouteCollection
     /**
      * Add the route to any look-up tables if necessary.
      *
-     * @param Route $route
+     * @param  \Illuminate\Routing\Route  $route
      * @return void
      */
     protected function addLookups($route)
@@ -99,7 +97,7 @@ class RouteCollection extends AbstractRouteCollection
      * Add a route to the controller action dictionary.
      *
      * @param  array  $action
-     * @param Route $route
+     * @param  \Illuminate\Routing\Route  $route
      * @return void
      */
     protected function addToActionList($action, $route)
@@ -146,11 +144,11 @@ class RouteCollection extends AbstractRouteCollection
     /**
      * Find the first route matching a given request.
      *
-     * @param Request $request
-     * @return Route
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Routing\Route
      *
-     * @throws MethodNotAllowedHttpException
-     * @throws NotFoundHttpException
+     * @throws \Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
      */
     public function match(Request $request)
     {
@@ -168,7 +166,7 @@ class RouteCollection extends AbstractRouteCollection
      * Get routes from the collection by method.
      *
      * @param  string|null  $method
-     * @return Route[]
+     * @return \Illuminate\Routing\Route[]
      */
     public function get($method = null)
     {
@@ -190,7 +188,7 @@ class RouteCollection extends AbstractRouteCollection
      * Get a route instance by its name.
      *
      * @param  string  $name
-     * @return Route|null
+     * @return \Illuminate\Routing\Route|null
      */
     public function getByName($name)
     {
@@ -201,7 +199,7 @@ class RouteCollection extends AbstractRouteCollection
      * Get a route instance by its controller action.
      *
      * @param  string  $action
-     * @return Route|null
+     * @return \Illuminate\Routing\Route|null
      */
     public function getByAction($action)
     {
@@ -211,7 +209,7 @@ class RouteCollection extends AbstractRouteCollection
     /**
      * Get all of the routes in the collection.
      *
-     * @return Route[]
+     * @return \Illuminate\Routing\Route[]
      */
     public function getRoutes()
     {
@@ -231,7 +229,7 @@ class RouteCollection extends AbstractRouteCollection
     /**
      * Get all of the routes keyed by their name.
      *
-     * @return Route[]
+     * @return \Illuminate\Routing\Route[]
      */
     public function getRoutesByName()
     {
@@ -255,9 +253,9 @@ class RouteCollection extends AbstractRouteCollection
     /**
      * Convert the collection to a CompiledRouteCollection instance.
      *
-     * @param Router $router
-     * @param Container $container
-     * @return CompiledRouteCollection
+     * @param  \Illuminate\Routing\Router  $router
+     * @param  \Illuminate\Container\Container  $container
+     * @return \Illuminate\Routing\CompiledRouteCollection
      */
     public function toCompiledRouteCollection(Router $router, Container $container)
     {

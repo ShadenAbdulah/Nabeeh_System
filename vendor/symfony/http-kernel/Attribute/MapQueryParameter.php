@@ -11,7 +11,6 @@
 
 namespace Symfony\Component\HttpKernel\Attribute;
 
-use Attribute;
 use Symfony\Component\HttpKernel\Controller\ArgumentResolver\QueryParameterValueResolver;
 
 /**
@@ -19,7 +18,7 @@ use Symfony\Component\HttpKernel\Controller\ArgumentResolver\QueryParameterValue
  *
  * @author Ruud Kamphuis <ruud@ticketswap.com>
  */
-#[Attribute(Attribute::TARGET_PARAMETER)]
+#[\Attribute(\Attribute::TARGET_PARAMETER)]
 final class MapQueryParameter extends ValueResolver
 {
     /**

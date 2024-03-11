@@ -2,14 +2,12 @@
 
 namespace Illuminate\Queue\Events;
 
-use stdClass;
-
 class JobRetryRequested
 {
     /**
      * The job instance.
      *
-     * @var stdClass
+     * @var \stdClass
      */
     public $job;
 
@@ -23,7 +21,7 @@ class JobRetryRequested
     /**
      * Create a new event instance.
      *
-     * @param  stdClass  $job
+     * @param  \stdClass  $job
      * @return void
      */
     public function __construct($job)

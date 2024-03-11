@@ -4,21 +4,20 @@ namespace Illuminate\Http\Testing;
 
 use Illuminate\Support\Arr;
 use Symfony\Component\Mime\MimeTypes;
-use Symfony\Component\Mime\MimeTypesInterface;
 
 class MimeType
 {
     /**
      * The mime types instance.
      *
-     * @var MimeTypes|null
+     * @var \Symfony\Component\Mime\MimeTypes|null
      */
     private static $mime;
 
     /**
      * Get the mime types instance.
      *
-     * @return MimeTypesInterface
+     * @return \Symfony\Component\Mime\MimeTypesInterface
      */
     public static function getMimeTypes()
     {

@@ -69,7 +69,7 @@ trait InteractsWithConsole
      *
      * @param  string  $command
      * @param  array  $parameters
-     * @return PendingCommand|int
+     * @return \Illuminate\Testing\PendingCommand|int
      */
     public function artisan($command, $parameters = [])
     {

@@ -2,7 +2,6 @@
 
 namespace PhpParser;
 
-use InvalidArgumentException;
 use PhpParser\Node\Expr\Array_;
 use PhpParser\Node\Expr\Include_;
 use PhpParser\Node\Expr\List_;
@@ -12,13 +11,6 @@ use PhpParser\Node\Scalar\String_;
 use PhpParser\Node\Stmt\GroupUse;
 use PhpParser\Node\Stmt\Use_;
 use PhpParser\Node\UseItem;
-use RuntimeException;
-use function is_array;
-use function is_float;
-use function is_int;
-use function is_string;
-use function str_replace;
-use function substr;
 
 class NodeDumper {
     private bool $dumpComments;
@@ -89,7 +81,7 @@ class NodeDumper {
                 $this->res .= "$this->nl    " . $key . ': ';
 
                 $value = $node->$key;
-                if (is_int($value)) {
+                if (\is_int($value)) {
                     if ('flags' === $key || 'newModifier' === $key) {
                         $this->res .= $this->dumpFlags($value);
                         continue;
@@ -119,7 +111,7 @@ class NodeDumper {
                     }
 
                     $this->res .= "$this->nl    $key: ";
-                    if (is_int($value)) {
+                    if (\is_int($value)) {
                         if ('kind' === $key) {
                             if ($node instanceof Int_) {
                                 $this->res .= $this->dumpIntKind($value);
@@ -143,7 +135,7 @@ class NodeDumper {
                 }
             }
             $this->res .= "$this->nl)";
-        } elseif (is_array($node)) {
+        } elseif (\is_array($node)) {
             $this->res .= 'array(';
             foreach ($node as $key => $value) {
                 $this->res .= "$this->nl    " . $key . ': ';
@@ -151,10 +143,10 @@ class NodeDumper {
             }
             $this->res .= "$this->nl)";
         } elseif ($node instanceof Comment) {
-            $this->res .= str_replace("\n", $this->nl, $node->getReformattedText());
-        } elseif (is_string($node)) {
-            $this->res .= str_replace("\n", $this->nl, (string)$node);
-        } elseif (is_int($node) || is_float($node)) {
+            $this->res .= \str_replace("\n", $this->nl, $node->getReformattedText());
+        } elseif (\is_string($node)) {
+            $this->res .= \str_replace("\n", $this->nl, (string)$node);
+        } elseif (\is_int($node) || \is_float($node)) {
             $this->res .= $node;
         } elseif (null === $node) {
             $this->res .= 'null';
@@ -163,10 +155,10 @@ class NodeDumper {
         } elseif (true === $node) {
             $this->res .= 'true';
         } else {
-            throw new InvalidArgumentException('Can only dump nodes and arrays.');
+            throw new \InvalidArgumentException('Can only dump nodes and arrays.');
         }
         if ($indent) {
-            $this->nl = substr($this->nl, 0, -4);
+            $this->nl = \substr($this->nl, 0, -4);
         }
     }
 
@@ -285,7 +277,7 @@ class NodeDumper {
     // Copied from Error class
     private function toColumn(string $code, int $pos): int {
         if ($pos > strlen($code)) {
-            throw new RuntimeException('Invalid position information');
+            throw new \RuntimeException('Invalid position information');
         }
 
         $lineStartPos = strrpos($code, "\n", $pos - strlen($code));

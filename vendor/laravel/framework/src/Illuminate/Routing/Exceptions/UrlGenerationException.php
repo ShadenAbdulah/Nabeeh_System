@@ -11,7 +11,7 @@ class UrlGenerationException extends Exception
     /**
      * Create a new exception for missing route parameters.
      *
-     * @param Route $route
+     * @param  \Illuminate\Routing\Route  $route
      * @param  array  $parameters
      * @return static
      */

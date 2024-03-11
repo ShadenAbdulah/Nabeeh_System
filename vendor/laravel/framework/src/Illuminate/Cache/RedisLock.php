@@ -2,21 +2,19 @@
 
 namespace Illuminate\Cache;
 
-use Illuminate\Redis\Connections\Connection;
-
 class RedisLock extends Lock
 {
     /**
      * The Redis factory implementation.
      *
-     * @var Connection
+     * @var \Illuminate\Redis\Connections\Connection
      */
     protected $redis;
 
     /**
      * Create a new lock instance.
      *
-     * @param  Connection  $redis
+     * @param  \Illuminate\Redis\Connections\Connection  $redis
      * @param  string  $name
      * @param  int  $seconds
      * @param  string|null  $owner

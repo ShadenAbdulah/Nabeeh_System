@@ -2,8 +2,6 @@
 
 namespace Illuminate\Contracts\Routing;
 
-use Illuminate\Database\Eloquent\Model;
-
 interface UrlRoutable
 {
     /**
@@ -25,7 +23,7 @@ interface UrlRoutable
      *
      * @param  mixed  $value
      * @param  string|null  $field
-     * @return Model|null
+     * @return \Illuminate\Database\Eloquent\Model|null
      */
     public function resolveRouteBinding($value, $field = null);
 
@@ -35,7 +33,7 @@ interface UrlRoutable
      * @param  string  $childType
      * @param  mixed  $value
      * @param  string|null  $field
-     * @return Model|null
+     * @return \Illuminate\Database\Eloquent\Model|null
      */
     public function resolveChildRouteBinding($childType, $value, $field);
 }

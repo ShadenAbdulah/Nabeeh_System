@@ -11,11 +11,9 @@
 
 namespace Symfony\Component\VarDumper\Caster;
 
-use FFI;
 use FFI\CData;
 use FFI\CType;
 use Symfony\Component\VarDumper\Cloner\Stub;
-use function defined;
 
 /**
  * Casts FFI extension classes to array representation.
@@ -40,7 +38,7 @@ final class FFICaster
             $type = $data;
             $data = null;
         } else {
-            $type = FFI::typeof($data);
+            $type = \FFI::typeof($data);
         }
 
         $stub->class = sprintf('%s<%s> size %d align %d', ($data ?? $type)::class, $type->getName(), $type->getSize(), $type->getAlignment());
@@ -48,7 +46,7 @@ final class FFICaster
         return match ($type->getKind()) {
             CType::TYPE_FLOAT,
             CType::TYPE_DOUBLE,
-            defined('\FFI\CType::TYPE_LONGDOUBLE') ? CType::TYPE_LONGDOUBLE : -1,
+            \defined('\FFI\CType::TYPE_LONGDOUBLE') ? CType::TYPE_LONGDOUBLE : -1,
             CType::TYPE_UINT8,
             CType::TYPE_SINT8,
             CType::TYPE_UINT16,
@@ -99,7 +97,7 @@ final class FFICaster
         return [Caster::PREFIX_VIRTUAL.'returnType' => $returnType];
     }
 
-    private static function castFFIPointer(Stub $stub, CType $type, CData $data = null): array
+    private static function castFFIPointer(Stub $stub, CType $type, ?CData $data = null): array
     {
         $ptr = $type->getPointerType();
 
@@ -134,7 +132,7 @@ final class FFICaster
         return $stub;
     }
 
-    private static function castFFIStructLike(CType $type, CData $data = null): array
+    private static function castFFIStructLike(CType $type, ?CData $data = null): array
     {
         $isUnion = ($type->getAttributes() & CType::ATTR_UNION) === CType::ATTR_UNION;
 

@@ -3,12 +3,10 @@
 namespace Illuminate\Support\Testing\Fakes;
 
 use Closure;
-use Illuminate\Bus\Batch;
 use Illuminate\Bus\BatchRepository;
 use Illuminate\Bus\ChainedBatch;
 use Illuminate\Bus\PendingBatch;
 use Illuminate\Contracts\Bus\QueueingDispatcher;
-use Illuminate\Foundation\Bus\PendingChain;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Traits\ReflectsClosures;
@@ -22,7 +20,7 @@ class BusFake implements Fake, QueueingDispatcher
     /**
      * The original Bus dispatcher implementation.
      *
-     * @var QueueingDispatcher
+     * @var \Illuminate\Contracts\Bus\QueueingDispatcher
      */
     public $dispatcher;
 
@@ -43,7 +41,7 @@ class BusFake implements Fake, QueueingDispatcher
     /**
      * The fake repository to track batched jobs.
      *
-     * @var BatchRepository
+     * @var \Illuminate\Bus\BatchRepository
      */
     protected $batchRepository;
 
@@ -85,9 +83,9 @@ class BusFake implements Fake, QueueingDispatcher
     /**
      * Create a new bus fake instance.
      *
-     * @param QueueingDispatcher $dispatcher
+     * @param  \Illuminate\Contracts\Bus\QueueingDispatcher  $dispatcher
      * @param  array|string  $jobsToFake
-     * @param BatchRepository|null  $batchRepository
+     * @param  \Illuminate\Bus\BatchRepository|null  $batchRepository
      * @return void
      */
     public function __construct(QueueingDispatcher $dispatcher, $jobsToFake = [], BatchRepository $batchRepository = null)
@@ -113,7 +111,7 @@ class BusFake implements Fake, QueueingDispatcher
     /**
      * Assert if a job was dispatched based on a truth-test callback.
      *
-     * @param  string|Closure $command
+     * @param  string|\Closure  $command
      * @param  callable|int|null  $callback
      * @return void
      */
@@ -138,7 +136,7 @@ class BusFake implements Fake, QueueingDispatcher
     /**
      * Assert if a job was pushed a number of times.
      *
-     * @param  string|Closure $command
+     * @param  string|\Closure  $command
      * @param  int  $times
      * @return void
      */
@@ -163,7 +161,7 @@ class BusFake implements Fake, QueueingDispatcher
     /**
      * Determine if a job was dispatched based on a truth-test callback.
      *
-     * @param  string|Closure $command
+     * @param  string|\Closure  $command
      * @param  callable|null  $callback
      * @return void
      */
@@ -194,7 +192,7 @@ class BusFake implements Fake, QueueingDispatcher
     /**
      * Assert if a job was explicitly dispatched synchronously based on a truth-test callback.
      *
-     * @param  string|Closure $command
+     * @param  string|\Closure  $command
      * @param  callable|int|null  $callback
      * @return void
      */
@@ -217,7 +215,7 @@ class BusFake implements Fake, QueueingDispatcher
     /**
      * Assert if a job was pushed synchronously a number of times.
      *
-     * @param  string|Closure $command
+     * @param  string|\Closure  $command
      * @param  int  $times
      * @return void
      */
@@ -240,7 +238,7 @@ class BusFake implements Fake, QueueingDispatcher
     /**
      * Determine if a job was dispatched based on a truth-test callback.
      *
-     * @param  string|Closure $command
+     * @param  string|\Closure  $command
      * @param  callable|null  $callback
      * @return void
      */
@@ -259,7 +257,7 @@ class BusFake implements Fake, QueueingDispatcher
     /**
      * Assert if a job was dispatched after the response was sent based on a truth-test callback.
      *
-     * @param  string|Closure $command
+     * @param  string|\Closure  $command
      * @param  callable|int|null  $callback
      * @return void
      */
@@ -282,7 +280,7 @@ class BusFake implements Fake, QueueingDispatcher
     /**
      * Assert if a job was pushed after the response was sent a number of times.
      *
-     * @param  string|Closure $command
+     * @param  string|\Closure  $command
      * @param  int  $times
      * @return void
      */
@@ -305,7 +303,7 @@ class BusFake implements Fake, QueueingDispatcher
     /**
      * Determine if a job was dispatched based on a truth-test callback.
      *
-     * @param  string|Closure $command
+     * @param  string|\Closure  $command
      * @param  callable|null  $callback
      * @return void
      */
@@ -380,7 +378,7 @@ class BusFake implements Fake, QueueingDispatcher
     /**
      * Assert if a job was dispatched with an empty chain based on a truth-test callback.
      *
-     * @param  string|Closure $command
+     * @param  string|\Closure  $command
      * @param  callable|null  $callback
      * @return void
      */
@@ -454,8 +452,8 @@ class BusFake implements Fake, QueueingDispatcher
     /**
      * Create a new assertion about a chained batch.
      *
-     * @param Closure $callback
-     * @return ChainedBatchTruthTest
+     * @param  \Closure  $callback
+     * @return \Illuminate\Support\Testing\Fakes\ChainedBatchTruthTest
      */
     public function chainedBatch(Closure $callback)
     {
@@ -504,7 +502,7 @@ class BusFake implements Fake, QueueingDispatcher
      *
      * @param  string  $command
      * @param  callable|null  $callback
-     * @return Collection
+     * @return \Illuminate\Support\Collection
      */
     public function dispatched($command, $callback = null)
     {
@@ -522,7 +520,7 @@ class BusFake implements Fake, QueueingDispatcher
      *
      * @param  string  $command
      * @param  callable|null  $callback
-     * @return Collection
+     * @return \Illuminate\Support\Collection
      */
     public function dispatchedSync(string $command, $callback = null)
     {
@@ -540,7 +538,7 @@ class BusFake implements Fake, QueueingDispatcher
      *
      * @param  string  $command
      * @param  callable|null  $callback
-     * @return Collection
+     * @return \Illuminate\Support\Collection
      */
     public function dispatchedAfterResponse(string $command, $callback = null)
     {
@@ -557,7 +555,7 @@ class BusFake implements Fake, QueueingDispatcher
      * Get all of the pending batches matching a truth-test callback.
      *
      * @param  callable  $callback
-     * @return Collection
+     * @return \Illuminate\Support\Collection
      */
     public function batched(callable $callback)
     {
@@ -683,8 +681,8 @@ class BusFake implements Fake, QueueingDispatcher
     /**
      * Create a new chain of queueable jobs.
      *
-     * @param Collection|array  $jobs
-     * @return PendingChain
+     * @param  \Illuminate\Support\Collection|array  $jobs
+     * @return \Illuminate\Foundation\Bus\PendingChain
      */
     public function chain($jobs)
     {
@@ -698,7 +696,7 @@ class BusFake implements Fake, QueueingDispatcher
      * Attempt to find the batch with the given ID.
      *
      * @param  string  $batchId
-     * @return Batch|null
+     * @return \Illuminate\Bus\Batch|null
      */
     public function findBatch(string $batchId)
     {
@@ -708,8 +706,8 @@ class BusFake implements Fake, QueueingDispatcher
     /**
      * Create a new batch of queueable jobs.
      *
-     * @param Collection|array  $jobs
-     * @return PendingBatch
+     * @param  \Illuminate\Support\Collection|array  $jobs
+     * @return \Illuminate\Bus\PendingBatch
      */
     public function batch($jobs)
     {
@@ -720,7 +718,7 @@ class BusFake implements Fake, QueueingDispatcher
      * Dispatch an empty job batch for testing.
      *
      * @param  string  $name
-     * @return Batch
+     * @return \Illuminate\Bus\Batch
      */
     public function dispatchFakeBatch($name = '')
     {
@@ -730,8 +728,8 @@ class BusFake implements Fake, QueueingDispatcher
     /**
      * Record the fake pending batch dispatch.
      *
-     * @param PendingBatch $pendingBatch
-     * @return Batch
+     * @param  \Illuminate\Bus\PendingBatch  $pendingBatch
+     * @return \Illuminate\Bus\Batch
      */
     public function recordPendingBatch(PendingBatch $pendingBatch)
     {
