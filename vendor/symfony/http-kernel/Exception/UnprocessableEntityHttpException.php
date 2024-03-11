@@ -18,7 +18,11 @@ use Throwable;
  */
 class UnprocessableEntityHttpException extends HttpException
 {
+<<<<<<< HEAD
     public function __construct(string $message = '', ?Throwable $previous = null, int $code = 0, array $headers = [])
+=======
+    public function __construct(string $message = '', \Throwable $previous = null, int $code = 0, array $headers = [])
+>>>>>>> parent of c8b1139b (update Ui)
     {
         parent::__construct(422, $message, $previous, $headers, $code);
     }

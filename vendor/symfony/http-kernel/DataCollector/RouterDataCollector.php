@@ -36,7 +36,11 @@ class RouterDataCollector extends DataCollector
     /**
      * @final
      */
+<<<<<<< HEAD
     public function collect(Request $request, Response $response, ?Throwable $exception = null): void
+=======
+    public function collect(Request $request, Response $response, \Throwable $exception = null): void
+>>>>>>> parent of c8b1139b (update Ui)
     {
         if ($response instanceof RedirectResponse) {
             $this->data['redirect'] = true;

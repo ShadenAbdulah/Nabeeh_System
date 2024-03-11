@@ -4,16 +4,17 @@ namespace Illuminate\Validation\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Contracts\Validation\ValidatorAwareRule;
+<<<<<<< HEAD
 use Illuminate\Support\Arr;
 use Illuminate\Support\Traits\Conditionable;
 use Illuminate\Validation\Validator;
+=======
+>>>>>>> parent of c8b1139b (update Ui)
 use TypeError;
 use UnitEnum;
 
 class Enum implements Rule, ValidatorAwareRule
 {
-    use Conditionable;
-
     /**
      * The type of the enum.
      *
@@ -27,20 +28,6 @@ class Enum implements Rule, ValidatorAwareRule
      * @var Validator
      */
     protected $validator;
-
-    /**
-     * The cases that should be considered valid.
-     *
-     * @var array
-     */
-    protected $only = [];
-
-    /**
-     * The cases that should be considered invalid.
-     *
-     * @var array
-     */
-    protected $except = [];
 
     /**
      * Create a new rule instance.
@@ -63,7 +50,7 @@ class Enum implements Rule, ValidatorAwareRule
     public function passes($attribute, $value)
     {
         if ($value instanceof $this->type) {
-            return $this->isDesirable($value);
+            return true;
         }
 
         if (is_null($value) || ! enum_exists($this->type) || ! method_exists($this->type, 'tryFrom')) {
@@ -71,15 +58,14 @@ class Enum implements Rule, ValidatorAwareRule
         }
 
         try {
-            $value = $this->type::tryFrom($value);
-
-            return ! is_null($value) && $this->isDesirable($value);
+            return ! is_null($this->type::tryFrom($value));
         } catch (TypeError) {
             return false;
         }
     }
 
     /**
+<<<<<<< HEAD
      * Specify the cases that should be considered valid.
      *
      * @param  UnitEnum[]|UnitEnum  $values
@@ -121,6 +107,8 @@ class Enum implements Rule, ValidatorAwareRule
     }
 
     /**
+=======
+>>>>>>> parent of c8b1139b (update Ui)
      * Get the validation error message.
      *
      * @return array

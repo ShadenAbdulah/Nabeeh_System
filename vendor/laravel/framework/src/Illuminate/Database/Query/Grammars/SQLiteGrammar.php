@@ -214,6 +214,7 @@ class SQLiteGrammar extends Grammar
     }
 
     /**
+<<<<<<< HEAD
      * Compile an insert ignore statement using a subquery into SQL.
      *
      * @param Builder $query
@@ -227,6 +228,8 @@ class SQLiteGrammar extends Grammar
     }
 
     /**
+=======
+>>>>>>> parent of c8b1139b (update Ui)
      * Compile the columns for an update statement.
      *
      * @param Builder $query
@@ -388,7 +391,7 @@ class SQLiteGrammar extends Grammar
     public function compileTruncate(Builder $query)
     {
         return [
-            'delete from sqlite_sequence where name = ?' => [$this->getTablePrefix().$query->from],
+            'delete from sqlite_sequence where name = ?' => [$query->from],
             'delete from '.$this->wrapTable($query->from) => [],
         ];
     }

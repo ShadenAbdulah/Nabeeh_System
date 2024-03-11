@@ -26,7 +26,11 @@ final class Dsn
     private ?int $port;
     private array $options;
 
+<<<<<<< HEAD
     public function __construct(string $scheme, string $host, ?string $user = null, #[SensitiveParameter] ?string $password = null, ?int $port = null, array $options = [])
+=======
+    public function __construct(string $scheme, string $host, string $user = null, #[\SensitiveParameter] string $password = null, int $port = null, array $options = [])
+>>>>>>> parent of c8b1139b (update Ui)
     {
         $this->scheme = $scheme;
         $this->host = $host;
@@ -38,24 +42,24 @@ final class Dsn
 
     public static function fromString(#[SensitiveParameter] string $dsn): self
     {
-        if (false === $params = parse_url($dsn)) {
+        if (false === $parsedDsn = parse_url($dsn)) {
             throw new InvalidArgumentException('The mailer DSN is invalid.');
         }
 
-        if (!isset($params['scheme'])) {
+        if (!isset($parsedDsn['scheme'])) {
             throw new InvalidArgumentException('The mailer DSN must contain a scheme.');
         }
 
-        if (!isset($params['host'])) {
+        if (!isset($parsedDsn['host'])) {
             throw new InvalidArgumentException('The mailer DSN must contain a host (use "default" by default).');
         }
 
-        $user = '' !== ($params['user'] ?? '') ? rawurldecode($params['user']) : null;
-        $password = '' !== ($params['pass'] ?? '') ? rawurldecode($params['pass']) : null;
-        $port = $params['port'] ?? null;
-        parse_str($params['query'] ?? '', $query);
+        $user = '' !== ($parsedDsn['user'] ?? '') ? urldecode($parsedDsn['user']) : null;
+        $password = '' !== ($parsedDsn['pass'] ?? '') ? urldecode($parsedDsn['pass']) : null;
+        $port = $parsedDsn['port'] ?? null;
+        parse_str($parsedDsn['query'] ?? '', $query);
 
-        return new self($params['scheme'], $params['host'], $user, $password, $port, $query);
+        return new self($parsedDsn['scheme'], $parsedDsn['host'], $user, $password, $port, $query);
     }
 
     public function getScheme(): string
@@ -78,7 +82,7 @@ final class Dsn
         return $this->password;
     }
 
-    public function getPort(?int $default = null): ?int
+    public function getPort(int $default = null): ?int
     {
         return $this->port ?? $default;
     }

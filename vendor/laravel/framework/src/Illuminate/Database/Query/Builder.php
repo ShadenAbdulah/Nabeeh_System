@@ -593,6 +593,7 @@ class Builder implements BuilderContract
     }
 
     /**
+<<<<<<< HEAD
      * Add a lateral join clause to the query.
      *
      * @param Closure|Builder|EloquentBuilder|string  $query
@@ -626,6 +627,8 @@ class Builder implements BuilderContract
     }
 
     /**
+=======
+>>>>>>> parent of c8b1139b (update Ui)
      * Add a left join to the query.
      *
      * @param ExpressionContract|string  $table
@@ -765,6 +768,7 @@ class Builder implements BuilderContract
     }
 
     /**
+<<<<<<< HEAD
      * Get a new join lateral clause.
      *
      * @param Builder $parentQuery
@@ -778,6 +782,8 @@ class Builder implements BuilderContract
     }
 
     /**
+=======
+>>>>>>> parent of c8b1139b (update Ui)
      * Merge an array of where clauses and bindings.
      *
      * @param  array  $wheres
@@ -2099,80 +2105,6 @@ class Builder implements BuilderContract
     public function orWhereFullText($columns, $value, array $options = [])
     {
         return $this->whereFulltext($columns, $value, $options, 'or');
-    }
-
-    /**
-     * Add a "where" clause to the query for multiple columns with "and" conditions between them.
-     *
-     * @param  string[]  $columns
-     * @param  mixed  $operator
-     * @param  mixed  $value
-     * @param  string  $boolean
-     * @return $this
-     */
-    public function whereAll($columns, $operator = null, $value = null, $boolean = 'and')
-    {
-        [$value, $operator] = $this->prepareValueAndOperator(
-            $value, $operator, func_num_args() === 2
-        );
-
-        $this->whereNested(function ($query) use ($columns, $operator, $value) {
-            foreach ($columns as $column) {
-                $query->where($column, $operator, $value, 'and');
-            }
-        }, $boolean);
-
-        return $this;
-    }
-
-    /**
-     * Add an "or where" clause to the query for multiple columns with "and" conditions between them.
-     *
-     * @param  string[]  $columns
-     * @param  string  $operator
-     * @param  mixed  $value
-     * @return $this
-     */
-    public function orWhereAll($columns, $operator = null, $value = null)
-    {
-        return $this->whereAll($columns, $operator, $value, 'or');
-    }
-
-    /**
-     * Add an "where" clause to the query for multiple columns with "or" conditions between them.
-     *
-     * @param  string[]  $columns
-     * @param  string  $operator
-     * @param  mixed  $value
-     * @param  string  $boolean
-     * @return $this
-     */
-    public function whereAny($columns, $operator = null, $value = null, $boolean = 'and')
-    {
-        [$value, $operator] = $this->prepareValueAndOperator(
-            $value, $operator, func_num_args() === 2
-        );
-
-        $this->whereNested(function ($query) use ($columns, $operator, $value) {
-            foreach ($columns as $column) {
-                $query->where($column, $operator, $value, 'or');
-            }
-        }, $boolean);
-
-        return $this;
-    }
-
-    /**
-     * Add an "or where" clause to the query for multiple columns with "or" conditions between them.
-     *
-     * @param  string[]  $columns
-     * @param  string  $operator
-     * @param  mixed  $value
-     * @return $this
-     */
-    public function orWhereAny($columns, $operator = null, $value = null)
-    {
-        return $this->whereAny($columns, $operator, $value, 'or');
     }
 
     /**
@@ -3533,6 +3465,7 @@ class Builder implements BuilderContract
     }
 
     /**
+<<<<<<< HEAD
      * Insert new records into the table using a subquery while ignoring errors.
      *
      * @param  array  $columns
@@ -3552,6 +3485,8 @@ class Builder implements BuilderContract
     }
 
     /**
+=======
+>>>>>>> parent of c8b1139b (update Ui)
      * Update records in the database.
      *
      * @param  array  $values

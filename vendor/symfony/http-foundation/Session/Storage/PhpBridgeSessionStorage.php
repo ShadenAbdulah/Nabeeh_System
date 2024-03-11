@@ -23,7 +23,11 @@ use function extension_loaded;
  */
 class PhpBridgeSessionStorage extends NativeSessionStorage
 {
+<<<<<<< HEAD
     public function __construct(AbstractProxy|SessionHandlerInterface|null $handler = null, ?MetadataBag $metaBag = null)
+=======
+    public function __construct(AbstractProxy|\SessionHandlerInterface $handler = null, MetadataBag $metaBag = null)
+>>>>>>> parent of c8b1139b (update Ui)
     {
         if (!extension_loaded('session')) {
             throw new LogicException('PHP extension "session" is required.');

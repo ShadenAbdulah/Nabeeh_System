@@ -145,7 +145,7 @@ final class RawCodeCoverageData
 
         $this->lineCoverage[$filename] = array_intersect_key(
             $this->lineCoverage[$filename],
-            array_flip($lines),
+            array_flip($lines)
         );
     }
 
@@ -224,7 +224,7 @@ final class RawCodeCoverageData
 
         $this->lineCoverage[$filename] = array_diff_key(
             $this->lineCoverage[$filename],
-            array_flip($lines),
+            array_flip($lines)
         );
 
         if (isset($this->functionCoverage[$filename])) {

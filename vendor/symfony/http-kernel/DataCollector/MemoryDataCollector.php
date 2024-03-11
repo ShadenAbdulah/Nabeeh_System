@@ -29,7 +29,11 @@ class MemoryDataCollector extends DataCollector implements LateDataCollectorInte
         $this->reset();
     }
 
+<<<<<<< HEAD
     public function collect(Request $request, Response $response, ?Throwable $exception = null): void
+=======
+    public function collect(Request $request, Response $response, \Throwable $exception = null): void
+>>>>>>> parent of c8b1139b (update Ui)
     {
         $this->updateMemoryUsage();
     }

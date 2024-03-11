@@ -4,8 +4,11 @@ namespace Illuminate\Database\Query\Grammars;
 
 use Illuminate\Contracts\Database\Query\Expression;
 use Illuminate\Database\Query\Builder;
+<<<<<<< HEAD
 use Illuminate\Database\Query\IndexHint;
 use Illuminate\Database\Query\JoinLateralClause;
+=======
+>>>>>>> parent of c8b1139b (update Ui)
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
@@ -448,6 +451,7 @@ class SqlServerGrammar extends Grammar
     }
 
     /**
+<<<<<<< HEAD
      * Compile a "lateral join" clause.
      *
      * @param JoinLateralClause $join
@@ -462,6 +466,8 @@ class SqlServerGrammar extends Grammar
     }
 
     /**
+=======
+>>>>>>> parent of c8b1139b (update Ui)
      * Compile the SQL statement to define a savepoint.
      *
      * @param  string  $name

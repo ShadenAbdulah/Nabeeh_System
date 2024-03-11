@@ -19,14 +19,22 @@ class ConditionalRules
     /**
      * The rules to be added to the attribute.
      *
+<<<<<<< HEAD
      * @var ValidationRule|InvokableRule|\Illuminate\Contracts\Validation\Rule|Closure|array|string
+=======
+     * @var array|string|\Closure
+>>>>>>> parent of c8b1139b (update Ui)
      */
     protected $rules;
 
     /**
      * The rules to be added to the attribute if the condition fails.
      *
+<<<<<<< HEAD
      * @var ValidationRule|InvokableRule|\Illuminate\Contracts\Validation\Rule|Closure|array|string
+=======
+     * @var array|string|\Closure
+>>>>>>> parent of c8b1139b (update Ui)
      */
     protected $defaultRules;
 
@@ -34,8 +42,13 @@ class ConditionalRules
      * Create a new conditional rules instance.
      *
      * @param  callable|bool  $condition
+<<<<<<< HEAD
      * @param  ValidationRule|InvokableRule|\Illuminate\Contracts\Validation\Rule|Closure|array|string  $rules
      * @param  ValidationRule|InvokableRule|\Illuminate\Contracts\Validation\Rule|Closure|array|string  $defaultRules
+=======
+     * @param  array|string|\Closure  $rules
+     * @param  array|string|\Closure  $defaultRules
+>>>>>>> parent of c8b1139b (update Ui)
      * @return void
      */
     public function __construct($condition, $rules, $defaultRules = [])

@@ -56,13 +56,17 @@ class RequestDataCollector extends DataCollector implements EventSubscriberInter
     private array $sessionUsages = [];
     private ?RequestStack $requestStack;
 
-    public function __construct(?RequestStack $requestStack = null)
+    public function __construct(RequestStack $requestStack = null)
     {
         $this->controllers = new SplObjectStorage();
         $this->requestStack = $requestStack;
     }
 
+<<<<<<< HEAD
     public function collect(Request $request, Response $response, ?Throwable $exception = null): void
+=======
+    public function collect(Request $request, Response $response, \Throwable $exception = null): void
+>>>>>>> parent of c8b1139b (update Ui)
     {
         // attributes are serialized and as they can be anything, they need to be converted to strings.
         $attributes = [];

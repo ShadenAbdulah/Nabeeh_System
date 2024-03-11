@@ -30,7 +30,6 @@ use DOMNode;
 use DOMXPath;
 use PHPUnit\Runner\TestSuiteSorter;
 use PHPUnit\Runner\Version;
-use PHPUnit\TextUI\Configuration\Configuration;
 use PHPUnit\TextUI\Configuration\Constant;
 use PHPUnit\TextUI\Configuration\ConstantCollection;
 use PHPUnit\TextUI\Configuration\Directory;
@@ -475,7 +474,7 @@ final class Loader
         );
     }
 
-    private function getBoolean(string $value, bool $default): bool
+    private function getBoolean(string $value, bool|string $default): bool|string
     {
         if (strtolower($value) === 'false') {
             return false;
@@ -486,19 +485,6 @@ final class Loader
         }
 
         return $default;
-    }
-
-    private function getValue(string $value): bool|string
-    {
-        if (strtolower($value) === 'false') {
-            return false;
-        }
-
-        if (strtolower($value) === 'true') {
-            return true;
-        }
-
-        return $value;
     }
 
     private function readFilterDirectories(string $filename, DOMXPath $xpath, string $query): FilterDirectoryCollection
@@ -570,7 +556,7 @@ final class Loader
             return $default;
         }
 
-        return $this->getBoolean(
+        return (bool) $this->getBoolean(
             $element->getAttribute($attribute),
             false,
         );
@@ -649,7 +635,7 @@ final class Loader
 
             $constants[] = new Constant(
                 $const->getAttribute('name'),
-                $this->getValue($value),
+                $this->getBoolean($value, $value),
             );
         }
 
@@ -674,7 +660,7 @@ final class Loader
                 $verbatim = false;
 
                 if ($var->hasAttribute('force')) {
-                    $force = $this->getBoolean($var->getAttribute('force'), false);
+                    $force = (bool) $this->getBoolean($var->getAttribute('force'), false);
                 }
 
                 if ($var->hasAttribute('verbatim')) {
@@ -682,7 +668,7 @@ final class Loader
                 }
 
                 if (!$verbatim) {
-                    $value = $this->getValue($value);
+                    $value = $this->getBoolean($value, $value);
                 }
 
                 $variables[$array][] = new Variable($name, $value, $force);
@@ -864,15 +850,15 @@ final class Loader
 
     private function getColors(DOMDocument $document): string
     {
-        $colors = Configuration::COLOR_DEFAULT;
+        $colors = \PHPUnit\TextUI\Configuration\Configuration::COLOR_DEFAULT;
 
         if ($document->documentElement->hasAttribute('colors')) {
             /* only allow boolean for compatibility with previous versions
               'always' only allowed from command line */
             if ($this->getBoolean($document->documentElement->getAttribute('colors'), false)) {
-                $colors = Configuration::COLOR_AUTO;
+                $colors = \PHPUnit\TextUI\Configuration\Configuration::COLOR_AUTO;
             } else {
-                $colors = Configuration::COLOR_NEVER;
+                $colors = \PHPUnit\TextUI\Configuration\Configuration::COLOR_NEVER;
             }
         }
 

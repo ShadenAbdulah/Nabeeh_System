@@ -3,7 +3,6 @@
 namespace Illuminate\Database\Query\Grammars;
 
 use Illuminate\Database\Query\Builder;
-use Illuminate\Database\Query\JoinLateralClause;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
@@ -325,6 +324,7 @@ class PostgresGrammar extends Grammar
     }
 
     /**
+<<<<<<< HEAD
      * Compile an insert ignore statement using a subquery into SQL.
      *
      * @param Builder $query
@@ -338,6 +338,8 @@ class PostgresGrammar extends Grammar
     }
 
     /**
+=======
+>>>>>>> parent of c8b1139b (update Ui)
      * Compile an insert and get ID statement into SQL.
      *
      * @param Builder $query
@@ -411,6 +413,7 @@ class PostgresGrammar extends Grammar
     }
 
     /**
+<<<<<<< HEAD
      * Compile a "lateral join" clause.
      *
      * @param JoinLateralClause $join
@@ -423,6 +426,8 @@ class PostgresGrammar extends Grammar
     }
 
     /**
+=======
+>>>>>>> parent of c8b1139b (update Ui)
      * Prepares a JSON column being updated using the JSONB_SET function.
      *
      * @param  string  $key

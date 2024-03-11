@@ -31,7 +31,11 @@ class NativeSessionStorageFactory implements SessionStorageFactoryInterface
     /**
      * @see NativeSessionStorage constructor.
      */
+<<<<<<< HEAD
     public function __construct(array $options = [], AbstractProxy|SessionHandlerInterface|null $handler = null, ?MetadataBag $metaBag = null, bool $secure = false)
+=======
+    public function __construct(array $options = [], AbstractProxy|\SessionHandlerInterface $handler = null, MetadataBag $metaBag = null, bool $secure = false)
+>>>>>>> parent of c8b1139b (update Ui)
     {
         $this->options = $options;
         $this->handler = $handler;

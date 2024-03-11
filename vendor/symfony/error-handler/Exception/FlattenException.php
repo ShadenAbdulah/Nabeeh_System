@@ -52,12 +52,20 @@ class FlattenException
     private ?string $asString = null;
     private Data $dataRepresentation;
 
+<<<<<<< HEAD
     public static function create(Exception $exception, ?int $statusCode = null, array $headers = []): static
+=======
+    public static function create(\Exception $exception, int $statusCode = null, array $headers = []): static
+>>>>>>> parent of c8b1139b (update Ui)
     {
         return static::createFromThrowable($exception, $statusCode, $headers);
     }
 
+<<<<<<< HEAD
     public static function createFromThrowable(Throwable $exception, ?int $statusCode = null, array $headers = []): static
+=======
+    public static function createFromThrowable(\Throwable $exception, int $statusCode = null, array $headers = []): static
+>>>>>>> parent of c8b1139b (update Ui)
     {
         $e = new static();
         $e->setMessage($exception->getMessage());
@@ -95,7 +103,11 @@ class FlattenException
         return $e;
     }
 
+<<<<<<< HEAD
     public static function createWithDataRepresentation(Throwable $throwable, ?int $statusCode = null, array $headers = [], ?VarCloner $cloner = null): static
+=======
+    public static function createWithDataRepresentation(\Throwable $throwable, int $statusCode = null, array $headers = [], VarCloner $cloner = null): static
+>>>>>>> parent of c8b1139b (update Ui)
     {
         $e = static::createFromThrowable($throwable, $statusCode, $headers);
 

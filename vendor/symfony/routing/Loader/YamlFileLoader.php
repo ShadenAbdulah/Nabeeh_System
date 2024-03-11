@@ -48,7 +48,7 @@ class YamlFileLoader extends FileLoader
     /**
      * @throws InvalidArgumentException When a route can't be parsed because YAML is invalid
      */
-    public function load(mixed $file, ?string $type = null): RouteCollection
+    public function load(mixed $file, string $type = null): RouteCollection
     {
         $path = $this->locator->locate($file);
 
@@ -112,7 +112,7 @@ class YamlFileLoader extends FileLoader
         return $collection;
     }
 
-    public function supports(mixed $resource, ?string $type = null): bool
+    public function supports(mixed $resource, string $type = null): bool
     {
         return is_string($resource) && in_array(pathinfo($resource, PATHINFO_EXTENSION), ['yml', 'yaml'], true) && (!$type || 'yaml' === $type);
     }

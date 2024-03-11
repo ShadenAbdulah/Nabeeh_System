@@ -4,13 +4,15 @@ namespace Illuminate\Database\Eloquent\Concerns;
 
 use Closure;
 use Illuminate\Contracts\Events\Dispatcher;
-use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Events\NullDispatcher;
 use Illuminate\Events\QueuedClosure;
 use Illuminate\Support\Arr;
 use InvalidArgumentException;
+<<<<<<< HEAD
 use ReflectionClass;
 use RuntimeException;
+=======
+>>>>>>> parent of c8b1139b (update Ui)
 
 trait HasEvents
 {
@@ -31,31 +33,6 @@ trait HasEvents
      * @var array
      */
     protected $observables = [];
-
-    /**
-     * Boot the has event trait for a model.
-     *
-     * @return void
-     */
-    public static function bootHasEvents()
-    {
-        static::observe(static::resolveObserveAttributes());
-    }
-
-    /**
-     * Resolve the observe class names from the attributes.
-     *
-     * @return array
-     */
-    public static function resolveObserveAttributes()
-    {
-        $reflectionClass = new ReflectionClass(static::class);
-
-        return collect($reflectionClass->getAttributes(ObservedBy::class))
-            ->map(fn ($attribute) => $attribute->getArguments())
-            ->flatten()
-            ->all();
-    }
 
     /**
      * Register observers with the model.

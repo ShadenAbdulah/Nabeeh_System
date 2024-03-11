@@ -86,7 +86,7 @@ abstract class AbstractVisitor
         return PHP_INT_MAX;
     }
 
-    private function getStringNamedArguments(Node\Expr\CallLike|Node\Attribute $node, ?string $argumentName = null, bool $isArgumentNamePattern = false): array
+    private function getStringNamedArguments(Node\Expr\CallLike|Node\Attribute $node, string $argumentName = null, bool $isArgumentNamePattern = false): array
     {
         $args = $node instanceof Node\Expr\CallLike ? $node->getArgs() : $node->args;
         $argumentValues = [];
@@ -124,6 +124,7 @@ abstract class AbstractVisitor
             return $node->expr->value;
         }
 
+<<<<<<< HEAD
         if ($node instanceof Node\Expr\ClassConstFetch) {
             try {
                 $reflection = new ReflectionClass($node->class->toString());
@@ -135,6 +136,8 @@ abstract class AbstractVisitor
             }
         }
 
+=======
+>>>>>>> parent of c8b1139b (update Ui)
         return null;
     }
 }

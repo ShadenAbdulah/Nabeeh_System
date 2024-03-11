@@ -47,7 +47,11 @@ class InputArgument
      *
      * @throws InvalidArgumentException When argument mode is not valid
      */
+<<<<<<< HEAD
     public function __construct(string $name, ?int $mode = null, string $description = '', string|bool|int|float|array|null $default = null, Closure|array $suggestedValues = [])
+=======
+    public function __construct(string $name, int $mode = null, string $description = '', string|bool|int|float|array $default = null, \Closure|array $suggestedValues = [])
+>>>>>>> parent of c8b1139b (update Ui)
     {
         if (null === $mode) {
             $mode = self::OPTIONAL;
@@ -98,7 +102,7 @@ class InputArgument
      *
      * @throws LogicException When incorrect default value is given
      */
-    public function setDefault(string|bool|int|float|array|null $default = null)
+    public function setDefault(string|bool|int|float|array $default = null)
     {
         if (1 > func_num_args()) {
             trigger_deprecation('symfony/console', '6.2', 'Calling "%s()" without any arguments is deprecated, pass null explicitly instead.', __METHOD__);

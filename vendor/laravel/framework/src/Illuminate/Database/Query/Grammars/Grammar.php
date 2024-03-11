@@ -7,7 +7,6 @@ use Illuminate\Database\Concerns\CompilesJsonPaths;
 use Illuminate\Database\Grammar as BaseGrammar;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Database\Query\JoinClause;
-use Illuminate\Database\Query\JoinLateralClause;
 use Illuminate\Support\Arr;
 use RuntimeException;
 
@@ -183,15 +182,12 @@ class Grammar extends BaseGrammar
 
             $tableAndNestedJoins = is_null($join->joins) ? $table : '('.$table.$nestedJoins.')';
 
-            if ($join instanceof JoinLateralClause) {
-                return $this->compileJoinLateral($join, $tableAndNestedJoins);
-            }
-
             return trim("{$join->type} join {$tableAndNestedJoins} {$this->compileWheres($join)}");
         })->implode(' ');
     }
 
     /**
+<<<<<<< HEAD
      * Compile a "lateral join" clause.
      *
      * @param JoinLateralClause $join
@@ -206,6 +202,8 @@ class Grammar extends BaseGrammar
     }
 
     /**
+=======
+>>>>>>> parent of c8b1139b (update Ui)
      * Compile the "where" portions of the query.
      *
      * @param Builder $query
@@ -1110,6 +1108,7 @@ class Grammar extends BaseGrammar
     }
 
     /**
+<<<<<<< HEAD
      * Compile an insert ignore statement using a subquery into SQL.
      *
      * @param Builder $query
@@ -1125,6 +1124,8 @@ class Grammar extends BaseGrammar
     }
 
     /**
+=======
+>>>>>>> parent of c8b1139b (update Ui)
      * Compile an update statement into SQL.
      *
      * @param Builder $query

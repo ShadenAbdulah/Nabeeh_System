@@ -11,7 +11,6 @@
 
 namespace Symfony\Component\VarDumper\Dumper;
 
-use Symfony\Component\ErrorHandler\ErrorRenderer\FileLinkFormatter;
 use Symfony\Component\VarDumper\Cloner\Cursor;
 use Symfony\Component\VarDumper\Cloner\Stub;
 use function count;
@@ -75,7 +74,7 @@ class CliDumper extends AbstractDumper
 
     private bool $handlesHrefGracefully;
 
-    public function __construct($output = null, ?string $charset = null, int $flags = 0)
+    public function __construct($output = null, string $charset = null, int $flags = 0)
     {
         parent::__construct($output, $charset, $flags);
 
@@ -94,7 +93,11 @@ class CliDumper extends AbstractDumper
             ]);
         }
 
+<<<<<<< HEAD
         $this->displayOptions['fileLinkFormat'] = class_exists(FileLinkFormatter::class) ? new FileLinkFormatter() : (ini_get('xdebug.file_link_format') ?: get_cfg_var('xdebug.file_link_format') ?: 'file://%f#L%l');
+=======
+        $this->displayOptions['fileLinkFormat'] = \ini_get('xdebug.file_link_format') ?: get_cfg_var('xdebug.file_link_format') ?: 'file://%f#L%l';
+>>>>>>> parent of c8b1139b (update Ui)
     }
 
     /**
@@ -589,10 +592,6 @@ class CliDumper extends AbstractDumper
      */
     protected function dumpLine(int $depth, bool $endOfValue = false)
     {
-        if (null === $this->colors) {
-            $this->colors = $this->supportsColors();
-        }
-
         if ($this->colors) {
             $this->line = sprintf("\033[%sm%s\033[m", $this->styles['default'], $this->line);
         }
@@ -636,6 +635,7 @@ class CliDumper extends AbstractDumper
             return false;
         }
 
+<<<<<<< HEAD
         // Detect msysgit/mingw and assume this is a tty because detection
         // does not work correctly, see https://github.com/composer/composer/issues/9690
         if (!@stream_isatty($stream) && !in_array(strtoupper((string) getenv('MSYSTEM')), ['MINGW32', 'MINGW64'], true)) {
@@ -643,23 +643,21 @@ class CliDumper extends AbstractDumper
         }
 
         if ('\\' === DIRECTORY_SEPARATOR && @sapi_windows_vt100_support($stream)) {
+=======
+        if ('Hyper' === getenv('TERM_PROGRAM')) {
+>>>>>>> parent of c8b1139b (update Ui)
             return true;
         }
 
-        if ('Hyper' === getenv('TERM_PROGRAM')
-            || false !== getenv('COLORTERM')
-            || false !== getenv('ANSICON')
-            || 'ON' === getenv('ConEmuANSI')
-        ) {
-            return true;
+        if (\DIRECTORY_SEPARATOR === '\\') {
+            return (\function_exists('sapi_windows_vt100_support')
+                && @sapi_windows_vt100_support($stream))
+                || false !== getenv('ANSICON')
+                || 'ON' === getenv('ConEmuANSI')
+                || 'xterm' === getenv('TERM');
         }
 
-        if ('dumb' === $term = (string) getenv('TERM')) {
-            return false;
-        }
-
-        // See https://github.com/chalk/supports-color/blob/d4f413efaf8da045c5ab440ed418ef02dbb28bf1/index.js#L157
-        return preg_match('/^((screen|xterm|vt100|vt220|putty|rxvt|ansi|cygwin|linux).*)|(.*-256(color)?(-bce)?)$/', $term);
+        return stream_isatty($stream);
     }
 
     /**

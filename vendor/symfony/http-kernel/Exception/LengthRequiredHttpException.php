@@ -18,7 +18,11 @@ use Throwable;
  */
 class LengthRequiredHttpException extends HttpException
 {
+<<<<<<< HEAD
     public function __construct(string $message = '', ?Throwable $previous = null, int $code = 0, array $headers = [])
+=======
+    public function __construct(string $message = '', \Throwable $previous = null, int $code = 0, array $headers = [])
+>>>>>>> parent of c8b1139b (update Ui)
     {
         parent::__construct(411, $message, $previous, $headers, $code);
     }

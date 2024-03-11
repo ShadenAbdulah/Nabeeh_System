@@ -186,6 +186,7 @@ class Connection implements ConnectionInterface
     protected $pretending = false;
 
     /**
+<<<<<<< HEAD
      * All of the callbacks that should be invoked before a transaction is started.
      *
      * @var Closure[]
@@ -193,6 +194,8 @@ class Connection implements ConnectionInterface
     protected $beforeStartingTransaction = [];
 
     /**
+=======
+>>>>>>> parent of c8b1139b (update Ui)
      * All of the callbacks that should be invoked before a query is executed.
      *
      * @var Closure[]
@@ -1032,6 +1035,7 @@ class Connection implements ConnectionInterface
     }
 
     /**
+<<<<<<< HEAD
      * Register a hook to be run just before a database transaction is started.
      *
      * @param Closure $callback
@@ -1045,6 +1049,8 @@ class Connection implements ConnectionInterface
     }
 
     /**
+=======
+>>>>>>> parent of c8b1139b (update Ui)
      * Register a hook to be run just before a database query is executed.
      *
      * @param Closure $callback

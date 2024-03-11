@@ -30,7 +30,7 @@ class GenerateUlidCommand extends Command
 {
     private UlidFactory $factory;
 
-    public function __construct(?UlidFactory $factory = null)
+    public function __construct(UlidFactory $factory = null)
     {
         $this->factory = $factory ?? new UlidFactory();
 

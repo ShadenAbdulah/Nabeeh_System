@@ -233,6 +233,7 @@ class AblyBroadcaster extends Broadcaster
     {
         return $this->ably;
     }
+<<<<<<< HEAD
 
     /**
      * Set the underlying Ably SDK instance.
@@ -244,4 +245,6 @@ class AblyBroadcaster extends Broadcaster
     {
         $this->ably = $ably;
     }
+=======
+>>>>>>> parent of c8b1139b (update Ui)
 }

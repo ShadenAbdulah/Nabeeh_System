@@ -31,6 +31,7 @@ if (!function_exists('PhpParser\defineCompatibilityTokens')) {
         // assigned a unique ID.
         $usedTokenIds = [];
         foreach ($compatTokens as $token) {
+<<<<<<< HEAD
             if (defined($token)) {
                 $tokenId = constant($token);
                 if (!is_int($tokenId)) {
@@ -40,6 +41,10 @@ if (!function_exists('PhpParser\defineCompatibilityTokens')) {
                         $token, gettype($tokenId)
                     ));
                 }
+=======
+            if (\defined($token)) {
+                $tokenId = \constant($token);
+>>>>>>> parent of c8b1139b (update Ui)
                 $clashingToken = $usedTokenIds[$tokenId] ?? null;
                 if ($clashingToken !== null) {
                     throw new \Error(sprintf(

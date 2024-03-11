@@ -634,7 +634,11 @@ class LogManager implements LoggerInterface
     /**
      * System is unusable.
      *
+<<<<<<< HEAD
      * @param  string|Stringable  $message
+=======
+     * @param  string  $message
+>>>>>>> parent of c8b1139b (update Ui)
      * @param  array  $context
      * @return void
      */
@@ -649,7 +653,11 @@ class LogManager implements LoggerInterface
      * Example: Entire website down, database unavailable, etc. This should
      * trigger the SMS alerts and wake you up.
      *
+<<<<<<< HEAD
      * @param  string|Stringable  $message
+=======
+     * @param  string  $message
+>>>>>>> parent of c8b1139b (update Ui)
      * @param  array  $context
      * @return void
      */
@@ -663,7 +671,11 @@ class LogManager implements LoggerInterface
      *
      * Example: Application component unavailable, unexpected exception.
      *
+<<<<<<< HEAD
      * @param  string|Stringable  $message
+=======
+     * @param  string  $message
+>>>>>>> parent of c8b1139b (update Ui)
      * @param  array  $context
      * @return void
      */
@@ -676,7 +688,11 @@ class LogManager implements LoggerInterface
      * Runtime errors that do not require immediate action but should typically
      * be logged and monitored.
      *
+<<<<<<< HEAD
      * @param  string|Stringable  $message
+=======
+     * @param  string  $message
+>>>>>>> parent of c8b1139b (update Ui)
      * @param  array  $context
      * @return void
      */
@@ -691,7 +707,11 @@ class LogManager implements LoggerInterface
      * Example: Use of deprecated APIs, poor use of an API, undesirable things
      * that are not necessarily wrong.
      *
+<<<<<<< HEAD
      * @param  string|Stringable  $message
+=======
+     * @param  string  $message
+>>>>>>> parent of c8b1139b (update Ui)
      * @param  array  $context
      * @return void
      */
@@ -703,7 +723,11 @@ class LogManager implements LoggerInterface
     /**
      * Normal but significant events.
      *
+<<<<<<< HEAD
      * @param  string|Stringable  $message
+=======
+     * @param  string  $message
+>>>>>>> parent of c8b1139b (update Ui)
      * @param  array  $context
      * @return void
      */
@@ -717,7 +741,11 @@ class LogManager implements LoggerInterface
      *
      * Example: User logs in, SQL logs.
      *
+<<<<<<< HEAD
      * @param  string|Stringable  $message
+=======
+     * @param  string  $message
+>>>>>>> parent of c8b1139b (update Ui)
      * @param  array  $context
      * @return void
      */
@@ -729,7 +757,11 @@ class LogManager implements LoggerInterface
     /**
      * Detailed debug information.
      *
+<<<<<<< HEAD
      * @param  string|Stringable  $message
+=======
+     * @param  string  $message
+>>>>>>> parent of c8b1139b (update Ui)
      * @param  array  $context
      * @return void
      */
@@ -742,7 +774,11 @@ class LogManager implements LoggerInterface
      * Logs with an arbitrary level.
      *
      * @param  mixed  $level
+<<<<<<< HEAD
      * @param  string|Stringable  $message
+=======
+     * @param  string  $message
+>>>>>>> parent of c8b1139b (update Ui)
      * @param  array  $context
      * @return void
      */

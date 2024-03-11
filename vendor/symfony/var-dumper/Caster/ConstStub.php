@@ -21,7 +21,7 @@ use function func_num_args;
  */
 class ConstStub extends Stub
 {
-    public function __construct(string $name, string|int|float|null $value = null)
+    public function __construct(string $name, string|int|float $value = null)
     {
         $this->class = $name;
         $this->value = 1 < func_num_args() ? $value : $name;

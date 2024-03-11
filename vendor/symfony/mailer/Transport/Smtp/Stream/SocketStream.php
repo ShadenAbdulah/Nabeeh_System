@@ -165,7 +165,7 @@ final class SocketStream extends AbstractStream
         }
 
         stream_set_blocking($this->stream, true);
-        stream_set_timeout($this->stream, (int) $timeout, (int) (($timeout - (int) $timeout) * 1000000));
+        stream_set_timeout($this->stream, $timeout);
         $this->in = &$this->stream;
         $this->out = &$this->stream;
     }

@@ -40,9 +40,15 @@ class Rule
      * Apply the given rules if the given condition is truthy.
      *
      * @param  callable|bool  $condition
+<<<<<<< HEAD
      * @param  ValidationRule|InvokableRule|\Illuminate\Contracts\Validation\Rule|Closure|array|string  $rules
      * @param  ValidationRule|InvokableRule|\Illuminate\Contracts\Validation\Rule|Closure|array|string  $defaultRules
      * @return ConditionalRules
+=======
+     * @param  array|string|\Closure  $rules
+     * @param  array|string|\Closure  $defaultRules
+     * @return \Illuminate\Validation\ConditionalRules
+>>>>>>> parent of c8b1139b (update Ui)
      */
     public static function when($condition, $rules, $defaultRules = [])
     {
@@ -53,13 +59,19 @@ class Rule
      * Apply the given rules if the given condition is falsy.
      *
      * @param  callable|bool  $condition
+<<<<<<< HEAD
      * @param  ValidationRule|InvokableRule|\Illuminate\Contracts\Validation\Rule|Closure|array|string  $rules
      * @param  ValidationRule|InvokableRule|\Illuminate\Contracts\Validation\Rule|Closure|array|string  $defaultRules
      * @return ConditionalRules
+=======
+     * @param  array|string|\Closure  $rules
+     * @param  array|string|\Closure  $defaultRules
+     * @return \Illuminate\Validation\ConditionalRules
+>>>>>>> parent of c8b1139b (update Ui)
      */
     public static function unless($condition, $rules, $defaultRules = [])
     {
-        return new ConditionalRules($condition, $defaultRules, $rules);
+        return new ConditionalRules(! $condition, $rules, $defaultRules);
     }
 
     /**

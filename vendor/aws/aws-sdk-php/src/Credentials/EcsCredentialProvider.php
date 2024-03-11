@@ -158,7 +158,7 @@ class EcsCredentialProvider
             if (!empty($credFullUri))
                 return $credFullUri;
         }
-
+        
         return self::SERVER_URI . $credsUri;
     }
 
@@ -192,12 +192,41 @@ class EcsCredentialProvider
             if ($host !== $ecsHost
                 && $host !== $eksHost
                 && $host !== self::EKS_SERVER_HOST_IPV6
-                && !CredentialsUtils::isLoopBackAddress(gethostbyname($host))
+                && !$this->isLoopbackAddress(gethostbyname($host))
             ) {
                 return false;
             }
         }
 
         return true;
+    }
+
+    /**
+     * Determines whether or not a given host
+     * is a loopback address.
+     *
+     * @param $host
+     *
+     * @return bool
+     */
+    private function isLoopbackAddress($host)
+    {
+        if (!filter_var($host, FILTER_VALIDATE_IP)) {
+            return false;
+        }
+
+        if (filter_var($host, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6)) {
+            if ($host === '::1') {
+                return true;
+            }
+
+            return false;
+        }
+
+        $loopbackStart = ip2long('127.0.0.0');
+        $loopbackEnd = ip2long('127.255.255.255');
+        $ipLong = ip2long($host);
+
+        return ($ipLong >= $loopbackStart && $ipLong <= $loopbackEnd);
     }
 }

@@ -30,7 +30,11 @@ final class MessageDataCollector extends DataCollector
         $this->events = $logger->getEvents();
     }
 
+<<<<<<< HEAD
     public function collect(Request $request, Response $response, ?Throwable $exception = null): void
+=======
+    public function collect(Request $request, Response $response, \Throwable $exception = null): void
+>>>>>>> parent of c8b1139b (update Ui)
     {
         $this->data['events'] = $this->events;
     }

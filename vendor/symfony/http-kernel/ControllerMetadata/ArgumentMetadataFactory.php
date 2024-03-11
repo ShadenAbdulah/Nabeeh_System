@@ -23,7 +23,11 @@ use ReflectionParameter;
  */
 final class ArgumentMetadataFactory implements ArgumentMetadataFactoryInterface
 {
+<<<<<<< HEAD
     public function createArgumentMetadata(string|object|array $controller, ?ReflectionFunctionAbstract $reflector = null): array
+=======
+    public function createArgumentMetadata(string|object|array $controller, \ReflectionFunctionAbstract $reflector = null): array
+>>>>>>> parent of c8b1139b (update Ui)
     {
         $arguments = [];
         $reflector ??= new ReflectionFunction($controller(...));

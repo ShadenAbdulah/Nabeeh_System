@@ -24,7 +24,6 @@ use const STR_PAD_RIGHT;
 
 /**
  * @author Ion Bazan <ion.bazan@gmail.com>
- * @author Pierre Ambroise <pierre27.ambroise@gmail.com>
  *
  * @internal
  */
@@ -94,6 +93,7 @@ final class Php83
                 return mb_substr(str_repeat($pad_string, $leftPaddingLength), 0, $leftPaddingLength, $encoding).$string.mb_substr(str_repeat($pad_string, $rightPaddingLength), 0, $rightPaddingLength, $encoding);
         }
     }
+<<<<<<< HEAD
 
     public static function str_increment(string $string): string
     {
@@ -205,4 +205,6 @@ final class Php83
 
         return $decremented;
     }
+=======
+>>>>>>> parent of c8b1139b (update Ui)
 }

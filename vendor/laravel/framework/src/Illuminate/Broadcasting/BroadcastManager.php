@@ -284,6 +284,7 @@ class BroadcastManager implements FactoryContract
      * @param  array  $config
      * @return Broadcaster
      */
+<<<<<<< HEAD
     protected function createReverbDriver(array $config)
     {
         return $this->createPusherDriver($config);
@@ -295,6 +296,8 @@ class BroadcastManager implements FactoryContract
      * @param  array  $config
      * @return Broadcaster
      */
+=======
+>>>>>>> parent of c8b1139b (update Ui)
     protected function createPusherDriver(array $config)
     {
         return new PusherBroadcaster($this->pusher($config));

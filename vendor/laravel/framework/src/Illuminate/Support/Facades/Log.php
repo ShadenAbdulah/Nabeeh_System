@@ -25,6 +25,7 @@ use Psr\Log\LoggerInterface;
  * @method static LogManager extend(string $driver, Closure $callback)
  * @method static void forgetChannel(string|null $driver = null)
  * @method static array getChannels()
+<<<<<<< HEAD
  * @method static void emergency(string|\Stringable $message, array $context = [])
  * @method static void alert(string|\Stringable $message, array $context = [])
  * @method static void critical(string|\Stringable $message, array $context = [])
@@ -42,6 +43,25 @@ use Psr\Log\LoggerInterface;
  * @method static void setEventDispatcher(Dispatcher $dispatcher)
  * @method static Logger|mixed when(Closure|mixed|null $value = null, callable|null $callback = null, callable|null $default = null)
  * @method static Logger|mixed unless(Closure|mixed|null $value = null, callable|null $callback = null, callable|null $default = null)
+=======
+ * @method static void emergency(string $message, array $context = [])
+ * @method static void alert(string $message, array $context = [])
+ * @method static void critical(string $message, array $context = [])
+ * @method static void error(string $message, array $context = [])
+ * @method static void warning(string $message, array $context = [])
+ * @method static void notice(string $message, array $context = [])
+ * @method static void info(string $message, array $context = [])
+ * @method static void debug(string $message, array $context = [])
+ * @method static void log(mixed $level, string $message, array $context = [])
+ * @method static void write(string $level, \Illuminate\Contracts\Support\Arrayable|\Illuminate\Contracts\Support\Jsonable|\Illuminate\Support\Stringable|array|string $message, array $context = [])
+ * @method static \Illuminate\Log\Logger withContext(array $context = [])
+ * @method static void listen(\Closure $callback)
+ * @method static \Psr\Log\LoggerInterface getLogger()
+ * @method static \Illuminate\Contracts\Events\Dispatcher getEventDispatcher()
+ * @method static void setEventDispatcher(\Illuminate\Contracts\Events\Dispatcher $dispatcher)
+ * @method static \Illuminate\Log\Logger|mixed when(\Closure|mixed|null $value = null, callable|null $callback = null, callable|null $default = null)
+ * @method static \Illuminate\Log\Logger|mixed unless(\Closure|mixed|null $value = null, callable|null $callback = null, callable|null $default = null)
+>>>>>>> parent of c8b1139b (update Ui)
  *
  * @see \Illuminate\Log\LogManager
  */

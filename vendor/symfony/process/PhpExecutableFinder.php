@@ -41,8 +41,13 @@ class PhpExecutableFinder
     {
         if ($php = getenv('PHP_BINARY')) {
             if (!is_executable($php)) {
+<<<<<<< HEAD
                 $command = '\\' === DIRECTORY_SEPARATOR ? 'where' : 'command -v --';
                 if (function_exists('exec') && $php = strtok(exec($command.' '.escapeshellarg($php)), PHP_EOL)) {
+=======
+                $command = '\\' === \DIRECTORY_SEPARATOR ? 'where' : 'command -v';
+                if (\function_exists('exec') && $php = strtok(exec($command.' '.escapeshellarg($php)), \PHP_EOL)) {
+>>>>>>> parent of c8b1139b (update Ui)
                     if (!is_executable($php)) {
                         return false;
                     }

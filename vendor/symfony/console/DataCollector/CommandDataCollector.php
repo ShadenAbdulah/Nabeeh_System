@@ -30,7 +30,11 @@ use Throwable;
  */
 final class CommandDataCollector extends DataCollector
 {
+<<<<<<< HEAD
     public function collect(Request $request, Response $response, ?Throwable $exception = null): void
+=======
+    public function collect(Request $request, Response $response, \Throwable $exception = null): void
+>>>>>>> parent of c8b1139b (update Ui)
     {
         if (!$request instanceof CliRequest) {
             return;

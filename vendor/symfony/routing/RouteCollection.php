@@ -413,9 +413,4 @@ class RouteCollection implements IteratorAggregate, Countable
     {
         return $this->aliases[$name] ?? null;
     }
-
-    public function getPriority(string $name): ?int
-    {
-        return $this->priorities[$name] ?? null;
-    }
 }

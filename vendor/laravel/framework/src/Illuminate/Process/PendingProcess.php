@@ -267,10 +267,15 @@ class PendingProcess
      * Start the process in the background.
      *
      * @param  array<array-key, string>|string|null  $command
+<<<<<<< HEAD
      * @param  callable|null  $output
      * @return InvokedProcess
      *
      * @throws RuntimeException
+=======
+     * @param  callable  $output
+     * @return \Illuminate\Process\InvokedProcess
+>>>>>>> parent of c8b1139b (update Ui)
      */
     public function start(array|string $command = null, callable $output = null)
     {
@@ -351,7 +356,7 @@ class PendingProcess
     protected function fakeFor(string $command)
     {
         return collect($this->fakeHandlers)
-                ->first(fn ($handler, $pattern) => $pattern === '*' || Str::is($pattern, $command));
+                ->first(fn ($handler, $pattern) => Str::is($pattern, $command));
     }
 
     /**
@@ -383,10 +388,15 @@ class PendingProcess
      *
      * @param  string  $command
      * @param  callable|null  $output
+<<<<<<< HEAD
      * @param Closure $fake
      * @return FakeInvokedProcess
      *
      * @throw \LogicException
+=======
+     * @param  \Closure  $fake
+     * @return \Illuminate\Process\FakeInvokedProcess
+>>>>>>> parent of c8b1139b (update Ui)
      */
     protected function resolveAsynchronousFake(string $command, ?callable $output, Closure $fake)
     {

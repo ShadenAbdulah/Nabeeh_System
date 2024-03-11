@@ -59,7 +59,7 @@ final class ControllerEvent extends KernelEvent
     /**
      * @param array<class-string, list<object>>|null $attributes
      */
-    public function setController(callable $controller, ?array $attributes = null): void
+    public function setController(callable $controller, array $attributes = null): void
     {
         if (null !== $attributes) {
             $this->attributes = $attributes;
@@ -95,7 +95,7 @@ final class ControllerEvent extends KernelEvent
      *
      * @psalm-return (T is null ? array<class-string, list<object>> : list<object>)
      */
-    public function getAttributes(?string $className = null): array
+    public function getAttributes(string $className = null): array
     {
         if (isset($this->attributes)) {
             return null === $className ? $this->attributes : $this->attributes[$className] ?? [];

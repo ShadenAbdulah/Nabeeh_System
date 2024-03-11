@@ -32,7 +32,11 @@ class ServerBag extends ParameterBag
         foreach ($this->parameters as $key => $value) {
             if (str_starts_with($key, 'HTTP_')) {
                 $headers[substr($key, 5)] = $value;
+<<<<<<< HEAD
             } elseif (in_array($key, ['CONTENT_TYPE', 'CONTENT_LENGTH', 'CONTENT_MD5'], true) && '' !== $value) {
+=======
+            } elseif (\in_array($key, ['CONTENT_TYPE', 'CONTENT_LENGTH', 'CONTENT_MD5'], true)) {
+>>>>>>> parent of c8b1139b (update Ui)
                 $headers[$key] = $value;
             }
         }

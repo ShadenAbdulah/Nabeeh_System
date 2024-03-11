@@ -28,7 +28,11 @@ interface DataCollectorInterface extends ResetInterface
      *
      * @return void
      */
+<<<<<<< HEAD
     public function collect(Request $request, Response $response, ?Throwable $exception = null);
+=======
+    public function collect(Request $request, Response $response, \Throwable $exception = null);
+>>>>>>> parent of c8b1139b (update Ui)
 
     /**
      * Returns the name of the collector.

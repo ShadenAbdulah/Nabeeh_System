@@ -97,7 +97,11 @@ final class InputBag extends ParameterBag
      *
      * @return ?T
      */
+<<<<<<< HEAD
     public function getEnum(string $key, string $class, ?BackedEnum $default = null): ?BackedEnum
+=======
+    public function getEnum(string $key, string $class, \BackedEnum $default = null): ?\BackedEnum
+>>>>>>> parent of c8b1139b (update Ui)
     {
         try {
             return parent::getEnum($key, $class, $default);

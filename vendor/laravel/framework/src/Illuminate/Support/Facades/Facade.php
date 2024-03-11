@@ -22,7 +22,11 @@ abstract class Facade
     /**
      * The application instance being facaded.
      *
+<<<<<<< HEAD
      * @var Application|null
+=======
+     * @var \Illuminate\Contracts\Foundation\Application
+>>>>>>> parent of c8b1139b (update Ui)
      */
     protected static $app;
 
@@ -321,7 +325,11 @@ abstract class Facade
     /**
      * Get the application instance behind the facade.
      *
+<<<<<<< HEAD
      * @return Application|null
+=======
+     * @return \Illuminate\Contracts\Foundation\Application
+>>>>>>> parent of c8b1139b (update Ui)
      */
     public static function getFacadeApplication()
     {
@@ -331,7 +339,11 @@ abstract class Facade
     /**
      * Set the application instance.
      *
+<<<<<<< HEAD
      * @param  Application|null  $app
+=======
+     * @param  \Illuminate\Contracts\Foundation\Application  $app
+>>>>>>> parent of c8b1139b (update Ui)
      * @return void
      */
     public static function setFacadeApplication($app)

@@ -101,7 +101,11 @@ class NativeSessionStorage implements SessionStorageInterface
      * trans_sid_hosts, $_SERVER['HTTP_HOST']
      * trans_sid_tags, "a=href,area=href,frame=src,form="
      */
+<<<<<<< HEAD
     public function __construct(array $options = [], AbstractProxy|SessionHandlerInterface|null $handler = null, ?MetadataBag $metaBag = null)
+=======
+    public function __construct(array $options = [], AbstractProxy|\SessionHandlerInterface $handler = null, MetadataBag $metaBag = null)
+>>>>>>> parent of c8b1139b (update Ui)
     {
         if (!extension_loaded('session')) {
             throw new LogicException('PHP extension "session" is required.');
@@ -216,7 +220,7 @@ class NativeSessionStorage implements SessionStorageInterface
         $this->saveHandler->setName($name);
     }
 
-    public function regenerate(bool $destroy = false, ?int $lifetime = null): bool
+    public function regenerate(bool $destroy = false, int $lifetime = null): bool
     {
         // Cannot regenerate the session ID for non-active sessions.
         if (PHP_SESSION_ACTIVE !== session_status()) {
@@ -329,7 +333,7 @@ class NativeSessionStorage implements SessionStorageInterface
     /**
      * @return void
      */
-    public function setMetadataBag(?MetadataBag $metaBag = null)
+    public function setMetadataBag(MetadataBag $metaBag = null)
     {
         if (1 > func_num_args()) {
             trigger_deprecation('symfony/http-foundation', '6.2', 'Calling "%s()" without any arguments is deprecated, pass null explicitly instead.', __METHOD__);
@@ -408,7 +412,11 @@ class NativeSessionStorage implements SessionStorageInterface
      *
      * @throws InvalidArgumentException
      */
+<<<<<<< HEAD
     public function setSaveHandler(AbstractProxy|SessionHandlerInterface|null $saveHandler = null)
+=======
+    public function setSaveHandler(AbstractProxy|\SessionHandlerInterface $saveHandler = null)
+>>>>>>> parent of c8b1139b (update Ui)
     {
         if (1 > func_num_args()) {
             trigger_deprecation('symfony/http-foundation', '6.2', 'Calling "%s()" without any arguments is deprecated, pass null explicitly instead.', __METHOD__);
@@ -441,7 +449,7 @@ class NativeSessionStorage implements SessionStorageInterface
      *
      * @return void
      */
-    protected function loadSession(?array &$session = null)
+    protected function loadSession(array &$session = null)
     {
         if (null === $session) {
             $session = &$_SESSION;

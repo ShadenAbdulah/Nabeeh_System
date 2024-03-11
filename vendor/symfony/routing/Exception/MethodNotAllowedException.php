@@ -27,7 +27,11 @@ class MethodNotAllowedException extends \RuntimeException implements ExceptionIn
     /**
      * @param string[] $allowedMethods
      */
+<<<<<<< HEAD
     public function __construct(array $allowedMethods, string $message = '', int $code = 0, ?Throwable $previous = null)
+=======
+    public function __construct(array $allowedMethods, string $message = '', int $code = 0, \Throwable $previous = null)
+>>>>>>> parent of c8b1139b (update Ui)
     {
         $this->allowedMethods = array_map('strtoupper', $allowedMethods);
 

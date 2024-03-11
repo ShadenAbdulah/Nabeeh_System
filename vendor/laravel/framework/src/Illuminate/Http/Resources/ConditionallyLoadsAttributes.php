@@ -266,17 +266,15 @@ trait ConditionallyLoadsAttributes
             return value($default);
         }
 
-        $loadedValue = $this->resource->{$relationship};
-
         if (func_num_args() === 1) {
-            return $loadedValue;
+            return $this->resource->{$relationship};
         }
 
-        if ($loadedValue === null) {
+        if ($this->resource->{$relationship} === null) {
             return;
         }
 
-        return value($value, $loadedValue);
+        return value($value);
     }
 
     /**

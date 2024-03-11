@@ -53,7 +53,11 @@ class LazyString implements Stringable, JsonSerializable
                     $callback[1] ??= '__invoke';
                 }
                 $value = $callback(...$arguments);
+<<<<<<< HEAD
                 $callback = !is_scalar($value) && !$value instanceof Stringable ? self::getPrettyName($callback) : 'callable';
+=======
+                $callback = self::getPrettyName($callback);
+>>>>>>> parent of c8b1139b (update Ui)
                 $arguments = null;
             }
 

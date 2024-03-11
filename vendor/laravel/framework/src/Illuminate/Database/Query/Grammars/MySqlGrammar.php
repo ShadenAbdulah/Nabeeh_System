@@ -3,8 +3,11 @@
 namespace Illuminate\Database\Query\Grammars;
 
 use Illuminate\Database\Query\Builder;
+<<<<<<< HEAD
 use Illuminate\Database\Query\IndexHint;
 use Illuminate\Database\Query\JoinLateralClause;
+=======
+>>>>>>> parent of c8b1139b (update Ui)
 use Illuminate\Support\Str;
 
 class MySqlGrammar extends Grammar
@@ -109,6 +112,7 @@ class MySqlGrammar extends Grammar
     }
 
     /**
+<<<<<<< HEAD
      * Compile an insert ignore statement using a subquery into SQL.
      *
      * @param Builder $query
@@ -122,6 +126,8 @@ class MySqlGrammar extends Grammar
     }
 
     /**
+=======
+>>>>>>> parent of c8b1139b (update Ui)
      * Compile a "JSON contains" statement into SQL.
      *
      * @param  string  $column
@@ -270,6 +276,7 @@ class MySqlGrammar extends Grammar
     }
 
     /**
+<<<<<<< HEAD
      * Compile a "lateral join" clause.
      *
      * @param JoinLateralClause $join
@@ -282,6 +289,8 @@ class MySqlGrammar extends Grammar
     }
 
     /**
+=======
+>>>>>>> parent of c8b1139b (update Ui)
      * Prepare a JSON column being updated using the JSON_SET function.
      *
      * @param  string  $key

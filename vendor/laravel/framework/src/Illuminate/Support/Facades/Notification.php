@@ -58,6 +58,7 @@ class Notification extends Facade
     }
 
     /**
+<<<<<<< HEAD
      * Begin sending a notification to an anonymous notifiable on the given channels.
      *
      * @param  array  $channels
@@ -75,6 +76,8 @@ class Notification extends Facade
     }
 
     /**
+=======
+>>>>>>> parent of c8b1139b (update Ui)
      * Begin sending a notification to an anonymous notifiable.
      *
      * @param  string  $channel

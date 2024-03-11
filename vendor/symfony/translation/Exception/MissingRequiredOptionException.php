@@ -18,7 +18,11 @@ use Throwable;
  */
 class MissingRequiredOptionException extends IncompleteDsnException
 {
+<<<<<<< HEAD
     public function __construct(string $option, ?string $dsn = null, ?Throwable $previous = null)
+=======
+    public function __construct(string $option, string $dsn = null, \Throwable $previous = null)
+>>>>>>> parent of c8b1139b (update Ui)
     {
         $message = sprintf('The option "%s" is required but missing.', $option);
 

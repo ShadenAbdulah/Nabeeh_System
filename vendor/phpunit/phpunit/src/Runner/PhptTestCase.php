@@ -57,7 +57,6 @@ use PHPUnit\TextUI\Configuration\Registry as ConfigurationRegistry;
 use PHPUnit\Util\PHP\AbstractPhpProcess;
 use SebastianBergmann\CodeCoverage\Data\RawCodeCoverageData;
 use SebastianBergmann\CodeCoverage\InvalidArgumentException;
-use SebastianBergmann\CodeCoverage\ReflectionException;
 use SebastianBergmann\CodeCoverage\StaticAnalysisCacheNotConfiguredException;
 use SebastianBergmann\CodeCoverage\Test\TestSize\TestSize;
 use SebastianBergmann\CodeCoverage\Test\TestStatus\TestStatus;
@@ -85,7 +84,7 @@ final class PhptTestCase implements Reorderable, SelfDescribing, Test
      *
      * @throws Exception
      */
-    public function __construct(string $filename, ?AbstractPhpProcess $phpUtil = null)
+    public function __construct(string $filename, AbstractPhpProcess $phpUtil = null)
     {
         if (!is_file($filename)) {
             throw new FileDoesNotExistException($filename);
@@ -107,11 +106,11 @@ final class PhptTestCase implements Reorderable, SelfDescribing, Test
      * Runs a test and collects its result in a TestResult instance.
      *
      * @throws \PHPUnit\Framework\Exception
+     * @throws \SebastianBergmann\CodeCoverage\ReflectionException
      * @throws \SebastianBergmann\Template\InvalidArgumentException
      * @throws Exception
      * @throws InvalidArgumentException
      * @throws NoPreviousThrowableException
-     * @throws ReflectionException
      * @throws StaticAnalysisCacheNotConfiguredException
      * @throws TestIdMissingException
      * @throws UnintentionallyCoveredCodeException
@@ -218,8 +217,8 @@ final class PhptTestCase implements Reorderable, SelfDescribing, Test
                 $failure = new PhptAssertionFailedError(
                     $e->getMessage(),
                     0,
-                    (string) $trace[0]['file'],
-                    (int) $trace[0]['line'],
+                    $trace[0]['file'],
+                    $trace[0]['line'],
                     $trace,
                     $comparisonFailure ? $diff : '',
                 );

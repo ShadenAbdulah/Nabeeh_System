@@ -27,6 +27,7 @@ if (!function_exists('stream_context_set_options')) {
     function stream_context_set_options($context, array $options): bool { return stream_context_set_option($context, $options); }
 }
 
+<<<<<<< HEAD
 if (!function_exists('str_increment')) {
     function str_increment(string $string): string { return p\Php83::str_increment($string); }
 }
@@ -36,6 +37,9 @@ if (!function_exists('str_decrement')) {
 }
 
 if (PHP_VERSION_ID >= 80100) {
+=======
+if (\PHP_VERSION_ID >= 80100) {
+>>>>>>> parent of c8b1139b (update Ui)
     return require __DIR__.'/bootstrap81.php';
 }
 

@@ -41,7 +41,7 @@ class ConfigDataCollector extends DataCollector implements LateDataCollectorInte
     /**
      * Sets the Kernel associated with this Request.
      */
-    public function setKernel(?KernelInterface $kernel = null): void
+    public function setKernel(KernelInterface $kernel = null): void
     {
         if (1 > func_num_args()) {
             trigger_deprecation('symfony/http-kernel', '6.2', 'Calling "%s()" without any arguments is deprecated, pass null explicitly instead.', __METHOD__);
@@ -50,7 +50,11 @@ class ConfigDataCollector extends DataCollector implements LateDataCollectorInte
         $this->kernel = $kernel;
     }
 
+<<<<<<< HEAD
     public function collect(Request $request, Response $response, ?Throwable $exception = null): void
+=======
+    public function collect(Request $request, Response $response, \Throwable $exception = null): void
+>>>>>>> parent of c8b1139b (update Ui)
     {
         $eom = DateTimeImmutable::createFromFormat('d/m/Y', '01/'.Kernel::END_OF_MAINTENANCE);
         $eol = DateTimeImmutable::createFromFormat('d/m/Y', '01/'.Kernel::END_OF_LIFE);

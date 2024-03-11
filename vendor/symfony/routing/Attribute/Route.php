@@ -24,6 +24,8 @@ use function is_array;
  *
  * @author Fabien Potencier <fabien@symfony.com>
  * @author Alexander M. Turek <me@derrabus.de>
+ *
+ * @final since Symfony 6.4
  */
 #[Attribute(Attribute::IS_REPEATABLE | Attribute::TARGET_CLASS | Attribute::TARGET_METHOD)]
 class Route
@@ -39,7 +41,7 @@ class Route
      * @param string[]|string           $schemes
      */
     public function __construct(
-        string|array|null $path = null,
+        string|array $path = null,
         private ?string $name = null,
         private array $requirements = [],
         private array $options = [],
@@ -49,10 +51,10 @@ class Route
         array|string $schemes = [],
         private ?string $condition = null,
         private ?int $priority = null,
-        ?string $locale = null,
-        ?string $format = null,
-        ?bool $utf8 = null,
-        ?bool $stateless = null,
+        string $locale = null,
+        string $format = null,
+        bool $utf8 = null,
+        bool $stateless = null,
         private ?string $env = null
     ) {
         if (is_array($path)) {

@@ -115,10 +115,6 @@ class XliffFileLoader implements LoaderInterface
                     continue;
                 }
 
-                if (isset($translation->target) && 'needs-translation' === (string) $translation->target->attributes()['state']) {
-                    continue;
-                }
-
                 $source = isset($attributes['resname']) && $attributes['resname'] ? $attributes['resname'] : $translation->source;
                 // If the xlf file has another encoding specified, try to convert it because
                 // simple_xml will always return utf-8 encoded values
@@ -198,7 +194,7 @@ class XliffFileLoader implements LoaderInterface
     /**
      * Convert a UTF8 string to the specified encoding.
      */
-    private function utf8ToCharset(string $content, ?string $encoding = null): string
+    private function utf8ToCharset(string $content, string $encoding = null): string
     {
         if ('UTF-8' !== $encoding && !empty($encoding)) {
             return mb_convert_encoding($content, $encoding, 'UTF-8');
@@ -207,7 +203,11 @@ class XliffFileLoader implements LoaderInterface
         return $content;
     }
 
+<<<<<<< HEAD
     private function parseNotesMetadata(?SimpleXMLElement $noteElement = null, ?string $encoding = null): array
+=======
+    private function parseNotesMetadata(\SimpleXMLElement $noteElement = null, string $encoding = null): array
+>>>>>>> parent of c8b1139b (update Ui)
     {
         $notes = [];
 

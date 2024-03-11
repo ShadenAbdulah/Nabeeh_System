@@ -1,10 +1,14 @@
 <?php declare(strict_types = 1);
 namespace TheSeer\Tokenizer;
 
+<<<<<<< HEAD
 use function is_string;
 use function preg_split;
 use function token_get_all;
 use function token_name;
+=======
+use function var_dump;
+>>>>>>> parent of c8b1139b (update Ui)
 
 class Tokenizer {
 

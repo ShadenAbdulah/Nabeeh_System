@@ -21,7 +21,11 @@ class HttpTransportException extends TransportException
 {
     private ResponseInterface $response;
 
+<<<<<<< HEAD
     public function __construct(string $message, ResponseInterface $response, int $code = 0, ?Throwable $previous = null)
+=======
+    public function __construct(string $message, ResponseInterface $response, int $code = 0, \Throwable $previous = null)
+>>>>>>> parent of c8b1139b (update Ui)
     {
         parent::__construct($message, $code, $previous);
 

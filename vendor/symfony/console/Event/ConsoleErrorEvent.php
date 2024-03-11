@@ -28,7 +28,11 @@ final class ConsoleErrorEvent extends ConsoleEvent
     private Throwable $error;
     private int $exitCode;
 
+<<<<<<< HEAD
     public function __construct(InputInterface $input, OutputInterface $output, Throwable $error, ?Command $command = null)
+=======
+    public function __construct(InputInterface $input, OutputInterface $output, \Throwable $error, Command $command = null)
+>>>>>>> parent of c8b1139b (update Ui)
     {
         parent::__construct($command, $input, $output);
 

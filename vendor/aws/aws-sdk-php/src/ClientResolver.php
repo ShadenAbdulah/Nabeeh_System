@@ -1181,10 +1181,6 @@ class ClientResolver
             );
         }
 
-        if (!empty($value)) {
-            $args['config']['configured_endpoint_url'] = true;
-        }
-
         return $value;
     }
   

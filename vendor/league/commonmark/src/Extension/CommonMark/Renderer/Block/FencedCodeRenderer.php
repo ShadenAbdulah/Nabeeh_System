@@ -43,6 +43,7 @@ final class FencedCodeRenderer implements NodeRendererInterface, XmlNodeRenderer
         $attrs = $node->data->getData('attributes');
 
         $infoWords = $node->getInfoWords();
+<<<<<<< HEAD
         if (count($infoWords) !== 0 && $infoWords[0] !== '') {
             $class = $infoWords[0];
             if (! str_starts_with($class, 'language-')) {
@@ -50,6 +51,10 @@ final class FencedCodeRenderer implements NodeRendererInterface, XmlNodeRenderer
             }
 
             $attrs->append('class', $class);
+=======
+        if (\count($infoWords) !== 0 && $infoWords[0] !== '') {
+            $attrs->append('class', 'language-' . $infoWords[0]);
+>>>>>>> parent of c8b1139b (update Ui)
         }
 
         return new HtmlElement(

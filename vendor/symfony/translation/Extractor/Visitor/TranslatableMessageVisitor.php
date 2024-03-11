@@ -27,11 +27,6 @@ final class TranslatableMessageVisitor extends AbstractVisitor implements NodeVi
 
     public function enterNode(Node $node): ?Node
     {
-        return null;
-    }
-
-    public function leaveNode(Node $node): ?Node
-    {
         if (!$node instanceof Node\Expr\New_) {
             return null;
         }
@@ -40,7 +35,11 @@ final class TranslatableMessageVisitor extends AbstractVisitor implements NodeVi
             return null;
         }
 
+<<<<<<< HEAD
         if (!in_array('TranslatableMessage', $className->getParts(), true)) {
+=======
+        if (!\in_array('TranslatableMessage', $className->parts, true)) {
+>>>>>>> parent of c8b1139b (update Ui)
             return null;
         }
 
@@ -56,6 +55,11 @@ final class TranslatableMessageVisitor extends AbstractVisitor implements NodeVi
             $this->addMessageToCatalogue($message, $domain, $node->getStartLine());
         }
 
+        return null;
+    }
+
+    public function leaveNode(Node $node): ?Node
+    {
         return null;
     }
 

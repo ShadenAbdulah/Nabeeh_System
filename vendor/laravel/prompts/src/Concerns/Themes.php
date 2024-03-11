@@ -8,7 +8,6 @@ use Laravel\Prompts\MultiSearchPrompt;
 use Laravel\Prompts\MultiSelectPrompt;
 use Laravel\Prompts\Note;
 use Laravel\Prompts\PasswordPrompt;
-use Laravel\Prompts\PausePrompt;
 use Laravel\Prompts\Progress;
 use Laravel\Prompts\Prompt;
 use Laravel\Prompts\SearchPrompt;
@@ -22,7 +21,6 @@ use Laravel\Prompts\Themes\Default\MultiSearchPromptRenderer;
 use Laravel\Prompts\Themes\Default\MultiSelectPromptRenderer;
 use Laravel\Prompts\Themes\Default\NoteRenderer;
 use Laravel\Prompts\Themes\Default\PasswordPromptRenderer;
-use Laravel\Prompts\Themes\Default\PausePromptRenderer;
 use Laravel\Prompts\Themes\Default\ProgressRenderer;
 use Laravel\Prompts\Themes\Default\SearchPromptRenderer;
 use Laravel\Prompts\Themes\Default\SelectPromptRenderer;
@@ -50,7 +48,6 @@ trait Themes
             SelectPrompt::class => SelectPromptRenderer::class,
             MultiSelectPrompt::class => MultiSelectPromptRenderer::class,
             ConfirmPrompt::class => ConfirmPromptRenderer::class,
-            PausePrompt::class => PausePromptRenderer::class,
             SearchPrompt::class => SearchPromptRenderer::class,
             MultiSearchPrompt::class => MultiSearchPromptRenderer::class,
             SuggestPrompt::class => SuggestPromptRenderer::class,

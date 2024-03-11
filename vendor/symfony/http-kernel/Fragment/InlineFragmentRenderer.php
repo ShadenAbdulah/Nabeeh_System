@@ -32,7 +32,7 @@ class InlineFragmentRenderer extends RoutableFragmentRenderer
     private HttpKernelInterface $kernel;
     private ?EventDispatcherInterface $dispatcher;
 
-    public function __construct(HttpKernelInterface $kernel, ?EventDispatcherInterface $dispatcher = null)
+    public function __construct(HttpKernelInterface $kernel, EventDispatcherInterface $dispatcher = null)
     {
         $this->kernel = $kernel;
         $this->dispatcher = $dispatcher;

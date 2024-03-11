@@ -34,7 +34,7 @@ abstract class AbstractNode implements Countable
     private readonly ?AbstractNode $parent;
     private string $id;
 
-    public function __construct(string $name, ?self $parent = null)
+    public function __construct(string $name, self $parent = null)
     {
         if (str_ends_with($name, DIRECTORY_SEPARATOR)) {
             $name = substr($name, 0, -1);
@@ -132,7 +132,7 @@ abstract class AbstractNode implements Countable
     {
         return Percentage::fromFractionAndTotal(
             $this->numberOfExecutedBranches(),
-            $this->numberOfExecutableBranches(),
+            $this->numberOfExecutableBranches()
         );
     }
 
@@ -140,7 +140,7 @@ abstract class AbstractNode implements Countable
     {
         return Percentage::fromFractionAndTotal(
             $this->numberOfExecutedPaths(),
-            $this->numberOfExecutablePaths(),
+            $this->numberOfExecutablePaths()
         );
     }
 

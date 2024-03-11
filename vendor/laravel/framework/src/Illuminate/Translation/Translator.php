@@ -161,9 +161,9 @@ class Translator extends NamespacedItemResolver implements TranslatorContract
             // the translator was instantiated. Then, we can load the lines and return.
             $locales = $fallback ? $this->localeArray($locale) : [$locale];
 
-            foreach ($locales as $languageLineLocale) {
+            foreach ($locales as $locale) {
                 if (! is_null($line = $this->getLine(
-                    $namespace, $group, $languageLineLocale, $item, $replace
+                    $namespace, $group, $locale, $item, $replace
                 ))) {
                     return $line;
                 }

@@ -29,7 +29,11 @@ class MissingMandatoryParametersException extends \InvalidArgumentException impl
      * @param string[] $missingParameters
      * @param int      $code
      */
+<<<<<<< HEAD
     public function __construct(string $routeName = '', $missingParameters = null, $code = 0, ?Throwable $previous = null)
+=======
+    public function __construct(string $routeName = '', $missingParameters = null, $code = 0, \Throwable $previous = null)
+>>>>>>> parent of c8b1139b (update Ui)
     {
         if (is_array($missingParameters)) {
             $this->routeName = $routeName;

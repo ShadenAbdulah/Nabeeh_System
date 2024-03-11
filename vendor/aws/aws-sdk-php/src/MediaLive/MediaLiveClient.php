@@ -133,7 +133,5 @@ use Aws\AwsClient;
  * @method \GuzzleHttp\Promise\Promise updateMultiplexProgramAsync(array $args = [])
  * @method \Aws\Result updateReservation(array $args = [])
  * @method \GuzzleHttp\Promise\Promise updateReservationAsync(array $args = [])
- * @method \Aws\Result restartChannelPipelines(array $args = [])
- * @method \GuzzleHttp\Promise\Promise restartChannelPipelinesAsync(array $args = [])
  */
 class MediaLiveClient extends AwsClient {}

@@ -113,8 +113,12 @@ class ClassNotFoundErrorEnhancer implements ErrorEnhancerInterface
 
     private function findClassInPath(string $path, string $class, string $prefix): array
     {
+<<<<<<< HEAD
         $path = realpath($path.'/'.strtr($prefix, '\\_', '//')) ?: realpath($path.'/'. dirname(strtr($prefix, '\\_', '//'))) ?: realpath($path);
         if (!$path || !is_dir($path)) {
+=======
+        if (!$path = realpath($path.'/'.strtr($prefix, '\\_', '//')) ?: realpath($path.'/'.\dirname(strtr($prefix, '\\_', '//'))) ?: realpath($path)) {
+>>>>>>> parent of c8b1139b (update Ui)
             return [];
         }
 

@@ -75,31 +75,6 @@ class PendingBatch
     }
 
     /**
-     * Add a callback to be executed when the batch is stored.
-     *
-     * @param  callable  $callback
-     * @return $this
-     */
-    public function before($callback)
-    {
-        $this->options['before'][] = $callback instanceof Closure
-            ? new SerializableClosure($callback)
-            : $callback;
-
-        return $this;
-    }
-
-    /**
-     * Get the "before" callbacks that have been registered with the pending batch.
-     *
-     * @return array
-     */
-    public function beforeCallbacks()
-    {
-        return $this->options['before'] ?? [];
-    }
-
-    /**
      * Add a callback to be executed after a job in the batch have executed successfully.
      *
      * @param  callable  $callback
@@ -307,7 +282,7 @@ class PendingBatch
         $repository = $this->container->make(BatchRepository::class);
 
         try {
-            $batch = $this->store($repository);
+            $batch = $repository->store($this);
 
             $batch = $batch->add($this->jobs);
         } catch (Throwable $e) {
@@ -334,7 +309,7 @@ class PendingBatch
     {
         $repository = $this->container->make(BatchRepository::class);
 
-        $batch = $this->store($repository);
+        $batch = $repository->store($this);
 
         if ($batch) {
             $this->container->terminating(function () use ($batch) {
@@ -391,6 +366,7 @@ class PendingBatch
     {
         return ! value($boolean) ? $this->dispatch() : null;
     }
+<<<<<<< HEAD
 
     /**
      * Store the batch using the given repository.
@@ -414,4 +390,6 @@ class PendingBatch
 
         return $batch;
     }
+=======
+>>>>>>> parent of c8b1139b (update Ui)
 }

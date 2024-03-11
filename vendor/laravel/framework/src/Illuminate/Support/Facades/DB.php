@@ -71,10 +71,16 @@ use PDOStatement;
  * @method static float totalQueryDuration()
  * @method static void resetTotalQueryDuration()
  * @method static void reconnectIfMissingConnection()
+<<<<<<< HEAD
  * @method static Connection beforeStartingTransaction(Closure $callback)
  * @method static Connection beforeExecuting(Closure $callback)
  * @method static void listen(Closure $callback)
  * @method static Expression raw(mixed $value)
+=======
+ * @method static \Illuminate\Database\Connection beforeExecuting(\Closure $callback)
+ * @method static void listen(\Closure $callback)
+ * @method static \Illuminate\Contracts\Database\Query\Expression raw(mixed $value)
+>>>>>>> parent of c8b1139b (update Ui)
  * @method static string escape(string|float|int|bool|null $value, bool $binary = false)
  * @method static bool hasModifiedRecords()
  * @method static void recordsHaveBeenModified(bool $value = true)

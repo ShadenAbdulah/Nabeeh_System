@@ -51,7 +51,11 @@ class BinaryFileResponse extends Response
      * @param bool                $autoEtag           Whether the ETag header should be automatically set
      * @param bool                $autoLastModified   Whether the Last-Modified header should be automatically set
      */
+<<<<<<< HEAD
     public function __construct(SplFileInfo|string $file, int $status = 200, array $headers = [], bool $public = true, ?string $contentDisposition = null, bool $autoEtag = false, bool $autoLastModified = true)
+=======
+    public function __construct(\SplFileInfo|string $file, int $status = 200, array $headers = [], bool $public = true, string $contentDisposition = null, bool $autoEtag = false, bool $autoLastModified = true)
+>>>>>>> parent of c8b1139b (update Ui)
     {
         parent::__construct(null, $status, $headers);
 
@@ -69,7 +73,11 @@ class BinaryFileResponse extends Response
      *
      * @throws FileException
      */
+<<<<<<< HEAD
     public function setFile(SplFileInfo|string $file, ?string $contentDisposition = null, bool $autoEtag = false, bool $autoLastModified = true): static
+=======
+    public function setFile(\SplFileInfo|string $file, string $contentDisposition = null, bool $autoEtag = false, bool $autoLastModified = true): static
+>>>>>>> parent of c8b1139b (update Ui)
     {
         if (!$file instanceof File) {
             if ($file instanceof SplFileInfo) {

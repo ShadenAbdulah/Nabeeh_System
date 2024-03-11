@@ -955,6 +955,7 @@ class LazyCollection implements CanBeEscapedWhenCastToString, Enumerable
     }
 
     /**
+<<<<<<< HEAD
      * Select specific values from the items within the collection.
      *
      * @param Enumerable<array-key, TKey>|array<array-key, TKey>|string  $keys
@@ -990,6 +991,8 @@ class LazyCollection implements CanBeEscapedWhenCastToString, Enumerable
     }
 
     /**
+=======
+>>>>>>> parent of c8b1139b (update Ui)
      * Push all of the given items onto the collection.
      *
      * @param  iterable<array-key, TValue>  $source
@@ -1776,8 +1779,6 @@ class LazyCollection implements CanBeEscapedWhenCastToString, Enumerable
      */
     protected function now()
     {
-        return class_exists(Carbon::class)
-            ? Carbon::now()->timestamp
-            : time();
+        return Carbon::now()->timestamp;
     }
 }

@@ -82,7 +82,11 @@ class Cookie
      * @param self::SAMESITE_*|''|null $sameSite
      * @param bool                     $partitioned
      */
+<<<<<<< HEAD
     public static function create(string $name, ?string $value = null, int|string|DateTimeInterface $expire = 0, ?string $path = '/', ?string $domain = null, ?bool $secure = null, bool $httpOnly = true, bool $raw = false, ?string $sameSite = self::SAMESITE_LAX /* , bool $partitioned = false */): self
+=======
+    public static function create(string $name, string $value = null, int|string|\DateTimeInterface $expire = 0, ?string $path = '/', string $domain = null, bool $secure = null, bool $httpOnly = true, bool $raw = false, ?string $sameSite = self::SAMESITE_LAX /* , bool $partitioned = false */): self
+>>>>>>> parent of c8b1139b (update Ui)
     {
         $partitioned = 9 < func_num_args() ? func_get_arg(9) : false;
 
@@ -102,7 +106,11 @@ class Cookie
      *
      * @throws InvalidArgumentException
      */
+<<<<<<< HEAD
     public function __construct(string $name, ?string $value = null, int|string|DateTimeInterface $expire = 0, ?string $path = '/', ?string $domain = null, ?bool $secure = null, bool $httpOnly = true, bool $raw = false, ?string $sameSite = self::SAMESITE_LAX, bool $partitioned = false)
+=======
+    public function __construct(string $name, string $value = null, int|string|\DateTimeInterface $expire = 0, ?string $path = '/', string $domain = null, bool $secure = null, bool $httpOnly = true, bool $raw = false, ?string $sameSite = self::SAMESITE_LAX, bool $partitioned = false)
+>>>>>>> parent of c8b1139b (update Ui)
     {
         // from PHP source code
         if ($raw && false !== strpbrk($name, self::RESERVED_CHARS_LIST)) {

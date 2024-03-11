@@ -24,7 +24,11 @@ use Throwable;
  */
 class ExceptionDataCollector extends DataCollector
 {
+<<<<<<< HEAD
     public function collect(Request $request, Response $response, ?Throwable $exception = null): void
+=======
+    public function collect(Request $request, Response $response, \Throwable $exception = null): void
+>>>>>>> parent of c8b1139b (update Ui)
     {
         if (null !== $exception) {
             $this->data = [

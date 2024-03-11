@@ -12,7 +12,6 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Traits\Macroable;
 use SplFileInfo;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
-use Symfony\Component\HttpFoundation\StreamedJsonResponse;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use Throwable;
 
@@ -133,6 +132,7 @@ class ResponseFactory implements FactoryContract
     }
 
     /**
+<<<<<<< HEAD
      * Create a new streamed response instance.
      *
      * @param  array  $data
@@ -147,6 +147,8 @@ class ResponseFactory implements FactoryContract
     }
 
     /**
+=======
+>>>>>>> parent of c8b1139b (update Ui)
      * Create a new streamed response instance as a file download.
      *
      * @param  callable  $callback

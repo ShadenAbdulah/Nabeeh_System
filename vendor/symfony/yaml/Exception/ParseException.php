@@ -33,7 +33,11 @@ class ParseException extends RuntimeException
      * @param string|null $snippet    The snippet of code near the problem
      * @param string|null $parsedFile The file name where the error occurred
      */
+<<<<<<< HEAD
     public function __construct(string $message, int $parsedLine = -1, ?string $snippet = null, ?string $parsedFile = null, ?Throwable $previous = null)
+=======
+    public function __construct(string $message, int $parsedLine = -1, string $snippet = null, string $parsedFile = null, \Throwable $previous = null)
+>>>>>>> parent of c8b1139b (update Ui)
     {
         $this->parsedFile = $parsedFile;
         $this->parsedLine = $parsedLine;

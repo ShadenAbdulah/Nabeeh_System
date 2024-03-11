@@ -99,7 +99,7 @@ final class FFICaster
         return [Caster::PREFIX_VIRTUAL.'returnType' => $returnType];
     }
 
-    private static function castFFIPointer(Stub $stub, CType $type, ?CData $data = null): array
+    private static function castFFIPointer(Stub $stub, CType $type, CData $data = null): array
     {
         $ptr = $type->getPointerType();
 
@@ -134,7 +134,7 @@ final class FFICaster
         return $stub;
     }
 
-    private static function castFFIStructLike(CType $type, ?CData $data = null): array
+    private static function castFFIStructLike(CType $type, CData $data = null): array
     {
         $isUnion = ($type->getAttributes() & CType::ATTR_UNION) === CType::ATTR_UNION;
 

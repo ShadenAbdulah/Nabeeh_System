@@ -2,8 +2,6 @@
 
 use Illuminate\Support\Facades\Facade;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Translation\TranslationServiceProvider as BaseTranslationServiceProvider;
-use LaravelLang\JsonFallback\TranslationServiceProvider as JsonTranslationServiceProvider;
 
 return [
 
@@ -85,7 +83,7 @@ return [
     |
     */
 
-    'locale' => 'ar',
+    'locale' => 'en',
 
     /*
     |--------------------------------------------------------------------------
@@ -98,7 +96,7 @@ return [
     |
     */
 
-    'fallback_locale' => 'ar',
+    'fallback_locale' => 'en',
 
     /*
     |--------------------------------------------------------------------------
@@ -158,14 +156,23 @@ return [
     */
 
     'providers' => ServiceProvider::defaultProviders()->merge([
+        /*
+         * Package Service Providers...
+         */
 
+        /*
+         * Application Service Providers...
+         */
         App\Providers\AppServiceProvider::class,
         App\Providers\AuthServiceProvider::class,
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+<<<<<<< HEAD
     ])->replace([
         BaseTranslationServiceProvider::class => JsonTranslationServiceProvider::class,
+=======
+>>>>>>> parent of c8b1139b (update Ui)
     ])->toArray(),
 
     /*

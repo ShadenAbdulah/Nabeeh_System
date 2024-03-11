@@ -47,7 +47,7 @@ class DebugHandlersListener implements EventSubscriberInterface
      * @param bool          $webMode
      * @param callable|null $exceptionHandler A handler that must support \Throwable instances that will be called on Exception
      */
-    public function __construct(?callable $exceptionHandler = null, bool|LoggerInterface|null $webMode = null)
+    public function __construct(callable $exceptionHandler = null, bool|LoggerInterface $webMode = null)
     {
         if ($webMode instanceof LoggerInterface) {
             // BC with Symfony 5
@@ -64,7 +64,7 @@ class DebugHandlersListener implements EventSubscriberInterface
     /**
      * Configures the error handler.
      */
-    public function configure(?object $event = null): void
+    public function configure(object $event = null): void
     {
         if ($event instanceof ConsoleEvent && $this->webMode) {
             return;
