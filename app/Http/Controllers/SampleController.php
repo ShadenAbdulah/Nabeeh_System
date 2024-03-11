@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Sample;
 use App\Models\Test;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
 
 class SampleController extends Controller
@@ -38,13 +37,13 @@ class SampleController extends Controller
 
         $sample = Sample::create($attr);
 
-        $userFolderPath = 'samples_folders/' . $sample->id;
+        $userFolderPath = 'system_sample/' . $sample->id;
 
         if (!Storage::disk('s3')->exists($userFolderPath)) {
             Storage::disk('s3')->makeDirectory($userFolderPath);
         }
 
-        return Redirect::route('object.train', ['test' => Test::first(), 'sample' => $sample]);
+        return route('object.train', ['test' => Test::first(), 'sample' => $sample]);
     }
 
     /**
@@ -68,6 +67,7 @@ class SampleController extends Controller
      */
     public function edit(Sample $sample)
     {
+        dd($sample);
         return view('layouts.train', ['test' => Test::first(), 'sample' => $sample]);
     }
 
