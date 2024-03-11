@@ -68,7 +68,7 @@ class SampleController extends Controller
      */
     public function edit(Sample $sample)
     {
-        return view('train', ['test' => Test::first(), 'sample' => $sample]);
+        return view('layouts.train', ['test' => Test::first(), 'sample' => $sample]);
     }
 
     /**

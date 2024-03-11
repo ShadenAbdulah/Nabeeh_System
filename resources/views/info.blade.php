@@ -97,8 +97,8 @@
                                 </g>
                             </svg>
                         </x-primary-button>
-                        </a>
                     </div>
+                </div>
             </form>
         </div>
     </div>
