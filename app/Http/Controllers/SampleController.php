@@ -24,16 +24,11 @@ class SampleController extends Controller
     {
         $attr =
             request()->validate([
-                'name' => 'required',
-                'age' => 'required',
+                'age' => 'required|integer',
                 'gender' => 'required',
-                'type' => 'required',
-                'another_disorder' => 'required_if:type,ADHD',
-                'another_disorder_name' => 'required_if:another_disorder,yes',
-                'supervisor_name' => 'required',
             ]);
 
-        $attr['name'] = $request->input('name');
+        $attr['name'] = ($request->input('name')) ? $request->input('name') : null;
 
         $sample = Sample::create($attr);
 
@@ -67,7 +62,7 @@ class SampleController extends Controller
      */
     public function edit(Sample $sample)
     {
-        dd($sample);
+//        dd($sample);
         return view('layouts.train', ['test' => Test::first(), 'sample' => $sample]);
     }
 
