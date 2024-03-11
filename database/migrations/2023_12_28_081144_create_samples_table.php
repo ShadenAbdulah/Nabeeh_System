@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration {
@@ -16,10 +17,6 @@ return new class extends Migration {
             $table->string('name');
             $table->integer('age');
             $table->string('gender');
-            $table->string('type');
-            $table->string('another_disorder')->nullable();
-            $table->string('another_disorder_name')->nullable();
-            $table->string('supervisor_name');
             $table->timestamps();
         });
     }
