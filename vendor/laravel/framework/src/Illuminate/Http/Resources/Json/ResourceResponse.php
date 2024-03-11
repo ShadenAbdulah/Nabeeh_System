@@ -4,6 +4,8 @@ namespace Illuminate\Http\Resources\Json;
 
 use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 
 class ResourceResponse implements Responsable
@@ -29,8 +31,8 @@ class ResourceResponse implements Responsable
     /**
      * Create an HTTP response that represents the object.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\JsonResponse
+     * @param  Request  $request
+     * @return JsonResponse
      */
     public function toResponse($request)
     {
@@ -53,7 +55,7 @@ class ResourceResponse implements Responsable
     /**
      * Wrap the given data if necessary.
      *
-     * @param  \Illuminate\Support\Collection|array  $data
+     * @param Collection|array  $data
      * @param  array  $with
      * @param  array  $additional
      * @return array

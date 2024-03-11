@@ -12,9 +12,9 @@ class ConfirmedTwoFactorAuthenticationController extends Controller
     /**
      * Enable two factor authentication for the user.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Laravel\Fortify\Actions\ConfirmTwoFactorAuthentication  $confirm
-     * @return \Laravel\Fortify\Contracts\TwoFactorConfirmedResponse
+     * @param Request $request
+     * @param ConfirmTwoFactorAuthentication $confirm
+     * @return TwoFactorConfirmedResponse
      */
     public function store(Request $request, ConfirmTwoFactorAuthentication $confirm)
     {

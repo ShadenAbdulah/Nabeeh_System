@@ -5,6 +5,8 @@ namespace Illuminate\Redis\Connections;
 use Redis;
 use RuntimeException;
 use UnexpectedValueException;
+use function lzf_compress;
+use function zstd_compress;
 
 trait PacksPhpRedisValues
 {
@@ -52,7 +54,7 @@ trait PacksPhpRedisValues
                 }
 
                 $processor = function ($value) {
-                    return \lzf_compress($this->client->_serialize($value));
+                    return lzf_compress($this->client->_serialize($value));
                 };
             } elseif ($this->supportsZstd() && $this->zstdCompressed()) {
                 if (! function_exists('zstd_compress')) {
@@ -62,7 +64,7 @@ trait PacksPhpRedisValues
                 $compressionLevel = $this->client->getOption(Redis::OPT_COMPRESSION_LEVEL);
 
                 $processor = function ($value) use ($compressionLevel) {
-                    return \zstd_compress(
+                    return zstd_compress(
                         $this->client->_serialize($value),
                         $compressionLevel === 0 ? Redis::COMPRESSION_ZSTD_DEFAULT : $compressionLevel
                     );

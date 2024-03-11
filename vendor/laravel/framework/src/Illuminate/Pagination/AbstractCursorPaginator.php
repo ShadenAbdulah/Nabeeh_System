@@ -3,9 +3,11 @@
 namespace Illuminate\Pagination;
 
 use ArrayAccess;
+use ArrayIterator;
 use Closure;
 use Exception;
 use Illuminate\Contracts\Support\Htmlable;
+use Illuminate\Contracts\View\Factory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -14,10 +16,11 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Illuminate\Support\Traits\ForwardsCalls;
 use Illuminate\Support\Traits\Tappable;
+use stdClass;
 use Traversable;
 
 /**
- * @mixin \Illuminate\Support\Collection
+ * @mixin Collection
  */
 abstract class AbstractCursorPaginator implements Htmlable
 {
@@ -26,7 +29,7 @@ abstract class AbstractCursorPaginator implements Htmlable
     /**
      * All of the items being paginated.
      *
-     * @var \Illuminate\Support\Collection
+     * @var Collection
      */
     protected $items;
 
@@ -68,7 +71,7 @@ abstract class AbstractCursorPaginator implements Htmlable
     /**
      * The current cursor.
      *
-     * @var \Illuminate\Pagination\Cursor|null
+     * @var Cursor|null
      */
     protected $cursor;
 
@@ -89,14 +92,14 @@ abstract class AbstractCursorPaginator implements Htmlable
     /**
      * The current cursor resolver callback.
      *
-     * @var \Closure
+     * @var Closure
      */
     protected static $currentCursorResolver;
 
     /**
      * Get the URL for a given cursor.
      *
-     * @param  \Illuminate\Pagination\Cursor|null  $cursor
+     * @param Cursor|null  $cursor
      * @return string
      */
     public function url($cursor)
@@ -147,7 +150,7 @@ abstract class AbstractCursorPaginator implements Htmlable
     /**
      * Get the "cursor" that points to the previous set of items.
      *
-     * @return \Illuminate\Pagination\Cursor|null
+     * @return Cursor|null
      */
     public function previousCursor()
     {
@@ -166,7 +169,7 @@ abstract class AbstractCursorPaginator implements Htmlable
     /**
      * Get the "cursor" that points to the next set of items.
      *
-     * @return \Illuminate\Pagination\Cursor|null
+     * @return Cursor|null
      */
     public function nextCursor()
     {
@@ -185,9 +188,9 @@ abstract class AbstractCursorPaginator implements Htmlable
     /**
      * Get a cursor instance for the given item.
      *
-     * @param  \ArrayAccess|\stdClass  $item
+     * @param ArrayAccess|stdClass  $item
      * @param  bool  $isNext
-     * @return \Illuminate\Pagination\Cursor
+     * @return Cursor
      */
     public function getCursorForItem($item, $isNext = true)
     {
@@ -197,10 +200,10 @@ abstract class AbstractCursorPaginator implements Htmlable
     /**
      * Get the cursor parameters for a given object.
      *
-     * @param  \ArrayAccess|\stdClass  $item
+     * @param ArrayAccess|stdClass  $item
      * @return array
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function getParametersForItem($item)
     {
@@ -231,7 +234,7 @@ abstract class AbstractCursorPaginator implements Htmlable
     /**
      * Get the cursor parameter value from a pivot model if applicable.
      *
-     * @param  \ArrayAccess|\stdClass  $item
+     * @param ArrayAccess|stdClass  $item
      * @param  string  $parameterName
      * @return string|null
      */
@@ -419,7 +422,7 @@ abstract class AbstractCursorPaginator implements Htmlable
     /**
      * Get the current cursor being paginated.
      *
-     * @return \Illuminate\Pagination\Cursor|null
+     * @return Cursor|null
      */
     public function cursor()
     {
@@ -487,7 +490,7 @@ abstract class AbstractCursorPaginator implements Htmlable
      * Resolve the current cursor or return the default value.
      *
      * @param  string  $cursorName
-     * @return \Illuminate\Pagination\Cursor|null
+     * @return Cursor|null
      */
     public static function resolveCurrentCursor($cursorName = 'cursor', $default = null)
     {
@@ -501,7 +504,7 @@ abstract class AbstractCursorPaginator implements Htmlable
     /**
      * Set the current cursor resolver callback.
      *
-     * @param  \Closure  $resolver
+     * @param Closure $resolver
      * @return void
      */
     public static function currentCursorResolver(Closure $resolver)
@@ -512,7 +515,7 @@ abstract class AbstractCursorPaginator implements Htmlable
     /**
      * Get an instance of the view factory from the resolver.
      *
-     * @return \Illuminate\Contracts\View\Factory
+     * @return Factory
      */
     public static function viewFactory()
     {
@@ -522,7 +525,7 @@ abstract class AbstractCursorPaginator implements Htmlable
     /**
      * Get an iterator for the items.
      *
-     * @return \ArrayIterator
+     * @return ArrayIterator
      */
     public function getIterator(): Traversable
     {
@@ -562,7 +565,7 @@ abstract class AbstractCursorPaginator implements Htmlable
     /**
      * Get the paginator's underlying collection.
      *
-     * @return \Illuminate\Support\Collection
+     * @return Collection
      */
     public function getCollection()
     {
@@ -572,7 +575,7 @@ abstract class AbstractCursorPaginator implements Htmlable
     /**
      * Set the paginator's underlying collection.
      *
-     * @param  \Illuminate\Support\Collection  $collection
+     * @param Collection $collection
      * @return $this
      */
     public function setCollection(Collection $collection)

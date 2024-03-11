@@ -3,7 +3,9 @@
 namespace Illuminate\Support;
 
 use ArrayAccess;
+use Carbon\Exceptions\InvalidFormatException;
 use Closure;
+use Countable;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Traits\Conditionable;
 use Illuminate\Support\Traits\Macroable;
@@ -237,7 +239,7 @@ class Stringable implements JsonSerializable, ArrayAccess
     /**
      * Determine if the string is an exact match with the given value.
      *
-     * @param  \Illuminate\Support\Stringable|string  $value
+     * @param Stringable|string  $value
      * @return bool
      */
     public function exactly($value)
@@ -266,7 +268,7 @@ class Stringable implements JsonSerializable, ArrayAccess
      *
      * @param  string  $delimiter
      * @param  int  $limit
-     * @return \Illuminate\Support\Collection<int, string>
+     * @return Collection<int, string>
      */
     public function explode($delimiter, $limit = PHP_INT_MAX)
     {
@@ -279,7 +281,7 @@ class Stringable implements JsonSerializable, ArrayAccess
      * @param  string|int  $pattern
      * @param  int  $limit
      * @param  int  $flags
-     * @return \Illuminate\Support\Collection<int, string>
+     * @return Collection<int, string>
      */
     public function split($pattern, $limit = -1, $flags = 0)
     {
@@ -489,7 +491,7 @@ class Stringable implements JsonSerializable, ArrayAccess
      * Get the string matching the given pattern.
      *
      * @param  string  $pattern
-     * @return \Illuminate\Support\Collection
+     * @return Collection
      */
     public function matchAll($pattern)
     {
@@ -568,7 +570,7 @@ class Stringable implements JsonSerializable, ArrayAccess
     /**
      * Get the plural form of an English word.
      *
-     * @param  int|array|\Countable  $count
+     * @param  int|array|Countable  $count
      * @return static
      */
     public function plural($count = 2)
@@ -579,7 +581,7 @@ class Stringable implements JsonSerializable, ArrayAccess
     /**
      * Pluralize the last word of an English, studly caps case string.
      *
-     * @param  int|array|\Countable  $count
+     * @param  int|array|Countable  $count
      * @return static
      */
     public function pluralStudly($count = 2)
@@ -721,7 +723,7 @@ class Stringable implements JsonSerializable, ArrayAccess
      * Replace the patterns matching the given regular expression.
      *
      * @param  array|string  $pattern
-     * @param  \Closure|string  $replace
+     * @param Closure|string  $replace
      * @param  int  $limit
      * @return static
      */
@@ -738,7 +740,7 @@ class Stringable implements JsonSerializable, ArrayAccess
      * Parse input from a string to a collection, according to a format.
      *
      * @param  string  $format
-     * @return \Illuminate\Support\Collection
+     * @return Collection
      */
     public function scan($format)
     {
@@ -1005,7 +1007,7 @@ class Stringable implements JsonSerializable, ArrayAccess
     /**
      * Split a string by uppercase characters.
      *
-     * @return \Illuminate\Support\Collection<int, string>
+     * @return Collection<int, string>
      */
     public function ucsplit()
     {
@@ -1239,7 +1241,7 @@ class Stringable implements JsonSerializable, ArrayAccess
     /**
      * Convert the string into a `HtmlString` instance.
      *
-     * @return \Illuminate\Support\HtmlString
+     * @return HtmlString
      */
     public function toHtmlString()
     {
@@ -1349,9 +1351,9 @@ class Stringable implements JsonSerializable, ArrayAccess
      *
      * @param  string|null  $format
      * @param  string|null  $tz
-     * @return \Illuminate\Support\Carbon
+     * @return Carbon
      *
-     * @throws \Carbon\Exceptions\InvalidFormatException
+     * @throws InvalidFormatException
      */
     public function toDate($format = null, $tz = null)
     {

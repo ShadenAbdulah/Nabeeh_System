@@ -5,6 +5,7 @@ namespace Illuminate\Queue\Failed;
 use Closure;
 use DateTimeInterface;
 use Illuminate\Support\Facades\Date;
+use Throwable;
 
 class FileFailedJobProvider implements CountableFailedJobProvider, FailedJobProviderInterface, PrunableFailedJobProvider
 {
@@ -25,7 +26,7 @@ class FileFailedJobProvider implements CountableFailedJobProvider, FailedJobProv
     /**
      * The lock provider resolver.
      *
-     * @var \Closure
+     * @var Closure
      */
     protected $lockProviderResolver;
 
@@ -34,7 +35,7 @@ class FileFailedJobProvider implements CountableFailedJobProvider, FailedJobProv
      *
      * @param  string  $path
      * @param  int  $limit
-     * @param  \Closure|null  $lockProviderResolver
+     * @param Closure|null  $lockProviderResolver
      * @return void
      */
     public function __construct($path, $limit = 100, ?Closure $lockProviderResolver = null)
@@ -50,7 +51,7 @@ class FileFailedJobProvider implements CountableFailedJobProvider, FailedJobProv
      * @param  string  $connection
      * @param  string  $queue
      * @param  string  $payload
-     * @param  \Throwable  $exception
+     * @param  Throwable  $exception
      * @return int|null
      */
     public function log($connection, $queue, $payload, $exception)
@@ -146,7 +147,7 @@ class FileFailedJobProvider implements CountableFailedJobProvider, FailedJobProv
     /**
      * Prune all of the entries older than the given date.
      *
-     * @param  \DateTimeInterface  $before
+     * @param DateTimeInterface $before
      * @return int
      */
     public function prune(DateTimeInterface $before)
@@ -165,7 +166,7 @@ class FileFailedJobProvider implements CountableFailedJobProvider, FailedJobProv
     /**
      * Execute the given callback while holding a lock.
      *
-     * @param  \Closure  $callback
+     * @param Closure $callback
      * @return mixed
      */
     protected function lock(Closure $callback)

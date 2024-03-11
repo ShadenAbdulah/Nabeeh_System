@@ -11,6 +11,7 @@
 
 namespace Symfony\Component\Translation;
 
+use Locale;
 use Symfony\Component\Routing\RequestContext;
 use Symfony\Contracts\Translation\LocaleAwareInterface;
 
@@ -34,8 +35,8 @@ class LocaleSwitcher implements LocaleAwareInterface
 
     public function setLocale(string $locale): void
     {
-        if (class_exists(\Locale::class)) {
-            \Locale::setDefault($locale);
+        if (class_exists(Locale::class)) {
+            Locale::setDefault($locale);
         }
         $this->locale = $locale;
         $this->requestContext?->setParameter('_locale', $locale);

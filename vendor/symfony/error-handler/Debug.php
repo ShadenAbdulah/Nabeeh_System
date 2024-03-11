@@ -11,6 +11,11 @@
 
 namespace Symfony\Component\ErrorHandler;
 
+use function in_array;
+use function ini_get;
+use const FILTER_VALIDATE_BOOL;
+use const PHP_SAPI;
+
 /**
  * Registers all the debug tools.
  *
@@ -22,9 +27,9 @@ class Debug
     {
         error_reporting(-1);
 
-        if (!\in_array(\PHP_SAPI, ['cli', 'phpdbg', 'embed'], true)) {
+        if (!in_array(PHP_SAPI, ['cli', 'phpdbg', 'embed'], true)) {
             ini_set('display_errors', 0);
-        } elseif (!filter_var(\ini_get('log_errors'), \FILTER_VALIDATE_BOOL) || \ini_get('error_log')) {
+        } elseif (!filter_var(ini_get('log_errors'), FILTER_VALIDATE_BOOL) || ini_get('error_log')) {
             // CLI - display errors only if they're not already logged to STDERR
             ini_set('display_errors', 1);
         }

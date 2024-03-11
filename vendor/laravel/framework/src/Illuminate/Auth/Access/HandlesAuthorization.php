@@ -9,7 +9,7 @@ trait HandlesAuthorization
      *
      * @param  string|null  $message
      * @param  mixed  $code
-     * @return \Illuminate\Auth\Access\Response
+     * @return Response
      */
     protected function allow($message = null, $code = null)
     {
@@ -21,7 +21,7 @@ trait HandlesAuthorization
      *
      * @param  string|null  $message
      * @param  mixed|null  $code
-     * @return \Illuminate\Auth\Access\Response
+     * @return Response
      */
     protected function deny($message = null, $code = null)
     {
@@ -34,7 +34,7 @@ trait HandlesAuthorization
      * @param  int  $status
      * @param  string|null  $message
      * @param  int|null  $code
-     * @return \Illuminate\Auth\Access\Response
+     * @return Response
      */
     public function denyWithStatus($status, $message = null, $code = null)
     {
@@ -46,7 +46,7 @@ trait HandlesAuthorization
      *
      * @param  string|null  $message
      * @param  int|null  $code
-     * @return \Illuminate\Auth\Access\Response
+     * @return Response
      */
     public function denyAsNotFound($message = null, $code = null)
     {

@@ -11,6 +11,8 @@
 
 namespace Symfony\Component\Console\Formatter;
 
+use InvalidArgumentException;
+
 /**
  * Formatter interface for console output.
  *
@@ -45,7 +47,7 @@ interface OutputFormatterInterface
     /**
      * Gets style options from style with specified name.
      *
-     * @throws \InvalidArgumentException When style isn't defined
+     * @throws InvalidArgumentException When style isn't defined
      */
     public function getStyle(string $name): OutputFormatterStyleInterface;
 

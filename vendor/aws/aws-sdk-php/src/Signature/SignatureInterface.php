@@ -2,6 +2,7 @@
 namespace Aws\Signature;
 
 use Aws\Credentials\CredentialsInterface;
+use DateTimeInterface;
 use Psr\Http\Message\RequestInterface;
 
 /**
@@ -30,7 +31,7 @@ interface SignatureInterface
      *
      * @param RequestInterface              $request     Request to sign
      * @param CredentialsInterface          $credentials Credentials used to sign
-     * @param int|string|\DateTimeInterface $expires The time at which the URL should
+     * @param int|string|DateTimeInterface $expires The time at which the URL should
      *     expire. This can be a Unix timestamp, a PHP DateTime object, or a
      *     string that can be evaluated by strtotime.
      *

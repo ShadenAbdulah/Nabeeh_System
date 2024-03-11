@@ -2,6 +2,7 @@
 namespace Aws\Crypto;
 
 use Aws\Kms\KmsClient;
+use RuntimeException;
 
 /**
  * Uses KMS to supply materials for encrypting and decrypting data.
@@ -37,7 +38,7 @@ class KmsMaterialsProvider extends MaterialsProvider implements MaterialsProvide
     public function fromDecryptionEnvelope(MetadataEnvelope $envelope)
     {
         if (empty($envelope[MetadataEnvelope::MATERIALS_DESCRIPTION_HEADER])) {
-            throw new \RuntimeException('Not able to detect the materials description.');
+            throw new RuntimeException('Not able to detect the materials description.');
         }
 
         $materialsDescription = json_decode(
@@ -47,7 +48,7 @@ class KmsMaterialsProvider extends MaterialsProvider implements MaterialsProvide
 
         if (empty($materialsDescription['kms_cmk_id'])
             && empty($materialsDescription['aws:x-amz-cek-alg'])) {
-            throw new \RuntimeException('Not able to detect kms_cmk_id (legacy'
+            throw new RuntimeException('Not able to detect kms_cmk_id (legacy'
                 . ' implementation) or aws:x-amz-cek-alg (current implementation)'
                 . ' from kms materials description.');
         }

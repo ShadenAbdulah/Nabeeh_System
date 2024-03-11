@@ -2,21 +2,26 @@
 
 namespace Illuminate\Queue;
 
+use DateInterval;
+use DateTimeInterface;
 use Illuminate\Contracts\Queue\ClearableQueue;
+use Illuminate\Contracts\Queue\Job;
 use Illuminate\Contracts\Queue\Queue as QueueContract;
 use Illuminate\Database\Connection;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Queue\Jobs\DatabaseJob;
 use Illuminate\Queue\Jobs\DatabaseJobRecord;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
 use PDO;
+use Throwable;
 
 class DatabaseQueue extends Queue implements QueueContract, ClearableQueue
 {
     /**
      * The database connection instance.
      *
-     * @var \Illuminate\Database\Connection
+     * @var Connection
      */
     protected $database;
 
@@ -44,7 +49,7 @@ class DatabaseQueue extends Queue implements QueueContract, ClearableQueue
     /**
      * Create a new database queue instance.
      *
-     * @param  \Illuminate\Database\Connection  $database
+     * @param Connection $database
      * @param  string  $table
      * @param  string  $default
      * @param  int  $retryAfter
@@ -114,7 +119,7 @@ class DatabaseQueue extends Queue implements QueueContract, ClearableQueue
     /**
      * Push a new job onto the queue after (n) seconds.
      *
-     * @param  \DateTimeInterface|\DateInterval|int  $delay
+     * @param  DateTimeInterface|DateInterval|int  $delay
      * @param  string  $job
      * @param  mixed  $data
      * @param  string|null  $queue
@@ -162,7 +167,7 @@ class DatabaseQueue extends Queue implements QueueContract, ClearableQueue
      * Release a reserved job back onto the queue after (n) seconds.
      *
      * @param  string  $queue
-     * @param  \Illuminate\Queue\Jobs\DatabaseJobRecord  $job
+     * @param DatabaseJobRecord $job
      * @param  int  $delay
      * @return mixed
      */
@@ -176,7 +181,7 @@ class DatabaseQueue extends Queue implements QueueContract, ClearableQueue
      *
      * @param  string|null  $queue
      * @param  string  $payload
-     * @param  \DateTimeInterface|\DateInterval|int  $delay
+     * @param  DateTimeInterface|DateInterval|int  $delay
      * @param  int  $attempts
      * @return mixed
      */
@@ -212,9 +217,9 @@ class DatabaseQueue extends Queue implements QueueContract, ClearableQueue
      * Pop the next job off of the queue.
      *
      * @param  string|null  $queue
-     * @return \Illuminate\Contracts\Queue\Job|null
+     * @return Job|null
      *
-     * @throws \Throwable
+     * @throws Throwable
      */
     public function pop($queue = null)
     {
@@ -231,7 +236,7 @@ class DatabaseQueue extends Queue implements QueueContract, ClearableQueue
      * Get the next available job for the queue.
      *
      * @param  string|null  $queue
-     * @return \Illuminate\Queue\Jobs\DatabaseJobRecord|null
+     * @return DatabaseJobRecord|null
      */
     protected function getNextAvailableJob($queue)
     {
@@ -283,7 +288,7 @@ class DatabaseQueue extends Queue implements QueueContract, ClearableQueue
     /**
      * Modify the query to check for available jobs.
      *
-     * @param  \Illuminate\Database\Query\Builder  $query
+     * @param  Builder  $query
      * @return void
      */
     protected function isAvailable($query)
@@ -297,7 +302,7 @@ class DatabaseQueue extends Queue implements QueueContract, ClearableQueue
     /**
      * Modify the query to check for jobs that are reserved but have expired.
      *
-     * @param  \Illuminate\Database\Query\Builder  $query
+     * @param  Builder  $query
      * @return void
      */
     protected function isReservedButExpired($query)
@@ -313,8 +318,8 @@ class DatabaseQueue extends Queue implements QueueContract, ClearableQueue
      * Marshal the reserved job into a DatabaseJob instance.
      *
      * @param  string  $queue
-     * @param  \Illuminate\Queue\Jobs\DatabaseJobRecord  $job
-     * @return \Illuminate\Queue\Jobs\DatabaseJob
+     * @param DatabaseJobRecord $job
+     * @return DatabaseJob
      */
     protected function marshalJob($queue, $job)
     {
@@ -328,8 +333,8 @@ class DatabaseQueue extends Queue implements QueueContract, ClearableQueue
     /**
      * Mark the given job ID as reserved.
      *
-     * @param  \Illuminate\Queue\Jobs\DatabaseJobRecord  $job
-     * @return \Illuminate\Queue\Jobs\DatabaseJobRecord
+     * @param DatabaseJobRecord $job
+     * @return DatabaseJobRecord
      */
     protected function markJobAsReserved($job)
     {
@@ -348,7 +353,7 @@ class DatabaseQueue extends Queue implements QueueContract, ClearableQueue
      * @param  string  $id
      * @return void
      *
-     * @throws \Throwable
+     * @throws Throwable
      */
     public function deleteReserved($queue, $id)
     {
@@ -363,7 +368,7 @@ class DatabaseQueue extends Queue implements QueueContract, ClearableQueue
      * Delete a reserved job from the reserved queue and release it.
      *
      * @param  string  $queue
-     * @param  \Illuminate\Queue\Jobs\DatabaseJob  $job
+     * @param DatabaseJob $job
      * @param  int  $delay
      * @return void
      */
@@ -405,7 +410,7 @@ class DatabaseQueue extends Queue implements QueueContract, ClearableQueue
     /**
      * Get the underlying database instance.
      *
-     * @return \Illuminate\Database\Connection
+     * @return Connection
      */
     public function getDatabase()
     {

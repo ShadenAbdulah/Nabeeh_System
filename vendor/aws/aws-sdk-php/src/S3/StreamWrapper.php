@@ -5,10 +5,14 @@ use Aws\CacheInterface;
 use Aws\LruArrayCache;
 use Aws\Result;
 use Aws\S3\Exception\S3Exception;
+use Exception;
 use GuzzleHttp\Psr7;
 use GuzzleHttp\Psr7\Stream;
 use GuzzleHttp\Psr7\CachingStream;
+use Iterator;
 use Psr\Http\Message\StreamInterface;
+use RuntimeException;
+use function Aws\flatmap;
 
 /**
  * Amazon S3 stream wrapper to use "s3://<bucket>/<key>" files with PHP
@@ -76,7 +80,7 @@ class StreamWrapper
     /** @var string Mode in which the stream was opened */
     private $mode;
 
-    /** @var \Iterator Iterator used with opendir() related calls */
+    /** @var Iterator Iterator used with opendir() related calls */
     private $objectIterator;
 
     /** @var string The bucket that was opened when opendir() was called */
@@ -318,7 +322,7 @@ class StreamWrapper
                     'MaxKeys' => 1
                 ]);
                 if (!$result['Contents'] && !$result['CommonPrefixes']) {
-                    throw new \Exception("File or directory not found: $path");
+                    throw new Exception("File or directory not found: $path");
                 }
                 return $this->formatUrlStat($path);
             }
@@ -434,7 +438,7 @@ class StreamWrapper
 
         // Filter our "/" keys added by the console as directories, and ensure
         // that if a filter function is provided that it passes the filter.
-        $this->objectIterator = \Aws\flatmap(
+        $this->objectIterator = flatmap(
             $this->getClient()->getPaginator('ListObjects', $op),
             function (Result $result) use ($filterFn) {
                 $contentsAndPrefixes = $result->search('[Contents[], CommonPrefixes[]][]');
@@ -665,12 +669,12 @@ class StreamWrapper
      * Gets the client from the stream context
      *
      * @return S3ClientInterface
-     * @throws \RuntimeException if no client has been configured
+     * @throws RuntimeException if no client has been configured
      */
     private function getClient()
     {
         if (!$client = $this->getOption('client')) {
-            throw new \RuntimeException('No client in stream context');
+            throw new RuntimeException('No client in stream context');
         }
 
         return $client;
@@ -748,7 +752,7 @@ class StreamWrapper
      *                             error or exception occurs
      *
      * @return bool Returns false
-     * @throws \RuntimeException if throw_errors is true
+     * @throws RuntimeException if throw_errors is true
      */
     private function triggerError($errors, $flags = null)
     {
@@ -939,7 +943,7 @@ class StreamWrapper
     {
         try {
             return $fn();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return $this->triggerError($e->getMessage(), $flags);
         }
     }

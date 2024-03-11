@@ -4,6 +4,7 @@ namespace Illuminate\Console\View\Components;
 
 use Illuminate\Console\OutputStyle;
 use Illuminate\Console\QuestionHelper;
+use Illuminate\Contracts\Support\Arrayable;
 use ReflectionClass;
 use Symfony\Component\Console\Helper\SymfonyQuestionHelper;
 
@@ -15,7 +16,7 @@ abstract class Component
     /**
      * The output style implementation.
      *
-     * @var \Illuminate\Console\OutputStyle
+     * @var OutputStyle
      */
     protected $output;
 
@@ -29,7 +30,7 @@ abstract class Component
     /**
      * Creates a new component instance.
      *
-     * @param  \Illuminate\Console\OutputStyle  $output
+     * @param OutputStyle $output
      * @return void
      */
     public function __construct($output)
@@ -41,7 +42,7 @@ abstract class Component
      * Renders the given view.
      *
      * @param  string  $view
-     * @param  \Illuminate\Contracts\Support\Arrayable|array  $data
+     * @param  Arrayable|array  $data
      * @param  int  $verbosity
      * @return void
      */

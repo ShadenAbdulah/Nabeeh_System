@@ -2,6 +2,9 @@
 
 namespace Faker\Provider\fi_FI;
 
+use Faker\Provider\DateTime;
+use InvalidArgumentException;
+
 class Person extends \Faker\Provider\Person
 {
     protected static $maleNameFormats = [
@@ -100,7 +103,7 @@ class Person extends \Faker\Provider\Person
         $checksumCharacters = '0123456789ABCDEFHJKLMNPRSTUVWXY';
 
         if (!$birthdate) {
-            $birthdate = \Faker\Provider\DateTime::dateTimeThisCentury();
+            $birthdate = DateTime::dateTimeThisCentury();
         }
         $datePart = $birthdate->format('dmy');
 
@@ -121,7 +124,7 @@ class Person extends \Faker\Provider\Person
                 break;
 
             default:
-                throw new \InvalidArgumentException('Year must be between 1800 and 2099 inclusive.');
+                throw new InvalidArgumentException('Year must be between 1800 and 2099 inclusive.');
         }
 
         $randomDigits = self::numberBetween(0, 89);

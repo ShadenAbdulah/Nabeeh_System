@@ -2,20 +2,22 @@
 namespace Aws\ElasticInference;
 
 use Aws\AwsClient;
+use Aws\Result;
+use GuzzleHttp\Promise\Promise;
 
 /**
  * This client is used to interact with the **Amazon Elastic  Inference** service.
- * @method \Aws\Result describeAcceleratorOfferings(array $args = [])
- * @method \GuzzleHttp\Promise\Promise describeAcceleratorOfferingsAsync(array $args = [])
- * @method \Aws\Result describeAcceleratorTypes(array $args = [])
- * @method \GuzzleHttp\Promise\Promise describeAcceleratorTypesAsync(array $args = [])
- * @method \Aws\Result describeAccelerators(array $args = [])
- * @method \GuzzleHttp\Promise\Promise describeAcceleratorsAsync(array $args = [])
- * @method \Aws\Result listTagsForResource(array $args = [])
- * @method \GuzzleHttp\Promise\Promise listTagsForResourceAsync(array $args = [])
- * @method \Aws\Result tagResource(array $args = [])
- * @method \GuzzleHttp\Promise\Promise tagResourceAsync(array $args = [])
- * @method \Aws\Result untagResource(array $args = [])
- * @method \GuzzleHttp\Promise\Promise untagResourceAsync(array $args = [])
+ * @method Result describeAcceleratorOfferings(array $args = [])
+ * @method Promise describeAcceleratorOfferingsAsync(array $args = [])
+ * @method Result describeAcceleratorTypes(array $args = [])
+ * @method Promise describeAcceleratorTypesAsync(array $args = [])
+ * @method Result describeAccelerators(array $args = [])
+ * @method Promise describeAcceleratorsAsync(array $args = [])
+ * @method Result listTagsForResource(array $args = [])
+ * @method Promise listTagsForResourceAsync(array $args = [])
+ * @method Result tagResource(array $args = [])
+ * @method Promise tagResourceAsync(array $args = [])
+ * @method Result untagResource(array $args = [])
+ * @method Promise untagResourceAsync(array $args = [])
  */
 class ElasticInferenceClient extends AwsClient {}

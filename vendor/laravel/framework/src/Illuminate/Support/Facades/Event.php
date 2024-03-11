@@ -2,11 +2,14 @@
 
 namespace Illuminate\Support\Facades;
 
+use Closure;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Events\Dispatcher;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Testing\Fakes\EventFake;
 
 /**
- * @method static void listen(\Closure|string|array $events, \Closure|string|array|null $listener = null)
+ * @method static void listen(Closure|string|array $events, Closure|string|array|null $listener = null)
  * @method static bool hasListeners(string $eventName)
  * @method static bool hasWildcardListeners(string $eventName)
  * @method static void push(string $event, object|array $payload = [])
@@ -15,28 +18,28 @@ use Illuminate\Support\Testing\Fakes\EventFake;
  * @method static mixed until(string|object $event, mixed $payload = [])
  * @method static array|null dispatch(string|object $event, mixed $payload = [], bool $halt = false)
  * @method static array getListeners(string $eventName)
- * @method static \Closure makeListener(\Closure|string|array $listener, bool $wildcard = false)
- * @method static \Closure createClassListener(string $listener, bool $wildcard = false)
+ * @method static Closure makeListener(Closure|string|array $listener, bool $wildcard = false)
+ * @method static Closure createClassListener(string $listener, bool $wildcard = false)
  * @method static void forget(string $event)
  * @method static void forgetPushed()
- * @method static \Illuminate\Events\Dispatcher setQueueResolver(callable $resolver)
- * @method static \Illuminate\Events\Dispatcher setTransactionManagerResolver(callable $resolver)
+ * @method static Dispatcher setQueueResolver(callable $resolver)
+ * @method static Dispatcher setTransactionManagerResolver(callable $resolver)
  * @method static array getRawListeners()
  * @method static void macro(string $name, object|callable $macro)
  * @method static void mixin(object $mixin, bool $replace = true)
  * @method static bool hasMacro(string $name)
  * @method static void flushMacros()
- * @method static \Illuminate\Support\Testing\Fakes\EventFake except(array|string $eventsToDispatch)
+ * @method static EventFake except(array|string $eventsToDispatch)
  * @method static void assertListening(string $expectedEvent, string|array $expectedListener)
- * @method static void assertDispatched(string|\Closure $event, callable|int|null $callback = null)
+ * @method static void assertDispatched(string|Closure $event, callable|int|null $callback = null)
  * @method static void assertDispatchedTimes(string $event, int $times = 1)
- * @method static void assertNotDispatched(string|\Closure $event, callable|null $callback = null)
+ * @method static void assertNotDispatched(string|Closure $event, callable|null $callback = null)
  * @method static void assertNothingDispatched()
- * @method static \Illuminate\Support\Collection dispatched(string $event, callable|null $callback = null)
+ * @method static Collection dispatched(string $event, callable|null $callback = null)
  * @method static bool hasDispatched(string $event)
  *
  * @see \Illuminate\Events\Dispatcher
- * @see \Illuminate\Support\Testing\Fakes\EventFake
+ * @see EventFake
  */
 class Event extends Facade
 {
@@ -44,7 +47,7 @@ class Event extends Facade
      * Replace the bound instance with a fake.
      *
      * @param  array|string  $eventsToFake
-     * @return \Illuminate\Support\Testing\Fakes\EventFake
+     * @return EventFake
      */
     public static function fake($eventsToFake = [])
     {
@@ -64,7 +67,7 @@ class Event extends Facade
      * Replace the bound instance with a fake that fakes all events except the given events.
      *
      * @param  string[]|string  $eventsToAllow
-     * @return \Illuminate\Support\Testing\Fakes\EventFake
+     * @return EventFake
      */
     public static function fakeExcept($eventsToAllow)
     {

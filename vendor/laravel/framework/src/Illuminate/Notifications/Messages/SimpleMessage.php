@@ -226,8 +226,8 @@ class SimpleMessage
     /**
      * Format the given line of text.
      *
-     * @param  \Illuminate\Contracts\Support\Htmlable|string|array  $line
-     * @return \Illuminate\Contracts\Support\Htmlable|string
+     * @param Htmlable|string|array  $line
+     * @return Htmlable|string
      */
     protected function formatLine($line)
     {

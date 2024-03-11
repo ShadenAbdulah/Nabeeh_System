@@ -13,7 +13,7 @@ class TokenGuard implements Guard
     /**
      * The request instance.
      *
-     * @var \Illuminate\Http\Request
+     * @var Request
      */
     protected $request;
 
@@ -41,8 +41,8 @@ class TokenGuard implements Guard
     /**
      * Create a new authentication guard.
      *
-     * @param  \Illuminate\Contracts\Auth\UserProvider  $provider
-     * @param  \Illuminate\Http\Request  $request
+     * @param UserProvider $provider
+     * @param Request $request
      * @param  string  $inputKey
      * @param  string  $storageKey
      * @param  bool  $hash
@@ -137,7 +137,7 @@ class TokenGuard implements Guard
     /**
      * Set the current request instance.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param Request $request
      * @return $this
      */
     public function setRequest(Request $request)

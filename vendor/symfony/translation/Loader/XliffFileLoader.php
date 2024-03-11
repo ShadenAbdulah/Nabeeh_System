@@ -11,6 +11,9 @@
 
 namespace Symfony\Component\Translation\Loader;
 
+use DOMDocument;
+use InvalidArgumentException;
+use SimpleXMLElement;
 use Symfony\Component\Config\Resource\FileResource;
 use Symfony\Component\Config\Util\Exception\InvalidXmlException;
 use Symfony\Component\Config\Util\Exception\XmlParsingException;
@@ -54,7 +57,7 @@ class XliffFileLoader implements LoaderInterface
             } else {
                 $dom = XmlUtils::loadFile($resource);
             }
-        } catch (\InvalidArgumentException|XmlParsingException|InvalidXmlException $e) {
+        } catch (InvalidArgumentException|XmlParsingException|InvalidXmlException $e) {
             throw new InvalidResourceException(sprintf('Unable to load "%s": ', $resource).$e->getMessage(), $e->getCode(), $e);
         }
 
@@ -72,7 +75,7 @@ class XliffFileLoader implements LoaderInterface
         return $catalogue;
     }
 
-    private function extract(\DOMDocument $dom, MessageCatalogue $catalogue, string $domain): void
+    private function extract(DOMDocument $dom, MessageCatalogue $catalogue, string $domain): void
     {
         $xliffVersion = XliffUtils::getVersionNumber($dom);
 
@@ -88,7 +91,7 @@ class XliffFileLoader implements LoaderInterface
     /**
      * Extract messages and metadata from DOMDocument into a MessageCatalogue.
      */
-    private function extractXliff1(\DOMDocument $dom, MessageCatalogue $catalogue, string $domain): void
+    private function extractXliff1(DOMDocument $dom, MessageCatalogue $catalogue, string $domain): void
     {
         $xml = simplexml_import_dom($dom);
         $encoding = $dom->encoding ? strtoupper($dom->encoding) : null;
@@ -149,7 +152,7 @@ class XliffFileLoader implements LoaderInterface
         }
     }
 
-    private function extractXliff2(\DOMDocument $dom, MessageCatalogue $catalogue, string $domain): void
+    private function extractXliff2(DOMDocument $dom, MessageCatalogue $catalogue, string $domain): void
     {
         $xml = simplexml_import_dom($dom);
         $encoding = $dom->encoding ? strtoupper($dom->encoding) : null;
@@ -204,7 +207,7 @@ class XliffFileLoader implements LoaderInterface
         return $content;
     }
 
-    private function parseNotesMetadata(?\SimpleXMLElement $noteElement = null, ?string $encoding = null): array
+    private function parseNotesMetadata(?SimpleXMLElement $noteElement = null, ?string $encoding = null): array
     {
         $notes = [];
 
@@ -212,7 +215,7 @@ class XliffFileLoader implements LoaderInterface
             return $notes;
         }
 
-        /** @var \SimpleXMLElement $xmlNote */
+        /** @var SimpleXMLElement $xmlNote */
         foreach ($noteElement as $xmlNote) {
             $noteAttributes = $xmlNote->attributes();
             $note = ['content' => $this->utf8ToCharset((string) $xmlNote, $encoding)];

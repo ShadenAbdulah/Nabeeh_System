@@ -11,6 +11,12 @@
 
 namespace Symfony\Component\HttpFoundation;
 
+use InvalidArgumentException;
+use function array_key_exists;
+use function func_get_arg;
+use function func_num_args;
+use function in_array;
+
 /**
  * ResponseHeaderBag is a container for Response HTTP headers.
  *
@@ -127,7 +133,7 @@ class ResponseHeaderBag extends HeaderBag
         parent::set($key, $values, $replace);
 
         // ensure the cache-control header has sensible defaults
-        if (\in_array($uniqueKey, ['cache-control', 'etag', 'last-modified', 'expires'], true) && '' !== $computed = $this->computeCacheControlValue()) {
+        if (in_array($uniqueKey, ['cache-control', 'etag', 'last-modified', 'expires'], true) && '' !== $computed = $this->computeCacheControlValue()) {
             $this->headers['cache-control'] = [$computed];
             $this->headerNames['cache-control'] = 'Cache-Control';
             $this->computedCacheControl = $this->parseCacheControl($computed);
@@ -161,7 +167,7 @@ class ResponseHeaderBag extends HeaderBag
 
     public function hasCacheControlDirective(string $key): bool
     {
-        return \array_key_exists($key, $this->computedCacheControl);
+        return array_key_exists($key, $this->computedCacheControl);
     }
 
     public function getCacheControlDirective(string $key): bool|string|null
@@ -207,12 +213,12 @@ class ResponseHeaderBag extends HeaderBag
      *
      * @return Cookie[]
      *
-     * @throws \InvalidArgumentException When the $format is invalid
+     * @throws InvalidArgumentException When the $format is invalid
      */
     public function getCookies(string $format = self::COOKIES_FLAT): array
     {
-        if (!\in_array($format, [self::COOKIES_FLAT, self::COOKIES_ARRAY])) {
-            throw new \InvalidArgumentException(sprintf('Format "%s" invalid (%s).', $format, implode(', ', [self::COOKIES_FLAT, self::COOKIES_ARRAY])));
+        if (!in_array($format, [self::COOKIES_FLAT, self::COOKIES_ARRAY])) {
+            throw new InvalidArgumentException(sprintf('Format "%s" invalid (%s).', $format, implode(', ', [self::COOKIES_FLAT, self::COOKIES_ARRAY])));
         }
 
         if (self::COOKIES_ARRAY === $format) {
@@ -240,7 +246,7 @@ class ResponseHeaderBag extends HeaderBag
      */
     public function clearCookie(string $name, ?string $path = '/', ?string $domain = null, bool $secure = false, bool $httpOnly = true, ?string $sameSite = null /* , bool $partitioned = false */)
     {
-        $partitioned = 6 < \func_num_args() ? \func_get_arg(6) : false;
+        $partitioned = 6 < func_num_args() ? func_get_arg(6) : false;
 
         $this->setCookie(new Cookie($name, null, 1, $path, $domain, $secure, $httpOnly, false, $sameSite, $partitioned));
     }

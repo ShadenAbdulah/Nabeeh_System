@@ -150,7 +150,7 @@ enum Level: int
     /**
      * Returns the PSR-3 level matching this instance
      *
-     * @phpstan-return \Psr\Log\LogLevel::*
+     * @phpstan-return LogLevel::*
      */
     public function toPsrLogLevel(): string
     {

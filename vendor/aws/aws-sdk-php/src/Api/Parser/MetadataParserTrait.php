@@ -3,6 +3,7 @@ namespace Aws\Api\Parser;
 
 use Aws\Api\DateTimeResult;
 use Aws\Api\Shape;
+use Exception;
 use Psr\Http\Message\ResponseInterface;
 
 trait MetadataParserTrait
@@ -39,7 +40,7 @@ trait MetadataParserTrait
                         !empty($shape['timestampFormat']) ? $shape['timestampFormat'] : null
                     );
                     break;
-                } catch (\Exception $e) {
+                } catch (Exception $e) {
                     // If the value cannot be parsed, then do not add it to the
                     // output structure.
                     return;

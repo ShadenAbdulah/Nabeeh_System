@@ -3,7 +3,9 @@ namespace Aws\CloudFront;
 
 use GuzzleHttp\Psr7;
 use GuzzleHttp\Psr7\Uri;
+use InvalidArgumentException;
 use Psr\Http\Message\UriInterface;
+use RuntimeException;
 
 /**
  * Creates signed URLs for Amazon CloudFront resources.
@@ -16,8 +18,8 @@ class UrlSigner
      * @param $keyPairId  string ID of the key pair
      * @param $privateKey string Path to the private key used for signing
      *
-     * @throws \RuntimeException if the openssl extension is missing
-     * @throws \InvalidArgumentException if the private key cannot be found.
+     * @throws RuntimeException if the openssl extension is missing
+     * @throws InvalidArgumentException if the private key cannot be found.
      */
     public function __construct($keyPairId, $privateKey)
     {
@@ -42,7 +44,7 @@ class UrlSigner
      *                                     policy.
      *
      * @return string The file URL with authentication parameters
-     * @throws \InvalidArgumentException if the URL provided is invalid
+     * @throws InvalidArgumentException if the URL provided is invalid
      * @link http://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/WorkingWithStreamingDistributions.html
      */
     public function getSignedUrl($url, $expires = null, $policy = null)
@@ -51,7 +53,7 @@ class UrlSigner
         $urlSections = explode('://', $url);
 
         if (count($urlSections) < 2) {
-            throw new \InvalidArgumentException("Invalid URL: {$url}");
+            throw new InvalidArgumentException("Invalid URL: {$url}");
         }
 
         // Get the real scheme by removing wildcards from the scheme
@@ -113,7 +115,7 @@ class UrlSigner
                 return $resource;
         }
 
-        throw new \InvalidArgumentException("Invalid URI scheme: {$scheme}. "
+        throw new InvalidArgumentException("Invalid URI scheme: {$scheme}. "
             . "Scheme must be one of: http, https, or rtmp");
     }
 }

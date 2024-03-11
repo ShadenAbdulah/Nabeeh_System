@@ -11,8 +11,13 @@
 
 namespace Symfony\Component\VarDumper\Cloner;
 
+use ErrorException;
+use Exception;
+use ReflectionClass;
 use Symfony\Component\VarDumper\Caster\Caster;
 use Symfony\Component\VarDumper\Exception\ThrowingCasterException;
+use const E_RECOVERABLE_ERROR;
+use const E_USER_ERROR;
 
 /**
  * AbstractCloner implements a generic caster mechanism for objects and resources.
@@ -282,9 +287,9 @@ abstract class AbstractCloner implements ClonerInterface
     public function cloneVar(mixed $var, int $filter = 0): Data
     {
         $this->prevErrorHandler = set_error_handler(function ($type, $msg, $file, $line, $context = []) {
-            if (\E_RECOVERABLE_ERROR === $type || \E_USER_ERROR === $type) {
+            if (E_RECOVERABLE_ERROR === $type || E_USER_ERROR === $type) {
                 // Cloner never dies
-                throw new \ErrorException($msg, 0, $type, $file, $line);
+                throw new ErrorException($msg, 0, $type, $file, $line);
             }
 
             if ($this->prevErrorHandler) {
@@ -344,7 +349,7 @@ abstract class AbstractCloner implements ClonerInterface
             }
             $parents[] = '*';
 
-            $r = new \ReflectionClass($class);
+            $r = new ReflectionClass($class);
             $fileInfo = $r->isInternal() || $r->isSubclassOf(Stub::class) ? [] : [
                 'file' => $r->getFileName(),
                 'line' => $r->getStartLine(),
@@ -364,7 +369,7 @@ abstract class AbstractCloner implements ClonerInterface
                     }
                 }
             }
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $a = [(Stub::TYPE_OBJECT === $stub->type ? Caster::PREFIX_VIRTUAL : '').'⚠' => new ThrowingCasterException($e)] + $a;
         }
 
@@ -388,7 +393,7 @@ abstract class AbstractCloner implements ClonerInterface
                     $a = $callback($res, $a, $stub, $isNested, $this->filter);
                 }
             }
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $a = [(Stub::TYPE_OBJECT === $stub->type ? Caster::PREFIX_VIRTUAL : '').'⚠' => new ThrowingCasterException($e)] + $a;
         }
 

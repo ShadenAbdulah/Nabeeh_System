@@ -11,6 +11,12 @@
 
 namespace Psy;
 
+use ReflectionClass;
+use ReflectionException;
+use ReflectionObject;
+use ReflectionProperty;
+use function method_exists;
+
 /**
  * Helpers for bypassing visibility restrictions, mostly used in code generated
  * by the `sudo` command.
@@ -27,7 +33,7 @@ class Sudo
      */
     public static function fetchProperty($object, string $property)
     {
-        $prop = self::getProperty(new \ReflectionObject($object), $property);
+        $prop = self::getProperty(new ReflectionObject($object), $property);
 
         return $prop->getValue($object);
     }
@@ -43,7 +49,7 @@ class Sudo
      */
     public static function assignProperty($object, string $property, $value)
     {
-        $prop = self::getProperty(new \ReflectionObject($object), $property);
+        $prop = self::getProperty(new ReflectionObject($object), $property);
         $prop->setValue($object, $value);
 
         return $value;
@@ -60,7 +66,7 @@ class Sudo
      */
     public static function callMethod($object, string $method, ...$args)
     {
-        $refl = new \ReflectionObject($object);
+        $refl = new ReflectionObject($object);
         $reflMethod = $refl->getMethod($method);
         $reflMethod->setAccessible(true);
 
@@ -77,7 +83,7 @@ class Sudo
      */
     public static function fetchStaticProperty($class, string $property)
     {
-        $prop = self::getProperty(new \ReflectionClass($class), $property);
+        $prop = self::getProperty(new ReflectionClass($class), $property);
         $prop->setAccessible(true);
 
         return $prop->getValue();
@@ -94,10 +100,10 @@ class Sudo
      */
     public static function assignStaticProperty($class, string $property, $value)
     {
-        $prop = self::getProperty(new \ReflectionClass($class), $property);
+        $prop = self::getProperty(new ReflectionClass($class), $property);
         $refl = $prop->getDeclaringClass();
 
-        if (\method_exists($refl, 'setStaticPropertyValue')) {
+        if (method_exists($refl, 'setStaticPropertyValue')) {
             $refl->setStaticPropertyValue($property, $value);
         } else {
             $prop->setValue($value);
@@ -117,7 +123,7 @@ class Sudo
      */
     public static function callStatic($class, string $method, ...$args)
     {
-        $refl = new \ReflectionClass($class);
+        $refl = new ReflectionClass($class);
         $reflMethod = $refl->getMethod($method);
         $reflMethod->setAccessible(true);
 
@@ -134,7 +140,7 @@ class Sudo
      */
     public static function fetchClassConst($class, string $const)
     {
-        $refl = new \ReflectionClass($class);
+        $refl = new ReflectionClass($class);
 
         do {
             if ($refl->hasConstant($const)) {
@@ -155,7 +161,7 @@ class Sudo
      */
     public static function newInstance(string $class, ...$args)
     {
-        $refl = new \ReflectionClass($class);
+        $refl = new ReflectionClass($class);
         $instance = $refl->newInstanceWithoutConstructor();
 
         $constructor = $refl->getConstructor();
@@ -168,14 +174,14 @@ class Sudo
     /**
      * Get a ReflectionProperty from an object (or its parent classes).
      *
-     * @throws \ReflectionException if neither the object nor any of its parents has this property
+     * @throws ReflectionException if neither the object nor any of its parents has this property
      *
-     * @param \ReflectionClass $refl
+     * @param ReflectionClass $refl
      * @param string           $property property name
      *
-     * @return \ReflectionProperty
+     * @return ReflectionProperty
      */
-    private static function getProperty(\ReflectionClass $refl, string $property): \ReflectionProperty
+    private static function getProperty(ReflectionClass $refl, string $property): ReflectionProperty
     {
         $firstException = null;
         do {
@@ -184,7 +190,7 @@ class Sudo
                 $prop->setAccessible(true);
 
                 return $prop;
-            } catch (\ReflectionException $e) {
+            } catch (ReflectionException $e) {
                 if ($firstException === null) {
                     $firstException = $e;
                 }

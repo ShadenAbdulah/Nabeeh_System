@@ -6,6 +6,9 @@ use PhpParser\Comment;
 use PhpParser\Node;
 use PhpParser\NodeVisitorAbstract;
 use PhpParser\Token;
+use const T_COMMENT;
+use const T_DOC_COMMENT;
+use const T_WHITESPACE;
 
 class CommentAnnotatingVisitor extends NodeVisitorAbstract {
     /** @var int Last seen token start position */
@@ -26,7 +29,7 @@ class CommentAnnotatingVisitor extends NodeVisitorAbstract {
         // Collect positions of comments. We use this to avoid traversing parts of the AST where
         // there are no comments.
         foreach ($tokens as $i => $token) {
-            if ($token->id === \T_COMMENT || $token->id === \T_DOC_COMMENT) {
+            if ($token->id === T_COMMENT || $token->id === T_DOC_COMMENT) {
                 $this->commentPositions[] = $i;
             }
         }
@@ -45,19 +48,19 @@ class CommentAnnotatingVisitor extends NodeVisitorAbstract {
             $comments = [];
             while (--$pos >= $oldPos) {
                 $token = $this->tokens[$pos];
-                if ($token->id === \T_DOC_COMMENT) {
+                if ($token->id === T_DOC_COMMENT) {
                     $comments[] = new Comment\Doc(
                         $token->text, $token->line, $token->pos, $pos,
                         $token->getEndLine(), $token->getEndPos() - 1, $pos);
                     continue;
                 }
-                if ($token->id === \T_COMMENT) {
+                if ($token->id === T_COMMENT) {
                     $comments[] = new Comment(
                         $token->text, $token->line, $token->pos, $pos,
                         $token->getEndLine(), $token->getEndPos() - 1, $pos);
                     continue;
                 }
-                if ($token->id !== \T_WHITESPACE) {
+                if ($token->id !== T_WHITESPACE) {
                     break;
                 }
             }

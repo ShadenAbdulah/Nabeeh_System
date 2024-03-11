@@ -11,6 +11,8 @@
 
 namespace Symfony\Component\HttpFoundation\Session\Storage;
 
+use InvalidArgumentException;
+use RuntimeException;
 use Symfony\Component\HttpFoundation\Session\SessionBagInterface;
 
 /**
@@ -24,7 +26,7 @@ interface SessionStorageInterface
     /**
      * Starts the session.
      *
-     * @throws \RuntimeException if something goes wrong starting the session
+     * @throws RuntimeException if something goes wrong starting the session
      */
     public function start(): bool;
 
@@ -82,7 +84,7 @@ interface SessionStorageInterface
      *                           to expire with browser session. Time is in seconds, and is
      *                           not a Unix timestamp.
      *
-     * @throws \RuntimeException If an error occurs while regenerating this storage
+     * @throws RuntimeException If an error occurs while regenerating this storage
      */
     public function regenerate(bool $destroy = false, ?int $lifetime = null): bool;
 
@@ -96,7 +98,7 @@ interface SessionStorageInterface
      *
      * @return void
      *
-     * @throws \RuntimeException if the session is saved without being started, or if the session
+     * @throws RuntimeException if the session is saved without being started, or if the session
      *                           is already closed
      */
     public function save();
@@ -111,7 +113,7 @@ interface SessionStorageInterface
     /**
      * Gets a SessionBagInterface by name.
      *
-     * @throws \InvalidArgumentException If the bag does not exist
+     * @throws InvalidArgumentException If the bag does not exist
      */
     public function getBag(string $name): SessionBagInterface;
 

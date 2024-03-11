@@ -20,14 +20,14 @@ class NewPasswordController extends Controller
     /**
      * The guard implementation.
      *
-     * @var \Illuminate\Contracts\Auth\StatefulGuard
+     * @var StatefulGuard
      */
     protected $guard;
 
     /**
      * Create a new controller instance.
      *
-     * @param  \Illuminate\Contracts\Auth\StatefulGuard  $guard
+     * @param StatefulGuard $guard
      * @return void
      */
     public function __construct(StatefulGuard $guard)
@@ -38,8 +38,8 @@ class NewPasswordController extends Controller
     /**
      * Show the new password view.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Laravel\Fortify\Contracts\ResetPasswordViewResponse
+     * @param Request $request
+     * @return ResetPasswordViewResponse
      */
     public function create(Request $request): ResetPasswordViewResponse
     {
@@ -49,8 +49,8 @@ class NewPasswordController extends Controller
     /**
      * Reset the user's password.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Contracts\Support\Responsable
+     * @param Request $request
+     * @return Responsable
      */
     public function store(Request $request): Responsable
     {
@@ -83,7 +83,7 @@ class NewPasswordController extends Controller
     /**
      * Get the broker to be used during password reset.
      *
-     * @return \Illuminate\Contracts\Auth\PasswordBroker
+     * @return PasswordBroker
      */
     protected function broker(): PasswordBroker
     {

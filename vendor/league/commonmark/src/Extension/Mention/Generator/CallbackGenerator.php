@@ -16,6 +16,7 @@ namespace League\CommonMark\Extension\Mention\Generator;
 use League\CommonMark\Exception\LogicException;
 use League\CommonMark\Extension\Mention\Mention;
 use League\CommonMark\Node\Inline\AbstractInline;
+use function call_user_func;
 
 final class CallbackGenerator implements MentionGeneratorInterface
 {
@@ -36,7 +37,7 @@ final class CallbackGenerator implements MentionGeneratorInterface
      */
     public function generateMention(Mention $mention): ?AbstractInline
     {
-        $result = \call_user_func($this->callback, $mention);
+        $result = call_user_func($this->callback, $mention);
         if ($result === null) {
             return null;
         }

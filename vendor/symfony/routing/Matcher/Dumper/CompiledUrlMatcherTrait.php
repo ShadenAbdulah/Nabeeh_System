@@ -11,11 +11,15 @@
 
 namespace Symfony\Component\Routing\Matcher\Dumper;
 
+use Closure;
 use Symfony\Component\Routing\Exception\MethodNotAllowedException;
 use Symfony\Component\Routing\Exception\NoConfigurationException;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use Symfony\Component\Routing\Matcher\RedirectableUrlMatcherInterface;
 use Symfony\Component\Routing\RequestContext;
+use function count;
+use function in_array;
+use function strlen;
 
 /**
  * @author Nicolas Grekas <p@tchwork.com>
@@ -30,7 +34,7 @@ trait CompiledUrlMatcherTrait
     private array $staticRoutes = [];
     private array $regexpList = [];
     private array $dynamicRoutes = [];
-    private ?\Closure $checkCondition;
+    private ?Closure $checkCondition;
 
     public function match(string $pathinfo): array
     {
@@ -44,7 +48,7 @@ trait CompiledUrlMatcherTrait
         if (!$this instanceof RedirectableUrlMatcherInterface) {
             throw new ResourceNotFoundException(sprintf('No routes found for "%s".', $pathinfo));
         }
-        if (!\in_array($this->context->getMethod(), ['HEAD', 'GET'], true)) {
+        if (!in_array($this->context->getMethod(), ['HEAD', 'GET'], true)) {
             // no-op
         } elseif ($allowSchemes) {
             redirect_scheme:
@@ -134,7 +138,7 @@ trait CompiledUrlMatcherTrait
 
                     $hasTrailingVar = $trimmedPathinfo !== $pathinfo && $hasTrailingVar;
 
-                    if ($hasTrailingVar && ($hasTrailingSlash || (null === $n = $matches[\count($vars)] ?? null) || '/' !== ($n[-1] ?? '/')) && preg_match($regex, $this->matchHost ? $host.'.'.$trimmedPathinfo : $trimmedPathinfo, $n) && $m === (int) $n['MARK']) {
+                    if ($hasTrailingVar && ($hasTrailingSlash || (null === $n = $matches[count($vars)] ?? null) || '/' !== ($n[-1] ?? '/')) && preg_match($regex, $this->matchHost ? $host.'.'.$trimmedPathinfo : $trimmedPathinfo, $n) && $m === (int) $n['MARK']) {
                         if ($hasTrailingSlash) {
                             $matches = $n;
                         } else {
@@ -172,8 +176,8 @@ trait CompiledUrlMatcherTrait
                     return $ret;
                 }
 
-                $regex = substr_replace($regex, 'F', $m - $offset, 1 + \strlen($m));
-                $offset += \strlen($m);
+                $regex = substr_replace($regex, 'F', $m - $offset, 1 + strlen($m));
+                $offset += strlen($m);
             }
         }
 

@@ -7,11 +7,12 @@ use Aws\ConfigurationProviderInterface;
 use Aws\Retry\Exception\ConfigurationException;
 use GuzzleHttp\Promise;
 use GuzzleHttp\Promise\PromiseInterface;
+use InvalidArgumentException;
 
 /**
  * A configuration provider is a function that returns a promise that is
- * fulfilled with a {@see \Aws\Retry\ConfigurationInterface}
- * or rejected with an {@see \Aws\Retry\Exception\ConfigurationException}.
+ * fulfilled with a {@see ConfigurationInterface}
+ * or rejected with an {@see ConfigurationException}.
  *
  * <code>
  * use Aws\Sts\RegionalEndpoints\ConfigurationProvider;
@@ -23,7 +24,7 @@ use GuzzleHttp\Promise\PromiseInterface;
  * Configuration providers can be composed to create configuration using
  * conditional logic that can create different configurations in different
  * environments. You can compose multiple providers into a single provider using
- * {@see \Aws\Retry\ConfigurationProvider::chain}. This function
+ * {@see ConfigurationProvider::chain}. This function
  * accepts providers as variadic arguments and returns a new function that will
  * invoke each provider until a successful configuration is returned.
  *
@@ -189,7 +190,7 @@ class ConfigurationProvider extends AbstractConfigurationProvider
      *
      * @param  mixed $config
      * @return ConfigurationInterface
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public static function unwrap($config)
     {
@@ -216,7 +217,7 @@ class ConfigurationProvider extends AbstractConfigurationProvider
             return new Configuration($config['mode'], $maxAttempts);
         }
 
-        throw new \InvalidArgumentException('Not a valid retry configuration'
+        throw new InvalidArgumentException('Not a valid retry configuration'
             . ' argument.');
     }
 }

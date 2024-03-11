@@ -12,6 +12,9 @@
 namespace Symfony\Component\HttpKernel\Log;
 
 use Monolog\Logger;
+use function in_array;
+use function is_object;
+use const PHP_SAPI;
 
 /**
  * @author Nicolas Grekas <p@tchwork.com>
@@ -22,8 +25,8 @@ class DebugLoggerConfigurator
 
     public function __construct(callable $processor, ?bool $enable = null)
     {
-        if ($enable ?? !\in_array(\PHP_SAPI, ['cli', 'phpdbg', 'embed'], true)) {
-            $this->processor = \is_object($processor) ? $processor : $processor(...);
+        if ($enable ?? !in_array(PHP_SAPI, ['cli', 'phpdbg', 'embed'], true)) {
+            $this->processor = is_object($processor) ? $processor : $processor(...);
         }
     }
 

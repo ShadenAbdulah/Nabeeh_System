@@ -13,7 +13,7 @@ abstract class Grammar
     /**
      * The connection used for escaping values.
      *
-     * @var \Illuminate\Database\Connection
+     * @var Connection
      */
     protected $connection;
 
@@ -38,7 +38,7 @@ abstract class Grammar
     /**
      * Wrap a table in keyword identifiers.
      *
-     * @param  \Illuminate\Contracts\Database\Query\Expression|string  $table
+     * @param Expression|string  $table
      * @return string
      */
     public function wrapTable($table)
@@ -53,7 +53,7 @@ abstract class Grammar
     /**
      * Wrap a value in keyword identifiers.
      *
-     * @param  \Illuminate\Contracts\Database\Query\Expression|string  $value
+     * @param Expression|string  $value
      * @param  bool  $prefixAlias
      * @return string
      */
@@ -137,7 +137,7 @@ abstract class Grammar
      * @param  string  $value
      * @return string
      *
-     * @throws \RuntimeException
+     * @throws RuntimeException
      */
     protected function wrapJsonSelector($value)
     {
@@ -233,7 +233,7 @@ abstract class Grammar
     /**
      * Transforms expressions to their scalar types.
      *
-     * @param  \Illuminate\Contracts\Database\Query\Expression|string|int|float  $expression
+     * @param Expression|string|int|float  $expression
      * @return string|int|float
      */
     public function getValue($expression)
@@ -281,7 +281,7 @@ abstract class Grammar
     /**
      * Set the grammar's database connection.
      *
-     * @param  \Illuminate\Database\Connection  $connection
+     * @param Connection $connection
      * @return $this
      */
     public function setConnection($connection)

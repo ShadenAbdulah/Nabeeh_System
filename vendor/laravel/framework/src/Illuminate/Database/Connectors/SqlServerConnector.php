@@ -23,7 +23,7 @@ class SqlServerConnector extends Connector implements ConnectorInterface
      * Establish a database connection.
      *
      * @param  array  $config
-     * @return \PDO
+     * @return PDO
      */
     public function connect(array $config)
     {
@@ -41,7 +41,7 @@ class SqlServerConnector extends Connector implements ConnectorInterface
      *
      * https://learn.microsoft.com/en-us/sql/t-sql/statements/set-transaction-isolation-level-transact-sql
      *
-     * @param  \PDO  $connection
+     * @param PDO $connection
      * @param  array  $config
      * @return void
      */

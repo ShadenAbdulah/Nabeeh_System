@@ -3,6 +3,7 @@
 namespace Illuminate\Http;
 
 use Illuminate\Http\Exceptions\HttpResponseException;
+use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\HeaderBag;
 use Throwable;
 
@@ -18,7 +19,7 @@ trait ResponseTrait
     /**
      * The exception that triggered the error response (if applicable).
      *
-     * @var \Throwable|null
+     * @var Throwable|null
      */
     public $exception;
 
@@ -82,7 +83,7 @@ trait ResponseTrait
     /**
      * Add an array of headers to the response.
      *
-     * @param  \Symfony\Component\HttpFoundation\HeaderBag|array  $headers
+     * @param HeaderBag|array  $headers
      * @return $this
      */
     public function withHeaders($headers)
@@ -101,7 +102,7 @@ trait ResponseTrait
     /**
      * Add a cookie to the response.
      *
-     * @param  \Symfony\Component\HttpFoundation\Cookie|mixed  $cookie
+     * @param  Cookie|mixed  $cookie
      * @return $this
      */
     public function cookie($cookie)
@@ -112,7 +113,7 @@ trait ResponseTrait
     /**
      * Add a cookie to the response.
      *
-     * @param  \Symfony\Component\HttpFoundation\Cookie|mixed  $cookie
+     * @param  Cookie|mixed  $cookie
      * @return $this
      */
     public function withCookie($cookie)
@@ -129,7 +130,7 @@ trait ResponseTrait
     /**
      * Expire a cookie when sending the response.
      *
-     * @param  \Symfony\Component\HttpFoundation\Cookie|mixed  $cookie
+     * @param  Cookie|mixed  $cookie
      * @param  string|null  $path
      * @param  string|null  $domain
      * @return $this
@@ -158,7 +159,7 @@ trait ResponseTrait
     /**
      * Set the exception to attach to the response.
      *
-     * @param  \Throwable  $e
+     * @param Throwable $e
      * @return $this
      */
     public function withException(Throwable $e)
@@ -173,7 +174,7 @@ trait ResponseTrait
      *
      * @return void
      *
-     * @throws \Illuminate\Http\Exceptions\HttpResponseException
+     * @throws HttpResponseException
      */
     public function throwResponse()
     {

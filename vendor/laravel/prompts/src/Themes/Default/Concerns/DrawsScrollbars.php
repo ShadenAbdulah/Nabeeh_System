@@ -9,8 +9,8 @@ trait DrawsScrollbars
     /**
      * Render a scrollbar beside the visible items.
      *
-     * @param  \Illuminate\Support\Collection<int, string>  $visible
-     * @return \Illuminate\Support\Collection<int, string>
+     * @param Collection<int, string> $visible
+     * @return Collection<int, string>
      */
     protected function scrollbar(Collection $visible, int $firstVisible, int $height, int $total, int $width, string $color = 'cyan'): Collection
     {

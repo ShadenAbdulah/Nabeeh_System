@@ -6,7 +6,8 @@ use Aws\Crypto\Polyfill\Key;
 use GuzzleHttp\Psr7;
 use GuzzleHttp\Psr7\StreamDecoratorTrait;
 use Psr\Http\Message\StreamInterface;
-use \RuntimeException;
+use RuntimeException;
+use function openssl_encrypt;
 
 /**
  * @internal Represents a stream of data to be gcm encrypted.
@@ -105,7 +106,7 @@ class AesGcmEncryptingStream implements AesStreamInterface, AesStreamInterfaceV2
                 $this->keySize
             ));
         } else {
-            return Psr7\Utils::streamFor(\openssl_encrypt(
+            return Psr7\Utils::streamFor(openssl_encrypt(
                 (string)$this->plaintext,
                 $this->getOpenSslName(),
                 $this->key,

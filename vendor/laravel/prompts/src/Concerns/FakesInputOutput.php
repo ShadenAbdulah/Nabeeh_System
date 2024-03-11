@@ -4,6 +4,7 @@ namespace Laravel\Prompts\Concerns;
 
 use Laravel\Prompts\Output\BufferedConsoleOutput;
 use Laravel\Prompts\Terminal;
+use Mockery;
 use PHPUnit\Framework\Assert;
 use RuntimeException;
 
@@ -19,7 +20,7 @@ trait FakesInputOutput
         // Force interactive mode when testing because we will be mocking the terminal.
         static::interactive();
 
-        $mock = \Mockery::mock(Terminal::class);
+        $mock = Mockery::mock(Terminal::class);
 
         $mock->shouldReceive('write')->byDefault();
         $mock->shouldReceive('exit')->byDefault();

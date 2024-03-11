@@ -2,6 +2,7 @@
 
 namespace Illuminate\Validation\Rules;
 
+use Closure;
 use Illuminate\Container\Container;
 use Illuminate\Contracts\Validation\DataAwareRule;
 use Illuminate\Contracts\Validation\Rule;
@@ -289,7 +290,7 @@ class Password implements Rule, DataAwareRule, ValidatorAwareRule
     /**
      * Specify additional validation rules that should be merged with the default rules during validation.
      *
-     * @param  \Closure|string|array  $rules
+     * @param  Closure|string|array  $rules
      * @return $this
      */
     public function rules($rules)

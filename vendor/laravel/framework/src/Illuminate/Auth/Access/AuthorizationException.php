@@ -10,7 +10,7 @@ class AuthorizationException extends Exception
     /**
      * The response from the gate.
      *
-     * @var \Illuminate\Auth\Access\Response
+     * @var Response
      */
     protected $response;
 
@@ -26,7 +26,7 @@ class AuthorizationException extends Exception
      *
      * @param  string|null  $message
      * @param  mixed  $code
-     * @param  \Throwable|null  $previous
+     * @param Throwable|null  $previous
      * @return void
      */
     public function __construct($message = null, $code = null, Throwable $previous = null)
@@ -39,7 +39,7 @@ class AuthorizationException extends Exception
     /**
      * Get the response from the gate.
      *
-     * @return \Illuminate\Auth\Access\Response
+     * @return Response
      */
     public function response()
     {
@@ -49,7 +49,7 @@ class AuthorizationException extends Exception
     /**
      * Set the response from the gate.
      *
-     * @param  \Illuminate\Auth\Access\Response  $response
+     * @param Response $response
      * @return $this
      */
     public function setResponse($response)
@@ -105,7 +105,7 @@ class AuthorizationException extends Exception
     /**
      * Create a deny response object from this exception.
      *
-     * @return \Illuminate\Auth\Access\Response
+     * @return Response
      */
     public function toResponse()
     {

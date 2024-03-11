@@ -11,6 +11,7 @@
 
 namespace Psy;
 
+use PhpParser\Error;
 use PhpParser\NodeTraverser;
 use PhpParser\Parser;
 use PhpParser\PrettyPrinter\Standard as Printer;
@@ -41,6 +42,20 @@ use Psy\CodeCleaner\ValidClassNamePass;
 use Psy\CodeCleaner\ValidConstructorPass;
 use Psy\CodeCleaner\ValidFunctionNamePass;
 use Psy\Exception\ParseErrorException;
+use Throwable;
+use function array_reverse;
+use function debug_backtrace;
+use function file_get_contents;
+use function implode;
+use function preg_match;
+use function preg_match_all;
+use function rtrim;
+use function setlocale;
+use function strpos;
+use function substr;
+use const DEBUG_BACKTRACE_IGNORE_ARGS;
+use const LC_NUMERIC;
+use const PHP_EOL;
 
 /**
  * A service to clean up user input, detect parse errors before they happen,
@@ -186,7 +201,7 @@ class CodeCleaner
         }
 
         try {
-            $code = @\file_get_contents($file);
+            $code = @file_get_contents($file);
             if (!$code) {
                 return;
             }
@@ -203,7 +218,7 @@ class CodeCleaner
             }
 
             $traverser->traverse($stmts);
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             // Don't care.
         }
     }
@@ -215,15 +230,15 @@ class CodeCleaner
      */
     private static function getDebugFile()
     {
-        $trace = \debug_backtrace(\DEBUG_BACKTRACE_IGNORE_ARGS);
+        $trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
 
-        foreach (\array_reverse($trace) as $stackFrame) {
+        foreach (array_reverse($trace) as $stackFrame) {
             if (!self::isDebugCall($stackFrame)) {
                 continue;
             }
 
-            if (\preg_match('/eval\(/', $stackFrame['file'])) {
-                \preg_match_all('/([^\(]+)\((\d+)/', $stackFrame['file'], $matches);
+            if (preg_match('/eval\(/', $stackFrame['file'])) {
+                preg_match_all('/([^\(]+)\((\d+)/', $stackFrame['file'], $matches);
 
                 return $matches[1][0];
             }
@@ -258,7 +273,7 @@ class CodeCleaner
      */
     public function clean(array $codeLines, bool $requireSemicolons = false)
     {
-        $stmts = $this->parse('<?php '.\implode(\PHP_EOL, $codeLines).\PHP_EOL, $requireSemicolons);
+        $stmts = $this->parse('<?php '. implode(PHP_EOL, $codeLines). PHP_EOL, $requireSemicolons);
         if ($stmts === false) {
             return false;
         }
@@ -267,13 +282,13 @@ class CodeCleaner
         $stmts = $this->traverser->traverse($stmts);
 
         // Work around https://github.com/nikic/PHP-Parser/issues/399
-        $oldLocale = \setlocale(\LC_NUMERIC, 0);
-        \setlocale(\LC_NUMERIC, 'C');
+        $oldLocale = setlocale(LC_NUMERIC, 0);
+        setlocale(LC_NUMERIC, 'C');
 
         $code = $this->printer->prettyPrint($stmts);
 
         // Now put the locale back
-        \setlocale(\LC_NUMERIC, $oldLocale);
+        setlocale(LC_NUMERIC, $oldLocale);
 
         return $code;
     }
@@ -315,7 +330,7 @@ class CodeCleaner
     {
         try {
             return $this->parser->parse($code);
-        } catch (\PhpParser\Error $e) {
+        } catch (Error $e) {
             if ($this->parseErrorIsUnclosedString($e, $code)) {
                 return false;
             }
@@ -339,17 +354,17 @@ class CodeCleaner
             try {
                 // Unexpected EOF, try again with an implicit semicolon
                 return $this->parser->parse($code.';');
-            } catch (\PhpParser\Error $e) {
+            } catch (Error $e) {
                 return false;
             }
         }
     }
 
-    private function parseErrorIsEOF(\PhpParser\Error $e): bool
+    private function parseErrorIsEOF(Error $e): bool
     {
         $msg = $e->getRawMessage();
 
-        return ($msg === 'Unexpected token EOF') || (\strpos($msg, 'Syntax error, unexpected EOF') !== false);
+        return ($msg === 'Unexpected token EOF') || (strpos($msg, 'Syntax error, unexpected EOF') !== false);
     }
 
     /**
@@ -359,10 +374,10 @@ class CodeCleaner
      * their own special beautiful snowflake syntax error just for
      * themselves.
      *
-     * @param \PhpParser\Error $e
+     * @param Error $e
      * @param string           $code
      */
-    private function parseErrorIsUnclosedString(\PhpParser\Error $e, string $code): bool
+    private function parseErrorIsUnclosedString(Error $e, string $code): bool
     {
         if ($e->getRawMessage() !== 'Syntax error, unexpected T_ENCAPSED_AND_WHITESPACE') {
             return false;
@@ -370,20 +385,20 @@ class CodeCleaner
 
         try {
             $this->parser->parse($code."';");
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             return false;
         }
 
         return true;
     }
 
-    private function parseErrorIsUnterminatedComment(\PhpParser\Error $e, $code): bool
+    private function parseErrorIsUnterminatedComment(Error $e, $code): bool
     {
         return $e->getRawMessage() === 'Unterminated comment';
     }
 
-    private function parseErrorIsTrailingComma(\PhpParser\Error $e, $code): bool
+    private function parseErrorIsTrailingComma(Error $e, $code): bool
     {
-        return ($e->getRawMessage() === 'A trailing comma is not allowed here') && (\substr(\rtrim($code), -1) === ',');
+        return ($e->getRawMessage() === 'A trailing comma is not allowed here') && (substr(rtrim($code), -1) === ',');
     }
 }

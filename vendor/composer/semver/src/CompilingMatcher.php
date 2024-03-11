@@ -13,6 +13,7 @@ namespace Composer\Semver;
 
 use Composer\Semver\Constraint\Constraint;
 use Composer\Semver\Constraint\ConstraintInterface;
+use function in_array;
 
 /**
  * Helper class to evaluate constraint by compiling and reusing the code to evaluate
@@ -75,7 +76,7 @@ class CompilingMatcher
         }
 
         if (self::$enabled === null) {
-            self::$enabled = !\in_array('eval', explode(',', (string) ini_get('disable_functions')), true);
+            self::$enabled = !in_array('eval', explode(',', (string) ini_get('disable_functions')), true);
         }
         if (!self::$enabled) {
             return self::$resultCache[$resultCacheKey] = $constraint->matches(new Constraint(self::$transOpInt[$operator], $version));

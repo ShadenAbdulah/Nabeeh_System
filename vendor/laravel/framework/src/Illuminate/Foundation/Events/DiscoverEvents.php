@@ -88,7 +88,7 @@ class DiscoverEvents
     /**
      * Extract the class name from the given file path.
      *
-     * @param  \SplFileInfo  $file
+     * @param SplFileInfo $file
      * @param  string  $basePath
      * @return string
      */

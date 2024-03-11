@@ -17,6 +17,7 @@ use PhpParser\Node\Expr\Assign;
 use PhpParser\Node\Expr\AssignRef;
 use PhpParser\Node\Stmt\Foreach_;
 use Psy\Exception\FatalErrorException;
+use function in_array;
 
 /**
  * Validate empty brackets are only used for assignment.
@@ -52,13 +53,13 @@ class EmptyArrayDimFetchPass extends CodeCleanerPass
             $this->theseOnesAreFine[] = $node->valueVar;
         } elseif ($node instanceof ArrayDimFetch && $node->var instanceof ArrayDimFetch) {
             // $a[]['b'] = 'c'
-            if (\in_array($node, $this->theseOnesAreFine)) {
+            if (in_array($node, $this->theseOnesAreFine)) {
                 $this->theseOnesAreFine[] = $node->var;
             }
         }
 
         if ($node instanceof ArrayDimFetch && $node->dim === null) {
-            if (!\in_array($node, $this->theseOnesAreFine)) {
+            if (!in_array($node, $this->theseOnesAreFine)) {
                 throw new FatalErrorException(self::EXCEPTION_MESSAGE, $node->getStartLine());
             }
         }

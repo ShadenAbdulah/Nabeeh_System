@@ -2,6 +2,9 @@
 
 namespace Faker\Provider;
 
+use InvalidArgumentException;
+use RuntimeException;
+
 /**
  * Depends on image generation from http://lorempixel.com/
  */
@@ -62,7 +65,7 @@ class Image extends Base
         $imageFormats = static::getFormats();
 
         if (!in_array(strtolower($format), $imageFormats, true)) {
-            throw new \InvalidArgumentException(sprintf(
+            throw new InvalidArgumentException(sprintf(
                 'Invalid image format "%s". Allowable formats are: %s',
                 $format,
                 implode(', ', $imageFormats),
@@ -126,7 +129,7 @@ class Image extends Base
 
         // Validate directory path
         if (!is_dir($dir) || !is_writable($dir)) {
-            throw new \InvalidArgumentException(sprintf('Cannot write to directory "%s"', $dir));
+            throw new InvalidArgumentException(sprintf('Cannot write to directory "%s"', $dir));
         }
 
         // Generate a random filename. Use the server address so that a file
@@ -162,7 +165,7 @@ class Image extends Base
                 return false;
             }
         } else {
-            return new \RuntimeException('The image formatter downloads an image from a remote HTTP server. Therefore, it requires that PHP can request remote hosts, either via cURL or fopen()');
+            return new RuntimeException('The image formatter downloads an image from a remote HTTP server. Therefore, it requires that PHP can request remote hosts, either via cURL or fopen()');
         }
 
         return $fullPath ? $filepath : $filename;

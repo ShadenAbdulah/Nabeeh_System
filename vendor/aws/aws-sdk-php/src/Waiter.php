@@ -2,10 +2,13 @@
 namespace Aws;
 
 use Aws\Exception\AwsException;
+use Exception;
 use GuzzleHttp\Promise\Coroutine;
 use GuzzleHttp\Promise\PromiseInterface;
 use GuzzleHttp\Promise\PromisorInterface;
 use GuzzleHttp\Promise\RejectedPromise;
+use InvalidArgumentException;
+use RuntimeException;
 
 /**
  * "Waiters" are associated with an AWS resource (e.g., EC2 instance), and poll
@@ -59,7 +62,7 @@ class Waiter implements PromisorInterface
      * @param array              $args   Command arguments.
      * @param array              $config Waiter config that overrides defaults.
      *
-     * @throws \InvalidArgumentException if the configuration is incomplete.
+     * @throws InvalidArgumentException if the configuration is incomplete.
      */
     public function __construct(
         AwsClientInterface $client,
@@ -75,13 +78,13 @@ class Waiter implements PromisorInterface
         $this->config = $config + self::$defaults;
         foreach (self::$required as $key) {
             if (!isset($this->config[$key])) {
-                throw new \InvalidArgumentException(
+                throw new InvalidArgumentException(
                     'The provided waiter configuration was incomplete.'
                 );
             }
         }
         if ($this->config['before'] && !is_callable($this->config['before'])) {
-            throw new \InvalidArgumentException(
+            throw new InvalidArgumentException(
                 'The provided "before" callback is not callable.'
             );
         }
@@ -113,15 +116,15 @@ class Waiter implements PromisorInterface
                     yield $command;
                 } elseif ($state === 'failed') {
                     $msg = "The {$this->name} waiter entered a failure state.";
-                    if ($result instanceof \Exception) {
+                    if ($result instanceof Exception) {
                         $msg .= ' Reason: ' . $result->getMessage();
                     }
-                    yield new RejectedPromise(new \RuntimeException($msg));
+                    yield new RejectedPromise(new RuntimeException($msg));
                 } elseif ($state === 'retry'
                     && $attempt >= $this->config['maxAttempts']
                 ) {
                     $state = 'failed';
-                    yield new RejectedPromise(new \RuntimeException(
+                    yield new RejectedPromise(new RuntimeException(
                         "The {$this->name} waiter failed after attempt #{$attempt}."
                     ));
                 }
@@ -175,7 +178,7 @@ class Waiter implements PromisorInterface
             }
         }
 
-        return $result instanceof \Exception ? 'failed' : 'retry';
+        return $result instanceof Exception ? 'failed' : 'retry';
     }
 
     /**

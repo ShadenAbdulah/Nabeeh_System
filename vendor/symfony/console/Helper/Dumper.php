@@ -11,10 +11,12 @@
 
 namespace Symfony\Component\Console\Helper;
 
+use Closure;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\VarDumper\Cloner\ClonerInterface;
 use Symfony\Component\VarDumper\Cloner\VarCloner;
 use Symfony\Component\VarDumper\Dumper\CliDumper;
+use function is_string;
 
 /**
  * @author Roland Franssen <franssen.roland@gmail.com>
@@ -24,7 +26,7 @@ final class Dumper
     private OutputInterface $output;
     private ?CliDumper $dumper;
     private ?ClonerInterface $cloner;
-    private \Closure $handler;
+    private Closure $handler;
 
     public function __construct(OutputInterface $output, ?CliDumper $dumper = null, ?ClonerInterface $cloner = null)
     {
@@ -44,7 +46,7 @@ final class Dumper
                 null === $var => 'null',
                 true === $var => 'true',
                 false === $var => 'false',
-                \is_string($var) => '"'.$var.'"',
+                is_string($var) => '"'.$var.'"',
                 default => rtrim(print_r($var, true)),
             };
         }

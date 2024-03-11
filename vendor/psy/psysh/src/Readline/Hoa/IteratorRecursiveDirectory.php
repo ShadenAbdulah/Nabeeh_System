@@ -36,12 +36,16 @@
 
 namespace Psy\Readline\Hoa;
 
+use RecursiveDirectoryIterator;
+use ReturnTypeWillChange;
+use SplFileInfo;
+
 /**
  * Class \Hoa\Iterator\Recursive\Directory.
  *
  * Extending the SPL RecursiveDirectoryIterator class.
  */
-class IteratorRecursiveDirectory extends \RecursiveDirectoryIterator
+class IteratorRecursiveDirectory extends RecursiveDirectoryIterator
 {
     /**
      * SplFileInfo classname.
@@ -76,13 +80,13 @@ class IteratorRecursiveDirectory extends \RecursiveDirectoryIterator
      * Current.
      * Please, see \RecursiveDirectoryIterator::current() method.
      */
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function current()
     {
         $out = parent::current();
 
         if (null !== $this->_splFileInfoClass &&
-            $out instanceof \SplFileInfo) {
+            $out instanceof SplFileInfo) {
             $out->setInfoClass($this->_splFileInfoClass);
             $out = $out->getFileInfo();
 
@@ -98,7 +102,7 @@ class IteratorRecursiveDirectory extends \RecursiveDirectoryIterator
      * Get children.
      * Please, see \RecursiveDirectoryIterator::getChildren() method.
      */
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function getChildren()
     {
         $out = parent::getChildren();

@@ -7,6 +7,10 @@ namespace Dotenv\Repository\Adapter;
 use PhpOption\None;
 use PhpOption\Option;
 use PhpOption\Some;
+use function function_exists;
+use function getenv;
+use function is_string;
+use function putenv;
 
 final class PutenvAdapter implements AdapterInterface
 {
@@ -23,12 +27,12 @@ final class PutenvAdapter implements AdapterInterface
     /**
      * Create a new instance of the adapter, if it is available.
      *
-     * @return \PhpOption\Option<\Dotenv\Repository\Adapter\AdapterInterface>
+     * @return Option<AdapterInterface>
      */
     public static function create()
     {
         if (self::isSupported()) {
-            /** @var \PhpOption\Option<AdapterInterface> */
+            /** @var Option<AdapterInterface> */
             return Some::create(new self());
         }
 
@@ -42,7 +46,7 @@ final class PutenvAdapter implements AdapterInterface
      */
     private static function isSupported()
     {
-        return \function_exists('getenv') && \function_exists('putenv');
+        return function_exists('getenv') && function_exists('putenv');
     }
 
     /**
@@ -50,13 +54,13 @@ final class PutenvAdapter implements AdapterInterface
      *
      * @param non-empty-string $name
      *
-     * @return \PhpOption\Option<string>
+     * @return Option<string>
      */
     public function read(string $name)
     {
-        /** @var \PhpOption\Option<string> */
-        return Option::fromValue(\getenv($name), false)->filter(static function ($value) {
-            return \is_string($value);
+        /** @var Option<string> */
+        return Option::fromValue(getenv($name), false)->filter(static function ($value) {
+            return is_string($value);
         });
     }
 
@@ -70,7 +74,7 @@ final class PutenvAdapter implements AdapterInterface
      */
     public function write(string $name, string $value)
     {
-        \putenv("$name=$value");
+        putenv("$name=$value");
 
         return true;
     }
@@ -84,7 +88,7 @@ final class PutenvAdapter implements AdapterInterface
      */
     public function delete(string $name)
     {
-        \putenv($name);
+        putenv($name);
 
         return true;
     }

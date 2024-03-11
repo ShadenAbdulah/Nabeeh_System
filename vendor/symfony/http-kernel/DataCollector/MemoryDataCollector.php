@@ -13,6 +13,9 @@ namespace Symfony\Component\HttpKernel\DataCollector;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Throwable;
+use function ini_get;
+use function intval;
 
 /**
  * @author Fabien Potencier <fabien@symfony.com>
@@ -26,7 +29,7 @@ class MemoryDataCollector extends DataCollector implements LateDataCollectorInte
         $this->reset();
     }
 
-    public function collect(Request $request, Response $response, ?\Throwable $exception = null): void
+    public function collect(Request $request, Response $response, ?Throwable $exception = null): void
     {
         $this->updateMemoryUsage();
     }
@@ -35,7 +38,7 @@ class MemoryDataCollector extends DataCollector implements LateDataCollectorInte
     {
         $this->data = [
             'memory' => 0,
-            'memory_limit' => $this->convertToBytes(\ini_get('memory_limit')),
+            'memory_limit' => $this->convertToBytes(ini_get('memory_limit')),
         ];
     }
 
@@ -73,9 +76,9 @@ class MemoryDataCollector extends DataCollector implements LateDataCollectorInte
         $memoryLimit = strtolower($memoryLimit);
         $max = strtolower(ltrim($memoryLimit, '+'));
         if (str_starts_with($max, '0x')) {
-            $max = \intval($max, 16);
+            $max = intval($max, 16);
         } elseif (str_starts_with($max, '0')) {
-            $max = \intval($max, 8);
+            $max = intval($max, 8);
         } else {
             $max = (int) $max;
         }

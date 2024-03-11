@@ -10,6 +10,7 @@
 
 namespace Mockery\Generator\StringManipulation\Pass;
 
+use Mockery;
 use Mockery\Generator\MockConfiguration;
 
 class InterfacePass implements Pass
@@ -19,7 +20,7 @@ class InterfacePass implements Pass
         foreach ($config->getTargetInterfaces() as $i) {
             $name = ltrim($i->getName(), "\\");
             if (!interface_exists($name)) {
-                \Mockery::declareInterface($name);
+                Mockery::declareInterface($name);
             }
         }
 

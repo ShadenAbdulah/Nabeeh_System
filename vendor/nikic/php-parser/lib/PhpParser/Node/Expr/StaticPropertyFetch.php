@@ -6,6 +6,7 @@ use PhpParser\Node;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Name;
 use PhpParser\Node\VarLikeIdentifier;
+use function is_string;
 
 class StaticPropertyFetch extends Expr {
     /** @var Name|Expr Class name */
@@ -23,7 +24,7 @@ class StaticPropertyFetch extends Expr {
     public function __construct(Node $class, $name, array $attributes = []) {
         $this->attributes = $attributes;
         $this->class = $class;
-        $this->name = \is_string($name) ? new VarLikeIdentifier($name) : $name;
+        $this->name = is_string($name) ? new VarLikeIdentifier($name) : $name;
     }
 
     public function getSubNodeNames(): array {

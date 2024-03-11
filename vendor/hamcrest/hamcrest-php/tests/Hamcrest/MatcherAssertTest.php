@@ -1,6 +1,7 @@
 <?php
 namespace Hamcrest;
 
+use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 
 class MatcherAssertTest extends TestCase
@@ -8,123 +9,123 @@ class MatcherAssertTest extends TestCase
 
     protected function setUp()
     {
-        \Hamcrest\MatcherAssert::resetCount();
+        MatcherAssert::resetCount();
     }
 
     public function testResetCount()
     {
-        \Hamcrest\MatcherAssert::assertThat(true);
-        self::assertEquals(1, \Hamcrest\MatcherAssert::getCount(), 'assertion count');
-        \Hamcrest\MatcherAssert::resetCount();
-        self::assertEquals(0, \Hamcrest\MatcherAssert::getCount(), 'assertion count');
+        MatcherAssert::assertThat(true);
+        self::assertEquals(1, MatcherAssert::getCount(), 'assertion count');
+        MatcherAssert::resetCount();
+        self::assertEquals(0, MatcherAssert::getCount(), 'assertion count');
     }
 
     public function testAssertThatWithTrueArgPasses()
     {
-        \Hamcrest\MatcherAssert::assertThat(true);
-        \Hamcrest\MatcherAssert::assertThat('non-empty');
-        \Hamcrest\MatcherAssert::assertThat(1);
-        \Hamcrest\MatcherAssert::assertThat(3.14159);
-        \Hamcrest\MatcherAssert::assertThat(array(true));
-        self::assertEquals(5, \Hamcrest\MatcherAssert::getCount(), 'assertion count');
+        MatcherAssert::assertThat(true);
+        MatcherAssert::assertThat('non-empty');
+        MatcherAssert::assertThat(1);
+        MatcherAssert::assertThat(3.14159);
+        MatcherAssert::assertThat(array(true));
+        self::assertEquals(5, MatcherAssert::getCount(), 'assertion count');
     }
 
     public function testAssertThatWithFalseArgFails()
     {
         try {
-            \Hamcrest\MatcherAssert::assertThat(false);
+            MatcherAssert::assertThat(false);
             self::fail('expected assertion failure');
-        } catch (\Hamcrest\AssertionError $ex) {
+        } catch (AssertionError $ex) {
             self::assertEquals('', $ex->getMessage());
         }
         try {
-            \Hamcrest\MatcherAssert::assertThat(null);
+            MatcherAssert::assertThat(null);
             self::fail('expected assertion failure');
-        } catch (\Hamcrest\AssertionError $ex) {
+        } catch (AssertionError $ex) {
             self::assertEquals('', $ex->getMessage());
         }
         try {
-            \Hamcrest\MatcherAssert::assertThat('');
+            MatcherAssert::assertThat('');
             self::fail('expected assertion failure');
-        } catch (\Hamcrest\AssertionError $ex) {
+        } catch (AssertionError $ex) {
             self::assertEquals('', $ex->getMessage());
         }
         try {
-            \Hamcrest\MatcherAssert::assertThat(0);
+            MatcherAssert::assertThat(0);
             self::fail('expected assertion failure');
-        } catch (\Hamcrest\AssertionError $ex) {
+        } catch (AssertionError $ex) {
             self::assertEquals('', $ex->getMessage());
         }
         try {
-            \Hamcrest\MatcherAssert::assertThat(0.0);
+            MatcherAssert::assertThat(0.0);
             self::fail('expected assertion failure');
-        } catch (\Hamcrest\AssertionError $ex) {
+        } catch (AssertionError $ex) {
             self::assertEquals('', $ex->getMessage());
         }
         try {
-            \Hamcrest\MatcherAssert::assertThat(array());
+            MatcherAssert::assertThat(array());
             self::fail('expected assertion failure');
-        } catch (\Hamcrest\AssertionError $ex) {
+        } catch (AssertionError $ex) {
             self::assertEquals('', $ex->getMessage());
         }
-        self::assertEquals(6, \Hamcrest\MatcherAssert::getCount(), 'assertion count');
+        self::assertEquals(6, MatcherAssert::getCount(), 'assertion count');
     }
 
     public function testAssertThatWithIdentifierAndTrueArgPasses()
     {
-        \Hamcrest\MatcherAssert::assertThat('identifier', true);
-        \Hamcrest\MatcherAssert::assertThat('identifier', 'non-empty');
-        \Hamcrest\MatcherAssert::assertThat('identifier', 1);
-        \Hamcrest\MatcherAssert::assertThat('identifier', 3.14159);
-        \Hamcrest\MatcherAssert::assertThat('identifier', array(true));
-        self::assertEquals(5, \Hamcrest\MatcherAssert::getCount(), 'assertion count');
+        MatcherAssert::assertThat('identifier', true);
+        MatcherAssert::assertThat('identifier', 'non-empty');
+        MatcherAssert::assertThat('identifier', 1);
+        MatcherAssert::assertThat('identifier', 3.14159);
+        MatcherAssert::assertThat('identifier', array(true));
+        self::assertEquals(5, MatcherAssert::getCount(), 'assertion count');
     }
 
     public function testAssertThatWithIdentifierAndFalseArgFails()
     {
         try {
-            \Hamcrest\MatcherAssert::assertThat('identifier', false);
+            MatcherAssert::assertThat('identifier', false);
             self::fail('expected assertion failure');
-        } catch (\Hamcrest\AssertionError $ex) {
+        } catch (AssertionError $ex) {
             self::assertEquals('identifier', $ex->getMessage());
         }
         try {
-            \Hamcrest\MatcherAssert::assertThat('identifier', null);
+            MatcherAssert::assertThat('identifier', null);
             self::fail('expected assertion failure');
-        } catch (\Hamcrest\AssertionError $ex) {
+        } catch (AssertionError $ex) {
             self::assertEquals('identifier', $ex->getMessage());
         }
         try {
-            \Hamcrest\MatcherAssert::assertThat('identifier', '');
+            MatcherAssert::assertThat('identifier', '');
             self::fail('expected assertion failure');
-        } catch (\Hamcrest\AssertionError $ex) {
+        } catch (AssertionError $ex) {
             self::assertEquals('identifier', $ex->getMessage());
         }
         try {
-            \Hamcrest\MatcherAssert::assertThat('identifier', 0);
+            MatcherAssert::assertThat('identifier', 0);
             self::fail('expected assertion failure');
-        } catch (\Hamcrest\AssertionError $ex) {
+        } catch (AssertionError $ex) {
             self::assertEquals('identifier', $ex->getMessage());
         }
         try {
-            \Hamcrest\MatcherAssert::assertThat('identifier', 0.0);
+            MatcherAssert::assertThat('identifier', 0.0);
             self::fail('expected assertion failure');
-        } catch (\Hamcrest\AssertionError $ex) {
+        } catch (AssertionError $ex) {
             self::assertEquals('identifier', $ex->getMessage());
         }
         try {
-            \Hamcrest\MatcherAssert::assertThat('identifier', array());
+            MatcherAssert::assertThat('identifier', array());
             self::fail('expected assertion failure');
-        } catch (\Hamcrest\AssertionError $ex) {
+        } catch (AssertionError $ex) {
             self::assertEquals('identifier', $ex->getMessage());
         }
-        self::assertEquals(6, \Hamcrest\MatcherAssert::getCount(), 'assertion count');
+        self::assertEquals(6, MatcherAssert::getCount(), 'assertion count');
     }
 
     public function testAssertThatWithActualValueAndMatcherArgsThatMatchPasses()
     {
-        \Hamcrest\MatcherAssert::assertThat(true, is(true));
-        self::assertEquals(1, \Hamcrest\MatcherAssert::getCount(), 'assertion count');
+        MatcherAssert::assertThat(true, is(true));
+        self::assertEquals(1, MatcherAssert::getCount(), 'assertion count');
     }
 
     public function testAssertThatWithActualValueAndMatcherArgsThatDontMatchFails()
@@ -137,18 +138,18 @@ class MatcherAssertTest extends TestCase
             '     but: was "actual"';
 
         try {
-            \Hamcrest\MatcherAssert::assertThat($actual, equalTo($expected));
+            MatcherAssert::assertThat($actual, equalTo($expected));
             self::fail('expected assertion failure');
-        } catch (\Hamcrest\AssertionError $ex) {
+        } catch (AssertionError $ex) {
             self::assertEquals($expectedMessage, $ex->getMessage());
-            self::assertEquals(1, \Hamcrest\MatcherAssert::getCount(), 'assertion count');
+            self::assertEquals(1, MatcherAssert::getCount(), 'assertion count');
         }
     }
 
     public function testAssertThatWithIdentifierAndActualValueAndMatcherArgsThatMatchPasses()
     {
-        \Hamcrest\MatcherAssert::assertThat('identifier', true, is(true));
-        self::assertEquals(1, \Hamcrest\MatcherAssert::getCount(), 'assertion count');
+        MatcherAssert::assertThat('identifier', true, is(true));
+        self::assertEquals(1, MatcherAssert::getCount(), 'assertion count');
     }
 
     public function testAssertThatWithIdentifierAndActualValueAndMatcherArgsThatDontMatchFails()
@@ -162,31 +163,31 @@ class MatcherAssertTest extends TestCase
             '     but: was "actual"';
 
         try {
-            \Hamcrest\MatcherAssert::assertThat('identifier', $actual, equalTo($expected));
+            MatcherAssert::assertThat('identifier', $actual, equalTo($expected));
             self::fail('expected assertion failure');
-        } catch (\Hamcrest\AssertionError $ex) {
+        } catch (AssertionError $ex) {
             self::assertEquals($expectedMessage, $ex->getMessage());
-            self::assertEquals(1, \Hamcrest\MatcherAssert::getCount(), 'assertion count');
+            self::assertEquals(1, MatcherAssert::getCount(), 'assertion count');
         }
     }
 
     public function testAssertThatWithNoArgsThrowsErrorAndDoesntIncrementCount()
     {
         try {
-            \Hamcrest\MatcherAssert::assertThat();
+            MatcherAssert::assertThat();
             self::fail('expected invalid argument exception');
-        } catch (\InvalidArgumentException $ex) {
-            self::assertEquals(0, \Hamcrest\MatcherAssert::getCount(), 'assertion count');
+        } catch (InvalidArgumentException $ex) {
+            self::assertEquals(0, MatcherAssert::getCount(), 'assertion count');
         }
     }
 
     public function testAssertThatWithFourArgsThrowsErrorAndDoesntIncrementCount()
     {
         try {
-            \Hamcrest\MatcherAssert::assertThat(1, 2, 3, 4);
+            MatcherAssert::assertThat(1, 2, 3, 4);
             self::fail('expected invalid argument exception');
-        } catch (\InvalidArgumentException $ex) {
-            self::assertEquals(0, \Hamcrest\MatcherAssert::getCount(), 'assertion count');
+        } catch (InvalidArgumentException $ex) {
+            self::assertEquals(0, MatcherAssert::getCount(), 'assertion count');
         }
     }
 }

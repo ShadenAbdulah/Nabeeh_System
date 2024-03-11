@@ -63,7 +63,7 @@ class Inspiring
     /**
      * Get the collection of inspiring quotes.
      *
-     * @return \Illuminate\Support\Collection
+     * @return Collection
      */
     public static function quotes()
     {

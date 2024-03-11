@@ -11,8 +11,53 @@
 
 namespace Psy\Formatter;
 
+use Generator;
 use Psy\Exception\RuntimeException;
+use ReflectionClass;
+use ReflectionFunctionAbstract;
+use Reflector;
 use Symfony\Component\Console\Formatter\OutputFormatter;
+use function array_key_exists;
+use function end;
+use function file_get_contents;
+use function implode;
+use function is_array;
+use function is_file;
+use function iterator_to_array;
+use function key;
+use function max;
+use function preg_match_all;
+use function preg_split;
+use function reset;
+use function sprintf;
+use function strlen;
+use function token_get_all;
+use const PHP_EOL;
+use const T_CLASS_C;
+use const T_CLOSE_TAG;
+use const T_COMMENT;
+use const T_CONSTANT_ENCAPSED_STRING;
+use const T_DIR;
+use const T_DNUMBER;
+use const T_DOC_COMMENT;
+use const T_ENCAPSED_AND_WHITESPACE;
+use const T_FILE;
+use const T_FUNC_C;
+use const T_INLINE_HTML;
+use const T_LINE;
+use const T_LNUMBER;
+use const T_METHOD_C;
+use const T_NS_C;
+use const T_NS_SEPARATOR;
+use const T_OPEN_TAG;
+use const T_OPEN_TAG_WITH_ECHO;
+use const T_PRIVATE;
+use const T_PROTECTED;
+use const T_PUBLIC;
+use const T_STRING;
+use const T_TRAIT_C;
+use const T_VARIABLE;
+use const T_WHITESPACE;
 
 /**
  * A pretty-printer for code.
@@ -37,53 +82,53 @@ class CodeFormatter implements ReflectorFormatter
 
     private static $tokenMap = [
         // Not highlighted
-        \T_OPEN_TAG           => self::HIGHLIGHT_DEFAULT,
-        \T_OPEN_TAG_WITH_ECHO => self::HIGHLIGHT_DEFAULT,
-        \T_CLOSE_TAG          => self::HIGHLIGHT_DEFAULT,
-        \T_STRING             => self::HIGHLIGHT_DEFAULT,
-        \T_VARIABLE           => self::HIGHLIGHT_DEFAULT,
-        \T_NS_SEPARATOR       => self::HIGHLIGHT_DEFAULT,
+        T_OPEN_TAG           => self::HIGHLIGHT_DEFAULT,
+        T_OPEN_TAG_WITH_ECHO => self::HIGHLIGHT_DEFAULT,
+        T_CLOSE_TAG          => self::HIGHLIGHT_DEFAULT,
+        T_STRING             => self::HIGHLIGHT_DEFAULT,
+        T_VARIABLE           => self::HIGHLIGHT_DEFAULT,
+        T_NS_SEPARATOR       => self::HIGHLIGHT_DEFAULT,
 
         // Visibility
-        \T_PUBLIC    => self::HIGHLIGHT_PUBLIC,
-        \T_PROTECTED => self::HIGHLIGHT_PROTECTED,
-        \T_PRIVATE   => self::HIGHLIGHT_PRIVATE,
+        T_PUBLIC    => self::HIGHLIGHT_PUBLIC,
+        T_PROTECTED => self::HIGHLIGHT_PROTECTED,
+        T_PRIVATE   => self::HIGHLIGHT_PRIVATE,
 
         // Constants
-        \T_DIR      => self::HIGHLIGHT_CONST,
-        \T_FILE     => self::HIGHLIGHT_CONST,
-        \T_METHOD_C => self::HIGHLIGHT_CONST,
-        \T_NS_C     => self::HIGHLIGHT_CONST,
-        \T_LINE     => self::HIGHLIGHT_CONST,
-        \T_CLASS_C  => self::HIGHLIGHT_CONST,
-        \T_FUNC_C   => self::HIGHLIGHT_CONST,
-        \T_TRAIT_C  => self::HIGHLIGHT_CONST,
+        T_DIR      => self::HIGHLIGHT_CONST,
+        T_FILE     => self::HIGHLIGHT_CONST,
+        T_METHOD_C => self::HIGHLIGHT_CONST,
+        T_NS_C     => self::HIGHLIGHT_CONST,
+        T_LINE     => self::HIGHLIGHT_CONST,
+        T_CLASS_C  => self::HIGHLIGHT_CONST,
+        T_FUNC_C   => self::HIGHLIGHT_CONST,
+        T_TRAIT_C  => self::HIGHLIGHT_CONST,
 
         // Types
-        \T_DNUMBER                  => self::HIGHLIGHT_NUMBER,
-        \T_LNUMBER                  => self::HIGHLIGHT_NUMBER,
-        \T_ENCAPSED_AND_WHITESPACE  => self::HIGHLIGHT_STRING,
-        \T_CONSTANT_ENCAPSED_STRING => self::HIGHLIGHT_STRING,
+        T_DNUMBER                  => self::HIGHLIGHT_NUMBER,
+        T_LNUMBER                  => self::HIGHLIGHT_NUMBER,
+        T_ENCAPSED_AND_WHITESPACE  => self::HIGHLIGHT_STRING,
+        T_CONSTANT_ENCAPSED_STRING => self::HIGHLIGHT_STRING,
 
         // Comments
-        \T_COMMENT     => self::HIGHLIGHT_COMMENT,
-        \T_DOC_COMMENT => self::HIGHLIGHT_COMMENT,
+        T_COMMENT     => self::HIGHLIGHT_COMMENT,
+        T_DOC_COMMENT => self::HIGHLIGHT_COMMENT,
 
         // @todo something better here?
-        \T_INLINE_HTML => self::HIGHLIGHT_INLINE_HTML,
+        T_INLINE_HTML => self::HIGHLIGHT_INLINE_HTML,
     ];
 
     /**
      * Format the code represented by $reflector for shell output.
      *
-     * @param \Reflector $reflector
+     * @param Reflector $reflector
      *
      * @return string formatted code
      */
-    public static function format(\Reflector $reflector): string
+    public static function format(Reflector $reflector): string
     {
         if (self::isReflectable($reflector)) {
-            if ($code = @\file_get_contents($reflector->getFileName())) {
+            if ($code = @file_get_contents($reflector->getFileName())) {
                 return self::formatCode($code, self::getStartLine($reflector), $reflector->getEndLine());
             }
         }
@@ -110,7 +155,7 @@ class CodeFormatter implements ReflectorFormatter
         $lines = self::formatLines($lines);
         $lines = self::numberLines($lines, $markLine);
 
-        return \implode('', \iterator_to_array($lines));
+        return implode('', iterator_to_array($lines));
     }
 
     /**
@@ -120,17 +165,17 @@ class CodeFormatter implements ReflectorFormatter
      *
      * This is typehinted as \Reflector but we've narrowed the input via self::isReflectable already.
      *
-     * @param \ReflectionClass|\ReflectionFunctionAbstract $reflector
+     * @param ReflectionClass|ReflectionFunctionAbstract $reflector
      */
-    private static function getStartLine(\Reflector $reflector): int
+    private static function getStartLine(Reflector $reflector): int
     {
         $startLine = $reflector->getStartLine();
 
         if ($docComment = $reflector->getDocComment()) {
-            $startLine -= \preg_match_all('/(\r\n?|\n)/', $docComment) + 1;
+            $startLine -= preg_match_all('/(\r\n?|\n)/', $docComment) + 1;
         }
 
-        return \max($startLine, 1);
+        return max($startLine, 1);
     }
 
     /**
@@ -143,14 +188,14 @@ class CodeFormatter implements ReflectorFormatter
      *
      * @param string $code
      *
-     * @return \Generator [$spanType, $spanText] highlight spans
+     * @return Generator [$spanType, $spanText] highlight spans
      */
-    private static function tokenizeSpans(string $code): \Generator
+    private static function tokenizeSpans(string $code): Generator
     {
         $spanType = null;
         $buffer = '';
 
-        foreach (\token_get_all($code) as $token) {
+        foreach (token_get_all($code) as $token) {
             $nextType = self::nextHighlightType($token, $spanType);
             $spanType = $spanType ?: $nextType;
 
@@ -160,7 +205,7 @@ class CodeFormatter implements ReflectorFormatter
                 $buffer = '';
             }
 
-            $buffer .= \is_array($token) ? $token[1] : $token;
+            $buffer .= is_array($token) ? $token[1] : $token;
         }
 
         if ($spanType !== null && $buffer !== '') {
@@ -182,12 +227,12 @@ class CodeFormatter implements ReflectorFormatter
             return self::HIGHLIGHT_STRING;
         }
 
-        if (\is_array($token)) {
-            if ($token[0] === \T_WHITESPACE) {
+        if (is_array($token)) {
+            if ($token[0] === T_WHITESPACE) {
                 return $currentType;
             }
 
-            if (\array_key_exists($token[0], self::$tokenMap)) {
+            if (array_key_exists($token[0], self::$tokenMap)) {
                 return self::$tokenMap[$token[0]];
             }
         }
@@ -200,19 +245,19 @@ class CodeFormatter implements ReflectorFormatter
      *
      * Optionally, restrict by start and end line numbers.
      *
-     * @param \Generator $spans     as [$spanType, $spanText] pairs
+     * @param Generator $spans     as [$spanType, $spanText] pairs
      * @param int        $startLine
      * @param int|null   $endLine
      *
-     * @return \Generator lines, each an array of [$spanType, $spanText] pairs
+     * @return Generator lines, each an array of [$spanType, $spanText] pairs
      */
-    private static function splitLines(\Generator $spans, int $startLine = 1, int $endLine = null): \Generator
+    private static function splitLines(Generator $spans, int $startLine = 1, int $endLine = null): Generator
     {
         $lineNum = 1;
         $buffer = [];
 
         foreach ($spans as list($spanType, $spanText)) {
-            foreach (\preg_split('/(\r\n?|\n)/', $spanText) as $index => $spanLine) {
+            foreach (preg_split('/(\r\n?|\n)/', $spanText) as $index => $spanLine) {
                 if ($index > 0) {
                     if ($lineNum >= $startLine) {
                         yield $lineNum => $buffer;
@@ -240,11 +285,11 @@ class CodeFormatter implements ReflectorFormatter
     /**
      * Format lines of highlight spans for shell output.
      *
-     * @param \Generator $spanLines lines, each an array of [$spanType, $spanText] pairs
+     * @param Generator $spanLines lines, each an array of [$spanType, $spanText] pairs
      *
-     * @return \Generator Formatted lines
+     * @return Generator Formatted lines
      */
-    private static function formatLines(\Generator $spanLines): \Generator
+    private static function formatLines(Generator $spanLines): Generator
     {
         foreach ($spanLines as $lineNum => $spanLine) {
             $line = '';
@@ -253,11 +298,11 @@ class CodeFormatter implements ReflectorFormatter
                 if ($spanType === self::HIGHLIGHT_DEFAULT) {
                     $line .= OutputFormatter::escape($spanText);
                 } else {
-                    $line .= \sprintf('<%s>%s</%s>', $spanType, OutputFormatter::escape($spanText), $spanType);
+                    $line .= sprintf('<%s>%s</%s>', $spanType, OutputFormatter::escape($spanText), $spanType);
                 }
             }
 
-            yield $lineNum => $line.\PHP_EOL;
+            yield $lineNum => $line. PHP_EOL;
         }
     }
 
@@ -268,27 +313,27 @@ class CodeFormatter implements ReflectorFormatter
      *
      * Optionally, pass $markLine to add a line marker.
      *
-     * @param \Generator $lines    Formatted lines
+     * @param Generator $lines    Formatted lines
      * @param int|null   $markLine
      *
-     * @return \Generator Numbered, formatted lines
+     * @return Generator Numbered, formatted lines
      */
-    private static function numberLines(\Generator $lines, int $markLine = null): \Generator
+    private static function numberLines(Generator $lines, int $markLine = null): Generator
     {
-        $lines = \iterator_to_array($lines);
+        $lines = iterator_to_array($lines);
 
         // Figure out how much space to reserve for line numbers.
-        \end($lines);
-        $pad = \strlen(\key($lines));
+        end($lines);
+        $pad = strlen(key($lines));
 
         // If $markLine is before or after our line range, don't bother reserving space for the marker.
         if ($markLine !== null) {
-            if ($markLine > \key($lines)) {
+            if ($markLine > key($lines)) {
                 $markLine = null;
             }
 
-            \reset($lines);
-            if ($markLine < \key($lines)) {
+            reset($lines);
+            if ($markLine < key($lines)) {
                 $markLine = null;
             }
         }
@@ -299,19 +344,19 @@ class CodeFormatter implements ReflectorFormatter
                 $mark = ($markLine === $lineNum) ? self::LINE_MARKER : self::NO_LINE_MARKER;
             }
 
-            yield \sprintf("%s<aside>%{$pad}s</aside>: %s", $mark, $lineNum, $line);
+            yield sprintf("%s<aside>%{$pad}s</aside>: %s", $mark, $lineNum, $line);
         }
     }
 
     /**
      * Check whether a Reflector instance is reflectable by this formatter.
      *
-     * @phpstan-assert-if-true \ReflectionClass|\ReflectionFunctionAbstract $reflector
+     * @phpstan-assert-if-true ReflectionClass|ReflectionFunctionAbstract $reflector
      *
-     * @param \Reflector $reflector
+     * @param Reflector $reflector
      */
-    private static function isReflectable(\Reflector $reflector): bool
+    private static function isReflectable(Reflector $reflector): bool
     {
-        return ($reflector instanceof \ReflectionClass || $reflector instanceof \ReflectionFunctionAbstract) && \is_file($reflector->getFileName());
+        return ($reflector instanceof ReflectionClass || $reflector instanceof ReflectionFunctionAbstract) && is_file($reflector->getFileName());
     }
 }

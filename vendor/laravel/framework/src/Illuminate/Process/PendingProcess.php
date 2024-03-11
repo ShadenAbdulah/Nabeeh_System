@@ -10,6 +10,7 @@ use LogicException;
 use RuntimeException;
 use Symfony\Component\Process\Exception\ProcessTimedOutException as SymfonyTimeoutException;
 use Symfony\Component\Process\Process;
+use Traversable;
 
 class PendingProcess
 {
@@ -18,7 +19,7 @@ class PendingProcess
     /**
      * The process factory instance.
      *
-     * @var \Illuminate\Process\Factory
+     * @var Factory
      */
     protected $factory;
 
@@ -60,7 +61,7 @@ class PendingProcess
     /**
      * The standard input data that should be piped into the command.
      *
-     * @var string|int|float|bool|resource|\Traversable|null
+     * @var string|int|float|bool|resource|Traversable|null
      */
     public $input;
 
@@ -95,7 +96,7 @@ class PendingProcess
     /**
      * Create a new pending process instance.
      *
-     * @param  \Illuminate\Process\Factory  $factory
+     * @param Factory $factory
      * @return void
      */
     public function __construct(Factory $factory)
@@ -183,7 +184,7 @@ class PendingProcess
     /**
      * Set the standard input that should be provided when invoking the process.
      *
-     * @param  \Traversable|resource|string|int|float|bool|null  $input
+     * @param  Traversable|resource|string|int|float|bool|null  $input
      * @return $this
      */
     public function input($input)
@@ -238,8 +239,8 @@ class PendingProcess
      * @param  callable|null  $output
      * @return \Illuminate\Contracts\Process\ProcessResult
      *
-     * @throws \Illuminate\Process\Exceptions\ProcessTimedOutException
-     * @throws \RuntimeException
+     * @throws ProcessTimedOutException
+     * @throws RuntimeException
      */
     public function run(array|string $command = null, callable $output = null)
     {
@@ -267,9 +268,9 @@ class PendingProcess
      *
      * @param  array<array-key, string>|string|null  $command
      * @param  callable|null  $output
-     * @return \Illuminate\Process\InvokedProcess
+     * @return InvokedProcess
      *
-     * @throws \RuntimeException
+     * @throws RuntimeException
      */
     public function start(array|string $command = null, callable $output = null)
     {
@@ -292,7 +293,7 @@ class PendingProcess
      * Get a Symfony Process instance from the current pending command.
      *
      * @param  array<array-key, string>|string|null  $command
-     * @return \Symfony\Component\Process\Process
+     * @return Process
      */
     protected function toSymfonyProcess(array|string|null $command)
     {
@@ -345,7 +346,7 @@ class PendingProcess
      * Get the fake handler for the given command, if applicable.
      *
      * @param  string  $command
-     * @return \Closure|null
+     * @return Closure|null
      */
     protected function fakeFor(string $command)
     {
@@ -357,7 +358,7 @@ class PendingProcess
      * Resolve the given fake handler for a synchronous process.
      *
      * @param  string  $command
-     * @param  \Closure  $fake
+     * @param Closure $fake
      * @return mixed
      */
     protected function resolveSynchronousFake(string $command, Closure $fake)
@@ -382,8 +383,8 @@ class PendingProcess
      *
      * @param  string  $command
      * @param  callable|null  $output
-     * @param  \Closure  $fake
-     * @return \Illuminate\Process\FakeInvokedProcess
+     * @param Closure $fake
+     * @return FakeInvokedProcess
      *
      * @throw \LogicException
      */

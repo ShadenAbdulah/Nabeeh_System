@@ -1,14 +1,16 @@
 <?php
 namespace Hamcrest\Number;
 
-class IsCloseToTest extends \Hamcrest\AbstractMatcherTest
+use Hamcrest\AbstractMatcherTest;
+
+class IsCloseToTest extends AbstractMatcherTest
 {
 
     protected function createMatcher()
     {
         $irrelevant = 0.1;
 
-        return \Hamcrest\Number\IsCloseTo::closeTo($irrelevant, $irrelevant);
+        return IsCloseTo::closeTo($irrelevant, $irrelevant);
     }
 
     public function testEvaluatesToTrueIfArgumentIsEqualToADoubleValueWithinSomeError()

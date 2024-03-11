@@ -2,7 +2,11 @@
 
 namespace Illuminate\Foundation\Auth\Access;
 
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Auth\Access\Response;
 use Illuminate\Contracts\Auth\Access\Gate;
+use Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
 trait AuthorizesRequests
@@ -12,9 +16,9 @@ trait AuthorizesRequests
      *
      * @param  mixed  $ability
      * @param  mixed|array  $arguments
-     * @return \Illuminate\Auth\Access\Response
+     * @return Response
      *
-     * @throws \Illuminate\Auth\Access\AuthorizationException
+     * @throws AuthorizationException
      */
     public function authorize($ability, $arguments = [])
     {
@@ -26,12 +30,12 @@ trait AuthorizesRequests
     /**
      * Authorize a given action for a user.
      *
-     * @param  \Illuminate\Contracts\Auth\Authenticatable|mixed  $user
+     * @param  Authenticatable|mixed  $user
      * @param  mixed  $ability
      * @param  mixed|array  $arguments
-     * @return \Illuminate\Auth\Access\Response
+     * @return Response
      *
-     * @throws \Illuminate\Auth\Access\AuthorizationException
+     * @throws AuthorizationException
      */
     public function authorizeForUser($user, $ability, $arguments = [])
     {
@@ -77,7 +81,7 @@ trait AuthorizesRequests
      * @param  string|array  $model
      * @param  string|array|null  $parameter
      * @param  array  $options
-     * @param  \Illuminate\Http\Request|null  $request
+     * @param  Request|null  $request
      * @return void
      */
     public function authorizeResource($model, $parameter = null, array $options = [], $request = null)

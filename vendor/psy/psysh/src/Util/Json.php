@@ -11,6 +11,10 @@
 
 namespace Psy\Util;
 
+use function json_encode;
+use const JSON_UNESCAPED_SLASHES;
+use const JSON_UNESCAPED_UNICODE;
+
 /**
  * A static class to wrap JSON encoding/decoding with PsySH's default options.
  */
@@ -24,8 +28,8 @@ class Json
      */
     public static function encode($val, int $opt = 0): string
     {
-        $opt |= \JSON_UNESCAPED_SLASHES | \JSON_UNESCAPED_UNICODE;
+        $opt |= JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE;
 
-        return \json_encode($val, $opt);
+        return json_encode($val, $opt);
     }
 }

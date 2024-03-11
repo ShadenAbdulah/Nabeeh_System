@@ -1,6 +1,8 @@
 <?php
 namespace Aws\Api;
 
+use RuntimeException;
+
 /**
  * Represents a map shape.
  */
@@ -20,13 +22,13 @@ class MapShape extends Shape
 
     /**
      * @return Shape
-     * @throws \RuntimeException if no value is specified
+     * @throws RuntimeException if no value is specified
      */
     public function getValue()
     {
         if (!$this->value) {
             if (!isset($this->definition['value'])) {
-                throw new \RuntimeException('No value specified');
+                throw new RuntimeException('No value specified');
             }
 
             $this->value = Shape::create(

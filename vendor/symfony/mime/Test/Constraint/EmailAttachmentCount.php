@@ -11,9 +11,11 @@
 
 namespace Symfony\Component\Mime\Test\Constraint;
 
+use LogicException;
 use PHPUnit\Framework\Constraint\Constraint;
 use Symfony\Component\Mime\Message;
 use Symfony\Component\Mime\RawMessage;
+use function count;
 
 final class EmailAttachmentCount extends Constraint
 {
@@ -37,10 +39,10 @@ final class EmailAttachmentCount extends Constraint
     protected function matches($message): bool
     {
         if (RawMessage::class === $message::class || Message::class === $message::class) {
-            throw new \LogicException('Unable to test a message attachment on a RawMessage or Message instance.');
+            throw new LogicException('Unable to test a message attachment on a RawMessage or Message instance.');
         }
 
-        return $this->expectedValue === \count($message->getAttachments());
+        return $this->expectedValue === count($message->getAttachments());
     }
 
     /**

@@ -16,6 +16,7 @@ use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\ErrorHandler\DebugClassLoader;
 use Symfony\Component\HttpKernel\Kernel;
+use function is_array;
 
 /**
  * Sets the classes to compile in the cache for the container.
@@ -88,7 +89,7 @@ class AddAnnotatedClassesToCachePass implements CompilerPassInterface
         $classes = [];
 
         foreach (spl_autoload_functions() as $function) {
-            if (!\is_array($function)) {
+            if (!is_array($function)) {
                 continue;
             }
 
@@ -96,7 +97,7 @@ class AddAnnotatedClassesToCachePass implements CompilerPassInterface
                 $function = $function[0]->getClassLoader();
             }
 
-            if (\is_array($function) && $function[0] instanceof ClassLoader) {
+            if (is_array($function) && $function[0] instanceof ClassLoader) {
                 $classes += array_filter($function[0]->getClassMap());
             }
         }

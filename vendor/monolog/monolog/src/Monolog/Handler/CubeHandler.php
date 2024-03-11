@@ -11,9 +11,13 @@
 
 namespace Monolog\Handler;
 
+use CurlHandle;
+use LogicException;
 use Monolog\Level;
 use Monolog\Utils;
 use Monolog\LogRecord;
+use Socket;
+use UnexpectedValueException;
 
 /**
  * Logs to Cube.
@@ -24,8 +28,8 @@ use Monolog\LogRecord;
  */
 class CubeHandler extends AbstractProcessingHandler
 {
-    private ?\Socket $udpConnection = null;
-    private ?\CurlHandle $httpConnection = null;
+    private ?Socket $udpConnection = null;
+    private ?CurlHandle $httpConnection = null;
     private string $scheme;
     private string $host;
     private int $port;
@@ -35,7 +39,7 @@ class CubeHandler extends AbstractProcessingHandler
     /**
      * Create a Cube handler
      *
-     * @throws \UnexpectedValueException when given url is not a valid url.
+     * @throws UnexpectedValueException when given url is not a valid url.
      *                                   A valid url must consist of three parts : protocol://host:port
      *                                   Only valid protocols used by Cube are http and udp
      */
@@ -44,11 +48,11 @@ class CubeHandler extends AbstractProcessingHandler
         $urlInfo = parse_url($url);
 
         if ($urlInfo === false || !isset($urlInfo['scheme'], $urlInfo['host'], $urlInfo['port'])) {
-            throw new \UnexpectedValueException('URL "'.$url.'" is not valid');
+            throw new UnexpectedValueException('URL "'.$url.'" is not valid');
         }
 
         if (!in_array($urlInfo['scheme'], $this->acceptedSchemes, true)) {
-            throw new \UnexpectedValueException(
+            throw new UnexpectedValueException(
                 'Invalid protocol (' . $urlInfo['scheme']  . ').'
                 . ' Valid options are ' . implode(', ', $this->acceptedSchemes)
             );
@@ -64,7 +68,7 @@ class CubeHandler extends AbstractProcessingHandler
     /**
      * Establish a connection to an UDP socket
      *
-     * @throws \LogicException           when unable to connect to the socket
+     * @throws LogicException           when unable to connect to the socket
      * @throws MissingExtensionException when there is no socket extension
      */
     protected function connectUdp(): void
@@ -75,19 +79,19 @@ class CubeHandler extends AbstractProcessingHandler
 
         $udpConnection = socket_create(AF_INET, SOCK_DGRAM, 0);
         if (false === $udpConnection) {
-            throw new \LogicException('Unable to create a socket');
+            throw new LogicException('Unable to create a socket');
         }
 
         $this->udpConnection = $udpConnection;
         if (!socket_connect($this->udpConnection, $this->host, $this->port)) {
-            throw new \LogicException('Unable to connect to the socket at ' . $this->host . ':' . $this->port);
+            throw new LogicException('Unable to connect to the socket at ' . $this->host . ':' . $this->port);
         }
     }
 
     /**
      * Establish a connection to an http server
      *
-     * @throws \LogicException           when unable to connect to the socket
+     * @throws LogicException           when unable to connect to the socket
      * @throws MissingExtensionException when no curl extension
      */
     protected function connectHttp(): void
@@ -98,7 +102,7 @@ class CubeHandler extends AbstractProcessingHandler
 
         $httpConnection = curl_init('http://'.$this->host.':'.$this->port.'/1.0/event/put');
         if (false === $httpConnection) {
-            throw new \LogicException('Unable to connect to ' . $this->host . ':' . $this->port);
+            throw new LogicException('Unable to connect to ' . $this->host . ':' . $this->port);
         }
 
         $this->httpConnection = $httpConnection;
@@ -140,7 +144,7 @@ class CubeHandler extends AbstractProcessingHandler
         }
 
         if (null === $this->udpConnection) {
-            throw new \LogicException('No UDP socket could be opened');
+            throw new LogicException('No UDP socket could be opened');
         }
 
         socket_send($this->udpConnection, $data, strlen($data), 0);
@@ -153,7 +157,7 @@ class CubeHandler extends AbstractProcessingHandler
         }
 
         if (null === $this->httpConnection) {
-            throw new \LogicException('No connection could be established');
+            throw new LogicException('No connection could be established');
         }
 
         curl_setopt($this->httpConnection, CURLOPT_POSTFIELDS, '['.$data.']');

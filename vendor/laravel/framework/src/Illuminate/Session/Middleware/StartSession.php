@@ -3,6 +3,8 @@
 namespace Illuminate\Session\Middleware;
 
 use Closure;
+use DateTimeInterface;
+use Illuminate\Cache\Store;
 use Illuminate\Contracts\Session\Session;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Route;
@@ -17,7 +19,7 @@ class StartSession
     /**
      * The session manager.
      *
-     * @var \Illuminate\Session\SessionManager
+     * @var SessionManager
      */
     protected $manager;
 
@@ -31,7 +33,7 @@ class StartSession
     /**
      * Create a new session middleware.
      *
-     * @param  \Illuminate\Session\SessionManager  $manager
+     * @param SessionManager $manager
      * @param  callable|null  $cacheFactoryResolver
      * @return void
      */
@@ -44,8 +46,8 @@ class StartSession
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
+     * @param Request $request
+     * @param Closure $next
      * @return mixed
      */
     public function handle($request, Closure $next)
@@ -67,9 +69,9 @@ class StartSession
     /**
      * Handle the given request within session state.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Illuminate\Contracts\Session\Session  $session
-     * @param  \Closure  $next
+     * @param Request $request
+     * @param Session $session
+     * @param Closure $next
      * @return mixed
      */
     protected function handleRequestWhileBlocking(Request $request, $session, Closure $next)
@@ -102,9 +104,9 @@ class StartSession
     /**
      * Handle the given request within session state.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Illuminate\Contracts\Session\Session  $session
-     * @param  \Closure  $next
+     * @param Request $request
+     * @param Session $session
+     * @param Closure $next
      * @return mixed
      */
     protected function handleStatefulRequest(Request $request, $session, Closure $next)
@@ -135,9 +137,9 @@ class StartSession
     /**
      * Start the session for the given request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Illuminate\Contracts\Session\Session  $session
-     * @return \Illuminate\Contracts\Session\Session
+     * @param Request $request
+     * @param Session $session
+     * @return Session
      */
     protected function startSession(Request $request, $session)
     {
@@ -151,8 +153,8 @@ class StartSession
     /**
      * Get the session implementation from the manager.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Contracts\Session\Session
+     * @param Request $request
+     * @return Session
      */
     public function getSession(Request $request)
     {
@@ -164,7 +166,7 @@ class StartSession
     /**
      * Remove the garbage from the session if necessary.
      *
-     * @param  \Illuminate\Contracts\Session\Session  $session
+     * @param Session $session
      * @return void
      */
     protected function collectGarbage(Session $session)
@@ -193,8 +195,8 @@ class StartSession
     /**
      * Store the current URL for the request if necessary.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Illuminate\Contracts\Session\Session  $session
+     * @param Request $request
+     * @param Session $session
      * @return void
      */
     protected function storeCurrentUrl(Request $request, $session)
@@ -211,8 +213,8 @@ class StartSession
     /**
      * Add the session cookie to the application response.
      *
-     * @param  \Symfony\Component\HttpFoundation\Response  $response
-     * @param  \Illuminate\Contracts\Session\Session  $session
+     * @param Response $response
+     * @param Session $session
      * @return void
      */
     protected function addCookieToResponse(Response $response, Session $session)
@@ -236,7 +238,7 @@ class StartSession
     /**
      * Save the session data to storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param Request $request
      * @return void
      */
     protected function saveSession($request)
@@ -259,7 +261,7 @@ class StartSession
     /**
      * Get the cookie lifetime in seconds.
      *
-     * @return \DateTimeInterface|int
+     * @return DateTimeInterface|int
      */
     protected function getCookieExpirationDate()
     {
@@ -297,7 +299,7 @@ class StartSession
      * Resolve the given cache driver.
      *
      * @param  string  $driver
-     * @return \Illuminate\Cache\Store
+     * @return Store
      */
     protected function cache($driver)
     {

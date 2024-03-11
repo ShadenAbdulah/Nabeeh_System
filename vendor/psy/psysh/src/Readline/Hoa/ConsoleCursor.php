@@ -36,6 +36,16 @@
 
 namespace Psy\Readline\Hoa;
 
+use function defined;
+use function explode;
+use function hexdec;
+use function implode;
+use function preg_match;
+use function sprintf;
+use function sqrt;
+use function str_replace;
+use function substr;
+
 /**
  * Class \Hoa\Console\Cursor.
  *
@@ -61,9 +71,9 @@ class ConsoleCursor
         if (1 > $repeat) {
             return;
         } elseif (1 === $repeat) {
-            $handle = \explode(' ', $steps);
+            $handle = explode(' ', $steps);
         } else {
-            $handle = \explode(' ', $steps, 1);
+            $handle = explode(' ', $steps, 1);
         }
 
         $tput = Console::getTput();
@@ -75,7 +85,7 @@ class ConsoleCursor
                 case 'up':
                 case '↑':
                     $output->writeAll(
-                        \str_replace(
+                        str_replace(
                             '%p1%d',
                             $repeat,
                             $tput->get('parm_up_cursor')
@@ -94,7 +104,7 @@ class ConsoleCursor
                 case 'right':
                 case '→':
                     $output->writeAll(
-                        \str_replace(
+                        str_replace(
                             '%p1%d',
                             $repeat,
                             $tput->get('parm_right_cursor')
@@ -113,7 +123,7 @@ class ConsoleCursor
                 case 'down':
                 case '↓':
                     $output->writeAll(
-                        \str_replace(
+                        str_replace(
                             '%p1%d',
                             $repeat,
                             $tput->get('parm_down_cursor')
@@ -132,7 +142,7 @@ class ConsoleCursor
                 case 'left':
                 case '←':
                     $output->writeAll(
-                        \str_replace(
+                        str_replace(
                             '%p1%d',
                             $repeat,
                             $tput->get('parm_left_cursor')
@@ -169,7 +179,7 @@ class ConsoleCursor
         }
 
         Console::getOutput()->writeAll(
-            \str_replace(
+            str_replace(
                 ['%i%p1%d', '%p2%d'],
                 [$y, $x],
                 Console::getTput()->get('cursor_address')
@@ -262,7 +272,7 @@ class ConsoleCursor
         $tput = Console::getTput();
         $output = Console::getOutput();
 
-        foreach (\explode(' ', $parts) as $part) {
+        foreach (explode(' ', $parts) as $part) {
             switch ($part) {
                 case 'a':
                 case 'all':
@@ -417,7 +427,7 @@ class ConsoleCursor
 
         $handle = [];
 
-        foreach (\explode(' ', $attributes) as $attribute) {
+        foreach (explode(' ', $attributes) as $attribute) {
             switch ($attribute) {
                 case 'n':
                 case 'normal':
@@ -474,7 +484,7 @@ class ConsoleCursor
                     break;
 
                 default:
-                    if (0 === \preg_match('#^([^\(]+)\(([^\)]+)\)$#', $attribute, $m)) {
+                    if (0 === preg_match('#^([^\(]+)\(([^\)]+)\)$#', $attribute, $m)) {
                         break;
                     }
 
@@ -551,19 +561,19 @@ class ConsoleCursor
 
                             if (256 <= $tput->count('max_colors') &&
                                 '#' === $m[2][0]) {
-                                $rgb = \hexdec(\substr($m[2], 1));
+                                $rgb = hexdec(substr($m[2], 1));
                                 $r = ($rgb >> 16) & 255;
                                 $g = ($rgb >> 8) & 255;
                                 $b = $rgb & 255;
                                 $distance = null;
 
                                 foreach ($_rgbTo256 as $i => $_rgb) {
-                                    $_rgb = \hexdec($_rgb);
+                                    $_rgb = hexdec($_rgb);
                                     $_r = ($_rgb >> 16) & 255;
                                     $_g = ($_rgb >> 8) & 255;
                                     $_b = $_rgb & 255;
 
-                                    $d = \sqrt(
+                                    $d = sqrt(
                                         ($_r - $r) ** 2
                                       + ($_g - $g) ** 2
                                       + ($_b - $b) ** 2
@@ -588,7 +598,7 @@ class ConsoleCursor
             }
         }
 
-        Console::getOutput()->writeAll("\033[".\implode(';', $handle).'m');
+        Console::getOutput()->writeAll("\033[". implode(';', $handle).'m');
 
         return;
     }
@@ -609,7 +619,7 @@ class ConsoleCursor
         $b = $toColor & 255;
 
         Console::getOutput()->writeAll(
-            \str_replace(
+            str_replace(
                 [
                     '%p1%d',
                     'rgb:',
@@ -620,9 +630,9 @@ class ConsoleCursor
                 [
                     $fromCode,
                     '',
-                    \sprintf('%02x', $r),
-                    \sprintf('%02x', $g),
-                    \sprintf('%02x', $b),
+                    sprintf('%02x', $r),
+                    sprintf('%02x', $g),
+                    sprintf('%02x', $b),
                 ],
                 $tput->get('initialize_color')
             )
@@ -640,7 +650,7 @@ class ConsoleCursor
      */
     public static function setStyle(string $style, bool $blink = true)
     {
-        if (\defined('PHP_WINDOWS_VERSION_PLATFORM')) {
+        if (defined('PHP_WINDOWS_VERSION_PLATFORM')) {
             return;
         }
 

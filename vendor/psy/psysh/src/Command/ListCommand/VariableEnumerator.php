@@ -13,7 +13,12 @@ namespace Psy\Command\ListCommand;
 
 use Psy\Context;
 use Psy\VarDumper\Presenter;
+use Reflector;
 use Symfony\Component\Console\Input\InputInterface;
+use function array_search;
+use function in_array;
+use function strnatcasecmp;
+use function uksort;
 
 /**
  * Variable Enumerator class.
@@ -45,7 +50,7 @@ class VariableEnumerator extends Enumerator
     /**
      * {@inheritdoc}
      */
-    protected function listItems(InputInterface $input, \Reflector $reflector = null, $target = null): array
+    protected function listItems(InputInterface $input, Reflector $reflector = null, $target = null): array
     {
         // only list variables when no Reflector is present.
         if ($reflector !== null || $target !== null) {
@@ -79,9 +84,9 @@ class VariableEnumerator extends Enumerator
     protected function getVariables(bool $showAll): array
     {
         $scopeVars = $this->context->getAll();
-        \uksort($scopeVars, function ($a, $b) {
-            $aIndex = \array_search($a, self::$specialNames);
-            $bIndex = \array_search($b, self::$specialNames);
+        uksort($scopeVars, function ($a, $b) {
+            $aIndex = array_search($a, self::$specialNames);
+            $bIndex = array_search($b, self::$specialNames);
 
             if ($aIndex !== false) {
                 if ($bIndex !== false) {
@@ -95,12 +100,12 @@ class VariableEnumerator extends Enumerator
                 return -1;
             }
 
-            return \strnatcasecmp($a, $b);
+            return strnatcasecmp($a, $b);
         });
 
         $ret = [];
         foreach ($scopeVars as $name => $val) {
-            if (!$showAll && \in_array($name, self::$specialNames)) {
+            if (!$showAll && in_array($name, self::$specialNames)) {
                 continue;
             }
 
@@ -126,7 +131,7 @@ class VariableEnumerator extends Enumerator
                 $fname = '$'.$name;
                 $ret[$fname] = [
                     'name'  => $fname,
-                    'style' => \in_array($name, self::$specialNames) ? self::IS_PRIVATE : self::IS_PUBLIC,
+                    'style' => in_array($name, self::$specialNames) ? self::IS_PRIVATE : self::IS_PUBLIC,
                     'value' => $this->presentRef($val),
                 ];
             }

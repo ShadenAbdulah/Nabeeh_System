@@ -11,7 +11,9 @@
 
 namespace Symfony\Component\Routing\Loader\Configurator\Traits;
 
+use InvalidArgumentException;
 use Symfony\Component\Routing\RouteCollection;
+use function is_array;
 
 /**
  * @internal
@@ -20,7 +22,7 @@ trait HostTrait
 {
     final protected function addHost(RouteCollection $routes, string|array $hosts): void
     {
-        if (!$hosts || !\is_array($hosts)) {
+        if (!$hosts || !is_array($hosts)) {
             $routes->setHost($hosts ?: '');
 
             return;
@@ -38,7 +40,7 @@ trait HostTrait
                     $routes->add($name.'.'.$locale, $localizedRoute);
                 }
             } elseif (!isset($hosts[$locale])) {
-                throw new \InvalidArgumentException(sprintf('Route "%s" with locale "%s" is missing a corresponding host in its parent collection.', $name, $locale));
+                throw new InvalidArgumentException(sprintf('Route "%s" with locale "%s" is missing a corresponding host in its parent collection.', $name, $locale));
             } else {
                 $route->setHost($hosts[$locale]);
                 $route->setRequirement('_locale', preg_quote($locale));

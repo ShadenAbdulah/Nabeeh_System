@@ -9,7 +9,11 @@ declare(strict_types=1);
 
 namespace Nette\Utils;
 
+use FilesystemIterator;
+use Generator;
 use Nette;
+use RecursiveDirectoryIterator;
+use RecursiveIteratorIterator;
 
 
 /**
@@ -49,11 +53,11 @@ final class FileSystem
 
 		} elseif (is_dir($origin)) {
 			static::createDir($target);
-			foreach (new \FilesystemIterator($target) as $item) {
+			foreach (new FilesystemIterator($target) as $item) {
 				static::delete($item->getPathname());
 			}
 
-			foreach ($iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($origin, \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::SELF_FIRST) as $item) {
+			foreach ($iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($origin, RecursiveDirectoryIterator::SKIP_DOTS), RecursiveIteratorIterator::SELF_FIRST) as $item) {
 				if ($item->isDir()) {
 					static::createDir($target . '/' . $iterator->getSubPathName());
 				} else {
@@ -109,7 +113,7 @@ final class FileSystem
 				));
 			}
 		} elseif (is_dir($path)) {
-			foreach (new \FilesystemIterator($path) as $item) {
+			foreach (new FilesystemIterator($path) as $item) {
 				static::delete($item->getPathname());
 			}
 
@@ -177,10 +181,10 @@ final class FileSystem
 	/**
 	 * Reads the file content line by line. Because it reads continuously as we iterate over the lines,
 	 * it is possible to read files larger than the available memory.
-	 * @return \Generator<int, string>
+	 * @return Generator<int, string>
 	 * @throws Nette\IOException  on error occurred
 	 */
-	public static function readLines(string $file, bool $stripNewLines = true): \Generator
+	public static function readLines(string $file, bool $stripNewLines = true): Generator
 	{
 		return (function ($f) use ($file, $stripNewLines) {
 			$counter = 0;
@@ -248,7 +252,7 @@ final class FileSystem
 				));
 			}
 		} elseif (is_dir($path)) {
-			foreach (new \FilesystemIterator($path) as $item) {
+			foreach (new FilesystemIterator($path) as $item) {
 				static::makeWritable($item->getPathname(), $dirMode, $fileMode);
 			}
 

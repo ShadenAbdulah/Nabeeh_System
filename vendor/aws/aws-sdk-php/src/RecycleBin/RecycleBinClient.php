@@ -2,28 +2,30 @@
 namespace Aws\RecycleBin;
 
 use Aws\AwsClient;
+use Aws\Result;
+use GuzzleHttp\Promise\Promise;
 
 /**
  * This client is used to interact with the **Amazon Recycle Bin** service.
- * @method \Aws\Result createRule(array $args = [])
- * @method \GuzzleHttp\Promise\Promise createRuleAsync(array $args = [])
- * @method \Aws\Result deleteRule(array $args = [])
- * @method \GuzzleHttp\Promise\Promise deleteRuleAsync(array $args = [])
- * @method \Aws\Result getRule(array $args = [])
- * @method \GuzzleHttp\Promise\Promise getRuleAsync(array $args = [])
- * @method \Aws\Result listRules(array $args = [])
- * @method \GuzzleHttp\Promise\Promise listRulesAsync(array $args = [])
- * @method \Aws\Result listTagsForResource(array $args = [])
- * @method \GuzzleHttp\Promise\Promise listTagsForResourceAsync(array $args = [])
- * @method \Aws\Result lockRule(array $args = [])
- * @method \GuzzleHttp\Promise\Promise lockRuleAsync(array $args = [])
- * @method \Aws\Result tagResource(array $args = [])
- * @method \GuzzleHttp\Promise\Promise tagResourceAsync(array $args = [])
- * @method \Aws\Result unlockRule(array $args = [])
- * @method \GuzzleHttp\Promise\Promise unlockRuleAsync(array $args = [])
- * @method \Aws\Result untagResource(array $args = [])
- * @method \GuzzleHttp\Promise\Promise untagResourceAsync(array $args = [])
- * @method \Aws\Result updateRule(array $args = [])
- * @method \GuzzleHttp\Promise\Promise updateRuleAsync(array $args = [])
+ * @method Result createRule(array $args = [])
+ * @method Promise createRuleAsync(array $args = [])
+ * @method Result deleteRule(array $args = [])
+ * @method Promise deleteRuleAsync(array $args = [])
+ * @method Result getRule(array $args = [])
+ * @method Promise getRuleAsync(array $args = [])
+ * @method Result listRules(array $args = [])
+ * @method Promise listRulesAsync(array $args = [])
+ * @method Result listTagsForResource(array $args = [])
+ * @method Promise listTagsForResourceAsync(array $args = [])
+ * @method Result lockRule(array $args = [])
+ * @method Promise lockRuleAsync(array $args = [])
+ * @method Result tagResource(array $args = [])
+ * @method Promise tagResourceAsync(array $args = [])
+ * @method Result unlockRule(array $args = [])
+ * @method Promise unlockRuleAsync(array $args = [])
+ * @method Result untagResource(array $args = [])
+ * @method Promise untagResourceAsync(array $args = [])
+ * @method Result updateRule(array $args = [])
+ * @method Promise updateRuleAsync(array $args = [])
  */
 class RecycleBinClient extends AwsClient {}

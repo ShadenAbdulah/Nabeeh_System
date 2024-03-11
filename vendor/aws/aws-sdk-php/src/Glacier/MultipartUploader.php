@@ -8,6 +8,7 @@ use Aws\Multipart\UploadState;
 use Aws\PhpHash;
 use Aws\ResultInterface;
 use GuzzleHttp\Psr7;
+use InvalidArgumentException;
 use Psr\Http\Message\StreamInterface as Stream;
 
 /**
@@ -147,7 +148,7 @@ class MultipartUploader extends AbstractUploader
 
         // Ensure that the part size is valid.
         if (!in_array($partSize, self::$validPartSizes)) {
-            throw new \InvalidArgumentException('The part_size must be a power '
+            throw new InvalidArgumentException('The part_size must be a power '
                 . 'of 2, in megabytes, such that 1 MB <= PART_SIZE <= 4 GB.');
         }
 

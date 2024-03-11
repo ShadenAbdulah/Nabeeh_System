@@ -31,7 +31,7 @@ class RedisTagSet extends TagSet
     /**
      * Get all of the cache entry keys for the tag set.
      *
-     * @return \Illuminate\Support\LazyCollection
+     * @return LazyCollection
      */
     public function entries()
     {

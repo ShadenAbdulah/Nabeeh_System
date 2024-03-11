@@ -11,11 +11,14 @@
 
 namespace Monolog\Handler;
 
+use DateTime;
 use DateTimeInterface;
+use DateTimeZone;
 use Monolog\Handler\SyslogUdp\UdpSocket;
 use Monolog\Level;
 use Monolog\LogRecord;
 use Monolog\Utils;
+use RuntimeException;
 
 /**
  * A Handler for logging to a remote syslogd server.
@@ -32,8 +35,8 @@ class SyslogUdpHandler extends AbstractSyslogHandler
     /** @var array<self::RFC*, string> */
     private array $dateFormats = [
         self::RFC3164 => 'M d H:i:s',
-        self::RFC5424 => \DateTime::RFC3339,
-        self::RFC5424e => \DateTime::RFC3339_EXTENDED,
+        self::RFC5424 => DateTime::RFC3339,
+        self::RFC5424e => DateTime::RFC3339_EXTENDED,
     ];
 
     protected UdpSocket $socket;
@@ -96,7 +99,7 @@ class SyslogUdpHandler extends AbstractSyslogHandler
         if (false === $lines) {
             $pcreErrorCode = preg_last_error();
 
-            throw new \RuntimeException('Could not preg_split: ' . $pcreErrorCode . ' / ' . Utils::pcreLastErrorMessage($pcreErrorCode));
+            throw new RuntimeException('Could not preg_split: ' . $pcreErrorCode . ' / ' . Utils::pcreLastErrorMessage($pcreErrorCode));
         }
 
         return $lines;
@@ -122,7 +125,7 @@ class SyslogUdpHandler extends AbstractSyslogHandler
         if ($this->rfc === self::RFC3164) {
             // see https://github.com/phpstan/phpstan/issues/5348
             // @phpstan-ignore-next-line
-            $dateNew = $datetime->setTimezone(new \DateTimeZone('UTC'));
+            $dateNew = $datetime->setTimezone(new DateTimeZone('UTC'));
             $date = $dateNew->format($this->dateFormats[$this->rfc]);
 
             return "<$priority>" .

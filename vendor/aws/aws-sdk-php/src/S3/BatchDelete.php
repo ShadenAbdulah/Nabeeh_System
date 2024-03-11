@@ -6,6 +6,8 @@ use Aws\S3\Exception\DeleteMultipleObjectsException;
 use GuzzleHttp\Promise;
 use GuzzleHttp\Promise\PromisorInterface;
 use GuzzleHttp\Promise\PromiseInterface;
+use InvalidArgumentException;
+use Iterator;
 
 /**
  * Efficiently deletes many objects from a single Amazon S3 bucket using an
@@ -88,7 +90,7 @@ class BatchDelete implements PromisorInterface
      *
      * @param AwsClientInterface $client  AWS Client to use to execute commands
      * @param string             $bucket  Bucket where the objects are stored
-     * @param \Iterator          $iter    Iterator that yields assoc arrays
+     * @param Iterator          $iter    Iterator that yields assoc arrays
      * @param array              $options BatchDelete options
      *
      * @return BatchDelete
@@ -96,7 +98,7 @@ class BatchDelete implements PromisorInterface
     public static function fromIterator(
         AwsClientInterface $client,
         $bucket,
-        \Iterator $iter,
+        Iterator $iter,
         array $options = []
     ) {
         $fn = function (BatchDelete $that) use ($iter) {
@@ -140,7 +142,7 @@ class BatchDelete implements PromisorInterface
      * @param callable           $promiseFn Creates a promise.
      * @param array              $options   Hash of options used with the batch
      *
-     * @throws \InvalidArgumentException if the provided batch_size is <= 0
+     * @throws InvalidArgumentException if the provided batch_size is <= 0
      */
     private function __construct(
         AwsClientInterface $client,
@@ -154,14 +156,14 @@ class BatchDelete implements PromisorInterface
 
         if (isset($options['before'])) {
             if (!is_callable($options['before'])) {
-                throw new \InvalidArgumentException('before must be callable');
+                throw new InvalidArgumentException('before must be callable');
             }
             $this->before = $options['before'];
         }
 
         if (isset($options['batch_size'])) {
             if ($options['batch_size'] <= 0) {
-                throw new \InvalidArgumentException('batch_size is not > 0');
+                throw new InvalidArgumentException('batch_size is not > 0');
             }
             $this->batchSize = min($options['batch_size'], 1000);
         }

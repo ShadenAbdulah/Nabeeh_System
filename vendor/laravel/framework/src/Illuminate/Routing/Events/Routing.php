@@ -2,19 +2,21 @@
 
 namespace Illuminate\Routing\Events;
 
+use Illuminate\Http\Request;
+
 class Routing
 {
     /**
      * The request instance.
      *
-     * @var \Illuminate\Http\Request
+     * @var Request
      */
     public $request;
 
     /**
      * Create a new event instance.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  Request  $request
      * @return void
      */
     public function __construct($request)

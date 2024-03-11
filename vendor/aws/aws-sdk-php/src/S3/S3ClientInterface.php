@@ -5,8 +5,11 @@ use Aws\AwsClientInterface;
 use Aws\CommandInterface;
 use Aws\ResultInterface;
 use Aws\S3\Exception\S3Exception;
+use DateTimeInterface;
+use Exception;
 use GuzzleHttp\Promise\PromiseInterface;
 use Psr\Http\Message\RequestInterface;
+use RuntimeException;
 
 interface S3ClientInterface extends AwsClientInterface
 {
@@ -15,7 +18,7 @@ interface S3ClientInterface extends AwsClientInterface
      *
      * @param CommandInterface              $command Command to create a pre-signed
      *                                               URL for.
-     * @param int|string|\DateTimeInterface $expires The time at which the URL should
+     * @param int|string|DateTimeInterface $expires The time at which the URL should
      *                                               expire. This can be a Unix
      *                                               timestamp, a PHP DateTime object,
      *                                               or a string that can be evaluated
@@ -30,7 +33,7 @@ interface S3ClientInterface extends AwsClientInterface
      *
      * The URL returned by this method is not signed nor does it ensure that the
      * bucket and key given to the method exist. If you need a signed URL, then
-     * use the {@see \Aws\S3\S3Client::createPresignedRequest} method and get
+     * use the {@see S3Client::createPresignedRequest} method and get
      * the URI of the signed request.
      *
      * @param string $bucket  The name of the bucket where the object is located
@@ -63,7 +66,7 @@ interface S3ClientInterface extends AwsClientInterface
      *                        cause an exception to be thrown instead.
      *
      * @return bool
-     * @throws S3Exception|\Exception if there is an unhandled exception
+     * @throws S3Exception|Exception if there is an unhandled exception
      */
     public function doesBucketExistV2($bucket, $accept403);
 
@@ -95,7 +98,7 @@ interface S3ClientInterface extends AwsClientInterface
      *                        operation (e.g., VersionId).
      *
      * @return bool
-     * @throws S3Exception|\Exception if there is an unhandled exception
+     * @throws S3Exception|Exception if there is an unhandled exception
      */
     public function doesObjectExistV2($bucket, $key, $includeDeleteMarkers = false, array $options = []);
 
@@ -123,7 +126,7 @@ interface S3ClientInterface extends AwsClientInterface
      * @param array  $options Aws\S3\BatchDelete options array.
      *
      * @see Aws\S3\S3Client::listObjects
-     * @throws \RuntimeException if no prefix and no regex is given
+     * @throws RuntimeException if no prefix and no regex is given
      */
     public function deleteMatchingObjects(
         $bucket,

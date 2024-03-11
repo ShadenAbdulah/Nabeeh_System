@@ -29,14 +29,14 @@ class ChannelListCommand extends Command
     /**
      * The terminal width resolver callback.
      *
-     * @var \Closure|null
+     * @var Closure|null
      */
     protected static $terminalWidthResolver;
 
     /**
      * Execute the console command.
      *
-     * @param  \Illuminate\Contracts\Broadcasting\Broadcaster
+     * @param Broadcaster
      * @return void
      */
     public function handle(Broadcaster $broadcaster)
@@ -69,7 +69,7 @@ class ChannelListCommand extends Command
     /**
      * Convert the given channels to regular CLI output.
      *
-     * @param  \Illuminate\Support\Collection  $channels
+     * @param Collection $channels
      * @return array
      */
     protected function forCli($channels)
@@ -111,7 +111,7 @@ class ChannelListCommand extends Command
     /**
      * Determine and return the output for displaying the number of registered channels in the CLI output.
      *
-     * @param  \Illuminate\Support\Collection  $channels
+     * @param Collection $channels
      * @param  int  $terminalWidth
      * @return string
      */
@@ -141,7 +141,7 @@ class ChannelListCommand extends Command
     /**
      * Set a callback that should be used when resolving the terminal width.
      *
-     * @param  \Closure|null  $resolver
+     * @param Closure|null  $resolver
      * @return void
      */
     public static function resolveTerminalWidthUsing($resolver)

@@ -7,6 +7,7 @@ use Illuminate\Cache\RateLimiter;
 use Illuminate\Cache\RateLimiting\Unlimited;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\Exceptions\ThrottleRequestsException;
+use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\InteractsWithTime;
 use RuntimeException;
@@ -19,7 +20,7 @@ class ThrottleRequests
     /**
      * The rate limiter instance.
      *
-     * @var \Illuminate\Cache\RateLimiter
+     * @var RateLimiter
      */
     protected $limiter;
 
@@ -33,7 +34,7 @@ class ThrottleRequests
     /**
      * Create a new request throttler.
      *
-     * @param  \Illuminate\Cache\RateLimiter  $limiter
+     * @param RateLimiter $limiter
      * @return void
      */
     public function __construct(RateLimiter $limiter)
@@ -70,14 +71,14 @@ class ThrottleRequests
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
+     * @param  Request  $request
+     * @param Closure $next
      * @param  int|string  $maxAttempts
      * @param  float|int  $decayMinutes
      * @param  string  $prefix
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      *
-     * @throws \Illuminate\Http\Exceptions\ThrottleRequestsException
+     * @throws ThrottleRequestsException
      */
     public function handle($request, Closure $next, $maxAttempts = 60, $decayMinutes = 1, $prefix = '')
     {
@@ -104,13 +105,13 @@ class ThrottleRequests
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
+     * @param  Request  $request
+     * @param Closure $next
      * @param  string  $limiterName
-     * @param  \Closure  $limiter
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @param Closure $limiter
+     * @return Response
      *
-     * @throws \Illuminate\Http\Exceptions\ThrottleRequestsException
+     * @throws ThrottleRequestsException
      */
     protected function handleRequestUsingNamedLimiter($request, Closure $next, $limiterName, Closure $limiter)
     {
@@ -139,12 +140,12 @@ class ThrottleRequests
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
+     * @param  Request  $request
+     * @param Closure $next
      * @param  array  $limits
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      *
-     * @throws \Illuminate\Http\Exceptions\ThrottleRequestsException
+     * @throws ThrottleRequestsException
      */
     protected function handleRequest($request, Closure $next, array $limits)
     {
@@ -172,7 +173,7 @@ class ThrottleRequests
     /**
      * Resolve the number of attempts if the user is authenticated or not.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  Request  $request
      * @param  int|string  $maxAttempts
      * @return int
      */
@@ -192,10 +193,10 @@ class ThrottleRequests
     /**
      * Resolve request signature.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  Request  $request
      * @return string
      *
-     * @throws \RuntimeException
+     * @throws RuntimeException
      */
     protected function resolveRequestSignature($request)
     {
@@ -211,11 +212,11 @@ class ThrottleRequests
     /**
      * Create a 'too many attempts' exception.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  Request  $request
      * @param  string  $key
      * @param  int  $maxAttempts
      * @param  callable|null  $responseCallback
-     * @return \Illuminate\Http\Exceptions\ThrottleRequestsException|\Illuminate\Http\Exceptions\HttpResponseException
+     * @return ThrottleRequestsException|HttpResponseException
      */
     protected function buildException($request, $key, $maxAttempts, $responseCallback = null)
     {
@@ -246,11 +247,11 @@ class ThrottleRequests
     /**
      * Add the limit header information to the given response.
      *
-     * @param  \Symfony\Component\HttpFoundation\Response  $response
+     * @param Response $response
      * @param  int  $maxAttempts
      * @param  int  $remainingAttempts
      * @param  int|null  $retryAfter
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      */
     protected function addHeaders(Response $response, $maxAttempts, $remainingAttempts, $retryAfter = null)
     {
@@ -267,7 +268,7 @@ class ThrottleRequests
      * @param  int  $maxAttempts
      * @param  int  $remainingAttempts
      * @param  int|null  $retryAfter
-     * @param  \Symfony\Component\HttpFoundation\Response|null  $response
+     * @param Response|null  $response
      * @return array
      */
     protected function getHeaders($maxAttempts,

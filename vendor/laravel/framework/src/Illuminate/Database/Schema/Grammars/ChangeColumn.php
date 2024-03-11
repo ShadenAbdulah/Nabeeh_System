@@ -3,7 +3,9 @@
 namespace Illuminate\Database\Schema\Grammars;
 
 use Doctrine\DBAL\Schema\AbstractSchemaManager as SchemaManager;
+use Doctrine\DBAL\Schema\Column;
 use Doctrine\DBAL\Schema\Table;
+use Doctrine\DBAL\Schema\TableDiff;
 use Doctrine\DBAL\Types\Type;
 use Illuminate\Database\Connection;
 use Illuminate\Database\Schema\Blueprint;
@@ -15,13 +17,13 @@ class ChangeColumn
     /**
      * Compile a change column command into a series of SQL statements.
      *
-     * @param  \Illuminate\Database\Schema\Grammars\Grammar  $grammar
-     * @param  \Illuminate\Database\Schema\Blueprint  $blueprint
-     * @param  \Illuminate\Support\Fluent  $command
-     * @param  \Illuminate\Database\Connection  $connection
+     * @param Grammar $grammar
+     * @param Blueprint $blueprint
+     * @param Fluent $command
+     * @param Connection $connection
      * @return array
      *
-     * @throws \RuntimeException
+     * @throws RuntimeException
      */
     public static function compile($grammar, Blueprint $blueprint, Fluent $command, Connection $connection)
     {
@@ -50,10 +52,10 @@ class ChangeColumn
     /**
      * Get the Doctrine table difference for the given changes.
      *
-     * @param  \Illuminate\Database\Schema\Grammars\Grammar  $grammar
-     * @param  \Illuminate\Database\Schema\Blueprint  $blueprint
-     * @param  \Doctrine\DBAL\Schema\AbstractSchemaManager  $schema
-     * @return \Doctrine\DBAL\Schema\TableDiff
+     * @param Grammar $grammar
+     * @param Blueprint $blueprint
+     * @param SchemaManager $schema
+     * @return TableDiff
      */
     protected static function getChangedDiff($grammar, Blueprint $blueprint, SchemaManager $schema)
     {
@@ -67,9 +69,9 @@ class ChangeColumn
     /**
      * Get a copy of the given Doctrine table after making the column changes.
      *
-     * @param  \Illuminate\Database\Schema\Blueprint  $blueprint
-     * @param  \Doctrine\DBAL\Schema\Table  $table
-     * @return \Doctrine\DBAL\Schema\Table
+     * @param Blueprint $blueprint
+     * @param Table $table
+     * @return Table
      */
     protected static function getTableWithColumnChanges(Blueprint $blueprint, Table $table)
     {
@@ -99,9 +101,9 @@ class ChangeColumn
     /**
      * Get the Doctrine column instance for a column change.
      *
-     * @param  \Doctrine\DBAL\Schema\Table  $table
-     * @param  \Illuminate\Support\Fluent  $fluent
-     * @return \Doctrine\DBAL\Schema\Column
+     * @param Table $table
+     * @param Fluent $fluent
+     * @return Column
      */
     protected static function getDoctrineColumn(Table $table, Fluent $fluent)
     {
@@ -113,7 +115,7 @@ class ChangeColumn
     /**
      * Get the Doctrine column change options.
      *
-     * @param  \Illuminate\Support\Fluent  $fluent
+     * @param Fluent $fluent
      * @return array
      */
     protected static function getDoctrineColumnChangeOptions(Fluent $fluent)
@@ -146,7 +148,7 @@ class ChangeColumn
      * Get the doctrine column type.
      *
      * @param  string  $type
-     * @return \Doctrine\DBAL\Types\Type
+     * @return Type
      */
     protected static function getDoctrineColumnType($type)
     {

@@ -2,19 +2,21 @@
 
 namespace Illuminate\Cache;
 
+use Illuminate\Contracts\Cache\Store;
+
 class CacheLock extends Lock
 {
     /**
      * The cache store implementation.
      *
-     * @var \Illuminate\Contracts\Cache\Store
+     * @var Store
      */
     protected $store;
 
     /**
      * Create a new lock instance.
      *
-     * @param  \Illuminate\Contracts\Cache\Store  $store
+     * @param  Store  $store
      * @param  string  $name
      * @param  int  $seconds
      * @param  string|null  $owner

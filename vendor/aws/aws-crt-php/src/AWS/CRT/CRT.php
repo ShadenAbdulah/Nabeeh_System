@@ -7,7 +7,7 @@ namespace AWS\CRT;
 
 use AWS\CRT\Internal\Extension;
 
-use \RuntimeException;
+use RuntimeException;
 
 /**
  * Wrapper for the interface to the CRT. There only ever needs to be one of these, but

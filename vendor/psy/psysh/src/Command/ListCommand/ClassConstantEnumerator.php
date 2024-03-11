@@ -11,7 +11,13 @@
 
 namespace Psy\Command\ListCommand;
 
+use ReflectionClass;
+use ReflectionClassConstant;
+use Reflector;
 use Symfony\Component\Console\Input\InputInterface;
+use function ksort;
+use const SORT_FLAG_CASE;
+use const SORT_NATURAL;
 
 /**
  * Class Constant Enumerator class.
@@ -21,7 +27,7 @@ class ClassConstantEnumerator extends Enumerator
     /**
      * {@inheritdoc}
      */
-    protected function listItems(InputInterface $input, \Reflector $reflector = null, $target = null): array
+    protected function listItems(InputInterface $input, Reflector $reflector = null, $target = null): array
     {
         // only list constants when a Reflector is present.
         if ($reflector === null) {
@@ -29,7 +35,7 @@ class ClassConstantEnumerator extends Enumerator
         }
 
         // We can only list constants on actual class (or object) reflectors.
-        if (!$reflector instanceof \ReflectionClass) {
+        if (!$reflector instanceof ReflectionClass) {
             // @todo handle ReflectionExtension as well
             return [];
         }
@@ -55,18 +61,18 @@ class ClassConstantEnumerator extends Enumerator
     /**
      * Get defined constants for the given class or object Reflector.
      *
-     * @param \ReflectionClass $reflector
+     * @param ReflectionClass $reflector
      * @param bool             $noInherit Exclude inherited constants
      *
      * @return array
      */
-    protected function getConstants(\ReflectionClass $reflector, bool $noInherit = false): array
+    protected function getConstants(ReflectionClass $reflector, bool $noInherit = false): array
     {
         $className = $reflector->getName();
 
         $constants = [];
         foreach ($reflector->getConstants() as $name => $constant) {
-            $constReflector = new \ReflectionClassConstant($reflector->name, $name);
+            $constReflector = new ReflectionClassConstant($reflector->name, $name);
 
             if ($noInherit && $constReflector->getDeclaringClass()->getName() !== $className) {
                 continue;
@@ -75,7 +81,7 @@ class ClassConstantEnumerator extends Enumerator
             $constants[$name] = $constReflector;
         }
 
-        \ksort($constants, \SORT_NATURAL | \SORT_FLAG_CASE);
+        ksort($constants, SORT_NATURAL | SORT_FLAG_CASE);
 
         return $constants;
     }
@@ -108,9 +114,9 @@ class ClassConstantEnumerator extends Enumerator
     /**
      * Get a label for the particular kind of "class" represented.
      *
-     * @param \ReflectionClass $reflector
+     * @param ReflectionClass $reflector
      */
-    protected function getKindLabel(\ReflectionClass $reflector): string
+    protected function getKindLabel(ReflectionClass $reflector): string
     {
         if ($reflector->isInterface()) {
             return 'Interface Constants';

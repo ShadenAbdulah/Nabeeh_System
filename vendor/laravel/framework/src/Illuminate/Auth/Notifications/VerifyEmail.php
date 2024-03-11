@@ -2,6 +2,7 @@
 
 namespace Illuminate\Auth\Notifications;
 
+use Closure;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Carbon;
@@ -14,14 +15,14 @@ class VerifyEmail extends Notification
     /**
      * The callback that should be used to create the verify email URL.
      *
-     * @var \Closure|null
+     * @var Closure|null
      */
     public static $createUrlCallback;
 
     /**
      * The callback that should be used to build the mail message.
      *
-     * @var \Closure|null
+     * @var Closure|null
      */
     public static $toMailCallback;
 
@@ -40,7 +41,7 @@ class VerifyEmail extends Notification
      * Build the mail representation of the notification.
      *
      * @param  mixed  $notifiable
-     * @return \Illuminate\Notifications\Messages\MailMessage
+     * @return MailMessage
      */
     public function toMail($notifiable)
     {
@@ -57,7 +58,7 @@ class VerifyEmail extends Notification
      * Get the verify email notification mail message for the given URL.
      *
      * @param  string  $url
-     * @return \Illuminate\Notifications\Messages\MailMessage
+     * @return MailMessage
      */
     protected function buildMailMessage($url)
     {
@@ -93,7 +94,7 @@ class VerifyEmail extends Notification
     /**
      * Set a callback that should be used when creating the email verification URL.
      *
-     * @param  \Closure  $callback
+     * @param  Closure  $callback
      * @return void
      */
     public static function createUrlUsing($callback)
@@ -104,7 +105,7 @@ class VerifyEmail extends Notification
     /**
      * Set a callback that should be used when building the notification mail message.
      *
-     * @param  \Closure  $callback
+     * @param  Closure  $callback
      * @return void
      */
     public static function toMailUsing($callback)

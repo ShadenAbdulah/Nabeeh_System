@@ -6,6 +6,7 @@ use Carbon\CarbonInterval;
 use Illuminate\Console\Command;
 use Illuminate\Contracts\Cache\Repository as Cache;
 use Illuminate\Http\Client\Factory as Http;
+use Illuminate\Http\Client\Response;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Env;
@@ -45,14 +46,14 @@ class DocsCommand extends Command
     /**
      * The HTTP client instance.
      *
-     * @var \Illuminate\Http\Client\Factory
+     * @var Http
      */
     protected $http;
 
     /**
      * The cache repository implementation.
      *
-     * @var \Illuminate\Contracts\Cache\Repository
+     * @var Cache
      */
     protected $cache;
 
@@ -94,8 +95,8 @@ class DocsCommand extends Command
     /**
      * Execute the console command.
      *
-     * @param  \Illuminate\Http\Client\Factory  $http
-     * @param  \Illuminate\Contracts\Cache\Repository  $cache
+     * @param Http $http
+     * @param Cache $cache
      * @return int
      */
     public function handle(Http $http, Cache $cache)
@@ -403,7 +404,7 @@ class DocsCommand extends Command
      * The available sections for the page.
      *
      * @param  string  $page
-     * @return \Illuminate\Support\Collection
+     * @return Collection
      */
     public function sectionsFor($page)
     {
@@ -413,7 +414,7 @@ class DocsCommand extends Command
     /**
      * The pages available to open.
      *
-     * @return \Illuminate\Support\Collection
+     * @return Collection
      */
     public function pages()
     {
@@ -423,7 +424,7 @@ class DocsCommand extends Command
     /**
      * Get the documentation index as a collection.
      *
-     * @return \Illuminate\Support\Collection
+     * @return Collection
      */
     public function docs()
     {
@@ -451,7 +452,7 @@ class DocsCommand extends Command
     /**
      * Fetch the documentation index from the Laravel website.
      *
-     * @return \Illuminate\Http\Client\Response
+     * @return Response
      */
     protected function fetchDocs()
     {

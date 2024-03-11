@@ -3,6 +3,7 @@
 namespace Illuminate\Contracts\Validation;
 
 use Closure;
+use Illuminate\Translation\PotentiallyTranslatedString;
 
 interface ValidationRule
 {
@@ -11,7 +12,7 @@ interface ValidationRule
      *
      * @param  string  $attribute
      * @param  mixed  $value
-     * @param  \Closure(string): \Illuminate\Translation\PotentiallyTranslatedString  $fail
+     * @param Closure(string): PotentiallyTranslatedString $fail
      * @return void
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void;

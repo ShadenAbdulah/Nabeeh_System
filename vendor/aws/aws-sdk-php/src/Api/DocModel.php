@@ -1,6 +1,9 @@
 <?php
 namespace Aws\Api;
 
+use RuntimeException;
+use tidy;
+
 /**
  * Encapsulates the documentation strings for a given service-version and
  * provides methods for extracting the desired parts related to a service,
@@ -14,12 +17,12 @@ class DocModel
     /**
      * @param array $docs
      *
-     * @throws \RuntimeException
+     * @throws RuntimeException
      */
     public function __construct(array $docs)
     {
         if (!extension_loaded('tidy')) {
-            throw new \RuntimeException('The "tidy" PHP extension is required.');
+            throw new RuntimeException('The "tidy" PHP extension is required.');
         }
 
         $this->docs = $docs;
@@ -119,7 +122,7 @@ class DocModel
             return '';
         }
 
-        $tidy = new \tidy();
+        $tidy = new tidy();
         $tidy->parseString($content, [
             'indent' => true,
             'doctype' => 'omit',

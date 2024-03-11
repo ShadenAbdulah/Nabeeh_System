@@ -3,6 +3,7 @@
 namespace Laravel\Prompts\Output;
 
 use Symfony\Component\Console\Output\ConsoleOutput as SymfonyConsoleOutput;
+use const PHP_EOL;
 
 class ConsoleOutput extends SymfonyConsoleOutput
 {
@@ -27,10 +28,10 @@ class ConsoleOutput extends SymfonyConsoleOutput
         parent::doWrite($message, $newline);
 
         if ($newline) {
-            $message .= \PHP_EOL;
+            $message .= PHP_EOL;
         }
 
-        $trailingNewLines = strlen($message) - strlen(rtrim($message, \PHP_EOL));
+        $trailingNewLines = strlen($message) - strlen(rtrim($message, PHP_EOL));
 
         if (trim($message) === '') {
             $this->newLinesWritten += $trailingNewLines;

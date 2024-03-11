@@ -11,10 +11,12 @@
 
 namespace Symfony\Component\ErrorHandler\ErrorEnhancer;
 
+use Throwable;
+
 interface ErrorEnhancerInterface
 {
     /**
      * Returns an \Throwable instance if the class is able to improve the error, null otherwise.
      */
-    public function enhance(\Throwable $error): ?\Throwable;
+    public function enhance(Throwable $error): ?Throwable;
 }

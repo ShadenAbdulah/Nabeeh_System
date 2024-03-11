@@ -2,14 +2,16 @@
 namespace Aws\MarketplaceAgreement;
 
 use Aws\AwsClient;
+use Aws\Result;
+use GuzzleHttp\Promise\Promise;
 
 /**
  * This client is used to interact with the **AWS Marketplace Agreement Service** service.
- * @method \Aws\Result describeAgreement(array $args = [])
- * @method \GuzzleHttp\Promise\Promise describeAgreementAsync(array $args = [])
- * @method \Aws\Result getAgreementTerms(array $args = [])
- * @method \GuzzleHttp\Promise\Promise getAgreementTermsAsync(array $args = [])
- * @method \Aws\Result searchAgreements(array $args = [])
- * @method \GuzzleHttp\Promise\Promise searchAgreementsAsync(array $args = [])
+ * @method Result describeAgreement(array $args = [])
+ * @method Promise describeAgreementAsync(array $args = [])
+ * @method Result getAgreementTerms(array $args = [])
+ * @method Promise getAgreementTermsAsync(array $args = [])
+ * @method Result searchAgreements(array $args = [])
+ * @method Promise searchAgreementsAsync(array $args = [])
  */
 class MarketplaceAgreementClient extends AwsClient {}

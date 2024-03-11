@@ -3,6 +3,7 @@
 namespace Laravel\Fortify\Http\Controllers;
 
 use Illuminate\Contracts\Auth\StatefulGuard;
+use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Date;
@@ -16,14 +17,14 @@ class ConfirmablePasswordController extends Controller
     /**
      * The guard implementation.
      *
-     * @var \Illuminate\Contracts\Auth\StatefulGuard
+     * @var StatefulGuard
      */
     protected $guard;
 
     /**
      * Create a new controller instance.
      *
-     * @param  \Illuminate\Contracts\Auth\StatefulGuard  $guard
+     * @param StatefulGuard $guard
      * @return void
      */
     public function __construct(StatefulGuard $guard)
@@ -34,8 +35,8 @@ class ConfirmablePasswordController extends Controller
     /**
      * Show the confirm password view.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Laravel\Fortify\Contracts\ConfirmPasswordViewResponse
+     * @param Request $request
+     * @return ConfirmPasswordViewResponse
      */
     public function show(Request $request)
     {
@@ -45,8 +46,8 @@ class ConfirmablePasswordController extends Controller
     /**
      * Confirm the user's password.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Contracts\Support\Responsable
+     * @param Request $request
+     * @return Responsable
      */
     public function store(Request $request)
     {

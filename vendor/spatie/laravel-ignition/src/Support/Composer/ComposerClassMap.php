@@ -10,7 +10,7 @@ use Symfony\Component\Finder\SplFileInfo;
 
 class ComposerClassMap
 {
-    /** @var \Spatie\LaravelIgnition\Support\Composer\Composer */
+    /** @var Composer */
     protected object $composer;
 
     protected string $basePath;

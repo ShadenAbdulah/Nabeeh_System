@@ -11,9 +11,11 @@
 
 namespace Monolog\Handler;
 
+use InvalidArgumentException;
 use Monolog\Formatter\FormatterInterface;
 use Monolog\ResettableInterface;
 use Monolog\LogRecord;
+use function count;
 
 /**
  * Forwards records to multiple handlers
@@ -32,13 +34,13 @@ class GroupHandler extends Handler implements ProcessableHandlerInterface, Reset
      * @param HandlerInterface[] $handlers Array of Handlers.
      * @param bool               $bubble   Whether the messages that are handled can bubble up the stack or not
      *
-     * @throws \InvalidArgumentException if an unsupported handler is set
+     * @throws InvalidArgumentException if an unsupported handler is set
      */
     public function __construct(array $handlers, bool $bubble = true)
     {
         foreach ($handlers as $handler) {
             if (!$handler instanceof HandlerInterface) {
-                throw new \InvalidArgumentException('The first argument of the GroupHandler must be an array of HandlerInterface instances.');
+                throw new InvalidArgumentException('The first argument of the GroupHandler must be an array of HandlerInterface instances.');
             }
         }
 
@@ -65,7 +67,7 @@ class GroupHandler extends Handler implements ProcessableHandlerInterface, Reset
      */
     public function handle(LogRecord $record): bool
     {
-        if (\count($this->processors) > 0) {
+        if (count($this->processors) > 0) {
             $record = $this->processRecord($record);
         }
 
@@ -81,7 +83,7 @@ class GroupHandler extends Handler implements ProcessableHandlerInterface, Reset
      */
     public function handleBatch(array $records): void
     {
-        if (\count($this->processors) > 0) {
+        if (count($this->processors) > 0) {
             $processed = [];
             foreach ($records as $record) {
                 $processed[] = $this->processRecord($record);

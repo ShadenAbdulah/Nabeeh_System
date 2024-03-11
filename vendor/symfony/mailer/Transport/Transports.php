@@ -17,6 +17,7 @@ use Symfony\Component\Mailer\Exception\LogicException;
 use Symfony\Component\Mailer\SentMessage;
 use Symfony\Component\Mime\Message;
 use Symfony\Component\Mime\RawMessage;
+use Throwable;
 
 /**
  * @author Fabien Potencier <fabien@symfony.com>
@@ -61,7 +62,7 @@ final class Transports implements TransportInterface
 
         try {
             return $this->transports[$transport]->send($message, $envelope);
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             $headers->addTextHeader('X-Transport', $transport);
 
             throw $e;

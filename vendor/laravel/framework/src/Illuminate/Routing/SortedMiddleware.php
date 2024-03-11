@@ -2,6 +2,7 @@
 
 namespace Illuminate\Routing;
 
+use Generator;
 use Illuminate\Support\Collection;
 
 class SortedMiddleware extends Collection
@@ -10,7 +11,7 @@ class SortedMiddleware extends Collection
      * Create a new Sorted Middleware container.
      *
      * @param  array  $priorityMap
-     * @param  \Illuminate\Support\Collection|array  $middlewares
+     * @param Collection|array  $middlewares
      * @return void
      */
     public function __construct(array $priorityMap, $middlewares)
@@ -86,7 +87,7 @@ class SortedMiddleware extends Collection
      * Resolve the middleware names to look for in the priority array.
      *
      * @param  string  $middleware
-     * @return \Generator
+     * @return Generator
      */
     protected function middlewareNames($middleware)
     {

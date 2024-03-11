@@ -11,6 +11,7 @@
 
 namespace Symfony\Component\HttpKernel;
 
+use Exception;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -40,7 +41,7 @@ interface HttpKernelInterface
      *                    (one of HttpKernelInterface::MAIN_REQUEST or HttpKernelInterface::SUB_REQUEST)
      * @param bool $catch Whether to catch exceptions or not
      *
-     * @throws \Exception When an Exception occurs during processing
+     * @throws Exception When an Exception occurs during processing
      */
     public function handle(Request $request, int $type = self::MAIN_REQUEST, bool $catch = true): Response;
 }

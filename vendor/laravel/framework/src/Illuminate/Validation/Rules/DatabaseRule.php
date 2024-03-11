@@ -81,8 +81,8 @@ trait DatabaseRule
     /**
      * Set a "where" constraint on the query.
      *
-     * @param  \Closure|string  $column
-     * @param  \Illuminate\Contracts\Support\Arrayable|\BackedEnum|\Closure|array|string|int|bool|null  $value
+     * @param Closure|string  $column
+     * @param Arrayable|BackedEnum|Closure|array|string|int|bool|null  $value
      * @return $this
      */
     public function where($column, $value = null)
@@ -112,7 +112,7 @@ trait DatabaseRule
      * Set a "where not" constraint on the query.
      *
      * @param  string  $column
-     * @param  \Illuminate\Contracts\Support\Arrayable|\BackedEnum|array|string  $value
+     * @param Arrayable|BackedEnum|array|string  $value
      * @return $this
      */
     public function whereNot($column, $value)
@@ -154,7 +154,7 @@ trait DatabaseRule
      * Set a "where in" constraint on the query.
      *
      * @param  string  $column
-     * @param  \Illuminate\Contracts\Support\Arrayable|\BackedEnum|array  $values
+     * @param Arrayable|BackedEnum|array  $values
      * @return $this
      */
     public function whereIn($column, $values)
@@ -168,7 +168,7 @@ trait DatabaseRule
      * Set a "where not in" constraint on the query.
      *
      * @param  string  $column
-     * @param  \Illuminate\Contracts\Support\Arrayable|\BackedEnum|array  $values
+     * @param Arrayable|BackedEnum|array  $values
      * @return $this
      */
     public function whereNotIn($column, $values)
@@ -207,7 +207,7 @@ trait DatabaseRule
     /**
      * Register a custom query callback.
      *
-     * @param  \Closure  $callback
+     * @param Closure $callback
      * @return $this
      */
     public function using(Closure $callback)

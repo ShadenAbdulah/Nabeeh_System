@@ -23,6 +23,9 @@ use League\CommonMark\Renderer\NodeRendererInterface;
 use League\CommonMark\Util\HtmlElement;
 use League\CommonMark\Util\Xml;
 use League\CommonMark\Xml\XmlNodeRendererInterface;
+use Stringable;
+use function count;
+use function str_starts_with;
 
 final class FencedCodeRenderer implements NodeRendererInterface, XmlNodeRendererInterface
 {
@@ -33,16 +36,16 @@ final class FencedCodeRenderer implements NodeRendererInterface, XmlNodeRenderer
      *
      * @psalm-suppress MoreSpecificImplementedParamType
      */
-    public function render(Node $node, ChildNodeRendererInterface $childRenderer): \Stringable
+    public function render(Node $node, ChildNodeRendererInterface $childRenderer): Stringable
     {
         FencedCode::assertInstanceOf($node);
 
         $attrs = $node->data->getData('attributes');
 
         $infoWords = $node->getInfoWords();
-        if (\count($infoWords) !== 0 && $infoWords[0] !== '') {
+        if (count($infoWords) !== 0 && $infoWords[0] !== '') {
             $class = $infoWords[0];
-            if (! \str_starts_with($class, 'language-')) {
+            if (! str_starts_with($class, 'language-')) {
                 $class = 'language-' . $class;
             }
 

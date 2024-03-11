@@ -13,14 +13,14 @@ class Authenticate implements AuthenticatesRequests
     /**
      * The authentication factory instance.
      *
-     * @var \Illuminate\Contracts\Auth\Factory
+     * @var Auth
      */
     protected $auth;
 
     /**
      * Create a new middleware instance.
      *
-     * @param  \Illuminate\Contracts\Auth\Factory  $auth
+     * @param Auth $auth
      * @return void
      */
     public function __construct(Auth $auth)
@@ -43,12 +43,12 @@ class Authenticate implements AuthenticatesRequests
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
+     * @param Request $request
+     * @param Closure $next
      * @param  string[]  ...$guards
      * @return mixed
      *
-     * @throws \Illuminate\Auth\AuthenticationException
+     * @throws AuthenticationException
      */
     public function handle($request, Closure $next, ...$guards)
     {
@@ -60,11 +60,11 @@ class Authenticate implements AuthenticatesRequests
     /**
      * Determine if the user is logged in to any of the given guards.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param Request $request
      * @param  array  $guards
      * @return void
      *
-     * @throws \Illuminate\Auth\AuthenticationException
+     * @throws AuthenticationException
      */
     protected function authenticate($request, array $guards)
     {
@@ -84,11 +84,11 @@ class Authenticate implements AuthenticatesRequests
     /**
      * Handle an unauthenticated user.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param Request $request
      * @param  array  $guards
      * @return void
      *
-     * @throws \Illuminate\Auth\AuthenticationException
+     * @throws AuthenticationException
      */
     protected function unauthenticated($request, array $guards)
     {
@@ -100,7 +100,7 @@ class Authenticate implements AuthenticatesRequests
     /**
      * Get the path the user should be redirected to when they are not authenticated.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param Request $request
      * @return string|null
      */
     protected function redirectTo(Request $request)

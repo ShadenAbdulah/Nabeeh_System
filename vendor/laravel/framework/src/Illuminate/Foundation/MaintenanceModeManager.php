@@ -2,6 +2,7 @@
 
 namespace Illuminate\Foundation;
 
+use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Support\Manager;
 
 class MaintenanceModeManager extends Manager
@@ -9,7 +10,7 @@ class MaintenanceModeManager extends Manager
     /**
      * Create an instance of the file based maintenance driver.
      *
-     * @return \Illuminate\Foundation\FileBasedMaintenanceMode
+     * @return FileBasedMaintenanceMode
      */
     protected function createFileDriver(): FileBasedMaintenanceMode
     {
@@ -19,9 +20,9 @@ class MaintenanceModeManager extends Manager
     /**
      * Create an instance of the cache based maintenance driver.
      *
-     * @return \Illuminate\Foundation\CacheBasedMaintenanceMode
+     * @return CacheBasedMaintenanceMode
      *
-     * @throws \Illuminate\Contracts\Container\BindingResolutionException
+     * @throws BindingResolutionException
      */
     protected function createCacheDriver(): CacheBasedMaintenanceMode
     {

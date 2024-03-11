@@ -36,6 +36,10 @@
 
 namespace Psy\Readline\Hoa;
 
+use function count;
+use function mb_strlen;
+use function mb_substr;
+
 /**
  * Class \Hoa\Console\Readline\Autocompleter\Word.
  *
@@ -67,10 +71,10 @@ class AutocompleterWord implements Autocompleter
     public function complete(&$prefix)
     {
         $out = [];
-        $length = \mb_strlen($prefix);
+        $length = mb_strlen($prefix);
 
         foreach ($this->getWords() as $word) {
-            if (\mb_substr($word, 0, $length) === $prefix) {
+            if (mb_substr($word, 0, $length) === $prefix) {
                 $out[] = $word;
             }
         }
@@ -79,7 +83,7 @@ class AutocompleterWord implements Autocompleter
             return null;
         }
 
-        if (1 === \count($out)) {
+        if (1 === count($out)) {
             return $out[0];
         }
 

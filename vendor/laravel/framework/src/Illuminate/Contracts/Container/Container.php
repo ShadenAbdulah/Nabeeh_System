@@ -3,6 +3,8 @@
 namespace Illuminate\Contracts\Container;
 
 use Closure;
+use InvalidArgumentException;
+use LogicException;
 use Psr\Container\ContainerInterface;
 
 interface Container extends ContainerInterface
@@ -22,7 +24,7 @@ interface Container extends ContainerInterface
      * @param  string  $alias
      * @return void
      *
-     * @throws \LogicException
+     * @throws LogicException
      */
     public function alias($abstract, $alias);
 
@@ -47,7 +49,7 @@ interface Container extends ContainerInterface
      * Register a binding with the container.
      *
      * @param  string  $abstract
-     * @param  \Closure|string|null  $concrete
+     * @param Closure|string|null  $concrete
      * @param  bool  $shared
      * @return void
      */
@@ -57,7 +59,7 @@ interface Container extends ContainerInterface
      * Bind a callback to resolve with Container::call.
      *
      * @param  array|string  $method
-     * @param  \Closure  $callback
+     * @param Closure $callback
      * @return void
      */
     public function bindMethod($method, $callback);
@@ -66,7 +68,7 @@ interface Container extends ContainerInterface
      * Register a binding if it hasn't already been registered.
      *
      * @param  string  $abstract
-     * @param  \Closure|string|null  $concrete
+     * @param Closure|string|null  $concrete
      * @param  bool  $shared
      * @return void
      */
@@ -76,7 +78,7 @@ interface Container extends ContainerInterface
      * Register a shared binding in the container.
      *
      * @param  string  $abstract
-     * @param  \Closure|string|null  $concrete
+     * @param Closure|string|null  $concrete
      * @return void
      */
     public function singleton($abstract, $concrete = null);
@@ -85,7 +87,7 @@ interface Container extends ContainerInterface
      * Register a shared binding if it hasn't already been registered.
      *
      * @param  string  $abstract
-     * @param  \Closure|string|null  $concrete
+     * @param Closure|string|null  $concrete
      * @return void
      */
     public function singletonIf($abstract, $concrete = null);
@@ -94,7 +96,7 @@ interface Container extends ContainerInterface
      * Register a scoped binding in the container.
      *
      * @param  string  $abstract
-     * @param  \Closure|string|null  $concrete
+     * @param Closure|string|null  $concrete
      * @return void
      */
     public function scoped($abstract, $concrete = null);
@@ -103,7 +105,7 @@ interface Container extends ContainerInterface
      * Register a scoped binding if it hasn't already been registered.
      *
      * @param  string  $abstract
-     * @param  \Closure|string|null  $concrete
+     * @param Closure|string|null  $concrete
      * @return void
      */
     public function scopedIf($abstract, $concrete = null);
@@ -112,10 +114,10 @@ interface Container extends ContainerInterface
      * "Extend" an abstract type in the container.
      *
      * @param  string  $abstract
-     * @param  \Closure  $closure
+     * @param Closure $closure
      * @return void
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function extend($abstract, Closure $closure);
 
@@ -133,7 +135,7 @@ interface Container extends ContainerInterface
      *
      * @param  string  $concrete
      * @param  string  $abstract
-     * @param  \Closure|string  $implementation
+     * @param Closure|string  $implementation
      * @return void
      */
     public function addContextualBinding($concrete, $abstract, $implementation);
@@ -142,7 +144,7 @@ interface Container extends ContainerInterface
      * Define a contextual binding.
      *
      * @param  string|array  $concrete
-     * @return \Illuminate\Contracts\Container\ContextualBindingBuilder
+     * @return ContextualBindingBuilder
      */
     public function when($concrete);
 
@@ -150,7 +152,7 @@ interface Container extends ContainerInterface
      * Get a closure to resolve the given type from the container.
      *
      * @param  string  $abstract
-     * @return \Closure
+     * @return Closure
      */
     public function factory($abstract);
 
@@ -168,7 +170,7 @@ interface Container extends ContainerInterface
      * @param  array  $parameters
      * @return mixed
      *
-     * @throws \Illuminate\Contracts\Container\BindingResolutionException
+     * @throws BindingResolutionException
      */
     public function make($abstract, array $parameters = []);
 
@@ -193,8 +195,8 @@ interface Container extends ContainerInterface
     /**
      * Register a new before resolving callback.
      *
-     * @param  \Closure|string  $abstract
-     * @param  \Closure|null  $callback
+     * @param Closure|string  $abstract
+     * @param Closure|null  $callback
      * @return void
      */
     public function beforeResolving($abstract, Closure $callback = null);
@@ -202,8 +204,8 @@ interface Container extends ContainerInterface
     /**
      * Register a new resolving callback.
      *
-     * @param  \Closure|string  $abstract
-     * @param  \Closure|null  $callback
+     * @param Closure|string  $abstract
+     * @param Closure|null  $callback
      * @return void
      */
     public function resolving($abstract, Closure $callback = null);
@@ -211,8 +213,8 @@ interface Container extends ContainerInterface
     /**
      * Register a new after resolving callback.
      *
-     * @param  \Closure|string  $abstract
-     * @param  \Closure|null  $callback
+     * @param Closure|string  $abstract
+     * @param Closure|null  $callback
      * @return void
      */
     public function afterResolving($abstract, Closure $callback = null);

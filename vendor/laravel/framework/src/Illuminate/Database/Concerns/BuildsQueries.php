@@ -4,6 +4,7 @@ namespace Illuminate\Database\Concerns;
 
 use Illuminate\Container\Container;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\MultipleRecordsFoundException;
 use Illuminate\Database\Query\Expression;
 use Illuminate\Database\RecordsNotFoundException;
@@ -67,7 +68,7 @@ trait BuildsQueries
      *
      * @param  callable  $callback
      * @param  int  $count
-     * @return \Illuminate\Support\Collection
+     * @return Collection
      */
     public function chunkMap(callable $callback, $count = 1000)
     {
@@ -89,7 +90,7 @@ trait BuildsQueries
      * @param  int  $count
      * @return bool
      *
-     * @throws \RuntimeException
+     * @throws RuntimeException
      */
     public function each(callable $callback, $count = 1000)
     {
@@ -213,9 +214,9 @@ trait BuildsQueries
      * Query lazily, by chunks of the given size.
      *
      * @param  int  $chunkSize
-     * @return \Illuminate\Support\LazyCollection
+     * @return LazyCollection
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function lazy($chunkSize = 1000)
     {
@@ -248,9 +249,9 @@ trait BuildsQueries
      * @param  int  $chunkSize
      * @param  string|null  $column
      * @param  string|null  $alias
-     * @return \Illuminate\Support\LazyCollection
+     * @return LazyCollection
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function lazyById($chunkSize = 1000, $column = null, $alias = null)
     {
@@ -263,9 +264,9 @@ trait BuildsQueries
      * @param  int  $chunkSize
      * @param  string|null  $column
      * @param  string|null  $alias
-     * @return \Illuminate\Support\LazyCollection
+     * @return LazyCollection
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function lazyByIdDesc($chunkSize = 1000, $column = null, $alias = null)
     {
@@ -279,9 +280,9 @@ trait BuildsQueries
      * @param  string|null  $column
      * @param  string|null  $alias
      * @param  bool  $descending
-     * @return \Illuminate\Support\LazyCollection
+     * @return LazyCollection
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     protected function orderedLazyById($chunkSize = 1000, $column = null, $alias = null, $descending = false)
     {
@@ -326,7 +327,7 @@ trait BuildsQueries
      * Execute the query and get the first result.
      *
      * @param  array|string  $columns
-     * @return \Illuminate\Database\Eloquent\Model|object|static|null
+     * @return Model|object|static|null
      */
     public function first($columns = ['*'])
     {
@@ -337,10 +338,10 @@ trait BuildsQueries
      * Execute the query and get the first result if it's the sole matching record.
      *
      * @param  array|string  $columns
-     * @return \Illuminate\Database\Eloquent\Model|object|static|null
+     * @return Model|object|static|null
      *
-     * @throws \Illuminate\Database\RecordsNotFoundException
-     * @throws \Illuminate\Database\MultipleRecordsFoundException
+     * @throws RecordsNotFoundException
+     * @throws MultipleRecordsFoundException
      */
     public function sole($columns = ['*'])
     {
@@ -365,7 +366,7 @@ trait BuildsQueries
      * @param  int  $perPage
      * @param  array|string  $columns
      * @param  string  $cursorName
-     * @param  \Illuminate\Pagination\Cursor|string|null  $cursor
+     * @param Cursor|string|null  $cursor
      * @return \Illuminate\Contracts\Pagination\CursorPaginator
      */
     protected function paginateUsingCursor($perPage, $columns = ['*'], $cursorName = 'cursor', $cursor = null)
@@ -454,7 +455,7 @@ trait BuildsQueries
     /**
      * Get the original column name of the given column, without any aliasing.
      *
-     * @param  \Illuminate\Database\Query\Builder|\Illuminate\Database\Eloquent\Builder  $builder
+     * @param  \Illuminate\Database\Query\Builder|Builder $builder
      * @param  string  $parameter
      * @return string
      */
@@ -482,12 +483,12 @@ trait BuildsQueries
     /**
      * Create a new length-aware paginator instance.
      *
-     * @param  \Illuminate\Support\Collection  $items
+     * @param Collection $items
      * @param  int  $total
      * @param  int  $perPage
      * @param  int  $currentPage
      * @param  array  $options
-     * @return \Illuminate\Pagination\LengthAwarePaginator
+     * @return LengthAwarePaginator
      */
     protected function paginator($items, $total, $perPage, $currentPage, $options)
     {
@@ -499,11 +500,11 @@ trait BuildsQueries
     /**
      * Create a new simple paginator instance.
      *
-     * @param  \Illuminate\Support\Collection  $items
+     * @param Collection $items
      * @param  int  $perPage
      * @param  int  $currentPage
      * @param  array  $options
-     * @return \Illuminate\Pagination\Paginator
+     * @return Paginator
      */
     protected function simplePaginator($items, $perPage, $currentPage, $options)
     {
@@ -515,11 +516,11 @@ trait BuildsQueries
     /**
      * Create a new cursor paginator instance.
      *
-     * @param  \Illuminate\Support\Collection  $items
+     * @param Collection $items
      * @param  int  $perPage
-     * @param  \Illuminate\Pagination\Cursor  $cursor
+     * @param Cursor $cursor
      * @param  array  $options
-     * @return \Illuminate\Pagination\CursorPaginator
+     * @return CursorPaginator
      */
     protected function cursorPaginator($items, $perPage, $cursor, $options)
     {

@@ -12,20 +12,21 @@ use Doctrine\DBAL\ParameterType;
 use PDO;
 use PDOException;
 use PDOStatement;
+use function assert;
 
 class Connection implements ServerInfoAwareConnection
 {
     /**
      * The underlying PDO connection.
      *
-     * @var \PDO
+     * @var PDO
      */
     protected $connection;
 
     /**
      * Create a new PDO connection instance.
      *
-     * @param  \PDO  $connection
+     * @param PDO $connection
      * @return void
      */
     public function __construct(PDO $connection)
@@ -44,7 +45,7 @@ class Connection implements ServerInfoAwareConnection
         try {
             $result = $this->connection->exec($statement);
 
-            \assert($result !== false);
+            assert($result !== false);
 
             return $result;
         } catch (PDOException $exception) {
@@ -56,9 +57,9 @@ class Connection implements ServerInfoAwareConnection
      * Prepare a new SQL statement.
      *
      * @param  string  $sql
-     * @return \Doctrine\DBAL\Driver\Statement
+     * @return StatementInterface
      *
-     * @throws \Doctrine\DBAL\Driver\PDO\Exception
+     * @throws Exception
      */
     public function prepare(string $sql): StatementInterface
     {
@@ -75,14 +76,14 @@ class Connection implements ServerInfoAwareConnection
      * Execute a new query against the connection.
      *
      * @param  string  $sql
-     * @return \Doctrine\DBAL\Driver\Result
+     * @return ResultInterface
      */
     public function query(string $sql): ResultInterface
     {
         try {
             $stmt = $this->connection->query($sql);
 
-            \assert($stmt instanceof PDOStatement);
+            assert($stmt instanceof PDOStatement);
 
             return new Result($stmt);
         } catch (PDOException $exception) {
@@ -96,7 +97,7 @@ class Connection implements ServerInfoAwareConnection
      * @param  string|null  $name
      * @return mixed
      *
-     * @throws \Doctrine\DBAL\Driver\PDO\Exception
+     * @throws Exception
      */
     public function lastInsertId($name = null)
     {
@@ -114,8 +115,8 @@ class Connection implements ServerInfoAwareConnection
     /**
      * Create a new statement instance.
      *
-     * @param  \PDOStatement  $stmt
-     * @return \Doctrine\DBAL\Driver\PDO\Statement
+     * @param PDOStatement $stmt
+     * @return Statement
      */
     protected function createStatement(PDOStatement $stmt): Statement
     {
@@ -177,7 +178,7 @@ class Connection implements ServerInfoAwareConnection
     /**
      * Get the wrapped PDO connection.
      *
-     * @return \PDO
+     * @return PDO
      */
     public function getWrappedConnection(): PDO
     {

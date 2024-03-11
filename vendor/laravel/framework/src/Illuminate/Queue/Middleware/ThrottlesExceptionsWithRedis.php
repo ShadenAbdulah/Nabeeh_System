@@ -15,14 +15,14 @@ class ThrottlesExceptionsWithRedis extends ThrottlesExceptions
     /**
      * The Redis factory implementation.
      *
-     * @var \Illuminate\Contracts\Redis\Factory
+     * @var Redis
      */
     protected $redis;
 
     /**
      * The rate limiter instance.
      *
-     * @var \Illuminate\Redis\Limiters\DurationLimiter
+     * @var DurationLimiter
      */
     protected $limiter;
 

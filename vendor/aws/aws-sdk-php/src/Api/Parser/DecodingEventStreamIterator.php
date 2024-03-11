@@ -2,11 +2,13 @@
 
 namespace Aws\Api\Parser;
 
-use \Iterator;
+use HashContext;
+use Iterator;
 use Aws\Api\DateTimeResult;
 use GuzzleHttp\Psr7;
 use Psr\Http\Message\StreamInterface;
 use Aws\Api\Parser\Exception\ParserException;
+use ReturnTypeWillChange;
 
 /**
  * @internal Implements a decoder for a binary encoded event stream that will
@@ -60,7 +62,7 @@ class DecodingEventStreamIterator implements Iterator
     /** @var int Current in-order event key. */
     private $key;
 
-    /** @var resource|\HashContext CRC32 hash context for event validation */
+    /** @var resource|HashContext CRC32 hash context for event validation */
     private $hashContext;
 
     /** @var int $currentPosition */
@@ -172,7 +174,7 @@ class DecodingEventStreamIterator implements Iterator
     /**
      * @return array
      */
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function current()
     {
         return $this->currentEvent;
@@ -181,13 +183,13 @@ class DecodingEventStreamIterator implements Iterator
     /**
      * @return int
      */
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function key()
     {
         return $this->key;
     }
 
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function next()
     {
         $this->currentPosition = $this->stream->tell();
@@ -197,7 +199,7 @@ class DecodingEventStreamIterator implements Iterator
         }
     }
 
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function rewind()
     {
         $this->stream->rewind();
@@ -209,7 +211,7 @@ class DecodingEventStreamIterator implements Iterator
     /**
      * @return bool
      */
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function valid()
     {
         return $this->currentPosition < $this->stream->getSize();

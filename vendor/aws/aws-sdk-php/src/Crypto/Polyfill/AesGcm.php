@@ -4,6 +4,16 @@ namespace Aws\Crypto\Polyfill;
 use Aws\Exception\CryptoPolyfillException;
 use InvalidArgumentException;
 use RangeException;
+use function in_array;
+use function is_callable;
+use function is_int;
+use function is_null;
+use function mb_strlen;
+use function mb_substr;
+use function openssl_decrypt;
+use function openssl_encrypt;
+use function strlen;
+use function substr;
 
 /**
  * Class AesGcm
@@ -45,12 +55,12 @@ class AesGcm
     {
         /* Preconditions: */
         self::needs(
-            \in_array($keySize, [128, 192, 256], true),
+            in_array($keySize, [128, 192, 256], true),
             "Key size must be 128, 192, or 256 bits; {$keySize} given",
             InvalidArgumentException::class
         );
         self::needs(
-            \is_int($blockSize) && $blockSize > 0 && $blockSize <= PHP_INT_MAX,
+            is_int($blockSize) && $blockSize > 0 && $blockSize <= PHP_INT_MAX,
             'Block size must be a positive integer.',
             RangeException::class
         );
@@ -93,7 +103,7 @@ class AesGcm
         $encryptor = new AesGcm($key, $keySize, $blockSize);
         list($aadLength, $gmac) = $encryptor->gmacInit($nonce, $aad);
 
-        $ciphertext = \openssl_encrypt(
+        $ciphertext = openssl_encrypt(
             $plaintext,
             "aes-{$encryptor->keySize}-ctr",
             $key->get(),
@@ -158,7 +168,7 @@ class AesGcm
         self::needs($calc->equals($expected), 'Invalid authentication tag');
 
         /* Return plaintext if auth tag check succeeded: */
-        return \openssl_decrypt(
+        return openssl_decrypt(
             $ciphertext,
             "aes-{$encryptor->keySize}-ctr",
             $key->get(),
@@ -199,10 +209,10 @@ class AesGcm
      */
     protected static function strlen($string)
     {
-        if (\is_callable('\\mb_strlen')) {
-            return (int) \mb_strlen($string, '8bit');
+        if (is_callable('\\mb_strlen')) {
+            return (int) mb_strlen($string, '8bit');
         }
-        return (int) \strlen($string);
+        return (int) strlen($string);
     }
 
     /**
@@ -218,11 +228,11 @@ class AesGcm
      */
     protected static function substr($string, $offset = 0, $length = null)
     {
-        if (\is_callable('\\mb_substr')) {
-            return \mb_substr($string, $offset, $length, '8bit');
-        } elseif (!\is_null($length)) {
-            return \substr($string, $offset, $length);
+        if (is_callable('\\mb_substr')) {
+            return mb_substr($string, $offset, $length, '8bit');
+        } elseif (!is_null($length)) {
+            return substr($string, $offset, $length);
         }
-        return \substr($string, $offset);
+        return substr($string, $offset);
     }
 }

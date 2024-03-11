@@ -11,6 +11,7 @@
 
 namespace Symfony\Component\HttpKernel;
 
+use LogicException;
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,6 +21,7 @@ use Symfony\Component\Mime\Part\DataPart;
 use Symfony\Component\Mime\Part\Multipart\FormDataPart;
 use Symfony\Component\Mime\Part\TextPart;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
+use function in_array;
 
 // Help opcache.preload discover always-needed symbols
 class_exists(ResponseHeaderBag::class);
@@ -36,7 +38,7 @@ final class HttpClientKernel implements HttpKernelInterface
     public function __construct(?HttpClientInterface $client = null)
     {
         if (null === $client && !class_exists(HttpClient::class)) {
-            throw new \LogicException(sprintf('You cannot use "%s" as the HttpClient component is not installed. Try running "composer require symfony/http-client".', __CLASS__));
+            throw new LogicException(sprintf('You cannot use "%s" as the HttpClient component is not installed. Try running "composer require symfony/http-client".', __CLASS__));
         }
 
         $this->client = $client ?? HttpClient::create();
@@ -73,12 +75,12 @@ final class HttpClientKernel implements HttpKernelInterface
 
     private function getBody(Request $request): ?AbstractPart
     {
-        if (\in_array($request->getMethod(), ['GET', 'HEAD'])) {
+        if (in_array($request->getMethod(), ['GET', 'HEAD'])) {
             return null;
         }
 
         if (!class_exists(AbstractPart::class)) {
-            throw new \LogicException('You cannot pass non-empty bodies as the Mime component is not installed. Try running "composer require symfony/mime".');
+            throw new LogicException('You cannot pass non-empty bodies as the Mime component is not installed. Try running "composer require symfony/mime".');
         }
 
         if ($content = $request->getContent()) {

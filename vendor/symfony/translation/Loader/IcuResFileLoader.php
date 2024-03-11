@@ -11,6 +11,8 @@
 
 namespace Symfony\Component\Translation\Loader;
 
+use Exception;
+use ResourceBundle;
 use Symfony\Component\Config\Resource\DirectoryResource;
 use Symfony\Component\Translation\Exception\InvalidResourceException;
 use Symfony\Component\Translation\Exception\NotFoundResourceException;
@@ -34,8 +36,8 @@ class IcuResFileLoader implements LoaderInterface
         }
 
         try {
-            $rb = new \ResourceBundle($locale, $resource);
-        } catch (\Exception) {
+            $rb = new ResourceBundle($locale, $resource);
+        } catch (Exception) {
             $rb = null;
         }
 
@@ -66,15 +68,15 @@ class IcuResFileLoader implements LoaderInterface
      *
      * This function takes an array by reference and will modify it
      *
-     * @param \ResourceBundle $rb       The ResourceBundle that will be flattened
+     * @param ResourceBundle $rb       The ResourceBundle that will be flattened
      * @param array           $messages Used internally for recursive calls
      * @param string|null     $path     Current path being parsed, used internally for recursive calls
      */
-    protected function flatten(\ResourceBundle $rb, array &$messages = [], ?string $path = null): array
+    protected function flatten(ResourceBundle $rb, array &$messages = [], ?string $path = null): array
     {
         foreach ($rb as $key => $value) {
             $nodePath = $path ? $path.'.'.$key : $key;
-            if ($value instanceof \ResourceBundle) {
+            if ($value instanceof ResourceBundle) {
                 $this->flatten($value, $messages, $nodePath);
             } else {
                 $messages[$nodePath] = $value;

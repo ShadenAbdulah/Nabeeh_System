@@ -4,16 +4,17 @@ namespace Illuminate\Mail\Events;
 
 use Exception;
 use Illuminate\Mail\SentMessage;
+use Symfony\Component\Mime\Email;
 
 /**
- * @property \Symfony\Component\Mime\Email $message
+ * @property Email $message
  */
 class MessageSent
 {
     /**
      * The message that was sent.
      *
-     * @var \Illuminate\Mail\SentMessage
+     * @var SentMessage
      */
     public $sent;
 
@@ -27,7 +28,7 @@ class MessageSent
     /**
      * Create a new event instance.
      *
-     * @param  \Illuminate\Mail\SentMessage  $message
+     * @param SentMessage $message
      * @param  array  $data
      * @return void
      */
@@ -74,7 +75,7 @@ class MessageSent
      * @param  string  $key
      * @return mixed
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function __get($key)
     {

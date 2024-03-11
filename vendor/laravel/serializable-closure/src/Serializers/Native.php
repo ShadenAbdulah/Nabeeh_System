@@ -12,6 +12,7 @@ use Laravel\SerializableClosure\Support\ReflectionClosure;
 use Laravel\SerializableClosure\Support\SelfReference;
 use Laravel\SerializableClosure\UnsignedSerializableClosure;
 use ReflectionObject;
+use stdClass;
 use UnitEnum;
 
 class Native implements Serializable
@@ -19,28 +20,28 @@ class Native implements Serializable
     /**
      * Transform the use variables before serialization.
      *
-     * @var \Closure|null
+     * @var Closure|null
      */
     public static $transformUseVariables;
 
     /**
      * Resolve the use variables after unserialization.
      *
-     * @var \Closure|null
+     * @var Closure|null
      */
     public static $resolveUseVariables;
 
     /**
      * The closure to be serialized/unserialized.
      *
-     * @var \Closure
+     * @var Closure
      */
     protected $closure;
 
     /**
      * The closure's reflection.
      *
-     * @var \Laravel\SerializableClosure\Support\ReflectionClosure|null
+     * @var ReflectionClosure|null
      */
     protected $reflector;
 
@@ -61,7 +62,7 @@ class Native implements Serializable
     /**
      * The closure's scope.
      *
-     * @var \Laravel\SerializableClosure\Support\ClosureScope|null
+     * @var ClosureScope|null
      */
     protected $scope;
 
@@ -73,7 +74,7 @@ class Native implements Serializable
     /**
      * Creates a new serializable closure instance.
      *
-     * @param  \Closure  $closure
+     * @param Closure $closure
      * @return void
      */
     public function __construct(Closure $closure)
@@ -94,7 +95,7 @@ class Native implements Serializable
     /**
      * Gets the closure.
      *
-     * @return \Closure
+     * @return Closure
      */
     public function getClosure()
     {
@@ -207,7 +208,7 @@ class Native implements Serializable
      * Ensures the given closures are serializable.
      *
      * @param  mixed  $data
-     * @param  \Laravel\SerializableClosure\Support\ClosureScope  $storage
+     * @param ClosureScope $storage
      * @return void
      */
     public static function wrapClosures(&$data, $storage)
@@ -230,7 +231,7 @@ class Native implements Serializable
 
             unset($value);
             unset($data[self::ARRAY_RECURSIVE_KEY]);
-        } elseif ($data instanceof \stdClass) {
+        } elseif ($data instanceof stdClass) {
             if (isset($storage[$data])) {
                 $data = $storage[$data];
 
@@ -293,7 +294,7 @@ class Native implements Serializable
     /**
      * Gets the closure's reflector.
      *
-     * @return \Laravel\SerializableClosure\Support\ReflectionClosure
+     * @return ReflectionClosure
      */
     public function getReflector()
     {
@@ -338,7 +339,7 @@ class Native implements Serializable
 
             unset($value);
             unset($data[self::ARRAY_RECURSIVE_KEY]);
-        } elseif ($data instanceof \stdClass) {
+        } elseif ($data instanceof stdClass) {
             if (isset($scope[$data])) {
                 return;
             }
@@ -438,7 +439,7 @@ class Native implements Serializable
 
             unset($value);
             unset($data[self::ARRAY_RECURSIVE_KEY]);
-        } elseif ($data instanceof \stdClass) {
+        } elseif ($data instanceof stdClass) {
             if (isset($this->scope[$data])) {
                 $data = $this->scope[$data];
 

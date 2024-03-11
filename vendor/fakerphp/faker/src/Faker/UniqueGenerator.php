@@ -3,6 +3,7 @@
 namespace Faker;
 
 use Faker\Extension\Extension;
+use OverflowException;
 
 /**
  * Proxy for other generators that returns only unique values.
@@ -77,7 +78,7 @@ class UniqueGenerator
             ++$i;
 
             if ($i > $this->maxRetries) {
-                throw new \OverflowException(sprintf('Maximum retries of %d reached without finding a unique value', $this->maxRetries));
+                throw new OverflowException(sprintf('Maximum retries of %d reached without finding a unique value', $this->maxRetries));
             }
         } while (array_key_exists(serialize($res), $this->uniques[$name]));
         $this->uniques[$name][serialize($res)] = null;

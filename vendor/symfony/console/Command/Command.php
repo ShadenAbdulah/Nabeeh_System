@@ -11,6 +11,10 @@
 
 namespace Symfony\Component\Console\Command;
 
+use Closure;
+use ReflectionClass;
+use ReflectionFunction;
+use ReflectionProperty;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Completion\CompletionInput;
@@ -26,6 +30,12 @@ use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use TypeError;
+use function func_num_args;
+use function function_exists;
+use function is_array;
+use function is_int;
+use const PHP_OS;
 
 /**
  * Base class for all commands.
@@ -63,7 +73,7 @@ class Command
     private string $description = '';
     private ?InputDefinition $fullDefinition = null;
     private bool $ignoreValidationErrors = false;
-    private ?\Closure $code = null;
+    private ?Closure $code = null;
     private array $synopsis = [];
     private array $usages = [];
     private ?HelperSet $helperSet = null;
@@ -72,11 +82,11 @@ class Command
     {
         $class = static::class;
 
-        if ($attribute = (new \ReflectionClass($class))->getAttributes(AsCommand::class)) {
+        if ($attribute = (new ReflectionClass($class))->getAttributes(AsCommand::class)) {
             return $attribute[0]->newInstance()->name;
         }
 
-        $r = new \ReflectionProperty($class, 'defaultName');
+        $r = new ReflectionProperty($class, 'defaultName');
 
         if ($class !== $r->class || null === static::$defaultName) {
             return null;
@@ -91,11 +101,11 @@ class Command
     {
         $class = static::class;
 
-        if ($attribute = (new \ReflectionClass($class))->getAttributes(AsCommand::class)) {
+        if ($attribute = (new ReflectionClass($class))->getAttributes(AsCommand::class)) {
             return $attribute[0]->newInstance()->description;
         }
 
-        $r = new \ReflectionProperty($class, 'defaultDescription');
+        $r = new ReflectionProperty($class, 'defaultDescription');
 
         if ($class !== $r->class || null === static::$defaultDescription) {
             return null;
@@ -154,7 +164,7 @@ class Command
      */
     public function setApplication(?Application $application = null)
     {
-        if (1 > \func_num_args()) {
+        if (1 > func_num_args()) {
             trigger_deprecation('symfony/console', '6.2', 'Calling "%s()" without any arguments is deprecated, pass null explicitly instead.', __METHOD__);
         }
         $this->application = $application;
@@ -292,15 +302,15 @@ class Command
         $this->initialize($input, $output);
 
         if (null !== $this->processTitle) {
-            if (\function_exists('cli_set_process_title')) {
+            if (function_exists('cli_set_process_title')) {
                 if (!@cli_set_process_title($this->processTitle)) {
-                    if ('Darwin' === \PHP_OS) {
+                    if ('Darwin' === PHP_OS) {
                         $output->writeln('<comment>Running "cli_set_process_title" as an unprivileged user is not supported on MacOS.</comment>', OutputInterface::VERBOSITY_VERY_VERBOSE);
                     } else {
                         cli_set_process_title($this->processTitle);
                     }
                 }
-            } elseif (\function_exists('setproctitle')) {
+            } elseif (function_exists('setproctitle')) {
                 setproctitle($this->processTitle);
             } elseif (OutputInterface::VERBOSITY_VERY_VERBOSE === $output->getVerbosity()) {
                 $output->writeln('<comment>Install the proctitle PECL to be able to change the process title.</comment>');
@@ -325,8 +335,8 @@ class Command
         } else {
             $statusCode = $this->execute($input, $output);
 
-            if (!\is_int($statusCode)) {
-                throw new \TypeError(sprintf('Return value of "%s::execute()" must be of the type int, "%s" returned.', static::class, get_debug_type($statusCode)));
+            if (!is_int($statusCode)) {
+                throw new TypeError(sprintf('Return value of "%s::execute()" must be of the type int, "%s" returned.', static::class, get_debug_type($statusCode)));
             }
         }
 
@@ -362,12 +372,12 @@ class Command
      */
     public function setCode(callable $code): static
     {
-        if ($code instanceof \Closure) {
-            $r = new \ReflectionFunction($code);
+        if ($code instanceof Closure) {
+            $r = new ReflectionFunction($code);
             if (null === $r->getClosureThis()) {
                 set_error_handler(static function () {});
                 try {
-                    if ($c = \Closure::bind($code, $this)) {
+                    if ($c = Closure::bind($code, $this)) {
                         $code = $c;
                     }
                 } finally {
@@ -454,7 +464,7 @@ class Command
      *
      * @param $mode    The argument mode: InputArgument::REQUIRED or InputArgument::OPTIONAL
      * @param $default The default value (for InputArgument::OPTIONAL mode only)
-     * @param array|\Closure(CompletionInput,CompletionSuggestions):list<string|Suggestion> $suggestedValues The values used for input completion
+     * @param array|Closure(CompletionInput,CompletionSuggestions):list<string|Suggestion> $suggestedValues The values used for input completion
      *
      * @return $this
      *
@@ -462,9 +472,9 @@ class Command
      */
     public function addArgument(string $name, ?int $mode = null, string $description = '', mixed $default = null /* array|\Closure $suggestedValues = null */): static
     {
-        $suggestedValues = 5 <= \func_num_args() ? func_get_arg(4) : [];
-        if (!\is_array($suggestedValues) && !$suggestedValues instanceof \Closure) {
-            throw new \TypeError(sprintf('Argument 5 passed to "%s()" must be array or \Closure, "%s" given.', __METHOD__, get_debug_type($suggestedValues)));
+        $suggestedValues = 5 <= func_num_args() ? func_get_arg(4) : [];
+        if (!is_array($suggestedValues) && !$suggestedValues instanceof Closure) {
+            throw new TypeError(sprintf('Argument 5 passed to "%s()" must be array or \Closure, "%s" given.', __METHOD__, get_debug_type($suggestedValues)));
         }
         $this->definition->addArgument(new InputArgument($name, $mode, $description, $default, $suggestedValues));
         $this->fullDefinition?->addArgument(new InputArgument($name, $mode, $description, $default, $suggestedValues));
@@ -478,7 +488,7 @@ class Command
      * @param $shortcut The shortcuts, can be null, a string of shortcuts delimited by | or an array of shortcuts
      * @param $mode     The option mode: One of the InputOption::VALUE_* constants
      * @param $default  The default value (must be null for InputOption::VALUE_NONE)
-     * @param array|\Closure(CompletionInput,CompletionSuggestions):list<string|Suggestion> $suggestedValues The values used for input completion
+     * @param array|Closure(CompletionInput,CompletionSuggestions):list<string|Suggestion> $suggestedValues The values used for input completion
      *
      * @return $this
      *
@@ -486,9 +496,9 @@ class Command
      */
     public function addOption(string $name, string|array|null $shortcut = null, ?int $mode = null, string $description = '', mixed $default = null /* array|\Closure $suggestedValues = [] */): static
     {
-        $suggestedValues = 6 <= \func_num_args() ? func_get_arg(5) : [];
-        if (!\is_array($suggestedValues) && !$suggestedValues instanceof \Closure) {
-            throw new \TypeError(sprintf('Argument 5 passed to "%s()" must be array or \Closure, "%s" given.', __METHOD__, get_debug_type($suggestedValues)));
+        $suggestedValues = 6 <= func_num_args() ? func_get_arg(5) : [];
+        if (!is_array($suggestedValues) && !$suggestedValues instanceof Closure) {
+            throw new TypeError(sprintf('Argument 5 passed to "%s()" must be array or \Closure, "%s" given.', __METHOD__, get_debug_type($suggestedValues)));
         }
         $this->definition->addOption(new InputOption($name, $shortcut, $mode, $description, $default, $suggestedValues));
         $this->fullDefinition?->addOption(new InputOption($name, $shortcut, $mode, $description, $default, $suggestedValues));
@@ -639,7 +649,7 @@ class Command
             $list[] = $alias;
         }
 
-        $this->aliases = \is_array($aliases) ? $aliases : $list;
+        $this->aliases = is_array($aliases) ? $aliases : $list;
 
         return $this;
     }

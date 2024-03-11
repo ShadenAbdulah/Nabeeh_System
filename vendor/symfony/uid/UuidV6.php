@@ -11,6 +11,9 @@
 
 namespace Symfony\Component\Uid;
 
+use DateTimeImmutable;
+use DateTimeInterface;
+
 /**
  * A v6 UUID is lexicographically sortable and contains a 60-bit timestamp and 62 extra unique bits.
  *
@@ -33,7 +36,7 @@ class UuidV6 extends Uuid implements TimeBasedUidInterface
         }
     }
 
-    public function getDateTime(): \DateTimeImmutable
+    public function getDateTime(): DateTimeImmutable
     {
         return BinaryUtil::hexToDateTime('0'.substr($this->uid, 0, 8).substr($this->uid, 9, 4).substr($this->uid, 15, 3));
     }
@@ -43,7 +46,7 @@ class UuidV6 extends Uuid implements TimeBasedUidInterface
         return substr($this->uid, 24);
     }
 
-    public static function generate(?\DateTimeInterface $time = null, ?Uuid $node = null): string
+    public static function generate(?DateTimeInterface $time = null, ?Uuid $node = null): string
     {
         $uuidV1 = UuidV1::generate($time, $node);
         $uuid = substr($uuidV1, 15, 3).substr($uuidV1, 9, 4).$uuidV1[0].'-'.substr($uuidV1, 1, 4).'-6'.substr($uuidV1, 5, 3).substr($uuidV1, 18, 6);

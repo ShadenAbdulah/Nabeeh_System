@@ -3,21 +3,23 @@
 namespace Laravel\Sanctum;
 
 use DateTimeInterface;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Support\Str;
+use Laravel\Sanctum\Contracts\HasAbilities;
 
 trait HasApiTokens
 {
     /**
      * The access token the user is using for the current request.
      *
-     * @var \Laravel\Sanctum\Contracts\HasAbilities
+     * @var HasAbilities
      */
     protected $accessToken;
 
     /**
      * Get the access tokens that belong to model.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+     * @return MorphMany
      */
     public function tokens()
     {
@@ -40,8 +42,8 @@ trait HasApiTokens
      *
      * @param  string  $name
      * @param  array  $abilities
-     * @param  \DateTimeInterface|null  $expiresAt
-     * @return \Laravel\Sanctum\NewAccessToken
+     * @param DateTimeInterface|null  $expiresAt
+     * @return NewAccessToken
      */
     public function createToken(string $name, array $abilities = ['*'], DateTimeInterface $expiresAt = null)
     {
@@ -75,7 +77,7 @@ trait HasApiTokens
     /**
      * Get the access token currently associated with the user.
      *
-     * @return \Laravel\Sanctum\Contracts\HasAbilities
+     * @return HasAbilities
      */
     public function currentAccessToken()
     {
@@ -85,7 +87,7 @@ trait HasApiTokens
     /**
      * Set the current access token for the user.
      *
-     * @param  \Laravel\Sanctum\Contracts\HasAbilities  $accessToken
+     * @param  HasAbilities  $accessToken
      * @return $this
      */
     public function withAccessToken($accessToken)

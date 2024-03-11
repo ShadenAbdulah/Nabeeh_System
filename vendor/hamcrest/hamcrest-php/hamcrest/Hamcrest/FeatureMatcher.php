@@ -22,7 +22,7 @@ abstract class FeatureMatcher extends TypeSafeDiagnosingMatcher
      *
      * @param string $type
      * @param string $subtype
-     * @param \Hamcrest\Matcher $subMatcher The matcher to apply to the feature
+     * @param Matcher $subMatcher The matcher to apply to the feature
      * @param string $featureDescription Descriptive text to use in describeTo
      * @param string $featureName Identifying text for mismatch message
      */

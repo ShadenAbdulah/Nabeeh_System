@@ -5,6 +5,7 @@ namespace Illuminate\Session\Middleware;
 use Closure;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Contracts\Auth\Factory as AuthFactory;
+use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Contracts\Session\Middleware\AuthenticatesSessions;
 use Illuminate\Http\Request;
 
@@ -13,14 +14,14 @@ class AuthenticateSession implements AuthenticatesSessions
     /**
      * The authentication factory implementation.
      *
-     * @var \Illuminate\Contracts\Auth\Factory
+     * @var AuthFactory
      */
     protected $auth;
 
     /**
      * Create a new middleware instance.
      *
-     * @param  \Illuminate\Contracts\Auth\Factory  $auth
+     * @param AuthFactory $auth
      * @return void
      */
     public function __construct(AuthFactory $auth)
@@ -31,8 +32,8 @@ class AuthenticateSession implements AuthenticatesSessions
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
+     * @param Request $request
+     * @param Closure $next
      * @return mixed
      */
     public function handle($request, Closure $next)
@@ -67,7 +68,7 @@ class AuthenticateSession implements AuthenticatesSessions
     /**
      * Store the user's current password hash in the session.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param Request $request
      * @return void
      */
     protected function storePasswordHashInSession($request)
@@ -84,10 +85,10 @@ class AuthenticateSession implements AuthenticatesSessions
     /**
      * Log the user out of the application.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param Request $request
      * @return void
      *
-     * @throws \Illuminate\Auth\AuthenticationException
+     * @throws AuthenticationException
      */
     protected function logout($request)
     {
@@ -103,7 +104,7 @@ class AuthenticateSession implements AuthenticatesSessions
     /**
      * Get the guard instance that should be used by the middleware.
      *
-     * @return \Illuminate\Contracts\Auth\Factory|\Illuminate\Contracts\Auth\Guard
+     * @return AuthFactory|Guard
      */
     protected function guard()
     {
@@ -113,7 +114,7 @@ class AuthenticateSession implements AuthenticatesSessions
     /**
      * Get the path the user should be redirected to when their session is not authenticated.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param Request $request
      * @return string|null
      */
     protected function redirectTo(Request $request)

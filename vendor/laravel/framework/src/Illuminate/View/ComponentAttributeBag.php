@@ -326,7 +326,7 @@ class ComponentAttributeBag implements ArrayAccess, IteratorAggregate, JsonSeria
      * Create a new appendable attribute value.
      *
      * @param  mixed  $value
-     * @return \Illuminate\View\AppendableAttributeValue
+     * @return AppendableAttributeValue
      */
     public function prepends($value)
     {
@@ -414,7 +414,7 @@ class ComponentAttributeBag implements ArrayAccess, IteratorAggregate, JsonSeria
      * Merge additional attributes / values into the attribute bag.
      *
      * @param  array  $attributeDefaults
-     * @return \Illuminate\Support\HtmlString
+     * @return HtmlString
      */
     public function __invoke(array $attributeDefaults = [])
     {
@@ -469,7 +469,7 @@ class ComponentAttributeBag implements ArrayAccess, IteratorAggregate, JsonSeria
     /**
      * Get an iterator for the items.
      *
-     * @return \ArrayIterator
+     * @return ArrayIterator
      */
     public function getIterator(): Traversable
     {

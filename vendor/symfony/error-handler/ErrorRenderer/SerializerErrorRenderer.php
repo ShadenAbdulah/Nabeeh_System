@@ -11,11 +11,15 @@
 
 namespace Symfony\Component\ErrorHandler\ErrorRenderer;
 
+use Closure;
 use Symfony\Component\ErrorHandler\Exception\FlattenException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Serializer\Exception\NotEncodableValueException;
 use Symfony\Component\Serializer\SerializerInterface;
+use Throwable;
+use function is_bool;
+use function is_string;
 
 /**
  * Formats an exception using Serializer for rendering.
@@ -25,9 +29,9 @@ use Symfony\Component\Serializer\SerializerInterface;
 class SerializerErrorRenderer implements ErrorRendererInterface
 {
     private SerializerInterface $serializer;
-    private string|\Closure $format;
+    private string|Closure $format;
     private ErrorRendererInterface $fallbackErrorRenderer;
-    private bool|\Closure $debug;
+    private bool|Closure $debug;
 
     /**
      * @param string|callable(FlattenException) $format The format as a string or a callable that should return it
@@ -37,15 +41,15 @@ class SerializerErrorRenderer implements ErrorRendererInterface
     public function __construct(SerializerInterface $serializer, string|callable $format, ?ErrorRendererInterface $fallbackErrorRenderer = null, bool|callable $debug = false)
     {
         $this->serializer = $serializer;
-        $this->format = \is_string($format) ? $format : $format(...);
+        $this->format = is_string($format) ? $format : $format(...);
         $this->fallbackErrorRenderer = $fallbackErrorRenderer ?? new HtmlErrorRenderer();
-        $this->debug = \is_bool($debug) ? $debug : $debug(...);
+        $this->debug = is_bool($debug) ? $debug : $debug(...);
     }
 
-    public function render(\Throwable $exception): FlattenException
+    public function render(Throwable $exception): FlattenException
     {
         $headers = ['Vary' => 'Accept'];
-        $debug = \is_bool($this->debug) ? $this->debug : ($this->debug)($exception);
+        $debug = is_bool($this->debug) ? $this->debug : ($this->debug)($exception);
         if ($debug) {
             $headers['X-Debug-Exception'] = rawurlencode($exception->getMessage());
             $headers['X-Debug-Exception-File'] = rawurlencode($exception->getFile()).':'.$exception->getLine();
@@ -54,7 +58,7 @@ class SerializerErrorRenderer implements ErrorRendererInterface
         $flattenException = FlattenException::createFromThrowable($exception, null, $headers);
 
         try {
-            $format = \is_string($this->format) ? $this->format : ($this->format)($flattenException);
+            $format = is_string($this->format) ? $this->format : ($this->format)($flattenException);
             $headers['Content-Type'] = Request::getMimeTypes($format)[0] ?? $format;
 
             $flattenException->setAsString($this->serializer->serialize($flattenException, $format, [
@@ -68,7 +72,7 @@ class SerializerErrorRenderer implements ErrorRendererInterface
         return $flattenException->setHeaders($flattenException->getHeaders() + $headers);
     }
 
-    public static function getPreferredFormat(RequestStack $requestStack): \Closure
+    public static function getPreferredFormat(RequestStack $requestStack): Closure
     {
         return static function () use ($requestStack) {
             if (!$request = $requestStack->getCurrentRequest()) {

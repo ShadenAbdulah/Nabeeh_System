@@ -1,12 +1,14 @@
 <?php
 namespace Hamcrest\Text;
 
-class IsEqualIgnoringCaseTest extends \Hamcrest\AbstractMatcherTest
+use Hamcrest\AbstractMatcherTest;
+
+class IsEqualIgnoringCaseTest extends AbstractMatcherTest
 {
 
     protected function createMatcher()
     {
-        return \Hamcrest\Text\IsEqualIgnoringCase::equalToIgnoringCase('irrelevant');
+        return IsEqualIgnoringCase::equalToIgnoringCase('irrelevant');
     }
 
     public function testIgnoresCaseOfCharsInString()

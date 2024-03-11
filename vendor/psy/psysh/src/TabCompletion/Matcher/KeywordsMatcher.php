@@ -11,6 +11,10 @@
 
 namespace Psy\TabCompletion\Matcher;
 
+use function array_filter;
+use function array_pop;
+use function in_array;
+
 /**
  * A PHP keyword tab completion Matcher.
  *
@@ -46,7 +50,7 @@ class KeywordsMatcher extends AbstractMatcher
      */
     public function isKeyword(string $keyword): bool
     {
-        return \in_array($keyword, $this->keywords);
+        return in_array($keyword, $this->keywords);
     }
 
     /**
@@ -56,7 +60,7 @@ class KeywordsMatcher extends AbstractMatcher
     {
         $input = $this->getInput($tokens);
 
-        return \array_filter($this->keywords, function ($keyword) use ($input) {
+        return array_filter($this->keywords, function ($keyword) use ($input) {
             return AbstractMatcher::startsWith($input, $keyword);
         });
     }
@@ -66,8 +70,8 @@ class KeywordsMatcher extends AbstractMatcher
      */
     public function hasMatched(array $tokens): bool
     {
-        $token = \array_pop($tokens);
-        $prevToken = \array_pop($tokens);
+        $token = array_pop($tokens);
+        $prevToken = array_pop($tokens);
 
         switch (true) {
             case self::hasToken([self::T_OPEN_TAG, self::T_VARIABLE], $token):

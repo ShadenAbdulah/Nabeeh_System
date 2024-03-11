@@ -10,17 +10,17 @@ class ExcludeIf
     /**
      * The condition that validates the attribute.
      *
-     * @var \Closure|bool
+     * @var Closure|bool
      */
     public $condition;
 
     /**
      * Create a new exclude validation rule based on a condition.
      *
-     * @param  \Closure|bool  $condition
+     * @param Closure|bool  $condition
      * @return void
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function __construct($condition)
     {

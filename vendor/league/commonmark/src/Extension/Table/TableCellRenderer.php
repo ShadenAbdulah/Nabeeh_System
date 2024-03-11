@@ -21,6 +21,7 @@ use League\CommonMark\Renderer\ChildNodeRendererInterface;
 use League\CommonMark\Renderer\NodeRendererInterface;
 use League\CommonMark\Util\HtmlElement;
 use League\CommonMark\Xml\XmlNodeRendererInterface;
+use Stringable;
 
 final class TableCellRenderer implements NodeRendererInterface, XmlNodeRendererInterface
 {
@@ -48,7 +49,7 @@ final class TableCellRenderer implements NodeRendererInterface, XmlNodeRendererI
      *
      * @psalm-suppress MoreSpecificImplementedParamType
      */
-    public function render(Node $node, ChildNodeRendererInterface $childRenderer): \Stringable
+    public function render(Node $node, ChildNodeRendererInterface $childRenderer): Stringable
     {
         TableCell::assertInstanceOf($node);
 

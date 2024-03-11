@@ -5,6 +5,7 @@ namespace Illuminate\Database\Console\Migrations;
 use Illuminate\Console\ConfirmableTrait;
 use Illuminate\Contracts\Console\Isolatable;
 use Illuminate\Contracts\Events\Dispatcher;
+use Illuminate\Database\Connection;
 use Illuminate\Database\Events\SchemaLoaded;
 use Illuminate\Database\Migrations\Migrator;
 use Illuminate\Database\SQLiteDatabaseDoesNotExistException;
@@ -43,22 +44,22 @@ class MigrateCommand extends BaseCommand implements Isolatable
     /**
      * The migrator instance.
      *
-     * @var \Illuminate\Database\Migrations\Migrator
+     * @var Migrator
      */
     protected $migrator;
 
     /**
      * The event dispatcher instance.
      *
-     * @var \Illuminate\Contracts\Events\Dispatcher
+     * @var Dispatcher
      */
     protected $dispatcher;
 
     /**
      * Create a new migration command instance.
      *
-     * @param  \Illuminate\Database\Migrations\Migrator  $migrator
-     * @param  \Illuminate\Contracts\Events\Dispatcher  $dispatcher
+     * @param Migrator $migrator
+     * @param Dispatcher $dispatcher
      * @return void
      */
     public function __construct(Migrator $migrator, Dispatcher $dispatcher)
@@ -265,7 +266,7 @@ class MigrateCommand extends BaseCommand implements Isolatable
     /**
      * Get the path to the stored schema for the given connection.
      *
-     * @param  \Illuminate\Database\Connection  $connection
+     * @param  Connection  $connection
      * @return string
      */
     protected function schemaPath($connection)

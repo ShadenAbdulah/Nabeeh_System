@@ -11,7 +11,14 @@
 
 namespace Symfony\Component\HttpFoundation\Session\Storage\Handler;
 
+use LogicException;
+use SensitiveParameter;
+use SessionHandlerInterface;
+use SessionUpdateTimestampHandlerInterface;
 use Symfony\Component\HttpFoundation\Session\SessionUtils;
+use function function_exists;
+use function ini_get;
+use const FILTER_VALIDATE_BOOL;
 
 /**
  * This abstract session handler provides a generic implementation
@@ -20,7 +27,7 @@ use Symfony\Component\HttpFoundation\Session\SessionUtils;
  *
  * @author Nicolas Grekas <p@tchwork.com>
  */
-abstract class AbstractSessionHandler implements \SessionHandlerInterface, \SessionUpdateTimestampHandlerInterface
+abstract class AbstractSessionHandler implements SessionHandlerInterface, SessionUpdateTimestampHandlerInterface
 {
     private string $sessionName;
     private string $prefetchId;
@@ -31,20 +38,20 @@ abstract class AbstractSessionHandler implements \SessionHandlerInterface, \Sess
     public function open(string $savePath, string $sessionName): bool
     {
         $this->sessionName = $sessionName;
-        if (!headers_sent() && !\ini_get('session.cache_limiter') && '0' !== \ini_get('session.cache_limiter')) {
-            header(sprintf('Cache-Control: max-age=%d, private, must-revalidate', 60 * (int) \ini_get('session.cache_expire')));
+        if (!headers_sent() && !ini_get('session.cache_limiter') && '0' !== ini_get('session.cache_limiter')) {
+            header(sprintf('Cache-Control: max-age=%d, private, must-revalidate', 60 * (int) ini_get('session.cache_expire')));
         }
 
         return true;
     }
 
-    abstract protected function doRead(#[\SensitiveParameter] string $sessionId): string;
+    abstract protected function doRead(#[SensitiveParameter] string $sessionId): string;
 
-    abstract protected function doWrite(#[\SensitiveParameter] string $sessionId, string $data): bool;
+    abstract protected function doWrite(#[SensitiveParameter] string $sessionId, string $data): bool;
 
-    abstract protected function doDestroy(#[\SensitiveParameter] string $sessionId): bool;
+    abstract protected function doDestroy(#[SensitiveParameter] string $sessionId): bool;
 
-    public function validateId(#[\SensitiveParameter] string $sessionId): bool
+    public function validateId(#[SensitiveParameter] string $sessionId): bool
     {
         $this->prefetchData = $this->read($sessionId);
         $this->prefetchId = $sessionId;
@@ -52,7 +59,7 @@ abstract class AbstractSessionHandler implements \SessionHandlerInterface, \Sess
         return '' !== $this->prefetchData;
     }
 
-    public function read(#[\SensitiveParameter] string $sessionId): string
+    public function read(#[SensitiveParameter] string $sessionId): string
     {
         if (isset($this->prefetchId)) {
             $prefetchId = $this->prefetchId;
@@ -72,10 +79,10 @@ abstract class AbstractSessionHandler implements \SessionHandlerInterface, \Sess
         return $data;
     }
 
-    public function write(#[\SensitiveParameter] string $sessionId, string $data): bool
+    public function write(#[SensitiveParameter] string $sessionId, string $data): bool
     {
         // see https://github.com/igbinary/igbinary/issues/146
-        $this->igbinaryEmptyData ??= \function_exists('igbinary_serialize') ? igbinary_serialize([]) : '';
+        $this->igbinaryEmptyData ??= function_exists('igbinary_serialize') ? igbinary_serialize([]) : '';
         if ('' === $data || $this->igbinaryEmptyData === $data) {
             return $this->destroy($sessionId);
         }
@@ -84,11 +91,11 @@ abstract class AbstractSessionHandler implements \SessionHandlerInterface, \Sess
         return $this->doWrite($sessionId, $data);
     }
 
-    public function destroy(#[\SensitiveParameter] string $sessionId): bool
+    public function destroy(#[SensitiveParameter] string $sessionId): bool
     {
-        if (!headers_sent() && filter_var(\ini_get('session.use_cookies'), \FILTER_VALIDATE_BOOL)) {
+        if (!headers_sent() && filter_var(ini_get('session.use_cookies'), FILTER_VALIDATE_BOOL)) {
             if (!isset($this->sessionName)) {
-                throw new \LogicException(sprintf('Session name cannot be empty, did you forget to call "parent::open()" in "%s"?.', static::class));
+                throw new LogicException(sprintf('Session name cannot be empty, did you forget to call "parent::open()" in "%s"?.', static::class));
             }
             $cookie = SessionUtils::popSessionCookie($this->sessionName, $sessionId);
 

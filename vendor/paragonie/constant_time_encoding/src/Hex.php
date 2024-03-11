@@ -4,6 +4,8 @@ namespace ParagonIE\ConstantTime;
 
 use RangeException;
 use TypeError;
+use function pack;
+use function unpack;
 
 /**
  *  Copyright (c) 2016 - 2022 Paragon Initiative Enterprises.
@@ -48,11 +50,11 @@ abstract class Hex implements EncoderInterface
         $len = Binary::safeStrlen($binString);
         for ($i = 0; $i < $len; ++$i) {
             /** @var array<int, int> $chunk */
-            $chunk = \unpack('C', $binString[$i]);
+            $chunk = unpack('C', $binString[$i]);
             $c = $chunk[1] & 0xf;
             $b = $chunk[1] >> 4;
 
-            $hex .= \pack(
+            $hex .= pack(
                 'CC',
                 (87 + $b + ((($b - 10) >> 8) & ~38)),
                 (87 + $c + ((($c - 10) >> 8) & ~38))
@@ -76,11 +78,11 @@ abstract class Hex implements EncoderInterface
 
         for ($i = 0; $i < $len; ++$i) {
             /** @var array<int, int> $chunk */
-            $chunk = \unpack('C', $binString[$i]);
+            $chunk = unpack('C', $binString[$i]);
             $c = $chunk[1] & 0xf;
             $b = $chunk[1] >> 4;
 
-            $hex .= \pack(
+            $hex .= pack(
                 'CC',
                 (55 + $b + ((($b - 10) >> 8) & ~6)),
                 (55 + $c + ((($c - 10) >> 8) & ~6))
@@ -119,7 +121,7 @@ abstract class Hex implements EncoderInterface
         }
 
         /** @var array<int, int> $chunk */
-        $chunk = \unpack('C*', $encodedString);
+        $chunk = unpack('C*', $encodedString);
         while ($hex_pos < $hex_len) {
             ++$hex_pos;
             $c = $chunk[$hex_pos];
@@ -137,7 +139,7 @@ abstract class Hex implements EncoderInterface
             if ($state === 0) {
                 $c_acc = $c_val * 16;
             } else {
-                $bin .= \pack('C', $c_acc | $c_val);
+                $bin .= pack('C', $c_acc | $c_val);
             }
             $state ^= 1;
         }

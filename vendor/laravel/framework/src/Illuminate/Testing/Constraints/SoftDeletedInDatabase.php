@@ -17,7 +17,7 @@ class SoftDeletedInDatabase extends Constraint
     /**
      * The database connection.
      *
-     * @var \Illuminate\Database\Connection
+     * @var Connection
      */
     protected $database;
 
@@ -38,7 +38,7 @@ class SoftDeletedInDatabase extends Constraint
     /**
      * Create a new constraint instance.
      *
-     * @param  \Illuminate\Database\Connection  $database
+     * @param Connection $database
      * @param  array  $data
      * @param  string  $deletedAtColumn
      * @return void

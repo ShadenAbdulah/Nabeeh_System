@@ -2,55 +2,62 @@
 
 namespace Illuminate\Testing\Concerns;
 
+use Closure;
 use Illuminate\Contracts\Console\Kernel;
+use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\Facades\ParallelTesting;
 use Illuminate\Testing\ParallelConsoleOutput;
+use ParaTest\Options;
+use ParaTest\RunnerInterface;
+use ParaTest\Runners\PHPUnit\WrapperRunner;
+use PHPUnit\TextUI\XmlConfiguration\PhpHandler;
 use RuntimeException;
 use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\Console\Output\OutputInterface;
+use Tests\CreatesApplication;
 
 trait RunsInParallel
 {
     /**
      * The application resolver callback.
      *
-     * @var \Closure|null
+     * @var Closure|null
      */
     protected static $applicationResolver;
 
     /**
      * The runner resolver callback.
      *
-     * @var \Closure|null
+     * @var Closure|null
      */
     protected static $runnerResolver;
 
     /**
      * The original test runner options.
      *
-     * @var \ParaTest\Runners\PHPUnit\Options|\ParaTest\Options
+     * @var \ParaTest\Runners\PHPUnit\Options|Options
      */
     protected $options;
 
     /**
      * The output instance.
      *
-     * @var \Symfony\Component\Console\Output\OutputInterface
+     * @var OutputInterface
      */
     protected $output;
 
     /**
      * The original test runner.
      *
-     * @var \ParaTest\Runners\PHPUnit\RunnerInterface|\ParaTest\RunnerInterface
+     * @var \ParaTest\Runners\PHPUnit\RunnerInterface|RunnerInterface
      */
     protected $runner;
 
     /**
      * Creates a new test runner instance.
      *
-     * @param  \ParaTest\Runners\PHPUnit\Options|\ParaTest\Options  $options
-     * @param  \Symfony\Component\Console\Output\OutputInterface  $output
+     * @param  \ParaTest\Runners\PHPUnit\Options|Options  $options
+     * @param OutputInterface $output
      * @return void
      */
     public function __construct($options, OutputInterface $output)
@@ -64,7 +71,7 @@ trait RunsInParallel
         $runnerResolver = static::$runnerResolver ?: function ($options, OutputInterface $output) {
             $wrapperRunnerClass = class_exists(\ParaTest\WrapperRunner\WrapperRunner::class)
                 ? \ParaTest\WrapperRunner\WrapperRunner::class
-                : \ParaTest\Runners\PHPUnit\WrapperRunner::class;
+                : WrapperRunner::class;
 
             return new $wrapperRunnerClass($options, $output);
         };
@@ -75,7 +82,7 @@ trait RunsInParallel
     /**
      * Set the application resolver callback.
      *
-     * @param  \Closure|null  $resolver
+     * @param  Closure|null  $resolver
      * @return void
      */
     public static function resolveApplicationUsing($resolver)
@@ -86,7 +93,7 @@ trait RunsInParallel
     /**
      * Set the runner resolver callback.
      *
-     * @param  \Closure|null  $resolver
+     * @param  Closure|null  $resolver
      * @return void
      */
     public static function resolveRunnerUsing($resolver)
@@ -103,9 +110,9 @@ trait RunsInParallel
     {
         $phpHandlerClass = class_exists(\PHPUnit\TextUI\Configuration\PhpHandler::class)
             ? \PHPUnit\TextUI\Configuration\PhpHandler::class
-            : \PHPUnit\TextUI\XmlConfiguration\PhpHandler::class;
+            : PhpHandler::class;
 
-        $configuration = $this->options instanceof \ParaTest\Options
+        $configuration = $this->options instanceof Options
             ? $this->options->configuration
             : $this->options->configuration();
 
@@ -146,7 +153,7 @@ trait RunsInParallel
      */
     protected function forEachProcess($callback)
     {
-        $processes = $this->options instanceof \ParaTest\Options
+        $processes = $this->options instanceof Options
             ? $this->options->processes
             : $this->options->processes();
 
@@ -162,17 +169,17 @@ trait RunsInParallel
     /**
      * Creates the application.
      *
-     * @return \Illuminate\Contracts\Foundation\Application
+     * @return Application
      *
-     * @throws \RuntimeException
+     * @throws RuntimeException
      */
     protected function createApplication()
     {
         $applicationResolver = static::$applicationResolver ?: function () {
-            if (trait_exists(\Tests\CreatesApplication::class)) {
+            if (trait_exists(CreatesApplication::class)) {
                 $applicationCreator = new class
                 {
-                    use \Tests\CreatesApplication;
+                    use CreatesApplication;
                 };
 
                 return $applicationCreator->createApplication();

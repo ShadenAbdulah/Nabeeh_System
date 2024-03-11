@@ -1,12 +1,14 @@
 <?php
 namespace Hamcrest\Type;
 
-class IsStringTest extends \Hamcrest\AbstractMatcherTest
+use Hamcrest\AbstractMatcherTest;
+
+class IsStringTest extends AbstractMatcherTest
 {
 
     protected function createMatcher()
     {
-        return \Hamcrest\Type\IsString::stringValue();
+        return IsString::stringValue();
     }
 
     public function testEvaluatesToTrueIfArgumentMatchesType()

@@ -11,12 +11,14 @@
 
 namespace Symfony\Component\Console\Completion;
 
+use Stringable;
+
 /**
  * Represents a single suggested value.
  *
  * @author Wouter de Jong <wouter@wouterj.nl>
  */
-class Suggestion implements \Stringable
+class Suggestion implements Stringable
 {
     public function __construct(
         private readonly string $value,

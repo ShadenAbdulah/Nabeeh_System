@@ -11,8 +11,16 @@
 
 namespace Psy\Output;
 
+use InvalidArgumentException;
 use Symfony\Component\Console\Formatter\OutputFormatterInterface;
 use Symfony\Component\Console\Formatter\OutputFormatterStyle;
+use function array_keys;
+use function array_map;
+use function is_array;
+use function is_string;
+use function sprintf;
+use function trigger_error;
+use const E_USER_NOTICE;
 
 /**
  * An output Theme, which controls prompt strings, formatter styles, and compact output.
@@ -90,7 +98,7 @@ class Theme
      */
     public function __construct($config = 'modern')
     {
-        if (\is_string($config)) {
+        if (is_string($config)) {
             switch ($config) {
                 case 'modern':
                     $config = static::MODERN_THEME;
@@ -105,14 +113,14 @@ class Theme
                     break;
 
                 default:
-                    \trigger_error(\sprintf('Unknown theme: %s', $config), \E_USER_NOTICE);
+                    trigger_error(sprintf('Unknown theme: %s', $config), E_USER_NOTICE);
                     $config = static::MODERN_THEME;
                     break;
             }
         }
 
-        if (!\is_array($config)) {
-            throw new \InvalidArgumentException('Invalid theme config');
+        if (!is_array($config)) {
+            throw new InvalidArgumentException('Invalid theme config');
         }
 
         foreach ($config as $name => $value) {
@@ -248,7 +256,7 @@ class Theme
      */
     public function setStyles(array $styles)
     {
-        foreach (\array_keys(static::DEFAULT_STYLES) as $name) {
+        foreach (array_keys(static::DEFAULT_STYLES) as $name) {
             $this->styles[$name] = $styles[$name] ?? static::DEFAULT_STYLES[$name];
         }
     }
@@ -258,7 +266,7 @@ class Theme
      */
     public function applyStyles(OutputFormatterInterface $formatter, bool $useGrayFallback)
     {
-        foreach (\array_keys(static::DEFAULT_STYLES) as $name) {
+        foreach (array_keys(static::DEFAULT_STYLES) as $name) {
             $formatter->setStyle($name, new OutputFormatterStyle(...$this->getStyle($name, $useGrayFallback)));
         }
     }
@@ -275,7 +283,7 @@ class Theme
 
     private function getStyle(string $name, bool $useGrayFallback): array
     {
-        return \array_map(function ($style) use ($useGrayFallback) {
+        return array_map(function ($style) use ($useGrayFallback) {
             return ($useGrayFallback && $style === 'gray') ? $this->grayFallback : $style;
         }, $this->styles[$name]);
     }

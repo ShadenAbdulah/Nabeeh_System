@@ -11,12 +11,15 @@
 
 namespace Symfony\Component\Console\Input;
 
+use Closure;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Completion\CompletionInput;
 use Symfony\Component\Console\Completion\CompletionSuggestions;
 use Symfony\Component\Console\Completion\Suggestion;
 use Symfony\Component\Console\Exception\InvalidArgumentException;
 use Symfony\Component\Console\Exception\LogicException;
+use function func_num_args;
+use function is_array;
 
 /**
  * Represents a command line argument.
@@ -32,7 +35,7 @@ class InputArgument
     private string $name;
     private int $mode;
     private string|int|bool|array|null|float $default;
-    private array|\Closure $suggestedValues;
+    private array|Closure $suggestedValues;
     private string $description;
 
     /**
@@ -40,11 +43,11 @@ class InputArgument
      * @param int|null                                                                      $mode            The argument mode: a bit mask of self::REQUIRED, self::OPTIONAL and self::IS_ARRAY
      * @param string                                                                        $description     A description text
      * @param string|bool|int|float|array|null                                              $default         The default value (for self::OPTIONAL mode only)
-     * @param array|\Closure(CompletionInput,CompletionSuggestions):list<string|Suggestion> $suggestedValues The values used for input completion
+     * @param array|Closure(CompletionInput,CompletionSuggestions):list<string|Suggestion> $suggestedValues The values used for input completion
      *
      * @throws InvalidArgumentException When argument mode is not valid
      */
-    public function __construct(string $name, ?int $mode = null, string $description = '', string|bool|int|float|array|null $default = null, \Closure|array $suggestedValues = [])
+    public function __construct(string $name, ?int $mode = null, string $description = '', string|bool|int|float|array|null $default = null, Closure|array $suggestedValues = [])
     {
         if (null === $mode) {
             $mode = self::OPTIONAL;
@@ -97,7 +100,7 @@ class InputArgument
      */
     public function setDefault(string|bool|int|float|array|null $default = null)
     {
-        if (1 > \func_num_args()) {
+        if (1 > func_num_args()) {
             trigger_deprecation('symfony/console', '6.2', 'Calling "%s()" without any arguments is deprecated, pass null explicitly instead.', __METHOD__);
         }
         if ($this->isRequired() && null !== $default) {
@@ -107,7 +110,7 @@ class InputArgument
         if ($this->isArray()) {
             if (null === $default) {
                 $default = [];
-            } elseif (!\is_array($default)) {
+            } elseif (!is_array($default)) {
                 throw new LogicException('A default value for an array argument must be an array.');
             }
         }
@@ -136,7 +139,7 @@ class InputArgument
     public function complete(CompletionInput $input, CompletionSuggestions $suggestions): void
     {
         $values = $this->suggestedValues;
-        if ($values instanceof \Closure && !\is_array($values = $values($input))) {
+        if ($values instanceof Closure && !is_array($values = $values($input))) {
             throw new LogicException(sprintf('Closure for argument "%s" must return an array. Got "%s".', $this->name, get_debug_type($values)));
         }
         if ($values) {

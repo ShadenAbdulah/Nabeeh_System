@@ -11,6 +11,10 @@
 
 namespace Carbon\Traits;
 
+use DateTimeZone;
+use function is_float;
+use function is_int;
+
 /**
  * Trait Timestamp.
  */
@@ -22,7 +26,7 @@ trait Timestamp
      * Timestamp input can be given as int, float or a string containing one or more numbers.
      *
      * @param float|int|string          $timestamp
-     * @param \DateTimeZone|string|null $tz
+     * @param DateTimeZone|string|null $tz
      *
      * @return static
      */
@@ -81,7 +85,7 @@ trait Timestamp
      * Timestamp input can be given as int, float or a string containing one or more numbers.
      *
      * @param float|int|string          $timestamp
-     * @param \DateTimeZone|string|null $tz
+     * @param DateTimeZone|string|null $tz
      *
      * @return static
      */
@@ -174,7 +178,7 @@ trait Timestamp
      */
     private static function getIntegerAndDecimalParts($numbers, $decimals = 6)
     {
-        if (\is_int($numbers) || \is_float($numbers)) {
+        if (is_int($numbers) || is_float($numbers)) {
             $numbers = number_format($numbers, $decimals, '.', '');
         }
 

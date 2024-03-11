@@ -4,6 +4,7 @@ namespace Spatie\LaravelIgnition\Solutions\SolutionProviders;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\View;
+use Illuminate\View\FileViewFinder;
 use InvalidArgumentException;
 use Spatie\Ignition\Contracts\BaseSolution;
 use Spatie\Ignition\Contracts\HasSolutionsForThrowable;
@@ -59,7 +60,7 @@ class ViewNotFoundSolutionProvider implements HasSolutionsForThrowable
     /** @return array<int, string> */
     protected function getAllViews(): array
     {
-        /** @var \Illuminate\View\FileViewFinder $fileViewFinder */
+        /** @var FileViewFinder $fileViewFinder */
         $fileViewFinder = View::getFinder();
 
         $extensions = $fileViewFinder->getExtensions();

@@ -9,7 +9,7 @@ class ScheduledTaskFinished
     /**
      * The scheduled event that ran.
      *
-     * @var \Illuminate\Console\Scheduling\Event
+     * @var Event
      */
     public $task;
 
@@ -23,7 +23,7 @@ class ScheduledTaskFinished
     /**
      * Create a new event instance.
      *
-     * @param  \Illuminate\Console\Scheduling\Event  $task
+     * @param Event $task
      * @param  float  $runtime
      * @return void
      */

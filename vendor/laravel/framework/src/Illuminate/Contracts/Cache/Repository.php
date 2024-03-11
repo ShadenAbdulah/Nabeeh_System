@@ -3,6 +3,8 @@
 namespace Illuminate\Contracts\Cache;
 
 use Closure;
+use DateInterval;
+use DateTimeInterface;
 use Psr\SimpleCache\CacheInterface;
 
 interface Repository extends CacheInterface
@@ -13,7 +15,7 @@ interface Repository extends CacheInterface
      * @template TCacheValue
      *
      * @param  array|string  $key
-     * @param  TCacheValue|(\Closure(): TCacheValue)  $default
+     * @param  TCacheValue|(Closure(): TCacheValue)  $default
      * @return (TCacheValue is null ? mixed : TCacheValue)
      */
     public function pull($key, $default = null);
@@ -23,7 +25,7 @@ interface Repository extends CacheInterface
      *
      * @param  string  $key
      * @param  mixed  $value
-     * @param  \DateTimeInterface|\DateInterval|int|null  $ttl
+     * @param  DateTimeInterface|DateInterval|int|null  $ttl
      * @return bool
      */
     public function put($key, $value, $ttl = null);
@@ -33,7 +35,7 @@ interface Repository extends CacheInterface
      *
      * @param  string  $key
      * @param  mixed  $value
-     * @param  \DateTimeInterface|\DateInterval|int|null  $ttl
+     * @param  DateTimeInterface|DateInterval|int|null  $ttl
      * @return bool
      */
     public function add($key, $value, $ttl = null);
@@ -71,8 +73,8 @@ interface Repository extends CacheInterface
      * @template TCacheValue
      *
      * @param  string  $key
-     * @param  \DateTimeInterface|\DateInterval|\Closure|int|null  $ttl
-     * @param  \Closure(): TCacheValue  $callback
+     * @param  DateTimeInterface|DateInterval|Closure|int|null  $ttl
+     * @param Closure(): TCacheValue $callback
      * @return TCacheValue
      */
     public function remember($key, $ttl, Closure $callback);
@@ -83,7 +85,7 @@ interface Repository extends CacheInterface
      * @template TCacheValue
      *
      * @param  string  $key
-     * @param  \Closure(): TCacheValue  $callback
+     * @param Closure(): TCacheValue $callback
      * @return TCacheValue
      */
     public function sear($key, Closure $callback);
@@ -94,7 +96,7 @@ interface Repository extends CacheInterface
      * @template TCacheValue
      *
      * @param  string  $key
-     * @param  \Closure(): TCacheValue  $callback
+     * @param Closure(): TCacheValue $callback
      * @return TCacheValue
      */
     public function rememberForever($key, Closure $callback);
@@ -110,7 +112,7 @@ interface Repository extends CacheInterface
     /**
      * Get the cache store implementation.
      *
-     * @return \Illuminate\Contracts\Cache\Store
+     * @return Store
      */
     public function getStore();
 }

@@ -11,9 +11,11 @@
 
 namespace Symfony\Component\HttpKernel\Exception;
 
+use LogicException;
+
 /**
  * @author Mathias Arlaud <mathias.arlaud@gmail.com>
  */
-class UnexpectedSessionUsageException extends \LogicException
+class UnexpectedSessionUsageException extends LogicException
 {
 }

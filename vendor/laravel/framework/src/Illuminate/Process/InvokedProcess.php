@@ -12,14 +12,14 @@ class InvokedProcess implements InvokedProcessContract
     /**
      * The underlying process instance.
      *
-     * @var \Symfony\Component\Process\Process
+     * @var Process
      */
     protected $process;
 
     /**
      * Create a new invoked process instance.
      *
-     * @param  \Symfony\Component\Process\Process  $process
+     * @param Process $process
      * @return void
      */
     public function __construct(Process $process)
@@ -104,9 +104,9 @@ class InvokedProcess implements InvokedProcessContract
      * Wait for the process to finish.
      *
      * @param  callable|null  $output
-     * @return \Illuminate\Process\ProcessResult
+     * @return ProcessResult
      *
-     * @throws \Illuminate\Process\Exceptions\ProcessTimedOutException
+     * @throws ProcessTimedOutException
      */
     public function wait(callable $output = null)
     {

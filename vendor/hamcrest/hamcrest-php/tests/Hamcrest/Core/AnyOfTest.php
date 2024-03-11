@@ -1,12 +1,14 @@
 <?php
 namespace Hamcrest\Core;
 
-class AnyOfTest extends \Hamcrest\AbstractMatcherTest
+use Hamcrest\AbstractMatcherTest;
+
+class AnyOfTest extends AbstractMatcherTest
 {
 
     protected function createMatcher()
     {
-        return \Hamcrest\Core\AnyOf::anyOf('irrelevant');
+        return AnyOf::anyOf('irrelevant');
     }
 
     public function testAnyOfEvaluatesToTheLogicalDisjunctionOfTwoOtherMatchers()
@@ -27,12 +29,12 @@ class AnyOfTest extends \Hamcrest\AbstractMatcherTest
     public function testAnyOfSupportsMixedTypes()
     {
         $combined = anyOf(
-            equalTo(new \Hamcrest\Core\SampleBaseClass('good')),
-            equalTo(new \Hamcrest\Core\SampleBaseClass('ugly')),
-            equalTo(new \Hamcrest\Core\SampleSubClass('good'))
+            equalTo(new SampleBaseClass('good')),
+            equalTo(new SampleBaseClass('ugly')),
+            equalTo(new SampleSubClass('good'))
         );
 
-        assertThat(new \Hamcrest\Core\SampleSubClass('good'), $combined);
+        assertThat(new SampleSubClass('good'), $combined);
     }
 
     public function testAnyOfHasAReadableDescription()
@@ -61,12 +63,12 @@ class AnyOfTest extends \Hamcrest\AbstractMatcherTest
     public function testNoneOfSupportsMixedTypes()
     {
         $combined = noneOf(
-            equalTo(new \Hamcrest\Core\SampleBaseClass('good')),
-            equalTo(new \Hamcrest\Core\SampleBaseClass('ugly')),
-            equalTo(new \Hamcrest\Core\SampleSubClass('good'))
+            equalTo(new SampleBaseClass('good')),
+            equalTo(new SampleBaseClass('ugly')),
+            equalTo(new SampleSubClass('good'))
         );
 
-        assertThat(new \Hamcrest\Core\SampleSubClass('bad'), $combined);
+        assertThat(new SampleSubClass('bad'), $combined);
     }
 
     public function testNoneOfHasAReadableDescription()

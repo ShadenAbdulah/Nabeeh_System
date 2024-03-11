@@ -1,6 +1,8 @@
 <?php
 namespace Aws\Sts\RegionalEndpoints;
 
+use InvalidArgumentException;
+
 class Configuration implements ConfigurationInterface
 {
     private $endpointsType;
@@ -11,7 +13,7 @@ class Configuration implements ConfigurationInterface
         $this->endpointsType = strtolower($endpointsType);
         $this->isFallback = $isFallback;
         if (!in_array($this->endpointsType, ['legacy', 'regional'])) {
-            throw new \InvalidArgumentException(
+            throw new InvalidArgumentException(
                 "Configuration parameter must either be 'legacy' or 'regional'."
             );
         }

@@ -11,6 +11,7 @@
 
 namespace Symfony\Component\HttpFoundation;
 
+use LogicException;
 use Symfony\Component\ExpressionLanguage\Expression;
 use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 use Symfony\Component\HttpFoundation\RequestMatcher\ExpressionRequestMatcher as NewExpressionRequestMatcher;
@@ -41,7 +42,7 @@ class ExpressionRequestMatcher extends RequestMatcher
     public function matches(Request $request): bool
     {
         if (!isset($this->language)) {
-            throw new \LogicException('Unable to match the request as the expression language is not available. Try running "composer require symfony/expression-language".');
+            throw new LogicException('Unable to match the request as the expression language is not available. Try running "composer require symfony/expression-language".');
         }
 
         return $this->language->evaluate($this->expression, [

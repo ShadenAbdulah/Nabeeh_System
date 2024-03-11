@@ -13,6 +13,13 @@ declare(strict_types=1);
 
 namespace League\CommonMark\Normalizer;
 
+use function assert;
+use function is_string;
+use function mb_convert_case;
+use function preg_replace;
+use function trim;
+use const MB_CASE_FOLD;
+
 /***
  * Normalize text input using the steps given by the CommonMark spec to normalize labels
  *
@@ -31,9 +38,9 @@ final class TextNormalizer implements TextNormalizerInterface
     {
         // Collapse internal whitespace to single space and remove
         // leading/trailing whitespace
-        $text = \preg_replace('/[ \t\r\n]+/', ' ', \trim($text));
-        \assert(\is_string($text));
+        $text = preg_replace('/[ \t\r\n]+/', ' ', trim($text));
+        assert(is_string($text));
 
-        return \mb_convert_case($text, \MB_CASE_FOLD, 'UTF-8');
+        return mb_convert_case($text, MB_CASE_FOLD, 'UTF-8');
     }
 }

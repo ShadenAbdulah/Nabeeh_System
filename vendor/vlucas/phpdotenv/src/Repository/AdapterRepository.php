@@ -13,22 +13,22 @@ final class AdapterRepository implements RepositoryInterface
     /**
      * The reader to use.
      *
-     * @var \Dotenv\Repository\Adapter\ReaderInterface
+     * @var ReaderInterface
      */
     private $reader;
 
     /**
      * The writer to use.
      *
-     * @var \Dotenv\Repository\Adapter\WriterInterface
+     * @var WriterInterface
      */
     private $writer;
 
     /**
      * Create a new adapter repository instance.
      *
-     * @param \Dotenv\Repository\Adapter\ReaderInterface $reader
-     * @param \Dotenv\Repository\Adapter\WriterInterface $writer
+     * @param ReaderInterface $reader
+     * @param WriterInterface $writer
      *
      * @return void
      */
@@ -55,9 +55,9 @@ final class AdapterRepository implements RepositoryInterface
      *
      * @param string $name
      *
-     * @throws \InvalidArgumentException
-     *
      * @return string|null
+     * @throws InvalidArgumentException
+     *
      */
     public function get(string $name)
     {
@@ -74,9 +74,9 @@ final class AdapterRepository implements RepositoryInterface
      * @param string $name
      * @param string $value
      *
-     * @throws \InvalidArgumentException
-     *
      * @return bool
+     * @throws InvalidArgumentException
+     *
      */
     public function set(string $name, string $value)
     {
@@ -92,9 +92,9 @@ final class AdapterRepository implements RepositoryInterface
      *
      * @param string $name
      *
-     * @throws \InvalidArgumentException
-     *
      * @return bool
+     * @throws InvalidArgumentException
+     *
      */
     public function clear(string $name)
     {

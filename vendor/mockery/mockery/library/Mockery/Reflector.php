@@ -10,7 +10,15 @@
 
 namespace Mockery;
 
+use InvalidArgumentException;
+use ReflectionClass;
+use ReflectionIntersectionType;
+use ReflectionMethod;
+use ReflectionNamedType;
+use ReflectionParameter;
 use ReflectionType;
+use ReflectionUnionType;
+use const PHP_VERSION_ID;
 
 /**
  * @internal
@@ -22,26 +30,26 @@ class Reflector
     /**
      * Determine if the parameter is typed as an array.
      *
-     * @param \ReflectionParameter $param
+     * @param ReflectionParameter $param
      *
      * @return bool
      */
-    public static function isArray(\ReflectionParameter $param)
+    public static function isArray(ReflectionParameter $param)
     {
         $type = $param->getType();
 
-        return $type instanceof \ReflectionNamedType && $type->getName();
+        return $type instanceof ReflectionNamedType && $type->getName();
     }
 
     /**
      * Compute the string representation for the paramater type.
      *
-     * @param \ReflectionParameter $param
+     * @param ReflectionParameter $param
      * @param bool $withoutNullable
      *
      * @return string|null
      */
-    public static function getTypeHint(\ReflectionParameter $param, $withoutNullable = false)
+    public static function getTypeHint(ReflectionParameter $param, $withoutNullable = false)
     {
         if (!$param->hasType()) {
             return null;
@@ -57,17 +65,17 @@ class Reflector
     /**
      * Compute the string representation for the return type.
      *
-     * @param \ReflectionParameter $param
+     * @param ReflectionParameter $param
      * @param bool $withoutNullable
      *
      * @return string|null
      */
-    public static function getReturnType(\ReflectionMethod $method, $withoutNullable = false)
+    public static function getReturnType(ReflectionMethod $method, $withoutNullable = false)
     {
         $type = $method->getReturnType();
 
         if (!$type instanceof ReflectionType && method_exists($method, 'getTentativeReturnType')) {
-            $type = $method->getTentativeReturnType();    
+            $type = $method->getTentativeReturnType();
         }
 
         if (!$type instanceof ReflectionType) {
@@ -82,11 +90,11 @@ class Reflector
     /**
      * Compute the string representation for the simplest return type.
      *
-     * @param \ReflectionParameter $param
+     * @param ReflectionParameter $param
      *
      * @return string|null
      */
-    public static function getSimplestReturnType(\ReflectionMethod $method)
+    public static function getSimplestReturnType(ReflectionMethod $method)
     {
         $type = $method->getReturnType();
 
@@ -118,15 +126,15 @@ class Reflector
     /**
      * Get the string representation of the given type.
      *
-     * @param \ReflectionType  $type
-     * @param \ReflectionClass $declaringClass
+     * @param ReflectionType $type
+     * @param ReflectionClass $declaringClass
      *
      * @return list<array{typeHint: string, isPrimitive: bool}>
      */
-    private static function getTypeInformation(\ReflectionType $type, \ReflectionClass $declaringClass)
+    private static function getTypeInformation(ReflectionType $type, ReflectionClass $declaringClass)
     {
         // PHP 8 union types and PHP 8.1 intersection types can be recursively processed
-        if ($type instanceof \ReflectionUnionType || $type instanceof \ReflectionIntersectionType) {
+        if ($type instanceof ReflectionUnionType || $type instanceof ReflectionIntersectionType) {
             $types = [];
 
             foreach ($type->getTypes() as $innterType) {
@@ -201,16 +209,16 @@ class Reflector
             return $typeHint;
         }
 
-        if (\PHP_VERSION_ID < 80000) {
+        if (PHP_VERSION_ID < 80000) {
             return sprintf('?%s', $typeHint);
         }
 
         return sprintf('%s|null', $typeHint);
     }
 
-    private static function getTypeFromReflectionType(\ReflectionType $type, \ReflectionClass $declaringClass): string
+    private static function getTypeFromReflectionType(ReflectionType $type, ReflectionClass $declaringClass): string
     {
-        if ($type instanceof \ReflectionNamedType) {
+        if ($type instanceof ReflectionNamedType) {
             $typeHint = $type->getName();
 
             if ($type->isBuiltin()) {
@@ -235,9 +243,9 @@ class Reflector
             return sprintf('\\%s', $typeHint);
         }
 
-        if ($type instanceof \ReflectionIntersectionType) {
+        if ($type instanceof ReflectionIntersectionType) {
             $types = array_map(
-                static function (\ReflectionType $type) use ($declaringClass): string {
+                static function (ReflectionType $type) use ($declaringClass): string {
                     return self::getTypeFromReflectionType($type, $declaringClass);
                 },
                 $type->getTypes()
@@ -249,9 +257,9 @@ class Reflector
             );
         }
 
-        if ($type instanceof \ReflectionUnionType) {
+        if ($type instanceof ReflectionUnionType) {
             $types = array_map(
-                static function (\ReflectionType $type) use ($declaringClass): string {
+                static function (ReflectionType $type) use ($declaringClass): string {
                     return self::getTypeFromReflectionType($type, $declaringClass);
                 },
                 $type->getTypes()
@@ -274,6 +282,6 @@ class Reflector
             );
         }
 
-        throw new \InvalidArgumentException('Unknown ReflectionType: ' . get_debug_type($type));
+        throw new InvalidArgumentException('Unknown ReflectionType: ' . get_debug_type($type));
     }
 }

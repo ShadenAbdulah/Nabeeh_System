@@ -2,6 +2,8 @@
 
 namespace Faker\Provider\kk_KZ;
 
+use Faker\Provider\DateTime;
+
 class Company extends \Faker\Provider\Company
 {
     protected static $companyNameFormats = [
@@ -59,7 +61,7 @@ class Company extends \Faker\Provider\Company
     public static function businessIdentificationNumber(\DateTime $registrationDate = null)
     {
         if (!$registrationDate) {
-            $registrationDate = \Faker\Provider\DateTime::dateTimeThisYear();
+            $registrationDate = DateTime::dateTimeThisYear();
         }
 
         $dateAsString = $registrationDate->format('ym');

@@ -27,14 +27,14 @@ class ScheduleInterruptCommand extends Command
     /**
      * The cache store implementation.
      *
-     * @var \Illuminate\Contracts\Cache\Repository
+     * @var Cache
      */
     protected $cache;
 
     /**
      * Create a new schedule interrupt command.
      *
-     * @param  \Illuminate\Contracts\Cache\Repository  $cache
+     * @param Cache $cache
      * @return void
      */
     public function __construct(Cache $cache)

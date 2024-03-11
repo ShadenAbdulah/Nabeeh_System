@@ -1,7 +1,20 @@
 <?php declare(strict_types = 1);
 namespace TheSeer\Tokenizer;
 
-class TokenCollection implements \ArrayAccess, \Iterator, \Countable {
+use ArrayAccess;
+use Countable;
+use Iterator;
+use function count;
+use function current;
+use function get_class;
+use function gettype;
+use function is_int;
+use function key;
+use function next;
+use function reset;
+use function sprintf;
+
+class TokenCollection implements ArrayAccess, Iterator, Countable {
 
     /** @var Token[] */
     private $tokens = [];
@@ -14,15 +27,15 @@ class TokenCollection implements \ArrayAccess, \Iterator, \Countable {
     }
 
     public function current(): Token {
-        return \current($this->tokens);
+        return current($this->tokens);
     }
 
     public function key(): int {
-        return \key($this->tokens);
+        return key($this->tokens);
     }
 
     public function next(): void {
-        \next($this->tokens);
+        next($this->tokens);
         $this->pos++;
     }
 
@@ -31,12 +44,12 @@ class TokenCollection implements \ArrayAccess, \Iterator, \Countable {
     }
 
     public function rewind(): void {
-        \reset($this->tokens);
+        reset($this->tokens);
         $this->pos = 0;
     }
 
     public function count(): int {
-        return \count($this->tokens);
+        return count($this->tokens);
     }
 
     public function offsetExists($offset): bool {
@@ -49,7 +62,7 @@ class TokenCollection implements \ArrayAccess, \Iterator, \Countable {
     public function offsetGet($offset): Token {
         if (!$this->offsetExists($offset)) {
             throw new TokenCollectionException(
-                \sprintf('No Token at offest %s', $offset)
+                sprintf('No Token at offest %s', $offset)
             );
         }
 
@@ -62,25 +75,25 @@ class TokenCollection implements \ArrayAccess, \Iterator, \Countable {
      * @throws TokenCollectionException
      */
     public function offsetSet($offset, $value): void {
-        if (!\is_int($offset)) {
-            $type = \gettype($offset);
+        if (!is_int($offset)) {
+            $type = gettype($offset);
 
             throw new TokenCollectionException(
-                \sprintf(
+                sprintf(
                     'Offset must be of type integer, %s given',
-                    $type === 'object' ? \get_class($value) : $type
+                    $type === 'object' ? get_class($value) : $type
                 )
             );
         }
 
         if (!$value instanceof Token) {
-            $type = \gettype($value);
+            $type = gettype($value);
 
             throw new TokenCollectionException(
-                \sprintf(
+                sprintf(
                     'Value must be of type %s, %s given',
                     Token::class,
-                    $type === 'object' ? \get_class($value) : $type
+                    $type === 'object' ? get_class($value) : $type
                 )
             );
         }

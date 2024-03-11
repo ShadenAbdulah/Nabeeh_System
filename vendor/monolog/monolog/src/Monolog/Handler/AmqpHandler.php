@@ -18,6 +18,7 @@ use PhpAmqpLib\Message\AMQPMessage;
 use PhpAmqpLib\Channel\AMQPChannel;
 use AMQPExchange;
 use Monolog\LogRecord;
+use function count;
 
 class AmqpHandler extends AbstractProcessingHandler
 {
@@ -80,7 +81,7 @@ class AmqpHandler extends AbstractProcessingHandler
                 'delivery_mode' => 2,
                 'content_type'  => 'application/json',
             ];
-            if (\count($this->extraAttributes) > 0) {
+            if (count($this->extraAttributes) > 0) {
                 $attributes = array_merge($attributes, $this->extraAttributes);
             }
             $this->exchange->publish(
@@ -143,7 +144,7 @@ class AmqpHandler extends AbstractProcessingHandler
             'delivery_mode' => 2,
             'content_type' => 'application/json',
         ];
-        if (\count($this->extraAttributes) > 0) {
+        if (count($this->extraAttributes) > 0) {
             $attributes = array_merge($attributes, $this->extraAttributes);
         }
         return new AMQPMessage($data, $attributes);

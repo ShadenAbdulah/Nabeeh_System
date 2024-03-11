@@ -15,6 +15,8 @@ use PhpParser\Node;
 use PhpParser\Node\Name;
 use PhpParser\Node\Stmt\Namespace_;
 use Psy\CodeCleaner;
+use function end;
+use function method_exists;
 
 /**
  * Provide implicit namespaces for subsequent execution.
@@ -56,7 +58,7 @@ class NamespacePass extends CodeCleanerPass
             return $nodes;
         }
 
-        $last = \end($nodes);
+        $last = end($nodes);
 
         if ($last instanceof Namespace_) {
             $kind = $last->getAttribute('kind');
@@ -96,6 +98,6 @@ class NamespacePass extends CodeCleanerPass
      */
     protected function getParts(Name $name): array
     {
-        return \method_exists($name, 'getParts') ? $name->getParts() : $name->parts;
+        return method_exists($name, 'getParts') ? $name->getParts() : $name->parts;
     }
 }

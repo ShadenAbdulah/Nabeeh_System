@@ -2,11 +2,13 @@
 namespace Aws;
 
 use GuzzleHttp\Promise;
+use Iterator;
+use ReturnTypeWillChange;
 
 /**
  * Iterator that yields each page of results of a pageable operation.
  */
-class ResultPaginator implements \Iterator
+class ResultPaginator implements Iterator
 {
     /** @var AwsClientInterface Client performing operations. */
     private $client;
@@ -88,7 +90,7 @@ class ResultPaginator implements \Iterator
      *
      * @param string $expression JMESPath expression to apply to each result.
      *
-     * @return \Iterator
+     * @return Iterator
      */
     public function search($expression)
     {
@@ -101,25 +103,25 @@ class ResultPaginator implements \Iterator
     /**
      * @return Result
      */
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function current()
     {
         return $this->valid() ? $this->result : false;
     }
 
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function key()
     {
         return $this->valid() ? $this->requestCount - 1 : null;
     }
 
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function next()
     {
         $this->result = null;
     }
 
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function valid()
     {
         if ($this->result) {
@@ -154,7 +156,7 @@ class ResultPaginator implements \Iterator
         return false;
     }
 
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function rewind()
     {
         $this->requestCount = 0;

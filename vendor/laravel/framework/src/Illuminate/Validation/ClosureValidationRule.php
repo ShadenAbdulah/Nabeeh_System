@@ -2,6 +2,7 @@
 
 namespace Illuminate\Validation;
 
+use Closure;
 use Illuminate\Contracts\Validation\Rule as RuleContract;
 use Illuminate\Contracts\Validation\ValidatorAwareRule;
 use Illuminate\Translation\CreatesPotentiallyTranslatedStrings;
@@ -13,7 +14,7 @@ class ClosureValidationRule implements RuleContract, ValidatorAwareRule
     /**
      * The callback that validates the attribute.
      *
-     * @var \Closure
+     * @var Closure
      */
     public $callback;
 
@@ -34,14 +35,14 @@ class ClosureValidationRule implements RuleContract, ValidatorAwareRule
     /**
      * The current validator.
      *
-     * @var \Illuminate\Validation\Validator
+     * @var Validator
      */
     protected $validator;
 
     /**
      * Create a new Closure based validation rule.
      *
-     * @param  \Closure  $callback
+     * @param  Closure  $callback
      * @return void
      */
     public function __construct($callback)
@@ -82,7 +83,7 @@ class ClosureValidationRule implements RuleContract, ValidatorAwareRule
     /**
      * Set the current validator.
      *
-     * @param  \Illuminate\Validation\Validator  $validator
+     * @param Validator $validator
      * @return $this
      */
     public function setValidator($validator)

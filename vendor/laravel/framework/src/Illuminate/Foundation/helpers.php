@@ -1,38 +1,56 @@
 <?php
 
+use Faker\Factory;
+use Illuminate\Broadcasting\PendingBroadcast;
+use Illuminate\Cache\CacheManager;
+use Illuminate\Config\Repository;
 use Illuminate\Container\Container;
 use Illuminate\Contracts\Auth\Access\Gate;
 use Illuminate\Contracts\Auth\Factory as AuthFactory;
+use Illuminate\Contracts\Auth\Guard;
+use Illuminate\Contracts\Auth\StatefulGuard;
 use Illuminate\Contracts\Broadcasting\Factory as BroadcastFactory;
 use Illuminate\Contracts\Bus\Dispatcher;
 use Illuminate\Contracts\Cookie\Factory as CookieFactory;
 use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Contracts\Routing\UrlGenerator;
+use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\Support\Responsable;
+use Illuminate\Contracts\Translation\Translator;
 use Illuminate\Contracts\Validation\Factory as ValidationFactory;
 use Illuminate\Contracts\View\Factory as ViewFactory;
+use Illuminate\Cookie\CookieJar;
+use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Bus\PendingClosureDispatch;
 use Illuminate\Foundation\Bus\PendingDispatch;
 use Illuminate\Foundation\Mix;
 use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Log\LogManager;
 use Illuminate\Queue\CallQueuedClosure;
+use Illuminate\Routing\Redirector;
 use Illuminate\Routing\Router;
+use Illuminate\Session\SessionManager;
+use Illuminate\Session\Store;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\HtmlString;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 if (! function_exists('abort')) {
     /**
      * Throw an HttpException with the given data.
      *
-     * @param  \Symfony\Component\HttpFoundation\Response|\Illuminate\Contracts\Support\Responsable|int  $code
+     * @param Response|Responsable|int  $code
      * @param  string  $message
      * @param  array  $headers
      * @return never
      *
      * @throws \Symfony\Component\HttpKernel\Exception\HttpException
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
+     * @throws NotFoundHttpException
      */
     function abort($code, $message = '', array $headers = [])
     {
@@ -51,13 +69,13 @@ if (! function_exists('abort_if')) {
      * Throw an HttpException with the given data if the given condition is true.
      *
      * @param  bool  $boolean
-     * @param  \Symfony\Component\HttpFoundation\Response|\Illuminate\Contracts\Support\Responsable|int  $code
+     * @param Response|Responsable|int  $code
      * @param  string  $message
      * @param  array  $headers
      * @return void
      *
      * @throws \Symfony\Component\HttpKernel\Exception\HttpException
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
+     * @throws NotFoundHttpException
      */
     function abort_if($boolean, $code, $message = '', array $headers = [])
     {
@@ -72,13 +90,13 @@ if (! function_exists('abort_unless')) {
      * Throw an HttpException with the given data unless the given condition is true.
      *
      * @param  bool  $boolean
-     * @param  \Symfony\Component\HttpFoundation\Response|\Illuminate\Contracts\Support\Responsable|int  $code
+     * @param Response|Responsable|int  $code
      * @param  string  $message
      * @param  array  $headers
      * @return void
      *
      * @throws \Symfony\Component\HttpKernel\Exception\HttpException
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
+     * @throws NotFoundHttpException
      */
     function abort_unless($boolean, $code, $message = '', array $headers = [])
     {
@@ -109,7 +127,7 @@ if (! function_exists('app')) {
      *
      * @param  string|null  $abstract
      * @param  array  $parameters
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Foundation\Application|mixed
+     * @return \Illuminate\Contracts\Foundation\Application|Application|mixed
      */
     function app($abstract = null, array $parameters = [])
     {
@@ -153,7 +171,7 @@ if (! function_exists('auth')) {
      * Get the available auth instance.
      *
      * @param  string|null  $guard
-     * @return \Illuminate\Contracts\Auth\Factory|\Illuminate\Contracts\Auth\Guard|\Illuminate\Contracts\Auth\StatefulGuard
+     * @return AuthFactory|Guard|StatefulGuard
      */
     function auth($guard = null)
     {
@@ -172,7 +190,7 @@ if (! function_exists('back')) {
      * @param  int  $status
      * @param  array  $headers
      * @param  mixed  $fallback
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      */
     function back($status = 302, $headers = [], $fallback = false)
     {
@@ -212,7 +230,7 @@ if (! function_exists('broadcast')) {
      * Begin broadcasting an event.
      *
      * @param  mixed|null  $event
-     * @return \Illuminate\Broadcasting\PendingBroadcast
+     * @return PendingBroadcast
      */
     function broadcast($event = null)
     {
@@ -227,9 +245,9 @@ if (! function_exists('cache')) {
      * If an array is passed, we'll assume you want to put to the cache.
      *
      * @param  mixed  ...$arguments  key|key,default|data,expiration|null
-     * @return mixed|\Illuminate\Cache\CacheManager
+     * @return mixed|CacheManager
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     function cache(...$arguments)
     {
@@ -259,7 +277,7 @@ if (! function_exists('config')) {
      *
      * @param  array|string|null  $key
      * @param  mixed  $default
-     * @return mixed|\Illuminate\Config\Repository
+     * @return mixed|Repository
      */
     function config($key = null, $default = null)
     {
@@ -301,7 +319,7 @@ if (! function_exists('cookie')) {
      * @param  bool  $httpOnly
      * @param  bool  $raw
      * @param  string|null  $sameSite
-     * @return \Illuminate\Cookie\CookieJar|\Symfony\Component\HttpFoundation\Cookie
+     * @return CookieJar|\Symfony\Component\HttpFoundation\Cookie
      */
     function cookie($name = null, $value = null, $minutes = 0, $path = null, $domain = null, $secure = null, $httpOnly = true, $raw = false, $sameSite = null)
     {
@@ -319,7 +337,7 @@ if (! function_exists('csrf_field')) {
     /**
      * Generate a CSRF token form field.
      *
-     * @return \Illuminate\Support\HtmlString
+     * @return HtmlString
      */
     function csrf_field()
     {
@@ -333,7 +351,7 @@ if (! function_exists('csrf_token')) {
      *
      * @return string
      *
-     * @throws \RuntimeException
+     * @throws RuntimeException
      */
     function csrf_token()
     {
@@ -379,7 +397,7 @@ if (! function_exists('dispatch')) {
      * Dispatch a job to its appropriate handler.
      *
      * @param  mixed  $job
-     * @return \Illuminate\Foundation\Bus\PendingDispatch
+     * @return PendingDispatch
      */
     function dispatch($job)
     {
@@ -434,7 +452,7 @@ if (! function_exists('event')) {
     }
 }
 
-if (! function_exists('fake') && class_exists(\Faker\Factory::class)) {
+if (! function_exists('fake') && class_exists(Factory::class)) {
     /**
      * Get a faker instance.
      *
@@ -452,7 +470,7 @@ if (! function_exists('fake') && class_exists(\Faker\Factory::class)) {
         $abstract = \Faker\Generator::class.':'.$locale;
 
         if (! app()->bound($abstract)) {
-            app()->singleton($abstract, fn () => \Faker\Factory::create($locale));
+            app()->singleton($abstract, fn () => Factory::create($locale));
         }
 
         return app()->make($abstract);
@@ -479,7 +497,7 @@ if (! function_exists('logger')) {
      *
      * @param  string|null  $message
      * @param  array  $context
-     * @return \Illuminate\Log\LogManager|null
+     * @return LogManager|null
      */
     function logger($message = null, array $context = [])
     {
@@ -509,7 +527,7 @@ if (! function_exists('logs')) {
      * Get a log driver instance.
      *
      * @param  string|null  $driver
-     * @return \Illuminate\Log\LogManager|\Psr\Log\LoggerInterface
+     * @return LogManager|LoggerInterface
      */
     function logs($driver = null)
     {
@@ -522,7 +540,7 @@ if (! function_exists('method_field')) {
      * Generate a form field to spoof the HTTP verb used by forms.
      *
      * @param  string  $method
-     * @return \Illuminate\Support\HtmlString
+     * @return HtmlString
      */
     function method_field($method)
     {
@@ -536,9 +554,9 @@ if (! function_exists('mix')) {
      *
      * @param  string  $path
      * @param  string  $manifestDirectory
-     * @return \Illuminate\Support\HtmlString|string
+     * @return HtmlString|string
      *
-     * @throws \Exception
+     * @throws Exception
      */
     function mix($path, $manifestDirectory = '')
     {
@@ -550,8 +568,8 @@ if (! function_exists('now')) {
     /**
      * Create a new Carbon instance for the current time.
      *
-     * @param  \DateTimeZone|string|null  $tz
-     * @return \Illuminate\Support\Carbon
+     * @param DateTimeZone|string|null  $tz
+     * @return Carbon
      */
     function now($tz = null)
     {
@@ -580,7 +598,7 @@ if (! function_exists('policy')) {
      * @param  object|string  $class
      * @return mixed
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     function policy($class)
     {
@@ -638,7 +656,7 @@ if (! function_exists('redirect')) {
      * @param  int  $status
      * @param  array  $headers
      * @param  bool|null  $secure
-     * @return \Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse
+     * @return Redirector|RedirectResponse
      */
     function redirect($to = null, $status = 302, $headers = [], $secure = null)
     {
@@ -654,7 +672,7 @@ if (! function_exists('report')) {
     /**
      * Report an exception.
      *
-     * @param  \Throwable|string  $exception
+     * @param Throwable|string  $exception
      * @return void
      */
     function report($exception)
@@ -672,7 +690,7 @@ if (! function_exists('report_if')) {
      * Report an exception if the given condition is true.
      *
      * @param  bool  $boolean
-     * @param  \Throwable|string  $exception
+     * @param Throwable|string  $exception
      * @return void
      */
     function report_if($boolean, $exception)
@@ -688,7 +706,7 @@ if (! function_exists('report_unless')) {
      * Report an exception unless the given condition is true.
      *
      * @param  bool  $boolean
-     * @param  \Throwable|string  $exception
+     * @param Throwable|string  $exception
      * @return void
      */
     function report_unless($boolean, $exception)
@@ -731,7 +749,7 @@ if (! function_exists('rescue')) {
      * @template TRescueFallback
      *
      * @param  callable(): TRescueValue  $callback
-     * @param  (callable(\Throwable): TRescueFallback)|TRescueFallback  $rescue
+     * @param  (callable(Throwable): TRescueFallback)|TRescueFallback  $rescue
      * @param  bool|callable  $report
      * @return TRescueValue|TRescueFallback
      */
@@ -783,7 +801,7 @@ if (! function_exists('response')) {
      * @param  \Illuminate\Contracts\View\View|string|array|null  $content
      * @param  int  $status
      * @param  array  $headers
-     * @return \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
+     * @return \Illuminate\Http\Response|ResponseFactory
      */
     function response($content = '', $status = 200, array $headers = [])
     {
@@ -847,7 +865,7 @@ if (! function_exists('session')) {
      *
      * @param  array|string|null  $key
      * @param  mixed  $default
-     * @return mixed|\Illuminate\Session\Store|\Illuminate\Session\SessionManager
+     * @return mixed|Store|SessionManager
      */
     function session($key = null, $default = null)
     {
@@ -884,7 +902,7 @@ if (! function_exists('to_route')) {
      * @param  mixed  $parameters
      * @param  int  $status
      * @param  array  $headers
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      */
     function to_route($route, $parameters = [], $status = 302, $headers = [])
     {
@@ -896,8 +914,8 @@ if (! function_exists('today')) {
     /**
      * Create a new Carbon instance for the current date.
      *
-     * @param  \DateTimeZone|string|null  $tz
-     * @return \Illuminate\Support\Carbon
+     * @param DateTimeZone|string|null  $tz
+     * @return Carbon
      */
     function today($tz = null)
     {
@@ -912,7 +930,7 @@ if (! function_exists('trans')) {
      * @param  string|null  $key
      * @param  array  $replace
      * @param  string|null  $locale
-     * @return \Illuminate\Contracts\Translation\Translator|string|array|null
+     * @return Translator|string|array|null
      */
     function trans($key = null, $replace = [], $locale = null)
     {
@@ -929,7 +947,7 @@ if (! function_exists('trans_choice')) {
      * Translates the given message based on a count.
      *
      * @param  string  $key
-     * @param  \Countable|int|float|array  $number
+     * @param Countable|int|float|array  $number
      * @param  array  $replace
      * @param  string|null  $locale
      * @return string
@@ -966,7 +984,7 @@ if (! function_exists('url')) {
      * @param  string|null  $path
      * @param  mixed  $parameters
      * @param  bool|null  $secure
-     * @return \Illuminate\Contracts\Routing\UrlGenerator|string
+     * @return UrlGenerator|string
      */
     function url($path = null, $parameters = [], $secure = null)
     {
@@ -986,7 +1004,7 @@ if (! function_exists('validator')) {
      * @param  array  $rules
      * @param  array  $messages
      * @param  array  $attributes
-     * @return \Illuminate\Contracts\Validation\Validator|\Illuminate\Contracts\Validation\Factory
+     * @return \Illuminate\Contracts\Validation\Validator|ValidationFactory
      */
     function validator(array $data = [], array $rules = [], array $messages = [], array $attributes = [])
     {
@@ -1005,9 +1023,9 @@ if (! function_exists('view')) {
      * Get the evaluated view contents for the given view.
      *
      * @param  string|null  $view
-     * @param  \Illuminate\Contracts\Support\Arrayable|array  $data
+     * @param  Arrayable|array  $data
      * @param  array  $mergeData
-     * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
+     * @return \Illuminate\Contracts\View\View|ViewFactory
      */
     function view($view = null, $data = [], $mergeData = [])
     {

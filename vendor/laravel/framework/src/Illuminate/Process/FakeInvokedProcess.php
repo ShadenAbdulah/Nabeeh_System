@@ -16,7 +16,7 @@ class FakeInvokedProcess implements InvokedProcessContract
     /**
      * The underlying process description.
      *
-     * @var \Illuminate\Process\FakeProcessDescription
+     * @var FakeProcessDescription
      */
     protected $process;
 
@@ -59,7 +59,7 @@ class FakeInvokedProcess implements InvokedProcessContract
      * Create a new invoked process instance.
      *
      * @param  string  $command
-     * @param  \Illuminate\Process\FakeProcessDescription  $process
+     * @param FakeProcessDescription $process
      * @return void
      */
     public function __construct(string $command, FakeProcessDescription $process)

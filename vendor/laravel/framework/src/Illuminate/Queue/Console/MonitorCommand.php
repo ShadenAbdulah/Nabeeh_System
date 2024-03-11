@@ -31,22 +31,22 @@ class MonitorCommand extends Command
     /**
      * The queue manager instance.
      *
-     * @var \Illuminate\Contracts\Queue\Factory
+     * @var Factory
      */
     protected $manager;
 
     /**
      * The events dispatcher instance.
      *
-     * @var \Illuminate\Contracts\Events\Dispatcher
+     * @var Dispatcher
      */
     protected $events;
 
     /**
      * Create a new queue monitor command.
      *
-     * @param  \Illuminate\Contracts\Queue\Factory  $manager
-     * @param  \Illuminate\Contracts\Events\Dispatcher  $events
+     * @param Factory $manager
+     * @param Dispatcher $events
      * @return void
      */
     public function __construct(Factory $manager, Dispatcher $events)
@@ -75,7 +75,7 @@ class MonitorCommand extends Command
      * Parse the queues into an array of the connections and queues.
      *
      * @param  string  $queues
-     * @return \Illuminate\Support\Collection
+     * @return Collection
      */
     protected function parseQueues($queues)
     {
@@ -99,7 +99,7 @@ class MonitorCommand extends Command
     /**
      * Display the queue sizes in the console.
      *
-     * @param  \Illuminate\Support\Collection  $queues
+     * @param Collection $queues
      * @return void
      */
     protected function displaySizes(Collection $queues)
@@ -121,7 +121,7 @@ class MonitorCommand extends Command
     /**
      * Fire the monitoring events.
      *
-     * @param  \Illuminate\Support\Collection  $queues
+     * @param Collection $queues
      * @return void
      */
     protected function dispatchEvents(Collection $queues)

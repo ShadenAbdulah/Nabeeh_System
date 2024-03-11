@@ -6,6 +6,7 @@ use Illuminate\Console\Command;
 use Illuminate\Console\ConfirmableTrait;
 use Illuminate\Database\ConnectionResolverInterface as Resolver;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Seeder;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
@@ -32,14 +33,14 @@ class SeedCommand extends Command
     /**
      * The connection resolver instance.
      *
-     * @var \Illuminate\Database\ConnectionResolverInterface
+     * @var Resolver
      */
     protected $resolver;
 
     /**
      * Create a new database seed command instance.
      *
-     * @param  \Illuminate\Database\ConnectionResolverInterface  $resolver
+     * @param Resolver $resolver
      * @return void
      */
     public function __construct(Resolver $resolver)
@@ -80,7 +81,7 @@ class SeedCommand extends Command
     /**
      * Get a seeder instance from the container.
      *
-     * @return \Illuminate\Database\Seeder
+     * @return Seeder
      */
     protected function getSeeder()
     {

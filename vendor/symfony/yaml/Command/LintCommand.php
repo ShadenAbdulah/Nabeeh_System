@@ -11,6 +11,11 @@
 
 namespace Symfony\Component\Yaml\Command;
 
+use Closure;
+use FilesystemIterator;
+use RecursiveDirectoryIterator;
+use RecursiveIteratorIterator;
+use SplFileInfo;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\CI\GithubActionReporter;
 use Symfony\Component\Console\Command\Command;
@@ -26,6 +31,11 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Yaml\Parser;
 use Symfony\Component\Yaml\Yaml;
+use function count;
+use function in_array;
+use const E_USER_DEPRECATED;
+use const JSON_PRETTY_PRINT;
+use const JSON_UNESCAPED_SLASHES;
 
 /**
  * Validates YAML files syntax and outputs encountered errors.
@@ -39,8 +49,8 @@ class LintCommand extends Command
     private Parser $parser;
     private ?string $format = null;
     private bool $displayCorrectFiles;
-    private ?\Closure $directoryIteratorProvider;
-    private ?\Closure $isReadableProvider;
+    private ?Closure $directoryIteratorProvider;
+    private ?Closure $isReadableProvider;
 
     public function __construct(?string $name = null, ?callable $directoryIteratorProvider = null, ?callable $isReadableProvider = null)
     {
@@ -115,7 +125,7 @@ EOF
             }
 
             foreach ($this->getFiles($filename) as $file) {
-                if (!\in_array($file->getPathname(), $excludes, true)) {
+                if (!in_array($file->getPathname(), $excludes, true)) {
                     $filesInfo[] = $this->validate(file_get_contents($file), $flags, $file);
                 }
             }
@@ -127,7 +137,7 @@ EOF
     private function validate(string $content, int $flags, ?string $file = null): array
     {
         $prevErrorHandler = set_error_handler(function ($level, $message, $file, $line) use (&$prevErrorHandler) {
-            if (\E_USER_DEPRECATED === $level) {
+            if (E_USER_DEPRECATED === $level) {
                 throw new ParseException($message, $this->getParser()->getRealCurrentLineNb() + 1);
             }
 
@@ -157,7 +167,7 @@ EOF
 
     private function displayTxt(SymfonyStyle $io, array $filesInfo, bool $errorAsGithubAnnotations = false): int
     {
-        $countFiles = \count($filesInfo);
+        $countFiles = count($filesInfo);
         $erroredFiles = 0;
         $suggestTagOption = false;
 
@@ -207,7 +217,7 @@ EOF
             }
         });
 
-        $io->writeln(json_encode($filesInfo, \JSON_PRETTY_PRINT | \JSON_UNESCAPED_SLASHES));
+        $io->writeln(json_encode($filesInfo, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
 
         return min($errors, 1);
     }
@@ -215,13 +225,13 @@ EOF
     private function getFiles(string $fileOrDirectory): iterable
     {
         if (is_file($fileOrDirectory)) {
-            yield new \SplFileInfo($fileOrDirectory);
+            yield new SplFileInfo($fileOrDirectory);
 
             return;
         }
 
         foreach ($this->getDirectoryIterator($fileOrDirectory) as $file) {
-            if (!\in_array($file->getExtension(), ['yml', 'yaml'])) {
+            if (!in_array($file->getExtension(), ['yml', 'yaml'])) {
                 continue;
             }
 
@@ -236,9 +246,9 @@ EOF
 
     private function getDirectoryIterator(string $directory): iterable
     {
-        $default = fn ($directory) => new \RecursiveIteratorIterator(
-            new \RecursiveDirectoryIterator($directory, \FilesystemIterator::SKIP_DOTS | \FilesystemIterator::FOLLOW_SYMLINKS),
-            \RecursiveIteratorIterator::LEAVES_ONLY
+        $default = fn ($directory) => new RecursiveIteratorIterator(
+            new RecursiveDirectoryIterator($directory, FilesystemIterator::SKIP_DOTS | FilesystemIterator::FOLLOW_SYMLINKS),
+            RecursiveIteratorIterator::LEAVES_ONLY
         );
 
         if (null !== $this->directoryIteratorProvider) {

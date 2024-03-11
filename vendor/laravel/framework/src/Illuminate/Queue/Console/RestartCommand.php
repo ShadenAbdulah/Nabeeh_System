@@ -29,14 +29,14 @@ class RestartCommand extends Command
     /**
      * The cache store implementation.
      *
-     * @var \Illuminate\Contracts\Cache\Repository
+     * @var Cache
      */
     protected $cache;
 
     /**
      * Create a new queue restart command.
      *
-     * @param  \Illuminate\Contracts\Cache\Repository  $cache
+     * @param Cache $cache
      * @return void
      */
     public function __construct(Cache $cache)

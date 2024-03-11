@@ -11,10 +11,13 @@
 
 namespace Symfony\Component\Mime;
 
+use DateTimeImmutable;
 use Symfony\Component\Mime\Exception\LogicException;
 use Symfony\Component\Mime\Header\Headers;
 use Symfony\Component\Mime\Part\AbstractPart;
 use Symfony\Component\Mime\Part\TextPart;
+use function count;
+use function func_num_args;
 
 /**
  * @author Fabien Potencier <fabien@symfony.com>
@@ -44,7 +47,7 @@ class Message extends RawMessage
      */
     public function setBody(?AbstractPart $body = null): static
     {
-        if (1 > \func_num_args()) {
+        if (1 > func_num_args()) {
             trigger_deprecation('symfony/mime', '6.2', 'Calling "%s()" without any arguments is deprecated, pass null explicitly instead.', __METHOD__);
         }
         $this->body = $body;
@@ -88,11 +91,11 @@ class Message extends RawMessage
         }
 
         if (!$headers->has('Date')) {
-            $headers->addDateHeader('Date', new \DateTimeImmutable());
+            $headers->addDateHeader('Date', new DateTimeImmutable());
         }
 
         // determine the "real" sender
-        if (!$headers->has('Sender') && \count($froms = $headers->get('From')->getAddresses()) > 1) {
+        if (!$headers->has('Sender') && count($froms = $headers->get('From')->getAddresses()) > 1) {
             $headers->addMailboxHeader('Sender', $froms[0]);
         }
 

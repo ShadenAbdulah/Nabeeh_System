@@ -1,6 +1,9 @@
 <?php
 namespace Aws\Api;
 
+use InvalidArgumentException;
+use UnexpectedValueException;
+
 /**
  * Represents a web service API model.
  */
@@ -78,7 +81,7 @@ class Service extends AbstractModel
      * @param string  $endpoint Endpoint to send requests to.
      *
      * @return callable
-     * @throws \UnexpectedValueException
+     * @throws UnexpectedValueException
      */
     public static function createSerializer(Service $api, $endpoint)
     {
@@ -99,7 +102,7 @@ class Service extends AbstractModel
             return new Serializer\QuerySerializer($api, $endpoint, new Serializer\Ec2ParamBuilder());
         }
 
-        throw new \UnexpectedValueException(
+        throw new UnexpectedValueException(
             'Unknown protocol: ' . $api->getProtocol()
         );
     }
@@ -112,7 +115,7 @@ class Service extends AbstractModel
      * @param string $protocol Protocol to parse (e.g., query, json, etc.)
      *
      * @return callable
-     * @throws \UnexpectedValueException
+     * @throws UnexpectedValueException
      */
     public static function createErrorParser($protocol, Service $api = null)
     {
@@ -128,7 +131,7 @@ class Service extends AbstractModel
             return new $mapping[$protocol]($api);
         }
 
-        throw new \UnexpectedValueException("Unknown protocol: $protocol");
+        throw new UnexpectedValueException("Unknown protocol: $protocol");
     }
 
     /**
@@ -136,7 +139,7 @@ class Service extends AbstractModel
      *
      * @param Service $api API to create a parser for
      * @return callable
-     * @throws \UnexpectedValueException
+     * @throws UnexpectedValueException
      */
     public static function createParser(Service $api)
     {
@@ -156,7 +159,7 @@ class Service extends AbstractModel
             return new Parser\QueryParser($api, null, false);
         }
 
-        throw new \UnexpectedValueException(
+        throw new UnexpectedValueException(
             'Unknown protocol: ' . $api->getProtocol()
         );
     }
@@ -272,13 +275,13 @@ class Service extends AbstractModel
      * @param string $name Operation to retrieve by name
      *
      * @return Operation
-     * @throws \InvalidArgumentException If the operation is not found
+     * @throws InvalidArgumentException If the operation is not found
      */
     public function getOperation($name)
     {
         if (!isset($this->operations[$name])) {
             if (!isset($this->definition['operations'][$name])) {
-                throw new \InvalidArgumentException("Unknown operation: $name");
+                throw new InvalidArgumentException("Unknown operation: $name");
             }
             $this->operations[$name] = new Operation(
                 $this->definition['operations'][$name],
@@ -390,7 +393,7 @@ class Service extends AbstractModel
      * @param string $name Paginator to retrieve by name. This argument is
      *                     typically the operation name.
      * @return array
-     * @throws \UnexpectedValueException if the paginator does not exist.
+     * @throws UnexpectedValueException if the paginator does not exist.
      * @unstable The configuration format of paginators may change in the future
      */
     public function getPaginatorConfig($name)
@@ -407,7 +410,7 @@ class Service extends AbstractModel
             return $this->paginators[$name] + $defaults;
         }
 
-        throw new \UnexpectedValueException("There is no {$name} "
+        throw new UnexpectedValueException("There is no {$name} "
             . "paginator defined for the {$this->serviceName} service.");
     }
 
@@ -453,7 +456,7 @@ class Service extends AbstractModel
      * @param string $name Name of the waiter by name.
      *
      * @return array
-     * @throws \UnexpectedValueException if the waiter does not exist.
+     * @throws UnexpectedValueException if the waiter does not exist.
      */
     public function getWaiterConfig($name)
     {
@@ -462,7 +465,7 @@ class Service extends AbstractModel
             return $this->waiters[$name];
         }
 
-        throw new \UnexpectedValueException("There is no {$name} waiter "
+        throw new UnexpectedValueException("There is no {$name} waiter "
             . "defined for the {$this->serviceName} service.");
     }
 

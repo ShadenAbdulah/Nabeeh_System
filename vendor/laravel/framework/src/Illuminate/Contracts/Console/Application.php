@@ -2,6 +2,8 @@
 
 namespace Illuminate\Contracts\Console;
 
+use Symfony\Component\Console\Output\OutputInterface;
+
 interface Application
 {
     /**
@@ -9,7 +11,7 @@ interface Application
      *
      * @param  string  $command
      * @param  array  $parameters
-     * @param  \Symfony\Component\Console\Output\OutputInterface|null  $outputBuffer
+     * @param  OutputInterface|null  $outputBuffer
      * @return int
      */
     public function call($command, array $parameters = [], $outputBuffer = null);

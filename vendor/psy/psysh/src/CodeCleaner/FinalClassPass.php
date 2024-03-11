@@ -14,6 +14,11 @@ namespace Psy\CodeCleaner;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\Class_;
 use Psy\Exception\FatalErrorException;
+use ReflectionClass;
+use function class_exists;
+use function sprintf;
+use function strtolower;
+use const E_ERROR;
 
 /**
  * The final class pass handles final classes.
@@ -45,13 +50,13 @@ class FinalClassPass extends CodeCleanerPass
             if ($node->extends) {
                 $extends = (string) $node->extends;
                 if ($this->isFinalClass($extends)) {
-                    $msg = \sprintf('Class %s may not inherit from final class (%s)', $node->name, $extends);
-                    throw new FatalErrorException($msg, 0, \E_ERROR, null, $node->getStartLine());
+                    $msg = sprintf('Class %s may not inherit from final class (%s)', $node->name, $extends);
+                    throw new FatalErrorException($msg, 0, E_ERROR, null, $node->getStartLine());
                 }
             }
 
             if ($node->isFinal()) {
-                $this->finalClasses[\strtolower($node->name)] = true;
+                $this->finalClasses[strtolower($node->name)] = true;
             }
         }
     }
@@ -61,11 +66,11 @@ class FinalClassPass extends CodeCleanerPass
      */
     private function isFinalClass(string $name): bool
     {
-        if (!\class_exists($name)) {
-            return isset($this->finalClasses[\strtolower($name)]);
+        if (!class_exists($name)) {
+            return isset($this->finalClasses[strtolower($name)]);
         }
 
-        $refl = new \ReflectionClass($name);
+        $refl = new ReflectionClass($name);
 
         return $refl->isFinal();
     }

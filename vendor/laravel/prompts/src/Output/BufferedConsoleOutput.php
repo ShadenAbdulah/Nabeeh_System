@@ -2,6 +2,8 @@
 
 namespace Laravel\Prompts\Output;
 
+use const PHP_EOL;
+
 class BufferedConsoleOutput extends ConsoleOutput
 {
     /**
@@ -36,7 +38,7 @@ class BufferedConsoleOutput extends ConsoleOutput
         $this->buffer .= $message;
 
         if ($newline) {
-            $this->buffer .= \PHP_EOL;
+            $this->buffer .= PHP_EOL;
         }
     }
 

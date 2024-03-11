@@ -11,11 +11,13 @@
 
 namespace Symfony\Component\Routing\Exception;
 
+use Throwable;
+
 /**
  * ExceptionInterface.
  *
  * @author Alexandre Salomé <alexandre.salome@gmail.com>
  */
-interface ExceptionInterface extends \Throwable
+interface ExceptionInterface extends Throwable
 {
 }

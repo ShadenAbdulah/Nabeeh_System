@@ -10,13 +10,17 @@
 
 namespace Mockery;
 
+use Mockery;
+use Mockery\Exception\InvalidOrderException;
+use Mockery\Exception\RuntimeException;
 use Mockery\Generator\Generator;
 use Mockery\Generator\MockConfigurationBuilder;
 use Mockery\Loader\Loader as LoaderInterface;
+use ReflectionClass;
 
 class Container
 {
-    const BLOCKS = \Mockery::BLOCKS;
+    const BLOCKS = Mockery::BLOCKS;
 
     /**
      * Store of mock objects
@@ -63,8 +67,8 @@ class Container
 
     public function __construct(Generator $generator = null, LoaderInterface $loader = null)
     {
-        $this->_generator = $generator ?: \Mockery::getDefaultGenerator();
-        $this->_loader = $loader ?: \Mockery::getDefaultLoader();
+        $this->_generator = $generator ?: Mockery::getDefaultGenerator();
+        $this->_loader = $loader ?: Mockery::getDefaultLoader();
     }
 
     /**
@@ -106,8 +110,8 @@ class Container
         }
         reset($args);
 
-        $builder->setParameterOverrides(\Mockery::getConfiguration()->getInternalClassMethodParamMaps());
-        $builder->setConstantsMap(\Mockery::getConfiguration()->getConstantsMap());
+        $builder->setParameterOverrides(Mockery::getConfiguration()->getInternalClassMethodParamMaps());
+        $builder->setConstantsMap(Mockery::getConfiguration()->getConstantsMap());
 
         while (count($args) > 0) {
             $arg = array_shift($args);
@@ -131,7 +135,7 @@ class Container
                     } elseif (substr($type, strlen($type)-1, 1) == ']') {
                         $parts = explode('[', $type);
                         if (!class_exists($parts[0], true) && !interface_exists($parts[0], true)) {
-                            throw new \Mockery\Exception('Can only create a partial mock from'
+                            throw new Exception('Can only create a partial mock from'
                             . ' an existing class or interface');
                         }
                         $class = $parts[0];
@@ -147,11 +151,11 @@ class Container
                         }
                     } elseif (class_exists($type, true) || interface_exists($type, true) || trait_exists($type, true)) {
                         $builder->addTarget($type);
-                    } elseif (!\Mockery::getConfiguration()->mockingNonExistentMethodsAllowed() && (!class_exists($type, true) && !interface_exists($type, true))) {
-                        throw new \Mockery\Exception("Mockery can't find '$type' so can't mock it");
+                    } elseif (!Mockery::getConfiguration()->mockingNonExistentMethodsAllowed() && (!class_exists($type, true) && !interface_exists($type, true))) {
+                        throw new Exception("Mockery can't find '$type' so can't mock it");
                     } else {
                         if (!$this->isValidClassName($type)) {
-                            throw new \Mockery\Exception('Class name contains invalid characters');
+                            throw new Exception('Class name contains invalid characters');
                         }
                         $builder->addTarget($type);
                     }
@@ -171,7 +175,7 @@ class Container
                     $constructorArgs = $arg;
                 }
             } else {
-                throw new \Mockery\Exception(
+                throw new Exception(
                     'Unable to parse arguments sent to '
                     . get_class($this) . '::mock()'
                 );
@@ -197,9 +201,9 @@ class Container
         $def = $this->getGenerator()->generate($config);
 
         if (class_exists($def->getClassName(), $attemptAutoload = false)) {
-            $rfc = new \ReflectionClass($def->getClassName());
+            $rfc = new ReflectionClass($def->getClassName());
             if (!$rfc->implementsInterface("Mockery\LegacyMockInterface")) {
-                throw new \Mockery\Exception\RuntimeException("Could not load mock {$def->getClassName()}, class already exists");
+                throw new RuntimeException("Could not load mock {$def->getClassName()}, class already exists");
             }
         }
 
@@ -209,7 +213,7 @@ class Container
         $mock->mockery_init($this, $config->getTargetObject(), $config->isInstanceMock());
 
         if (!empty($quickdefs)) {
-            if (\Mockery::getConfiguration()->getQuickDefinitions()->shouldBeCalledAtLeastOnce()) {
+            if (Mockery::getConfiguration()->getQuickDefinitions()->shouldBeCalledAtLeastOnce()) {
                 $mock->shouldReceive($quickdefs)->atLeast()->once();
             } else {
                 $mock->shouldReceive($quickdefs)->byDefault();
@@ -378,13 +382,13 @@ class Container
      *
      * @param string $method
      * @param int $order
-     * @throws \Mockery\Exception
      * @return void
+     *@throws Exception
      */
-    public function mockery_validateOrder($method, $order, \Mockery\LegacyMockInterface $mock)
+    public function mockery_validateOrder($method, $order, LegacyMockInterface $mock)
     {
         if ($order < $this->_currentOrder) {
-            $exception = new \Mockery\Exception\InvalidOrderException(
+            $exception = new InvalidOrderException(
                 'Method ' . $method . ' called out of order: expected order '
                 . $order . ', was ' . $this->_currentOrder
             );
@@ -414,10 +418,10 @@ class Container
     /**
      * Store a mock and set its container reference
      *
-     * @param \Mockery\Mock $mock
-     * @return \Mockery\LegacyMockInterface|\Mockery\MockInterface
+     * @param Mock $mock
+     * @return LegacyMockInterface|MockInterface
      */
-    public function rememberMock(\Mockery\LegacyMockInterface $mock)
+    public function rememberMock(LegacyMockInterface $mock)
     {
         if (!isset($this->_mocks[get_class($mock)])) {
             $this->_mocks[get_class($mock)] = $mock;
@@ -437,7 +441,7 @@ class Container
      * mock() to change it - thus why the method name is "self" since it will be
      * be used during the programming of the same mock.
      *
-     * @return \Mockery\Mock
+     * @return Mock
      */
     public function self()
     {
@@ -450,7 +454,7 @@ class Container
      * Return a specific remembered mock according to the array index it
      * was stored to in this container instance
      *
-     * @return \Mockery\Mock
+     * @return Mock
      */
     public function fetchMock($reference)
     {
@@ -462,7 +466,7 @@ class Container
     protected function _getInstance($mockName, $constructorArgs = null)
     {
         if ($constructorArgs !== null) {
-            $r = new \ReflectionClass($mockName);
+            $r = new ReflectionClass($mockName);
             return $r->newInstanceArgs($constructorArgs);
         }
 
@@ -496,7 +500,7 @@ class Container
 
         if (isset($this->_namedMocks[$name])) {
             if ($hash !== $this->_namedMocks[$name]) {
-                throw new \Mockery\Exception(
+                throw new Exception(
                     "The mock named '$name' has been already defined with a different mock configuration"
                 );
             }

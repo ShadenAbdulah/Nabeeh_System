@@ -109,7 +109,7 @@ class FoundationServiceProvider extends AggregateServiceProvider
      *
      * @return void
      *
-     * @throws \Illuminate\Validation\ValidationException
+     * @throws ValidationException
      */
     public function registerRequestValidation()
     {

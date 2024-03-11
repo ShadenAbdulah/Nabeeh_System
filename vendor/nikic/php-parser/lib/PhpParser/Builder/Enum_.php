@@ -2,6 +2,7 @@
 
 namespace PhpParser\Builder;
 
+use LogicException;
 use PhpParser;
 use PhpParser\BuilderHelpers;
 use PhpParser\Node;
@@ -81,7 +82,7 @@ class Enum_ extends Declaration {
         } elseif ($stmt instanceof Stmt\ClassConst) {
             $this->constants[] = $stmt;
         } else {
-            throw new \LogicException(sprintf('Unexpected node of type "%s"', $stmt->getType()));
+            throw new LogicException(sprintf('Unexpected node of type "%s"', $stmt->getType()));
         }
 
         return $this;

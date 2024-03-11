@@ -17,6 +17,8 @@ use Monolog\Level;
 use Monolog\Utils;
 use Monolog\LogRecord;
 use Monolog\DateTimeImmutable;
+use RuntimeException;
+use function count;
 
 /**
  * Handler sending logs to the ChromePHP extension (http://www.chromephp.com/)
@@ -63,13 +65,13 @@ class ChromePHPHandler extends AbstractProcessingHandler
     protected static bool $sendHeaders = true;
 
     /**
-     * @throws \RuntimeException If the function json_encode does not exist
+     * @throws RuntimeException If the function json_encode does not exist
      */
     public function __construct(int|string|Level $level = Level::Debug, bool $bubble = true)
     {
         parent::__construct($level, $bubble);
         if (!function_exists('json_encode')) {
-            throw new \RuntimeException('PHP\'s json extension is required to use Monolog\'s ChromePHPHandler');
+            throw new RuntimeException('PHP\'s json extension is required to use Monolog\'s ChromePHPHandler');
         }
     }
 
@@ -93,7 +95,7 @@ class ChromePHPHandler extends AbstractProcessingHandler
             $messages[] = $message;
         }
 
-        if (\count($messages) > 0) {
+        if (count($messages) > 0) {
             $messages = $this->getFormatter()->formatBatch($messages);
             self::$json['rows'] = array_merge(self::$json['rows'], $messages);
             $this->send();

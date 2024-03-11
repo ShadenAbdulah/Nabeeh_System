@@ -15,6 +15,7 @@ use PhpParser\Node;
 use PhpParser\Node\Expr\Yield_;
 use PhpParser\Node\FunctionLike;
 use Psy\Exception\FatalErrorException;
+use const E_ERROR;
 
 class FunctionContextPass extends CodeCleanerPass
 {
@@ -50,12 +51,12 @@ class FunctionContextPass extends CodeCleanerPass
         // It causes fatal error.
         if ($node instanceof Yield_) {
             $msg = 'The "yield" expression can only be used inside a function';
-            throw new FatalErrorException($msg, 0, \E_ERROR, null, $node->getStartLine());
+            throw new FatalErrorException($msg, 0, E_ERROR, null, $node->getStartLine());
         }
     }
 
     /**
-     * @param \PhpParser\Node $node
+     * @param Node $node
      *
      * @return int|Node|Node[]|null Replacement node (or special return value)
      */

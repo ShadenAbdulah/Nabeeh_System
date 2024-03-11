@@ -13,6 +13,15 @@ namespace Psy;
 
 use Psy\Exception\BreakException;
 use Psy\Exception\ThrowUpException;
+use Throwable;
+use function extract;
+use function get_defined_vars;
+use function ob_end_clean;
+use function ob_end_flush;
+use function ob_get_level;
+use function ob_start;
+use function restore_error_handler;
+use function set_error_handler;
 
 /**
  * The Psy Shell's execution loop scope.
@@ -28,7 +37,7 @@ class ExecutionLoopClosure extends ExecutionClosure
     {
         $this->setClosure($__psysh__, function () use ($__psysh__) {
             // Restore execution scope variables
-            \extract($__psysh__->getScopeVariables(false));
+            extract($__psysh__->getScopeVariables(false));
 
             while (true) {
                 $__psysh__->beforeLoop();
@@ -39,34 +48,34 @@ class ExecutionLoopClosure extends ExecutionClosure
                     try {
                         // Pull in any new execution scope variables
                         if ($__psysh__->getLastExecSuccess()) {
-                            \extract($__psysh__->getScopeVariablesDiff(\get_defined_vars()));
+                            extract($__psysh__->getScopeVariablesDiff(get_defined_vars()));
                         }
 
                         // Buffer stdout; we'll need it later
-                        \ob_start([$__psysh__, 'writeStdout'], 1);
+                        ob_start([$__psysh__, 'writeStdout'], 1);
 
                         // Convert all errors to exceptions
-                        \set_error_handler([$__psysh__, 'handleError']);
+                        set_error_handler([$__psysh__, 'handleError']);
 
                         // Evaluate the current code buffer
                         $_ = eval($__psysh__->onExecute($__psysh__->flushCode() ?: ExecutionClosure::NOOP_INPUT));
-                    } catch (\Throwable $_e) {
+                    } catch (Throwable $_e) {
                         // Clean up on our way out.
-                        if (\ob_get_level() > 0) {
-                            \ob_end_clean();
+                        if (ob_get_level() > 0) {
+                            ob_end_clean();
                         }
 
                         throw $_e;
                     } finally {
                         // Won't be needing this anymore
-                        \restore_error_handler();
+                        restore_error_handler();
                     }
 
                     // Flush stdout (write to shell output, plus save to magic variable)
-                    \ob_end_flush();
+                    ob_end_flush();
 
                     // Save execution scope variables for next time
-                    $__psysh__->setScopeVariables(\get_defined_vars());
+                    $__psysh__->setScopeVariables(get_defined_vars());
 
                     $__psysh__->writeReturnValue($_);
                 } catch (BreakException $_e) {
@@ -77,7 +86,7 @@ class ExecutionLoopClosure extends ExecutionClosure
                     $__psysh__->writeException($_e);
 
                     throw $_e;
-                } catch (\Throwable $_e) {
+                } catch (Throwable $_e) {
                     $__psysh__->writeException($_e);
                 }
 

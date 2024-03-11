@@ -14,6 +14,26 @@ namespace Monolog\Handler;
 use Monolog\Level;
 use Monolog\Formatter\FormatterInterface;
 use Monolog\Formatter\LineFormatter;
+use UnexpectedValueException;
+use const LOG_AUTH;
+use const LOG_AUTHPRIV;
+use const LOG_CRON;
+use const LOG_DAEMON;
+use const LOG_KERN;
+use const LOG_LOCAL0;
+use const LOG_LOCAL1;
+use const LOG_LOCAL2;
+use const LOG_LOCAL3;
+use const LOG_LOCAL4;
+use const LOG_LOCAL5;
+use const LOG_LOCAL6;
+use const LOG_LOCAL7;
+use const LOG_LPR;
+use const LOG_MAIL;
+use const LOG_NEWS;
+use const LOG_SYSLOG;
+use const LOG_USER;
+use const LOG_UUCP;
 
 /**
  * Common syslog functionality
@@ -27,17 +47,17 @@ abstract class AbstractSyslogHandler extends AbstractProcessingHandler
      * @var array<string, int>
      */
     protected array $facilities = [
-        'auth'     => \LOG_AUTH,
-        'authpriv' => \LOG_AUTHPRIV,
-        'cron'     => \LOG_CRON,
-        'daemon'   => \LOG_DAEMON,
-        'kern'     => \LOG_KERN,
-        'lpr'      => \LOG_LPR,
-        'mail'     => \LOG_MAIL,
-        'news'     => \LOG_NEWS,
-        'syslog'   => \LOG_SYSLOG,
-        'user'     => \LOG_USER,
-        'uucp'     => \LOG_UUCP,
+        'auth'     => LOG_AUTH,
+        'authpriv' => LOG_AUTHPRIV,
+        'cron'     => LOG_CRON,
+        'daemon'   => LOG_DAEMON,
+        'kern'     => LOG_KERN,
+        'lpr'      => LOG_LPR,
+        'mail'     => LOG_MAIL,
+        'news'     => LOG_NEWS,
+        'syslog'   => LOG_SYSLOG,
+        'user'     => LOG_USER,
+        'uucp'     => LOG_UUCP,
     ];
 
     /**
@@ -51,19 +71,19 @@ abstract class AbstractSyslogHandler extends AbstractProcessingHandler
     /**
      * @param string|int $facility Either one of the names of the keys in $this->facilities, or a LOG_* facility constant
      */
-    public function __construct(string|int $facility = \LOG_USER, int|string|Level $level = Level::Debug, bool $bubble = true)
+    public function __construct(string|int $facility = LOG_USER, int|string|Level $level = Level::Debug, bool $bubble = true)
     {
         parent::__construct($level, $bubble);
 
         if (!defined('PHP_WINDOWS_VERSION_BUILD')) {
-            $this->facilities['local0'] = \LOG_LOCAL0;
-            $this->facilities['local1'] = \LOG_LOCAL1;
-            $this->facilities['local2'] = \LOG_LOCAL2;
-            $this->facilities['local3'] = \LOG_LOCAL3;
-            $this->facilities['local4'] = \LOG_LOCAL4;
-            $this->facilities['local5'] = \LOG_LOCAL5;
-            $this->facilities['local6'] = \LOG_LOCAL6;
-            $this->facilities['local7'] = \LOG_LOCAL7;
+            $this->facilities['local0'] = LOG_LOCAL0;
+            $this->facilities['local1'] = LOG_LOCAL1;
+            $this->facilities['local2'] = LOG_LOCAL2;
+            $this->facilities['local3'] = LOG_LOCAL3;
+            $this->facilities['local4'] = LOG_LOCAL4;
+            $this->facilities['local5'] = LOG_LOCAL5;
+            $this->facilities['local6'] = LOG_LOCAL6;
+            $this->facilities['local7'] = LOG_LOCAL7;
         } else {
             $this->facilities['local0'] = 128; // LOG_LOCAL0
             $this->facilities['local1'] = 136; // LOG_LOCAL1
@@ -79,7 +99,7 @@ abstract class AbstractSyslogHandler extends AbstractProcessingHandler
         if (is_string($facility) && array_key_exists(strtolower($facility), $this->facilities)) {
             $facility = $this->facilities[strtolower($facility)];
         } elseif (!in_array($facility, array_values($this->facilities), true)) {
-            throw new \UnexpectedValueException('Unknown facility value "'.$facility.'" given');
+            throw new UnexpectedValueException('Unknown facility value "'.$facility.'" given');
         }
 
         $this->facility = $facility;

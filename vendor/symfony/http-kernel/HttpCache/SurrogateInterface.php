@@ -11,6 +11,8 @@
 
 namespace Symfony\Component\HttpKernel\HttpCache;
 
+use Exception;
+use RuntimeException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -70,8 +72,8 @@ interface SurrogateInterface
      *
      * @param string $alt An alternative URI
      *
-     * @throws \RuntimeException
-     * @throws \Exception
+     * @throws RuntimeException
+     * @throws Exception
      */
     public function handle(HttpCache $cache, string $uri, string $alt, bool $ignoreErrors): string;
 }

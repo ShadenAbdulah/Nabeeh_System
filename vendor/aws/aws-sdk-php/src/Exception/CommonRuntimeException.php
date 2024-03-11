@@ -1,7 +1,9 @@
 <?php
 namespace Aws\Exception;
 
-class CommonRuntimeException extends \RuntimeException
+use RuntimeException;
+
+class CommonRuntimeException extends RuntimeException
 {
-    
+
 }

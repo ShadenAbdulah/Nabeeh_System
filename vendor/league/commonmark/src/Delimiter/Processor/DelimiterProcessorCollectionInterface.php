@@ -19,9 +19,10 @@ declare(strict_types=1);
 
 namespace League\CommonMark\Delimiter\Processor;
 
+use Countable;
 use League\CommonMark\Exception\InvalidArgumentException;
 
-interface DelimiterProcessorCollectionInterface extends \Countable
+interface DelimiterProcessorCollectionInterface extends Countable
 {
     /**
      * Add the given delim processor to the collection

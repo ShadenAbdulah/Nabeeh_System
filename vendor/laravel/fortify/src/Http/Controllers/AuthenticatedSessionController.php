@@ -23,14 +23,14 @@ class AuthenticatedSessionController extends Controller
     /**
      * The guard implementation.
      *
-     * @var \Illuminate\Contracts\Auth\StatefulGuard
+     * @var StatefulGuard
      */
     protected $guard;
 
     /**
      * Create a new controller instance.
      *
-     * @param  \Illuminate\Contracts\Auth\StatefulGuard  $guard
+     * @param StatefulGuard $guard
      * @return void
      */
     public function __construct(StatefulGuard $guard)
@@ -41,8 +41,8 @@ class AuthenticatedSessionController extends Controller
     /**
      * Show the login view.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Laravel\Fortify\Contracts\LoginViewResponse
+     * @param Request $request
+     * @return LoginViewResponse
      */
     public function create(Request $request): LoginViewResponse
     {
@@ -52,7 +52,7 @@ class AuthenticatedSessionController extends Controller
     /**
      * Attempt to authenticate a new session.
      *
-     * @param  \Laravel\Fortify\Http\Requests\LoginRequest  $request
+     * @param LoginRequest $request
      * @return mixed
      */
     public function store(LoginRequest $request)
@@ -65,7 +65,7 @@ class AuthenticatedSessionController extends Controller
     /**
      * Get the authentication pipeline instance.
      *
-     * @param  \Laravel\Fortify\Http\Requests\LoginRequest  $request
+     * @param LoginRequest $request
      * @return \Illuminate\Pipeline\Pipeline
      */
     protected function loginPipeline(LoginRequest $request)
@@ -94,8 +94,8 @@ class AuthenticatedSessionController extends Controller
     /**
      * Destroy an authenticated session.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Laravel\Fortify\Contracts\LogoutResponse
+     * @param Request $request
+     * @return LogoutResponse
      */
     public function destroy(Request $request): LogoutResponse
     {

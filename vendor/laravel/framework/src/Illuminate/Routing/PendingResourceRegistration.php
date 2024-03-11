@@ -12,7 +12,7 @@ class PendingResourceRegistration
     /**
      * The resource registrar.
      *
-     * @var \Illuminate\Routing\ResourceRegistrar
+     * @var ResourceRegistrar
      */
     protected $registrar;
 
@@ -47,7 +47,7 @@ class PendingResourceRegistration
     /**
      * Create a new pending resource registration instance.
      *
-     * @param  \Illuminate\Routing\ResourceRegistrar  $registrar
+     * @param ResourceRegistrar $registrar
      * @param  string  $name
      * @param  string  $controller
      * @param  array  $options
@@ -65,7 +65,7 @@ class PendingResourceRegistration
      * Set the methods the controller should apply to.
      *
      * @param  array|string|mixed  $methods
-     * @return \Illuminate\Routing\PendingResourceRegistration
+     * @return PendingResourceRegistration
      */
     public function only($methods)
     {
@@ -78,7 +78,7 @@ class PendingResourceRegistration
      * Set the methods the controller should exclude.
      *
      * @param  array|string|mixed  $methods
-     * @return \Illuminate\Routing\PendingResourceRegistration
+     * @return PendingResourceRegistration
      */
     public function except($methods)
     {
@@ -91,7 +91,7 @@ class PendingResourceRegistration
      * Set the route names for controller actions.
      *
      * @param  array|string  $names
-     * @return \Illuminate\Routing\PendingResourceRegistration
+     * @return PendingResourceRegistration
      */
     public function names($names)
     {
@@ -105,7 +105,7 @@ class PendingResourceRegistration
      *
      * @param  string  $method
      * @param  string  $name
-     * @return \Illuminate\Routing\PendingResourceRegistration
+     * @return PendingResourceRegistration
      */
     public function name($method, $name)
     {
@@ -118,7 +118,7 @@ class PendingResourceRegistration
      * Override the route parameter names.
      *
      * @param  array|string  $parameters
-     * @return \Illuminate\Routing\PendingResourceRegistration
+     * @return PendingResourceRegistration
      */
     public function parameters($parameters)
     {
@@ -132,7 +132,7 @@ class PendingResourceRegistration
      *
      * @param  string  $previous
      * @param  string  $new
-     * @return \Illuminate\Routing\PendingResourceRegistration
+     * @return PendingResourceRegistration
      */
     public function parameter($previous, $new)
     {
@@ -145,7 +145,7 @@ class PendingResourceRegistration
      * Add middleware to the resource routes.
      *
      * @param  mixed  $middleware
-     * @return \Illuminate\Routing\PendingResourceRegistration
+     * @return PendingResourceRegistration
      */
     public function middleware($middleware)
     {
@@ -179,7 +179,7 @@ class PendingResourceRegistration
      * Add "where" constraints to the resource routes.
      *
      * @param  mixed  $wheres
-     * @return \Illuminate\Routing\PendingResourceRegistration
+     * @return PendingResourceRegistration
      */
     public function where($wheres)
     {
@@ -192,7 +192,7 @@ class PendingResourceRegistration
      * Indicate that the resource routes should have "shallow" nesting.
      *
      * @param  bool  $shallow
-     * @return \Illuminate\Routing\PendingResourceRegistration
+     * @return PendingResourceRegistration
      */
     public function shallow($shallow = true)
     {
@@ -218,7 +218,7 @@ class PendingResourceRegistration
      * Indicate that the resource routes should be scoped using the given binding fields.
      *
      * @param  array  $fields
-     * @return \Illuminate\Routing\PendingResourceRegistration
+     * @return PendingResourceRegistration
      */
     public function scoped(array $fields = [])
     {
@@ -231,7 +231,7 @@ class PendingResourceRegistration
      * Define which routes should allow "trashed" models to be retrieved when resolving implicit model bindings.
      *
      * @param  array  $methods
-     * @return \Illuminate\Routing\PendingResourceRegistration
+     * @return PendingResourceRegistration
      */
     public function withTrashed(array $methods = [])
     {
@@ -243,7 +243,7 @@ class PendingResourceRegistration
     /**
      * Register the resource route.
      *
-     * @return \Illuminate\Routing\RouteCollection
+     * @return RouteCollection
      */
     public function register()
     {

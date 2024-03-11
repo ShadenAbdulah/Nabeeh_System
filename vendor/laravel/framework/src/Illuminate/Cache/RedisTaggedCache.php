@@ -2,6 +2,9 @@
 
 namespace Illuminate\Cache;
 
+use DateInterval;
+use DateTimeInterface;
+
 class RedisTaggedCache extends TaggedCache
 {
     /**
@@ -9,7 +12,7 @@ class RedisTaggedCache extends TaggedCache
      *
      * @param  string  $key
      * @param  mixed  $value
-     * @param  \DateTimeInterface|\DateInterval|int|null  $ttl
+     * @param  DateTimeInterface|DateInterval|int|null  $ttl
      * @return bool
      */
     public function add($key, $value, $ttl = null)
@@ -35,7 +38,7 @@ class RedisTaggedCache extends TaggedCache
      *
      * @param  string  $key
      * @param  mixed  $value
-     * @param  \DateTimeInterface|\DateInterval|int|null  $ttl
+     * @param  DateTimeInterface|DateInterval|int|null  $ttl
      * @return bool
      */
     public function put($key, $value, $ttl = null)

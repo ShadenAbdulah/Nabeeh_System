@@ -16,14 +16,14 @@ class AuthenticateSession
     /**
      * The authentication factory implementation.
      *
-     * @var \Illuminate\Contracts\Auth\Factory
+     * @var AuthFactory
      */
     protected $auth;
 
     /**
      * Create a new middleware instance.
      *
-     * @param  \Illuminate\Contracts\Auth\Factory  $auth
+     * @param AuthFactory $auth
      * @return void
      */
     public function __construct(AuthFactory $auth)
@@ -34,9 +34,9 @@ class AuthenticateSession
     /**
      * Handle an incoming request.
      *
-     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
+     * @param Closure(Request): (Response) $next
      *
-     * @throws \Illuminate\Auth\AuthenticationException
+     * @throws AuthenticationException
      */
     public function handle(Request $request, Closure $next): Response
     {
@@ -73,7 +73,7 @@ class AuthenticateSession
     /**
      * Store the user's current password hash in the session.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param Request $request
      * @param  string  $guard
      * @return void
      */

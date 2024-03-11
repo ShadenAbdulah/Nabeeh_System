@@ -13,6 +13,7 @@ namespace Symfony\Component\CssSelector\XPath\Extension;
 
 use Symfony\Component\CssSelector\XPath\Translator;
 use Symfony\Component\CssSelector\XPath\XPathExpr;
+use function strlen;
 
 /**
  * XPath expression translator attribute extension.
@@ -83,7 +84,7 @@ class AttributeMatchingExtension extends AbstractExtension
         return $xpath->addCondition($value ? sprintf(
             '%1$s and substring(%1$s, string-length(%1$s)-%2$s) = %3$s',
             $attribute,
-            \strlen($value) - 1,
+            strlen($value) - 1,
             Translator::getXpathLiteral($value)
         ) : '0');
     }

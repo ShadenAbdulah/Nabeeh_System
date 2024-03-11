@@ -9,12 +9,15 @@ use Aws\Arn\Exception\InvalidArnException;
 use Aws\Arn\S3\BucketArnInterface;
 use Aws\Arn\S3\OutpostsArnInterface;
 use Aws\CommandInterface;
+use Aws\Endpoint\Partition;
 use Aws\Endpoint\PartitionEndpointProvider;
 use Aws\Exception\InvalidRegionException;
 use Aws\Exception\UnresolvedEndpointException;
 use Aws\S3\EndpointRegionHelperTrait;
 use GuzzleHttp\Psr7;
+use InvalidArgumentException;
 use Psr\Http\Message\RequestInterface;
+use function Aws\strip_fips_pseudo_regions;
 
 /**
  * Checks for access point ARN in members targeting BucketName, modifying
@@ -196,7 +199,7 @@ class EndpointArnMiddleware
                     // Validate or set account ID in command
                     if (isset($cmd['AccountId'])) {
                         if ($cmd['AccountId'] !== $arn->getAccountId()) {
-                            throw new \InvalidArgumentException("The account ID"
+                            throw new InvalidArgumentException("The account ID"
                                 . " supplied in the command ({$cmd['AccountId']})"
                                 . " does not match the account ID supplied in the"
                                 . " ARN (" . $arn->getAccountId() . ").");
@@ -308,7 +311,7 @@ class EndpointArnMiddleware
      * if successful
      *
      * @param $arn
-     * @return \Aws\Endpoint\Partition
+     * @return Partition
      */
     private function validateArn(ArnInterface $arn)
     {
@@ -333,7 +336,7 @@ class EndpointArnMiddleware
         // If client partition not found, try removing pseudo-region qualifiers
         if (!($clientPart->isRegionMatch($this->region, 's3'))) {
             $clientPart = $this->partitionProvider->getPartition(
-                \Aws\strip_fips_pseudo_regions($this->region),
+                strip_fips_pseudo_regions($this->region),
                 's3'
             );
         }

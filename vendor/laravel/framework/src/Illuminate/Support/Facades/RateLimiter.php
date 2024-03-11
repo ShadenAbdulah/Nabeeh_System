@@ -2,10 +2,12 @@
 
 namespace Illuminate\Support\Facades;
 
+use Closure;
+
 /**
- * @method static \Illuminate\Cache\RateLimiter for(string $name, \Closure $callback)
- * @method static \Closure|null limiter(string $name)
- * @method static mixed attempt(string $key, int $maxAttempts, \Closure $callback, int $decaySeconds = 60)
+ * @method static \Illuminate\Cache\RateLimiter for(string $name, Closure $callback)
+ * @method static Closure|null limiter(string $name)
+ * @method static mixed attempt(string $key, int $maxAttempts, Closure $callback, int $decaySeconds = 60)
  * @method static bool tooManyAttempts(string $key, int $maxAttempts)
  * @method static int hit(string $key, int $decaySeconds = 60)
  * @method static int increment(string $key, int $decaySeconds = 60, int $amount = 1)

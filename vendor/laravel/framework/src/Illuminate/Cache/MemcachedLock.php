@@ -2,19 +2,21 @@
 
 namespace Illuminate\Cache;
 
+use Memcached;
+
 class MemcachedLock extends Lock
 {
     /**
      * The Memcached instance.
      *
-     * @var \Memcached
+     * @var Memcached
      */
     protected $memcached;
 
     /**
      * Create a new lock instance.
      *
-     * @param  \Memcached  $memcached
+     * @param  Memcached  $memcached
      * @param  string  $name
      * @param  int  $seconds
      * @param  string|null  $owner

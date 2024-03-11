@@ -9,7 +9,7 @@ class PrivateChannel extends Channel
     /**
      * Create a new channel instance.
      *
-     * @param  \Illuminate\Contracts\Broadcasting\HasBroadcastChannel|string  $name
+     * @param HasBroadcastChannel|string  $name
      * @return void
      */
     public function __construct($name)

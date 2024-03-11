@@ -2,17 +2,19 @@
 
 namespace Egulias\EmailValidator\Result\Reason;
 
+use Exception;
+
 class ExceptionFound implements Reason
 {
     /**
-     * @var \Exception
+     * @var Exception
      */
     private $exception;
 
-    public function __construct(\Exception $exception)
+    public function __construct(Exception $exception)
     {
         $this->exception = $exception;
-        
+
     }
     public function code() : int
     {

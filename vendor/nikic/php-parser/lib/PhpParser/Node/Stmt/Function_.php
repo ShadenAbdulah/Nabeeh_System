@@ -4,6 +4,7 @@ namespace PhpParser\Node\Stmt;
 
 use PhpParser\Node;
 use PhpParser\Node\FunctionLike;
+use function is_string;
 
 class Function_ extends Node\Stmt implements FunctionLike {
     /** @var bool Whether function returns by reference */
@@ -43,7 +44,7 @@ class Function_ extends Node\Stmt implements FunctionLike {
     public function __construct($name, array $subNodes = [], array $attributes = []) {
         $this->attributes = $attributes;
         $this->byRef = $subNodes['byRef'] ?? false;
-        $this->name = \is_string($name) ? new Node\Identifier($name) : $name;
+        $this->name = is_string($name) ? new Node\Identifier($name) : $name;
         $this->params = $subNodes['params'] ?? [];
         $this->returnType = $subNodes['returnType'] ?? null;
         $this->stmts = $subNodes['stmts'] ?? [];

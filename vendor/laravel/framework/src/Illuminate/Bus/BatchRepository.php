@@ -14,7 +14,7 @@ interface BatchRepository
      *
      * @param  int  $limit
      * @param  mixed  $before
-     * @return \Illuminate\Bus\Batch[]
+     * @return Batch[]
      */
     public function get($limit, $before);
 
@@ -22,15 +22,15 @@ interface BatchRepository
      * Retrieve information about an existing batch.
      *
      * @param  string  $batchId
-     * @return \Illuminate\Bus\Batch|null
+     * @return Batch|null
      */
     public function find(string $batchId);
 
     /**
      * Store a new pending batch.
      *
-     * @param  \Illuminate\Bus\PendingBatch  $batch
-     * @return \Illuminate\Bus\Batch
+     * @param PendingBatch $batch
+     * @return Batch
      */
     public function store(PendingBatch $batch);
 
@@ -48,7 +48,7 @@ interface BatchRepository
      *
      * @param  string  $batchId
      * @param  string  $jobId
-     * @return \Illuminate\Bus\UpdatedBatchJobCounts
+     * @return UpdatedBatchJobCounts
      */
     public function decrementPendingJobs(string $batchId, string $jobId);
 
@@ -57,7 +57,7 @@ interface BatchRepository
      *
      * @param  string  $batchId
      * @param  string  $jobId
-     * @return \Illuminate\Bus\UpdatedBatchJobCounts
+     * @return UpdatedBatchJobCounts
      */
     public function incrementFailedJobs(string $batchId, string $jobId);
 
@@ -88,7 +88,7 @@ interface BatchRepository
     /**
      * Execute the given Closure within a storage specific transaction.
      *
-     * @param  \Closure  $callback
+     * @param Closure $callback
      * @return mixed
      */
     public function transaction(Closure $callback);

@@ -10,7 +10,7 @@ class ComponentSlot implements Htmlable
     /**
      * The slot attribute bag.
      *
-     * @var \Illuminate\View\ComponentAttributeBag
+     * @var ComponentAttributeBag
      */
     public $attributes;
 

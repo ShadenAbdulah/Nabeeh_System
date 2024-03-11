@@ -22,6 +22,7 @@ use Egulias\EmailValidator\Result\Reason\ExpectingATEXT;
 use Egulias\EmailValidator\Parser\CommentStrategy\DomainComment;
 use Egulias\EmailValidator\Result\Reason\ExpectingDomainLiteralClose;
 use Egulias\EmailValidator\Parser\DomainLiteral as DomainLiteralParser;
+use RuntimeException;
 
 class DomainPart extends PartParser
 {
@@ -234,7 +235,7 @@ class DomainPart extends PartParser
     {
         try {
             $this->lexer->find(EmailLexer::S_CLOSEBRACKET);
-        } catch (\RuntimeException $e) {
+        } catch (RuntimeException $e) {
             return new InvalidEmail(new ExpectingDomainLiteralClose(), $this->lexer->current->value);
         }
 

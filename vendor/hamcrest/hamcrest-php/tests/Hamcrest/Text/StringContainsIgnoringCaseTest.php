@@ -1,7 +1,9 @@
 <?php
 namespace Hamcrest\Text;
 
-class StringContainsIgnoringCaseTest extends \Hamcrest\AbstractMatcherTest
+use Hamcrest\AbstractMatcherTest;
+
+class StringContainsIgnoringCaseTest extends AbstractMatcherTest
 {
 
     const EXCERPT = 'ExcErPt';
@@ -10,7 +12,7 @@ class StringContainsIgnoringCaseTest extends \Hamcrest\AbstractMatcherTest
 
     protected function setUp()
     {
-        $this->_stringContains = \Hamcrest\Text\StringContainsIgnoringCase::containsStringIgnoringCase(
+        $this->_stringContains = StringContainsIgnoringCase::containsStringIgnoringCase(
             strtolower(self::EXCERPT)
         );
     }

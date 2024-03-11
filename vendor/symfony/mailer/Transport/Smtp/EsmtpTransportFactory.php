@@ -15,6 +15,7 @@ use Symfony\Component\Mailer\Transport\AbstractTransportFactory;
 use Symfony\Component\Mailer\Transport\Dsn;
 use Symfony\Component\Mailer\Transport\Smtp\Stream\SocketStream;
 use Symfony\Component\Mailer\Transport\TransportInterface;
+use const FILTER_VALIDATE_BOOL;
 
 /**
  * @author Konstantin Myakshin <molodchick@gmail.com>
@@ -33,7 +34,7 @@ final class EsmtpTransportFactory extends AbstractTransportFactory
         $stream = $transport->getStream();
         $streamOptions = $stream->getStreamOptions();
 
-        if ('' !== $dsn->getOption('verify_peer') && !filter_var($dsn->getOption('verify_peer', true), \FILTER_VALIDATE_BOOL)) {
+        if ('' !== $dsn->getOption('verify_peer') && !filter_var($dsn->getOption('verify_peer', true), FILTER_VALIDATE_BOOL)) {
             $streamOptions['ssl']['verify_peer'] = false;
             $streamOptions['ssl']['verify_peer_name'] = false;
         }

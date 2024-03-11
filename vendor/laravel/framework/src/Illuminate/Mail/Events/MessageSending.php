@@ -9,7 +9,7 @@ class MessageSending
     /**
      * The Symfony Email instance.
      *
-     * @var \Symfony\Component\Mime\Email
+     * @var Email
      */
     public $message;
 
@@ -23,7 +23,7 @@ class MessageSending
     /**
      * Create a new event instance.
      *
-     * @param  \Symfony\Component\Mime\Email  $message
+     * @param Email $message
      * @param  array  $data
      * @return void
      */

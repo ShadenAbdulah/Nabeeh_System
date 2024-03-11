@@ -11,6 +11,8 @@
 
 namespace Symfony\Component\Finder;
 
+use function strlen;
+
 /**
  * Gitignore matches against text.
  *
@@ -69,7 +71,7 @@ class Gitignore
         }
 
         $slashPos = strpos($gitignoreLine, '/');
-        if (false !== $slashPos && \strlen($gitignoreLine) - 1 !== $slashPos) {
+        if (false !== $slashPos && strlen($gitignoreLine) - 1 !== $slashPos) {
             if (0 === $slashPos) {
                 $gitignoreLine = substr($gitignoreLine, 1);
             }

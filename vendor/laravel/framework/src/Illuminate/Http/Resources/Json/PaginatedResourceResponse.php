@@ -2,6 +2,8 @@
 
 namespace Illuminate\Http\Resources\Json;
 
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 
 class PaginatedResourceResponse extends ResourceResponse
@@ -9,8 +11,8 @@ class PaginatedResourceResponse extends ResourceResponse
     /**
      * Create an HTTP response that represents the object.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\JsonResponse
+     * @param  Request  $request
+     * @return JsonResponse
      */
     public function toResponse($request)
     {
@@ -38,7 +40,7 @@ class PaginatedResourceResponse extends ResourceResponse
     /**
      * Add the pagination information to the response.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  Request  $request
      * @return array
      */
     protected function paginationInformation($request)

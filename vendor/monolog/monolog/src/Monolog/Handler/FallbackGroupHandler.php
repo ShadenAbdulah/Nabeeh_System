@@ -13,6 +13,7 @@ namespace Monolog\Handler;
 
 use Throwable;
 use Monolog\LogRecord;
+use function count;
 
 /**
  * Forwards records to at most one handler
@@ -28,7 +29,7 @@ class FallbackGroupHandler extends GroupHandler
      */
     public function handle(LogRecord $record): bool
     {
-        if (\count($this->processors) > 0) {
+        if (count($this->processors) > 0) {
             $record = $this->processRecord($record);
         }
         foreach ($this->handlers as $handler) {
@@ -48,7 +49,7 @@ class FallbackGroupHandler extends GroupHandler
      */
     public function handleBatch(array $records): void
     {
-        if (\count($this->processors) > 0) {
+        if (count($this->processors) > 0) {
             $processed = [];
             foreach ($records as $record) {
                 $processed[] = $this->processRecord($record);

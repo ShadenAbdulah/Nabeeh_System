@@ -2,6 +2,7 @@
 namespace Aws\Glacier;
 
 use Aws\HashInterface;
+use LogicException;
 
 /**
  * Encapsulates the creation of a tree hash from streamed data
@@ -31,13 +32,13 @@ class TreeHash implements HashInterface
 
     /**
      * {@inheritdoc}
-     * @throws \LogicException if the root tree hash is already calculated
+     * @throws LogicException if the root tree hash is already calculated
      */
     public function update($data)
     {
         // Error if hash is already calculated.
         if ($this->hash) {
-            throw new \LogicException('You may not add more data to a '
+            throw new LogicException('You may not add more data to a '
                 . 'complete tree hash.');
         }
 
@@ -61,13 +62,13 @@ class TreeHash implements HashInterface
      * @param bool $inBinaryForm TRUE if checksum is in binary form
      *
      * @return self
-     * @throws \LogicException if the root tree hash is already calculated
+     * @throws LogicException if the root tree hash is already calculated
      */
     public function addChecksum($checksum, $inBinaryForm = false)
     {
         // Error if hash is already calculated
         if ($this->hash) {
-            throw new \LogicException('You may not add more checksums to a '
+            throw new LogicException('You may not add more checksums to a '
                 . 'complete tree hash.');
         }
 

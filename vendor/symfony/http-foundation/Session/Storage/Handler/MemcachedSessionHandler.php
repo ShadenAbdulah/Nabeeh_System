@@ -11,6 +11,12 @@
 
 namespace Symfony\Component\HttpFoundation\Session\Storage\Handler;
 
+use Closure;
+use InvalidArgumentException;
+use Memcached;
+use SensitiveParameter;
+use function ini_get;
+
 /**
  * Memcached based session storage handler based on the Memcached class
  * provided by the PHP memcached extension.
@@ -21,12 +27,12 @@ namespace Symfony\Component\HttpFoundation\Session\Storage\Handler;
  */
 class MemcachedSessionHandler extends AbstractSessionHandler
 {
-    private \Memcached $memcached;
+    private Memcached $memcached;
 
     /**
      * Time to live in seconds.
      */
-    private int|\Closure|null $ttl;
+    private int|Closure|null $ttl;
 
     /**
      * Key prefix for shared environments.
@@ -40,14 +46,14 @@ class MemcachedSessionHandler extends AbstractSessionHandler
      *  * prefix: The prefix to use for the memcached keys in order to avoid collision
      *  * ttl: The time to live in seconds.
      *
-     * @throws \InvalidArgumentException When unsupported options are passed
+     * @throws InvalidArgumentException When unsupported options are passed
      */
-    public function __construct(\Memcached $memcached, array $options = [])
+    public function __construct(Memcached $memcached, array $options = [])
     {
         $this->memcached = $memcached;
 
         if ($diff = array_diff(array_keys($options), ['prefix', 'expiretime', 'ttl'])) {
-            throw new \InvalidArgumentException(sprintf('The following options are not supported "%s".', implode(', ', $diff)));
+            throw new InvalidArgumentException(sprintf('The following options are not supported "%s".', implode(', ', $diff)));
         }
 
         $this->ttl = $options['expiretime'] ?? $options['ttl'] ?? null;
@@ -59,26 +65,26 @@ class MemcachedSessionHandler extends AbstractSessionHandler
         return $this->memcached->quit();
     }
 
-    protected function doRead(#[\SensitiveParameter] string $sessionId): string
+    protected function doRead(#[SensitiveParameter] string $sessionId): string
     {
         return $this->memcached->get($this->prefix.$sessionId) ?: '';
     }
 
-    public function updateTimestamp(#[\SensitiveParameter] string $sessionId, string $data): bool
+    public function updateTimestamp(#[SensitiveParameter] string $sessionId, string $data): bool
     {
         $this->memcached->touch($this->prefix.$sessionId, $this->getCompatibleTtl());
 
         return true;
     }
 
-    protected function doWrite(#[\SensitiveParameter] string $sessionId, string $data): bool
+    protected function doWrite(#[SensitiveParameter] string $sessionId, string $data): bool
     {
         return $this->memcached->set($this->prefix.$sessionId, $data, $this->getCompatibleTtl());
     }
 
     private function getCompatibleTtl(): int
     {
-        $ttl = ($this->ttl instanceof \Closure ? ($this->ttl)() : $this->ttl) ?? \ini_get('session.gc_maxlifetime');
+        $ttl = ($this->ttl instanceof Closure ? ($this->ttl)() : $this->ttl) ?? ini_get('session.gc_maxlifetime');
 
         // If the relative TTL that is used exceeds 30 days, memcached will treat the value as Unix time.
         // We have to convert it to an absolute Unix time at this point, to make sure the TTL is correct.
@@ -89,11 +95,11 @@ class MemcachedSessionHandler extends AbstractSessionHandler
         return $ttl;
     }
 
-    protected function doDestroy(#[\SensitiveParameter] string $sessionId): bool
+    protected function doDestroy(#[SensitiveParameter] string $sessionId): bool
     {
         $result = $this->memcached->delete($this->prefix.$sessionId);
 
-        return $result || \Memcached::RES_NOTFOUND == $this->memcached->getResultCode();
+        return $result || Memcached::RES_NOTFOUND == $this->memcached->getResultCode();
     }
 
     public function gc(int $maxlifetime): int|false
@@ -105,7 +111,7 @@ class MemcachedSessionHandler extends AbstractSessionHandler
     /**
      * Return a Memcached instance.
      */
-    protected function getMemcached(): \Memcached
+    protected function getMemcached(): Memcached
     {
         return $this->memcached;
     }

@@ -19,6 +19,10 @@ use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\Trait_;
 use PhpParser\Node\VariadicPlaceholder;
 use Psy\Exception\ErrorException;
+use function in_array;
+use function sprintf;
+use function strtolower;
+use const E_USER_WARNING;
 
 /**
  * The called class pass throws warnings for get_class() and get_called_class()
@@ -63,10 +67,10 @@ class CalledClassPass extends CodeCleanerPass
                 return;
             }
 
-            $name = \strtolower($node->name);
-            if (\in_array($name, ['get_class', 'get_called_class'])) {
-                $msg = \sprintf('%s() called without object from outside a class', $name);
-                throw new ErrorException($msg, 0, \E_USER_WARNING, null, $node->getStartLine());
+            $name = strtolower($node->name);
+            if (in_array($name, ['get_class', 'get_called_class'])) {
+                $msg = sprintf('%s() called without object from outside a class', $name);
+                throw new ErrorException($msg, 0, E_USER_WARNING, null, $node->getStartLine());
             }
         }
     }
@@ -89,6 +93,6 @@ class CalledClassPass extends CodeCleanerPass
             return false;
         }
 
-        return $node->value instanceof ConstFetch && \strtolower($node->value->name) === 'null';
+        return $node->value instanceof ConstFetch && strtolower($node->value->name) === 'null';
     }
 }

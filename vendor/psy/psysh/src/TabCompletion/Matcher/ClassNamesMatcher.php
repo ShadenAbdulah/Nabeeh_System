@@ -11,6 +11,22 @@
 
 namespace Psy\TabCompletion\Matcher;
 
+use function array_filter;
+use function array_map;
+use function array_merge;
+use function array_pop;
+use function array_slice;
+use function count;
+use function explode;
+use function get_declared_classes;
+use function get_declared_interfaces;
+use function implode;
+use function is_string;
+use function preg_quote;
+use function strlen;
+use function substr;
+use function substr_count;
+
 /**
  * A class name tab completion Matcher.
  *
@@ -27,20 +43,20 @@ class ClassNamesMatcher extends AbstractMatcher
     {
         $class = $this->getNamespaceAndClass($tokens);
         if ($class !== '' && $class[0] === '\\') {
-            $class = \substr($class, 1, \strlen($class));
+            $class = substr($class, 1, strlen($class));
         }
-        $quotedClass = \preg_quote($class);
+        $quotedClass = preg_quote($class);
 
-        return \array_map(
+        return array_map(
             function ($className) use ($class) {
                 // get the number of namespace separators
-                $nsPos = \substr_count($class, '\\');
-                $pieces = \explode('\\', $className);
+                $nsPos = substr_count($class, '\\');
+                $pieces = explode('\\', $className);
                 // $methods = Mirror::get($class);
-                return \implode('\\', \array_slice($pieces, $nsPos, \count($pieces)));
+                return implode('\\', array_slice($pieces, $nsPos, count($pieces)));
             },
-            \array_filter(
-                \array_merge(\get_declared_classes(), \get_declared_interfaces()),
+            array_filter(
+                array_merge(get_declared_classes(), get_declared_interfaces()),
                 function ($className) use ($quotedClass) {
                     return AbstractMatcher::startsWith($quotedClass, $className);
                 }
@@ -53,8 +69,8 @@ class ClassNamesMatcher extends AbstractMatcher
      */
     public function hasMatched(array $tokens): bool
     {
-        $token = \array_pop($tokens);
-        $prevToken = \array_pop($tokens);
+        $token = array_pop($tokens);
+        $prevToken = array_pop($tokens);
 
         $ignoredTokens = [
             self::T_INCLUDE, self::T_INCLUDE_ONCE, self::T_REQUIRE, self::T_REQUIRE_ONCE,
@@ -63,7 +79,7 @@ class ClassNamesMatcher extends AbstractMatcher
         switch (true) {
             case self::hasToken([$ignoredTokens], $token):
             case self::hasToken([$ignoredTokens], $prevToken):
-            case \is_string($token) && $token === '$':
+            case is_string($token) && $token === '$':
                 return false;
             case self::hasToken([self::T_NEW, self::T_OPEN_TAG, self::T_NS_SEPARATOR, self::T_STRING], $prevToken):
             case self::hasToken([self::T_NEW, self::T_OPEN_TAG, self::T_NS_SEPARATOR], $token):

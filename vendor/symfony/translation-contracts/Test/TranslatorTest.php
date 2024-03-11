@@ -11,9 +11,12 @@
 
 namespace Symfony\Contracts\Translation\Test;
 
+use InvalidArgumentException;
+use Locale;
 use PHPUnit\Framework\TestCase;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\Contracts\Translation\TranslatorTrait;
+use function count;
 
 /**
  * Test should cover all languages mentioned on http://translate.sourceforge.net/wiki/l10n/pluralforms
@@ -34,13 +37,13 @@ class TranslatorTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->defaultLocale = \Locale::getDefault();
-        \Locale::setDefault('en');
+        $this->defaultLocale = Locale::getDefault();
+        Locale::setDefault('en');
     }
 
     protected function tearDown(): void
     {
-        \Locale::setDefault($this->defaultLocale);
+        Locale::setDefault($this->defaultLocale);
     }
 
     public function getTranslator(): TranslatorInterface
@@ -107,10 +110,10 @@ class TranslatorTest extends TestCase
     {
         $translator = $this->getTranslator();
 
-        \Locale::setDefault('pt_BR');
+        Locale::setDefault('pt_BR');
         $this->assertEquals('pt_BR', $translator->getLocale());
 
-        \Locale::setDefault('en');
+        Locale::setDefault('en');
         $this->assertEquals('en', $translator->getLocale());
     }
 
@@ -185,7 +188,7 @@ class TranslatorTest extends TestCase
     {
         $translator = $this->getTranslator();
 
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
 
         $translator->trans($id, ['%count%' => $number]);
     }
@@ -359,7 +362,7 @@ class TranslatorTest extends TestCase
             if ($expectSuccess) {
                 $this->assertCount($nplural, $indexes, "Langcode '$langCode' has '$nplural' plural forms.");
             } else {
-                $this->assertNotEquals((int) $nplural, \count($indexes), "Langcode '$langCode' has '$nplural' plural forms.");
+                $this->assertNotEquals((int) $nplural, count($indexes), "Langcode '$langCode' has '$nplural' plural forms.");
             }
         }
     }

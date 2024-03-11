@@ -11,6 +11,7 @@
 
 namespace Monolog\Handler;
 
+use LogicException;
 use Monolog\Processor\ProcessorInterface;
 use Monolog\LogRecord;
 
@@ -36,7 +37,7 @@ interface ProcessableHandlerInterface
      *
      * @phpstan-return ProcessorInterface|(callable(LogRecord): LogRecord) $callback
      *
-     * @throws \LogicException             In case the processor stack is empty
+     * @throws LogicException             In case the processor stack is empty
      * @return callable|ProcessorInterface
      */
     public function popProcessor(): callable;

@@ -9,18 +9,25 @@
  */
 namespace PharIo\Version;
 
+use function preg_match;
+use function preg_split;
+use function sprintf;
+use function strpos;
+use function substr;
+use function trim;
+
 class VersionConstraintParser {
     /**
      * @throws UnsupportedVersionConstraintException
      */
     public function parse(string $value): VersionConstraint {
-        if (\strpos($value, '|') !== false) {
+        if (strpos($value, '|') !== false) {
             return $this->handleOrGroup($value);
         }
 
-        if (!\preg_match('/^[\^~*]?v?[\d.*]+(?:-.*)?$/i', $value)) {
+        if (!preg_match('/^[\^~*]?v?[\d.*]+(?:-.*)?$/i', $value)) {
             throw new UnsupportedVersionConstraintException(
-                \sprintf('Version constraint %s is not supported.', $value)
+                sprintf('Version constraint %s is not supported.', $value)
             );
         }
 
@@ -58,15 +65,15 @@ class VersionConstraintParser {
     private function handleOrGroup(string $value): OrVersionConstraintGroup {
         $constraints = [];
 
-        foreach (\preg_split('{\s*\|\|?\s*}', \trim($value)) as $groupSegment) {
-            $constraints[] = $this->parse(\trim($groupSegment));
+        foreach (preg_split('{\s*\|\|?\s*}', trim($value)) as $groupSegment) {
+            $constraints[] = $this->parse(trim($groupSegment));
         }
 
         return new OrVersionConstraintGroup($value, $constraints);
     }
 
     private function handleTildeOperator(string $value): AndVersionConstraintGroup {
-        $constraintValue = new VersionConstraintValue(\substr($value, 1));
+        $constraintValue = new VersionConstraintValue(substr($value, 1));
 
         if ($constraintValue->getPatch()->isAny()) {
             return $this->handleCaretOperator($value);
@@ -75,7 +82,7 @@ class VersionConstraintParser {
         $constraints = [
             new GreaterThanOrEqualToVersionConstraint(
                 $value,
-                new Version(\substr($value, 1))
+                new Version(substr($value, 1))
             ),
             new SpecificMajorAndMinorVersionConstraint(
                 $value,
@@ -88,10 +95,10 @@ class VersionConstraintParser {
     }
 
     private function handleCaretOperator(string $value): AndVersionConstraintGroup {
-        $constraintValue = new VersionConstraintValue(\substr($value, 1));
+        $constraintValue = new VersionConstraintValue(substr($value, 1));
 
         $constraints = [
-            new GreaterThanOrEqualToVersionConstraint($value, new Version(\substr($value, 1)))
+            new GreaterThanOrEqualToVersionConstraint($value, new Version(substr($value, 1)))
         ];
 
         if ($constraintValue->getMajor()->getValue() === 0) {

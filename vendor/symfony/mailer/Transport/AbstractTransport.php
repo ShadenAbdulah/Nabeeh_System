@@ -24,6 +24,7 @@ use Symfony\Component\Mailer\SentMessage;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\Mime\BodyRendererInterface;
 use Symfony\Component\Mime\RawMessage;
+use Throwable;
 
 /**
  * @author Fabien Potencier <fabien@symfony.com>
@@ -88,7 +89,7 @@ abstract class AbstractTransport implements TransportInterface
 
             try {
                 $this->doSend($sentMessage);
-            } catch (\Throwable $error) {
+            } catch (Throwable $error) {
                 $this->dispatcher->dispatch(new FailedMessageEvent($message, $error));
                 $this->checkThrottling();
 

@@ -3,14 +3,16 @@
 namespace Illuminate\Routing;
 
 use Illuminate\Http\Request;
+use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 interface RouteCollectionInterface
 {
     /**
      * Add a Route instance to the collection.
      *
-     * @param  \Illuminate\Routing\Route  $route
-     * @return \Illuminate\Routing\Route
+     * @param Route $route
+     * @return Route
      */
     public function add(Route $route);
 
@@ -35,11 +37,11 @@ interface RouteCollectionInterface
     /**
      * Find the first route matching a given request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Routing\Route
+     * @param Request $request
+     * @return Route
      *
-     * @throws \Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
+     * @throws MethodNotAllowedHttpException
+     * @throws NotFoundHttpException
      */
     public function match(Request $request);
 
@@ -47,7 +49,7 @@ interface RouteCollectionInterface
      * Get routes from the collection by method.
      *
      * @param  string|null  $method
-     * @return \Illuminate\Routing\Route[]
+     * @return Route[]
      */
     public function get($method = null);
 
@@ -63,7 +65,7 @@ interface RouteCollectionInterface
      * Get a route instance by its name.
      *
      * @param  string  $name
-     * @return \Illuminate\Routing\Route|null
+     * @return Route|null
      */
     public function getByName($name);
 
@@ -71,14 +73,14 @@ interface RouteCollectionInterface
      * Get a route instance by its controller action.
      *
      * @param  string  $action
-     * @return \Illuminate\Routing\Route|null
+     * @return Route|null
      */
     public function getByAction($action);
 
     /**
      * Get all of the routes in the collection.
      *
-     * @return \Illuminate\Routing\Route[]
+     * @return Route[]
      */
     public function getRoutes();
 
@@ -92,7 +94,7 @@ interface RouteCollectionInterface
     /**
      * Get all of the routes keyed by their name.
      *
-     * @return \Illuminate\Routing\Route[]
+     * @return Route[]
      */
     public function getRoutesByName();
 }

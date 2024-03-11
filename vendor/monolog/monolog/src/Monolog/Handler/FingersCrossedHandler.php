@@ -20,6 +20,9 @@ use Monolog\ResettableInterface;
 use Monolog\Formatter\FormatterInterface;
 use Psr\Log\LogLevel;
 use Monolog\LogRecord;
+use RuntimeException;
+use UnexpectedValueException;
+use function count;
 
 /**
  * Buffers all records until a certain level is reached
@@ -124,7 +127,7 @@ class FingersCrossedHandler extends Handler implements ProcessableHandlerInterfa
      */
     public function handle(LogRecord $record): bool
     {
-        if (\count($this->processors) > 0) {
+        if (count($this->processors) > 0) {
             $record = $this->processRecord($record);
         }
 
@@ -204,7 +207,7 @@ class FingersCrossedHandler extends Handler implements ProcessableHandlerInterfa
         if (!$this->handler instanceof HandlerInterface) {
             $handler = ($this->handler)($record, $this);
             if (!$handler instanceof HandlerInterface) {
-                throw new \RuntimeException("The factory Closure should return a HandlerInterface");
+                throw new RuntimeException("The factory Closure should return a HandlerInterface");
             }
             $this->handler = $handler;
         }
@@ -224,7 +227,7 @@ class FingersCrossedHandler extends Handler implements ProcessableHandlerInterfa
             return $this;
         }
 
-        throw new \UnexpectedValueException('The nested handler of type '.get_class($handler).' does not support formatters.');
+        throw new UnexpectedValueException('The nested handler of type '.get_class($handler).' does not support formatters.');
     }
 
     /**
@@ -237,6 +240,6 @@ class FingersCrossedHandler extends Handler implements ProcessableHandlerInterfa
             return $handler->getFormatter();
         }
 
-        throw new \UnexpectedValueException('The nested handler of type '.get_class($handler).' does not support formatters.');
+        throw new UnexpectedValueException('The nested handler of type '.get_class($handler).' does not support formatters.');
     }
 }

@@ -13,6 +13,7 @@ namespace Symfony\Component\HttpFoundation\RequestMatcher;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestMatcherInterface;
+use function in_array;
 
 /**
  * Checks the HTTP scheme of a Request.
@@ -41,6 +42,6 @@ class SchemeRequestMatcher implements RequestMatcherInterface
             return true;
         }
 
-        return \in_array($request->getScheme(), $this->schemes, true);
+        return in_array($request->getScheme(), $this->schemes, true);
     }
 }

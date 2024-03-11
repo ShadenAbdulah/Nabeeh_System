@@ -4,7 +4,9 @@ namespace Illuminate\Testing\Constraints;
 
 use ArrayObject;
 use PHPUnit\Framework\Constraint\Constraint;
+use PHPUnit\Framework\ExpectationFailedException;
 use SebastianBergmann\Comparator\ComparisonFailure;
+use SebastianBergmann\RecursionContext\InvalidArgumentException;
 use Traversable;
 
 /**
@@ -50,8 +52,8 @@ final class ArraySubset extends Constraint
      * @param  bool  $returnResult
      * @return bool|null
      *
-     * @throws \PHPUnit\Framework\ExpectationFailedException
-     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
+     * @throws InvalidArgumentException
      */
     public function evaluate($other, string $description = '', bool $returnResult = false): ?bool
     {
@@ -91,7 +93,7 @@ final class ArraySubset extends Constraint
      *
      * @return string
      *
-     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function toString(): string
     {
@@ -107,7 +109,7 @@ final class ArraySubset extends Constraint
      * @param  mixed  $other
      * @return string
      *
-     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     protected function failureDescription($other): string
     {

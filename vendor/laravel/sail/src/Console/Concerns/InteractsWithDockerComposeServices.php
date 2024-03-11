@@ -2,8 +2,10 @@
 
 namespace Laravel\Sail\Console\Concerns;
 
+use RuntimeException;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Yaml\Yaml;
+use function Laravel\Prompts\multiselect;
 
 trait InteractsWithDockerComposeServices
 {
@@ -41,7 +43,7 @@ trait InteractsWithDockerComposeServices
     protected function gatherServicesInteractively()
     {
         if (function_exists('\Laravel\Prompts\multiselect')) {
-            return \Laravel\Prompts\multiselect(
+            return multiselect(
                 label: 'Which services would you like to install?',
                 options: $this->services,
                 default: ['mysql'],
@@ -275,7 +277,7 @@ trait InteractsWithDockerComposeServices
         if ('\\' !== DIRECTORY_SEPARATOR && file_exists('/dev/tty') && is_readable('/dev/tty')) {
             try {
                 $process->setTty(true);
-            } catch (\RuntimeException $e) {
+            } catch (RuntimeException $e) {
                 $this->output->writeln('  <bg=yellow;fg=black> WARN </> '.$e->getMessage().PHP_EOL);
             }
         }

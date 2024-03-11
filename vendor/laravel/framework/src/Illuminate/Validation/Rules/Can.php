@@ -5,6 +5,7 @@ namespace Illuminate\Validation\Rules;
 use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Contracts\Validation\ValidatorAwareRule;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Validation\Validator;
 
 class Can implements Rule, ValidatorAwareRule
 {
@@ -25,7 +26,7 @@ class Can implements Rule, ValidatorAwareRule
     /**
      * The current validator instance.
      *
-     * @var \Illuminate\Validation\Validator
+     * @var Validator
      */
     protected $validator;
 
@@ -74,7 +75,7 @@ class Can implements Rule, ValidatorAwareRule
     /**
      * Set the current validator.
      *
-     * @param  \Illuminate\Validation\Validator  $validator
+     * @param  Validator  $validator
      * @return $this
      */
     public function setValidator($validator)

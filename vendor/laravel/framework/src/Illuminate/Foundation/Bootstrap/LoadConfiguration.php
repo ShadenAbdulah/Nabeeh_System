@@ -14,7 +14,7 @@ class LoadConfiguration
     /**
      * Bootstrap the given application.
      *
-     * @param  \Illuminate\Contracts\Foundation\Application  $app
+     * @param Application $app
      * @return void
      */
     public function bootstrap(Application $app)
@@ -52,11 +52,11 @@ class LoadConfiguration
     /**
      * Load the configuration items from all of the files.
      *
-     * @param  \Illuminate\Contracts\Foundation\Application  $app
-     * @param  \Illuminate\Contracts\Config\Repository  $repository
+     * @param Application $app
+     * @param RepositoryContract $repository
      * @return void
      *
-     * @throws \Exception
+     * @throws Exception
      */
     protected function loadConfigurationFiles(Application $app, RepositoryContract $repository)
     {
@@ -74,7 +74,7 @@ class LoadConfiguration
     /**
      * Get all of the configuration files for the application.
      *
-     * @param  \Illuminate\Contracts\Foundation\Application  $app
+     * @param Application $app
      * @return array
      */
     protected function getConfigurationFiles(Application $app)
@@ -97,7 +97,7 @@ class LoadConfiguration
     /**
      * Get the configuration file nesting path.
      *
-     * @param  \SplFileInfo  $file
+     * @param SplFileInfo $file
      * @param  string  $configPath
      * @return string
      */

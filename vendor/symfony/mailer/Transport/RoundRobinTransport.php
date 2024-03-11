@@ -11,11 +11,13 @@
 
 namespace Symfony\Component\Mailer\Transport;
 
+use SplObjectStorage;
 use Symfony\Component\Mailer\Envelope;
 use Symfony\Component\Mailer\Exception\TransportException;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\SentMessage;
 use Symfony\Component\Mime\RawMessage;
+use function count;
 
 /**
  * Uses several Transports using a round robin algorithm.
@@ -25,9 +27,9 @@ use Symfony\Component\Mime\RawMessage;
 class RoundRobinTransport implements TransportInterface
 {
     /**
-     * @var \SplObjectStorage<TransportInterface, float>
+     * @var SplObjectStorage<TransportInterface, float>
      */
-    private \SplObjectStorage $deadTransports;
+    private SplObjectStorage $deadTransports;
     private array $transports = [];
     private int $retryPeriod;
     private int $cursor = -1;
@@ -42,7 +44,7 @@ class RoundRobinTransport implements TransportInterface
         }
 
         $this->transports = $transports;
-        $this->deadTransports = new \SplObjectStorage();
+        $this->deadTransports = new SplObjectStorage();
         $this->retryPeriod = $retryPeriod;
     }
 
@@ -110,7 +112,7 @@ class RoundRobinTransport implements TransportInterface
     {
         // the cursor initial value is randomized so that
         // when are not in a daemon, we are still rotating the transports
-        return mt_rand(0, \count($this->transports) - 1);
+        return mt_rand(0, count($this->transports) - 1);
     }
 
     protected function getNameSymbol(): string
@@ -120,6 +122,6 @@ class RoundRobinTransport implements TransportInterface
 
     private function moveCursor(int $cursor): int
     {
-        return ++$cursor >= \count($this->transports) ? 0 : $cursor;
+        return ++$cursor >= count($this->transports) ? 0 : $cursor;
     }
 }

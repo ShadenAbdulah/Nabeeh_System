@@ -6,6 +6,7 @@ use Aws\Api\Shape;
 use Aws\Api\StructureShape;
 use Aws\Result;
 use Aws\CommandInterface;
+use Exception;
 use Psr\Http\Message\ResponseInterface;
 
 /**
@@ -122,7 +123,7 @@ abstract class AbstractRestParser extends AbstractParser
                         !empty($shape['timestampFormat']) ? $shape['timestampFormat'] : null
                     );
                     break;
-                } catch (\Exception $e) {
+                } catch (Exception $e) {
                     // If the value cannot be parsed, then do not add it to the
                     // output structure.
                     return;
@@ -138,7 +139,7 @@ abstract class AbstractRestParser extends AbstractParser
                         return;
                     }
                     break;
-                } catch (\Exception $e) {
+                } catch (Exception $e) {
                     //If the value cannot be parsed, then do not add it to the
                     //output structure.
                     return;

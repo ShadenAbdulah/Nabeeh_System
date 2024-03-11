@@ -7,14 +7,14 @@ class RouteFileRegistrar
     /**
      * The router instance.
      *
-     * @var \Illuminate\Routing\Router
+     * @var Router
      */
     protected $router;
 
     /**
      * Create a new route file registrar instance.
      *
-     * @param  \Illuminate\Routing\Router  $router
+     * @param Router $router
      * @return void
      */
     public function __construct(Router $router)

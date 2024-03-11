@@ -1,7 +1,9 @@
 <?php
 namespace Hamcrest\Text;
 
-class StringStartsWithTest extends \Hamcrest\AbstractMatcherTest
+use Hamcrest\AbstractMatcherTest;
+
+class StringStartsWithTest extends AbstractMatcherTest
 {
 
     const EXCERPT = 'EXCERPT';
@@ -10,7 +12,7 @@ class StringStartsWithTest extends \Hamcrest\AbstractMatcherTest
 
     protected function setUp()
     {
-        $this->_stringStartsWith = \Hamcrest\Text\StringStartsWith::startsWith(self::EXCERPT);
+        $this->_stringStartsWith = StringStartsWith::startsWith(self::EXCERPT);
     }
 
     protected function createMatcher()

@@ -2,26 +2,28 @@
 namespace Aws\ConnectParticipant;
 
 use Aws\AwsClient;
+use Aws\Result;
+use GuzzleHttp\Promise\Promise;
 
 /**
  * This client is used to interact with the **Amazon Connect Participant Service** service.
- * @method \Aws\Result completeAttachmentUpload(array $args = [])
- * @method \GuzzleHttp\Promise\Promise completeAttachmentUploadAsync(array $args = [])
- * @method \Aws\Result createParticipantConnection(array $args = [])
- * @method \GuzzleHttp\Promise\Promise createParticipantConnectionAsync(array $args = [])
- * @method \Aws\Result describeView(array $args = [])
- * @method \GuzzleHttp\Promise\Promise describeViewAsync(array $args = [])
- * @method \Aws\Result disconnectParticipant(array $args = [])
- * @method \GuzzleHttp\Promise\Promise disconnectParticipantAsync(array $args = [])
- * @method \Aws\Result getAttachment(array $args = [])
- * @method \GuzzleHttp\Promise\Promise getAttachmentAsync(array $args = [])
- * @method \Aws\Result getTranscript(array $args = [])
- * @method \GuzzleHttp\Promise\Promise getTranscriptAsync(array $args = [])
- * @method \Aws\Result sendEvent(array $args = [])
- * @method \GuzzleHttp\Promise\Promise sendEventAsync(array $args = [])
- * @method \Aws\Result sendMessage(array $args = [])
- * @method \GuzzleHttp\Promise\Promise sendMessageAsync(array $args = [])
- * @method \Aws\Result startAttachmentUpload(array $args = [])
- * @method \GuzzleHttp\Promise\Promise startAttachmentUploadAsync(array $args = [])
+ * @method Result completeAttachmentUpload(array $args = [])
+ * @method Promise completeAttachmentUploadAsync(array $args = [])
+ * @method Result createParticipantConnection(array $args = [])
+ * @method Promise createParticipantConnectionAsync(array $args = [])
+ * @method Result describeView(array $args = [])
+ * @method Promise describeViewAsync(array $args = [])
+ * @method Result disconnectParticipant(array $args = [])
+ * @method Promise disconnectParticipantAsync(array $args = [])
+ * @method Result getAttachment(array $args = [])
+ * @method Promise getAttachmentAsync(array $args = [])
+ * @method Result getTranscript(array $args = [])
+ * @method Promise getTranscriptAsync(array $args = [])
+ * @method Result sendEvent(array $args = [])
+ * @method Promise sendEventAsync(array $args = [])
+ * @method Result sendMessage(array $args = [])
+ * @method Promise sendMessageAsync(array $args = [])
+ * @method Result startAttachmentUpload(array $args = [])
+ * @method Promise startAttachmentUploadAsync(array $args = [])
  */
 class ConnectParticipantClient extends AwsClient {}

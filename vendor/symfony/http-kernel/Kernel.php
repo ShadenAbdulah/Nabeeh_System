@@ -11,6 +11,12 @@
 
 namespace Symfony\Component\HttpKernel;
 
+use BadMethodCallException;
+use InvalidArgumentException;
+use LogicException;
+use ReflectionClass;
+use ReflectionObject;
+use RuntimeException;
 use Symfony\Component\Config\Builder\ConfigBuilderGenerator;
 use Symfony\Component\Config\ConfigCache;
 use Symfony\Component\Config\Loader\DelegatingLoader;
@@ -39,6 +45,34 @@ use Symfony\Component\HttpKernel\CacheWarmer\WarmableInterface;
 use Symfony\Component\HttpKernel\Config\FileLocator;
 use Symfony\Component\HttpKernel\DependencyInjection\AddAnnotatedClassesToCachePass;
 use Symfony\Component\HttpKernel\DependencyInjection\MergeExtensionConfigurationPass;
+use Throwable;
+use function array_slice;
+use function count;
+use function defined;
+use function dirname;
+use function function_exists;
+use function in_array;
+use function is_array;
+use function is_object;
+use function strlen;
+use const DEBUG_BACKTRACE_IGNORE_ARGS;
+use const DIRECTORY_SEPARATOR;
+use const E_ALL;
+use const E_DEPRECATED;
+use const E_USER_DEPRECATED;
+use const E_WARNING;
+use const GLOB_NOSORT;
+use const INF;
+use const LOCK_EX;
+use const LOCK_NB;
+use const LOCK_SH;
+use const LOCK_UN;
+use const T_COMMENT;
+use const T_DOC_COMMENT;
+use const T_END_HEREDOC;
+use const T_OPEN_TAG;
+use const T_START_HEREDOC;
+use const T_WHITESPACE;
 
 // Help opcache.preload discover always-needed symbols
 class_exists(ConfigCache::class);
@@ -89,7 +123,7 @@ abstract class Kernel implements KernelInterface, RebootableInterface, Terminabl
     public function __construct(string $environment, bool $debug)
     {
         if (!$this->environment = $environment) {
-            throw new \InvalidArgumentException(sprintf('Invalid environment provided to "%s": the environment cannot be empty.', get_debug_type($this)));
+            throw new InvalidArgumentException(sprintf('Invalid environment provided to "%s": the environment cannot be empty.', get_debug_type($this)));
         }
 
         $this->debug = $debug;
@@ -216,7 +250,7 @@ abstract class Kernel implements KernelInterface, RebootableInterface, Terminabl
     public function getBundle(string $name): BundleInterface
     {
         if (!isset($this->bundles[$name])) {
-            throw new \InvalidArgumentException(sprintf('Bundle "%s" does not exist or it is not enabled. Maybe you forgot to add it in the "registerBundles()" method of your "%s.php" file?', $name, get_debug_type($this)));
+            throw new InvalidArgumentException(sprintf('Bundle "%s" does not exist or it is not enabled. Maybe you forgot to add it in the "registerBundles()" method of your "%s.php" file?', $name, get_debug_type($this)));
         }
 
         return $this->bundles[$name];
@@ -225,11 +259,11 @@ abstract class Kernel implements KernelInterface, RebootableInterface, Terminabl
     public function locateResource(string $name): string
     {
         if ('@' !== $name[0]) {
-            throw new \InvalidArgumentException(sprintf('A resource name must start with @ ("%s" given).', $name));
+            throw new InvalidArgumentException(sprintf('A resource name must start with @ ("%s" given).', $name));
         }
 
         if (str_contains($name, '..')) {
-            throw new \RuntimeException(sprintf('File name "%s" contains invalid characters (..).', $name));
+            throw new RuntimeException(sprintf('File name "%s" contains invalid characters (..).', $name));
         }
 
         $bundleName = substr($name, 1);
@@ -243,7 +277,7 @@ abstract class Kernel implements KernelInterface, RebootableInterface, Terminabl
             return $file;
         }
 
-        throw new \InvalidArgumentException(sprintf('Unable to find file "%s".', $name));
+        throw new InvalidArgumentException(sprintf('Unable to find file "%s".', $name));
     }
 
     public function getEnvironment(): string
@@ -262,18 +296,18 @@ abstract class Kernel implements KernelInterface, RebootableInterface, Terminabl
     public function getProjectDir(): string
     {
         if (!isset($this->projectDir)) {
-            $r = new \ReflectionObject($this);
+            $r = new ReflectionObject($this);
 
             if (!is_file($dir = $r->getFileName())) {
-                throw new \LogicException(sprintf('Cannot auto-detect project dir for kernel of class "%s".', $r->name));
+                throw new LogicException(sprintf('Cannot auto-detect project dir for kernel of class "%s".', $r->name));
             }
 
-            $dir = $rootDir = \dirname($dir);
+            $dir = $rootDir = dirname($dir);
             while (!is_file($dir.'/composer.json')) {
-                if ($dir === \dirname($dir)) {
+                if ($dir === dirname($dir)) {
                     return $this->projectDir = $rootDir;
                 }
-                $dir = \dirname($dir);
+                $dir = dirname($dir);
             }
             $this->projectDir = $dir;
         }
@@ -284,7 +318,7 @@ abstract class Kernel implements KernelInterface, RebootableInterface, Terminabl
     public function getContainer(): ContainerInterface
     {
         if (!$this->container) {
-            throw new \LogicException('Cannot retrieve the container from a non-booted kernel.');
+            throw new LogicException('Cannot retrieve the container from a non-booted kernel.');
         }
 
         return $this->container;
@@ -300,7 +334,7 @@ abstract class Kernel implements KernelInterface, RebootableInterface, Terminabl
 
     public function getStartTime(): float
     {
-        return $this->debug && null !== $this->startTime ? $this->startTime : -\INF;
+        return $this->debug && null !== $this->startTime ? $this->startTime : -INF;
     }
 
     public function getCacheDir(): string
@@ -337,7 +371,7 @@ abstract class Kernel implements KernelInterface, RebootableInterface, Terminabl
      *
      * @return void
      *
-     * @throws \LogicException if two bundles share a common name
+     * @throws LogicException if two bundles share a common name
      */
     protected function initializeBundles()
     {
@@ -346,7 +380,7 @@ abstract class Kernel implements KernelInterface, RebootableInterface, Terminabl
         foreach ($this->registerBundles() as $bundle) {
             $name = $bundle->getName();
             if (isset($this->bundles[$name])) {
-                throw new \LogicException(sprintf('Trying to register two bundles with the same name "%s".', $name));
+                throw new LogicException(sprintf('Trying to register two bundles with the same name "%s".', $name));
             }
             $this->bundles[$name] = $bundle;
         }
@@ -366,7 +400,7 @@ abstract class Kernel implements KernelInterface, RebootableInterface, Terminabl
     /**
      * Gets the container class.
      *
-     * @throws \InvalidArgumentException If the generated classname is invalid
+     * @throws InvalidArgumentException If the generated classname is invalid
      */
     protected function getContainerClass(): string
     {
@@ -375,7 +409,7 @@ abstract class Kernel implements KernelInterface, RebootableInterface, Terminabl
         $class = str_replace('\\', '_', $class).ucfirst($this->environment).($this->debug ? 'Debug' : '').'Container';
 
         if (!preg_match('/^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*$/', $class)) {
-            throw new \InvalidArgumentException(sprintf('The environment "%s" contains invalid characters, it can only contain characters allowed in PHP class names.', $this->environment));
+            throw new InvalidArgumentException(sprintf('The environment "%s" contains invalid characters, it can only contain characters allowed in PHP class names.', $this->environment));
         }
 
         return $class;
@@ -407,10 +441,10 @@ abstract class Kernel implements KernelInterface, RebootableInterface, Terminabl
         $cachePath = $cache->getPath();
 
         // Silence E_WARNING to ignore "include" failures - don't use "@" to prevent silencing fatal errors
-        $errorLevel = error_reporting(\E_ALL ^ \E_WARNING);
+        $errorLevel = error_reporting(E_ALL ^ E_WARNING);
 
         try {
-            if (is_file($cachePath) && \is_object($this->container = include $cachePath)
+            if (is_file($cachePath) && is_object($this->container = include $cachePath)
                 && (!$this->debug || (self::$freshCache[$cachePath] ?? $cache->isFresh()))
             ) {
                 self::$freshCache[$cachePath] = true;
@@ -419,37 +453,37 @@ abstract class Kernel implements KernelInterface, RebootableInterface, Terminabl
 
                 return;
             }
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
         }
 
-        $oldContainer = \is_object($this->container) ? new \ReflectionClass($this->container) : $this->container = null;
+        $oldContainer = is_object($this->container) ? new ReflectionClass($this->container) : $this->container = null;
 
         try {
             is_dir($buildDir) ?: mkdir($buildDir, 0777, true);
 
             if ($lock = fopen($cachePath.'.lock', 'w+')) {
-                if (!flock($lock, \LOCK_EX | \LOCK_NB, $wouldBlock) && !flock($lock, $wouldBlock ? \LOCK_SH : \LOCK_EX)) {
+                if (!flock($lock, LOCK_EX | LOCK_NB, $wouldBlock) && !flock($lock, $wouldBlock ? LOCK_SH : LOCK_EX)) {
                     fclose($lock);
                     $lock = null;
-                } elseif (!is_file($cachePath) || !\is_object($this->container = include $cachePath)) {
+                } elseif (!is_file($cachePath) || !is_object($this->container = include $cachePath)) {
                     $this->container = null;
                 } elseif (!$oldContainer || $this->container::class !== $oldContainer->name) {
-                    flock($lock, \LOCK_UN);
+                    flock($lock, LOCK_UN);
                     fclose($lock);
                     $this->container->set('kernel', $this);
 
                     return;
                 }
             }
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
         } finally {
             error_reporting($errorLevel);
         }
 
-        if ($collectDeprecations = $this->debug && !\defined('PHPUNIT_COMPOSER_INSTALL')) {
+        if ($collectDeprecations = $this->debug && !defined('PHPUNIT_COMPOSER_INSTALL')) {
             $collectedLogs = [];
             $previousHandler = set_error_handler(function ($type, $message, $file, $line) use (&$collectedLogs, &$previousHandler) {
-                if (\E_USER_DEPRECATED !== $type && \E_DEPRECATED !== $type) {
+                if (E_USER_DEPRECATED !== $type && E_DEPRECATED !== $type) {
                     return $previousHandler ? $previousHandler($type, $message, $file, $line) : false;
                 }
 
@@ -459,11 +493,11 @@ abstract class Kernel implements KernelInterface, RebootableInterface, Terminabl
                     return null;
                 }
 
-                $backtrace = debug_backtrace(\DEBUG_BACKTRACE_IGNORE_ARGS, 5);
+                $backtrace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 5);
                 // Clean the trace by removing first frames added by the error handler itself.
                 for ($i = 0; isset($backtrace[$i]); ++$i) {
                     if (isset($backtrace[$i]['file'], $backtrace[$i]['line']) && $backtrace[$i]['line'] === $line && $backtrace[$i]['file'] === $file) {
-                        $backtrace = \array_slice($backtrace, 1 + $i);
+                        $backtrace = array_slice($backtrace, 1 + $i);
                         break;
                     }
                 }
@@ -474,13 +508,13 @@ abstract class Kernel implements KernelInterface, RebootableInterface, Terminabl
                     if (!isset($backtrace[$i]['class']) && 'trigger_deprecation' === $backtrace[$i]['function']) {
                         $file = $backtrace[$i]['file'];
                         $line = $backtrace[$i]['line'];
-                        $backtrace = \array_slice($backtrace, 1 + $i);
+                        $backtrace = array_slice($backtrace, 1 + $i);
                         break;
                     }
                 }
 
                 // Remove frames added by DebugClassLoader.
-                for ($i = \count($backtrace) - 2; 0 < $i; --$i) {
+                for ($i = count($backtrace) - 2; 0 < $i; --$i) {
                     if (DebugClassLoader::class === ($backtrace[$i]['class'] ?? null)) {
                         $backtrace = [$backtrace[$i + 1]];
                         break;
@@ -516,7 +550,7 @@ abstract class Kernel implements KernelInterface, RebootableInterface, Terminabl
         $this->dumpContainer($cache, $container, $class, $this->getContainerBaseClass());
 
         if ($lock) {
-            flock($lock, \LOCK_UN);
+            flock($lock, LOCK_UN);
             fclose($lock);
         }
 
@@ -528,9 +562,9 @@ abstract class Kernel implements KernelInterface, RebootableInterface, Terminabl
             // old container files are not removed immediately,
             // but on a next dump of the container.
             static $legacyContainers = [];
-            $oldContainerDir = \dirname($oldContainer->getFileName());
+            $oldContainerDir = dirname($oldContainer->getFileName());
             $legacyContainers[$oldContainerDir.'.legacy'] = true;
-            foreach (glob(\dirname($oldContainerDir).\DIRECTORY_SEPARATOR.'*.legacy', \GLOB_NOSORT) as $legacyContainer) {
+            foreach (glob(dirname($oldContainerDir). DIRECTORY_SEPARATOR.'*.legacy', GLOB_NOSORT) as $legacyContainer) {
                 if (!isset($legacyContainers[$legacyContainer]) && @unlink($legacyContainer)) {
                     (new Filesystem())->remove(substr($legacyContainer, 0, -7));
                 }
@@ -588,17 +622,17 @@ abstract class Kernel implements KernelInterface, RebootableInterface, Terminabl
     /**
      * Builds the service container.
      *
-     * @throws \RuntimeException
+     * @throws RuntimeException
      */
     protected function buildContainer(): ContainerBuilder
     {
         foreach (['cache' => $this->getCacheDir(), 'build' => $this->warmupDir ?: $this->getBuildDir(), 'logs' => $this->getLogDir()] as $name => $dir) {
             if (!is_dir($dir)) {
                 if (false === @mkdir($dir, 0777, true) && !is_dir($dir)) {
-                    throw new \RuntimeException(sprintf('Unable to create the "%s" directory (%s).', $name, $dir));
+                    throw new RuntimeException(sprintf('Unable to create the "%s" directory (%s).', $name, $dir));
                 }
             } elseif (!is_writable($dir)) {
-                throw new \RuntimeException(sprintf('Unable to write in the "%s" directory (%s).', $name, $dir));
+                throw new RuntimeException(sprintf('Unable to write in the "%s" directory (%s).', $name, $dir));
             }
         }
 
@@ -711,14 +745,14 @@ abstract class Kernel implements KernelInterface, RebootableInterface, Terminabl
         ]);
 
         $rootCode = array_pop($content);
-        $dir = \dirname($cache->getPath()).'/';
+        $dir = dirname($cache->getPath()).'/';
         $fs = new Filesystem();
 
         foreach ($content as $file => $code) {
             $fs->dumpFile($dir.$file, $code);
             @chmod($dir.$file, 0666 & ~umask());
         }
-        $legacyFile = \dirname($dir.key($content)).'.legacy';
+        $legacyFile = dirname($dir.key($content)).'.legacy';
         if (is_file($legacyFile)) {
             @unlink($legacyFile);
         }
@@ -752,7 +786,7 @@ abstract class Kernel implements KernelInterface, RebootableInterface, Terminabl
             $this->startTime = microtime(true);
         }
         if ($this->debug && !isset($_ENV['SHELL_VERBOSITY']) && !isset($_SERVER['SHELL_VERBOSITY'])) {
-            if (\function_exists('putenv')) {
+            if (function_exists('putenv')) {
                 putenv('SHELL_VERBOSITY=3');
             }
             $_ENV['SHELL_VERBOSITY'] = 3;
@@ -769,7 +803,7 @@ abstract class Kernel implements KernelInterface, RebootableInterface, Terminabl
         }
 
         if ($container->hasParameter('kernel.trusted_proxies') && $container->hasParameter('kernel.trusted_headers') && $trustedProxies = $container->getParameter('kernel.trusted_proxies')) {
-            Request::setTrustedProxies(\is_array($trustedProxies) ? $trustedProxies : array_map('trim', explode(',', $trustedProxies)), $container->getParameter('kernel.trusted_headers'));
+            Request::setTrustedProxies(is_array($trustedProxies) ? $trustedProxies : array_map('trim', explode(',', $trustedProxies)), $container->getParameter('kernel.trusted_headers'));
         }
 
         return $container;
@@ -787,7 +821,7 @@ abstract class Kernel implements KernelInterface, RebootableInterface, Terminabl
     {
         trigger_deprecation('symfony/http-kernel', '6.4', 'Method "%s()" is deprecated without replacement.', __METHOD__);
 
-        if (!\function_exists('token_get_all')) {
+        if (!function_exists('token_get_all')) {
             return $source;
         }
 
@@ -799,14 +833,14 @@ abstract class Kernel implements KernelInterface, RebootableInterface, Terminabl
             $token = $tokens[$i];
             if (!isset($token[1]) || 'b"' === $token) {
                 $rawChunk .= $token;
-            } elseif (\T_START_HEREDOC === $token[0]) {
+            } elseif (T_START_HEREDOC === $token[0]) {
                 $output .= $rawChunk.$token[1];
                 do {
                     $token = $tokens[++$i];
                     $output .= isset($token[1]) && 'b"' !== $token ? $token[1] : $token;
-                } while (\T_END_HEREDOC !== $token[0]);
+                } while (T_END_HEREDOC !== $token[0]);
                 $rawChunk = '';
-            } elseif (\T_WHITESPACE === $token[0]) {
+            } elseif (T_WHITESPACE === $token[0]) {
                 if ($ignoreSpace) {
                     $ignoreSpace = false;
 
@@ -815,8 +849,8 @@ abstract class Kernel implements KernelInterface, RebootableInterface, Terminabl
 
                 // replace multiple new lines with a single newline
                 $rawChunk .= preg_replace(['/\n{2,}/S'], "\n", $token[1]);
-            } elseif (\in_array($token[0], [\T_COMMENT, \T_DOC_COMMENT])) {
-                if (!\in_array($rawChunk[\strlen($rawChunk) - 1], [' ', "\n", "\r", "\t"], true)) {
+            } elseif (in_array($token[0], [T_COMMENT, T_DOC_COMMENT])) {
+                if (!in_array($rawChunk[strlen($rawChunk) - 1], [' ', "\n", "\r", "\t"], true)) {
                     $rawChunk .= ' ';
                 }
                 $ignoreSpace = true;
@@ -824,7 +858,7 @@ abstract class Kernel implements KernelInterface, RebootableInterface, Terminabl
                 $rawChunk .= $token[1];
 
                 // The PHP-open tag already has a new-line
-                if (\T_OPEN_TAG === $token[0]) {
+                if (T_OPEN_TAG === $token[0]) {
                     $ignoreSpace = true;
                 } else {
                     $ignoreSpace = false;
@@ -850,8 +884,8 @@ abstract class Kernel implements KernelInterface, RebootableInterface, Terminabl
      */
     public function __wakeup()
     {
-        if (\is_object($this->environment) || \is_object($this->debug)) {
-            throw new \BadMethodCallException('Cannot unserialize '.__CLASS__);
+        if (is_object($this->environment) || is_object($this->debug)) {
+            throw new BadMethodCallException('Cannot unserialize '.__CLASS__);
         }
 
         $this->__construct($this->environment, $this->debug);

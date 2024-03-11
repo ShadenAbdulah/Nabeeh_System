@@ -1,6 +1,7 @@
 <?php
 namespace Hamcrest\Collection;
 
+use ArrayObject;
 use Hamcrest\AbstractMatcherTest;
 
 class IsEmptyTraversableTest extends AbstractMatcherTest
@@ -15,7 +16,7 @@ class IsEmptyTraversableTest extends AbstractMatcherTest
     {
         $this->assertMatches(
             emptyTraversable(),
-            new \ArrayObject(array()),
+            new ArrayObject(array()),
             'an empty traversable'
         );
     }
@@ -24,7 +25,7 @@ class IsEmptyTraversableTest extends AbstractMatcherTest
     {
         $this->assertDoesNotMatch(
             emptyTraversable(),
-            new \ArrayObject(array(1, 2, 3)),
+            new ArrayObject(array(1, 2, 3)),
             'a non-empty traversable'
         );
     }
@@ -56,7 +57,7 @@ class IsEmptyTraversableTest extends AbstractMatcherTest
     {
         $this->assertDoesNotMatch(
             nonEmptyTraversable(),
-            new \ArrayObject(array()),
+            new ArrayObject(array()),
             'an empty traversable'
         );
     }
@@ -65,7 +66,7 @@ class IsEmptyTraversableTest extends AbstractMatcherTest
     {
         $this->assertMatches(
             nonEmptyTraversable(),
-            new \ArrayObject(array(1, 2, 3)),
+            new ArrayObject(array(1, 2, 3)),
             'a non-empty traversable'
         );
     }

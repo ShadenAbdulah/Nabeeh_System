@@ -3,6 +3,7 @@
 namespace Illuminate\Queue\Connectors;
 
 use Aws\Sqs\SqsClient;
+use Illuminate\Contracts\Queue\Queue;
 use Illuminate\Queue\SqsQueue;
 use Illuminate\Support\Arr;
 
@@ -12,7 +13,7 @@ class SqsConnector implements ConnectorInterface
      * Establish a queue connection.
      *
      * @param  array  $config
-     * @return \Illuminate\Contracts\Queue\Queue
+     * @return Queue
      */
     public function connect(array $config)
     {

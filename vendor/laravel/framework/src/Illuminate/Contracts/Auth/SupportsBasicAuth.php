@@ -2,6 +2,8 @@
 
 namespace Illuminate\Contracts\Auth;
 
+use Symfony\Component\HttpFoundation\Response;
+
 interface SupportsBasicAuth
 {
     /**
@@ -9,7 +11,7 @@ interface SupportsBasicAuth
      *
      * @param  string  $field
      * @param  array  $extraConditions
-     * @return \Symfony\Component\HttpFoundation\Response|null
+     * @return Response|null
      */
     public function basic($field = 'email', $extraConditions = []);
 
@@ -18,7 +20,7 @@ interface SupportsBasicAuth
      *
      * @param  string  $field
      * @param  array  $extraConditions
-     * @return \Symfony\Component\HttpFoundation\Response|null
+     * @return Response|null
      */
     public function onceBasic($field = 'email', $extraConditions = []);
 }

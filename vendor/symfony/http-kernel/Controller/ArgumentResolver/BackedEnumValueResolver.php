@@ -11,11 +11,17 @@
 
 namespace Symfony\Component\HttpKernel\Controller\ArgumentResolver;
 
+use BackedEnum;
+use LogicException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Controller\ArgumentValueResolverInterface;
 use Symfony\Component\HttpKernel\Controller\ValueResolverInterface;
 use Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadata;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use TypeError;
+use ValueError;
+use function is_int;
+use function is_string;
 
 /**
  * Attempt to resolve backed enum cases from request attributes, for a route path parameter,
@@ -34,7 +40,7 @@ class BackedEnumValueResolver implements ArgumentValueResolverInterface, ValueRe
     {
         @trigger_deprecation('symfony/http-kernel', '6.2', 'The "%s()" method is deprecated, use "resolve()" instead.', __METHOD__);
 
-        if (!is_subclass_of($argument->getType(), \BackedEnum::class)) {
+        if (!is_subclass_of($argument->getType(), BackedEnum::class)) {
             return false;
         }
 
@@ -51,7 +57,7 @@ class BackedEnumValueResolver implements ArgumentValueResolverInterface, ValueRe
 
     public function resolve(Request $request, ArgumentMetadata $argument): iterable
     {
-        if (!is_subclass_of($argument->getType(), \BackedEnum::class)) {
+        if (!is_subclass_of($argument->getType(), BackedEnum::class)) {
             return [];
         }
 
@@ -73,20 +79,20 @@ class BackedEnumValueResolver implements ArgumentValueResolverInterface, ValueRe
             return [null];
         }
 
-        if ($value instanceof \BackedEnum) {
+        if ($value instanceof BackedEnum) {
             return [$value];
         }
 
-        if (!\is_int($value) && !\is_string($value)) {
-            throw new \LogicException(sprintf('Could not resolve the "%s $%s" controller argument: expecting an int or string, got "%s".', $argument->getType(), $argument->getName(), get_debug_type($value)));
+        if (!is_int($value) && !is_string($value)) {
+            throw new LogicException(sprintf('Could not resolve the "%s $%s" controller argument: expecting an int or string, got "%s".', $argument->getType(), $argument->getName(), get_debug_type($value)));
         }
 
-        /** @var class-string<\BackedEnum> $enumType */
+        /** @var class-string<BackedEnum> $enumType */
         $enumType = $argument->getType();
 
         try {
             return [$enumType::from($value)];
-        } catch (\ValueError|\TypeError $e) {
+        } catch (ValueError|TypeError $e) {
             throw new NotFoundHttpException(sprintf('Could not resolve the "%s $%s" controller argument: ', $argument->getType(), $argument->getName()).$e->getMessage(), $e);
         }
     }

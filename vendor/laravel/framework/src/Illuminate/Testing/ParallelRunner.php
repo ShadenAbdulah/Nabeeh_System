@@ -3,6 +3,7 @@
 namespace Illuminate\Testing;
 
 use Illuminate\Testing\Concerns\RunsInParallel;
+use ParaTest\Runners\PHPUnit\RunnerInterface;
 
 if (interface_exists(\ParaTest\RunnerInterface::class)) {
     class ParallelRunner implements \ParaTest\RunnerInterface
@@ -20,7 +21,7 @@ if (interface_exists(\ParaTest\RunnerInterface::class)) {
         }
     }
 } else {
-    class ParallelRunner implements \ParaTest\Runners\PHPUnit\RunnerInterface
+    class ParallelRunner implements RunnerInterface
     {
         use RunsInParallel;
 

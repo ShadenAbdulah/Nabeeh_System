@@ -162,8 +162,8 @@ class Flare
     }
 
     /**
-     * @param \Spatie\FlareClient\Http\Client $client
-     * @param \Spatie\FlareClient\Context\ContextProviderDetector|null $contextDetector
+     * @param Client $client
+     * @param ContextProviderDetector|null $contextDetector
      * @param array<int, FlareMiddleware> $middleware
      */
     public function __construct(

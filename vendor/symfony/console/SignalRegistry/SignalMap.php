@@ -11,6 +11,10 @@
 
 namespace Symfony\Component\Console\SignalRegistry;
 
+use ReflectionExtension;
+use function extension_loaded;
+use const ARRAY_FILTER_USE_KEY;
+
 /**
  * @author Grégoire Pineau <lyrixx@lyrixx.info>
  */
@@ -20,14 +24,14 @@ class SignalMap
 
     public static function getSignalName(int $signal): ?string
     {
-        if (!\extension_loaded('pcntl')) {
+        if (!extension_loaded('pcntl')) {
             return null;
         }
 
         if (!isset(self::$map)) {
-            $r = new \ReflectionExtension('pcntl');
+            $r = new ReflectionExtension('pcntl');
             $c = $r->getConstants();
-            $map = array_filter($c, fn ($k) => str_starts_with($k, 'SIG') && !str_starts_with($k, 'SIG_'), \ARRAY_FILTER_USE_KEY);
+            $map = array_filter($c, fn ($k) => str_starts_with($k, 'SIG') && !str_starts_with($k, 'SIG_'), ARRAY_FILTER_USE_KEY);
             self::$map = array_flip($map);
         }
 

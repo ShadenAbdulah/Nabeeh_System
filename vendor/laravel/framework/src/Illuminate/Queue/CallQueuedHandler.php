@@ -2,6 +2,7 @@
 
 namespace Illuminate\Queue;
 
+use __PHP_Incomplete_Class;
 use Exception;
 use Illuminate\Bus\Batchable;
 use Illuminate\Bus\UniqueLock;
@@ -16,28 +17,29 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Pipeline\Pipeline;
 use ReflectionClass;
 use RuntimeException;
+use Throwable;
 
 class CallQueuedHandler
 {
     /**
      * The bus dispatcher implementation.
      *
-     * @var \Illuminate\Contracts\Bus\Dispatcher
+     * @var Dispatcher
      */
     protected $dispatcher;
 
     /**
      * The container instance.
      *
-     * @var \Illuminate\Contracts\Container\Container
+     * @var Container
      */
     protected $container;
 
     /**
      * Create a new handler instance.
      *
-     * @param  \Illuminate\Contracts\Bus\Dispatcher  $dispatcher
-     * @param  \Illuminate\Contracts\Container\Container  $container
+     * @param Dispatcher $dispatcher
+     * @param Container $container
      * @return void
      */
     public function __construct(Dispatcher $dispatcher, Container $container)
@@ -49,7 +51,7 @@ class CallQueuedHandler
     /**
      * Handle the queued job.
      *
-     * @param  \Illuminate\Contracts\Queue\Job  $job
+     * @param Job $job
      * @param  array  $data
      * @return void
      */
@@ -89,7 +91,7 @@ class CallQueuedHandler
      * @param  array  $data
      * @return mixed
      *
-     * @throws \RuntimeException
+     * @throws RuntimeException
      */
     protected function getCommand(array $data)
     {
@@ -107,13 +109,13 @@ class CallQueuedHandler
     /**
      * Dispatch the given job / command through its specified middleware.
      *
-     * @param  \Illuminate\Contracts\Queue\Job  $job
+     * @param Job $job
      * @param  mixed  $command
      * @return mixed
      */
     protected function dispatchThroughMiddleware(Job $job, $command)
     {
-        if ($command instanceof \__PHP_Incomplete_Class) {
+        if ($command instanceof __PHP_Incomplete_Class) {
             throw new Exception('Job is incomplete class: '.json_encode($command));
         }
 
@@ -129,7 +131,7 @@ class CallQueuedHandler
     /**
      * Resolve the handler for the given command.
      *
-     * @param  \Illuminate\Contracts\Queue\Job  $job
+     * @param Job $job
      * @param  mixed  $command
      * @return mixed
      */
@@ -147,7 +149,7 @@ class CallQueuedHandler
     /**
      * Set the job instance of the given class if necessary.
      *
-     * @param  \Illuminate\Contracts\Queue\Job  $job
+     * @param Job $job
      * @param  mixed  $instance
      * @return mixed
      */
@@ -209,8 +211,8 @@ class CallQueuedHandler
     /**
      * Handle a model not found exception.
      *
-     * @param  \Illuminate\Contracts\Queue\Job  $job
-     * @param  \Throwable  $e
+     * @param Job $job
+     * @param  Throwable  $e
      * @return void
      */
     protected function handleModelNotFound(Job $job, $e)
@@ -237,7 +239,7 @@ class CallQueuedHandler
      * The exception that caused the failure will be passed.
      *
      * @param  array  $data
-     * @param  \Throwable|null  $e
+     * @param  Throwable|null  $e
      * @param  string  $uuid
      * @return void
      */
@@ -249,7 +251,7 @@ class CallQueuedHandler
             $this->ensureUniqueJobLockIsReleased($command);
         }
 
-        if ($command instanceof \__PHP_Incomplete_Class) {
+        if ($command instanceof __PHP_Incomplete_Class) {
             return;
         }
 
@@ -266,7 +268,7 @@ class CallQueuedHandler
      *
      * @param  string  $uuid
      * @param  mixed  $command
-     * @param  \Throwable  $e
+     * @param  Throwable  $e
      * @return void
      */
     protected function ensureFailedBatchJobIsRecorded(string $uuid, $command, $e)
@@ -285,7 +287,7 @@ class CallQueuedHandler
      *
      * @param  string  $uuid
      * @param  mixed  $command
-     * @param  \Throwable  $e
+     * @param  Throwable  $e
      * @return void
      */
     protected function ensureChainCatchCallbacksAreInvoked(string $uuid, $command, $e)

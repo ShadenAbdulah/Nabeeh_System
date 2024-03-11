@@ -7,11 +7,12 @@ use Aws\ConfigurationProviderInterface;
 use Aws\EndpointDiscovery\Exception\ConfigurationException;
 use GuzzleHttp\Promise;
 use GuzzleHttp\Promise\PromiseInterface;
+use InvalidArgumentException;
 
 /**
  * A configuration provider is a function that returns a promise that is
- * fulfilled with a {@see \Aws\EndpointDiscovery\ConfigurationInterface}
- * or rejected with an {@see \Aws\EndpointDiscovery\Exception\ConfigurationException}.
+ * fulfilled with a {@see ConfigurationInterface}
+ * or rejected with an {@see ConfigurationException}.
  *
  * <code>
  * use Aws\EndpointDiscovery\ConfigurationProvider;
@@ -209,7 +210,7 @@ class ConfigurationProvider extends AbstractConfigurationProvider
      *
      * @param  mixed $config
      * @return ConfigurationInterface
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public static function unwrap($config)
     {
@@ -234,7 +235,7 @@ class ConfigurationProvider extends AbstractConfigurationProvider
             );
         }
 
-        throw new \InvalidArgumentException('Not a valid endpoint_discovery '
+        throw new InvalidArgumentException('Not a valid endpoint_discovery '
             . 'configuration argument.');
     }
 }

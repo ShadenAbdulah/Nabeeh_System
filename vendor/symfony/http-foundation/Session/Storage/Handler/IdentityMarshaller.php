@@ -11,7 +11,9 @@
 
 namespace Symfony\Component\HttpFoundation\Session\Storage\Handler;
 
+use LogicException;
 use Symfony\Component\Cache\Marshaller\MarshallerInterface;
+use function is_string;
 
 /**
  * @author Ahmed TAILOULOUTE <ahmed.tailouloute@gmail.com>
@@ -21,8 +23,8 @@ class IdentityMarshaller implements MarshallerInterface
     public function marshall(array $values, ?array &$failed): array
     {
         foreach ($values as $key => $value) {
-            if (!\is_string($value)) {
-                throw new \LogicException(sprintf('%s accepts only string as data.', __METHOD__));
+            if (!is_string($value)) {
+                throw new LogicException(sprintf('%s accepts only string as data.', __METHOD__));
             }
         }
 

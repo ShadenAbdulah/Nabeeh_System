@@ -11,6 +11,8 @@
 
 namespace Monolog\Attribute;
 
+use Attribute;
+
 /**
  * A reusable attribute to help configure a class or a method as a processor.
  *
@@ -19,7 +21,7 @@ namespace Monolog\Attribute;
  * Using it with the Monolog library only has no effect at all: processors should still be turned into a callable if
  * needed and manually pushed to the loggers and to the processable handlers.
  */
-#[\Attribute(\Attribute::TARGET_CLASS | \Attribute::TARGET_METHOD | \Attribute::IS_REPEATABLE)]
+#[Attribute(Attribute::TARGET_CLASS | Attribute::TARGET_METHOD | Attribute::IS_REPEATABLE)]
 class AsMonologProcessor
 {
     /**

@@ -13,8 +13,21 @@ namespace Symfony\Component\Translation\Extractor;
 
 trigger_deprecation('symfony/translation', '6.2', '"%s" is deprecated, use "%s" instead.', PhpExtractor::class, PhpAstExtractor::class);
 
+use ArrayIterator;
+use InvalidArgumentException;
+use Iterator;
+use LogicException;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Translation\MessageCatalogue;
+use function count;
+use function in_array;
+use const PATHINFO_EXTENSION;
+use const PREG_SPLIT_DELIM_CAPTURE;
+use const T_CONSTANT_ENCAPSED_STRING;
+use const T_ENCAPSED_AND_WHITESPACE;
+use const T_END_HEREDOC;
+use const T_START_HEREDOC;
+use const T_WHITESPACE;
 
 /**
  * PhpExtractor extracts translation messages from a PHP template.
@@ -168,17 +181,17 @@ class PhpExtractor extends AbstractFileExtractor implements ExtractorInterface
     /**
      * Seeks to a non-whitespace token.
      */
-    private function seekToNextRelevantToken(\Iterator $tokenIterator): void
+    private function seekToNextRelevantToken(Iterator $tokenIterator): void
     {
         for (; $tokenIterator->valid(); $tokenIterator->next()) {
             $t = $tokenIterator->current();
-            if (\T_WHITESPACE !== $t[0]) {
+            if (T_WHITESPACE !== $t[0]) {
                 break;
             }
         }
     }
 
-    private function skipMethodArgument(\Iterator $tokenIterator): void
+    private function skipMethodArgument(Iterator $tokenIterator): void
     {
         $openBraces = 0;
 
@@ -203,7 +216,7 @@ class PhpExtractor extends AbstractFileExtractor implements ExtractorInterface
      * Extracts the message from the iterator while the tokens
      * match allowed message tokens.
      */
-    private function getValue(\Iterator $tokenIterator): string
+    private function getValue(Iterator $tokenIterator): string
     {
         $message = '';
         $docToken = '';
@@ -220,24 +233,24 @@ class PhpExtractor extends AbstractFileExtractor implements ExtractorInterface
             }
 
             switch ($t[0]) {
-                case \T_START_HEREDOC:
+                case T_START_HEREDOC:
                     $docToken = $t[1];
                     break;
-                case \T_ENCAPSED_AND_WHITESPACE:
-                case \T_CONSTANT_ENCAPSED_STRING:
+                case T_ENCAPSED_AND_WHITESPACE:
+                case T_CONSTANT_ENCAPSED_STRING:
                     if ('' === $docToken) {
                         $message .= PhpStringTokenParser::parse($t[1]);
                     } else {
                         $docPart = $t[1];
                     }
                     break;
-                case \T_END_HEREDOC:
+                case T_END_HEREDOC:
                     if ($indentation = strspn($t[1], ' ')) {
                         $docPartWithLineBreaks = $docPart;
                         $docPart = '';
 
-                        foreach (preg_split('~(\r\n|\n|\r)~', $docPartWithLineBreaks, -1, \PREG_SPLIT_DELIM_CAPTURE) as $str) {
-                            if (\in_array($str, ["\r\n", "\n", "\r"], true)) {
+                        foreach (preg_split('~(\r\n|\n|\r)~', $docPartWithLineBreaks, -1, PREG_SPLIT_DELIM_CAPTURE) as $str) {
+                            if (in_array($str, ["\r\n", "\n", "\r"], true)) {
                                 $docPart .= $str;
                             } else {
                                 $docPart .= substr($str, $indentation);
@@ -249,7 +262,7 @@ class PhpExtractor extends AbstractFileExtractor implements ExtractorInterface
                     $docToken = '';
                     $docPart = '';
                     break;
-                case \T_WHITESPACE:
+                case T_WHITESPACE:
                     break;
                 default:
                     break 2;
@@ -266,7 +279,7 @@ class PhpExtractor extends AbstractFileExtractor implements ExtractorInterface
      */
     protected function parseTokens(array $tokens, MessageCatalogue $catalog, string $filename)
     {
-        $tokenIterator = new \ArrayIterator($tokens);
+        $tokenIterator = new ArrayIterator($tokens);
 
         for ($key = 0; $key < $tokenIterator->count(); ++$key) {
             foreach ($this->sequences as $sequence) {
@@ -283,7 +296,7 @@ class PhpExtractor extends AbstractFileExtractor implements ExtractorInterface
                     } elseif (self::MESSAGE_TOKEN === $item) {
                         $message = $this->getValue($tokenIterator);
 
-                        if (\count($sequence) === ($sequenceKey + 1)) {
+                        if (count($sequence) === ($sequenceKey + 1)) {
                             break;
                         }
                     } elseif (self::METHOD_ARGUMENTS_TOKEN === $item) {
@@ -313,17 +326,17 @@ class PhpExtractor extends AbstractFileExtractor implements ExtractorInterface
     }
 
     /**
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     protected function canBeExtracted(string $file): bool
     {
-        return $this->isFile($file) && 'php' === pathinfo($file, \PATHINFO_EXTENSION);
+        return $this->isFile($file) && 'php' === pathinfo($file, PATHINFO_EXTENSION);
     }
 
     protected function extractFromDirectory(string|array $directory): iterable
     {
         if (!class_exists(Finder::class)) {
-            throw new \LogicException(sprintf('You cannot use "%s" as the "symfony/finder" package is not installed. Try running "composer require symfony/finder".', static::class));
+            throw new LogicException(sprintf('You cannot use "%s" as the "symfony/finder" package is not installed. Try running "composer require symfony/finder".', static::class));
         }
 
         $finder = new Finder();

@@ -11,6 +11,12 @@
 
 namespace Psy\TabCompletion\Matcher;
 
+use function array_filter;
+use function array_keys;
+use function array_pop;
+use function is_string;
+use function str_replace;
+
 /**
  * A variable name tab completion Matcher.
  *
@@ -25,9 +31,9 @@ class VariablesMatcher extends AbstractContextAwareMatcher
      */
     public function getMatches(array $tokens, array $info = []): array
     {
-        $var = \str_replace('$', '', $this->getInput($tokens));
+        $var = str_replace('$', '', $this->getInput($tokens));
 
-        return \array_filter(\array_keys($this->getVariables()), function ($variable) use ($var) {
+        return array_filter(array_keys($this->getVariables()), function ($variable) use ($var) {
             return AbstractMatcher::startsWith($var, $variable);
         });
     }
@@ -37,11 +43,11 @@ class VariablesMatcher extends AbstractContextAwareMatcher
      */
     public function hasMatched(array $tokens): bool
     {
-        $token = \array_pop($tokens);
+        $token = array_pop($tokens);
 
         switch (true) {
             case self::hasToken([self::T_OPEN_TAG, self::T_VARIABLE], $token):
-            case \is_string($token) && $token === '$':
+            case is_string($token) && $token === '$':
             case self::isOperator($token):
                 return true;
         }

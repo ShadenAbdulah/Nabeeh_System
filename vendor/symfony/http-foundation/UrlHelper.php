@@ -13,6 +13,7 @@ namespace Symfony\Component\HttpFoundation;
 
 use Symfony\Component\Routing\RequestContext;
 use Symfony\Component\Routing\RequestContextAwareInterface;
+use function strlen;
 
 /**
  * A helper service for manipulating URLs within and outside the request scope.
@@ -45,7 +46,7 @@ final class UrlHelper
 
         if (!$path || '/' !== $path[0]) {
             $prefix = $request->getPathInfo();
-            $last = \strlen($prefix) - 1;
+            $last = strlen($prefix) - 1;
             if ($last !== $pos = strrpos($prefix, '/')) {
                 $prefix = substr($prefix, 0, $pos).'/';
             }

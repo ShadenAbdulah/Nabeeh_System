@@ -5,6 +5,7 @@ namespace Illuminate\Foundation\Testing\Concerns;
 use Carbon\CarbonImmutable;
 use Illuminate\Console\Application as Artisan;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Bootstrap\HandleExceptions;
 use Illuminate\Foundation\Console\AboutCommand;
 use Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull;
@@ -25,6 +26,7 @@ use Illuminate\Support\Str;
 use Illuminate\View\Component;
 use Mockery;
 use Mockery\Exception\InvalidCountException;
+use PHPUnit\Metadata\Annotation\Parser\Registry;
 use Throwable;
 
 trait InteractsWithTestCaseLifecycle
@@ -32,7 +34,7 @@ trait InteractsWithTestCaseLifecycle
     /**
      * The Illuminate application instance.
      *
-     * @var \Illuminate\Foundation\Application
+     * @var Application
      */
     protected $app;
 
@@ -53,7 +55,7 @@ trait InteractsWithTestCaseLifecycle
     /**
      * The exception thrown while running an application destruction callback.
      *
-     * @var \Throwable
+     * @var Throwable
      */
     protected $callbackException;
 
@@ -67,15 +69,15 @@ trait InteractsWithTestCaseLifecycle
     /**
      * Setup the test environment.
      *
+     * @return void
      * @internal
      *
-     * @return void
      */
     protected function setUpTheTestEnvironment(): void
     {
         Facade::clearResolvedInstances();
 
-        if (! $this->app) {
+        if (!$this->app) {
             $this->refreshApplication();
 
             ParallelTesting::callSetUpTestCaseCallbacks($this);
@@ -95,9 +97,9 @@ trait InteractsWithTestCaseLifecycle
     /**
      * Clean up the testing environment before the next test.
      *
+     * @return void
      * @internal
      *
-     * @return void
      */
     protected function tearDownTheTestEnvironment(): void
     {
@@ -129,7 +131,7 @@ trait InteractsWithTestCaseLifecycle
             try {
                 Mockery::close();
             } catch (InvalidCountException $e) {
-                if (! Str::contains($e->getMethodName(), ['doWrite', 'askQuestion'])) {
+                if (!Str::contains($e->getMethodName(), ['doWrite', 'askQuestion'])) {
                     throw $e;
                 }
             }
@@ -208,12 +210,12 @@ trait InteractsWithTestCaseLifecycle
         }
 
         foreach ($uses as $trait) {
-            if (method_exists($this, $method = 'setUp'.class_basename($trait))) {
+            if (method_exists($this, $method = 'setUp' . class_basename($trait))) {
                 $this->{$method}();
             }
 
-            if (method_exists($this, $method = 'tearDown'.class_basename($trait))) {
-                $this->beforeApplicationDestroyed(fn () => $this->{$method}());
+            if (method_exists($this, $method = 'tearDown' . class_basename($trait))) {
+                $this->beforeApplicationDestroyed(fn() => $this->{$method}());
             }
         }
 
@@ -223,16 +225,16 @@ trait InteractsWithTestCaseLifecycle
     /**
      * Clean up the testing environment before the next test case.
      *
+     * @return void
      * @internal
      *
-     * @return void
      */
     public static function tearDownAfterClassUsingTestCase()
     {
         foreach ([
-            \PHPUnit\Util\Annotation\Registry::class,
-            \PHPUnit\Metadata\Annotation\Parser\Registry::class,
-        ] as $class) {
+                     \PHPUnit\Util\Annotation\Registry::class,
+                     Registry::class,
+                 ] as $class) {
             if (class_exists($class)) {
                 (function () {
                     $this->classDocBlocks = [];
@@ -245,7 +247,7 @@ trait InteractsWithTestCaseLifecycle
     /**
      * Register a callback to be run after the application is created.
      *
-     * @param  callable  $callback
+     * @param callable $callback
      * @return void
      */
     public function afterApplicationCreated(callable $callback)
@@ -260,7 +262,7 @@ trait InteractsWithTestCaseLifecycle
     /**
      * Register a callback to be run before the application is destroyed.
      *
-     * @param  callable  $callback
+     * @param callable $callback
      * @return void
      */
     protected function beforeApplicationDestroyed(callable $callback)
@@ -279,7 +281,7 @@ trait InteractsWithTestCaseLifecycle
             try {
                 $callback();
             } catch (Throwable $e) {
-                if (! $this->callbackException) {
+                if (!$this->callbackException) {
                     $this->callbackException = $e;
                 }
             }

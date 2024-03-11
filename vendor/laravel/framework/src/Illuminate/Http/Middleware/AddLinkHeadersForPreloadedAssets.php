@@ -2,6 +2,9 @@
 
 namespace Illuminate\Http\Middleware;
 
+use Closure;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Vite;
 
@@ -10,9 +13,9 @@ class AddLinkHeadersForPreloadedAssets
     /**
      * Handle the incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
-     * @return \Illuminate\Http\Response
+     * @param  Request  $request
+     * @param  Closure  $next
+     * @return Response
      */
     public function handle($request, $next)
     {

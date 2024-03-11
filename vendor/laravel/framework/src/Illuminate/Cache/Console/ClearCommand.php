@@ -3,6 +3,7 @@
 namespace Illuminate\Cache\Console;
 
 use Illuminate\Cache\CacheManager;
+use Illuminate\Cache\Repository;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 use Symfony\Component\Console\Attribute\AsCommand;
@@ -29,22 +30,22 @@ class ClearCommand extends Command
     /**
      * The cache manager instance.
      *
-     * @var \Illuminate\Cache\CacheManager
+     * @var CacheManager
      */
     protected $cache;
 
     /**
      * The filesystem instance.
      *
-     * @var \Illuminate\Filesystem\Filesystem
+     * @var Filesystem
      */
     protected $files;
 
     /**
      * Create a new cache clear command instance.
      *
-     * @param  \Illuminate\Cache\CacheManager  $cache
-     * @param  \Illuminate\Filesystem\Filesystem  $files
+     * @param CacheManager $cache
+     * @param Filesystem $files
      * @return void
      */
     public function __construct(CacheManager $cache, Filesystem $files)
@@ -102,7 +103,7 @@ class ClearCommand extends Command
     /**
      * Get the cache instance for the command.
      *
-     * @return \Illuminate\Cache\Repository
+     * @return Repository
      */
     protected function cache()
     {

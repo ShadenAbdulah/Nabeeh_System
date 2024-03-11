@@ -2,22 +2,25 @@
 namespace Hamcrest;
 
 /* Test-specific subclass only */
-class BaseMatcherTest extends \Hamcrest\BaseMatcher
+
+use RuntimeException;
+
+class BaseMatcherTest extends BaseMatcher
 {
 
     public function matches($item)
     {
-        throw new \RuntimeException();
+        throw new RuntimeException();
     }
 
-    public function describeTo(\Hamcrest\Description $description)
+    public function describeTo(Description $description)
     {
         $description->appendText('SOME DESCRIPTION');
     }
 
     public function testDescribesItselfWithToStringMethod()
     {
-        $someMatcher = new \Hamcrest\SomeMatcher();
+        $someMatcher = new SomeMatcher();
         $this->assertEquals('SOME DESCRIPTION', (string) $someMatcher);
     }
 }

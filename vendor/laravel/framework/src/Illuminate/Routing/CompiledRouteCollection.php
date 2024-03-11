@@ -31,21 +31,21 @@ class CompiledRouteCollection extends AbstractRouteCollection
     /**
      * The dynamically added routes that were added after loading the cached, compiled routes.
      *
-     * @var \Illuminate\Routing\RouteCollection|null
+     * @var RouteCollection|null
      */
     protected $routes;
 
     /**
      * The router instance used by the route.
      *
-     * @var \Illuminate\Routing\Router
+     * @var Router
      */
     protected $router;
 
     /**
      * The container instance used by the route.
      *
-     * @var \Illuminate\Container\Container
+     * @var Container
      */
     protected $container;
 
@@ -66,8 +66,8 @@ class CompiledRouteCollection extends AbstractRouteCollection
     /**
      * Add a Route instance to the collection.
      *
-     * @param  \Illuminate\Routing\Route  $route
-     * @return \Illuminate\Routing\Route
+     * @param Route $route
+     * @return Route
      */
     public function add(Route $route)
     {
@@ -101,11 +101,11 @@ class CompiledRouteCollection extends AbstractRouteCollection
     /**
      * Find the first route matching a given request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Routing\Route
+     * @param Request $request
+     * @return Route
      *
-     * @throws \Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
+     * @throws MethodNotAllowedHttpException
+     * @throws NotFoundHttpException
      */
     public function match(Request $request)
     {
@@ -147,8 +147,8 @@ class CompiledRouteCollection extends AbstractRouteCollection
     /**
      * Get a cloned instance of the given request without any trailing slash on the URI.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Request
+     * @param Request $request
+     * @return Request
      */
     protected function requestWithoutTrailingSlash(Request $request)
     {
@@ -167,7 +167,7 @@ class CompiledRouteCollection extends AbstractRouteCollection
      * Get routes from the collection by method.
      *
      * @param  string|null  $method
-     * @return \Illuminate\Routing\Route[]
+     * @return Route[]
      */
     public function get($method = null)
     {
@@ -189,7 +189,7 @@ class CompiledRouteCollection extends AbstractRouteCollection
      * Get a route instance by its name.
      *
      * @param  string  $name
-     * @return \Illuminate\Routing\Route|null
+     * @return Route|null
      */
     public function getByName($name)
     {
@@ -204,7 +204,7 @@ class CompiledRouteCollection extends AbstractRouteCollection
      * Get a route instance by its controller action.
      *
      * @param  string  $action
-     * @return \Illuminate\Routing\Route|null
+     * @return Route|null
      */
     public function getByAction($action)
     {
@@ -226,7 +226,7 @@ class CompiledRouteCollection extends AbstractRouteCollection
     /**
      * Get all of the routes in the collection.
      *
-     * @return \Illuminate\Routing\Route[]
+     * @return Route[]
      */
     public function getRoutes()
     {
@@ -261,7 +261,7 @@ class CompiledRouteCollection extends AbstractRouteCollection
     /**
      * Get all of the routes keyed by their name.
      *
-     * @return \Illuminate\Routing\Route[]
+     * @return Route[]
      */
     public function getRoutesByName()
     {
@@ -276,7 +276,7 @@ class CompiledRouteCollection extends AbstractRouteCollection
      * Resolve an array of attributes to a Route instance.
      *
      * @param  array  $attributes
-     * @return \Illuminate\Routing\Route
+     * @return Route
      */
     protected function newRoute(array $attributes)
     {
@@ -305,7 +305,7 @@ class CompiledRouteCollection extends AbstractRouteCollection
     /**
      * Set the router instance on the route.
      *
-     * @param  \Illuminate\Routing\Router  $router
+     * @param Router $router
      * @return $this
      */
     public function setRouter(Router $router)
@@ -318,7 +318,7 @@ class CompiledRouteCollection extends AbstractRouteCollection
     /**
      * Set the container instance on the route.
      *
-     * @param  \Illuminate\Container\Container  $container
+     * @param Container $container
      * @return $this
      */
     public function setContainer(Container $container)

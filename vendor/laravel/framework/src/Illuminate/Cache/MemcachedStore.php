@@ -14,7 +14,7 @@ class MemcachedStore extends TaggableStore implements LockProvider
     /**
      * The Memcached instance.
      *
-     * @var \Memcached
+     * @var Memcached
      */
     protected $memcached;
 
@@ -35,7 +35,7 @@ class MemcachedStore extends TaggableStore implements LockProvider
     /**
      * Create a new Memcached store.
      *
-     * @param  \Memcached  $memcached
+     * @param Memcached $memcached
      * @param  string  $prefix
      * @return void
      */
@@ -249,7 +249,7 @@ class MemcachedStore extends TaggableStore implements LockProvider
     /**
      * Get the underlying Memcached connection.
      *
-     * @return \Memcached
+     * @return Memcached
      */
     public function getMemcached()
     {

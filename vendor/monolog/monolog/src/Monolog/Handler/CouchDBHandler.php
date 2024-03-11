@@ -15,6 +15,7 @@ use Monolog\Formatter\FormatterInterface;
 use Monolog\Formatter\JsonFormatter;
 use Monolog\Level;
 use Monolog\LogRecord;
+use RuntimeException;
 
 /**
  * CouchDB handler
@@ -83,7 +84,7 @@ class CouchDBHandler extends AbstractProcessingHandler
         ]);
 
         if (false === @file_get_contents($url, false, $context)) {
-            throw new \RuntimeException(sprintf('Could not connect to %s', $url));
+            throw new RuntimeException(sprintf('Could not connect to %s', $url));
         }
     }
 

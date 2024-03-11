@@ -2,6 +2,7 @@
 
 namespace Illuminate\Database;
 
+use Closure;
 use Exception;
 use Illuminate\Database\PDO\SQLiteDriver;
 use Illuminate\Database\Query\Grammars\SQLiteGrammar as QueryGrammar;
@@ -10,13 +11,15 @@ use Illuminate\Database\Schema\Grammars\SQLiteGrammar as SchemaGrammar;
 use Illuminate\Database\Schema\SQLiteBuilder;
 use Illuminate\Database\Schema\SqliteSchemaState;
 use Illuminate\Filesystem\Filesystem;
+use PDO;
+use RuntimeException;
 
 class SQLiteConnection extends Connection
 {
     /**
      * Create a new database connection instance.
      *
-     * @param  \PDO|\Closure  $pdo
+     * @param  PDO|Closure  $pdo
      * @param  string  $database
      * @param  string  $tablePrefix
      * @param  array  $config
@@ -53,7 +56,7 @@ class SQLiteConnection extends Connection
     /**
      * Determine if the given database exception was caused by a unique constraint violation.
      *
-     * @param  \Exception  $exception
+     * @param Exception $exception
      * @return bool
      */
     protected function isUniqueConstraintError(Exception $exception)
@@ -64,7 +67,7 @@ class SQLiteConnection extends Connection
     /**
      * Get the default query grammar instance.
      *
-     * @return \Illuminate\Database\Query\Grammars\SQLiteGrammar
+     * @return QueryGrammar
      */
     protected function getDefaultQueryGrammar()
     {
@@ -76,7 +79,7 @@ class SQLiteConnection extends Connection
     /**
      * Get a schema builder instance for the connection.
      *
-     * @return \Illuminate\Database\Schema\SQLiteBuilder
+     * @return SQLiteBuilder
      */
     public function getSchemaBuilder()
     {
@@ -90,7 +93,7 @@ class SQLiteConnection extends Connection
     /**
      * Get the default schema grammar instance.
      *
-     * @return \Illuminate\Database\Schema\Grammars\SQLiteGrammar
+     * @return SchemaGrammar
      */
     protected function getDefaultSchemaGrammar()
     {
@@ -102,10 +105,10 @@ class SQLiteConnection extends Connection
     /**
      * Get the schema state for the connection.
      *
-     * @param  \Illuminate\Filesystem\Filesystem|null  $files
+     * @param Filesystem|null  $files
      * @param  callable|null  $processFactory
      *
-     * @throws \RuntimeException
+     * @throws RuntimeException
      */
     public function getSchemaState(Filesystem $files = null, callable $processFactory = null)
     {
@@ -115,7 +118,7 @@ class SQLiteConnection extends Connection
     /**
      * Get the default post processor instance.
      *
-     * @return \Illuminate\Database\Query\Processors\SQLiteProcessor
+     * @return SQLiteProcessor
      */
     protected function getDefaultPostProcessor()
     {
@@ -125,7 +128,7 @@ class SQLiteConnection extends Connection
     /**
      * Get the Doctrine DBAL driver.
      *
-     * @return \Illuminate\Database\PDO\SQLiteDriver
+     * @return SQLiteDriver
      */
     protected function getDoctrineDriver()
     {

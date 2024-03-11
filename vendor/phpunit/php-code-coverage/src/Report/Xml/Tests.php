@@ -10,11 +10,12 @@
 namespace SebastianBergmann\CodeCoverage\Report\Xml;
 
 use DOMElement;
+use SebastianBergmann\CodeCoverage\CodeCoverage;
 
 /**
  * @internal This class is not covered by the backward compatibility promise for phpunit/php-code-coverage
  *
- * @psalm-import-type TestType from \SebastianBergmann\CodeCoverage\CodeCoverage
+ * @psalm-import-type TestType from CodeCoverage
  */
 final class Tests
 {

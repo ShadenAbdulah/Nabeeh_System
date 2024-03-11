@@ -4,6 +4,7 @@ namespace Illuminate\Validation;
 
 use Exception;
 use Illuminate\Contracts\Validation\UncompromisedVerifier;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 
 class NotPwnedVerifier implements UncompromisedVerifier
@@ -79,7 +80,7 @@ class NotPwnedVerifier implements UncompromisedVerifier
      * Search by the given hash prefix and returns all occurrences of leaked passwords.
      *
      * @param  string  $hashPrefix
-     * @return \Illuminate\Support\Collection
+     * @return Collection
      */
     protected function search($hashPrefix)
     {

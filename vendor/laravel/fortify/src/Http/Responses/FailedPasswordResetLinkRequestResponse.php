@@ -2,8 +2,10 @@
 
 namespace Laravel\Fortify\Http\Responses;
 
+use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 use Laravel\Fortify\Contracts\FailedPasswordResetLinkRequestResponse as FailedPasswordResetLinkRequestResponseContract;
+use Symfony\Component\HttpFoundation\Response;
 
 class FailedPasswordResetLinkRequestResponse implements FailedPasswordResetLinkRequestResponseContract
 {
@@ -28,8 +30,8 @@ class FailedPasswordResetLinkRequestResponse implements FailedPasswordResetLinkR
     /**
      * Create an HTTP response that represents the object.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @param  Request  $request
+     * @return Response
      */
     public function toResponse($request)
     {

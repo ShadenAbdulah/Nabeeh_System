@@ -2,6 +2,8 @@
 
 namespace Illuminate\Foundation\Events;
 
+use Illuminate\Broadcasting\PendingBroadcast;
+
 trait Dispatchable
 {
     /**
@@ -45,7 +47,7 @@ trait Dispatchable
     /**
      * Broadcast the event with the given arguments.
      *
-     * @return \Illuminate\Broadcasting\PendingBroadcast
+     * @return PendingBroadcast
      */
     public static function broadcast()
     {

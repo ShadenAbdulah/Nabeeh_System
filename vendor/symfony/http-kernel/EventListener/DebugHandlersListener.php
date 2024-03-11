@@ -11,6 +11,7 @@
 
 namespace Symfony\Component\HttpKernel\EventListener;
 
+use Closure;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\ConsoleEvents;
 use Symfony\Component\Console\Event\ConsoleEvent;
@@ -19,6 +20,11 @@ use Symfony\Component\ErrorHandler\ErrorHandler;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\KernelEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
+use Throwable;
+use function defined;
+use function in_array;
+use function is_array;
+use const PHP_SAPI;
 
 /**
  * Sets an exception handler.
@@ -32,7 +38,7 @@ use Symfony\Component\HttpKernel\KernelEvents;
 class DebugHandlersListener implements EventSubscriberInterface
 {
     private string|object|null $earlyHandler;
-    private ?\Closure $exceptionHandler;
+    private ?Closure $exceptionHandler;
     private bool $webMode;
     private bool $firstCall = true;
     private bool $hasTerminatedWithException = false;
@@ -48,11 +54,11 @@ class DebugHandlersListener implements EventSubscriberInterface
             $webMode = null;
         }
         $handler = set_exception_handler('is_int');
-        $this->earlyHandler = \is_array($handler) ? $handler[0] : null;
+        $this->earlyHandler = is_array($handler) ? $handler[0] : null;
         restore_exception_handler();
 
         $this->exceptionHandler = null === $exceptionHandler ? null : $exceptionHandler(...);
-        $this->webMode = $webMode ?? !\in_array(\PHP_SAPI, ['cli', 'phpdbg', 'embed'], true);
+        $this->webMode = $webMode ?? !in_array(PHP_SAPI, ['cli', 'phpdbg', 'embed'], true);
     }
 
     /**
@@ -73,7 +79,7 @@ class DebugHandlersListener implements EventSubscriberInterface
                 if (method_exists($kernel = $event->getKernel(), 'terminateWithException')) {
                     $request = $event->getRequest();
                     $hasRun = &$this->hasTerminatedWithException;
-                    $this->exceptionHandler = static function (\Throwable $e) use ($kernel, $request, &$hasRun) {
+                    $this->exceptionHandler = static function (Throwable $e) use ($kernel, $request, &$hasRun) {
                         if ($hasRun) {
                             throw $e;
                         }
@@ -87,14 +93,14 @@ class DebugHandlersListener implements EventSubscriberInterface
                 if ($output instanceof ConsoleOutputInterface) {
                     $output = $output->getErrorOutput();
                 }
-                $this->exceptionHandler = static function (\Throwable $e) use ($app, $output) {
+                $this->exceptionHandler = static function (Throwable $e) use ($app, $output) {
                     $app->renderThrowable($e, $output);
                 };
             }
         }
         if ($this->exceptionHandler) {
             $handler = set_exception_handler(static fn () => null);
-            $handler = \is_array($handler) ? $handler[0] : null;
+            $handler = is_array($handler) ? $handler[0] : null;
             restore_exception_handler();
 
             if (!$handler instanceof ErrorHandler) {
@@ -112,7 +118,7 @@ class DebugHandlersListener implements EventSubscriberInterface
     {
         $events = [KernelEvents::REQUEST => ['configure', 2048]];
 
-        if (\defined('Symfony\Component\Console\ConsoleEvents::COMMAND')) {
+        if (defined('Symfony\Component\Console\ConsoleEvents::COMMAND')) {
             $events[ConsoleEvents::COMMAND] = ['configure', 2048];
         }
 

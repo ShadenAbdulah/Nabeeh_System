@@ -14,6 +14,10 @@ namespace Carbon;
 use Closure;
 use DateTimeInterface;
 use ReflectionMethod;
+use Symfony\Component\Translation\TranslatorInterface;
+use function count;
+use function in_array;
+use function is_string;
 
 /**
  * A factory to generate Carbon instances with common settings.
@@ -80,7 +84,7 @@ use ReflectionMethod;
  *                                                                                                                                                                                         instance is created.
  * @method string                                             getTimeFormatByPrecision($unitPrecision)                                                                                     Return a format from H:i to H:i:s.u according to given unit precision.
  * @method string                                             getTranslationMessageWith($translator, string $key, ?string $locale = null, ?string $default = null)                         Returns raw translation message for a given key.
- * @method \Symfony\Component\Translation\TranslatorInterface getTranslator()                                                                                                              Get the default translator instance in use.
+ * @method TranslatorInterface getTranslator()                                                                                                              Get the default translator instance in use.
  * @method int                                                getWeekEndsAt()                                                                                                              Get the last day of week
  * @method int                                                getWeekStartsAt()                                                                                                            Get the first day of week
  * @method array                                              getWeekendDays()                                                                                                             Get weekend days
@@ -302,16 +306,16 @@ class Factory
 
         if ($settings && isset($settings['timezone'])) {
             $tzParameters = array_filter($method->getParameters(), function ($parameter) {
-                return \in_array($parameter->getName(), ['tz', 'timezone'], true);
+                return in_array($parameter->getName(), ['tz', 'timezone'], true);
             });
 
-            if (isset($arguments[0]) && \in_array($name, ['instance', 'make', 'create', 'parse'], true)) {
+            if (isset($arguments[0]) && in_array($name, ['instance', 'make', 'create', 'parse'], true)) {
                 if ($arguments[0] instanceof DateTimeInterface) {
                     $settings['innerTimezone'] = $settings['timezone'];
-                } elseif (\is_string($arguments[0]) && date_parse($arguments[0])['is_localtime']) {
+                } elseif (is_string($arguments[0]) && date_parse($arguments[0])['is_localtime']) {
                     unset($settings['timezone'], $settings['innerTimezone']);
                 }
-            } elseif (\count($tzParameters)) {
+            } elseif (count($tzParameters)) {
                 array_splice($arguments, key($tzParameters), 0, [$settings['timezone']]);
                 unset($settings['timezone']);
             }

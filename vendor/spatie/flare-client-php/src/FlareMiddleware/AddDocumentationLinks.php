@@ -5,6 +5,7 @@ namespace Spatie\FlareClient\FlareMiddleware;
 use ArrayObject;
 use Closure;
 use Spatie\FlareClient\Report;
+use Throwable;
 
 class AddDocumentationLinks implements FlareMiddleware
 {
@@ -31,7 +32,7 @@ class AddDocumentationLinks implements FlareMiddleware
     }
 
     /** @return array<int, string> */
-    protected function getLinks(\Throwable $throwable): array
+    protected function getLinks(Throwable $throwable): array
     {
         $allLinks = [];
 

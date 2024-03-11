@@ -12,6 +12,10 @@
 namespace Psy\TabCompletion\Matcher;
 
 use Psy\Command\Command;
+use function array_filter;
+use function array_merge;
+use function array_shift;
+use function in_array;
 
 /**
  * A Psy Command tab completion Matcher.
@@ -45,8 +49,8 @@ class CommandsMatcher extends AbstractMatcher
     {
         $names = [];
         foreach ($commands as $command) {
-            $names = \array_merge([$command->getName()], $names);
-            $names = \array_merge($command->getAliases(), $names);
+            $names = array_merge([$command->getName()], $names);
+            $names = array_merge($command->getAliases(), $names);
         }
         $this->commands = $names;
     }
@@ -58,7 +62,7 @@ class CommandsMatcher extends AbstractMatcher
      */
     protected function isCommand(string $name): bool
     {
-        return \in_array($name, $this->commands);
+        return in_array($name, $this->commands);
     }
 
     /**
@@ -84,7 +88,7 @@ class CommandsMatcher extends AbstractMatcher
     {
         $input = $this->getInput($tokens);
 
-        return \array_filter($this->commands, function ($command) use ($input) {
+        return array_filter($this->commands, function ($command) use ($input) {
             return AbstractMatcher::startsWith($input, $command);
         });
     }
@@ -94,8 +98,8 @@ class CommandsMatcher extends AbstractMatcher
      */
     public function hasMatched(array $tokens): bool
     {
-        /* $openTag */ \array_shift($tokens);
-        $command = \array_shift($tokens);
+        /* $openTag */ array_shift($tokens);
+        $command = array_shift($tokens);
 
         switch (true) {
             case self::tokenIs($command, self::T_STRING) &&

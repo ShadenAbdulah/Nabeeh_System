@@ -2,6 +2,8 @@
 
 namespace Illuminate\Database\Events;
 
+use Illuminate\Database\Connection;
+
 class QueryExecuted
 {
     /**
@@ -28,7 +30,7 @@ class QueryExecuted
     /**
      * The database connection instance.
      *
-     * @var \Illuminate\Database\Connection
+     * @var Connection
      */
     public $connection;
 
@@ -45,7 +47,7 @@ class QueryExecuted
      * @param  string  $sql
      * @param  array  $bindings
      * @param  float|null  $time
-     * @param  \Illuminate\Database\Connection  $connection
+     * @param  Connection  $connection
      * @return void
      */
     public function __construct($sql, $bindings, $time, $connection)

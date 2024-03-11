@@ -11,12 +11,23 @@
 
 namespace Psy\Reflection;
 
+use InvalidArgumentException;
+use Reflector;
+use RuntimeException;
+use function constant;
+use function defined;
+use function gettype;
+use function in_array;
+use function preg_replace;
+use function sprintf;
+use function strpos;
+
 /**
  * Somehow the standard reflection library doesn't include constants.
  *
  * ReflectionConstant corrects that omission.
  */
-class ReflectionConstant implements \Reflector
+class ReflectionConstant implements Reflector
 {
     public $name;
     private $value;
@@ -42,12 +53,12 @@ class ReflectionConstant implements \Reflector
     {
         $this->name = $name;
 
-        if (!\defined($name) && !self::isMagicConstant($name)) {
-            throw new \InvalidArgumentException('Unknown constant: '.$name);
+        if (!defined($name) && !self::isMagicConstant($name)) {
+            throw new InvalidArgumentException('Unknown constant: '.$name);
         }
 
         if (!self::isMagicConstant($name)) {
-            $this->value = @\constant($name);
+            $this->value = @constant($name);
         }
     }
 
@@ -64,7 +75,7 @@ class ReflectionConstant implements \Reflector
         $refl = new self($name);
         $value = $refl->getValue();
 
-        $str = \sprintf('Constant [ %s %s ] { %s }', \gettype($value), $refl->getName(), $value);
+        $str = sprintf('Constant [ %s %s ] { %s }', gettype($value), $refl->getName(), $value);
 
         if ($return) {
             return $str;
@@ -75,7 +86,7 @@ class ReflectionConstant implements \Reflector
 
     public static function isMagicConstant($name)
     {
-        return \in_array($name, self::$magicConstants);
+        return in_array($name, self::$magicConstants);
     }
 
     /**
@@ -107,7 +118,7 @@ class ReflectionConstant implements \Reflector
             return '';
         }
 
-        return \preg_replace('/\\\\[^\\\\]+$/', '', $this->name);
+        return preg_replace('/\\\\[^\\\\]+$/', '', $this->name);
     }
 
     /**
@@ -125,7 +136,7 @@ class ReflectionConstant implements \Reflector
      */
     public function inNamespace(): bool
     {
-        return \strpos($this->name, '\\') !== false;
+        return strpos($this->name, '\\') !== false;
     }
 
     /**
@@ -151,17 +162,17 @@ class ReflectionConstant implements \Reflector
     /**
      * Get the code start line.
      *
-     * @throws \RuntimeException
+     * @throws RuntimeException
      */
     public function getStartLine()
     {
-        throw new \RuntimeException('Not yet implemented because it\'s unclear what I should do here :)');
+        throw new RuntimeException('Not yet implemented because it\'s unclear what I should do here :)');
     }
 
     /**
      * Get the code end line.
      *
-     * @throws \RuntimeException
+     * @throws RuntimeException
      */
     public function getEndLine()
     {

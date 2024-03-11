@@ -11,6 +11,7 @@
 
 namespace Symfony\Component\Mailer\Transport;
 
+use LogicException;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpClient\HttpClient;
@@ -33,7 +34,7 @@ abstract class AbstractHttpTransport extends AbstractTransport
         $this->client = $client;
         if (null === $client) {
             if (!class_exists(HttpClient::class)) {
-                throw new \LogicException(sprintf('You cannot use "%s" as the HttpClient component is not installed. Try running "composer require symfony/http-client".', __CLASS__));
+                throw new LogicException(sprintf('You cannot use "%s" as the HttpClient component is not installed. Try running "composer require symfony/http-client".', __CLASS__));
             }
 
             $this->client = HttpClient::create();

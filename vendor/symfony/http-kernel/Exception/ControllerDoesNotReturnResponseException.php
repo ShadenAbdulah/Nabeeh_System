@@ -11,10 +11,22 @@
 
 namespace Symfony\Component\HttpKernel\Exception;
 
+use Closure;
+use Exception;
+use LogicException;
+use ReflectionClass;
+use ReflectionException;
+use ReflectionFunction;
+use ReflectionMethod;
+use ReflectionProperty;
+use function is_array;
+use function is_object;
+use function is_string;
+
 /**
  * @author Grégoire Pineau <lyrixx@lyrixx.info>
  */
-class ControllerDoesNotReturnResponseException extends \LogicException
+class ControllerDoesNotReturnResponseException extends LogicException
 {
     public function __construct(string $message, callable $controller, string $file, int $line)
     {
@@ -26,7 +38,7 @@ class ControllerDoesNotReturnResponseException extends \LogicException
 
         $this->file = $controllerDefinition['file'];
         $this->line = $controllerDefinition['line'];
-        $r = new \ReflectionProperty(\Exception::class, 'trace');
+        $r = new ReflectionProperty(Exception::class, 'trace');
         $r->setValue($this, array_merge([
             [
                 'line' => $line,
@@ -37,25 +49,25 @@ class ControllerDoesNotReturnResponseException extends \LogicException
 
     private function parseControllerDefinition(callable $controller): ?array
     {
-        if (\is_string($controller) && str_contains($controller, '::')) {
+        if (is_string($controller) && str_contains($controller, '::')) {
             $controller = explode('::', $controller);
         }
 
-        if (\is_array($controller)) {
+        if (is_array($controller)) {
             try {
-                $r = new \ReflectionMethod($controller[0], $controller[1]);
+                $r = new ReflectionMethod($controller[0], $controller[1]);
 
                 return [
                     'file' => $r->getFileName(),
                     'line' => $r->getEndLine(),
                 ];
-            } catch (\ReflectionException) {
+            } catch (ReflectionException) {
                 return null;
             }
         }
 
-        if ($controller instanceof \Closure) {
-            $r = new \ReflectionFunction($controller);
+        if ($controller instanceof Closure) {
+            $r = new ReflectionFunction($controller);
 
             return [
                 'file' => $r->getFileName(),
@@ -63,12 +75,12 @@ class ControllerDoesNotReturnResponseException extends \LogicException
             ];
         }
 
-        if (\is_object($controller)) {
-            $r = new \ReflectionClass($controller);
+        if (is_object($controller)) {
+            $r = new ReflectionClass($controller);
 
             try {
                 $line = $r->getMethod('__invoke')->getEndLine();
-            } catch (\ReflectionException) {
+            } catch (ReflectionException) {
                 $line = $r->getEndLine();
             }
 

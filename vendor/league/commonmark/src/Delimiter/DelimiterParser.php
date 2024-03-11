@@ -11,6 +11,9 @@ use League\CommonMark\Parser\Inline\InlineParserInterface;
 use League\CommonMark\Parser\Inline\InlineParserMatch;
 use League\CommonMark\Parser\InlineParserContext;
 use League\CommonMark\Util\RegexHelper;
+use function assert;
+use function preg_match;
+use function str_repeat;
 
 /**
  * Delimiter parsing is implemented as an Inline Parser with the lowest-possible priority
@@ -38,7 +41,7 @@ final class DelimiterParser implements InlineParserInterface
         $cursor    = $inlineContext->getCursor();
         $processor = $this->collection->getDelimiterProcessor($character);
 
-        \assert($processor !== null); // Delimiter processor should never be null here
+        assert($processor !== null); // Delimiter processor should never be null here
 
         $charBefore = $cursor->peek(-1);
         if ($charBefore === null) {
@@ -62,7 +65,7 @@ final class DelimiterParser implements InlineParserInterface
 
         [$canOpen, $canClose] = self::determineCanOpenOrClose($charBefore, $charAfter, $character, $processor);
 
-        $node = new Text(\str_repeat($character, $numDelims), [
+        $node = new Text(str_repeat($character, $numDelims), [
             'delim' => true,
         ]);
         $inlineContext->getContainer()->appendChild($node);
@@ -81,10 +84,10 @@ final class DelimiterParser implements InlineParserInterface
      */
     private static function determineCanOpenOrClose(string $charBefore, string $charAfter, string $character, DelimiterProcessorInterface $delimiterProcessor): array
     {
-        $afterIsWhitespace   = \preg_match(RegexHelper::REGEX_UNICODE_WHITESPACE_CHAR, $charAfter);
-        $afterIsPunctuation  = \preg_match(RegexHelper::REGEX_PUNCTUATION, $charAfter);
-        $beforeIsWhitespace  = \preg_match(RegexHelper::REGEX_UNICODE_WHITESPACE_CHAR, $charBefore);
-        $beforeIsPunctuation = \preg_match(RegexHelper::REGEX_PUNCTUATION, $charBefore);
+        $afterIsWhitespace   = preg_match(RegexHelper::REGEX_UNICODE_WHITESPACE_CHAR, $charAfter);
+        $afterIsPunctuation  = preg_match(RegexHelper::REGEX_PUNCTUATION, $charAfter);
+        $beforeIsWhitespace  = preg_match(RegexHelper::REGEX_UNICODE_WHITESPACE_CHAR, $charBefore);
+        $beforeIsPunctuation = preg_match(RegexHelper::REGEX_PUNCTUATION, $charBefore);
 
         $leftFlanking  = ! $afterIsWhitespace && (! $afterIsPunctuation || $beforeIsWhitespace || $beforeIsPunctuation);
         $rightFlanking = ! $beforeIsWhitespace && (! $beforeIsPunctuation || $afterIsWhitespace || $afterIsPunctuation);

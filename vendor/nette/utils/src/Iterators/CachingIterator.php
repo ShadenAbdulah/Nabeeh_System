@@ -9,7 +9,14 @@ declare(strict_types=1);
 
 namespace Nette\Iterators;
 
+use ArrayIterator;
+use Countable;
+use Iterator;
+use IteratorAggregate;
+use IteratorIterator;
 use Nette;
+use stdClass;
+use Traversable;
 
 
 /**
@@ -24,7 +31,7 @@ use Nette;
  * @property-read mixed $nextKey
  * @property-read mixed $nextValue
  */
-class CachingIterator extends \CachingIterator implements \Countable
+class CachingIterator extends \CachingIterator implements Countable
 {
 	use Nette\SmartObject;
 
@@ -33,19 +40,19 @@ class CachingIterator extends \CachingIterator implements \Countable
 
 	public function __construct($iterator)
 	{
-		if (is_array($iterator) || $iterator instanceof \stdClass) {
-			$iterator = new \ArrayIterator($iterator);
+		if (is_array($iterator) || $iterator instanceof stdClass) {
+			$iterator = new ArrayIterator($iterator);
 
-		} elseif ($iterator instanceof \IteratorAggregate) {
+		} elseif ($iterator instanceof IteratorAggregate) {
 			do {
 				$iterator = $iterator->getIterator();
-			} while ($iterator instanceof \IteratorAggregate);
+			} while ($iterator instanceof IteratorAggregate);
 
-			assert($iterator instanceof \Iterator);
+			assert($iterator instanceof Iterator);
 
-		} elseif ($iterator instanceof \Iterator) {
-		} elseif ($iterator instanceof \Traversable) {
-			$iterator = new \IteratorIterator($iterator);
+		} elseif ($iterator instanceof Iterator) {
+		} elseif ($iterator instanceof Traversable) {
+			$iterator = new IteratorIterator($iterator);
 		} else {
 			throw new Nette\InvalidArgumentException(sprintf('Invalid argument passed to %s; array or Traversable expected, %s given.', self::class, get_debug_type($iterator)));
 		}
@@ -114,7 +121,7 @@ class CachingIterator extends \CachingIterator implements \Countable
 	public function count(): int
 	{
 		$inner = $this->getInnerIterator();
-		if ($inner instanceof \Countable) {
+		if ($inner instanceof Countable) {
 			return $inner->count();
 
 		} else {

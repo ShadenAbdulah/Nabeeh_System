@@ -6,6 +6,7 @@ use ArrayAccess;
 use Countable;
 use Illuminate\Contracts\Pagination\CursorPaginator as PaginatorContract;
 use Illuminate\Contracts\Support\Arrayable;
+use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Contracts\Support\Jsonable;
 use Illuminate\Support\Collection;
 use IteratorAggregate;
@@ -25,7 +26,7 @@ class CursorPaginator extends AbstractCursorPaginator implements Arrayable, Arra
      *
      * @param  mixed  $items
      * @param  int  $perPage
-     * @param  \Illuminate\Pagination\Cursor|null  $cursor
+     * @param Cursor|null  $cursor
      * @param  array  $options  (path, query, fragment, pageName)
      * @return void
      */
@@ -68,7 +69,7 @@ class CursorPaginator extends AbstractCursorPaginator implements Arrayable, Arra
      *
      * @param  string|null  $view
      * @param  array  $data
-     * @return \Illuminate\Contracts\Support\Htmlable
+     * @return Htmlable
      */
     public function links($view = null, $data = [])
     {
@@ -80,7 +81,7 @@ class CursorPaginator extends AbstractCursorPaginator implements Arrayable, Arra
      *
      * @param  string|null  $view
      * @param  array  $data
-     * @return \Illuminate\Contracts\Support\Htmlable
+     * @return Htmlable
      */
     public function render($view = null, $data = [])
     {

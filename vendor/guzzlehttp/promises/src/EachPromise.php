@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace GuzzleHttp\Promise;
 
+use Iterator;
+use Throwable;
+
 /**
  * Represents a promise that iterates over many promises and invokes
  * side-effect functions in the process.
@@ -16,7 +19,7 @@ class EachPromise implements PromisorInterface
 
     private $nextPendingIndex = 0;
 
-    /** @var \Iterator|null */
+    /** @var Iterator|null */
     private $iterable;
 
     /** @var callable|int|null */
@@ -84,7 +87,7 @@ class EachPromise implements PromisorInterface
             /** @psalm-assert Promise $this->aggregate */
             $this->iterable->rewind();
             $this->refillPending();
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             $this->aggregate->reject($e);
         }
 
@@ -208,7 +211,7 @@ class EachPromise implements PromisorInterface
             $this->mutex = false;
 
             return true;
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             $this->aggregate->reject($e);
             $this->mutex = false;
 

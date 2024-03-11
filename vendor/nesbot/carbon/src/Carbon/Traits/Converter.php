@@ -19,9 +19,15 @@ use Carbon\CarbonPeriod;
 use Carbon\CarbonPeriodImmutable;
 use Carbon\Exceptions\UnitException;
 use Closure;
+use DateInterval;
 use DateTime;
 use DateTimeImmutable;
+use DateTimeInterface;
 use ReturnTypeWillChange;
+use function defined;
+use function func_get_args;
+use function is_int;
+use function is_string;
 
 /**
  * Trait Converter.
@@ -55,11 +61,11 @@ trait Converter
             return $this->rawFormat($format);
         }
 
-        if (\is_string($function) && method_exists($this, $function)) {
+        if (is_string($function) && method_exists($this, $function)) {
             $function = [$this, $function];
         }
 
-        return $function(...\func_get_args());
+        return $function(...func_get_args());
     }
 
     /**
@@ -91,7 +97,7 @@ trait Converter
         return $format instanceof Closure
             ? $format($this)
             : $this->rawFormat($format ?: (
-                \defined('static::DEFAULT_TO_STRING_FORMAT')
+                defined('static::DEFAULT_TO_STRING_FORMAT')
                     ? static::DEFAULT_TO_STRING_FORMAT
                     : CarbonInterface::DEFAULT_TO_STRING_FORMAT
             ));
@@ -441,7 +447,7 @@ trait Converter
     {
         return $this->avoidMutation()
             ->setTimezone('GMT')
-            ->rawFormat(\defined('static::RFC7231_FORMAT') ? static::RFC7231_FORMAT : CarbonInterface::RFC7231_FORMAT);
+            ->rawFormat(defined('static::RFC7231_FORMAT') ? static::RFC7231_FORMAT : CarbonInterface::RFC7231_FORMAT);
     }
 
     /**
@@ -467,7 +473,7 @@ trait Converter
             'second' => $this->second,
             'micro' => $this->micro,
             'timestamp' => $this->timestamp,
-            'formatted' => $this->rawFormat(\defined('static::DEFAULT_TO_STRING_FORMAT') ? static::DEFAULT_TO_STRING_FORMAT : CarbonInterface::DEFAULT_TO_STRING_FORMAT),
+            'formatted' => $this->rawFormat(defined('static::DEFAULT_TO_STRING_FORMAT') ? static::DEFAULT_TO_STRING_FORMAT : CarbonInterface::DEFAULT_TO_STRING_FORMAT),
             'timezone' => $this->timezone,
         ];
     }
@@ -594,8 +600,8 @@ trait Converter
     /**
      * Create a iterable CarbonPeriod object from current date to a given end date (and optional interval).
      *
-     * @param \DateTimeInterface|Carbon|CarbonImmutable|int|null $end      period end date or recurrences count if int
-     * @param int|\DateInterval|string|null                      $interval period default interval or number of the given $unit
+     * @param DateTimeInterface|Carbon|CarbonImmutable|int|null $end      period end date or recurrences count if int
+     * @param int|DateInterval|string|null                      $interval period default interval or number of the given $unit
      * @param string|null                                        $unit     if specified, $interval must be an integer
      *
      * @return CarbonPeriod
@@ -614,7 +620,7 @@ trait Converter
             $period = $period->setDateInterval($interval);
         }
 
-        if (\is_int($end) || (\is_string($end) && ctype_digit($end))) {
+        if (is_int($end) || (is_string($end) && ctype_digit($end))) {
             $period = $period->setRecurrences($end);
         } elseif ($end) {
             $period = $period->setEndDate($end);
@@ -626,8 +632,8 @@ trait Converter
     /**
      * Create a iterable CarbonPeriod object from current date to a given end date (and optional interval).
      *
-     * @param \DateTimeInterface|Carbon|CarbonImmutable|null $end      period end date
-     * @param int|\DateInterval|string|null                  $interval period default interval or number of the given $unit
+     * @param DateTimeInterface|Carbon|CarbonImmutable|null $end      period end date
+     * @param int|DateInterval|string|null                  $interval period default interval or number of the given $unit
      * @param string|null                                    $unit     if specified, $interval must be an integer
      *
      * @return CarbonPeriod

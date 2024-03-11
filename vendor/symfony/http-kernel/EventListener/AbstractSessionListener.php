@@ -11,6 +11,7 @@
 
 namespace Symfony\Component\HttpKernel\EventListener;
 
+use DateTimeImmutable;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Cookie;
@@ -22,6 +23,7 @@ use Symfony\Component\HttpKernel\Event\ResponseEvent;
 use Symfony\Component\HttpKernel\Exception\UnexpectedSessionUsageException;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Contracts\Service\ResetInterface;
+use const PHP_SESSION_ACTIVE;
 
 /**
  * Sets the session onto the request on the "kernel.request" event and saves
@@ -87,7 +89,7 @@ abstract class AbstractSessionListener implements EventSubscriberInterface, Rese
                      *
                      * Do not set it when a native php session is active.
                      */
-                    if ($sess && !$sess->isStarted() && \PHP_SESSION_ACTIVE !== session_status()) {
+                    if ($sess && !$sess->isStarted() && PHP_SESSION_ACTIVE !== session_status()) {
                         $sessionId = $sess->getId() ?: $request->cookies->get($sess->getName(), '');
                         $sess->setId($sessionId);
                     }
@@ -210,7 +212,7 @@ abstract class AbstractSessionListener implements EventSubscriberInterface, Rese
         if ($autoCacheControl) {
             $maxAge = $response->headers->hasCacheControlDirective('public') ? 0 : (int) $response->getMaxAge();
             $response
-                ->setExpires(new \DateTimeImmutable('+'.$maxAge.' seconds'))
+                ->setExpires(new DateTimeImmutable('+'.$maxAge.' seconds'))
                 ->setPrivate()
                 ->setMaxAge($maxAge)
                 ->headers->addCacheControlDirective('must-revalidate');
@@ -284,7 +286,7 @@ abstract class AbstractSessionListener implements EventSubscriberInterface, Rese
      */
     public function reset(): void
     {
-        if (\PHP_SESSION_ACTIVE === session_status()) {
+        if (PHP_SESSION_ACTIVE === session_status()) {
             session_abort();
         }
 

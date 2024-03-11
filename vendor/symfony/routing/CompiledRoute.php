@@ -11,12 +11,15 @@
 
 namespace Symfony\Component\Routing;
 
+use BadMethodCallException;
+use Serializable;
+
 /**
  * CompiledRoutes are returned by the RouteCompiler class.
  *
  * @author Fabien Potencier <fabien@symfony.com>
  */
-class CompiledRoute implements \Serializable
+class CompiledRoute implements Serializable
 {
     private array $variables;
     private array $tokens;
@@ -68,7 +71,7 @@ class CompiledRoute implements \Serializable
      */
     final public function serialize(): string
     {
-        throw new \BadMethodCallException('Cannot serialize '.__CLASS__);
+        throw new BadMethodCallException('Cannot serialize '.__CLASS__);
     }
 
     public function __unserialize(array $data): void

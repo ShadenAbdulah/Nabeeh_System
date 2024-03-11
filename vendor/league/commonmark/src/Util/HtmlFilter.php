@@ -14,6 +14,9 @@ declare(strict_types=1);
 namespace League\CommonMark\Util;
 
 use League\CommonMark\Exception\InvalidArgumentException;
+use function htmlspecialchars;
+use function sprintf;
+use const ENT_NOQUOTES;
 
 /**
  * @psalm-immutable
@@ -45,11 +48,11 @@ final class HtmlFilter
             case self::STRIP:
                 return '';
             case self::ESCAPE:
-                return \htmlspecialchars($html, \ENT_NOQUOTES);
+                return htmlspecialchars($html, ENT_NOQUOTES);
             case self::ALLOW:
                 return $html;
             default:
-                throw new InvalidArgumentException(\sprintf('Invalid filter provided: "%s"', $filter));
+                throw new InvalidArgumentException(sprintf('Invalid filter provided: "%s"', $filter));
         }
     }
 }

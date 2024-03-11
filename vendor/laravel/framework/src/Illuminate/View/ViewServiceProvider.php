@@ -2,6 +2,7 @@
 
 namespace Illuminate\View;
 
+use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\View\Compilers\BladeCompiler;
 use Illuminate\View\Engines\CompilerEngine;
@@ -63,10 +64,10 @@ class ViewServiceProvider extends ServiceProvider
     /**
      * Create a new Factory Instance.
      *
-     * @param  \Illuminate\View\Engines\EngineResolver  $resolver
-     * @param  \Illuminate\View\ViewFinderInterface  $finder
-     * @param  \Illuminate\Contracts\Events\Dispatcher  $events
-     * @return \Illuminate\View\Factory
+     * @param EngineResolver $resolver
+     * @param ViewFinderInterface $finder
+     * @param  Dispatcher  $events
+     * @return Factory
      */
     protected function createFactory($resolver, $finder, $events)
     {
@@ -129,7 +130,7 @@ class ViewServiceProvider extends ServiceProvider
     /**
      * Register the file engine implementation.
      *
-     * @param  \Illuminate\View\Engines\EngineResolver  $resolver
+     * @param EngineResolver $resolver
      * @return void
      */
     public function registerFileEngine($resolver)
@@ -142,7 +143,7 @@ class ViewServiceProvider extends ServiceProvider
     /**
      * Register the PHP engine implementation.
      *
-     * @param  \Illuminate\View\Engines\EngineResolver  $resolver
+     * @param EngineResolver $resolver
      * @return void
      */
     public function registerPhpEngine($resolver)
@@ -155,7 +156,7 @@ class ViewServiceProvider extends ServiceProvider
     /**
      * Register the Blade engine implementation.
      *
-     * @param  \Illuminate\View\Engines\EngineResolver  $resolver
+     * @param EngineResolver $resolver
      * @return void
      */
     public function registerBladeEngine($resolver)

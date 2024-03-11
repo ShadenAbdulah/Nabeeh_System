@@ -21,7 +21,7 @@ class AnonymousNotifiable
      * @param  mixed  $route
      * @return $this
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function route($channel, $route)
     {

@@ -36,6 +36,8 @@
 
 namespace Psy\Readline\Hoa;
 
+use function array_key_exists;
+
 /**
  * A contrario of events, listeners are synchronous, identified at use and
  * useful for close interactions between one or some components.
@@ -113,7 +115,7 @@ class EventListener
      */
     public function listenerExists(string $listenerId): bool
     {
-        return \array_key_exists($listenerId, $this->_callables);
+        return array_key_exists($listenerId, $this->_callables);
     }
 
     /**

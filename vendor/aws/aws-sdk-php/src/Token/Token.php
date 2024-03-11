@@ -2,12 +2,13 @@
 namespace Aws\Token;
 
 use Aws\Token\TokenInterface;
+use Serializable;
 
 /**
  * Basic implementation of the AWS Token interface that allows callers to
  * pass in an AWS token in the constructor.
  */
-class Token implements TokenInterface, \Serializable
+class Token implements TokenInterface, Serializable
 {
     protected $token;
     protected $expires;

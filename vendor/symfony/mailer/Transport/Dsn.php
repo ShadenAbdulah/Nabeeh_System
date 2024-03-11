@@ -11,6 +11,7 @@
 
 namespace Symfony\Component\Mailer\Transport;
 
+use SensitiveParameter;
 use Symfony\Component\Mailer\Exception\InvalidArgumentException;
 
 /**
@@ -25,7 +26,7 @@ final class Dsn
     private ?int $port;
     private array $options;
 
-    public function __construct(string $scheme, string $host, ?string $user = null, #[\SensitiveParameter] ?string $password = null, ?int $port = null, array $options = [])
+    public function __construct(string $scheme, string $host, ?string $user = null, #[SensitiveParameter] ?string $password = null, ?int $port = null, array $options = [])
     {
         $this->scheme = $scheme;
         $this->host = $host;
@@ -35,7 +36,7 @@ final class Dsn
         $this->options = $options;
     }
 
-    public static function fromString(#[\SensitiveParameter] string $dsn): self
+    public static function fromString(#[SensitiveParameter] string $dsn): self
     {
         if (false === $params = parse_url($dsn)) {
             throw new InvalidArgumentException('The mailer DSN is invalid.');

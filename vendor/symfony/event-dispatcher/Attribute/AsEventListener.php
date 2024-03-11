@@ -11,12 +11,14 @@
 
 namespace Symfony\Component\EventDispatcher\Attribute;
 
+use Attribute;
+
 /**
  * Service tag to autoconfigure event listeners.
  *
  * @author Alexander M. Turek <me@derrabus.de>
  */
-#[\Attribute(\Attribute::TARGET_CLASS | \Attribute::TARGET_METHOD | \Attribute::IS_REPEATABLE)]
+#[Attribute(Attribute::TARGET_CLASS | Attribute::TARGET_METHOD | Attribute::IS_REPEATABLE)]
 class AsEventListener
 {
     public function __construct(

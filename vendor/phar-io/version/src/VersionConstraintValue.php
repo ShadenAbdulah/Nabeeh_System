@@ -1,6 +1,12 @@
 <?php declare(strict_types = 1);
 namespace PharIo\Version;
 
+use function explode;
+use function is_numeric;
+use function preg_match;
+use function str_replace;
+use function substr;
+
 class VersionConstraintValue {
     /** @var VersionNumber */
     private $major;
@@ -55,27 +61,27 @@ class VersionConstraintValue {
         $this->extractLabel($versionString);
         $this->stripPotentialVPrefix($versionString);
 
-        $versionSegments = \explode('.', $versionString);
-        $this->major     = new VersionNumber(\is_numeric($versionSegments[0]) ? (int)$versionSegments[0] : null);
+        $versionSegments = explode('.', $versionString);
+        $this->major     = new VersionNumber(is_numeric($versionSegments[0]) ? (int)$versionSegments[0] : null);
 
-        $minorValue = isset($versionSegments[1]) && \is_numeric($versionSegments[1]) ? (int)$versionSegments[1] : null;
-        $patchValue = isset($versionSegments[2]) && \is_numeric($versionSegments[2]) ? (int)$versionSegments[2] : null;
+        $minorValue = isset($versionSegments[1]) && is_numeric($versionSegments[1]) ? (int)$versionSegments[1] : null;
+        $patchValue = isset($versionSegments[2]) && is_numeric($versionSegments[2]) ? (int)$versionSegments[2] : null;
 
         $this->minor = new VersionNumber($minorValue);
         $this->patch = new VersionNumber($patchValue);
     }
 
     private function extractBuildMetaData(string &$versionString): void {
-        if (\preg_match('/\+(.*)/', $versionString, $matches) === 1) {
+        if (preg_match('/\+(.*)/', $versionString, $matches) === 1) {
             $this->buildMetaData = $matches[1];
-            $versionString       = \str_replace($matches[0], '', $versionString);
+            $versionString       = str_replace($matches[0], '', $versionString);
         }
     }
 
     private function extractLabel(string &$versionString): void {
-        if (\preg_match('/-(.*)/', $versionString, $matches) === 1) {
+        if (preg_match('/-(.*)/', $versionString, $matches) === 1) {
             $this->label   = $matches[1];
-            $versionString = \str_replace($matches[0], '', $versionString);
+            $versionString = str_replace($matches[0], '', $versionString);
         }
     }
 
@@ -83,6 +89,6 @@ class VersionConstraintValue {
         if ($versionString[0] !== 'v') {
             return;
         }
-        $versionString = \substr($versionString, 1);
+        $versionString = substr($versionString, 1);
     }
 }

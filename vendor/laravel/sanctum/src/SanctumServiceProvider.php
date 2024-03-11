@@ -3,6 +3,7 @@
 namespace Laravel\Sanctum;
 
 use Illuminate\Auth\RequestGuard;
+use Illuminate\Contracts\Auth\Factory;
 use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -110,7 +111,7 @@ class SanctumServiceProvider extends ServiceProvider
     /**
      * Register the guard.
      *
-     * @param  \Illuminate\Contracts\Auth\Factory  $auth
+     * @param  Factory  $auth
      * @param  array  $config
      * @return RequestGuard
      */

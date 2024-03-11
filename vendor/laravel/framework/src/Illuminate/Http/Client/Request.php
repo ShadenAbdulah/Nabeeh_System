@@ -6,6 +6,7 @@ use ArrayAccess;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Traits\Macroable;
 use LogicException;
+use Psr\Http\Message\RequestInterface;
 
 class Request implements ArrayAccess
 {
@@ -14,7 +15,7 @@ class Request implements ArrayAccess
     /**
      * The underlying PSR request.
      *
-     * @var \Psr\Http\Message\RequestInterface
+     * @var RequestInterface
      */
     protected $request;
 
@@ -28,7 +29,7 @@ class Request implements ArrayAccess
     /**
      * Create a new request instance.
      *
-     * @param  \Psr\Http\Message\RequestInterface  $request
+     * @param  RequestInterface  $request
      * @return void
      */
     public function __construct($request)
@@ -247,7 +248,7 @@ class Request implements ArrayAccess
     /**
      * Get the underlying PSR compliant request instance.
      *
-     * @return \Psr\Http\Message\RequestInterface
+     * @return RequestInterface
      */
     public function toPsrRequest()
     {
@@ -283,7 +284,7 @@ class Request implements ArrayAccess
      * @param  mixed  $value
      * @return void
      *
-     * @throws \LogicException
+     * @throws LogicException
      */
     public function offsetSet($offset, $value): void
     {
@@ -296,7 +297,7 @@ class Request implements ArrayAccess
      * @param  string  $offset
      * @return void
      *
-     * @throws \LogicException
+     * @throws LogicException
      */
     public function offsetUnset($offset): void
     {

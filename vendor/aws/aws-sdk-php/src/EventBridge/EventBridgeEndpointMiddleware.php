@@ -97,7 +97,7 @@ class EventBridgeEndpointMiddleware
     private function validateEndpointId($endpointID)
     {
         if (empty($endpointID)) {
-            throw new \InvalidArgumentException("EventId must be a non-empty string");
+            throw new InvalidArgumentException("EventId must be a non-empty string");
         }
         if (!self::isValidHostLabel($endpointID)) {
             throw new InvalidArgumentException("EventId must be a valid host");

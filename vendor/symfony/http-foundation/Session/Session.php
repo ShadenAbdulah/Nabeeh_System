@@ -11,6 +11,10 @@
 
 namespace Symfony\Component\HttpFoundation\Session;
 
+use ArrayIterator;
+use Closure;
+use Countable;
+use IteratorAggregate;
 use Symfony\Component\HttpFoundation\Session\Attribute\AttributeBag;
 use Symfony\Component\HttpFoundation\Session\Attribute\AttributeBagInterface;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBag;
@@ -18,6 +22,7 @@ use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 use Symfony\Component\HttpFoundation\Session\Storage\MetadataBag;
 use Symfony\Component\HttpFoundation\Session\Storage\NativeSessionStorage;
 use Symfony\Component\HttpFoundation\Session\Storage\SessionStorageInterface;
+use function count;
 
 // Help opcache.preload discover always-needed symbols
 class_exists(AttributeBag::class);
@@ -28,9 +33,9 @@ class_exists(SessionBagProxy::class);
  * @author Fabien Potencier <fabien@symfony.com>
  * @author Drak <drak@zikula.org>
  *
- * @implements \IteratorAggregate<string, mixed>
+ * @implements IteratorAggregate<string, mixed>
  */
-class Session implements FlashBagAwareSessionInterface, \IteratorAggregate, \Countable
+class Session implements FlashBagAwareSessionInterface, IteratorAggregate, Countable
 {
     protected $storage;
 
@@ -38,7 +43,7 @@ class Session implements FlashBagAwareSessionInterface, \IteratorAggregate, \Cou
     private string $attributeName;
     private array $data = [];
     private int $usageIndex = 0;
-    private ?\Closure $usageReporter;
+    private ?Closure $usageReporter;
 
     public function __construct(?SessionStorageInterface $storage = null, ?AttributeBagInterface $attributes = null, ?FlashBagInterface $flashes = null, ?callable $usageReporter = null)
     {
@@ -111,11 +116,11 @@ class Session implements FlashBagAwareSessionInterface, \IteratorAggregate, \Cou
     /**
      * Returns an iterator for attributes.
      *
-     * @return \ArrayIterator<string, mixed>
+     * @return ArrayIterator<string, mixed>
      */
-    public function getIterator(): \ArrayIterator
+    public function getIterator(): ArrayIterator
     {
-        return new \ArrayIterator($this->getAttributeBag()->all());
+        return new ArrayIterator($this->getAttributeBag()->all());
     }
 
     /**
@@ -123,7 +128,7 @@ class Session implements FlashBagAwareSessionInterface, \IteratorAggregate, \Cou
      */
     public function count(): int
     {
-        return \count($this->getAttributeBag()->all());
+        return count($this->getAttributeBag()->all());
     }
 
     public function &getUsageIndex(): int

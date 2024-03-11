@@ -10,7 +10,7 @@ class Middleware
     /**
      * The middleware that should be assigned.
      *
-     * @var \Closure|string|array
+     * @var Closure|string|array
      */
     public $middleware;
 
@@ -31,7 +31,7 @@ class Middleware
     /**
      * Create a new controller middleware definition.
      *
-     * @param  \Closure|string|array  $middleware
+     * @param Closure|string|array  $middleware
      * @return void
      */
     public function __construct(Closure|string|array $middleware)

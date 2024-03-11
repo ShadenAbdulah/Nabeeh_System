@@ -2,20 +2,22 @@
 namespace Aws\AutoScalingPlans;
 
 use Aws\AwsClient;
+use Aws\Result;
+use GuzzleHttp\Promise\Promise;
 
 /**
  * This client is used to interact with the **AWS Auto Scaling Plans** service.
- * @method \Aws\Result createScalingPlan(array $args = [])
- * @method \GuzzleHttp\Promise\Promise createScalingPlanAsync(array $args = [])
- * @method \Aws\Result deleteScalingPlan(array $args = [])
- * @method \GuzzleHttp\Promise\Promise deleteScalingPlanAsync(array $args = [])
- * @method \Aws\Result describeScalingPlanResources(array $args = [])
- * @method \GuzzleHttp\Promise\Promise describeScalingPlanResourcesAsync(array $args = [])
- * @method \Aws\Result describeScalingPlans(array $args = [])
- * @method \GuzzleHttp\Promise\Promise describeScalingPlansAsync(array $args = [])
- * @method \Aws\Result getScalingPlanResourceForecastData(array $args = [])
- * @method \GuzzleHttp\Promise\Promise getScalingPlanResourceForecastDataAsync(array $args = [])
- * @method \Aws\Result updateScalingPlan(array $args = [])
- * @method \GuzzleHttp\Promise\Promise updateScalingPlanAsync(array $args = [])
+ * @method Result createScalingPlan(array $args = [])
+ * @method Promise createScalingPlanAsync(array $args = [])
+ * @method Result deleteScalingPlan(array $args = [])
+ * @method Promise deleteScalingPlanAsync(array $args = [])
+ * @method Result describeScalingPlanResources(array $args = [])
+ * @method Promise describeScalingPlanResourcesAsync(array $args = [])
+ * @method Result describeScalingPlans(array $args = [])
+ * @method Promise describeScalingPlansAsync(array $args = [])
+ * @method Result getScalingPlanResourceForecastData(array $args = [])
+ * @method Promise getScalingPlanResourceForecastDataAsync(array $args = [])
+ * @method Result updateScalingPlan(array $args = [])
+ * @method Promise updateScalingPlanAsync(array $args = [])
  */
 class AutoScalingPlansClient extends AwsClient {}

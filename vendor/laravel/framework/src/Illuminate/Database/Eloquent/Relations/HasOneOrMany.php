@@ -29,8 +29,8 @@ abstract class HasOneOrMany extends Relation
     /**
      * Create a new has one or many relationship instance.
      *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @param  \Illuminate\Database\Eloquent\Model  $parent
+     * @param Builder $query
+     * @param Model $parent
      * @param  string  $foreignKey
      * @param  string  $localKey
      * @return void
@@ -47,7 +47,7 @@ abstract class HasOneOrMany extends Relation
      * Create and return an un-saved instance of the related model.
      *
      * @param  array  $attributes
-     * @return \Illuminate\Database\Eloquent\Model
+     * @return Model
      */
     public function make(array $attributes = [])
     {
@@ -60,7 +60,7 @@ abstract class HasOneOrMany extends Relation
      * Create and return an un-saved instance of the related models.
      *
      * @param  iterable  $records
-     * @return \Illuminate\Database\Eloquent\Collection
+     * @return Collection
      */
     public function makeMany($records)
     {
@@ -111,7 +111,7 @@ abstract class HasOneOrMany extends Relation
      * Match the eagerly loaded results to their single parents.
      *
      * @param  array  $models
-     * @param  \Illuminate\Database\Eloquent\Collection  $results
+     * @param Collection $results
      * @param  string  $relation
      * @return array
      */
@@ -124,7 +124,7 @@ abstract class HasOneOrMany extends Relation
      * Match the eagerly loaded results to their many parents.
      *
      * @param  array  $models
-     * @param  \Illuminate\Database\Eloquent\Collection  $results
+     * @param Collection $results
      * @param  string  $relation
      * @return array
      */
@@ -137,7 +137,7 @@ abstract class HasOneOrMany extends Relation
      * Match the eagerly loaded results to their many parents.
      *
      * @param  array  $models
-     * @param  \Illuminate\Database\Eloquent\Collection  $results
+     * @param Collection $results
      * @param  string  $relation
      * @param  string  $type
      * @return array
@@ -178,7 +178,7 @@ abstract class HasOneOrMany extends Relation
     /**
      * Build model dictionary keyed by the relation's foreign key.
      *
-     * @param  \Illuminate\Database\Eloquent\Collection  $results
+     * @param Collection $results
      * @return array
      */
     protected function buildDictionary(Collection $results)
@@ -195,7 +195,7 @@ abstract class HasOneOrMany extends Relation
      *
      * @param  mixed  $id
      * @param  array  $columns
-     * @return \Illuminate\Support\Collection|\Illuminate\Database\Eloquent\Model
+     * @return \Illuminate\Support\Collection|Model
      */
     public function findOrNew($id, $columns = ['*'])
     {
@@ -213,7 +213,7 @@ abstract class HasOneOrMany extends Relation
      *
      * @param  array  $attributes
      * @param  array  $values
-     * @return \Illuminate\Database\Eloquent\Model
+     * @return Model
      */
     public function firstOrNew(array $attributes = [], array $values = [])
     {
@@ -231,7 +231,7 @@ abstract class HasOneOrMany extends Relation
      *
      * @param  array  $attributes
      * @param  array  $values
-     * @return \Illuminate\Database\Eloquent\Model
+     * @return Model
      */
     public function firstOrCreate(array $attributes = [], array $values = [])
     {
@@ -247,7 +247,7 @@ abstract class HasOneOrMany extends Relation
      *
      * @param  array  $attributes
      * @param  array  $values
-     * @return \Illuminate\Database\Eloquent\Model
+     * @return Model
      */
     public function createOrFirst(array $attributes = [], array $values = [])
     {
@@ -263,7 +263,7 @@ abstract class HasOneOrMany extends Relation
      *
      * @param  array  $attributes
      * @param  array  $values
-     * @return \Illuminate\Database\Eloquent\Model
+     * @return Model
      */
     public function updateOrCreate(array $attributes, array $values = [])
     {
@@ -277,8 +277,8 @@ abstract class HasOneOrMany extends Relation
     /**
      * Attach a model instance to the parent model.
      *
-     * @param  \Illuminate\Database\Eloquent\Model  $model
-     * @return \Illuminate\Database\Eloquent\Model|false
+     * @param Model $model
+     * @return Model|false
      */
     public function save(Model $model)
     {
@@ -290,8 +290,8 @@ abstract class HasOneOrMany extends Relation
     /**
      * Attach a model instance without raising any events to the parent model.
      *
-     * @param  \Illuminate\Database\Eloquent\Model  $model
-     * @return \Illuminate\Database\Eloquent\Model|false
+     * @param Model $model
+     * @return Model|false
      */
     public function saveQuietly(Model $model)
     {
@@ -332,7 +332,7 @@ abstract class HasOneOrMany extends Relation
      * Create a new instance of the related model.
      *
      * @param  array  $attributes
-     * @return \Illuminate\Database\Eloquent\Model
+     * @return Model
      */
     public function create(array $attributes = [])
     {
@@ -347,7 +347,7 @@ abstract class HasOneOrMany extends Relation
      * Create a new instance of the related model without raising any events to the parent model.
      *
      * @param  array  $attributes
-     * @return \Illuminate\Database\Eloquent\Model
+     * @return Model
      */
     public function createQuietly(array $attributes = [])
     {
@@ -358,7 +358,7 @@ abstract class HasOneOrMany extends Relation
      * Create a new instance of the related model. Allow mass-assignment.
      *
      * @param  array  $attributes
-     * @return \Illuminate\Database\Eloquent\Model
+     * @return Model
      */
     public function forceCreate(array $attributes = [])
     {
@@ -371,7 +371,7 @@ abstract class HasOneOrMany extends Relation
      * Create a new instance of the related model with mass assignment without raising model events.
      *
      * @param  array  $attributes
-     * @return \Illuminate\Database\Eloquent\Model
+     * @return Model
      */
     public function forceCreateQuietly(array $attributes = [])
     {
@@ -382,7 +382,7 @@ abstract class HasOneOrMany extends Relation
      * Create a Collection of new instances of the related model.
      *
      * @param  iterable  $records
-     * @return \Illuminate\Database\Eloquent\Collection
+     * @return Collection
      */
     public function createMany(iterable $records)
     {
@@ -399,7 +399,7 @@ abstract class HasOneOrMany extends Relation
      * Create a Collection of new instances of the related model without raising any events to the parent model.
      *
      * @param  iterable  $records
-     * @return \Illuminate\Database\Eloquent\Collection
+     * @return Collection
      */
     public function createManyQuietly(iterable $records)
     {
@@ -409,7 +409,7 @@ abstract class HasOneOrMany extends Relation
     /**
      * Set the foreign ID for creating a related model.
      *
-     * @param  \Illuminate\Database\Eloquent\Model  $model
+     * @param Model $model
      * @return void
      */
     protected function setForeignAttributesForCreate(Model $model)
@@ -420,10 +420,10 @@ abstract class HasOneOrMany extends Relation
     /**
      * Add the constraints for a relationship query.
      *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @param  \Illuminate\Database\Eloquent\Builder  $parentQuery
+     * @param Builder $query
+     * @param Builder $parentQuery
      * @param  array|mixed  $columns
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @return Builder
      */
     public function getRelationExistenceQuery(Builder $query, Builder $parentQuery, $columns = ['*'])
     {
@@ -437,10 +437,10 @@ abstract class HasOneOrMany extends Relation
     /**
      * Add the constraints for a relationship query on the same table.
      *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @param  \Illuminate\Database\Eloquent\Builder  $parentQuery
+     * @param Builder $query
+     * @param Builder $parentQuery
      * @param  array|mixed  $columns
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @return Builder
      */
     public function getRelationExistenceQueryForSelfRelation(Builder $query, Builder $parentQuery, $columns = ['*'])
     {

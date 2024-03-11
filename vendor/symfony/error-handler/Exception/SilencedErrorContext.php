@@ -11,12 +11,14 @@
 
 namespace Symfony\Component\ErrorHandler\Exception;
 
+use JsonSerializable;
+
 /**
  * Data Object that represents a Silenced Error.
  *
  * @author Grégoire Pineau <lyrixx@lyrixx.info>
  */
-class SilencedErrorContext implements \JsonSerializable
+class SilencedErrorContext implements JsonSerializable
 {
     public $count = 1;
 

@@ -6,6 +6,7 @@
 namespace AWS\CRT\HTTP;
 
 use AWS\CRT\IO\InputStream;
+use InvalidArgumentException;
 
 class Request extends Message {
     private $body_stream = null;
@@ -13,7 +14,7 @@ class Request extends Message {
     public function __construct($method, $path, $query = [], $headers = [], $body_stream = null) {
         parent::__construct($method, $path, $query, $headers);
         if (!is_null($body_stream) && !($body_stream instanceof InputStream)) {
-            throw new \InvalidArgumentException('body_stream must be an instance of ' . InputStream::class);
+            throw new InvalidArgumentException('body_stream must be an instance of ' . InputStream::class);
         }
         $this->body_stream = $body_stream;
     }

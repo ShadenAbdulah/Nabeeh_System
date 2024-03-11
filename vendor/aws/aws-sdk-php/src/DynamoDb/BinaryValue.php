@@ -2,11 +2,13 @@
 namespace Aws\DynamoDb;
 
 use GuzzleHttp\Psr7;
+use JsonSerializable;
+use ReturnTypeWillChange;
 
 /**
  * Special object to represent a DynamoDB binary (B) value.
  */
-class BinaryValue implements \JsonSerializable
+class BinaryValue implements JsonSerializable
 {
     /** @var string Binary value. */
     private $value;
@@ -24,7 +26,7 @@ class BinaryValue implements \JsonSerializable
         $this->value = (string) $value;
     }
 
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function jsonSerialize()
     {
         return $this->value;

@@ -2,6 +2,8 @@
 
 namespace Illuminate\Auth\Notifications;
 
+use Closure;
+use Illuminate\Contracts\Mail\Mailable;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\Lang;
@@ -18,14 +20,14 @@ class ResetPassword extends Notification
     /**
      * The callback that should be used to create the reset password URL.
      *
-     * @var (\Closure(mixed, string): string)|null
+     * @var (Closure(mixed, string): string)|null
      */
     public static $createUrlCallback;
 
     /**
      * The callback that should be used to build the mail message.
      *
-     * @var (\Closure(mixed, string): \Illuminate\Notifications\Messages\MailMessage|\Illuminate\Contracts\Mail\Mailable)|null
+     * @var (Closure(mixed, string): MailMessage|Mailable)|null
      */
     public static $toMailCallback;
 
@@ -55,7 +57,7 @@ class ResetPassword extends Notification
      * Build the mail representation of the notification.
      *
      * @param  mixed  $notifiable
-     * @return \Illuminate\Notifications\Messages\MailMessage
+     * @return MailMessage
      */
     public function toMail($notifiable)
     {
@@ -70,7 +72,7 @@ class ResetPassword extends Notification
      * Get the reset password notification mail message for the given URL.
      *
      * @param  string  $url
-     * @return \Illuminate\Notifications\Messages\MailMessage
+     * @return MailMessage
      */
     protected function buildMailMessage($url)
     {
@@ -103,7 +105,7 @@ class ResetPassword extends Notification
     /**
      * Set a callback that should be used when creating the reset password button URL.
      *
-     * @param  \Closure(mixed, string): string  $callback
+     * @param  Closure(mixed, string): string  $callback
      * @return void
      */
     public static function createUrlUsing($callback)
@@ -114,7 +116,7 @@ class ResetPassword extends Notification
     /**
      * Set a callback that should be used when building the notification mail message.
      *
-     * @param  \Closure(mixed, string): (\Illuminate\Notifications\Messages\MailMessage|\Illuminate\Contracts\Mail\Mailable)  $callback
+     * @param  Closure(mixed, string): (MailMessage|Mailable)  $callback
      * @return void
      */
     public static function toMailUsing($callback)

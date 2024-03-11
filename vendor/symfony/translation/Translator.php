@@ -11,6 +11,7 @@
 
 namespace Symfony\Component\Translation;
 
+use Locale;
 use Symfony\Component\Config\ConfigCacheFactory;
 use Symfony\Component\Config\ConfigCacheFactoryInterface;
 use Symfony\Component\Config\ConfigCacheInterface;
@@ -24,6 +25,11 @@ use Symfony\Component\Translation\Loader\LoaderInterface;
 use Symfony\Contracts\Translation\LocaleAwareInterface;
 use Symfony\Contracts\Translation\TranslatableInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use function count;
+use function function_exists;
+use function in_array;
+use function is_string;
+use function strlen;
 
 // Help opcache.preload discover always-needed symbols
 class_exists(MessageCatalogue::class);
@@ -115,11 +121,11 @@ class Translator implements TranslatorInterface, TranslatorBagInterface, LocaleA
         $domain ??= 'messages';
 
         $this->assertValidLocale($locale);
-        $locale ?: $locale = class_exists(\Locale::class) ? \Locale::getDefault() : 'en';
+        $locale ?: $locale = class_exists(Locale::class) ? Locale::getDefault() : 'en';
 
         $this->resources[$locale][] = [$format, $resource, $domain];
 
-        if (\in_array($locale, $this->fallbackLocales)) {
+        if (in_array($locale, $this->fallbackLocales)) {
             $this->catalogues = [];
         } else {
             unset($this->catalogues[$locale]);
@@ -137,7 +143,7 @@ class Translator implements TranslatorInterface, TranslatorBagInterface, LocaleA
 
     public function getLocale(): string
     {
-        return $this->locale ?: (class_exists(\Locale::class) ? \Locale::getDefault() : 'en');
+        return $this->locale ?: (class_exists(Locale::class) ? Locale::getDefault() : 'en');
     }
 
     /**
@@ -192,10 +198,10 @@ class Translator implements TranslatorInterface, TranslatorBagInterface, LocaleA
 
         $parameters = array_map(fn ($parameter) => $parameter instanceof TranslatableInterface ? $parameter->trans($this, $locale) : $parameter, $parameters);
 
-        $len = \strlen(MessageCatalogue::INTL_DOMAIN_SUFFIX);
+        $len = strlen(MessageCatalogue::INTL_DOMAIN_SUFFIX);
         if ($this->hasIntlFormatter
             && ($catalogue->defines($id, $domain.MessageCatalogue::INTL_DOMAIN_SUFFIX)
-            || (\strlen($domain) > $len && 0 === substr_compare($domain, MessageCatalogue::INTL_DOMAIN_SUFFIX, -$len, $len)))
+            || (strlen($domain) > $len && 0 === substr_compare($domain, MessageCatalogue::INTL_DOMAIN_SUFFIX, -$len, $len)))
         ) {
             return $this->formatter->formatIntl($catalogue->get($id, $domain), $locale, $parameters);
         }
@@ -355,7 +361,7 @@ EOF
         if (isset($this->resources[$locale])) {
             foreach ($this->resources[$locale] as $resource) {
                 if (!isset($this->loaders[$resource[0]])) {
-                    if (\is_string($resource[1])) {
+                    if (is_string($resource[1])) {
                         throw new RuntimeException(sprintf('No loader is registered for the "%s" format when loading the "%s" resource.', $resource[0], $resource[1]));
                     }
 
@@ -399,10 +405,10 @@ EOF
 
             if ($parent) {
                 $locale = 'root' !== $parent ? $parent : null;
-            } elseif (\function_exists('locale_parse')) {
+            } elseif (function_exists('locale_parse')) {
                 $localeSubTags = locale_parse($locale);
                 $locale = null;
-                if (1 < \count($localeSubTags)) {
+                if (1 < count($localeSubTags)) {
                     array_pop($localeSubTags);
                     $locale = locale_compose($localeSubTags) ?: null;
                 }

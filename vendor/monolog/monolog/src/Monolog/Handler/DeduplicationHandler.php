@@ -15,6 +15,7 @@ use Monolog\Level;
 use Monolog\Logger;
 use Psr\Log\LogLevel;
 use Monolog\LogRecord;
+use RuntimeException;
 
 /**
  * Simple handler wrapper that deduplicates log records across multiple requests
@@ -132,7 +133,7 @@ class DeduplicationHandler extends BufferHandler
         $handle = fopen($this->deduplicationStore, 'rw+');
 
         if (false === $handle) {
-            throw new \RuntimeException('Failed to open file for reading and writing: ' . $this->deduplicationStore);
+            throw new RuntimeException('Failed to open file for reading and writing: ' . $this->deduplicationStore);
         }
 
         flock($handle, LOCK_EX);

@@ -1,12 +1,14 @@
 <?php
 namespace Hamcrest\Type;
 
-class IsIntegerTest extends \Hamcrest\AbstractMatcherTest
+use Hamcrest\AbstractMatcherTest;
+
+class IsIntegerTest extends AbstractMatcherTest
 {
 
     protected function createMatcher()
     {
-        return \Hamcrest\Type\IsInteger::integerValue();
+        return IsInteger::integerValue();
     }
 
     public function testEvaluatesToTrueIfArgumentMatchesType()

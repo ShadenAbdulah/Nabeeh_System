@@ -11,6 +11,7 @@
 
 namespace Symfony\Component\Console\Event;
 
+use InvalidArgumentException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -38,7 +39,7 @@ final class ConsoleSignalEvent extends ConsoleEvent
     public function setExitCode(int $exitCode): void
     {
         if ($exitCode < 0 || $exitCode > 255) {
-            throw new \InvalidArgumentException('Exit code must be between 0 and 255.');
+            throw new InvalidArgumentException('Exit code must be between 0 and 255.');
         }
 
         $this->exitCode = $exitCode;

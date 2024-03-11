@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 namespace League\CommonMark\Exception;
 
-class IOException extends \RuntimeException implements CommonMarkException
+use RuntimeException;
+
+class IOException extends RuntimeException implements CommonMarkException
 {
 }

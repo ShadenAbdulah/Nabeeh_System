@@ -20,6 +20,9 @@ use PhpConsole\Handler as VendorPhpConsoleHandler;
 use PhpConsole\Helper;
 use Monolog\LogRecord;
 use PhpConsole\Storage;
+use RuntimeException;
+use Throwable;
+use function count;
 
 /**
  * Monolog handler for Google Chrome extension "PHP Console"
@@ -119,13 +122,13 @@ class PHPConsoleHandler extends AbstractProcessingHandler
     /**
      * @param  array<string, mixed> $options   See \Monolog\Handler\PHPConsoleHandler::$options for more details
      * @param  Connector|null       $connector Instance of \PhpConsole\Connector class (optional)
-     * @throws \RuntimeException
+     * @throws RuntimeException
      * @phpstan-param InputOptions $options
      */
     public function __construct(array $options = [], ?Connector $connector = null, int|string|Level $level = Level::Debug, bool $bubble = true)
     {
         if (!class_exists('PhpConsole\Connector')) {
-            throw new \RuntimeException('PHP Console library not found. See https://github.com/barbushin/php-console#installation');
+            throw new RuntimeException('PHP Console library not found. See https://github.com/barbushin/php-console#installation');
         }
         parent::__construct($level, $bubble);
         $this->options = $this->initOptions($options);
@@ -142,8 +145,8 @@ class PHPConsoleHandler extends AbstractProcessingHandler
     private function initOptions(array $options): array
     {
         $wrongOptions = array_diff(array_keys($options), array_keys($this->options));
-        if (\count($wrongOptions) > 0) {
-            throw new \RuntimeException('Unknown options: ' . implode(', ', $wrongOptions));
+        if (count($wrongOptions) > 0) {
+            throw new RuntimeException('Unknown options: ' . implode(', ', $wrongOptions));
         }
 
         return array_replace($this->options, $options);
@@ -181,7 +184,7 @@ class PHPConsoleHandler extends AbstractProcessingHandler
             if ($this->options['enableSslOnlyMode']) {
                 $connector->enableSslOnlyMode();
             }
-            if (\count($this->options['ipMasks']) > 0) {
+            if (count($this->options['ipMasks']) > 0) {
                 $connector->setAllowedIpMasks($this->options['ipMasks']);
             }
             if (null !== $this->options['headersLimit'] && $this->options['headersLimit'] > 0) {
@@ -233,7 +236,7 @@ class PHPConsoleHandler extends AbstractProcessingHandler
     {
         if ($record->level->isLowerThan(Level::Notice)) {
             $this->handleDebugRecord($record);
-        } elseif (isset($record->context['exception']) && $record->context['exception'] instanceof \Throwable) {
+        } elseif (isset($record->context['exception']) && $record->context['exception'] instanceof Throwable) {
             $this->handleExceptionRecord($record);
         } else {
             $this->handleErrorRecord($record);
@@ -244,7 +247,7 @@ class PHPConsoleHandler extends AbstractProcessingHandler
     {
         [$tags, $filteredContext] = $this->getRecordTags($record);
         $message = $record->message;
-        if (\count($filteredContext) > 0) {
+        if (count($filteredContext) > 0) {
             $message .= ' ' . Utils::jsonEncode($this->connector->getDumper()->dump(array_filter($filteredContext)), null, true);
         }
         $this->connector->getDebugDispatcher()->dispatchDebug($message, $tags, $this->options['classesPartialsTraceIgnore']);

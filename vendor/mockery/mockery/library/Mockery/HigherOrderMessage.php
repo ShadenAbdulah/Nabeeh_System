@@ -10,8 +10,10 @@
 
 namespace Mockery;
 
+use Closure;
+
 /**
- * @method \Mockery\Expectation withArgs(\Closure|array $args)
+ * @method Expectation withArgs(Closure|array $args)
  */
 class HigherOrderMessage
 {
@@ -25,7 +27,7 @@ class HigherOrderMessage
     }
 
     /**
-     * @return \Mockery\Expectation
+     * @return Expectation
      */
     public function __call($method, $args)
     {

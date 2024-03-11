@@ -6,6 +6,8 @@ use Aws\CommandInterface;
 use Aws\Exception\AwsException;
 use Aws\MonitoringEventsInterface;
 use Aws\ResultInterface;
+use Exception;
+use InvalidArgumentException;
 use Psr\Http\Message\RequestInterface;
 
 /**
@@ -76,13 +78,13 @@ class ApiCallMonitoringMiddleware extends AbstractMonitoringMiddleware
                 'AttemptCount' => self::getResultAttemptCount($klass),
                 'MaxRetriesExceeded' => 0,
             ];
-        } elseif ($klass instanceof \Exception) {
+        } elseif ($klass instanceof Exception) {
             $data = [
                 'AttemptCount' => self::getExceptionAttemptCount($klass),
                 'MaxRetriesExceeded' => self::getMaxRetriesExceeded($klass),
             ];
         } else {
-            throw new \InvalidArgumentException('Parameter must be an instance of ResultInterface or Exception.');
+            throw new InvalidArgumentException('Parameter must be an instance of ResultInterface or Exception.');
         }
 
         return $data + self::getFinalAttemptData($klass);
@@ -95,7 +97,7 @@ class ApiCallMonitoringMiddleware extends AbstractMonitoringMiddleware
         return 1;
     }
 
-    private static function getExceptionAttemptCount(\Exception $e) {
+    private static function getExceptionAttemptCount(Exception $e) {
         $attemptCount = 0;
         if ($e instanceof MonitoringEventsInterface) {
             foreach ($e->getMonitoringEvents() as $event) {

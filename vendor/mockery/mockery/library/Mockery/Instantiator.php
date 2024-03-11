@@ -35,7 +35,7 @@ final class Instantiator
     }
 
     /**
-     * Builds a {@see \Closure} capable of instantiating the given $className without
+     * Builds a {@see Closure} capable of instantiating the given $className without
      * invoking its constructor.
      *
      * @param string $className

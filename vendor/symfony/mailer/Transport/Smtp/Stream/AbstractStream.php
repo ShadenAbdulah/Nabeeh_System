@@ -11,7 +11,9 @@
 
 namespace Symfony\Component\Mailer\Transport\Smtp\Stream;
 
+use Generator;
 use Symfony\Component\Mailer\Exception\TransportException;
+use function strlen;
 
 /**
  * A stream supporting remote sockets and local processes.
@@ -41,7 +43,7 @@ abstract class AbstractStream
             }
         }
 
-        $bytesToWrite = \strlen($bytes);
+        $bytesToWrite = strlen($bytes);
         $totalBytesWritten = 0;
         while ($totalBytesWritten < $bytesToWrite) {
             $bytesWritten = @fwrite($this->in, substr($bytes, $totalBytesWritten));
@@ -104,7 +106,7 @@ abstract class AbstractStream
         return $debug;
     }
 
-    public static function replace(string $from, string $to, iterable $chunks): \Generator
+    public static function replace(string $from, string $to, iterable $chunks): Generator
     {
         if ('' === $from) {
             yield from $chunks;
@@ -113,7 +115,7 @@ abstract class AbstractStream
         }
 
         $carry = '';
-        $fromLen = \strlen($from);
+        $fromLen = strlen($from);
 
         foreach ($chunks as $chunk) {
             if ('' === $chunk = $carry.$chunk) {
@@ -129,7 +131,7 @@ abstract class AbstractStream
                 $carry = $chunk;
             }
 
-            if (\strlen($carry) > $fromLen) {
+            if (strlen($carry) > $fromLen) {
                 yield substr($carry, 0, -$fromLen);
                 $carry = substr($carry, -$fromLen);
             }

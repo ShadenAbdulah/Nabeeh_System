@@ -3,6 +3,7 @@
 namespace Faker\Provider\kk_KZ;
 
 use Faker\Provider\DateTime;
+use InvalidArgumentException;
 
 class Person extends \Faker\Provider\Person
 {
@@ -187,7 +188,7 @@ class Person extends \Faker\Provider\Person
     private static function getCenturyByYear($year)
     {
         if (($year >= 2100) || ($year < 1800)) {
-            throw new \InvalidArgumentException('Unexpected century');
+            throw new InvalidArgumentException('Unexpected century');
         }
 
         if ($year >= 2000) {

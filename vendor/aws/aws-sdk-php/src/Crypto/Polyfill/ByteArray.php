@@ -1,11 +1,28 @@
 <?php
 namespace Aws\Crypto\Polyfill;
 
+use InvalidArgumentException;
+use ReturnTypeWillChange;
+use SplFixedArray;
+use function array_slice;
+use function array_unshift;
+use function call_user_func_array;
+use function count;
+use function is_array;
+use function is_callable;
+use function is_int;
+use function is_string;
+use function mb_str_split;
+use function pack;
+use function str_repeat;
+use function str_split;
+use function unpack;
+
 /**
  * Class ByteArray
  * @package Aws\Crypto\Polyfill
  */
-class ByteArray extends \SplFixedArray
+class ByteArray extends SplFixedArray
 {
     use NeedsTrait;
 
@@ -16,22 +33,22 @@ class ByteArray extends \SplFixedArray
      *     If you pass in an integer, it creates a ByteArray of that size.
      *     If you pass in a string or array, it converts it to an array of
      *       integers between 0 and 255.
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function __construct($size = 0)
     {
         $arr = null;
         // Integer? This behaves just like SplFixedArray.
-        if (\is_array($size)) {
+        if (is_array($size)) {
             // Array? We need to pass the count to parent::__construct() then populate
             $arr = $size;
-            $size = \count($arr);
-        } elseif (\is_string($size)) {
+            $size = count($arr);
+        } elseif (is_string($size)) {
             // We need to avoid mbstring.func_overload
-            if (\is_callable('\\mb_str_split')) {
-                $tmp = \mb_str_split($size, 1, '8bit');
+            if (is_callable('\\mb_str_split')) {
+                $tmp = mb_str_split($size, 1, '8bit');
             } else {
-                $tmp = \str_split($size, 1);
+                $tmp = str_split($size, 1);
             }
             // Let's convert each character to an 8-bit integer and store in $arr
             $arr = [];
@@ -40,15 +57,15 @@ class ByteArray extends \SplFixedArray
                     if (strlen($t) < 1) {
                         continue;
                     }
-                    $arr []= \unpack('C', $t)[1] & 0xff;
+                    $arr []= unpack('C', $t)[1] & 0xff;
                 }
             }
-            $size = \count($arr);
+            $size = count($arr);
         } elseif ($size instanceof ByteArray) {
             $arr = $size->toArray();
             $size = $size->count();
-        } elseif (!\is_int($size)) {
-            throw new \InvalidArgumentException(
+        } elseif (!is_int($size)) {
+            throw new InvalidArgumentException(
                 'Argument must be an integer, string, or array of integers.'
             );
         }
@@ -76,7 +93,7 @@ class ByteArray extends \SplFixedArray
      */
     public static function enc32be($num)
     {
-        return new ByteArray(\pack('N', $num));
+        return new ByteArray(pack('N', $num));
     }
 
     /**
@@ -138,7 +155,7 @@ class ByteArray extends \SplFixedArray
      * @param int $newval
      * @return void
      */
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function offsetSet($index, $newval)
     {
         parent::offsetSet($index, $newval & 0xff);
@@ -225,7 +242,7 @@ class ByteArray extends \SplFixedArray
      */
     public function slice($start = 0, $length = null)
     {
-        return new ByteArray(\array_slice($this->toArray(), $start, $length));
+        return new ByteArray(array_slice($this->toArray(), $start, $length));
     }
 
     /**
@@ -252,8 +269,8 @@ class ByteArray extends \SplFixedArray
             return '';
         }
         $args = $this->toArray();
-        \array_unshift($args, \str_repeat('C', $count));
+        array_unshift($args, str_repeat('C', $count));
         // constant-time, PHP <5.6 equivalent to pack('C*', ...$args);
-        return \call_user_func_array('\\pack', $args);
+        return call_user_func_array('\\pack', $args);
     }
 }

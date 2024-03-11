@@ -2,6 +2,7 @@
 
 namespace Illuminate\Queue;
 
+use DateInterval;
 use DateTimeInterface;
 use Illuminate\Contracts\Queue\Job as JobContract;
 use Illuminate\Support\InteractsWithTime;
@@ -15,7 +16,7 @@ trait InteractsWithQueue
     /**
      * The underlying queue job instance.
      *
-     * @var \Illuminate\Contracts\Queue\Job|null
+     * @var JobContract|null
      */
     public $job;
 
@@ -44,7 +45,7 @@ trait InteractsWithQueue
     /**
      * Fail the job from the queue.
      *
-     * @param  \Throwable|string|null  $exception
+     * @param Throwable|string|null  $exception
      * @return void
      */
     public function fail($exception = null)
@@ -65,7 +66,7 @@ trait InteractsWithQueue
     /**
      * Release the job back into the queue after (n) seconds.
      *
-     * @param  \DateTimeInterface|\DateInterval|int  $delay
+     * @param DateTimeInterface|DateInterval|int  $delay
      * @return void
      */
     public function release($delay = 0)
@@ -82,7 +83,7 @@ trait InteractsWithQueue
     /**
      * Set the base queue job instance.
      *
-     * @param  \Illuminate\Contracts\Queue\Job  $job
+     * @param JobContract $job
      * @return $this
      */
     public function setJob(JobContract $job)

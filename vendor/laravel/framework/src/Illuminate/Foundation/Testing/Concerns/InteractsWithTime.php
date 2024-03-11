@@ -2,6 +2,8 @@
 
 namespace Illuminate\Foundation\Testing\Concerns;
 
+use Closure;
+use DateTimeInterface;
 use Illuminate\Foundation\Testing\Wormhole;
 use Illuminate\Support\Carbon;
 
@@ -33,7 +35,7 @@ trait InteractsWithTime
      * Begin travelling to another time.
      *
      * @param  int  $value
-     * @return \Illuminate\Foundation\Testing\Wormhole
+     * @return Wormhole
      */
     public function travel($value)
     {
@@ -43,7 +45,7 @@ trait InteractsWithTime
     /**
      * Travel to another time.
      *
-     * @param  \DateTimeInterface|\Closure|\Illuminate\Support\Carbon|string|bool|null  $date
+     * @param  DateTimeInterface|Closure|Carbon|string|bool|null  $date
      * @param  callable|null  $callback
      * @return mixed
      */
@@ -61,7 +63,7 @@ trait InteractsWithTime
     /**
      * Travel back to the current time.
      *
-     * @return \DateTimeInterface
+     * @return DateTimeInterface
      */
     public function travelBack()
     {

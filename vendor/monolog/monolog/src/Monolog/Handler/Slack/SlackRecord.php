@@ -16,6 +16,8 @@ use Monolog\Utils;
 use Monolog\Formatter\NormalizerFormatter;
 use Monolog\Formatter\FormatterInterface;
 use Monolog\LogRecord;
+use function count;
+use function is_string;
 
 /**
  * Slack record utility helping to log to Slack webhooks or API.
@@ -150,7 +152,7 @@ class SlackRecord
 
             if ($this->includeContextAndExtra) {
                 foreach (['extra', 'context'] as $key) {
-                    if (!isset($recordData[$key]) || \count($recordData[$key]) === 0) {
+                    if (!isset($recordData[$key]) || count($recordData[$key]) === 0) {
                         continue;
                     }
 
@@ -209,8 +211,8 @@ class SlackRecord
         /** @var array<mixed> $normalized */
         $normalized = $this->normalizerFormatter->normalizeValue($fields);
 
-        $hasSecondDimension = \count(array_filter($normalized, 'is_array')) > 0;
-        $hasOnlyNonNumericKeys = \count(array_filter(array_keys($normalized), 'is_numeric')) === 0;
+        $hasSecondDimension = count(array_filter($normalized, 'is_array')) > 0;
+        $hasOnlyNonNumericKeys = count(array_filter(array_keys($normalized), 'is_numeric')) === 0;
 
         return $hasSecondDimension || $hasOnlyNonNumericKeys
             ? Utils::jsonEncode($normalized, JSON_PRETTY_PRINT|Utils::DEFAULT_JSON_FLAGS)
@@ -260,7 +262,7 @@ class SlackRecord
     {
         $this->userIcon = $userIcon;
 
-        if (\is_string($userIcon)) {
+        if (is_string($userIcon)) {
             $this->userIcon = trim($userIcon, ':');
         }
 

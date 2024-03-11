@@ -9,8 +9,8 @@ use GuzzleHttp\Promise;
 
 /**
  * A configuration provider is a function that returns a promise that is
- * fulfilled with a {@see \Aws\S3\UseArnRegion\ConfigurationInterface}
- * or rejected with an {@see \Aws\S3\UseArnRegion\Exception\ConfigurationException}.
+ * fulfilled with a {@see ConfigurationInterface}
+ * or rejected with an {@see ConfigurationException}.
  *
  * <code>
  * use Aws\S3\UseArnRegion\ConfigurationProvider;

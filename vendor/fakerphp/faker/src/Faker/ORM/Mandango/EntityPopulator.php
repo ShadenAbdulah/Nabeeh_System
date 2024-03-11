@@ -2,6 +2,8 @@
 
 namespace Faker\ORM\Mandango;
 
+use Faker\Generator;
+use Faker\Guesser\Name;
 use Faker\Provider\Base;
 use Mandango\Mandango;
 
@@ -50,11 +52,11 @@ class EntityPopulator
     /**
      * @return array
      */
-    public function guessColumnFormatters(\Faker\Generator $generator, Mandango $mandango)
+    public function guessColumnFormatters(Generator $generator, Mandango $mandango)
     {
         $formatters = [];
-        $nameGuesser = new \Faker\Guesser\Name($generator);
-        $columnTypeGuesser = new \Faker\ORM\Mandango\ColumnTypeGuesser($generator);
+        $nameGuesser = new Name($generator);
+        $columnTypeGuesser = new ColumnTypeGuesser($generator);
 
         $metadata = $mandango->getMetadata($this->class);
 

@@ -2,6 +2,7 @@
 
 namespace Illuminate\Queue;
 
+use Illuminate\Contracts\Queue\Job;
 use RuntimeException;
 
 class MaxAttemptsExceededException extends RuntimeException
@@ -9,14 +10,14 @@ class MaxAttemptsExceededException extends RuntimeException
     /**
      * The job instance.
      *
-     * @var \Illuminate\Contracts\Queue\Job|null
+     * @var Job|null
      */
     public $job;
 
     /**
      * Create a new instance for the job.
      *
-     * @param  \Illuminate\Contracts\Queue\Job  $job
+     * @param  Job  $job
      * @return static
      */
     public static function forJob($job)

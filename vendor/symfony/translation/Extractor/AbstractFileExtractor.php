@@ -11,6 +11,7 @@
 
 namespace Symfony\Component\Translation\Extractor;
 
+use SplFileInfo;
 use Symfony\Component\Translation\Exception\InvalidArgumentException;
 
 /**
@@ -38,9 +39,9 @@ abstract class AbstractFileExtractor
         return $files;
     }
 
-    private function toSplFileInfo(string $file): \SplFileInfo
+    private function toSplFileInfo(string $file): SplFileInfo
     {
-        return new \SplFileInfo($file);
+        return new SplFileInfo($file);
     }
 
     /**

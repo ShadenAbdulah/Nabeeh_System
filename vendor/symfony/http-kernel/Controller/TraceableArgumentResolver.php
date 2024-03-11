@@ -11,8 +11,10 @@
 
 namespace Symfony\Component\HttpKernel\Controller;
 
+use ReflectionFunctionAbstract;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Stopwatch\Stopwatch;
+use function func_num_args;
 
 /**
  * @author Fabien Potencier <fabien@symfony.com>
@@ -29,11 +31,11 @@ class TraceableArgumentResolver implements ArgumentResolverInterface
     }
 
     /**
-     * @param \ReflectionFunctionAbstract|null $reflector
+     * @param ReflectionFunctionAbstract|null $reflector
      */
     public function getArguments(Request $request, callable $controller/* , \ReflectionFunctionAbstract $reflector = null */): array
     {
-        $reflector = 2 < \func_num_args() ? func_get_arg(2) : null;
+        $reflector = 2 < func_num_args() ? func_get_arg(2) : null;
         $e = $this->stopwatch->start('controller.get_arguments');
 
         try {

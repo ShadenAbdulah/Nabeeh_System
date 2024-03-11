@@ -2,6 +2,7 @@
 namespace Aws\Script\Composer;
 
 use Composer\Script\Event;
+use InvalidArgumentException;
 use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Filesystem;
 
@@ -31,7 +32,7 @@ class Composer
                 $vendorPath
             );
         } else {
-            throw new \InvalidArgumentException(
+            throw new InvalidArgumentException(
                 'There are no services listed. Did you intend to use this script?'
             );
         }
@@ -53,7 +54,7 @@ class Composer
     {
         foreach ($listedServices as $serviceToKeep) {
             if (!isset($serviceMapping[$serviceToKeep])) {
-                throw new \InvalidArgumentException(
+                throw new InvalidArgumentException(
                     "'$serviceToKeep' is not a valid AWS service namespace. Please check spelling and casing."
                 );
             }

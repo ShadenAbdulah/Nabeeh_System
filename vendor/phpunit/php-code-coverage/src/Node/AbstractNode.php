@@ -9,6 +9,7 @@
  */
 namespace SebastianBergmann\CodeCoverage\Node;
 
+use SebastianBergmann\CodeCoverage\StaticAnalysis\FileAnalyser;
 use const DIRECTORY_SEPARATOR;
 use function array_merge;
 use function str_ends_with;
@@ -20,10 +21,10 @@ use SebastianBergmann\CodeCoverage\Util\Percentage;
 /**
  * @internal This class is not covered by the backward compatibility promise for phpunit/php-code-coverage
  *
- * @psalm-import-type LinesOfCodeType from \SebastianBergmann\CodeCoverage\StaticAnalysis\FileAnalyser
- * @psalm-import-type ProcessedFunctionType from \SebastianBergmann\CodeCoverage\Node\File
- * @psalm-import-type ProcessedClassType from \SebastianBergmann\CodeCoverage\Node\File
- * @psalm-import-type ProcessedTraitType from \SebastianBergmann\CodeCoverage\Node\File
+ * @psalm-import-type LinesOfCodeType from FileAnalyser
+ * @psalm-import-type ProcessedFunctionType from File
+ * @psalm-import-type ProcessedClassType from File
+ * @psalm-import-type ProcessedTraitType from File
  */
 abstract class AbstractNode implements Countable
 {

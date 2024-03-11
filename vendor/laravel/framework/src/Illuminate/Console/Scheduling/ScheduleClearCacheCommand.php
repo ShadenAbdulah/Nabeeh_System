@@ -23,7 +23,7 @@ class ScheduleClearCacheCommand extends Command
     /**
      * Execute the console command.
      *
-     * @param  \Illuminate\Console\Scheduling\Schedule  $schedule
+     * @param Schedule $schedule
      * @return void
      */
     public function handle(Schedule $schedule)

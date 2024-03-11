@@ -13,6 +13,8 @@ use Nette;
 use Nette\Schema\Elements\AnyOf;
 use Nette\Schema\Elements\Structure;
 use Nette\Schema\Elements\Type;
+use ReflectionObject;
+use ReflectionProperty;
 
 
 /**
@@ -66,7 +68,7 @@ final class Expect
 
 	public static function from(object $object, array $items = []): Structure
 	{
-		$ro = new \ReflectionObject($object);
+		$ro = new ReflectionObject($object);
 		$props = $ro->hasMethod('__construct')
 			? $ro->getMethod('__construct')->getParameters()
 			: $ro->getProperties();
@@ -76,8 +78,8 @@ final class Expect
 			if (!$item) {
 				$type = Helpers::getPropertyType($prop) ?? 'mixed';
 				$item = new Type($type);
-				if ($prop instanceof \ReflectionProperty ? $prop->isInitialized($object) : $prop->isOptional()) {
-					$def = ($prop instanceof \ReflectionProperty ? $prop->getValue($object) : $prop->getDefaultValue());
+				if ($prop instanceof ReflectionProperty ? $prop->isInitialized($object) : $prop->isOptional()) {
+					$def = ($prop instanceof ReflectionProperty ? $prop->getValue($object) : $prop->getDefaultValue());
 					if (is_object($def)) {
 						$item = static::from($def);
 					} elseif ($def === null && !Nette\Utils\Validators::is(null, $type)) {

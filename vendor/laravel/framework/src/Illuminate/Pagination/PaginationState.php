@@ -2,12 +2,14 @@
 
 namespace Illuminate\Pagination;
 
+use Illuminate\Contracts\Foundation\Application;
+
 class PaginationState
 {
     /**
      * Bind the pagination state resolvers using the given application container as a base.
      *
-     * @param  \Illuminate\Contracts\Foundation\Application  $app
+     * @param  Application  $app
      * @return void
      */
     public static function resolveUsing($app)

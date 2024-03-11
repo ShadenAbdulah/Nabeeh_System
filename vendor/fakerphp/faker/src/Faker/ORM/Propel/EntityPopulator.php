@@ -2,6 +2,9 @@
 
 namespace Faker\ORM\Propel;
 
+use ColumnMap;
+use Faker\Generator;
+use Faker\Guesser\Name;
 use Faker\Provider\Base;
 
 /**
@@ -50,14 +53,14 @@ class EntityPopulator
     /**
      * @return array
      */
-    public function guessColumnFormatters(\Faker\Generator $generator)
+    public function guessColumnFormatters(Generator $generator)
     {
         $formatters = [];
         $class = $this->class;
         $peerClass = $class::PEER;
         $tableMap = $peerClass::getTableMap();
-        $nameGuesser = new \Faker\Guesser\Name($generator);
-        $columnTypeGuesser = new \Faker\ORM\Propel\ColumnTypeGuesser($generator);
+        $nameGuesser = new Name($generator);
+        $columnTypeGuesser = new ColumnTypeGuesser($generator);
 
         foreach ($tableMap->getColumns() as $columnMap) {
             // skip behavior columns, handled by modifiers
@@ -97,7 +100,7 @@ class EntityPopulator
     /**
      * @return bool
      */
-    protected function isColumnBehavior(\ColumnMap $columnMap)
+    protected function isColumnBehavior(ColumnMap $columnMap)
     {
         foreach ($columnMap->getTable()->getBehaviors() as $name => $params) {
             $columnName = Base::toLower($columnMap->getName());
@@ -147,7 +150,7 @@ class EntityPopulator
     /**
      * @return array
      */
-    public function guessModifiers(\Faker\Generator $generator)
+    public function guessModifiers(Generator $generator)
     {
         $modifiers = [];
         $class = $this->class;

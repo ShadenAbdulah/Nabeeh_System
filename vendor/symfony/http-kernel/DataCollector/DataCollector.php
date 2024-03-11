@@ -11,12 +11,14 @@
 
 namespace Symfony\Component\HttpKernel\DataCollector;
 
+use DateTimeInterface;
 use Symfony\Component\VarDumper\Caster\CutStub;
 use Symfony\Component\VarDumper\Caster\ReflectionCaster;
 use Symfony\Component\VarDumper\Cloner\ClonerInterface;
 use Symfony\Component\VarDumper\Cloner\Data;
 use Symfony\Component\VarDumper\Cloner\Stub;
 use Symfony\Component\VarDumper\Cloner\VarCloner;
+use function is_object;
 
 /**
  * DataCollector.
@@ -64,7 +66,7 @@ abstract class DataCollector implements DataCollectorInterface
             '*' => function ($v, array $a, Stub $s, $isNested) {
                 if (!$v instanceof Stub) {
                     foreach ($a as $k => $v) {
-                        if (\is_object($v) && !$v instanceof \DateTimeInterface && !$v instanceof Stub) {
+                        if (is_object($v) && !$v instanceof DateTimeInterface && !$v instanceof Stub) {
                             $a[$k] = new CutStub($v);
                         }
                     }

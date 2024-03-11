@@ -15,18 +15,18 @@ interface LegacyMockInterface
     /**
      * Alternative setup method to constructor
      *
-     * @param \Mockery\Container $container
+     * @param Container $container
      * @param object $partialObject
      * @return void
      */
-    public function mockery_init(\Mockery\Container $container = null, $partialObject = null);
+    public function mockery_init(Container $container = null, $partialObject = null);
 
     /**
      * Set expected method calls
      *
      * @param string|array ...$methodNames one or many methods that are expected to be called in this mock
      *
-     * @return \Mockery\ExpectationInterface|\Mockery\Expectation|\Mockery\HigherOrderMessage
+     * @return ExpectationInterface|Expectation|HigherOrderMessage
      */
     public function shouldReceive(...$methodNames);
 
@@ -34,7 +34,7 @@ interface LegacyMockInterface
      * Shortcut method for setting an expectation that a method should not be called.
      *
      * @param string|array ...$methodNames one or many methods that are expected not to be called in this mock
-     * @return \Mockery\ExpectationInterface|\Mockery\Expectation|\Mockery\HigherOrderMessage
+     * @return ExpectationInterface|Expectation|HigherOrderMessage
      */
     public function shouldNotReceive(...$methodNames);
 
@@ -162,7 +162,7 @@ interface LegacyMockInterface
      *
      * @param string $method
      * @param int $order
-     * @throws \Mockery\Exception
+     * @throws Exception
      * @return void
      */
     public function mockery_validateOrder($method, $order);
@@ -177,32 +177,32 @@ interface LegacyMockInterface
     /**
      * Return the expectations director for the given method
      *
+     * @return ExpectationDirector|null
      * @var string $method
-     * @return \Mockery\ExpectationDirector|null
      */
-    public function mockery_setExpectationsFor($method, \Mockery\ExpectationDirector $director);
+    public function mockery_setExpectationsFor($method, ExpectationDirector $director);
 
     /**
      * Return the expectations director for the given method
      *
+     * @return ExpectationDirector|null
      * @var string $method
-     * @return \Mockery\ExpectationDirector|null
      */
     public function mockery_getExpectationsFor($method);
 
     /**
      * Find an expectation matching the given method and arguments
      *
+     * @return Expectation|null
+     *@var array $args
      * @var string $method
-     * @var array $args
-     * @return \Mockery\Expectation|null
      */
     public function mockery_findExpectation($method, array $args);
 
     /**
      * Return the container for this mock
      *
-     * @return \Mockery\Container
+     * @return Container
      */
     public function mockery_getContainer();
 

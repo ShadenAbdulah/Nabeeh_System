@@ -4,8 +4,10 @@ namespace Aws\Exception;
 use Aws\HasMonitoringEventsTrait;
 use Aws\MonitoringEventsInterface;
 use Aws\Multipart\UploadState;
+use Exception;
+use RuntimeException;
 
-class MultipartUploadException extends \RuntimeException implements
+class MultipartUploadException extends RuntimeException implements
     MonitoringEventsInterface
 {
     use HasMonitoringEventsTrait;
@@ -15,7 +17,7 @@ class MultipartUploadException extends \RuntimeException implements
 
     /**
      * @param UploadState      $state Upload state at time of the exception.
-     * @param \Exception|array $prev  Exception being thrown.
+     * @param Exception|array $prev  Exception being thrown.
      */
     public function __construct(UploadState $state, $prev = null) {
         $msg = 'An exception occurred while performing a multipart upload';
@@ -43,7 +45,7 @@ class MultipartUploadException extends \RuntimeException implements
             $msg .= ": {$prev->getMessage()}";
         }
 
-        if (!$prev instanceof \Exception) {
+        if (!$prev instanceof Exception) {
             $prev = null;
         }
 

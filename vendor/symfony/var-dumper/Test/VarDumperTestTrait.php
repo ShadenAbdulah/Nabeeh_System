@@ -13,6 +13,7 @@ namespace Symfony\Component\VarDumper\Test;
 
 use Symfony\Component\VarDumper\Cloner\VarCloner;
 use Symfony\Component\VarDumper\Dumper\CliDumper;
+use function is_string;
 
 /**
  * @author Nicolas Grekas <p@tchwork.com>
@@ -75,7 +76,7 @@ trait VarDumperTestTrait
 
     private function prepareExpectation(mixed $expected, int $filter): string
     {
-        if (!\is_string($expected)) {
+        if (!is_string($expected)) {
             $expected = $this->getDump($expected, null, $filter);
         }
 

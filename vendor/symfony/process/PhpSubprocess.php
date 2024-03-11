@@ -13,6 +13,7 @@ namespace Symfony\Component\Process;
 
 use Symfony\Component\Process\Exception\LogicException;
 use Symfony\Component\Process\Exception\RuntimeException;
+use function is_string;
 
 /**
  * PhpSubprocess runs a PHP command as a subprocess while keeping the original php.ini settings.
@@ -138,7 +139,7 @@ class PhpSubprocess extends Process
         $content = '';
 
         foreach ($loadedConfig as $name => $value) {
-            if (!\is_string($value)) {
+            if (!is_string($value)) {
                 continue;
             }
 

@@ -6,6 +6,7 @@ namespace Hamcrest\Core;
  */
 use Hamcrest\Description;
 use Hamcrest\DiagnosingMatcher;
+use Hamcrest\Matcher;
 use Hamcrest\Util;
 
 /**
@@ -27,7 +28,7 @@ class AllOf extends DiagnosingMatcher
 
     public function matchesWithDiagnosticDescription($item, Description $mismatchDescription)
     {
-        /** @var $matcher \Hamcrest\Matcher */
+        /** @var $matcher Matcher */
         foreach ($this->_matchers as $matcher) {
             if (!$matcher->matches($item)) {
                 $mismatchDescription->appendDescriptionOf($matcher)->appendText(' ');

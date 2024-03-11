@@ -3,6 +3,8 @@
 namespace Illuminate\Redis;
 
 use Closure;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\Redis\Connector;
 use Illuminate\Contracts\Redis\Factory;
 use Illuminate\Redis\Connections\Connection;
 use Illuminate\Redis\Connectors\PhpRedisConnector;
@@ -12,14 +14,14 @@ use Illuminate\Support\ConfigurationUrlParser;
 use InvalidArgumentException;
 
 /**
- * @mixin \Illuminate\Redis\Connections\Connection
+ * @mixin Connection
  */
 class RedisManager implements Factory
 {
     /**
      * The application instance.
      *
-     * @var \Illuminate\Contracts\Foundation\Application
+     * @var Application
      */
     protected $app;
 
@@ -61,7 +63,7 @@ class RedisManager implements Factory
     /**
      * Create a new Redis manager instance.
      *
-     * @param  \Illuminate\Contracts\Foundation\Application  $app
+     * @param  Application  $app
      * @param  string  $driver
      * @param  array  $config
      * @return void
@@ -77,7 +79,7 @@ class RedisManager implements Factory
      * Get a Redis connection by name.
      *
      * @param  string|null  $name
-     * @return \Illuminate\Redis\Connections\Connection
+     * @return Connection
      */
     public function connection($name = null)
     {
@@ -96,9 +98,9 @@ class RedisManager implements Factory
      * Resolve the given connection by name.
      *
      * @param  string|null  $name
-     * @return \Illuminate\Redis\Connections\Connection
+     * @return Connection
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function resolve($name = null)
     {
@@ -124,7 +126,7 @@ class RedisManager implements Factory
      * Resolve the given cluster connection by name.
      *
      * @param  string  $name
-     * @return \Illuminate\Redis\Connections\Connection
+     * @return Connection
      */
     protected function resolveCluster($name)
     {
@@ -140,9 +142,9 @@ class RedisManager implements Factory
     /**
      * Configure the given connection to prepare it for commands.
      *
-     * @param  \Illuminate\Redis\Connections\Connection  $connection
+     * @param Connection $connection
      * @param  string  $name
-     * @return \Illuminate\Redis\Connections\Connection
+     * @return Connection
      */
     protected function configure(Connection $connection, $name)
     {
@@ -158,7 +160,7 @@ class RedisManager implements Factory
     /**
      * Get the connector instance for the current driver.
      *
-     * @return \Illuminate\Contracts\Redis\Connector|null
+     * @return Connector|null
      */
     protected function connector()
     {
@@ -254,7 +256,7 @@ class RedisManager implements Factory
      * Register a custom driver creator Closure.
      *
      * @param  string  $driver
-     * @param  \Closure  $callback
+     * @param Closure $callback
      * @return $this
      */
     public function extend($driver, Closure $callback)

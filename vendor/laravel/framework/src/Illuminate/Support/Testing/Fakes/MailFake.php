@@ -3,12 +3,16 @@
 namespace Illuminate\Support\Testing\Fakes;
 
 use Closure;
+use DateInterval;
+use DateTimeInterface;
 use Illuminate\Contracts\Mail\Factory;
 use Illuminate\Contracts\Mail\Mailable;
 use Illuminate\Contracts\Mail\Mailer;
 use Illuminate\Contracts\Mail\MailQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\MailManager;
+use Illuminate\Mail\PendingMail;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Traits\ForwardsCalls;
 use Illuminate\Support\Traits\ReflectsClosures;
 use PHPUnit\Framework\Assert as PHPUnit;
@@ -59,7 +63,7 @@ class MailFake implements Factory, Fake, Mailer, MailQueue
     /**
      * Assert if a mailable was sent based on a truth-test callback.
      *
-     * @param  string|\Closure  $mailable
+     * @param  string|Closure $mailable
      * @param  callable|int|null  $callback
      * @return void
      */
@@ -103,7 +107,7 @@ class MailFake implements Factory, Fake, Mailer, MailQueue
     /**
      * Determine if a mailable was not sent or queued to be sent based on a truth-test callback.
      *
-     * @param  string|\Closure  $mailable
+     * @param  string|Closure $mailable
      * @param  callable|null  $callback
      * @return void
      */
@@ -116,7 +120,7 @@ class MailFake implements Factory, Fake, Mailer, MailQueue
     /**
      * Determine if a mailable was not sent based on a truth-test callback.
      *
-     * @param  string|\Closure  $mailable
+     * @param  string|Closure $mailable
      * @param  callable|null  $callback
      * @return void
      */
@@ -158,7 +162,7 @@ class MailFake implements Factory, Fake, Mailer, MailQueue
     /**
      * Assert if a mailable was queued based on a truth-test callback.
      *
-     * @param  string|\Closure  $mailable
+     * @param  string|Closure $mailable
      * @param  callable|int|null  $callback
      * @return void
      */
@@ -196,7 +200,7 @@ class MailFake implements Factory, Fake, Mailer, MailQueue
     /**
      * Determine if a mailable was not queued based on a truth-test callback.
      *
-     * @param  string|\Closure  $mailable
+     * @param  string|Closure $mailable
      * @param  callable|null  $callback
      * @return void
      */
@@ -277,9 +281,9 @@ class MailFake implements Factory, Fake, Mailer, MailQueue
     /**
      * Get all of the mailables matching a truth-test callback.
      *
-     * @param  string|\Closure  $mailable
+     * @param  string|Closure $mailable
      * @param  callable|null  $callback
-     * @return \Illuminate\Support\Collection
+     * @return Collection
      */
     public function sent($mailable, $callback = null)
     {
@@ -308,9 +312,9 @@ class MailFake implements Factory, Fake, Mailer, MailQueue
     /**
      * Get all of the queued mailables matching a truth-test callback.
      *
-     * @param  string|\Closure  $mailable
+     * @param  string|Closure $mailable
      * @param  callable|null  $callback
-     * @return \Illuminate\Support\Collection
+     * @return Collection
      */
     public function queued($mailable, $callback = null)
     {
@@ -340,7 +344,7 @@ class MailFake implements Factory, Fake, Mailer, MailQueue
      * Get all of the mailed mailables for a given type.
      *
      * @param  string  $type
-     * @return \Illuminate\Support\Collection
+     * @return Collection
      */
     protected function mailablesOf($type)
     {
@@ -351,7 +355,7 @@ class MailFake implements Factory, Fake, Mailer, MailQueue
      * Get all of the mailed mailables for a given type.
      *
      * @param  string  $type
-     * @return \Illuminate\Support\Collection
+     * @return Collection
      */
     protected function queuedMailablesOf($type)
     {
@@ -362,7 +366,7 @@ class MailFake implements Factory, Fake, Mailer, MailQueue
      * Get a mailer instance by name.
      *
      * @param  string|null  $name
-     * @return \Illuminate\Contracts\Mail\Mailer
+     * @return Mailer
      */
     public function mailer($name = null)
     {
@@ -375,7 +379,7 @@ class MailFake implements Factory, Fake, Mailer, MailQueue
      * Begin the process of mailing a mailable class instance.
      *
      * @param  mixed  $users
-     * @return \Illuminate\Mail\PendingMail
+     * @return PendingMail
      */
     public function to($users)
     {
@@ -386,7 +390,7 @@ class MailFake implements Factory, Fake, Mailer, MailQueue
      * Begin the process of mailing a mailable class instance.
      *
      * @param  mixed  $users
-     * @return \Illuminate\Mail\PendingMail
+     * @return PendingMail
      */
     public function cc($users)
     {
@@ -397,7 +401,7 @@ class MailFake implements Factory, Fake, Mailer, MailQueue
      * Begin the process of mailing a mailable class instance.
      *
      * @param  mixed  $users
-     * @return \Illuminate\Mail\PendingMail
+     * @return PendingMail
      */
     public function bcc($users)
     {
@@ -408,7 +412,7 @@ class MailFake implements Factory, Fake, Mailer, MailQueue
      * Send a new message with only a raw text part.
      *
      * @param  string  $text
-     * @param  \Closure|string  $callback
+     * @param Closure|string  $callback
      * @return void
      */
     public function raw($text, $callback)
@@ -419,9 +423,9 @@ class MailFake implements Factory, Fake, Mailer, MailQueue
     /**
      * Send a new message using a view.
      *
-     * @param  \Illuminate\Contracts\Mail\Mailable|string|array  $view
+     * @param Mailable|string|array  $view
      * @param  array  $data
-     * @param  \Closure|string|null  $callback
+     * @param Closure|string|null  $callback
      * @return void
      */
     public function send($view, array $data = [], $callback = null)
@@ -444,7 +448,7 @@ class MailFake implements Factory, Fake, Mailer, MailQueue
     /**
      * Queue a new e-mail message for sending.
      *
-     * @param  \Illuminate\Contracts\Mail\Mailable|string|array  $view
+     * @param Mailable|string|array  $view
      * @param  string|null  $queue
      * @return mixed
      */
@@ -464,8 +468,8 @@ class MailFake implements Factory, Fake, Mailer, MailQueue
     /**
      * Queue a new e-mail message for sending after (n) seconds.
      *
-     * @param  \DateTimeInterface|\DateInterval|int  $delay
-     * @param  \Illuminate\Contracts\Mail\Mailable|string|array  $view
+     * @param  DateTimeInterface|DateInterval|int  $delay
+     * @param Mailable|string|array  $view
      * @param  string|null  $queue
      * @return mixed
      */
@@ -477,7 +481,7 @@ class MailFake implements Factory, Fake, Mailer, MailQueue
     /**
      * Infer mailable class using reflection if a typehinted closure is passed to assertion.
      *
-     * @param  string|\Closure  $mailable
+     * @param  string|Closure $mailable
      * @param  callable|null  $callback
      * @return array
      */

@@ -6,6 +6,7 @@ use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Event\EndEvent;
 use GuzzleHttp\Exception\ConnectException;
+use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Message\ResponseInterface as GuzzleResponse;
 use GuzzleHttp\Promise;
@@ -53,7 +54,7 @@ class GuzzleHandler
      * @param Psr7Request $request
      * @param array $options
      * @return Promise\Promise|Promise\PromiseInterface
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
     public function __invoke(Psr7Request $request, array $options = [])
     {
@@ -66,7 +67,7 @@ class GuzzleHandler
             function () use ($guzzlePromise) {
                 try {
                     $guzzlePromise->wait();
-                } catch (\Exception $e) {
+                } catch (Exception $e) {
                     // The promise is already delivered when the exception is
                     // thrown, so don't rethrow it.
                 }

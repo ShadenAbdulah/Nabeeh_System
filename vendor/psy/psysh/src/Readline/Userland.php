@@ -19,6 +19,7 @@ use Psy\Readline\Hoa\ConsoleOutput as HoaConsoleOutput;
 use Psy\Readline\Hoa\ConsoleTput as HoaConsoleTput;
 use Psy\Readline\Hoa\Readline as HoaReadline;
 use Psy\Readline\Hoa\Ustring as HoaUstring;
+use function class_exists;
 
 /**
  * Userland Readline implementation.
@@ -80,13 +81,13 @@ class Userland implements Readline
     public static function bootstrapHoa(bool $withTerminalResize = false)
     {
         // A side effect registers hoa:// stream wrapper
-        \class_exists('Psy\Readline\Hoa\ProtocolWrapper');
+        class_exists('Psy\Readline\Hoa\ProtocolWrapper');
 
         // A side effect registers hoa://Library/Stream
-        \class_exists('Psy\Readline\Hoa\Stream');
+        class_exists('Psy\Readline\Hoa\Stream');
 
         // A side effect binds terminal resize
-        $withTerminalResize && \class_exists('Psy\Readline\Hoa\ConsoleWindow');
+        $withTerminalResize && class_exists('Psy\Readline\Hoa\ConsoleWindow');
     }
 
     /**

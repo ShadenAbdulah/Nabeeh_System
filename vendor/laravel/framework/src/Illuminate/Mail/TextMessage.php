@@ -2,10 +2,11 @@
 
 namespace Illuminate\Mail;
 
+use Illuminate\Contracts\Mail\Attachable;
 use Illuminate\Support\Traits\ForwardsCalls;
 
 /**
- * @mixin \Illuminate\Mail\Message
+ * @mixin Message
  */
 class TextMessage
 {
@@ -14,14 +15,14 @@ class TextMessage
     /**
      * The underlying message instance.
      *
-     * @var \Illuminate\Mail\Message
+     * @var Message
      */
     protected $message;
 
     /**
      * Create a new text message instance.
      *
-     * @param  \Illuminate\Mail\Message  $message
+     * @param Message $message
      * @return void
      */
     public function __construct($message)
@@ -32,7 +33,7 @@ class TextMessage
     /**
      * Embed a file in the message and get the CID.
      *
-     * @param  string|\Illuminate\Contracts\Mail\Attachable|\Illuminate\Mail\Attachment  $file
+     * @param  string|Attachable|Attachment $file
      * @return string
      */
     public function embed($file)

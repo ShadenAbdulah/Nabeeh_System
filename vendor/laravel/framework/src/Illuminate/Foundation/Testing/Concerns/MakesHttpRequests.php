@@ -5,6 +5,7 @@ namespace Illuminate\Foundation\Testing\Concerns;
 use Illuminate\Contracts\Http\Kernel as HttpKernel;
 use Illuminate\Cookie\CookieValuePrefix;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Testing\LoggedExceptionCollection;
 use Illuminate\Testing\TestResponse;
 use Symfony\Component\HttpFoundation\File\UploadedFile as SymfonyUploadedFile;
@@ -66,7 +67,7 @@ trait MakesHttpRequests
     /**
      * The latest test response (if any).
      *
-     * @var \Illuminate\Testing\TestResponse|null
+     * @var TestResponse|null
      */
     public static $latestResponse;
 
@@ -336,7 +337,7 @@ trait MakesHttpRequests
      *
      * @param  string  $uri
      * @param  array  $headers
-     * @return \Illuminate\Testing\TestResponse
+     * @return TestResponse
      */
     public function get($uri, array $headers = [])
     {
@@ -352,7 +353,7 @@ trait MakesHttpRequests
      * @param  string  $uri
      * @param  array  $headers
      * @param  int  $options
-     * @return \Illuminate\Testing\TestResponse
+     * @return TestResponse
      */
     public function getJson($uri, array $headers = [], $options = 0)
     {
@@ -365,7 +366,7 @@ trait MakesHttpRequests
      * @param  string  $uri
      * @param  array  $data
      * @param  array  $headers
-     * @return \Illuminate\Testing\TestResponse
+     * @return TestResponse
      */
     public function post($uri, array $data = [], array $headers = [])
     {
@@ -382,7 +383,7 @@ trait MakesHttpRequests
      * @param  array  $data
      * @param  array  $headers
      * @param  int  $options
-     * @return \Illuminate\Testing\TestResponse
+     * @return TestResponse
      */
     public function postJson($uri, array $data = [], array $headers = [], $options = 0)
     {
@@ -395,7 +396,7 @@ trait MakesHttpRequests
      * @param  string  $uri
      * @param  array  $data
      * @param  array  $headers
-     * @return \Illuminate\Testing\TestResponse
+     * @return TestResponse
      */
     public function put($uri, array $data = [], array $headers = [])
     {
@@ -412,7 +413,7 @@ trait MakesHttpRequests
      * @param  array  $data
      * @param  array  $headers
      * @param  int  $options
-     * @return \Illuminate\Testing\TestResponse
+     * @return TestResponse
      */
     public function putJson($uri, array $data = [], array $headers = [], $options = 0)
     {
@@ -425,7 +426,7 @@ trait MakesHttpRequests
      * @param  string  $uri
      * @param  array  $data
      * @param  array  $headers
-     * @return \Illuminate\Testing\TestResponse
+     * @return TestResponse
      */
     public function patch($uri, array $data = [], array $headers = [])
     {
@@ -442,7 +443,7 @@ trait MakesHttpRequests
      * @param  array  $data
      * @param  array  $headers
      * @param  int  $options
-     * @return \Illuminate\Testing\TestResponse
+     * @return TestResponse
      */
     public function patchJson($uri, array $data = [], array $headers = [], $options = 0)
     {
@@ -455,7 +456,7 @@ trait MakesHttpRequests
      * @param  string  $uri
      * @param  array  $data
      * @param  array  $headers
-     * @return \Illuminate\Testing\TestResponse
+     * @return TestResponse
      */
     public function delete($uri, array $data = [], array $headers = [])
     {
@@ -472,7 +473,7 @@ trait MakesHttpRequests
      * @param  array  $data
      * @param  array  $headers
      * @param  int  $options
-     * @return \Illuminate\Testing\TestResponse
+     * @return TestResponse
      */
     public function deleteJson($uri, array $data = [], array $headers = [], $options = 0)
     {
@@ -485,7 +486,7 @@ trait MakesHttpRequests
      * @param  string  $uri
      * @param  array  $data
      * @param  array  $headers
-     * @return \Illuminate\Testing\TestResponse
+     * @return TestResponse
      */
     public function options($uri, array $data = [], array $headers = [])
     {
@@ -503,7 +504,7 @@ trait MakesHttpRequests
      * @param  array  $data
      * @param  array  $headers
      * @param  int  $options
-     * @return \Illuminate\Testing\TestResponse
+     * @return TestResponse
      */
     public function optionsJson($uri, array $data = [], array $headers = [], $options = 0)
     {
@@ -515,7 +516,7 @@ trait MakesHttpRequests
      *
      * @param  string  $uri
      * @param  array  $headers
-     * @return \Illuminate\Testing\TestResponse
+     * @return TestResponse
      */
     public function head($uri, array $headers = [])
     {
@@ -534,7 +535,7 @@ trait MakesHttpRequests
      * @param  array  $data
      * @param  array  $headers
      * @param  int  $options
-     * @return \Illuminate\Testing\TestResponse
+     * @return TestResponse
      */
     public function json($method, $uri, array $data = [], array $headers = [], $options = 0)
     {
@@ -569,7 +570,7 @@ trait MakesHttpRequests
      * @param  array  $files
      * @param  array  $server
      * @param  string|null  $content
-     * @return \Illuminate\Testing\TestResponse
+     * @return TestResponse
      */
     public function call($method, $uri, $parameters = [], $cookies = [], $files = [], $server = [], $content = null)
     {
@@ -696,8 +697,8 @@ trait MakesHttpRequests
     /**
      * Follow a redirect chain until a non-redirect is received.
      *
-     * @param  \Illuminate\Http\Response|\Illuminate\Testing\TestResponse  $response
-     * @return \Illuminate\Http\Response|\Illuminate\Testing\TestResponse
+     * @param  Response|TestResponse $response
+     * @return Response|TestResponse
      */
     protected function followRedirects($response)
     {
@@ -713,8 +714,8 @@ trait MakesHttpRequests
     /**
      * Create the request instance used for testing from the given Symfony request.
      *
-     * @param  \Symfony\Component\HttpFoundation\Request  $symfonyRequest
-     * @return \Illuminate\Http\Request
+     * @param SymfonyRequest $symfonyRequest
+     * @return Request
      */
     protected function createTestRequest($symfonyRequest)
     {
@@ -724,8 +725,8 @@ trait MakesHttpRequests
     /**
      * Create the test response instance from the given response.
      *
-     * @param  \Illuminate\Http\Response  $response
-     * @return \Illuminate\Testing\TestResponse
+     * @param  Response  $response
+     * @return TestResponse
      */
     protected function createTestResponse($response)
     {

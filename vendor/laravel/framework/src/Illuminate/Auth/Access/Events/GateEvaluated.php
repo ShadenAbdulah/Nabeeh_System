@@ -2,12 +2,14 @@
 
 namespace Illuminate\Auth\Access\Events;
 
+use Illuminate\Contracts\Auth\Authenticatable;
+
 class GateEvaluated
 {
     /**
      * The authenticatable model.
      *
-     * @var \Illuminate\Contracts\Auth\Authenticatable|null
+     * @var Authenticatable|null
      */
     public $user;
 
@@ -35,7 +37,7 @@ class GateEvaluated
     /**
      * Create a new event instance.
      *
-     * @param  \Illuminate\Contracts\Auth\Authenticatable|null  $user
+     * @param  Authenticatable|null  $user
      * @param  string  $ability
      * @param  bool|null  $result
      * @param  array  $arguments

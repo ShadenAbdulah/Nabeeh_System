@@ -11,13 +11,17 @@
 
 namespace Carbon\Traits;
 
+use Carbon\Carbon;
+use Carbon\CarbonImmutable;
 use Carbon\CarbonInterface;
 use Carbon\CarbonTimeZone;
 use Closure;
 use DateTimeImmutable;
 use DateTimeInterface;
+use DateTimeZone;
 use InvalidArgumentException;
 use Throwable;
+use function func_num_args;
 
 trait Test
 {
@@ -102,7 +106,7 @@ trait Test
         static::setTestNow($testNow);
 
         if (!$useDateInstanceTimezone) {
-            $now = static::getMockedTestNow(\func_num_args() === 1 ? null : $tz);
+            $now = static::getMockedTestNow(func_num_args() === 1 ? null : $tz);
             $tzName = $now ? $now->tzName : null;
             self::setDefaultTimezone($tzName ?? self::$testDefaultTimezone ?? 'UTC', $now);
         }
@@ -164,9 +168,9 @@ trait Test
     /**
      * Get the mocked date passed in setTestNow() and if it's a Closure, execute it.
      *
-     * @param string|\DateTimeZone $tz
+     * @param string|DateTimeZone $tz
      *
-     * @return \Carbon\CarbonImmutable|\Carbon\Carbon|null
+     * @return CarbonImmutable|Carbon|null
      */
     protected static function getMockedTestNow($tz)
     {
@@ -179,7 +183,7 @@ trait Test
                 $tz ?: $realNow->getTimezone()
             ));
         }
-        /* @var \Carbon\CarbonImmutable|\Carbon\Carbon|null $testNow */
+        /* @var CarbonImmutable|Carbon|null $testNow */
 
         return $testNow instanceof CarbonInterface
             ? $testNow->avoidMutation()->tz($tz)
@@ -188,7 +192,7 @@ trait Test
 
     protected static function mockConstructorParameters(&$time, $tz)
     {
-        /** @var \Carbon\CarbonImmutable|\Carbon\Carbon $testInstance */
+        /** @var CarbonImmutable|Carbon $testInstance */
         $testInstance = clone static::getMockedTestNow($tz);
 
         if (static::hasRelativeKeywords($time)) {

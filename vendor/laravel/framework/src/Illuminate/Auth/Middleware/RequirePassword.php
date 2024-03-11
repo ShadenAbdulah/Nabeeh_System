@@ -5,20 +5,21 @@ namespace Illuminate\Auth\Middleware;
 use Closure;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Contracts\Routing\UrlGenerator;
+use Illuminate\Http\Request;
 
 class RequirePassword
 {
     /**
      * The response factory instance.
      *
-     * @var \Illuminate\Contracts\Routing\ResponseFactory
+     * @var ResponseFactory
      */
     protected $responseFactory;
 
     /**
      * The URL generator instance.
      *
-     * @var \Illuminate\Contracts\Routing\UrlGenerator
+     * @var UrlGenerator
      */
     protected $urlGenerator;
 
@@ -32,8 +33,8 @@ class RequirePassword
     /**
      * Create a new middleware instance.
      *
-     * @param  \Illuminate\Contracts\Routing\ResponseFactory  $responseFactory
-     * @param  \Illuminate\Contracts\Routing\UrlGenerator  $urlGenerator
+     * @param ResponseFactory $responseFactory
+     * @param UrlGenerator $urlGenerator
      * @param  int|null  $passwordTimeout
      * @return void
      */
@@ -61,8 +62,8 @@ class RequirePassword
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
+     * @param  Request  $request
+     * @param Closure $next
      * @param  string|null  $redirectToRoute
      * @param  string|int|null  $passwordTimeoutSeconds
      * @return mixed
@@ -87,7 +88,7 @@ class RequirePassword
     /**
      * Determine if the confirmation timeout has expired.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  Request  $request
      * @param  int|null  $passwordTimeoutSeconds
      * @return bool
      */

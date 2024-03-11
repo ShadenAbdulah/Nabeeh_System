@@ -2,6 +2,8 @@
 
 namespace Faker\Provider\en_ZA;
 
+use Faker\Provider\DateTime;
+
 class Company extends \Faker\Provider\Company
 {
     protected static $legalEntities = [
@@ -18,7 +20,7 @@ class Company extends \Faker\Provider\Company
     {
         return sprintf(
             '%s/%s/%s',
-            \Faker\Provider\DateTime::dateTimeBetween('-50 years', 'now')->format('Y'),
+            DateTime::dateTimeBetween('-50 years', 'now')->format('Y'),
             static::randomNumber(6, true),
             static::randomElement(static::$legalEntities),
         );

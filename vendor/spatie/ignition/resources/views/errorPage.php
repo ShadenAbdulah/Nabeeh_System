@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<?php /** @var \Spatie\Ignition\ErrorPage\ErrorPageViewModel $viewModel */ ?>
+<?php /** @var ErrorPageViewModel $viewModel */
+
+use Spatie\Ignition\ErrorPage\ErrorPageViewModel; ?>
 <html lang="en" class="<?= $viewModel->theme() ?>">
 <!--
 <?= $viewModel->throwableString() ?>

@@ -1,7 +1,10 @@
 <?php
 namespace Hamcrest\Xml;
 
-class HasXPathTest extends \Hamcrest\AbstractMatcherTest
+use DOMDocument;
+use Hamcrest\AbstractMatcherTest;
+
+class HasXPathTest extends AbstractMatcherTest
 {
     protected static $xml;
     protected static $doc;
@@ -29,7 +32,7 @@ class HasXPathTest extends \Hamcrest\AbstractMatcherTest
     </user>
 </users>
 XML;
-        self::$doc = new \DOMDocument();
+        self::$doc = new DOMDocument();
         self::$doc->loadXML(self::$xml);
 
         self::$html = <<<HTML
@@ -47,7 +50,7 @@ HTML;
 
     protected function createMatcher()
     {
-        return \Hamcrest\Xml\HasXPath::hasXPath('/users/user');
+        return HasXPath::hasXPath('/users/user');
     }
 
     public function testMatchesWhenXPathIsFound()

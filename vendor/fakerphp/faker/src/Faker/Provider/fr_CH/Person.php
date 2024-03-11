@@ -2,6 +2,8 @@
 
 namespace Faker\Provider\fr_CH;
 
+use Faker\Calculator\Ean;
+
 class Person extends \Faker\Provider\fr_FR\Person
 {
     /**
@@ -107,7 +109,7 @@ class Person extends \Faker\Provider\fr_FR\Person
             self::numerify('#'),
         ];
 
-        $checksum = \Faker\Calculator\Ean::checksum(implode('', $p));
+        $checksum = Ean::checksum(implode('', $p));
 
         return sprintf('%s.%s.%s.%s%s', $p[0], $p[1], $p[2], $p[3], $checksum);
     }

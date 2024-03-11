@@ -36,6 +36,48 @@
 
 namespace Psy\Readline\Hoa;
 
+use function chgrp;
+use function chmod;
+use function chown;
+use function closedir;
+use function count;
+use function fclose;
+use function feof;
+use function fflush;
+use function flock;
+use function fopen;
+use function fread;
+use function fseek;
+use function fstat;
+use function ftell;
+use function ftruncate;
+use function fwrite;
+use function is_resource;
+use function lstat;
+use function mkdir;
+use function opendir;
+use function readdir;
+use function rename;
+use function rewinddir;
+use function rmdir;
+use function stat;
+use function stream_wrapper_register;
+use function touch;
+use function trigger_error;
+use function unlink;
+use const E_WARNING;
+use const SEEK_SET;
+use const STREAM_META_ACCESS;
+use const STREAM_META_GROUP;
+use const STREAM_META_GROUP_NAME;
+use const STREAM_META_OWNER;
+use const STREAM_META_OWNER_NAME;
+use const STREAM_META_TOUCH;
+use const STREAM_MKDIR_RECURSIVE;
+use const STREAM_URL_STAT_LINK;
+use const STREAM_URL_STAT_QUIET;
+use const STREAM_USE_PATH;
+
 /**
  * Stream wrapper for the `hoa://` protocol.
  */
@@ -85,7 +127,7 @@ class ProtocolWrapper
      */
     public function stream_close()
     {
-        if (true === @\fclose($this->getStream())) {
+        if (true === @fclose($this->getStream())) {
             $this->_stream = null;
             $this->_streamName = null;
         }
@@ -97,7 +139,7 @@ class ProtocolWrapper
      */
     public function stream_eof(): bool
     {
-        return \feof($this->getStream());
+        return feof($this->getStream());
     }
 
     /**
@@ -108,7 +150,7 @@ class ProtocolWrapper
      */
     public function stream_flush(): bool
     {
-        return \fflush($this->getStream());
+        return fflush($this->getStream());
     }
 
     /**
@@ -127,7 +169,7 @@ class ProtocolWrapper
      */
     public function stream_lock(int $operation): bool
     {
-        return \flock($this->getStream(), $operation);
+        return flock($this->getStream(), $operation);
     }
 
     /**
@@ -151,33 +193,33 @@ class ProtocolWrapper
         $path = static::realPath($path, false);
 
         switch ($option) {
-            case \STREAM_META_TOUCH:
-                $arity = \count($values);
+            case STREAM_META_TOUCH:
+                $arity = count($values);
 
                 if (0 === $arity) {
-                    $out = \touch($path);
+                    $out = touch($path);
                 } elseif (1 === $arity) {
-                    $out = \touch($path, $values[0]);
+                    $out = touch($path, $values[0]);
                 } else {
-                    $out = \touch($path, $values[0], $values[1]);
+                    $out = touch($path, $values[0], $values[1]);
                 }
 
                 break;
 
-            case \STREAM_META_OWNER_NAME:
-            case \STREAM_META_OWNER:
-                $out = \chown($path, $values);
+            case STREAM_META_OWNER_NAME:
+            case STREAM_META_OWNER:
+                $out = chown($path, $values);
 
                 break;
 
-            case \STREAM_META_GROUP_NAME:
-            case \STREAM_META_GROUP:
-                $out = \chgrp($path, $values);
+            case STREAM_META_GROUP_NAME:
+            case STREAM_META_GROUP:
+                $out = chgrp($path, $values);
 
                 break;
 
-            case \STREAM_META_ACCESS:
-                $out = \chmod($path, $values);
+            case STREAM_META_ACCESS:
+                $out = chmod($path, $values);
 
                 break;
 
@@ -202,17 +244,17 @@ class ProtocolWrapper
         }
 
         if (null === $this->context) {
-            $openedPath = \fopen($path, $mode, $options & \STREAM_USE_PATH);
+            $openedPath = fopen($path, $mode, $options & STREAM_USE_PATH);
         } else {
-            $openedPath = \fopen(
+            $openedPath = fopen(
                 $path,
                 $mode,
-                (bool) ($options & \STREAM_USE_PATH),
+                (bool) ($options & STREAM_USE_PATH),
                 $this->context
             );
         }
 
-        if (false === \is_resource($openedPath)) {
+        if (false === is_resource($openedPath)) {
             return false;
         }
 
@@ -228,7 +270,7 @@ class ProtocolWrapper
      */
     public function stream_read(int $size): string
     {
-        return \fread($this->getStream(), $size);
+        return fread($this->getStream(), $size);
     }
 
     /**
@@ -242,9 +284,9 @@ class ProtocolWrapper
      *   * SEEK_CUR to set position to current location plus `$offset`,
      *   * SEEK_END to set position to end-of-file plus `$offset`.
      */
-    public function stream_seek(int $offset, int $whence = \SEEK_SET): bool
+    public function stream_seek(int $offset, int $whence = SEEK_SET): bool
     {
-        return 0 === \fseek($this->getStream(), $offset, $whence);
+        return 0 === fseek($this->getStream(), $offset, $whence);
     }
 
     /**
@@ -253,7 +295,7 @@ class ProtocolWrapper
      */
     public function stream_stat(): array
     {
-        return \fstat($this->getStream());
+        return fstat($this->getStream());
     }
 
     /**
@@ -262,7 +304,7 @@ class ProtocolWrapper
      */
     public function stream_tell(): int
     {
-        return \ftell($this->getStream());
+        return ftell($this->getStream());
     }
 
     /**
@@ -270,7 +312,7 @@ class ProtocolWrapper
      */
     public function stream_truncate(int $size): bool
     {
-        return \ftruncate($this->getStream(), $size);
+        return ftruncate($this->getStream(), $size);
     }
 
     /**
@@ -279,7 +321,7 @@ class ProtocolWrapper
      */
     public function stream_write(string $data): int
     {
-        return \fwrite($this->getStream(), $data);
+        return fwrite($this->getStream(), $data);
     }
 
     /**
@@ -290,7 +332,7 @@ class ProtocolWrapper
      */
     public function dir_closedir()
     {
-        \closedir($this->getStream());
+        closedir($this->getStream());
         $this->_stream = null;
         $this->_streamName = null;
     }
@@ -308,9 +350,9 @@ class ProtocolWrapper
         $handle = null;
 
         if (null === $this->context) {
-            $handle = @\opendir($path);
+            $handle = @opendir($path);
         } else {
-            $handle = @\opendir($path, $this->context);
+            $handle = @opendir($path, $this->context);
         }
 
         if (false === $handle) {
@@ -331,7 +373,7 @@ class ProtocolWrapper
      */
     public function dir_readdir()
     {
-        return \readdir($this->getStream());
+        return readdir($this->getStream());
     }
 
     /**
@@ -343,7 +385,7 @@ class ProtocolWrapper
      */
     public function dir_rewinddir()
     {
-        \rewinddir($this->getStream());
+        rewinddir($this->getStream());
     }
 
     /**
@@ -353,17 +395,17 @@ class ProtocolWrapper
     public function mkdir(string $path, int $mode, int $options): bool
     {
         if (null === $this->context) {
-            return \mkdir(
+            return mkdir(
                 static::realPath($path, false),
                 $mode,
-                $options | \STREAM_MKDIR_RECURSIVE
+                $options | STREAM_MKDIR_RECURSIVE
             );
         }
 
-        return \mkdir(
+        return mkdir(
             static::realPath($path, false),
             $mode,
-            (bool) ($options | \STREAM_MKDIR_RECURSIVE),
+            (bool) ($options | STREAM_MKDIR_RECURSIVE),
             $this->context
         );
     }
@@ -376,10 +418,10 @@ class ProtocolWrapper
     public function rename(string $from, string $to): bool
     {
         if (null === $this->context) {
-            return \rename(static::realPath($from), static::realPath($to, false));
+            return rename(static::realPath($from), static::realPath($to, false));
         }
 
-        return \rename(
+        return rename(
             static::realPath($from),
             static::realPath($to, false),
             $this->context
@@ -394,10 +436,10 @@ class ProtocolWrapper
     public function rmdir(string $path, int $options): bool
     {
         if (null === $this->context) {
-            return \rmdir(static::realPath($path));
+            return rmdir(static::realPath($path));
         }
 
-        return \rmdir(static::realPath($path), $this->context);
+        return rmdir(static::realPath($path), $this->context);
     }
 
     /**
@@ -407,10 +449,10 @@ class ProtocolWrapper
     public function unlink(string $path): bool
     {
         if (null === $this->context) {
-            return \unlink(static::realPath($path));
+            return unlink(static::realPath($path));
         }
 
-        return \unlink(static::realPath($path), $this->context);
+        return unlink(static::realPath($path), $this->context);
     }
 
     /**
@@ -433,21 +475,21 @@ class ProtocolWrapper
         $path = static::realPath($path);
 
         if (Protocol::NO_RESOLUTION === $path) {
-            if ($flags & \STREAM_URL_STAT_QUIET) {
+            if ($flags & STREAM_URL_STAT_QUIET) {
                 return 0;
             } else {
-                return \trigger_error(
+                return trigger_error(
                     'Path '.$path.' cannot be resolved.',
-                    \E_WARNING
+                    E_WARNING
                 );
             }
         }
 
-        if ($flags & \STREAM_URL_STAT_LINK) {
-            return @\lstat($path);
+        if ($flags & STREAM_URL_STAT_LINK) {
+            return @lstat($path);
         }
 
-        return @\stat($path);
+        return @stat($path);
     }
 
     /**
@@ -470,4 +512,4 @@ class ProtocolWrapper
 /*
  * Register the `hoa://` protocol.
  */
-\stream_wrapper_register('hoa', ProtocolWrapper::class);
+stream_wrapper_register('hoa', ProtocolWrapper::class);

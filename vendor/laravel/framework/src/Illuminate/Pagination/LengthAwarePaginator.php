@@ -6,6 +6,7 @@ use ArrayAccess;
 use Countable;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator as LengthAwarePaginatorContract;
 use Illuminate\Contracts\Support\Arrayable;
+use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Contracts\Support\Jsonable;
 use Illuminate\Support\Collection;
 use IteratorAggregate;
@@ -72,7 +73,7 @@ class LengthAwarePaginator extends AbstractPaginator implements Arrayable, Array
      *
      * @param  string|null  $view
      * @param  array  $data
-     * @return \Illuminate\Contracts\Support\Htmlable
+     * @return Htmlable
      */
     public function links($view = null, $data = [])
     {
@@ -84,7 +85,7 @@ class LengthAwarePaginator extends AbstractPaginator implements Arrayable, Array
      *
      * @param  string|null  $view
      * @param  array  $data
-     * @return \Illuminate\Contracts\Support\Htmlable
+     * @return Htmlable
      */
     public function render($view = null, $data = [])
     {
@@ -97,7 +98,7 @@ class LengthAwarePaginator extends AbstractPaginator implements Arrayable, Array
     /**
      * Get the paginator links as a collection (for JSON responses).
      *
-     * @return \Illuminate\Support\Collection
+     * @return Collection
      */
     public function linkCollection()
     {

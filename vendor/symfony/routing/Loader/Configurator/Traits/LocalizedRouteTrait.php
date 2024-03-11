@@ -11,8 +11,10 @@
 
 namespace Symfony\Component\Routing\Loader\Configurator\Traits;
 
+use LogicException;
 use Symfony\Component\Routing\Route;
 use Symfony\Component\Routing\RouteCollection;
+use function is_array;
 
 /**
  * @internal
@@ -33,15 +35,15 @@ trait LocalizedRouteTrait
 
         $routes = new RouteCollection();
 
-        if (\is_array($path)) {
+        if (is_array($path)) {
             if (null === $prefixes) {
                 $paths = $path;
             } elseif ($missing = array_diff_key($prefixes, $path)) {
-                throw new \LogicException(sprintf('Route "%s" is missing routes for locale(s) "%s".', $name, implode('", "', array_keys($missing))));
+                throw new LogicException(sprintf('Route "%s" is missing routes for locale(s) "%s".', $name, implode('", "', array_keys($missing))));
             } else {
                 foreach ($path as $locale => $localePath) {
                     if (!isset($prefixes[$locale])) {
-                        throw new \LogicException(sprintf('Route "%s" with locale "%s" is missing a corresponding prefix in its parent collection.', $name, $locale));
+                        throw new LogicException(sprintf('Route "%s" with locale "%s" is missing a corresponding prefix in its parent collection.', $name, $locale));
                     }
 
                     $paths[$locale] = $prefixes[$locale].$localePath;

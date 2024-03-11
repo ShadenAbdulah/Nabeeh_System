@@ -1,6 +1,10 @@
 <?php
 namespace Aws\Api;
 
+use DateTimeInterface;
+use InvalidArgumentException;
+use UnexpectedValueException;
+
 /**
  * Represents a timestamp shape.
  */
@@ -19,17 +23,17 @@ class TimestampShape extends Shape
      * @param string $format Format used to serialize the value
      *
      * @return int|string
-     * @throws \UnexpectedValueException if the format is unknown.
-     * @throws \InvalidArgumentException if the value is an unsupported type.
+     * @throws UnexpectedValueException if the format is unknown.
+     * @throws InvalidArgumentException if the value is an unsupported type.
      */
     public static function format($value, $format)
     {
-        if ($value instanceof \DateTimeInterface) {
+        if ($value instanceof DateTimeInterface) {
             $value = $value->getTimestamp();
         } elseif (is_string($value)) {
             $value = strtotime($value);
         } elseif (!is_int($value)) {
-            throw new \InvalidArgumentException('Unable to handle the provided'
+            throw new InvalidArgumentException('Unable to handle the provided'
                 . ' timestamp type: ' . gettype($value));
         }
 
@@ -41,7 +45,7 @@ class TimestampShape extends Shape
             case 'unixTimestamp':
                 return $value;
             default:
-                throw new \UnexpectedValueException('Unknown timestamp format: '
+                throw new UnexpectedValueException('Unknown timestamp format: '
                     . $format);
         }
     }

@@ -10,6 +10,7 @@ use Egulias\EmailValidator\Warning\QuotedString;
 use Egulias\EmailValidator\Result\Reason\ExpectingATEXT;
 use Egulias\EmailValidator\Result\Reason\UnclosedQuotedString;
 use Egulias\EmailValidator\Result\Result;
+use Exception;
 
 class DoubleQuote extends PartParser
 {
@@ -81,7 +82,7 @@ class DoubleQuote extends PartParser
 
         try {
             $this->lexer->find(EmailLexer::S_DQUOTE);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return new InvalidEmail(new UnclosedQuotedString(), $this->lexer->current->value);
         }
         $this->warnings[QuotedString::CODE] = new QuotedString($previous->value, $this->lexer->current->value);

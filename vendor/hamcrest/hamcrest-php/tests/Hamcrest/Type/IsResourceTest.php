@@ -1,12 +1,14 @@
 <?php
 namespace Hamcrest\Type;
 
-class IsResourceTest extends \Hamcrest\AbstractMatcherTest
+use Hamcrest\AbstractMatcherTest;
+
+class IsResourceTest extends AbstractMatcherTest
 {
 
     protected function createMatcher()
     {
-        return \Hamcrest\Type\IsResource::resourceValue();
+        return IsResource::resourceValue();
     }
 
     public function testEvaluatesToTrueIfArgumentMatchesType()

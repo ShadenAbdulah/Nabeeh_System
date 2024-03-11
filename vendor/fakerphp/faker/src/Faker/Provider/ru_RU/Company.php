@@ -105,8 +105,8 @@ class Company extends \Faker\Provider\Company
      *
      * @return string
      *
-     * @deprecated use {@link \Faker\Provider\ru_RU\Company::inn10()} instead
-     * @see \Faker\Provider\ru_RU\Company::inn10()
+     * @deprecated use {@link Company::inn10} instead
+     * @see Company::inn10
      */
     public static function inn($area_code = '')
     {

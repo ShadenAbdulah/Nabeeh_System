@@ -4,6 +4,7 @@ namespace Illuminate\Support\Testing\Fakes;
 
 use Carbon\CarbonImmutable;
 use Closure;
+use Illuminate\Bus\Batch;
 use Illuminate\Bus\BatchRepository;
 use Illuminate\Bus\PendingBatch;
 use Illuminate\Bus\UpdatedBatchJobCounts;
@@ -14,7 +15,7 @@ class BatchRepositoryFake implements BatchRepository
     /**
      * The batches stored in the repository.
      *
-     * @var \Illuminate\Bus\Batch[]
+     * @var Batch[]
      */
     protected $batches = [];
 
@@ -23,7 +24,7 @@ class BatchRepositoryFake implements BatchRepository
      *
      * @param  int  $limit
      * @param  mixed  $before
-     * @return \Illuminate\Bus\Batch[]
+     * @return Batch[]
      */
     public function get($limit, $before)
     {
@@ -34,7 +35,7 @@ class BatchRepositoryFake implements BatchRepository
      * Retrieve information about an existing batch.
      *
      * @param  string  $batchId
-     * @return \Illuminate\Bus\Batch|null
+     * @return Batch|null
      */
     public function find(string $batchId)
     {
@@ -44,8 +45,8 @@ class BatchRepositoryFake implements BatchRepository
     /**
      * Store a new pending batch.
      *
-     * @param  \Illuminate\Bus\PendingBatch  $batch
-     * @return \Illuminate\Bus\Batch
+     * @param PendingBatch $batch
+     * @return Batch
      */
     public function store(PendingBatch $batch)
     {
@@ -84,7 +85,7 @@ class BatchRepositoryFake implements BatchRepository
      *
      * @param  string  $batchId
      * @param  string  $jobId
-     * @return \Illuminate\Bus\UpdatedBatchJobCounts
+     * @return UpdatedBatchJobCounts
      */
     public function decrementPendingJobs(string $batchId, string $jobId)
     {
@@ -96,7 +97,7 @@ class BatchRepositoryFake implements BatchRepository
      *
      * @param  string  $batchId
      * @param  string  $jobId
-     * @return \Illuminate\Bus\UpdatedBatchJobCounts
+     * @return UpdatedBatchJobCounts
      */
     public function incrementFailedJobs(string $batchId, string $jobId)
     {
@@ -143,7 +144,7 @@ class BatchRepositoryFake implements BatchRepository
     /**
      * Execute the given Closure within a storage specific transaction.
      *
-     * @param  \Closure  $callback
+     * @param Closure $callback
      * @return mixed
      */
     public function transaction(Closure $callback)

@@ -4,6 +4,7 @@ namespace Aws\Crypto;
 use GuzzleHttp\Psr7;
 use GuzzleHttp\Psr7\AppendStream;
 use GuzzleHttp\Psr7\Stream;
+use InvalidArgumentException;
 
 trait EncryptionTrait
 {
@@ -43,7 +44,7 @@ trait EncryptionTrait
      *
      * @return AesStreamInterface
      *
-     * @throws \InvalidArgumentException Thrown when a value in $cipherOptions
+     * @throws InvalidArgumentException Thrown when a value in $cipherOptions
      *                                   is not valid.
      *
      * @internal
@@ -62,12 +63,12 @@ trait EncryptionTrait
         );
 
         if (empty($cipherOptions['Cipher'])) {
-            throw new \InvalidArgumentException('An encryption cipher must be'
+            throw new InvalidArgumentException('An encryption cipher must be'
                 . ' specified in the "cipher_options".');
         }
 
         if (!self::isSupportedCipher($cipherOptions['Cipher'])) {
-            throw new \InvalidArgumentException('The cipher requested is not'
+            throw new InvalidArgumentException('The cipher requested is not'
                 . ' supported by the SDK.');
         }
 
@@ -75,14 +76,14 @@ trait EncryptionTrait
             $cipherOptions['KeySize'] = 256;
         }
         if (!is_int($cipherOptions['KeySize'])) {
-            throw new \InvalidArgumentException('The cipher "KeySize" must be'
+            throw new InvalidArgumentException('The cipher "KeySize" must be'
                 . ' an integer.');
         }
 
         if (!MaterialsProvider::isSupportedKeySize(
             $cipherOptions['KeySize']
         )) {
-            throw new \InvalidArgumentException('The cipher "KeySize" requested'
+            throw new InvalidArgumentException('The cipher "KeySize" requested'
                 . ' is not supported by AES (128, 192, or 256).');
         }
 

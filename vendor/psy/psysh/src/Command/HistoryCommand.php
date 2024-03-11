@@ -11,6 +11,7 @@
 
 namespace Psy\Command;
 
+use InvalidArgumentException;
 use Psy\Input\FilterOptions;
 use Psy\Output\ShellOutput;
 use Psy\Readline\Readline;
@@ -18,6 +19,17 @@ use Symfony\Component\Console\Formatter\OutputFormatter;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use function array_map;
+use function array_pop;
+use function array_slice;
+use function count;
+use function explode;
+use function file_put_contents;
+use function implode;
+use function preg_match;
+use function sprintf;
+use const PHP_EOL;
+use const PHP_INT_MAX;
 
 /**
  * Psy Shell history command.
@@ -112,11 +124,11 @@ HELP
             foreach ($history as $i => $line) {
                 if ($this->filter->match($line, $matches)) {
                     if (isset($matches[0])) {
-                        $chunks = \explode($matches[0], $history[$i]);
-                        $chunks = \array_map([__CLASS__, 'escape'], $chunks);
-                        $glue = \sprintf('<urgent>%s</urgent>', self::escape($matches[0]));
+                        $chunks = explode($matches[0], $history[$i]);
+                        $chunks = array_map([__CLASS__, 'escape'], $chunks);
+                        $glue = sprintf('<urgent>%s</urgent>', self::escape($matches[0]));
 
-                        $highlighted[$i] = \implode($glue, $chunks);
+                        $highlighted[$i] = implode($glue, $chunks);
                     }
                 } else {
                     unset($history[$i]);
@@ -125,16 +137,16 @@ HELP
         }
 
         if ($save = $input->getOption('save')) {
-            $output->writeln(\sprintf('Saving history in %s...', $save));
-            \file_put_contents($save, \implode(\PHP_EOL, $history).\PHP_EOL);
+            $output->writeln(sprintf('Saving history in %s...', $save));
+            file_put_contents($save, implode(PHP_EOL, $history). PHP_EOL);
             $output->writeln('<info>History saved.</info>');
         } elseif ($input->getOption('replay')) {
             if (!($input->getOption('show') || $input->getOption('head') || $input->getOption('tail'))) {
-                throw new \InvalidArgumentException('You must limit history via --head, --tail or --show before replaying');
+                throw new InvalidArgumentException('You must limit history via --head, --tail or --show before replaying');
             }
 
-            $count = \count($history);
-            $output->writeln(\sprintf('Replaying %d line%s of history', $count, ($count !== 1) ? 's' : ''));
+            $count = count($history);
+            $output->writeln(sprintf('Replaying %d line%s of history', $count, ($count !== 1) ? 's' : ''));
             $this->getApplication()->addInput($history);
         } elseif ($input->getOption('clear')) {
             $this->clearHistory();
@@ -160,19 +172,19 @@ HELP
      */
     private function extractRange(string $range): array
     {
-        if (\preg_match('/^\d+$/', $range)) {
+        if (preg_match('/^\d+$/', $range)) {
             return [$range, $range + 1];
         }
 
         $matches = [];
-        if ($range !== '..' && \preg_match('/^(\d*)\.\.(\d*)$/', $range, $matches)) {
+        if ($range !== '..' && preg_match('/^(\d*)\.\.(\d*)$/', $range, $matches)) {
             $start = $matches[1] ? (int) $matches[1] : 0;
-            $end = $matches[2] ? (int) $matches[2] + 1 : \PHP_INT_MAX;
+            $end = $matches[2] ? (int) $matches[2] + 1 : PHP_INT_MAX;
 
             return [$start, $end];
         }
 
-        throw new \InvalidArgumentException('Unexpected range: '.$range);
+        throw new InvalidArgumentException('Unexpected range: '.$range);
     }
 
     /**
@@ -189,30 +201,30 @@ HELP
         $history = $this->readline->listHistory();
 
         // don't show the current `history` invocation
-        \array_pop($history);
+        array_pop($history);
 
         if ($show) {
             list($start, $end) = $this->extractRange($show);
             $length = $end - $start;
         } elseif ($head) {
-            if (!\preg_match('/^\d+$/', $head)) {
-                throw new \InvalidArgumentException('Please specify an integer argument for --head');
+            if (!preg_match('/^\d+$/', $head)) {
+                throw new InvalidArgumentException('Please specify an integer argument for --head');
             }
 
             $start = 0;
             $length = (int) $head;
         } elseif ($tail) {
-            if (!\preg_match('/^\d+$/', $tail)) {
-                throw new \InvalidArgumentException('Please specify an integer argument for --tail');
+            if (!preg_match('/^\d+$/', $tail)) {
+                throw new InvalidArgumentException('Please specify an integer argument for --tail');
             }
 
-            $start = \count($history) - $tail;
+            $start = count($history) - $tail;
             $length = (int) $tail + 1;
         } else {
             return $history;
         }
 
-        return \array_slice($history, $start, $length, true);
+        return array_slice($history, $start, $length, true);
     }
 
     /**
@@ -231,7 +243,7 @@ HELP
         }
 
         if ($count > 1) {
-            throw new \InvalidArgumentException('Please specify only one of --'.\implode(', --', $options));
+            throw new InvalidArgumentException('Please specify only one of --'. implode(', --', $options));
         }
     }
 

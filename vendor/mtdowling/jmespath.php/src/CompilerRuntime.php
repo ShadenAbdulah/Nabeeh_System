@@ -1,6 +1,8 @@
 <?php
 namespace JmesPath;
 
+use RuntimeException;
+
 /**
  * Compiles JMESPath expressions to PHP source code and executes it.
  *
@@ -21,7 +23,7 @@ class CompilerRuntime
     /**
      * @param string|null $dir Directory used to store compiled PHP files.
      * @param Parser|null $parser JMESPath parser to utilize
-     * @throws \RuntimeException if the cache directory cannot be created
+     * @throws RuntimeException if the cache directory cannot be created
      */
     public function __construct($dir = null, Parser $parser = null)
     {
@@ -30,7 +32,7 @@ class CompilerRuntime
         $dir = $dir ?: sys_get_temp_dir();
 
         if (!is_dir($dir) && !mkdir($dir, 0755, true)) {
-            throw new \RuntimeException("Unable to create cache directory: $dir");
+            throw new RuntimeException("Unable to create cache directory: $dir");
         }
 
         $this->cacheDir = realpath($dir);
@@ -47,7 +49,7 @@ class CompilerRuntime
      *                           using associative arrays rather than objects.
      *
      * @return mixed Returns the matching data or null
-     * @throws \RuntimeException
+     * @throws RuntimeException
      */
     public function __invoke($expression, $data)
     {
@@ -73,7 +75,7 @@ class CompilerRuntime
         );
 
         if (!file_put_contents($filename, $code)) {
-            throw new \RuntimeException(sprintf(
+            throw new RuntimeException(sprintf(
                 'Unable to write the compiled PHP code to: %s (%s)',
                 $filename,
                 var_export(error_get_last(), true)

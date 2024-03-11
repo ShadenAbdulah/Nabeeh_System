@@ -2,24 +2,26 @@
 namespace Aws\IoTSecureTunneling;
 
 use Aws\AwsClient;
+use Aws\Result;
+use GuzzleHttp\Promise\Promise;
 
 /**
  * This client is used to interact with the **AWS IoT Secure Tunneling** service.
- * @method \Aws\Result closeTunnel(array $args = [])
- * @method \GuzzleHttp\Promise\Promise closeTunnelAsync(array $args = [])
- * @method \Aws\Result describeTunnel(array $args = [])
- * @method \GuzzleHttp\Promise\Promise describeTunnelAsync(array $args = [])
- * @method \Aws\Result listTagsForResource(array $args = [])
- * @method \GuzzleHttp\Promise\Promise listTagsForResourceAsync(array $args = [])
- * @method \Aws\Result listTunnels(array $args = [])
- * @method \GuzzleHttp\Promise\Promise listTunnelsAsync(array $args = [])
- * @method \Aws\Result openTunnel(array $args = [])
- * @method \GuzzleHttp\Promise\Promise openTunnelAsync(array $args = [])
- * @method \Aws\Result rotateTunnelAccessToken(array $args = [])
- * @method \GuzzleHttp\Promise\Promise rotateTunnelAccessTokenAsync(array $args = [])
- * @method \Aws\Result tagResource(array $args = [])
- * @method \GuzzleHttp\Promise\Promise tagResourceAsync(array $args = [])
- * @method \Aws\Result untagResource(array $args = [])
- * @method \GuzzleHttp\Promise\Promise untagResourceAsync(array $args = [])
+ * @method Result closeTunnel(array $args = [])
+ * @method Promise closeTunnelAsync(array $args = [])
+ * @method Result describeTunnel(array $args = [])
+ * @method Promise describeTunnelAsync(array $args = [])
+ * @method Result listTagsForResource(array $args = [])
+ * @method Promise listTagsForResourceAsync(array $args = [])
+ * @method Result listTunnels(array $args = [])
+ * @method Promise listTunnelsAsync(array $args = [])
+ * @method Result openTunnel(array $args = [])
+ * @method Promise openTunnelAsync(array $args = [])
+ * @method Result rotateTunnelAccessToken(array $args = [])
+ * @method Promise rotateTunnelAccessTokenAsync(array $args = [])
+ * @method Result tagResource(array $args = [])
+ * @method Promise tagResourceAsync(array $args = [])
+ * @method Result untagResource(array $args = [])
+ * @method Promise untagResourceAsync(array $args = [])
  */
 class IoTSecureTunnelingClient extends AwsClient {}

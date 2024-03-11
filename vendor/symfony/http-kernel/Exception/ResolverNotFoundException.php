@@ -11,7 +11,10 @@
 
 namespace Symfony\Component\HttpKernel\Exception;
 
-class ResolverNotFoundException extends \RuntimeException
+use RuntimeException;
+use function count;
+
+class ResolverNotFoundException extends RuntimeException
 {
     /**
      * @param string[] $alternatives
@@ -20,7 +23,7 @@ class ResolverNotFoundException extends \RuntimeException
     {
         $msg = sprintf('You have requested a non-existent resolver "%s".', $name);
         if ($alternatives) {
-            if (1 === \count($alternatives)) {
+            if (1 === count($alternatives)) {
                 $msg .= ' Did you mean this: "';
             } else {
                 $msg .= ' Did you mean one of these: "';

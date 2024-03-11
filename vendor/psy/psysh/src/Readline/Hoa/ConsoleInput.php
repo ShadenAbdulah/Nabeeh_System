@@ -36,6 +36,10 @@
 
 namespace Psy\Readline\Hoa;
 
+use function defined;
+use function stream_get_meta_data;
+use const STDIN;
+
 /**
  * Interface \Hoa\Console\Input.
  *
@@ -56,8 +60,8 @@ class ConsoleInput implements StreamIn
     public function __construct(StreamIn $input = null)
     {
         if (null === $input) {
-            if (\defined('STDIN') &&
-                false !== @\stream_get_meta_data(\STDIN)) {
+            if (defined('STDIN') &&
+                false !== @stream_get_meta_data(STDIN)) {
                 $input = new FileRead('php://stdin');
             } else {
                 $input = new FileRead('/dev/tty');

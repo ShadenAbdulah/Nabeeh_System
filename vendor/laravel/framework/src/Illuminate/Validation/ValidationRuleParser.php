@@ -10,6 +10,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rules\Exists;
 use Illuminate\Validation\Rules\Unique;
+use stdClass;
 
 class ValidationRuleParser
 {
@@ -42,7 +43,7 @@ class ValidationRuleParser
      * Parse the human-friendly rules into a full rules array for the validator.
      *
      * @param  array  $rules
-     * @return \stdClass
+     * @return stdClass
      */
     public function explode($rules)
     {

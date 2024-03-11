@@ -2,6 +2,11 @@
 
 namespace Faker;
 
+use DateTime;
+use InvalidArgumentException;
+use ReflectionMethod;
+use ReflectionObject;
+
 class Documentor
 {
     protected $generator;
@@ -23,9 +28,9 @@ class Documentor
         foreach ($providers as $provider) {
             $providerClass = get_class($provider);
             $formatters[$providerClass] = [];
-            $refl = new \ReflectionObject($provider);
+            $refl = new ReflectionObject($provider);
 
-            foreach ($refl->getMethods(\ReflectionMethod::IS_PUBLIC) as $reflmethod) {
+            foreach ($refl->getMethods(ReflectionMethod::IS_PUBLIC) as $reflmethod) {
                 if ($reflmethod->getDeclaringClass()->getName() == 'Faker\Provider\Base' && $providerClass != 'Faker\Provider\Base') {
                     continue;
                 }
@@ -48,13 +53,13 @@ class Documentor
 
                 try {
                     $example = $this->generator->format($methodName);
-                } catch (\InvalidArgumentException $e) {
+                } catch (InvalidArgumentException $e) {
                     $example = '';
                 }
 
                 if (is_array($example)) {
                     $example = "array('" . implode("', '", $example) . "')";
-                } elseif ($example instanceof \DateTime) {
+                } elseif ($example instanceof DateTime) {
                     $example = "DateTime('" . $example->format('Y-m-d H:i:s') . "')";
                 } elseif ($example instanceof Generator || $example instanceof UniqueGenerator) { // modifier
                     $example = '';

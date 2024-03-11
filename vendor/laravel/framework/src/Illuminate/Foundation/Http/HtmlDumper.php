@@ -82,7 +82,7 @@ class HtmlDumper extends BaseHtmlDumper
     /**
      * Dump a variable with its source file / line.
      *
-     * @param  \Symfony\Component\VarDumper\Cloner\Data  $data
+     * @param Data $data
      * @return void
      */
     public function dumpWithSource(Data $data)

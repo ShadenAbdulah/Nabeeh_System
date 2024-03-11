@@ -58,7 +58,7 @@ class DbCommand extends Command
      *
      * @return array
      *
-     * @throws \UnexpectedValueException
+     * @throws UnexpectedValueException
      */
     public function getConnection()
     {

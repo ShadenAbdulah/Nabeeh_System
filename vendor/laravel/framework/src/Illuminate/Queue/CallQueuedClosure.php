@@ -10,6 +10,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Laravel\SerializableClosure\SerializableClosure;
 use ReflectionFunction;
+use Throwable;
 
 class CallQueuedClosure implements ShouldQueue
 {
@@ -18,7 +19,7 @@ class CallQueuedClosure implements ShouldQueue
     /**
      * The serializable Closure instance.
      *
-     * @var \Laravel\SerializableClosure\SerializableClosure
+     * @var SerializableClosure
      */
     public $closure;
 
@@ -39,7 +40,7 @@ class CallQueuedClosure implements ShouldQueue
     /**
      * Create a new job instance.
      *
-     * @param  \Laravel\SerializableClosure\SerializableClosure  $closure
+     * @param SerializableClosure $closure
      * @return void
      */
     public function __construct($closure)
@@ -50,7 +51,7 @@ class CallQueuedClosure implements ShouldQueue
     /**
      * Create a new job instance.
      *
-     * @param  \Closure  $job
+     * @param Closure $job
      * @return self
      */
     public static function create(Closure $job)
@@ -61,7 +62,7 @@ class CallQueuedClosure implements ShouldQueue
     /**
      * Execute the job.
      *
-     * @param  \Illuminate\Contracts\Container\Container  $container
+     * @param Container $container
      * @return void
      */
     public function handle(Container $container)
@@ -87,7 +88,7 @@ class CallQueuedClosure implements ShouldQueue
     /**
      * Handle a job failure.
      *
-     * @param  \Throwable  $e
+     * @param  Throwable  $e
      * @return void
      */
     public function failed($e)

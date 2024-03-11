@@ -11,6 +11,12 @@ namespace Nette\Utils;
 
 use Nette;
 use Nette\MemberAccessException;
+use ReflectionClass;
+use ReflectionException;
+use ReflectionFunctionAbstract;
+use ReflectionParameter;
+use ReflectionProperty;
+use Reflector;
 
 
 /**
@@ -27,9 +33,9 @@ final class ObjectHelpers
 	 */
 	public static function strictGet(string $class, string $name): void
 	{
-		$rc = new \ReflectionClass($class);
+		$rc = new ReflectionClass($class);
 		$hint = self::getSuggestion(array_merge(
-			array_filter($rc->getProperties(\ReflectionProperty::IS_PUBLIC), fn($p) => !$p->isStatic()),
+			array_filter($rc->getProperties(ReflectionProperty::IS_PUBLIC), fn($p) => !$p->isStatic()),
 			self::parseFullDoc($rc, '~^[ \t*]*@property(?:-read)?[ \t]+(?:\S+[ \t]+)??\$(\w+)~m'),
 		), $name);
 		throw new MemberAccessException("Cannot read an undeclared property $class::\$$name" . ($hint ? ", did you mean \$$hint?" : '.'));
@@ -42,9 +48,9 @@ final class ObjectHelpers
 	 */
 	public static function strictSet(string $class, string $name): void
 	{
-		$rc = new \ReflectionClass($class);
+		$rc = new ReflectionClass($class);
 		$hint = self::getSuggestion(array_merge(
-			array_filter($rc->getProperties(\ReflectionProperty::IS_PUBLIC), fn($p) => !$p->isStatic()),
+			array_filter($rc->getProperties(ReflectionProperty::IS_PUBLIC), fn($p) => !$p->isStatic()),
 			self::parseFullDoc($rc, '~^[ \t*]*@property(?:-write)?[ \t]+(?:\S+[ \t]+)??\$(\w+)~m'),
 		), $name);
 		throw new MemberAccessException("Cannot write to an undeclared property $class::\$$name" . ($hint ? ", did you mean \$$hint?" : '.'));
@@ -76,7 +82,7 @@ final class ObjectHelpers
 		} else {
 			$hint = self::getSuggestion(array_merge(
 				get_class_methods($class),
-				self::parseFullDoc(new \ReflectionClass($class), '~^[ \t*]*@method[ \t]+(?:static[ \t]+)?(?:\S+[ \t]+)??(\w+)\(~m'),
+				self::parseFullDoc(new ReflectionClass($class), '~^[ \t*]*@method[ \t]+(?:static[ \t]+)?(?:\S+[ \t]+)??(\w+)\(~m'),
 				$additionalMethods,
 			), $method);
 			throw new MemberAccessException("Call to undefined method $class::$method()" . ($hint ? ", did you mean $hint()?" : '.'));
@@ -108,7 +114,7 @@ final class ObjectHelpers
 
 		} else {
 			$hint = self::getSuggestion(
-				array_filter((new \ReflectionClass($class))->getMethods(\ReflectionMethod::IS_PUBLIC), fn($m) => $m->isStatic()),
+				array_filter((new ReflectionClass($class))->getMethods(\ReflectionMethod::IS_PUBLIC), fn($m) => $m->isStatic()),
 				$method,
 			);
 			throw new MemberAccessException("Call to undefined static method $class::$method()" . ($hint ? ", did you mean $hint()?" : '.'));
@@ -129,7 +135,7 @@ final class ObjectHelpers
 			return $props;
 		}
 
-		$rc = new \ReflectionClass($class);
+		$rc = new ReflectionClass($class);
 		preg_match_all(
 			'~^  [ \t*]*  @property(|-read|-write|-deprecated)  [ \t]+  [^\s$]+  [ \t]+  \$  (\w+)  ()~mx',
 			(string) $rc->getDocComment(),
@@ -166,7 +172,7 @@ final class ObjectHelpers
 
 	/**
 	 * Finds the best suggestion (for 8-bit encoding).
-	 * @param  (\ReflectionFunctionAbstract|\ReflectionParameter|\ReflectionClass|\ReflectionProperty|string)[]  $possibilities
+	 * @param  (ReflectionFunctionAbstract|ReflectionParameter|ReflectionClass|ReflectionProperty|string)[]  $possibilities
 	 * @internal
 	 */
 	public static function getSuggestion(array $possibilities, string $value): ?string
@@ -175,7 +181,7 @@ final class ObjectHelpers
 		$best = null;
 		$min = (strlen($value) / 4 + 1) * 10 + .1;
 		foreach (array_unique($possibilities, SORT_REGULAR) as $item) {
-			$item = $item instanceof \Reflector ? $item->name : $item;
+			$item = $item instanceof Reflector ? $item->name : $item;
 			if ($item !== $value && (
 				($len = levenshtein($item, $value, 10, 11, 10)) < $min
 				|| ($len = levenshtein(preg_replace($re, '*', $item), $norm, 10, 11, 10)) < $min
@@ -189,7 +195,7 @@ final class ObjectHelpers
 	}
 
 
-	private static function parseFullDoc(\ReflectionClass $rc, string $pattern): array
+	private static function parseFullDoc(ReflectionClass $rc, string $pattern): array
 	{
 		do {
 			$doc[] = $rc->getDocComment();
@@ -216,11 +222,11 @@ final class ObjectHelpers
 		if ($prop === null) {
 			$prop = false;
 			try {
-				$rp = new \ReflectionProperty($class, $name);
+				$rp = new ReflectionProperty($class, $name);
 				if ($rp->isPublic() && !$rp->isStatic()) {
 					$prop = $name >= 'onA' && $name < 'on_' ? 'event' : true;
 				}
-			} catch (\ReflectionException $e) {
+			} catch (ReflectionException $e) {
 			}
 		}
 

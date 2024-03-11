@@ -5,6 +5,7 @@ namespace Aws\ClientSideMonitoring;
 use Aws\CommandInterface;
 use Aws\Exception\AwsException;
 use Aws\ResultInterface;
+use Exception;
 use GuzzleHttp\Psr7\Request;
 use Psr\Http\Message\RequestInterface;
 
@@ -26,7 +27,7 @@ interface MonitoringMiddlewareInterface
     /**
      * Data for event properties to be sent to the monitoring agent.
      *
-     * @param ResultInterface|AwsException|\Exception $klass
+     * @param ResultInterface|AwsException|Exception $klass
      * @return array
      */
     public static function getResponseData($klass);

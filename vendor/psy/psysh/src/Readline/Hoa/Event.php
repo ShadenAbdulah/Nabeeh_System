@@ -36,6 +36,11 @@
 
 namespace Psy\Readline\Hoa;
 
+use ReflectionClass;
+use function array_key_exists;
+use function get_class;
+use function is_object;
+
 /**
  * Events are asynchronous at registration, anonymous at use (until we
  * receive a bucket) and useful to largely spread data through components
@@ -98,10 +103,10 @@ class Event
             throw new EventException('Cannot redeclare an event with the same ID, i.e. the event '.'ID %s already exists.', 0, $eventId);
         }
 
-        if (\is_object($source) && !($source instanceof EventSource)) {
-            throw new EventException('The source must implement \Hoa\Event\Source '.'interface; given %s.', 1, \get_class($source));
+        if (is_object($source) && !($source instanceof EventSource)) {
+            throw new EventException('The source must implement \Hoa\Event\Source '.'interface; given %s.', 1, get_class($source));
         } else {
-            $reflection = new \ReflectionClass($source);
+            $reflection = new ReflectionClass($source);
 
             if (false === $reflection->implementsInterface('\Psy\Readline\Hoa\EventSource')) {
                 throw new EventException('The source must implement \Hoa\Event\Source '.'interface; given %s.', 2, $source);
@@ -187,7 +192,7 @@ class Event
     public static function eventExists(string $eventId): bool
     {
         return
-            \array_key_exists($eventId, self::$_register) &&
+            array_key_exists($eventId, self::$_register) &&
             self::$_register[$eventId][self::KEY_SOURCE] !== null;
     }
 }

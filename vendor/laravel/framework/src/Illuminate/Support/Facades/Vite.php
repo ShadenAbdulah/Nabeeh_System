@@ -2,6 +2,8 @@
 
 namespace Illuminate\Support\Facades;
 
+use Illuminate\Support\HtmlString;
+
 /**
  * @method static array preloadedAssets()
  * @method static string|null cspNonce()
@@ -16,7 +18,7 @@ namespace Illuminate\Support\Facades;
  * @method static \Illuminate\Foundation\Vite useScriptTagAttributes(callable|array $attributes)
  * @method static \Illuminate\Foundation\Vite useStyleTagAttributes(callable|array $attributes)
  * @method static \Illuminate\Foundation\Vite usePreloadTagAttributes(callable|array|false $attributes)
- * @method static \Illuminate\Support\HtmlString|void reactRefresh()
+ * @method static HtmlString|void reactRefresh()
  * @method static string asset(string $asset, string|null $buildDirectory = null)
  * @method static string content(string $asset, string|null $buildDirectory = null)
  * @method static string|null manifestHash(string|null $buildDirectory = null)

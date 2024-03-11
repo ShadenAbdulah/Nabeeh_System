@@ -4,6 +4,7 @@ namespace Aws\S3\Crypto;
 use Aws\Crypto\MaterialsProvider;
 use Aws\Crypto\MetadataEnvelope;
 use Aws\Crypto\MetadataStrategyInterface;
+use InvalidArgumentException;
 
 trait CryptoParamsTrait
 {
@@ -13,7 +14,7 @@ trait CryptoParamsTrait
             return $args['@MaterialsProvider'];
         }
 
-        throw new \InvalidArgumentException('An instance of MaterialsProvider'
+        throw new InvalidArgumentException('An instance of MaterialsProvider'
             . ' must be passed in the "MaterialsProvider" field.');
     }
 
@@ -55,12 +56,12 @@ trait CryptoParamsTrait
                             $instructionFileSuffix
                         );
                     default:
-                        throw new \InvalidArgumentException('Could not match the'
+                        throw new InvalidArgumentException('Could not match the'
                             . ' specified string in "MetadataStrategy" to a'
                             . ' predefined strategy.');
                 }
             } else {
-                throw new \InvalidArgumentException('The metadata strategy that'
+                throw new InvalidArgumentException('The metadata strategy that'
                     . ' was passed to "MetadataStrategy" was unrecognized.');
             }
         } elseif ($instructionFileSuffix) {

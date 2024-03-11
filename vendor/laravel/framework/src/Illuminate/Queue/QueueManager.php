@@ -3,8 +3,10 @@
 namespace Illuminate\Queue;
 
 use Closure;
+use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Queue\Factory as FactoryContract;
 use Illuminate\Contracts\Queue\Monitor as MonitorContract;
+use Illuminate\Queue\Connectors\ConnectorInterface;
 use InvalidArgumentException;
 
 /**
@@ -15,7 +17,7 @@ class QueueManager implements FactoryContract, MonitorContract
     /**
      * The application instance.
      *
-     * @var \Illuminate\Contracts\Foundation\Application
+     * @var Application
      */
     protected $app;
 
@@ -36,7 +38,7 @@ class QueueManager implements FactoryContract, MonitorContract
     /**
      * Create a new queue manager instance.
      *
-     * @param  \Illuminate\Contracts\Foundation\Application  $app
+     * @param  Application  $app
      * @return void
      */
     public function __construct($app)
@@ -149,7 +151,7 @@ class QueueManager implements FactoryContract, MonitorContract
      * @param  string  $name
      * @return \Illuminate\Contracts\Queue\Queue
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     protected function resolve($name)
     {
@@ -168,9 +170,9 @@ class QueueManager implements FactoryContract, MonitorContract
      * Get the connector for a given driver.
      *
      * @param  string  $driver
-     * @return \Illuminate\Queue\Connectors\ConnectorInterface
+     * @return ConnectorInterface
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     protected function getConnector($driver)
     {
@@ -185,7 +187,7 @@ class QueueManager implements FactoryContract, MonitorContract
      * Add a queue connection resolver.
      *
      * @param  string  $driver
-     * @param  \Closure  $resolver
+     * @param Closure $resolver
      * @return void
      */
     public function extend($driver, Closure $resolver)
@@ -197,7 +199,7 @@ class QueueManager implements FactoryContract, MonitorContract
      * Add a queue connection resolver.
      *
      * @param  string  $driver
-     * @param  \Closure  $resolver
+     * @param Closure $resolver
      * @return void
      */
     public function addConnector($driver, Closure $resolver)
@@ -255,7 +257,7 @@ class QueueManager implements FactoryContract, MonitorContract
     /**
      * Get the application instance used by the manager.
      *
-     * @return \Illuminate\Contracts\Foundation\Application
+     * @return Application
      */
     public function getApplication()
     {
@@ -265,7 +267,7 @@ class QueueManager implements FactoryContract, MonitorContract
     /**
      * Set the application instance used by the manager.
      *
-     * @param  \Illuminate\Contracts\Foundation\Application  $app
+     * @param  Application  $app
      * @return $this
      */
     public function setApplication($app)

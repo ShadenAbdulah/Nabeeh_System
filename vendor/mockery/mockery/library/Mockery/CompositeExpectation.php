@@ -22,7 +22,7 @@ class CompositeExpectation implements ExpectationInterface
     /**
      * Add an expectation to the composite
      *
-     * @param \Mockery\Expectation|\Mockery\CompositeExpectation $expectation
+     * @param Expectation|CompositeExpectation $expectation
      * @return void
      */
     public function add($expectation)
@@ -79,7 +79,7 @@ class CompositeExpectation implements ExpectationInterface
     /**
      * Return the parent mock of the first expectation
      *
-     * @return \Mockery\MockInterface|\Mockery\LegacyMockInterface
+     * @return MockInterface|LegacyMockInterface
      */
     public function getMock()
     {
@@ -91,7 +91,7 @@ class CompositeExpectation implements ExpectationInterface
     /**
      * Mockery API alias to getMock
      *
-     * @return \Mockery\LegacyMockInterface|\Mockery\MockInterface
+     * @return LegacyMockInterface|MockInterface
      */
     public function mock()
     {
@@ -103,7 +103,7 @@ class CompositeExpectation implements ExpectationInterface
      * target outside of a demeter chain
      *
      * @param mixed ...$args
-     * @return \Mockery\Expectation
+     * @return Expectation
      */
     public function shouldReceive(...$args)
     {
@@ -117,7 +117,7 @@ class CompositeExpectation implements ExpectationInterface
      * target outside of a demeter chain
      *
      * @param mixed ...$args
-     * @return \Mockery\Expectation
+     * @return Expectation
      */
     public function shouldNotReceive(...$args)
     {

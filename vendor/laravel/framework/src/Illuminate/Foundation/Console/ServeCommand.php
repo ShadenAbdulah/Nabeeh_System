@@ -2,6 +2,7 @@
 
 namespace Illuminate\Foundation\Console;
 
+use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Env;
@@ -39,7 +40,7 @@ class ServeCommand extends Command
     /**
      * The list of requests being handled and their start time.
      *
-     * @var array<int, \Illuminate\Support\Carbon>
+     * @var array<int, Carbon>
      */
     protected $requestsPool;
 
@@ -76,7 +77,7 @@ class ServeCommand extends Command
      *
      * @return int
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function handle()
     {
@@ -131,7 +132,7 @@ class ServeCommand extends Command
      * Start a new server process.
      *
      * @param  bool  $hasEnvironment
-     * @return \Symfony\Component\Process\Process
+     * @return Process
      */
     protected function startProcess($hasEnvironment)
     {
@@ -313,7 +314,7 @@ class ServeCommand extends Command
      * Get the date from the given PHP server output.
      *
      * @param  string  $line
-     * @return \Illuminate\Support\Carbon
+     * @return Carbon
      */
     protected function getDateFromLine($line)
     {

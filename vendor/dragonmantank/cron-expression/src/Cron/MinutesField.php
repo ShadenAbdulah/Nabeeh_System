@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Cron;
 
 use DateTimeInterface;
+use function count;
 
 /**
  * Minutes field.  Allows: * , / -.
@@ -55,9 +56,9 @@ class MinutesField extends AbstractField
             $minutes = array_merge($minutes, $this->getRangeForExpression($part, 59));
         }
 
-        $position = $invert ? \count($minutes) - 1 : 0;
-        if (\count($minutes) > 1) {
-            for ($i = 0; $i < \count($minutes) - 1; ++$i) {
+        $position = $invert ? count($minutes) - 1 : 0;
+        if (count($minutes) > 1) {
+            for ($i = 0; $i < count($minutes) - 1; ++$i) {
                 if ((!$invert && $current_minute >= $minutes[$i] && $current_minute < $minutes[$i + 1]) ||
                     ($invert && $current_minute > $minutes[$i] && $current_minute <= $minutes[$i + 1])) {
                     $position = $invert ? $i : $i + 1;

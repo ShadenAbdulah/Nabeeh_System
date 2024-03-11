@@ -2,12 +2,14 @@
 
 namespace Illuminate\Contracts\Mail;
 
+use Illuminate\Mail\Attachment;
+
 interface Attachable
 {
     /**
      * Get an attachment instance for this entity.
      *
-     * @return \Illuminate\Mail\Attachment
+     * @return Attachment
      */
     public function toMailAttachment();
 }

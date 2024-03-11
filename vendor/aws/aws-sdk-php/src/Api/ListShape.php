@@ -1,6 +1,8 @@
 <?php
 namespace Aws\Api;
 
+use RuntimeException;
+
 /**
  * Represents a list shape.
  */
@@ -16,13 +18,13 @@ class ListShape extends Shape
 
     /**
      * @return Shape
-     * @throws \RuntimeException if no member is specified
+     * @throws RuntimeException if no member is specified
      */
     public function getMember()
     {
         if (!$this->member) {
             if (!isset($this->definition['member'])) {
-                throw new \RuntimeException('No member attribute specified');
+                throw new RuntimeException('No member attribute specified');
             }
             $this->member = Shape::create(
                 $this->definition['member'],

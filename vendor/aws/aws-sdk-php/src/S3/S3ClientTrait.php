@@ -8,9 +8,13 @@ use Aws\HandlerList;
 use Aws\ResultInterface;
 use Aws\S3\Exception\PermanentRedirectException;
 use Aws\S3\Exception\S3Exception;
+use Exception;
 use GuzzleHttp\Promise\PromiseInterface;
 use GuzzleHttp\Promise\RejectedPromise;
+use Iterator;
 use Psr\Http\Message\ResponseInterface;
+use RuntimeException;
+use function Aws\filter;
 
 /**
  * A trait providing S3-specific functionality. This is meant to be used in
@@ -136,7 +140,7 @@ trait S3ClientTrait
     ) {
         if (!$prefix && !$regex) {
             return new RejectedPromise(
-                new \RuntimeException('A prefix or regex is required.')
+                new RuntimeException('A prefix or regex is required.')
             );
         }
 
@@ -144,7 +148,7 @@ trait S3ClientTrait
         $iter = $this->getIterator('ListObjects', $params);
 
         if ($regex) {
-            $iter = \Aws\filter($iter, function ($c) use ($regex) {
+            $iter = filter($iter, function ($c) use ($regex) {
                 return preg_match($regex, $c['Key']);
             });
         }
@@ -258,7 +262,7 @@ trait S3ClientTrait
             if (!empty($element->Region)) {
                 return (string)$element->Region;
             }
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             // Fallthrough on exceptions from parsing
         }
         return false;
@@ -355,7 +359,7 @@ trait S3ClientTrait
      * @param CommandInterface $command Command used to poll for the resource
      *
      * @return bool
-     * @throws S3Exception|\Exception if there is an unhandled exception
+     * @throws S3Exception|Exception if there is an unhandled exception
      */
     private function checkExistenceWithCommand(CommandInterface $command)
     {
@@ -393,7 +397,7 @@ trait S3ClientTrait
     /**
      * @see S3ClientInterface::getIterator()
      *
-     * @return \Iterator
+     * @return Iterator
      */
     abstract public function getIterator($name, array $args = []);
 }

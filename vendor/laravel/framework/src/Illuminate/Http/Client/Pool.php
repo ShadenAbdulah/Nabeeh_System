@@ -2,17 +2,18 @@
 
 namespace Illuminate\Http\Client;
 
+use GuzzleHttp\Promise\Promise;
 use GuzzleHttp\Utils;
 
 /**
- * @mixin \Illuminate\Http\Client\Factory
+ * @mixin Factory
  */
 class Pool
 {
     /**
      * The factory instance.
      *
-     * @var \Illuminate\Http\Client\Factory
+     * @var Factory
      */
     protected $factory;
 
@@ -33,7 +34,7 @@ class Pool
     /**
      * Create a new requests pool.
      *
-     * @param  \Illuminate\Http\Client\Factory|null  $factory
+     * @param Factory|null  $factory
      * @return void
      */
     public function __construct(Factory $factory = null)
@@ -46,7 +47,7 @@ class Pool
      * Add a request to the pool with a key.
      *
      * @param  string  $key
-     * @return \Illuminate\Http\Client\PendingRequest
+     * @return PendingRequest
      */
     public function as(string $key)
     {
@@ -56,7 +57,7 @@ class Pool
     /**
      * Retrieve a new async pending request.
      *
-     * @return \Illuminate\Http\Client\PendingRequest
+     * @return PendingRequest
      */
     protected function asyncRequest()
     {
@@ -78,7 +79,7 @@ class Pool
      *
      * @param  string  $method
      * @param  array  $parameters
-     * @return \Illuminate\Http\Client\PendingRequest|\GuzzleHttp\Promise\Promise
+     * @return PendingRequest|Promise
      */
     public function __call($method, $parameters)
     {

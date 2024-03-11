@@ -6,6 +6,7 @@ use Aws\Arn\S3\AccessPointArn;
 use Aws\Exception\MultipartUploadException;
 use Aws\Result;
 use Aws\S3\Exception\S3Exception;
+use Exception;
 use GuzzleHttp\Promise\Coroutine;
 use GuzzleHttp\Promise\PromiseInterface;
 use GuzzleHttp\Promise\PromisorInterface;
@@ -138,7 +139,7 @@ class ObjectCopier implements PromisorInterface
     private function validateLocation(array $location)
     {
         if (empty($location['Bucket']) || empty($location['Key'])) {
-            throw new \InvalidArgumentException('Locations provided to an'
+            throw new InvalidArgumentException('Locations provided to an'
                 . ' Aws\S3\ObjectCopier must have a non-empty Bucket and Key');
         }
     }
@@ -150,8 +151,8 @@ class ObjectCopier implements PromisorInterface
             try {
                 new AccessPointArn($this->source['Bucket']);
                 $path = "{$this->source['Bucket']}/object/";
-            } catch (\Exception $e) {
-                throw new \InvalidArgumentException(
+            } catch (Exception $e) {
+                throw new InvalidArgumentException(
                     'Provided ARN was a not a valid S3 access point ARN ('
                     . $e->getMessage() . ')',
                     0,

@@ -18,6 +18,12 @@ use Psy\Input\CodeArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use function array_sum;
+use function count;
+use function hrtime;
+use function round;
+use function rsort;
+use function sprintf;
 
 /**
  * Class TimeitCommand.
@@ -91,7 +97,7 @@ HELP
         do {
             $_ = $shell->execute($instrumentedCode);
             $this->ensureEndMarked();
-        } while (\count(self::$times) < $num);
+        } while (count(self::$times) < $num);
 
         $shell->writeReturnValue($_);
 
@@ -99,13 +105,13 @@ HELP
         self::$times = [];
 
         if ($num === 1) {
-            $output->writeln(\sprintf(self::RESULT_MSG, $times[0] / 1e+9));
+            $output->writeln(sprintf(self::RESULT_MSG, $times[0] / 1e+9));
         } else {
-            $total = \array_sum($times);
-            \rsort($times);
-            $median = $times[\round($num / 2)];
+            $total = array_sum($times);
+            rsort($times);
+            $median = $times[round($num / 2)];
 
-            $output->writeln(\sprintf(self::AVG_RESULT_MSG, ($total / $num) / 1e+9, $median / 1e+9, $total / 1e+9));
+            $output->writeln(sprintf(self::AVG_RESULT_MSG, ($total / $num) / 1e+9, $median / 1e+9, $total / 1e+9));
         }
 
         return 0;
@@ -120,7 +126,7 @@ HELP
      */
     public static function markStart()
     {
-        self::$start = \hrtime(true);
+        self::$start = hrtime(true);
     }
 
     /**
@@ -139,7 +145,7 @@ HELP
      */
     public static function markEnd($ret = null)
     {
-        self::$times[] = \hrtime(true) - self::$start;
+        self::$times[] = hrtime(true) - self::$start;
         self::$start = null;
 
         return $ret;

@@ -2,6 +2,10 @@
 
 namespace GuzzleHttp;
 
+use GuzzleHttp\Promise\PromiseInterface;
+use Psr\Http\Message\RequestInterface;
+use RuntimeException;
+
 /**
  * Debug function used to describe the provided value type and class.
  *
@@ -50,9 +54,9 @@ function debug_resource($value = null)
  *
  * The returned handler is not wrapped by any default middlewares.
  *
- * @return callable(\Psr\Http\Message\RequestInterface, array): \GuzzleHttp\Promise\PromiseInterface Returns the best handler for the given system.
+ * @return callable(RequestInterface, array): PromiseInterface Returns the best handler for the given system.
  *
- * @throws \RuntimeException if no viable Handler is available.
+ * @throws RuntimeException if no viable Handler is available.
  *
  * @deprecated choose_handler will be removed in guzzlehttp/guzzle:8.0. Use Utils::chooseHandler instead.
  */
@@ -82,7 +86,7 @@ function default_user_agent(): string
  *
  * Note: the result of this function is cached for subsequent calls.
  *
- * @throws \RuntimeException if no bundle can be found.
+ * @throws RuntimeException if no bundle can be found.
  *
  * @deprecated default_ca_bundle will be removed in guzzlehttp/guzzle:8.0. This function is not needed in PHP 5.6+.
  */

@@ -2,27 +2,30 @@
 
 namespace Illuminate\Routing\Events;
 
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+
 class ResponsePrepared
 {
     /**
      * The request instance.
      *
-     * @var \Symfony\Component\HttpFoundation\Request
+     * @var Request
      */
     public $request;
 
     /**
      * The response instance.
      *
-     * @var \Symfony\Component\HttpFoundation\Response
+     * @var Response
      */
     public $response;
 
     /**
      * Create a new event instance.
      *
-     * @param  \Symfony\Component\HttpFoundation\Request  $request
-     * @param  \Symfony\Component\HttpFoundation\Response  $response
+     * @param  Request  $request
+     * @param  Response  $response
      * @return void
      */
     public function __construct($request, $response)

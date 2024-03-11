@@ -12,6 +12,7 @@ use Illuminate\Contracts\Cache\Repository as Cache;
 use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Sleep;
 use Symfony\Component\Console\Attribute\AsCommand;
@@ -37,14 +38,14 @@ class ScheduleRunCommand extends Command
     /**
      * The schedule instance.
      *
-     * @var \Illuminate\Console\Scheduling\Schedule
+     * @var Schedule
      */
     protected $schedule;
 
     /**
      * The 24 hour timestamp this scheduler command started running.
      *
-     * @var \Illuminate\Support\Carbon
+     * @var Carbon
      */
     protected $startedAt;
 
@@ -58,21 +59,21 @@ class ScheduleRunCommand extends Command
     /**
      * The event dispatcher.
      *
-     * @var \Illuminate\Contracts\Events\Dispatcher
+     * @var Dispatcher
      */
     protected $dispatcher;
 
     /**
      * The exception handler.
      *
-     * @var \Illuminate\Contracts\Debug\ExceptionHandler
+     * @var ExceptionHandler
      */
     protected $handler;
 
     /**
      * The cache store implementation.
      *
-     * @var \Illuminate\Contracts\Cache\Repository
+     * @var Cache
      */
     protected $cache;
 
@@ -98,10 +99,10 @@ class ScheduleRunCommand extends Command
     /**
      * Execute the console command.
      *
-     * @param  \Illuminate\Console\Scheduling\Schedule  $schedule
-     * @param  \Illuminate\Contracts\Events\Dispatcher  $dispatcher
-     * @param  \Illuminate\Contracts\Cache\Repository  $cache
-     * @param  \Illuminate\Contracts\Debug\ExceptionHandler  $handler
+     * @param Schedule $schedule
+     * @param Dispatcher $dispatcher
+     * @param Cache $cache
+     * @param ExceptionHandler $handler
      * @return void
      */
     public function handle(Schedule $schedule, Dispatcher $dispatcher, Cache $cache, ExceptionHandler $handler)
@@ -148,7 +149,7 @@ class ScheduleRunCommand extends Command
     /**
      * Run the given single server event.
      *
-     * @param  \Illuminate\Console\Scheduling\Event  $event
+     * @param Event $event
      * @return void
      */
     protected function runSingleServerEvent($event)
@@ -165,7 +166,7 @@ class ScheduleRunCommand extends Command
     /**
      * Run the given event.
      *
-     * @param  \Illuminate\Console\Scheduling\Event  $event
+     * @param Event $event
      * @return void
      */
     protected function runEvent($event)
@@ -216,7 +217,7 @@ class ScheduleRunCommand extends Command
     /**
      * Run the given repeating events.
      *
-     * @param  \Illuminate\Support\Collection<\Illuminate\Console\Scheduling\Event>  $events
+     * @param  Collection<Event>  $events
      * @return void
      */
     protected function repeatEvents($events)

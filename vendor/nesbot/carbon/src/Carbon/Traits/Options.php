@@ -14,6 +14,7 @@ namespace Carbon\Traits;
 use Carbon\CarbonInterface;
 use DateTimeInterface;
 use Throwable;
+use function is_array;
 
 /**
  * Trait Options.
@@ -379,7 +380,7 @@ trait Options
         if (isset($settings['locale'])) {
             $locales = $settings['locale'];
 
-            if (!\is_array($locales)) {
+            if (!is_array($locales)) {
                 $locales = [$locales];
             }
 

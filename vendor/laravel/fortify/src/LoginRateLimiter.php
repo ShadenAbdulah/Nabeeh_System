@@ -11,14 +11,14 @@ class LoginRateLimiter
     /**
      * The login rate limiter instance.
      *
-     * @var \Illuminate\Cache\RateLimiter
+     * @var RateLimiter
      */
     protected $limiter;
 
     /**
      * Create a new login rate limiter instance.
      *
-     * @param  \Illuminate\Cache\RateLimiter  $limiter
+     * @param RateLimiter $limiter
      * @return void
      */
     public function __construct(RateLimiter $limiter)
@@ -29,7 +29,7 @@ class LoginRateLimiter
     /**
      * Get the number of attempts for the given key.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param Request $request
      * @return mixed
      */
     public function attempts(Request $request)
@@ -40,7 +40,7 @@ class LoginRateLimiter
     /**
      * Determine if the user has too many failed login attempts.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param Request $request
      * @return bool
      */
     public function tooManyAttempts(Request $request)
@@ -51,7 +51,7 @@ class LoginRateLimiter
     /**
      * Increment the login attempts for the user.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param Request $request
      * @return void
      */
     public function increment(Request $request)
@@ -62,7 +62,7 @@ class LoginRateLimiter
     /**
      * Determine the number of seconds until logging in is available again.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param Request $request
      * @return int
      */
     public function availableIn(Request $request)
@@ -73,7 +73,7 @@ class LoginRateLimiter
     /**
      * Clear the login locks for the given user credentials.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param Request $request
      * @return void
      */
     public function clear(Request $request)
@@ -84,7 +84,7 @@ class LoginRateLimiter
     /**
      * Get the throttle key for the given request.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param Request $request
      * @return string
      */
     protected function throttleKey(Request $request)

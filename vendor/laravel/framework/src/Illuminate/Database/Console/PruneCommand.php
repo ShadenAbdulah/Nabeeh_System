@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Events\ModelPruningFinished;
 use Illuminate\Database\Events\ModelPruningStarting;
 use Illuminate\Database\Events\ModelsPruned;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use InvalidArgumentException;
 use Symfony\Component\Finder\Finder;
@@ -38,7 +39,7 @@ class PruneCommand extends Command
     /**
      * Execute the console command.
      *
-     * @param  \Illuminate\Contracts\Events\Dispatcher  $events
+     * @param Dispatcher $events
      * @return void
      */
     public function handle(Dispatcher $events)
@@ -110,7 +111,7 @@ class PruneCommand extends Command
     /**
      * Determine the models that should be pruned.
      *
-     * @return \Illuminate\Support\Collection
+     * @return Collection
      */
     protected function models()
     {

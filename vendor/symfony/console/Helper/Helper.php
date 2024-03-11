@@ -13,6 +13,8 @@ namespace Symfony\Component\Console\Helper;
 
 use Symfony\Component\Console\Formatter\OutputFormatterInterface;
 use Symfony\Component\String\UnicodeString;
+use function func_num_args;
+use function strlen;
 
 /**
  * Helper is the base class for all helper classes.
@@ -28,7 +30,7 @@ abstract class Helper implements HelperInterface
      */
     public function setHelperSet(?HelperSet $helperSet = null)
     {
-        if (1 > \func_num_args()) {
+        if (1 > func_num_args()) {
             trigger_deprecation('symfony/console', '6.2', 'Calling "%s()" without any arguments is deprecated, pass null explicitly instead.', __METHOD__);
         }
         $this->helperSet = $helperSet;
@@ -52,7 +54,7 @@ abstract class Helper implements HelperInterface
         }
 
         if (false === $encoding = mb_detect_encoding($string, null, true)) {
-            return \strlen($string);
+            return strlen($string);
         }
 
         return mb_strwidth($string, $encoding);
@@ -71,7 +73,7 @@ abstract class Helper implements HelperInterface
         }
 
         if (false === $encoding = mb_detect_encoding($string, null, true)) {
-            return \strlen($string);
+            return strlen($string);
         }
 
         return mb_strlen($string, $encoding);

@@ -13,6 +13,7 @@ namespace Symfony\Component\Translation\Extractor\Visitor;
 
 use PhpParser\Node;
 use PhpParser\NodeVisitor;
+use function is_string;
 
 /**
  * @author Mathieu Santostefano <msantostefano@protonmail.com>
@@ -35,7 +36,7 @@ final class TransMethodVisitor extends AbstractVisitor implements NodeVisitor
             return null;
         }
 
-        if (!\is_string($node->name) && !$node->name instanceof Node\Identifier && !$node->name instanceof Node\Name) {
+        if (!is_string($node->name) && !$node->name instanceof Node\Identifier && !$node->name instanceof Node\Name) {
             return null;
         }
 

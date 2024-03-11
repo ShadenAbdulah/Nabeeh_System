@@ -3,11 +3,12 @@
 namespace Database\Factories;
 
 use App\Models\User;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @template TModel of \App\Models\User
+ * @template TModel of User
  *
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<TModel>
+ * @extends Factory<TModel>
  */
 class UserFactory extends \Orchestra\Testbench\Factories\UserFactory
 {

@@ -11,6 +11,7 @@
 
 namespace Symfony\Component\VarDumper\Cloner;
 
+use ReflectionClass;
 use Symfony\Component\VarDumper\Cloner\Internal\NoDefault;
 
 /**
@@ -52,7 +53,7 @@ class Stub
         $properties = [];
 
         if (!isset(self::$defaultProperties[$c = static::class])) {
-            $reflection = new \ReflectionClass($c);
+            $reflection = new ReflectionClass($c);
             self::$defaultProperties[$c] = [];
 
             foreach ($reflection->getProperties() as $p) {

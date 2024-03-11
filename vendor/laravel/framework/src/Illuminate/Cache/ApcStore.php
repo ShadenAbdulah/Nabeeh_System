@@ -9,7 +9,7 @@ class ApcStore extends TaggableStore
     /**
      * The APC wrapper instance.
      *
-     * @var \Illuminate\Cache\ApcWrapper
+     * @var ApcWrapper
      */
     protected $apc;
 
@@ -23,7 +23,7 @@ class ApcStore extends TaggableStore
     /**
      * Create a new APC store.
      *
-     * @param  \Illuminate\Cache\ApcWrapper  $apc
+     * @param ApcWrapper $apc
      * @param  string  $prefix
      * @return void
      */

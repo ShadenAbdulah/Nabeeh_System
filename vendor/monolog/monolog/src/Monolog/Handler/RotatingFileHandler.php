@@ -11,6 +11,7 @@
 
 namespace Monolog\Handler;
 
+use DateTimeImmutable;
 use InvalidArgumentException;
 use Monolog\Level;
 use Monolog\Utils;
@@ -34,7 +35,7 @@ class RotatingFileHandler extends StreamHandler
     protected string $filename;
     protected int $maxFiles;
     protected bool|null $mustRotate = null;
-    protected \DateTimeImmutable $nextRotation;
+    protected DateTimeImmutable $nextRotation;
     protected string $filenameFormat;
     protected string $dateFormat;
 
@@ -206,12 +207,12 @@ class RotatingFileHandler extends StreamHandler
         $this->dateFormat = $dateFormat;
     }
 
-    protected function getNextRotation(): \DateTimeImmutable
+    protected function getNextRotation(): DateTimeImmutable
     {
         return match (str_replace(['/','_','.'], '-', $this->dateFormat)) {
-            self::FILE_PER_MONTH => (new \DateTimeImmutable('first day of next month'))->setTime(0, 0, 0),
-            self::FILE_PER_YEAR => (new \DateTimeImmutable('first day of January next year'))->setTime(0, 0, 0),
-            default => (new \DateTimeImmutable('tomorrow'))->setTime(0, 0, 0),
+            self::FILE_PER_MONTH => (new DateTimeImmutable('first day of next month'))->setTime(0, 0, 0),
+            self::FILE_PER_YEAR => (new DateTimeImmutable('first day of January next year'))->setTime(0, 0, 0),
+            default => (new DateTimeImmutable('tomorrow'))->setTime(0, 0, 0),
         };
     }
 }

@@ -2,6 +2,10 @@
 
 namespace Illuminate\Contracts\Console;
 
+use Illuminate\Foundation\Bus\PendingDispatch;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
+
 interface Kernel
 {
     /**
@@ -14,8 +18,8 @@ interface Kernel
     /**
      * Handle an incoming console command.
      *
-     * @param  \Symfony\Component\Console\Input\InputInterface  $input
-     * @param  \Symfony\Component\Console\Output\OutputInterface|null  $output
+     * @param  InputInterface  $input
+     * @param  OutputInterface|null  $output
      * @return int
      */
     public function handle($input, $output = null);
@@ -25,7 +29,7 @@ interface Kernel
      *
      * @param  string  $command
      * @param  array  $parameters
-     * @param  \Symfony\Component\Console\Output\OutputInterface|null  $outputBuffer
+     * @param  OutputInterface|null  $outputBuffer
      * @return int
      */
     public function call($command, array $parameters = [], $outputBuffer = null);
@@ -35,7 +39,7 @@ interface Kernel
      *
      * @param  string  $command
      * @param  array  $parameters
-     * @return \Illuminate\Foundation\Bus\PendingDispatch
+     * @return PendingDispatch
      */
     public function queue($command, array $parameters = []);
 
@@ -56,7 +60,7 @@ interface Kernel
     /**
      * Terminate the application.
      *
-     * @param  \Symfony\Component\Console\Input\InputInterface  $input
+     * @param  InputInterface  $input
      * @param  int  $status
      * @return void
      */

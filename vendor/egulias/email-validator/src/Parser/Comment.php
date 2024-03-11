@@ -10,6 +10,7 @@ use Egulias\EmailValidator\Parser\CommentStrategy\CommentStrategy;
 use Egulias\EmailValidator\Result\Reason\UnclosedComment;
 use Egulias\EmailValidator\Result\Reason\UnOpenedComment;
 use Egulias\EmailValidator\Warning\Comment as WarningComment;
+use RuntimeException;
 
 class Comment extends PartParser
 {
@@ -95,7 +96,7 @@ class Comment extends PartParser
         try {
             $this->lexer->find(EmailLexer::S_CLOSEPARENTHESIS);
             return false;
-        } catch (\RuntimeException $e) {
+        } catch (RuntimeException $e) {
             return true;
         }
     }

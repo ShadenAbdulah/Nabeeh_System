@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace NunoMaduro\Collision\Adapters\Phpunit;
 
+use ReflectionException;
 use ReflectionObject;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Input\InputInterface;
@@ -27,7 +28,7 @@ final class ConfigureIO
      * Configures both given input and output with
      * options from the environment.
      *
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     public static function of(InputInterface $input, Output $output): void
     {

@@ -36,6 +36,18 @@
 
 namespace Psy\Readline\Hoa;
 
+use function dirname;
+use function is_dir;
+use function is_file;
+use function is_link;
+use function lchgrp;
+use function lchown;
+use function linkinfo;
+use function lstat;
+use function readlink;
+use function symlink;
+use const DIRECTORY_SEPARATOR;
+
 /**
  * Class \Hoa\File\Link.
  *
@@ -52,7 +64,7 @@ class FileLink extends File
         string $context = null,
         bool $wait = false
     ) {
-        if (!\is_link($streamName)) {
+        if (!is_link($streamName)) {
             throw new FileException('File %s is not a link.', 0, $streamName);
         }
 
@@ -66,7 +78,7 @@ class FileLink extends File
      */
     public function getStatistic(): array
     {
-        return \lstat($this->getStreamName());
+        return lstat($this->getStreamName());
     }
 
     /**
@@ -74,7 +86,7 @@ class FileLink extends File
      */
     public function changeGroup($group): bool
     {
-        return \lchgrp($this->getStreamName(), $group);
+        return lchgrp($this->getStreamName(), $group);
     }
 
     /**
@@ -82,7 +94,7 @@ class FileLink extends File
      */
     public function changeOwner($user): bool
     {
-        return \lchown($this->getStreamName(), $user);
+        return lchown($this->getStreamName(), $user);
     }
 
     /**
@@ -98,25 +110,25 @@ class FileLink extends File
      */
     public function getTarget(): FileGeneric
     {
-        $target = \dirname($this->getStreamName()).\DIRECTORY_SEPARATOR.
+        $target = dirname($this->getStreamName()). DIRECTORY_SEPARATOR.
                    $this->getTargetName();
         $context = null !== $this->getStreamContext()
                        ? $this->getStreamContext()->getCurrentId()
                        : null;
 
-        if (true === \is_link($target)) {
+        if (true === is_link($target)) {
             return new FileLinkReadWrite(
                 $target,
                 File::MODE_APPEND_READ_WRITE,
                 $context
             );
-        } elseif (true === \is_file($target)) {
+        } elseif (true === is_file($target)) {
             return new FileReadWrite(
                 $target,
                 File::MODE_APPEND_READ_WRITE,
                 $context
             );
-        } elseif (true === \is_dir($target)) {
+        } elseif (true === is_dir($target)) {
             return new FileDirectory(
                 $target,
                 File::MODE_READ,
@@ -132,7 +144,7 @@ class FileLink extends File
      */
     public function getTargetName(): string
     {
-        return \readlink($this->getStreamName());
+        return readlink($this->getStreamName());
     }
 
     /**
@@ -140,10 +152,10 @@ class FileLink extends File
      */
     public static function create(string $name, string $target): bool
     {
-        if (false !== \linkinfo($name)) {
+        if (false !== linkinfo($name)) {
             return true;
         }
 
-        return \symlink($target, $name);
+        return symlink($target, $name);
     }
 }

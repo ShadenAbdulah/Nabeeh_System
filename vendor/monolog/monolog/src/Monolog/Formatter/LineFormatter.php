@@ -14,6 +14,10 @@ namespace Monolog\Formatter;
 use Closure;
 use Monolog\Utils;
 use Monolog\LogRecord;
+use RuntimeException;
+use SoapFault;
+use Throwable;
+use function count;
 
 /**
  * Formats incoming records into a one-line string
@@ -40,7 +44,7 @@ class LineFormatter extends NormalizerFormatter
      * @param string|null $dateFormat            The format of the timestamp: one supported by DateTime::format
      * @param bool        $allowInlineLineBreaks Whether to allow inline line breaks in log entries
      *
-     * @throws \RuntimeException If the function json_encode does not exist
+     * @throws RuntimeException If the function json_encode does not exist
      */
     public function __construct(?string $format = null, ?string $dateFormat = null, bool $allowInlineLineBreaks = false, bool $ignoreEmptyContextAndExtra = false, bool $includeStacktraces = false)
     {
@@ -138,12 +142,12 @@ class LineFormatter extends NormalizerFormatter
         }
 
         if ($this->ignoreEmptyContextAndExtra) {
-            if (\count($vars['context']) === 0) {
+            if (count($vars['context']) === 0) {
                 unset($vars['context']);
                 $output = str_replace('%context%', '', $output);
             }
 
-            if (\count($vars['extra']) === 0) {
+            if (count($vars['extra']) === 0) {
                 unset($vars['extra']);
                 $output = str_replace('%extra%', '', $output);
             }
@@ -161,7 +165,7 @@ class LineFormatter extends NormalizerFormatter
             if (null === $output) {
                 $pcreErrorCode = preg_last_error();
 
-                throw new \RuntimeException('Failed to run preg_replace: ' . $pcreErrorCode . ' / ' . Utils::pcreLastErrorMessage($pcreErrorCode));
+                throw new RuntimeException('Failed to run preg_replace: ' . $pcreErrorCode . ' / ' . Utils::pcreLastErrorMessage($pcreErrorCode));
             }
         }
 
@@ -186,11 +190,11 @@ class LineFormatter extends NormalizerFormatter
         return $this->replaceNewlines($this->convertToString($value));
     }
 
-    protected function normalizeException(\Throwable $e, int $depth = 0): string
+    protected function normalizeException(Throwable $e, int $depth = 0): string
     {
         $str = $this->formatException($e);
 
-        if (($previous = $e->getPrevious()) instanceof \Throwable) {
+        if (($previous = $e->getPrevious()) instanceof Throwable) {
             do {
                 $depth++;
                 if ($depth > $this->maxNormalizeDepth) {
@@ -228,7 +232,7 @@ class LineFormatter extends NormalizerFormatter
                 $str = preg_replace('/(?<!\\\\)\\\\[rn]/', "\n", $str);
                 if (null === $str) {
                     $pcreErrorCode = preg_last_error();
-                    throw new \RuntimeException('Failed to run preg_replace: ' . $pcreErrorCode . ' / ' . Utils::pcreLastErrorMessage($pcreErrorCode));
+                    throw new RuntimeException('Failed to run preg_replace: ' . $pcreErrorCode . ' / ' . Utils::pcreLastErrorMessage($pcreErrorCode));
                 }
             }
 
@@ -238,10 +242,10 @@ class LineFormatter extends NormalizerFormatter
         return str_replace(["\r\n", "\r", "\n"], ' ', $str);
     }
 
-    private function formatException(\Throwable $e): string
+    private function formatException(Throwable $e): string
     {
         $str = '[object] (' . Utils::getClass($e) . '(code: ' . $e->getCode();
-        if ($e instanceof \SoapFault) {
+        if ($e instanceof SoapFault) {
             if (isset($e->faultcode)) {
                 $str .= ' faultcode: ' . $e->faultcode;
             }
@@ -267,7 +271,7 @@ class LineFormatter extends NormalizerFormatter
         return $str;
     }
 
-    private function stacktracesParser(\Throwable $e): string
+    private function stacktracesParser(Throwable $e): string
     {
         $trace = $e->getTraceAsString();
 

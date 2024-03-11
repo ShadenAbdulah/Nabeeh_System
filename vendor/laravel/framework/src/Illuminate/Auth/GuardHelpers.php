@@ -13,23 +13,23 @@ trait GuardHelpers
     /**
      * The currently authenticated user.
      *
-     * @var \Illuminate\Contracts\Auth\Authenticatable|null
+     * @var AuthenticatableContract|null
      */
     protected $user;
 
     /**
      * The user provider implementation.
      *
-     * @var \Illuminate\Contracts\Auth\UserProvider
+     * @var UserProvider
      */
     protected $provider;
 
     /**
      * Determine if the current user is authenticated. If not, throw an exception.
      *
-     * @return \Illuminate\Contracts\Auth\Authenticatable
+     * @return AuthenticatableContract
      *
-     * @throws \Illuminate\Auth\AuthenticationException
+     * @throws AuthenticationException
      */
     public function authenticate()
     {
@@ -81,7 +81,7 @@ trait GuardHelpers
     /**
      * Set the current user.
      *
-     * @param  \Illuminate\Contracts\Auth\Authenticatable  $user
+     * @param AuthenticatableContract $user
      * @return $this
      */
     public function setUser(AuthenticatableContract $user)
@@ -106,7 +106,7 @@ trait GuardHelpers
     /**
      * Get the user provider used by the guard.
      *
-     * @return \Illuminate\Contracts\Auth\UserProvider
+     * @return UserProvider
      */
     public function getProvider()
     {
@@ -116,7 +116,7 @@ trait GuardHelpers
     /**
      * Set the user provider used by the guard.
      *
-     * @param  \Illuminate\Contracts\Auth\UserProvider  $provider
+     * @param UserProvider $provider
      * @return void
      */
     public function setProvider(UserProvider $provider)

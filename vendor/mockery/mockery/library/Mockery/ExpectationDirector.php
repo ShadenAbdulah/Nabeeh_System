@@ -10,6 +10,9 @@
 
 namespace Mockery;
 
+use Mockery;
+use Mockery\Exception\NoMatchingExpectationException;
+
 class ExpectationDirector
 {
     /**
@@ -22,7 +25,7 @@ class ExpectationDirector
     /**
      * Mock object the director is attached to
      *
-     * @var \Mockery\MockInterface|\Mockery\LegacyMockInterface
+     * @var MockInterface|LegacyMockInterface
      */
     protected $_mock = null;
 
@@ -51,9 +54,9 @@ class ExpectationDirector
      * Constructor
      *
      * @param string $name
-     * @param \Mockery\LegacyMockInterface $mock
+     * @param LegacyMockInterface $mock
      */
-    public function __construct($name, \Mockery\LegacyMockInterface $mock)
+    public function __construct($name, LegacyMockInterface $mock)
     {
         $this->_name = $name;
         $this->_mock = $mock;
@@ -62,9 +65,9 @@ class ExpectationDirector
     /**
      * Add a new expectation to the director
      *
-     * @param \Mockery\Expectation $expectation
+     * @param Expectation $expectation
      */
-    public function addExpectation(\Mockery\Expectation $expectation)
+    public function addExpectation(Expectation $expectation)
     {
         $this->_expectations[] = $expectation;
     }
@@ -79,14 +82,14 @@ class ExpectationDirector
     {
         $expectation = $this->findExpectation($args);
         if (is_null($expectation)) {
-            $exception = new \Mockery\Exception\NoMatchingExpectationException(
+            $exception = new NoMatchingExpectationException(
                 'No matching handler found for '
                 . $this->_mock->mockery_getName() . '::'
-                . \Mockery::formatArgs($this->_name, $args)
+                . Mockery::formatArgs($this->_name, $args)
                 . '. Either the method was unexpected or its arguments matched'
                 . ' no expected argument list for this method'
                 . PHP_EOL . PHP_EOL
-                . \Mockery::formatObjects($args)
+                . Mockery::formatObjects($args)
             );
             $exception->setMock($this->_mock)
                 ->setMethodName($this->_name)
@@ -140,16 +143,16 @@ class ExpectationDirector
      * Make the given expectation a default for all others assuming it was
      * correctly created last
      *
-     * @param \Mockery\Expectation $expectation
+     * @param Expectation $expectation
      */
-    public function makeExpectationDefault(\Mockery\Expectation $expectation)
+    public function makeExpectationDefault(Expectation $expectation)
     {
         $last = end($this->_expectations);
         if ($last === $expectation) {
             array_pop($this->_expectations);
             array_unshift($this->_defaults, $expectation);
         } else {
-            throw new \Mockery\Exception(
+            throw new Exception(
                 'Cannot turn a previously defined expectation into a default'
             );
         }

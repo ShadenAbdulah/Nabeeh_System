@@ -9,7 +9,7 @@ class PendingBroadcast
     /**
      * The event dispatcher implementation.
      *
-     * @var \Illuminate\Contracts\Events\Dispatcher
+     * @var Dispatcher
      */
     protected $events;
 
@@ -23,7 +23,7 @@ class PendingBroadcast
     /**
      * Create a new pending broadcast instance.
      *
-     * @param  \Illuminate\Contracts\Events\Dispatcher  $events
+     * @param Dispatcher $events
      * @param  mixed  $event
      * @return void
      */

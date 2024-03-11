@@ -6,6 +6,48 @@
 
 // This file is generated from the static method @factory doctags.
 
+use Hamcrest\Arrays\IsArrayContaining;
+use Hamcrest\Arrays\IsArrayContainingKey;
+use Hamcrest\Arrays\IsArrayContainingKeyValuePair;
+use Hamcrest\Arrays\IsArrayWithSize;
+use Hamcrest\Collection\IsEmptyTraversable;
+use Hamcrest\Collection\IsTraversableWithSize;
+use Hamcrest\Core\CombinableMatcher;
+use Hamcrest\Core\Every;
+use Hamcrest\Core\HasToString;
+use Hamcrest\Core\Is;
+use Hamcrest\Core\IsAnything;
+use Hamcrest\Core\IsEqual;
+use Hamcrest\Core\IsIdentical;
+use Hamcrest\Core\IsInstanceOf;
+use Hamcrest\Core\IsNot;
+use Hamcrest\Core\IsNull;
+use Hamcrest\Core\IsSame;
+use Hamcrest\Core\IsTypeOf;
+use Hamcrest\Core\Set;
+use Hamcrest\Matcher;
+use Hamcrest\Number\IsCloseTo;
+use Hamcrest\Number\OrderingComparison;
+use Hamcrest\Text\IsEmptyString;
+use Hamcrest\Text\IsEqualIgnoringCase;
+use Hamcrest\Text\IsEqualIgnoringWhiteSpace;
+use Hamcrest\Text\MatchesPattern;
+use Hamcrest\Text\StringContains;
+use Hamcrest\Text\StringContainsIgnoringCase;
+use Hamcrest\Text\StringEndsWith;
+use Hamcrest\Text\StringStartsWith;
+use Hamcrest\Type\IsArray;
+use Hamcrest\Type\IsBoolean;
+use Hamcrest\Type\IsCallable;
+use Hamcrest\Type\IsDouble;
+use Hamcrest\Type\IsInteger;
+use Hamcrest\Type\IsNumeric;
+use Hamcrest\Type\IsObject;
+use Hamcrest\Type\IsResource;
+use Hamcrest\Type\IsScalar;
+use Hamcrest\Type\IsString;
+use Hamcrest\Xml\HasXPath;
+
 if (!function_exists('assertThat')) {
     /**
      * Make an assertion and throw {@link Hamcrest_AssertionError} if it fails.
@@ -47,11 +89,11 @@ if (!function_exists('hasItemInArray')) {
      *
      * @param mixed $item as a {@link Hamcrest\Matcher} or a value.
      *
-     * @return \Hamcrest\Arrays\IsArrayContaining
+     * @return IsArrayContaining
      */
     function hasItemInArray($item)
     {
-        return \Hamcrest\Arrays\IsArrayContaining::hasItemInArray($item);
+        return IsArrayContaining::hasItemInArray($item);
     }
 }
 
@@ -61,11 +103,11 @@ if (!function_exists('hasValue')) {
      *
      * @param mixed $item as a {@link Hamcrest\Matcher} or a value.
      *
-     * @return \Hamcrest\Arrays\IsArrayContaining
+     * @return IsArrayContaining
      */
     function hasValue($item)
     {
-        return \Hamcrest\Arrays\IsArrayContaining::hasItemInArray($item);
+        return IsArrayContaining::hasItemInArray($item);
     }
 }
 
@@ -119,11 +161,11 @@ if (!function_exists('hasKeyInArray')) {
      *
      * @param mixed $key as a {@link Hamcrest\Matcher} or a value.
      *
-     * @return \Hamcrest\Arrays\IsArrayContainingKey
+     * @return IsArrayContainingKey
      */
     function hasKeyInArray($key)
     {
-        return \Hamcrest\Arrays\IsArrayContainingKey::hasKeyInArray($key);
+        return IsArrayContainingKey::hasKeyInArray($key);
     }
 }
 
@@ -133,11 +175,11 @@ if (!function_exists('hasKey')) {
      *
      * @param mixed $key as a {@link Hamcrest\Matcher} or a value.
      *
-     * @return \Hamcrest\Arrays\IsArrayContainingKey
+     * @return IsArrayContainingKey
      */
     function hasKey($key)
     {
-        return \Hamcrest\Arrays\IsArrayContainingKey::hasKeyInArray($key);
+        return IsArrayContainingKey::hasKeyInArray($key);
     }
 }
 
@@ -147,7 +189,7 @@ if (!function_exists('hasKeyValuePair')) {
      */
     function hasKeyValuePair($key, $value)
     {
-        return \Hamcrest\Arrays\IsArrayContainingKeyValuePair::hasKeyValuePair($key, $value);
+        return IsArrayContainingKeyValuePair::hasKeyValuePair($key, $value);
     }
 }
 
@@ -157,7 +199,7 @@ if (!function_exists('hasEntry')) {
      */
     function hasEntry($key, $value)
     {
-        return \Hamcrest\Arrays\IsArrayContainingKeyValuePair::hasKeyValuePair($key, $value);
+        return IsArrayContainingKeyValuePair::hasKeyValuePair($key, $value);
     }
 }
 
@@ -165,13 +207,13 @@ if (!function_exists('arrayWithSize')) {
     /**
      * Does array size satisfy a given matcher?
      *
-     * @param \Hamcrest\Matcher|int $size as a {@link Hamcrest\Matcher} or a value.
+     * @param Matcher|int $size as a {@link Hamcrest\Matcher} or a value.
      *
-     * @return \Hamcrest\Arrays\IsArrayWithSize
+     * @return IsArrayWithSize
      */
     function arrayWithSize($size)
     {
-        return \Hamcrest\Arrays\IsArrayWithSize::arrayWithSize($size);
+        return IsArrayWithSize::arrayWithSize($size);
     }
 }
 
@@ -181,7 +223,7 @@ if (!function_exists('emptyArray')) {
      */
     function emptyArray()
     {
-        return \Hamcrest\Arrays\IsArrayWithSize::emptyArray();
+        return IsArrayWithSize::emptyArray();
     }
 }
 
@@ -191,7 +233,7 @@ if (!function_exists('nonEmptyArray')) {
      */
     function nonEmptyArray()
     {
-        return \Hamcrest\Arrays\IsArrayWithSize::nonEmptyArray();
+        return IsArrayWithSize::nonEmptyArray();
     }
 }
 
@@ -201,7 +243,7 @@ if (!function_exists('emptyTraversable')) {
      */
     function emptyTraversable()
     {
-        return \Hamcrest\Collection\IsEmptyTraversable::emptyTraversable();
+        return IsEmptyTraversable::emptyTraversable();
     }
 }
 
@@ -211,7 +253,7 @@ if (!function_exists('nonEmptyTraversable')) {
      */
     function nonEmptyTraversable()
     {
-        return \Hamcrest\Collection\IsEmptyTraversable::nonEmptyTraversable();
+        return IsEmptyTraversable::nonEmptyTraversable();
     }
 }
 
@@ -221,7 +263,7 @@ if (!function_exists('traversableWithSize')) {
      */
     function traversableWithSize($size)
     {
-        return \Hamcrest\Collection\IsTraversableWithSize::traversableWithSize($size);
+        return IsTraversableWithSize::traversableWithSize($size);
     }
 }
 
@@ -266,9 +308,9 @@ if (!function_exists('both')) {
      *   assertThat($string, both(containsString("a"))->andAlso(containsString("b")));
      * </pre>
      */
-    function both(\Hamcrest\Matcher $matcher)
+    function both(Matcher $matcher)
     {
-        return \Hamcrest\Core\CombinableMatcher::both($matcher);
+        return CombinableMatcher::both($matcher);
     }
 }
 
@@ -280,9 +322,9 @@ if (!function_exists('either')) {
      *   assertThat($string, either(containsString("a"))->orElse(containsString("b")));
      * </pre>
      */
-    function either(\Hamcrest\Matcher $matcher)
+    function either(Matcher $matcher)
     {
-        return \Hamcrest\Core\CombinableMatcher::either($matcher);
+        return CombinableMatcher::either($matcher);
     }
 }
 
@@ -302,12 +344,12 @@ if (!function_exists('everyItem')) {
      * @param Matcher $itemMatcher
      *   A matcher to apply to every element in an array.
      *
-     * @return \Hamcrest\Core\Every
+     * @return Every
      *   Evaluates to TRUE for a collection in which every item matches $itemMatcher
      */
-    function everyItem(\Hamcrest\Matcher $itemMatcher)
+    function everyItem(Matcher $itemMatcher)
     {
-        return \Hamcrest\Core\Every::everyItem($itemMatcher);
+        return Every::everyItem($itemMatcher);
     }
 }
 
@@ -317,7 +359,7 @@ if (!function_exists('hasToString')) {
      */
     function hasToString($matcher)
     {
-        return \Hamcrest\Core\HasToString::hasToString($matcher);
+        return HasToString::hasToString($matcher);
     }
 }
 
@@ -331,7 +373,7 @@ if (!function_exists('is')) {
      */
     function is($value)
     {
-        return \Hamcrest\Core\Is::is($value);
+        return Is::is($value);
     }
 }
 
@@ -341,11 +383,11 @@ if (!function_exists('anything')) {
      *
      * @param string $description A meaningful string used when describing itself.
      *
-     * @return \Hamcrest\Core\IsAnything
+     * @return IsAnything
      */
     function anything($description = 'ANYTHING')
     {
-        return \Hamcrest\Core\IsAnything::anything($description);
+        return IsAnything::anything($description);
     }
 }
 
@@ -391,7 +433,7 @@ if (!function_exists('equalTo')) {
      */
     function equalTo($item)
     {
-        return \Hamcrest\Core\IsEqual::equalTo($item);
+        return IsEqual::equalTo($item);
     }
 }
 
@@ -401,7 +443,7 @@ if (!function_exists('identicalTo')) {
      */
     function identicalTo($value)
     {
-        return \Hamcrest\Core\IsIdentical::identicalTo($value);
+        return IsIdentical::identicalTo($value);
     }
 }
 
@@ -414,7 +456,7 @@ if (!function_exists('anInstanceOf')) {
      */
     function anInstanceOf($theClass)
     {
-        return \Hamcrest\Core\IsInstanceOf::anInstanceOf($theClass);
+        return IsInstanceOf::anInstanceOf($theClass);
     }
 }
 
@@ -427,7 +469,7 @@ if (!function_exists('any')) {
      */
     function any($theClass)
     {
-        return \Hamcrest\Core\IsInstanceOf::anInstanceOf($theClass);
+        return IsInstanceOf::anInstanceOf($theClass);
     }
 }
 
@@ -437,7 +479,7 @@ if (!function_exists('not')) {
      */
     function not($value)
     {
-        return \Hamcrest\Core\IsNot::not($value);
+        return IsNot::not($value);
     }
 }
 
@@ -447,7 +489,7 @@ if (!function_exists('nullValue')) {
      */
     function nullValue()
     {
-        return \Hamcrest\Core\IsNull::nullValue();
+        return IsNull::nullValue();
     }
 }
 
@@ -457,7 +499,7 @@ if (!function_exists('notNullValue')) {
      */
     function notNullValue()
     {
-        return \Hamcrest\Core\IsNull::notNullValue();
+        return IsNull::notNullValue();
     }
 }
 
@@ -469,11 +511,11 @@ if (!function_exists('sameInstance')) {
      *   The predicate evaluates to true only when the argument is
      *   this object.
      *
-     * @return \Hamcrest\Core\IsSame
+     * @return IsSame
      */
     function sameInstance($object)
     {
-        return \Hamcrest\Core\IsSame::sameInstance($object);
+        return IsSame::sameInstance($object);
     }
 }
 
@@ -483,7 +525,7 @@ if (!function_exists('typeOf')) {
      */
     function typeOf($theType)
     {
-        return \Hamcrest\Core\IsTypeOf::typeOf($theType);
+        return IsTypeOf::typeOf($theType);
     }
 }
 
@@ -493,7 +535,7 @@ if (!function_exists('set')) {
      */
     function set($property)
     {
-        return \Hamcrest\Core\Set::set($property);
+        return Set::set($property);
     }
 }
 
@@ -503,7 +545,7 @@ if (!function_exists('notSet')) {
      */
     function notSet($property)
     {
-        return \Hamcrest\Core\Set::notSet($property);
+        return Set::notSet($property);
     }
 }
 
@@ -514,7 +556,7 @@ if (!function_exists('closeTo')) {
      */
     function closeTo($value, $delta)
     {
-        return \Hamcrest\Number\IsCloseTo::closeTo($value, $delta);
+        return IsCloseTo::closeTo($value, $delta);
     }
 }
 
@@ -524,7 +566,7 @@ if (!function_exists('comparesEqualTo')) {
      */
     function comparesEqualTo($value)
     {
-        return \Hamcrest\Number\OrderingComparison::comparesEqualTo($value);
+        return OrderingComparison::comparesEqualTo($value);
     }
 }
 
@@ -534,7 +576,7 @@ if (!function_exists('greaterThan')) {
      */
     function greaterThan($value)
     {
-        return \Hamcrest\Number\OrderingComparison::greaterThan($value);
+        return OrderingComparison::greaterThan($value);
     }
 }
 
@@ -544,7 +586,7 @@ if (!function_exists('greaterThanOrEqualTo')) {
      */
     function greaterThanOrEqualTo($value)
     {
-        return \Hamcrest\Number\OrderingComparison::greaterThanOrEqualTo($value);
+        return OrderingComparison::greaterThanOrEqualTo($value);
     }
 }
 
@@ -554,7 +596,7 @@ if (!function_exists('atLeast')) {
      */
     function atLeast($value)
     {
-        return \Hamcrest\Number\OrderingComparison::greaterThanOrEqualTo($value);
+        return OrderingComparison::greaterThanOrEqualTo($value);
     }
 }
 
@@ -564,7 +606,7 @@ if (!function_exists('lessThan')) {
      */
     function lessThan($value)
     {
-        return \Hamcrest\Number\OrderingComparison::lessThan($value);
+        return OrderingComparison::lessThan($value);
     }
 }
 
@@ -574,7 +616,7 @@ if (!function_exists('lessThanOrEqualTo')) {
      */
     function lessThanOrEqualTo($value)
     {
-        return \Hamcrest\Number\OrderingComparison::lessThanOrEqualTo($value);
+        return OrderingComparison::lessThanOrEqualTo($value);
     }
 }
 
@@ -584,7 +626,7 @@ if (!function_exists('atMost')) {
      */
     function atMost($value)
     {
-        return \Hamcrest\Number\OrderingComparison::lessThanOrEqualTo($value);
+        return OrderingComparison::lessThanOrEqualTo($value);
     }
 }
 
@@ -594,7 +636,7 @@ if (!function_exists('isEmptyString')) {
      */
     function isEmptyString()
     {
-        return \Hamcrest\Text\IsEmptyString::isEmptyString();
+        return IsEmptyString::isEmptyString();
     }
 }
 
@@ -604,7 +646,7 @@ if (!function_exists('emptyString')) {
      */
     function emptyString()
     {
-        return \Hamcrest\Text\IsEmptyString::isEmptyString();
+        return IsEmptyString::isEmptyString();
     }
 }
 
@@ -614,7 +656,7 @@ if (!function_exists('isEmptyOrNullString')) {
      */
     function isEmptyOrNullString()
     {
-        return \Hamcrest\Text\IsEmptyString::isEmptyOrNullString();
+        return IsEmptyString::isEmptyOrNullString();
     }
 }
 
@@ -624,7 +666,7 @@ if (!function_exists('nullOrEmptyString')) {
      */
     function nullOrEmptyString()
     {
-        return \Hamcrest\Text\IsEmptyString::isEmptyOrNullString();
+        return IsEmptyString::isEmptyOrNullString();
     }
 }
 
@@ -634,7 +676,7 @@ if (!function_exists('isNonEmptyString')) {
      */
     function isNonEmptyString()
     {
-        return \Hamcrest\Text\IsEmptyString::isNonEmptyString();
+        return IsEmptyString::isNonEmptyString();
     }
 }
 
@@ -644,7 +686,7 @@ if (!function_exists('nonEmptyString')) {
      */
     function nonEmptyString()
     {
-        return \Hamcrest\Text\IsEmptyString::isNonEmptyString();
+        return IsEmptyString::isNonEmptyString();
     }
 }
 
@@ -654,7 +696,7 @@ if (!function_exists('equalToIgnoringCase')) {
      */
     function equalToIgnoringCase($string)
     {
-        return \Hamcrest\Text\IsEqualIgnoringCase::equalToIgnoringCase($string);
+        return IsEqualIgnoringCase::equalToIgnoringCase($string);
     }
 }
 
@@ -664,7 +706,7 @@ if (!function_exists('equalToIgnoringWhiteSpace')) {
      */
     function equalToIgnoringWhiteSpace($string)
     {
-        return \Hamcrest\Text\IsEqualIgnoringWhiteSpace::equalToIgnoringWhiteSpace($string);
+        return IsEqualIgnoringWhiteSpace::equalToIgnoringWhiteSpace($string);
     }
 }
 
@@ -674,7 +716,7 @@ if (!function_exists('matchesPattern')) {
      */
     function matchesPattern($pattern)
     {
-        return \Hamcrest\Text\MatchesPattern::matchesPattern($pattern);
+        return MatchesPattern::matchesPattern($pattern);
     }
 }
 
@@ -684,7 +726,7 @@ if (!function_exists('containsString')) {
      */
     function containsString($substring)
     {
-        return \Hamcrest\Text\StringContains::containsString($substring);
+        return StringContains::containsString($substring);
     }
 }
 
@@ -694,7 +736,7 @@ if (!function_exists('containsStringIgnoringCase')) {
      */
     function containsStringIgnoringCase($substring)
     {
-        return \Hamcrest\Text\StringContainsIgnoringCase::containsStringIgnoringCase($substring);
+        return StringContainsIgnoringCase::containsStringIgnoringCase($substring);
     }
 }
 
@@ -715,7 +757,7 @@ if (!function_exists('endsWith')) {
      */
     function endsWith($substring)
     {
-        return \Hamcrest\Text\StringEndsWith::endsWith($substring);
+        return StringEndsWith::endsWith($substring);
     }
 }
 
@@ -725,7 +767,7 @@ if (!function_exists('startsWith')) {
      */
     function startsWith($substring)
     {
-        return \Hamcrest\Text\StringStartsWith::startsWith($substring);
+        return StringStartsWith::startsWith($substring);
     }
 }
 
@@ -735,7 +777,7 @@ if (!function_exists('arrayValue')) {
      */
     function arrayValue()
     {
-        return \Hamcrest\Type\IsArray::arrayValue();
+        return IsArray::arrayValue();
     }
 }
 
@@ -745,7 +787,7 @@ if (!function_exists('booleanValue')) {
      */
     function booleanValue()
     {
-        return \Hamcrest\Type\IsBoolean::booleanValue();
+        return IsBoolean::booleanValue();
     }
 }
 
@@ -755,7 +797,7 @@ if (!function_exists('boolValue')) {
      */
     function boolValue()
     {
-        return \Hamcrest\Type\IsBoolean::booleanValue();
+        return IsBoolean::booleanValue();
     }
 }
 
@@ -765,7 +807,7 @@ if (!function_exists('callableValue')) {
      */
     function callableValue()
     {
-        return \Hamcrest\Type\IsCallable::callableValue();
+        return IsCallable::callableValue();
     }
 }
 
@@ -775,7 +817,7 @@ if (!function_exists('doubleValue')) {
      */
     function doubleValue()
     {
-        return \Hamcrest\Type\IsDouble::doubleValue();
+        return IsDouble::doubleValue();
     }
 }
 
@@ -785,7 +827,7 @@ if (!function_exists('floatValue')) {
      */
     function floatValue()
     {
-        return \Hamcrest\Type\IsDouble::doubleValue();
+        return IsDouble::doubleValue();
     }
 }
 
@@ -795,7 +837,7 @@ if (!function_exists('integerValue')) {
      */
     function integerValue()
     {
-        return \Hamcrest\Type\IsInteger::integerValue();
+        return IsInteger::integerValue();
     }
 }
 
@@ -805,7 +847,7 @@ if (!function_exists('intValue')) {
      */
     function intValue()
     {
-        return \Hamcrest\Type\IsInteger::integerValue();
+        return IsInteger::integerValue();
     }
 }
 
@@ -815,7 +857,7 @@ if (!function_exists('numericValue')) {
      */
     function numericValue()
     {
-        return \Hamcrest\Type\IsNumeric::numericValue();
+        return IsNumeric::numericValue();
     }
 }
 
@@ -825,7 +867,7 @@ if (!function_exists('objectValue')) {
      */
     function objectValue()
     {
-        return \Hamcrest\Type\IsObject::objectValue();
+        return IsObject::objectValue();
     }
 }
 
@@ -835,7 +877,7 @@ if (!function_exists('anObject')) {
      */
     function anObject()
     {
-        return \Hamcrest\Type\IsObject::objectValue();
+        return IsObject::objectValue();
     }
 }
 
@@ -845,7 +887,7 @@ if (!function_exists('resourceValue')) {
      */
     function resourceValue()
     {
-        return \Hamcrest\Type\IsResource::resourceValue();
+        return IsResource::resourceValue();
     }
 }
 
@@ -855,7 +897,7 @@ if (!function_exists('scalarValue')) {
      */
     function scalarValue()
     {
-        return \Hamcrest\Type\IsScalar::scalarValue();
+        return IsScalar::scalarValue();
     }
 }
 
@@ -865,7 +907,7 @@ if (!function_exists('stringValue')) {
      */
     function stringValue()
     {
-        return \Hamcrest\Type\IsString::stringValue();
+        return IsString::stringValue();
     }
 }
 
@@ -877,6 +919,6 @@ if (!function_exists('hasXPath')) {
      */
     function hasXPath($xpath, $matcher = null)
     {
-        return \Hamcrest\Xml\HasXPath::hasXPath($xpath, $matcher);
+        return HasXPath::hasXPath($xpath, $matcher);
     }
 }

@@ -9,6 +9,7 @@
  */
 namespace SebastianBergmann\CodeCoverage\Data;
 
+use SebastianBergmann\CodeCoverage\Driver\XdebugDriver;
 use function array_diff;
 use function array_diff_key;
 use function array_flip;
@@ -30,9 +31,9 @@ use SebastianBergmann\CodeCoverage\StaticAnalysis\FileAnalyser;
 /**
  * @internal This class is not covered by the backward compatibility promise for phpunit/php-code-coverage
  *
- * @psalm-import-type XdebugFunctionsCoverageType from \SebastianBergmann\CodeCoverage\Driver\XdebugDriver
- * @psalm-import-type XdebugCodeCoverageWithoutPathCoverageType from \SebastianBergmann\CodeCoverage\Driver\XdebugDriver
- * @psalm-import-type XdebugCodeCoverageWithPathCoverageType from \SebastianBergmann\CodeCoverage\Driver\XdebugDriver
+ * @psalm-import-type XdebugFunctionsCoverageType from XdebugDriver
+ * @psalm-import-type XdebugCodeCoverageWithoutPathCoverageType from XdebugDriver
+ * @psalm-import-type XdebugCodeCoverageWithPathCoverageType from XdebugDriver
  */
 final class RawCodeCoverageData
 {

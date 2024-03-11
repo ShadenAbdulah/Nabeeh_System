@@ -15,6 +15,10 @@ use PhpParser\Node;
 use PhpParser\Node\Name;
 use PhpParser\Node\Name\FullyQualified as FullyQualifiedName;
 use PhpParser\Node\Stmt\Namespace_;
+use function array_merge;
+use function implode;
+use function is_array;
+use function method_exists;
 
 /**
  * Abstract namespace-aware code cleaner pass.
@@ -61,16 +65,16 @@ abstract class NamespaceAwarePass extends CodeCleanerPass
     protected function getFullyQualifiedName($name): string
     {
         if ($name instanceof FullyQualifiedName) {
-            return \implode('\\', $this->getParts($name));
+            return implode('\\', $this->getParts($name));
         }
 
         if ($name instanceof Name) {
             $name = $this->getParts($name);
-        } elseif (!\is_array($name)) {
+        } elseif (!is_array($name)) {
             $name = [$name];
         }
 
-        return \implode('\\', \array_merge($this->namespace, $name));
+        return implode('\\', array_merge($this->namespace, $name));
     }
 
     /**
@@ -80,6 +84,6 @@ abstract class NamespaceAwarePass extends CodeCleanerPass
      */
     protected function getParts(Name $name): array
     {
-        return \method_exists($name, 'getParts') ? $name->getParts() : $name->parts;
+        return method_exists($name, 'getParts') ? $name->getParts() : $name->parts;
     }
 }

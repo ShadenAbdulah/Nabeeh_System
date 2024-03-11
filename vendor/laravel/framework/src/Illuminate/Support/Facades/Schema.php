@@ -2,6 +2,10 @@
 
 namespace Illuminate\Support\Facades;
 
+use Closure;
+use Illuminate\Database\Connection;
+use Illuminate\Database\Schema\Builder;
+
 /**
  * @method static void defaultStringLength(int $length)
  * @method static void defaultMorphKeyType(string $type)
@@ -18,8 +22,8 @@ namespace Illuminate\Support\Facades;
  * @method static array getTypes()
  * @method static bool hasColumn(string $table, string $column)
  * @method static bool hasColumns(string $table, array $columns)
- * @method static void whenTableHasColumn(string $table, string $column, \Closure $callback)
- * @method static void whenTableDoesntHaveColumn(string $table, string $column, \Closure $callback)
+ * @method static void whenTableHasColumn(string $table, string $column, Closure $callback)
+ * @method static void whenTableDoesntHaveColumn(string $table, string $column, Closure $callback)
  * @method static string getColumnType(string $table, string $column, bool $fullDefinition = false)
  * @method static array getColumnListing(string $table)
  * @method static array getColumns(string $table)
@@ -27,8 +31,8 @@ namespace Illuminate\Support\Facades;
  * @method static array getIndexListing(string $table)
  * @method static bool hasIndex(string $table, string|array $index, string|null $type = null)
  * @method static array getForeignKeys(string $table)
- * @method static void table(string $table, \Closure $callback)
- * @method static void create(string $table, \Closure $callback)
+ * @method static void table(string $table, Closure $callback)
+ * @method static void create(string $table, Closure $callback)
  * @method static void drop(string $table)
  * @method static void dropIfExists(string $table)
  * @method static void dropColumns(string $table, string|array $columns)
@@ -38,10 +42,10 @@ namespace Illuminate\Support\Facades;
  * @method static void rename(string $from, string $to)
  * @method static bool enableForeignKeyConstraints()
  * @method static bool disableForeignKeyConstraints()
- * @method static mixed withoutForeignKeyConstraints(\Closure $callback)
- * @method static \Illuminate\Database\Connection getConnection()
- * @method static \Illuminate\Database\Schema\Builder setConnection(\Illuminate\Database\Connection $connection)
- * @method static void blueprintResolver(\Closure $resolver)
+ * @method static mixed withoutForeignKeyConstraints(Closure $callback)
+ * @method static Connection getConnection()
+ * @method static Builder setConnection(Connection $connection)
+ * @method static void blueprintResolver(Closure $resolver)
  * @method static void macro(string $name, object|callable $macro)
  * @method static void mixin(object $mixin, bool $replace = true)
  * @method static bool hasMacro(string $name)
@@ -62,7 +66,7 @@ class Schema extends Facade
      * Get a schema builder instance for a connection.
      *
      * @param  string|null  $name
-     * @return \Illuminate\Database\Schema\Builder
+     * @return Builder
      */
     public static function connection($name)
     {

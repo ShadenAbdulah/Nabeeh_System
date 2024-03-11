@@ -5,6 +5,7 @@ use Aws\Arn\Exception\InvalidArnException;
 use Aws\Arn\S3\AccessPointArn;
 use Aws\Arn\ArnParser;
 use GuzzleHttp\Psr7;
+use InvalidArgumentException;
 use Psr\Http\Message\UriInterface;
 
 /**
@@ -34,7 +35,7 @@ class S3UriParser
      * @param string|UriInterface $uri
      *
      * @return array
-     * @throws \InvalidArgumentException|InvalidArnException
+     * @throws InvalidArgumentException|InvalidArnException
      */
     public function parse($uri)
     {
@@ -59,7 +60,7 @@ class S3UriParser
         }
 
         if (!$url->getHost()) {
-            throw new \InvalidArgumentException('No hostname found in URI: '
+            throw new InvalidArgumentException('No hostname found in URI: '
                 . $uri);
         }
 

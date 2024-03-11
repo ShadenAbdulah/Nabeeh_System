@@ -16,7 +16,7 @@ class Markdown
     /**
      * The view factory implementation.
      *
-     * @var \Illuminate\Contracts\View\Factory
+     * @var ViewFactory
      */
     protected $view;
 
@@ -37,7 +37,7 @@ class Markdown
     /**
      * Create a new Markdown renderer instance.
      *
-     * @param  \Illuminate\Contracts\View\Factory  $view
+     * @param ViewFactory $view
      * @param  array  $options
      * @return void
      */
@@ -53,8 +53,8 @@ class Markdown
      *
      * @param  string  $view
      * @param  array  $data
-     * @param  \TijsVerkoyen\CssToInlineStyles\CssToInlineStyles|null  $inliner
-     * @return \Illuminate\Support\HtmlString
+     * @param CssToInlineStyles|null  $inliner
+     * @return HtmlString
      */
     public function render($view, array $data = [], $inliner = null)
     {
@@ -82,7 +82,7 @@ class Markdown
      *
      * @param  string  $view
      * @param  array  $data
-     * @return \Illuminate\Support\HtmlString
+     * @return HtmlString
      */
     public function renderText($view, array $data = [])
     {
@@ -101,7 +101,7 @@ class Markdown
      * Parse the given Markdown text into HTML.
      *
      * @param  string  $text
-     * @return \Illuminate\Support\HtmlString
+     * @return HtmlString
      */
     public static function parse($text)
     {

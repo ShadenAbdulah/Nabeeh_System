@@ -29,7 +29,7 @@ class GenericLaravelExceptionSolutionProvider implements HasSolutionsForThrowabl
     }
 
     /**
-     * @param \Throwable $throwable
+     * @param Throwable $throwable
      *
      * @return array<string, mixed>|null
      */

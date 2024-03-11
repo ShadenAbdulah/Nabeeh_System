@@ -10,6 +10,7 @@ namespace Hamcrest\Arrays;
 
 // TODO: Allow this to take matchers or values within the array
 use Hamcrest\Description;
+use Hamcrest\Matcher;
 use Hamcrest\TypeSafeMatcher;
 use Hamcrest\Util;
 
@@ -37,7 +38,7 @@ class IsArray extends TypeSafeMatcher
             return false;
         }
 
-        /** @var $matcher \Hamcrest\Matcher */
+        /** @var $matcher Matcher */
         foreach ($this->_elementMatchers as $k => $matcher) {
             if (!$matcher->matches($array[$k])) {
                 return false;
@@ -66,7 +67,7 @@ class IsArray extends TypeSafeMatcher
             return;
         }
 
-        /** @var $matcher \Hamcrest\Matcher */
+        /** @var $matcher Matcher */
         foreach ($this->_elementMatchers as $k => $matcher) {
             if (!$matcher->matches($actual[$k])) {
                 $mismatchDescription->appendText('element ')->appendValue($k)

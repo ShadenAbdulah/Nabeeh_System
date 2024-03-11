@@ -12,7 +12,14 @@
 namespace Psy\Command\ListCommand;
 
 use Psy\Reflection\ReflectionNamespace;
+use Reflector;
 use Symfony\Component\Console\Input\InputInterface;
+use Throwable;
+use function array_merge;
+use function get_defined_functions;
+use function natcasesort;
+use function strpos;
+use function strtolower;
 
 /**
  * Function Enumerator class.
@@ -22,7 +29,7 @@ class FunctionEnumerator extends Enumerator
     /**
      * {@inheritdoc}
      */
-    protected function listItems(InputInterface $input, \Reflector $reflector = null, $target = null): array
+    protected function listItems(InputInterface $input, Reflector $reflector = null, $target = null): array
     {
         // if we have a reflector, ensure that it's a namespace reflector
         if (($target !== null || $reflector !== null) && !$reflector instanceof ReflectionNamespace) {
@@ -45,7 +52,7 @@ class FunctionEnumerator extends Enumerator
             $functions = $this->getFunctions();
         }
 
-        $prefix = $reflector === null ? null : \strtolower($reflector->getName()).'\\';
+        $prefix = $reflector === null ? null : strtolower($reflector->getName()).'\\';
         $functions = $this->prepareFunctions($functions, $prefix);
 
         if (empty($functions)) {
@@ -69,12 +76,12 @@ class FunctionEnumerator extends Enumerator
      */
     protected function getFunctions(string $type = null): array
     {
-        $funcs = \get_defined_functions();
+        $funcs = get_defined_functions();
 
         if ($type) {
             return $funcs[$type];
         } else {
-            return \array_merge($funcs['internal'], $funcs['user']);
+            return array_merge($funcs['internal'], $funcs['user']);
         }
     }
 
@@ -88,13 +95,13 @@ class FunctionEnumerator extends Enumerator
      */
     protected function prepareFunctions(array $functions, string $prefix = null): array
     {
-        \natcasesort($functions);
+        natcasesort($functions);
 
         // My kingdom for a generator.
         $ret = [];
 
         foreach ($functions as $name) {
-            if ($prefix !== null && \strpos(\strtolower($name), $prefix) !== 0) {
+            if ($prefix !== null && strpos(strtolower($name), $prefix) !== 0) {
                 continue;
             }
 
@@ -105,7 +112,7 @@ class FunctionEnumerator extends Enumerator
                         'style' => self::IS_FUNCTION,
                         'value' => $this->presentSignature($name),
                     ];
-                } catch (\Throwable $e) {
+                } catch (Throwable $e) {
                     // Ignore failures.
                 }
             }

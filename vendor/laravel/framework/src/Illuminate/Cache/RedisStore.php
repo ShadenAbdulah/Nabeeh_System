@@ -4,6 +4,7 @@ namespace Illuminate\Cache;
 
 use Illuminate\Contracts\Cache\LockProvider;
 use Illuminate\Contracts\Redis\Factory as Redis;
+use Illuminate\Redis\Connections\Connection;
 use Illuminate\Redis\Connections\PhpRedisConnection;
 use Illuminate\Redis\Connections\PredisConnection;
 use Illuminate\Support\LazyCollection;
@@ -14,7 +15,7 @@ class RedisStore extends TaggableStore implements LockProvider
     /**
      * The Redis factory implementation.
      *
-     * @var \Illuminate\Contracts\Redis\Factory
+     * @var Redis
      */
     protected $redis;
 
@@ -42,7 +43,7 @@ class RedisStore extends TaggableStore implements LockProvider
     /**
      * Create a new Redis store.
      *
-     * @param  \Illuminate\Contracts\Redis\Factory  $redis
+     * @param Redis $redis
      * @param  string  $prefix
      * @param  string  $connection
      * @return void
@@ -266,7 +267,7 @@ class RedisStore extends TaggableStore implements LockProvider
      * Begin executing a new tags operation.
      *
      * @param  array|mixed  $names
-     * @return \Illuminate\Cache\RedisTaggedCache
+     * @return RedisTaggedCache
      */
     public function tags($names)
     {
@@ -279,7 +280,7 @@ class RedisStore extends TaggableStore implements LockProvider
      * Get a collection of all of the cache tags currently being used.
      *
      * @param  int  $chunkSize
-     * @return \Illuminate\Support\LazyCollection
+     * @return LazyCollection
      */
     protected function currentTags($chunkSize = 1000)
     {
@@ -323,7 +324,7 @@ class RedisStore extends TaggableStore implements LockProvider
     /**
      * Get the Redis connection instance.
      *
-     * @return \Illuminate\Redis\Connections\Connection
+     * @return Connection
      */
     public function connection()
     {
@@ -333,7 +334,7 @@ class RedisStore extends TaggableStore implements LockProvider
     /**
      * Get the Redis connection instance that should be used to manage locks.
      *
-     * @return \Illuminate\Redis\Connections\Connection
+     * @return Connection
      */
     public function lockConnection()
     {
@@ -367,7 +368,7 @@ class RedisStore extends TaggableStore implements LockProvider
     /**
      * Get the Redis database instance.
      *
-     * @return \Illuminate\Contracts\Redis\Factory
+     * @return Redis
      */
     public function getRedis()
     {

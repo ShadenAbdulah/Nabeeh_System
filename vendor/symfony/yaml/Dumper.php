@@ -11,7 +11,14 @@
 
 namespace Symfony\Component\Yaml;
 
+use ArrayObject;
+use InvalidArgumentException;
+use stdClass;
 use Symfony\Component\Yaml\Tag\TaggedValue;
+use function is_array;
+use function is_int;
+use function is_scalar;
+use function is_string;
 
 /**
  * Dumper dumps PHP variables to YAML strings.
@@ -30,7 +37,7 @@ class Dumper
     public function __construct(int $indentation = 4)
     {
         if ($indentation < 1) {
-            throw new \InvalidArgumentException('The indentation must be greater than zero.');
+            throw new InvalidArgumentException('The indentation must be greater than zero.');
         }
 
         $this->indentation = $indentation;
@@ -50,11 +57,11 @@ class Dumper
         $prefix = $indent ? str_repeat(' ', $indent) : '';
         $dumpObjectAsInlineMap = true;
 
-        if (Yaml::DUMP_OBJECT_AS_MAP & $flags && ($input instanceof \ArrayObject || $input instanceof \stdClass)) {
+        if (Yaml::DUMP_OBJECT_AS_MAP & $flags && ($input instanceof ArrayObject || $input instanceof stdClass)) {
             $dumpObjectAsInlineMap = empty((array) $input);
         }
 
-        if ($inline <= 0 || (!\is_array($input) && !$input instanceof TaggedValue && $dumpObjectAsInlineMap) || empty($input)) {
+        if ($inline <= 0 || (!is_array($input) && !$input instanceof TaggedValue && $dumpObjectAsInlineMap) || empty($input)) {
             $output .= $prefix.Inline::dump($input, $flags);
         } elseif ($input instanceof TaggedValue) {
             $output .= $this->dumpTaggedValue($input, $inline, $indent, $flags, $prefix);
@@ -66,11 +73,11 @@ class Dumper
                     $output .= "\n";
                 }
 
-                if (\is_int($key) && Yaml::DUMP_NUMERIC_KEY_AS_STRING & $flags) {
+                if (is_int($key) && Yaml::DUMP_NUMERIC_KEY_AS_STRING & $flags) {
                     $key = (string) $key;
                 }
 
-                if (Yaml::DUMP_MULTI_LINE_LITERAL_BLOCK & $flags && \is_string($value) && str_contains($value, "\n") && !str_contains($value, "\r")) {
+                if (Yaml::DUMP_MULTI_LINE_LITERAL_BLOCK & $flags && is_string($value) && str_contains($value, "\n") && !str_contains($value, "\r")) {
                     $blockIndentationIndicator = $this->getBlockIndentationIndicator($value);
 
                     if (isset($value[-2]) && "\n" === $value[-2] && "\n" === $value[-1]) {
@@ -97,7 +104,7 @@ class Dumper
                 if ($value instanceof TaggedValue) {
                     $output .= sprintf('%s%s !%s', $prefix, $dumpAsMap ? Inline::dump($key, $flags).':' : '-', $value->getTag());
 
-                    if (Yaml::DUMP_MULTI_LINE_LITERAL_BLOCK & $flags && \is_string($value->getValue()) && str_contains($value->getValue(), "\n") && !str_contains($value->getValue(), "\r\n")) {
+                    if (Yaml::DUMP_MULTI_LINE_LITERAL_BLOCK & $flags && is_string($value->getValue()) && str_contains($value->getValue(), "\n") && !str_contains($value->getValue(), "\r\n")) {
                         $blockIndentationIndicator = $this->getBlockIndentationIndicator($value->getValue());
                         $output .= sprintf(' |%s', $blockIndentationIndicator);
 
@@ -108,7 +115,7 @@ class Dumper
                         continue;
                     }
 
-                    if ($inline - 1 <= 0 || null === $value->getValue() || \is_scalar($value->getValue())) {
+                    if ($inline - 1 <= 0 || null === $value->getValue() || is_scalar($value->getValue())) {
                         $output .= ' '.$this->dump($value->getValue(), $inline - 1, 0, $flags)."\n";
                     } else {
                         $output .= "\n";
@@ -120,11 +127,11 @@ class Dumper
 
                 $dumpObjectAsInlineMap = true;
 
-                if (Yaml::DUMP_OBJECT_AS_MAP & $flags && ($value instanceof \ArrayObject || $value instanceof \stdClass)) {
+                if (Yaml::DUMP_OBJECT_AS_MAP & $flags && ($value instanceof ArrayObject || $value instanceof stdClass)) {
                     $dumpObjectAsInlineMap = empty((array) $value);
                 }
 
-                $willBeInlined = $inline - 1 <= 0 || !\is_array($value) && $dumpObjectAsInlineMap || empty($value);
+                $willBeInlined = $inline - 1 <= 0 || !is_array($value) && $dumpObjectAsInlineMap || empty($value);
 
                 $output .= sprintf('%s%s%s%s',
                     $prefix,
@@ -142,7 +149,7 @@ class Dumper
     {
         $output = sprintf('%s!%s', $prefix ? $prefix.' ' : '', $value->getTag());
 
-        if (Yaml::DUMP_MULTI_LINE_LITERAL_BLOCK & $flags && \is_string($value->getValue()) && str_contains($value->getValue(), "\n") && !str_contains($value->getValue(), "\r\n")) {
+        if (Yaml::DUMP_MULTI_LINE_LITERAL_BLOCK & $flags && is_string($value->getValue()) && str_contains($value->getValue(), "\n") && !str_contains($value->getValue(), "\r\n")) {
             $blockIndentationIndicator = $this->getBlockIndentationIndicator($value->getValue());
             $output .= sprintf(' |%s', $blockIndentationIndicator);
 
@@ -153,7 +160,7 @@ class Dumper
             return $output;
         }
 
-        if ($inline - 1 <= 0 || null === $value->getValue() || \is_scalar($value->getValue())) {
+        if ($inline - 1 <= 0 || null === $value->getValue() || is_scalar($value->getValue())) {
             return $output.' '.$this->dump($value->getValue(), $inline - 1, 0, $flags)."\n";
         }
 

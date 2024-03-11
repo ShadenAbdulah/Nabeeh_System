@@ -2,6 +2,7 @@
 
 namespace PhpParser\Builder;
 
+use LogicException;
 use PhpParser;
 use PhpParser\BuilderHelpers;
 use PhpParser\Modifiers;
@@ -79,7 +80,7 @@ class Method extends FunctionLike {
      */
     public function makeAbstract() {
         if (!empty($this->stmts)) {
-            throw new \LogicException('Cannot make method with statements abstract');
+            throw new LogicException('Cannot make method with statements abstract');
         }
 
         $this->flags = BuilderHelpers::addModifier($this->flags, Modifiers::ABSTRACT);
@@ -108,7 +109,7 @@ class Method extends FunctionLike {
      */
     public function addStmt($stmt) {
         if (null === $this->stmts) {
-            throw new \LogicException('Cannot add statements to an abstract method');
+            throw new LogicException('Cannot add statements to an abstract method');
         }
 
         $this->stmts[] = BuilderHelpers::normalizeStmt($stmt);

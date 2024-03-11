@@ -11,6 +11,8 @@
 
 namespace Symfony\Component\EventDispatcher;
 
+use BadMethodCallException;
+
 /**
  * A read-only proxy for an event dispatcher.
  *
@@ -32,22 +34,22 @@ class ImmutableEventDispatcher implements EventDispatcherInterface
 
     public function addListener(string $eventName, callable|array $listener, int $priority = 0): never
     {
-        throw new \BadMethodCallException('Unmodifiable event dispatchers must not be modified.');
+        throw new BadMethodCallException('Unmodifiable event dispatchers must not be modified.');
     }
 
     public function addSubscriber(EventSubscriberInterface $subscriber): never
     {
-        throw new \BadMethodCallException('Unmodifiable event dispatchers must not be modified.');
+        throw new BadMethodCallException('Unmodifiable event dispatchers must not be modified.');
     }
 
     public function removeListener(string $eventName, callable|array $listener): never
     {
-        throw new \BadMethodCallException('Unmodifiable event dispatchers must not be modified.');
+        throw new BadMethodCallException('Unmodifiable event dispatchers must not be modified.');
     }
 
     public function removeSubscriber(EventSubscriberInterface $subscriber): never
     {
-        throw new \BadMethodCallException('Unmodifiable event dispatchers must not be modified.');
+        throw new BadMethodCallException('Unmodifiable event dispatchers must not be modified.');
     }
 
     public function getListeners(?string $eventName = null): array

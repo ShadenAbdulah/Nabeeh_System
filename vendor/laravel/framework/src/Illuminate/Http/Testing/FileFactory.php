@@ -12,7 +12,7 @@ class FileFactory
      * @param  string  $name
      * @param  string|int  $kilobytes
      * @param  string|null  $mimeType
-     * @return \Illuminate\Http\Testing\File
+     * @return File
      */
     public function create($name, $kilobytes = 0, $mimeType = null)
     {
@@ -31,7 +31,7 @@ class FileFactory
      *
      * @param  string  $name
      * @param  string  $content
-     * @return \Illuminate\Http\Testing\File
+     * @return File
      */
     public function createWithContent($name, $content)
     {
@@ -50,9 +50,9 @@ class FileFactory
      * @param  string  $name
      * @param  int  $width
      * @param  int  $height
-     * @return \Illuminate\Http\Testing\File
+     * @return File
      *
-     * @throws \LogicException
+     * @throws LogicException
      */
     public function image($name, $width = 10, $height = 10)
     {
@@ -69,7 +69,7 @@ class FileFactory
      * @param  string  $extension
      * @return resource
      *
-     * @throws \LogicException
+     * @throws LogicException
      */
     protected function generateImage($width, $height, $extension)
     {

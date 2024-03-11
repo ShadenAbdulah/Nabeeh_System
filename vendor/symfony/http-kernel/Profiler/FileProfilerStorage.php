@@ -11,6 +11,22 @@
 
 namespace Symfony\Component\HttpKernel\Profiler;
 
+use Closure;
+use FilesystemIterator;
+use RecursiveDirectoryIterator;
+use RecursiveIteratorIterator;
+use RuntimeException;
+use function count;
+use function dirname;
+use function func_num_args;
+use function function_exists;
+use function strlen;
+use const LOCK_EX;
+use const LOCK_SH;
+use const LOCK_UN;
+use const SEEK_END;
+use const SEEK_SET;
+
 /**
  * Storage for profiler using files.
  *
@@ -28,26 +44,26 @@ class FileProfilerStorage implements ProfilerStorageInterface
      *
      * Example : "file:/path/to/the/storage/folder"
      *
-     * @throws \RuntimeException
+     * @throws RuntimeException
      */
     public function __construct(string $dsn)
     {
         if (!str_starts_with($dsn, 'file:')) {
-            throw new \RuntimeException(sprintf('Please check your configuration. You are trying to use FileStorage with an invalid dsn "%s". The expected format is "file:/path/to/the/storage/folder".', $dsn));
+            throw new RuntimeException(sprintf('Please check your configuration. You are trying to use FileStorage with an invalid dsn "%s". The expected format is "file:/path/to/the/storage/folder".', $dsn));
         }
         $this->folder = substr($dsn, 5);
 
         if (!is_dir($this->folder) && false === @mkdir($this->folder, 0777, true) && !is_dir($this->folder)) {
-            throw new \RuntimeException(sprintf('Unable to create the storage directory (%s).', $this->folder));
+            throw new RuntimeException(sprintf('Unable to create the storage directory (%s).', $this->folder));
         }
     }
 
     /**
-     * @param \Closure|null $filter A filter to apply on the list of tokens
+     * @param Closure|null $filter A filter to apply on the list of tokens
      */
     public function find(?string $ip, ?string $url, ?int $limit, ?string $method, ?int $start = null, ?int $end = null, ?string $statusCode = null/* , \Closure $filter = null */): array
     {
-        $filter = 7 < \func_num_args() ? func_get_arg(7) : null;
+        $filter = 7 < func_num_args() ? func_get_arg(7) : null;
         $file = $this->getIndexFilename();
 
         if (!file_exists($file)) {
@@ -55,13 +71,13 @@ class FileProfilerStorage implements ProfilerStorageInterface
         }
 
         $file = fopen($file, 'r');
-        fseek($file, 0, \SEEK_END);
+        fseek($file, 0, SEEK_END);
 
         $result = [];
-        while (\count($result) < $limit && $line = $this->readLineFromFile($file)) {
+        while (count($result) < $limit && $line = $this->readLineFromFile($file)) {
             $values = str_getcsv($line);
 
-            if (7 > \count($values)) {
+            if (7 > count($values)) {
                 // skip invalid lines
                 continue;
             }
@@ -114,9 +130,9 @@ class FileProfilerStorage implements ProfilerStorageInterface
      */
     public function purge()
     {
-        $flags = \FilesystemIterator::SKIP_DOTS;
-        $iterator = new \RecursiveDirectoryIterator($this->folder, $flags);
-        $iterator = new \RecursiveIteratorIterator($iterator, \RecursiveIteratorIterator::CHILD_FIRST);
+        $flags = FilesystemIterator::SKIP_DOTS;
+        $iterator = new RecursiveDirectoryIterator($this->folder, $flags);
+        $iterator = new RecursiveIteratorIterator($iterator, RecursiveIteratorIterator::CHILD_FIRST);
 
         foreach ($iterator as $file) {
             if (is_file($file)) {
@@ -133,7 +149,7 @@ class FileProfilerStorage implements ProfilerStorageInterface
     }
 
     /**
-     * @throws \RuntimeException
+     * @throws RuntimeException
      */
     public function write(Profile $profile): bool
     {
@@ -142,9 +158,9 @@ class FileProfilerStorage implements ProfilerStorageInterface
         $profileIndexed = is_file($file);
         if (!$profileIndexed) {
             // Create directory
-            $dir = \dirname($file);
+            $dir = dirname($file);
             if (!is_dir($dir) && false === @mkdir($dir, 0777, true) && !is_dir($dir)) {
-                throw new \RuntimeException(sprintf('Unable to create the storage directory (%s).', $dir));
+                throw new RuntimeException(sprintf('Unable to create the storage directory (%s).', $dir));
             }
         }
 
@@ -170,11 +186,11 @@ class FileProfilerStorage implements ProfilerStorageInterface
 
         $data = serialize($data);
 
-        if (\function_exists('gzencode')) {
+        if (function_exists('gzencode')) {
             $data = gzencode($data, 3);
         }
 
-        if (false === file_put_contents($file, $data, \LOCK_EX)) {
+        if (false === file_put_contents($file, $data, LOCK_EX)) {
             return false;
         }
 
@@ -259,7 +275,7 @@ class FileProfilerStorage implements ProfilerStorageInterface
 
             $position += $upTo;
             $line = substr($buffer, $upTo + 1).$line;
-            fseek($file, max(0, $position), \SEEK_SET);
+            fseek($file, max(0, $position), SEEK_SET);
 
             if ('' !== $line) {
                 break;
@@ -307,12 +323,12 @@ class FileProfilerStorage implements ProfilerStorageInterface
         }
 
         $h = fopen($file, 'r');
-        flock($h, \LOCK_SH);
+        flock($h, LOCK_SH);
         $data = stream_get_contents($h);
-        flock($h, \LOCK_UN);
+        flock($h, LOCK_UN);
         fclose($h);
 
-        if (\function_exists('gzdecode')) {
+        if (function_exists('gzdecode')) {
             $data = @gzdecode($data) ?: $data;
         }
 
@@ -336,9 +352,9 @@ class FileProfilerStorage implements ProfilerStorageInterface
         while ($line = fgets($handle)) {
             $values = str_getcsv($line);
 
-            if (7 > \count($values)) {
+            if (7 > count($values)) {
                 // skip invalid lines
-                $offset += \strlen($line);
+                $offset += strlen($line);
                 continue;
             }
 
@@ -349,7 +365,7 @@ class FileProfilerStorage implements ProfilerStorageInterface
             }
 
             @unlink($this->getFilename($csvToken));
-            $offset += \strlen($line);
+            $offset += strlen($line);
         }
         fclose($handle);
 

@@ -13,9 +13,9 @@ class PasswordController extends Controller
     /**
      * Update the user's password.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Laravel\Fortify\Contracts\UpdatesUserPasswords  $updater
-     * @return \Laravel\Fortify\Contracts\PasswordUpdateResponse
+     * @param Request $request
+     * @param UpdatesUserPasswords $updater
+     * @return PasswordUpdateResponse
      */
     public function update(Request $request, UpdatesUserPasswords $updater)
     {

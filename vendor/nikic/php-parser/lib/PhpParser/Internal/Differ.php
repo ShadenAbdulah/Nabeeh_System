@@ -2,6 +2,10 @@
 
 namespace PhpParser\Internal;
 
+use Exception;
+use function array_values;
+use function count;
+
 /**
  * Implements the Myers diff algorithm.
  *
@@ -33,8 +37,8 @@ class Differ {
      * @return DiffElem[] Diff (edit script)
      */
     public function diff(array $old, array $new): array {
-        $old = \array_values($old);
-        $new = \array_values($new);
+        $old = array_values($old);
+        $new = array_values($new);
         list($trace, $x, $y) = $this->calculateTrace($old, $new);
         return $this->extractDiff($trace, $x, $y, $old, $new);
     }
@@ -60,8 +64,8 @@ class Differ {
      * @return array{array<int, array<int, int>>, int, int}
      */
     private function calculateTrace(array $old, array $new): array {
-        $n = \count($old);
-        $m = \count($new);
+        $n = count($old);
+        $m = count($new);
         $max = $n + $m;
         $v = [1 => 0];
         $trace = [];
@@ -86,7 +90,7 @@ class Differ {
                 }
             }
         }
-        throw new \Exception('Should not happen');
+        throw new Exception('Should not happen');
     }
 
     /**
@@ -97,7 +101,7 @@ class Differ {
      */
     private function extractDiff(array $trace, int $x, int $y, array $old, array $new): array {
         $result = [];
-        for ($d = \count($trace) - 1; $d >= 0; $d--) {
+        for ($d = count($trace) - 1; $d >= 0; $d--) {
             $v = $trace[$d];
             $k = $x - $y;
 
@@ -141,7 +145,7 @@ class Differ {
      */
     private function coalesceReplacements(array $diff): array {
         $newDiff = [];
-        $c = \count($diff);
+        $c = count($diff);
         for ($i = 0; $i < $c; $i++) {
             $diffType = $diff[$i]->type;
             if ($diffType !== DiffElem::TYPE_REMOVE) {

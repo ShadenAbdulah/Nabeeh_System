@@ -1,6 +1,8 @@
 <?php
 namespace Hamcrest\Core;
 
+use Hamcrest\AbstractMatcherTest;
+
 class DummyToStringClass
 {
     private $_arg;
@@ -16,12 +18,12 @@ class DummyToStringClass
     }
 }
 
-class IsEqualTest extends \Hamcrest\AbstractMatcherTest
+class IsEqualTest extends AbstractMatcherTest
 {
 
     protected function createMatcher()
     {
-        return \Hamcrest\Core\IsEqual::equalTo('irrelevant');
+        return IsEqual::equalTo('irrelevant');
     }
 
     public function testComparesObjectsUsingEqualityOperator()
@@ -85,7 +87,7 @@ class IsEqualTest extends \Hamcrest\AbstractMatcherTest
     public function testIncludesTheResultOfCallingToStringOnItsArgumentInTheDescription()
     {
         $argumentDescription = 'ARGUMENT DESCRIPTION';
-        $argument = new \Hamcrest\Core\DummyToStringClass($argumentDescription);
+        $argument = new DummyToStringClass($argumentDescription);
         $this->assertDescription('<' . $argumentDescription . '>', equalTo($argument));
     }
 

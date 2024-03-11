@@ -1,12 +1,14 @@
 <?php
 namespace Hamcrest\Text;
 
-class IsEmptyStringTest extends \Hamcrest\AbstractMatcherTest
+use Hamcrest\AbstractMatcherTest;
+
+class IsEmptyStringTest extends AbstractMatcherTest
 {
 
     protected function createMatcher()
     {
-        return \Hamcrest\Text\IsEmptyString::isEmptyOrNullString();
+        return IsEmptyString::isEmptyOrNullString();
     }
 
     public function testEmptyDoesNotMatchNull()

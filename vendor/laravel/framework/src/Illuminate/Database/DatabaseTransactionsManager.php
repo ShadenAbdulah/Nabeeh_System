@@ -9,14 +9,14 @@ class DatabaseTransactionsManager
     /**
      * All of the committed transactions.
      *
-     * @var \Illuminate\Support\Collection<int, \Illuminate\Database\DatabaseTransactionRecord>
+     * @var Collection<int, DatabaseTransactionRecord>
      */
     protected $committedTransactions;
 
     /**
      * All of the pending transactions.
      *
-     * @var \Illuminate\Support\Collection<int, \Illuminate\Database\DatabaseTransactionRecord>
+     * @var Collection<int, DatabaseTransactionRecord>
      */
     protected $pendingTransactions;
 
@@ -172,7 +172,7 @@ class DatabaseTransactionsManager
     /**
      * Remove all transactions that are children of the given transaction.
      *
-     * @param  \Illuminate\Database\DatabaseTransactionRecord  $transaction
+     * @param DatabaseTransactionRecord $transaction
      * @return void
      */
     protected function removeCommittedTransactionsThatAreChildrenOf(DatabaseTransactionRecord $transaction)
@@ -208,7 +208,7 @@ class DatabaseTransactionsManager
     /**
      * Get the transactions that are applicable to callbacks.
      *
-     * @return \Illuminate\Support\Collection<int, \Illuminate\Database\DatabaseTransactionRecord>
+     * @return Collection<int, DatabaseTransactionRecord>
      */
     public function callbackApplicableTransactions()
     {
@@ -229,7 +229,7 @@ class DatabaseTransactionsManager
     /**
      * Get all of the pending transactions.
      *
-     * @return \Illuminate\Support\Collection
+     * @return Collection
      */
     public function getPendingTransactions()
     {
@@ -239,7 +239,7 @@ class DatabaseTransactionsManager
     /**
      * Get all of the committed transactions.
      *
-     * @return \Illuminate\Support\Collection
+     * @return Collection
      */
     public function getCommittedTransactions()
     {

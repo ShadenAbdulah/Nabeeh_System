@@ -17,6 +17,9 @@ use Symfony\Component\HttpKernel\DataCollector\DataCollector;
 use Symfony\Component\HttpKernel\DataCollector\LateDataCollectorInterface;
 use Symfony\Component\Translation\DataCollectorTranslator;
 use Symfony\Component\VarDumper\Cloner\Data;
+use Throwable;
+use function count;
+use function strlen;
 
 /**
  * @author Abdellatif Ait boudad <a.aitboudad@gmail.com>
@@ -42,7 +45,7 @@ class TranslationDataCollector extends DataCollector implements LateDataCollecto
         $this->data = $this->cloneVar($this->data);
     }
 
-    public function collect(Request $request, Response $response, ?\Throwable $exception = null): void
+    public function collect(Request $request, Response $response, ?Throwable $exception = null): void
     {
         $this->data['locale'] = $this->translator->getLocale();
         $this->data['fallback_locales'] = $this->translator->getFallbackLocales();
@@ -83,7 +86,7 @@ class TranslationDataCollector extends DataCollector implements LateDataCollecto
      */
     public function getFallbackLocales(): Data|array
     {
-        return (isset($this->data['fallback_locales']) && \count($this->data['fallback_locales']) > 0) ? $this->data['fallback_locales'] : [];
+        return (isset($this->data['fallback_locales']) && count($this->data['fallback_locales']) > 0) ? $this->data['fallback_locales'] : [];
     }
 
     public function getName(): string
@@ -139,7 +142,7 @@ class TranslationDataCollector extends DataCollector implements LateDataCollecto
             if (mb_strlen($string, $encoding) > $length) {
                 return mb_substr($string, 0, $length - 3, $encoding).'...';
             }
-        } elseif (\strlen($string) > $length) {
+        } elseif (strlen($string) > $length) {
             return substr($string, 0, $length - 3).'...';
         }
 

@@ -15,6 +15,10 @@ use PhpParser\Node;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
 use Psy\Exception\FatalErrorException;
+use function count;
+use function implode;
+use function sprintf;
+use const E_ERROR;
 
 /**
  * The abstract class pass handles abstract classes and methods, complaining if there are too few or too many of either.
@@ -38,12 +42,12 @@ class AbstractClassPass extends CodeCleanerPass
             $this->abstractMethods = [];
         } elseif ($node instanceof ClassMethod) {
             if ($node->isAbstract()) {
-                $name = \sprintf('%s::%s', $this->class->name, $node->name);
+                $name = sprintf('%s::%s', $this->class->name, $node->name);
                 $this->abstractMethods[] = $name;
 
                 if ($node->stmts !== null) {
-                    $msg = \sprintf('Abstract function %s cannot contain body', $name);
-                    throw new FatalErrorException($msg, 0, \E_ERROR, null, $node->getStartLine());
+                    $msg = sprintf('Abstract function %s cannot contain body', $name);
+                    throw new FatalErrorException($msg, 0, E_ERROR, null, $node->getStartLine());
                 }
             }
         }
@@ -59,16 +63,16 @@ class AbstractClassPass extends CodeCleanerPass
     public function leaveNode(Node $node)
     {
         if ($node instanceof Class_) {
-            $count = \count($this->abstractMethods);
+            $count = count($this->abstractMethods);
             if ($count > 0 && !$node->isAbstract()) {
-                $msg = \sprintf(
+                $msg = sprintf(
                     'Class %s contains %d abstract method%s must therefore be declared abstract or implement the remaining methods (%s)',
                     $node->name,
                     $count,
                     ($count === 1) ? '' : 's',
-                    \implode(', ', $this->abstractMethods)
+                    implode(', ', $this->abstractMethods)
                 );
-                throw new FatalErrorException($msg, 0, \E_ERROR, null, $node->getStartLine());
+                throw new FatalErrorException($msg, 0, E_ERROR, null, $node->getStartLine());
             }
         }
     }

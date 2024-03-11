@@ -10,7 +10,11 @@
 
 namespace Mockery;
 
+use Hamcrest\Matcher;
+use Hamcrest_Matcher;
+use LogicException;
 use Mockery\Matcher\MatcherInterface;
+use const PHP_MAJOR_VERSION;
 
 class Configuration
 {
@@ -131,8 +135,8 @@ class Configuration
      */
     public function setInternalClassMethodParamMap($class, $method, array $map)
     {
-        if (\PHP_MAJOR_VERSION > 7) {
-            throw new \LogicException('Internal class parameter overriding is not available in PHP 8. Incompatible signatures have been reclassified as fatal errors.');
+        if (PHP_MAJOR_VERSION > 7) {
+            throw new LogicException('Internal class parameter overriding is not available in PHP 8. Incompatible signatures have been reclassified as fatal errors.');
         }
 
         if (!isset($this->_internalClassParamMap[strtolower($class)])) {
@@ -245,7 +249,7 @@ class Configuration
      */
     public function setDefaultMatcher($class, $matcherClass)
     {
-        $isHamcrest = is_a($matcherClass, \Hamcrest\Matcher::class, true) || is_a($matcherClass, \Hamcrest_Matcher::class, true);
+        $isHamcrest = is_a($matcherClass, Matcher::class, true) || is_a($matcherClass, Hamcrest_Matcher::class, true);
         if (
             !is_a($matcherClass, MatcherInterface::class, true) &&
             !$isHamcrest

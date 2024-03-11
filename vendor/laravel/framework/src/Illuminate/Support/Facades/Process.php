@@ -3,41 +3,50 @@
 namespace Illuminate\Support\Facades;
 
 use Closure;
+use Illuminate\Contracts\Process\ProcessResult;
 use Illuminate\Process\Factory;
+use Illuminate\Process\FakeProcessDescription;
+use Illuminate\Process\FakeProcessResult;
+use Illuminate\Process\FakeProcessSequence;
+use Illuminate\Process\InvokedProcess;
+use Illuminate\Process\PendingProcess;
+use Illuminate\Process\Pool;
+use Illuminate\Process\ProcessPoolResults;
+use Traversable;
 
 /**
- * @method static \Illuminate\Process\PendingProcess command(array|string $command)
- * @method static \Illuminate\Process\PendingProcess path(string $path)
- * @method static \Illuminate\Process\PendingProcess timeout(int $timeout)
- * @method static \Illuminate\Process\PendingProcess idleTimeout(int $timeout)
- * @method static \Illuminate\Process\PendingProcess forever()
- * @method static \Illuminate\Process\PendingProcess env(array $environment)
- * @method static \Illuminate\Process\PendingProcess input(\Traversable|resource|string|int|float|bool|null $input)
- * @method static \Illuminate\Process\PendingProcess quietly()
- * @method static \Illuminate\Process\PendingProcess tty(bool $tty = true)
- * @method static \Illuminate\Process\PendingProcess options(array $options)
- * @method static \Illuminate\Contracts\Process\ProcessResult run(array|string|null $command = null, callable|null $output = null)
- * @method static \Illuminate\Process\InvokedProcess start(array|string|null $command = null, callable|null $output = null)
- * @method static \Illuminate\Process\PendingProcess withFakeHandlers(array $fakeHandlers)
- * @method static \Illuminate\Process\PendingProcess|mixed when(\Closure|mixed|null $value = null, callable|null $callback = null, callable|null $default = null)
- * @method static \Illuminate\Process\PendingProcess|mixed unless(\Closure|mixed|null $value = null, callable|null $callback = null, callable|null $default = null)
- * @method static \Illuminate\Process\FakeProcessResult result(array|string $output = '', array|string $errorOutput = '', int $exitCode = 0)
- * @method static \Illuminate\Process\FakeProcessDescription describe()
- * @method static \Illuminate\Process\FakeProcessSequence sequence(array $processes = [])
+ * @method static PendingProcess command(array|string $command)
+ * @method static PendingProcess path(string $path)
+ * @method static PendingProcess timeout(int $timeout)
+ * @method static PendingProcess idleTimeout(int $timeout)
+ * @method static PendingProcess forever()
+ * @method static PendingProcess env(array $environment)
+ * @method static PendingProcess input(Traversable|resource|string|int|float|bool|null $input)
+ * @method static PendingProcess quietly()
+ * @method static PendingProcess tty(bool $tty = true)
+ * @method static PendingProcess options(array $options)
+ * @method static ProcessResult run(array|string|null $command = null, callable|null $output = null)
+ * @method static InvokedProcess start(array|string|null $command = null, callable|null $output = null)
+ * @method static PendingProcess withFakeHandlers(array $fakeHandlers)
+ * @method static PendingProcess|mixed when(Closure|mixed|null $value = null, callable|null $callback = null, callable|null $default = null)
+ * @method static PendingProcess|mixed unless(Closure|mixed|null $value = null, callable|null $callback = null, callable|null $default = null)
+ * @method static FakeProcessResult result(array|string $output = '', array|string $errorOutput = '', int $exitCode = 0)
+ * @method static FakeProcessDescription describe()
+ * @method static FakeProcessSequence sequence(array $processes = [])
  * @method static bool isRecording()
- * @method static \Illuminate\Process\Factory recordIfRecording(\Illuminate\Process\PendingProcess $process, \Illuminate\Contracts\Process\ProcessResult $result)
- * @method static \Illuminate\Process\Factory record(\Illuminate\Process\PendingProcess $process, \Illuminate\Contracts\Process\ProcessResult $result)
- * @method static \Illuminate\Process\Factory preventStrayProcesses(bool $prevent = true)
+ * @method static Factory recordIfRecording(PendingProcess $process, ProcessResult $result)
+ * @method static Factory record(PendingProcess $process, ProcessResult $result)
+ * @method static Factory preventStrayProcesses(bool $prevent = true)
  * @method static bool preventingStrayProcesses()
- * @method static \Illuminate\Process\Factory assertRan(\Closure|string $callback)
- * @method static \Illuminate\Process\Factory assertRanTimes(\Closure|string $callback, int $times = 1)
- * @method static \Illuminate\Process\Factory assertNotRan(\Closure|string $callback)
- * @method static \Illuminate\Process\Factory assertDidntRun(\Closure|string $callback)
- * @method static \Illuminate\Process\Factory assertNothingRan()
- * @method static \Illuminate\Process\Pool pool(callable $callback)
- * @method static \Illuminate\Contracts\Process\ProcessResult pipe(callable|array $callback, callable|null $output = null)
- * @method static \Illuminate\Process\ProcessPoolResults concurrently(callable $callback, callable|null $output = null)
- * @method static \Illuminate\Process\PendingProcess newPendingProcess()
+ * @method static Factory assertRan(Closure|string $callback)
+ * @method static Factory assertRanTimes(Closure|string $callback, int $times = 1)
+ * @method static Factory assertNotRan(Closure|string $callback)
+ * @method static Factory assertDidntRun(Closure|string $callback)
+ * @method static Factory assertNothingRan()
+ * @method static Pool pool(callable $callback)
+ * @method static ProcessResult pipe(callable|array $callback, callable|null $output = null)
+ * @method static ProcessPoolResults concurrently(callable $callback, callable|null $output = null)
+ * @method static PendingProcess newPendingProcess()
  * @method static void macro(string $name, object|callable $macro)
  * @method static void mixin(object $mixin, bool $replace = true)
  * @method static bool hasMacro(string $name)
@@ -45,7 +54,7 @@ use Illuminate\Process\Factory;
  * @method static mixed macroCall(string $method, array $parameters)
  *
  * @see \Illuminate\Process\PendingProcess
- * @see \Illuminate\Process\Factory
+ * @see Factory
  */
 class Process extends Facade
 {
@@ -62,8 +71,8 @@ class Process extends Facade
     /**
      * Indicate that the process factory should fake processes.
      *
-     * @param  \Closure|array|null  $callback
-     * @return \Illuminate\Process\Factory
+     * @param Closure|array|null  $callback
+     * @return Factory
      */
     public static function fake(Closure|array $callback = null)
     {

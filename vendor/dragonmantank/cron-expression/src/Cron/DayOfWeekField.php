@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace Cron;
 
+use DateInterval;
 use DateTimeInterface;
 use InvalidArgumentException;
+use function in_array;
 
 /**
  * Day of week field.  Allows: * / , - ? L #.
@@ -99,7 +101,7 @@ class DayOfWeekField extends AbstractField
                 throw new InvalidArgumentException("Weekday must be a value between 0 and 7. {$weekday} given");
             }
 
-            if (!\in_array($nth, $this->nthRange, true)) {
+            if (!in_array($nth, $this->nthRange, true)) {
                 throw new InvalidArgumentException("There are never more than 5 or less than 1 of a given weekday in a month, {$nth} given");
             }
 
@@ -136,7 +138,7 @@ class DayOfWeekField extends AbstractField
         }
 
         // Test to see which Sunday to use -- 0 == 7 == Sunday
-        $format = \in_array(7, array_map(function ($value) {
+        $format = in_array(7, array_map(function ($value) {
             return (int) $value;
         }, str_split($value)), true) ? 'N' : 'w';
         $fieldValue = (int) $date->format($format);
@@ -150,10 +152,10 @@ class DayOfWeekField extends AbstractField
     public function increment(DateTimeInterface &$date, $invert = false, $parts = null): FieldInterface
     {
         if (! $invert) {
-            $date = $date->add(new \DateInterval('P1D'));
+            $date = $date->add(new DateInterval('P1D'));
             $date = $date->setTime(0, 0);
         } else {
-            $date = $date->sub(new \DateInterval('P1D'));
+            $date = $date->sub(new DateInterval('P1D'));
             $date = $date->setTime(23, 59);
         }
 
@@ -177,7 +179,7 @@ class DayOfWeekField extends AbstractField
                 $chunks = explode('#', $value);
                 $chunks[0] = $this->convertLiterals($chunks[0]);
 
-                if (parent::validate($chunks[0]) && is_numeric($chunks[1]) && \in_array((int) $chunks[1], $this->nthRange, true)) {
+                if (parent::validate($chunks[0]) && is_numeric($chunks[1]) && in_array((int) $chunks[1], $this->nthRange, true)) {
                     return true;
                 }
             }

@@ -17,6 +17,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Controller\ArgumentValueResolverInterface;
 use Symfony\Component\HttpKernel\Controller\ValueResolverInterface;
 use Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadata;
+use function is_array;
+use function is_callable;
+use function is_string;
 
 /**
  * Provides an intuitive error message when controller fails because it is not registered as a service.
@@ -41,9 +44,9 @@ final class NotTaggedControllerValueResolver implements ArgumentValueResolverInt
 
         $controller = $request->attributes->get('_controller');
 
-        if (\is_array($controller) && \is_callable($controller, true) && \is_string($controller[0])) {
+        if (is_array($controller) && is_callable($controller, true) && is_string($controller[0])) {
             $controller = $controller[0].'::'.$controller[1];
-        } elseif (!\is_string($controller) || '' === $controller) {
+        } elseif (!is_string($controller) || '' === $controller) {
             return false;
         }
 
@@ -62,9 +65,9 @@ final class NotTaggedControllerValueResolver implements ArgumentValueResolverInt
     {
         $controller = $request->attributes->get('_controller');
 
-        if (\is_array($controller) && \is_callable($controller, true) && \is_string($controller[0])) {
+        if (is_array($controller) && is_callable($controller, true) && is_string($controller[0])) {
             $controller = $controller[0].'::'.$controller[1];
-        } elseif (!\is_string($controller) || '' === $controller) {
+        } elseif (!is_string($controller) || '' === $controller) {
             return [];
         }
 

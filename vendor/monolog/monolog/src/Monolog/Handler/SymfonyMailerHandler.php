@@ -12,6 +12,8 @@
 namespace Monolog\Handler;
 
 use Closure;
+use DateTimeImmutable;
+use InvalidArgumentException;
 use Monolog\Level;
 use Monolog\Logger;
 use Monolog\LogRecord;
@@ -21,6 +23,7 @@ use Monolog\Formatter\LineFormatter;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mailer\Transport\TransportInterface;
 use Symfony\Component\Mime\Email;
+use function count;
 
 /**
  * SymfonyMailerHandler uses Symfony's Mailer component to send the emails
@@ -82,10 +85,10 @@ class SymfonyMailerHandler extends MailHandler
 
         if (!$message instanceof Email) {
             $record = reset($records);
-            throw new \InvalidArgumentException('Could not resolve message as instance of Email or a callable returning it' . ($record instanceof LogRecord ? Utils::getRecordMessageForException($record) : ''));
+            throw new InvalidArgumentException('Could not resolve message as instance of Email or a callable returning it' . ($record instanceof LogRecord ? Utils::getRecordMessageForException($record) : ''));
         }
 
-        if (\count($records) > 0) {
+        if (count($records) > 0) {
             $subjectFormatter = $this->getSubjectFormatter($message->getSubject());
             $message->subject($subjectFormatter->format($this->getHighestRecord($records)));
         }
@@ -104,6 +107,6 @@ class SymfonyMailerHandler extends MailHandler
             }
         }
 
-        return $message->date(new \DateTimeImmutable());
+        return $message->date(new DateTimeImmutable());
     }
 }

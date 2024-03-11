@@ -13,19 +13,19 @@
         $lineNumber = $trace['line'] ?: 1;
         $fileLink = $this->fileLinkFormat->format($trace['file'], $lineNumber);
         $filePath = strtr(strip_tags($this->formatFile($trace['file'], $lineNumber)), [' at line '.$lineNumber => '']);
-        $filePathParts = explode(\DIRECTORY_SEPARATOR, $filePath);
+        $filePathParts = explode(DIRECTORY_SEPARATOR, $filePath);
         ?>
         <span class="block trace-file-path">
             in
             <a href="<?= $fileLink; ?>">
-                <?= implode(\DIRECTORY_SEPARATOR, array_slice($filePathParts, 0, -1)).\DIRECTORY_SEPARATOR; ?><strong><?= end($filePathParts); ?></strong>
+                <?= implode(DIRECTORY_SEPARATOR, array_slice($filePathParts, 0, -1)). DIRECTORY_SEPARATOR; ?><strong><?= end($filePathParts); ?></strong>
             </a>
             <?php if ('compact' === $style && $trace['function']) { ?>
                 <span class="trace-type"><?= $trace['type']; ?></span>
                 <span class="trace-method"><?= $trace['function']; ?></span>
             <?php } ?>
             (line <?= $lineNumber; ?>)
-            <span class="icon icon-copy hidden" data-clipboard-text="<?php echo implode(\DIRECTORY_SEPARATOR, $filePathParts).':'.$lineNumber; ?>">
+            <span class="icon icon-copy hidden" data-clipboard-text="<?php echo implode(DIRECTORY_SEPARATOR, $filePathParts).':'.$lineNumber; ?>">
                 <?php echo $this->include('assets/images/icon-copy.svg'); ?>
             </span>
         </span>

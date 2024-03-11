@@ -4,6 +4,10 @@ namespace Illuminate\Support\Testing\Fakes;
 
 use BadMethodCallException;
 use Closure;
+use DateInterval;
+use DateTimeInterface;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\Queue\Job;
 use Illuminate\Contracts\Queue\Queue;
 use Illuminate\Queue\CallQueuedClosure;
 use Illuminate\Queue\QueueManager;
@@ -18,21 +22,21 @@ class QueueFake extends QueueManager implements Fake, Queue
     /**
      * The original queue manager.
      *
-     * @var \Illuminate\Contracts\Queue\Queue
+     * @var Queue
      */
     public $queue;
 
     /**
      * The job types that should be intercepted instead of pushed to the queue.
      *
-     * @var \Illuminate\Support\Collection
+     * @var Collection
      */
     protected $jobsToFake;
 
     /**
      * The job types that should be pushed to the queue and not intercepted.
      *
-     * @var \Illuminate\Support\Collection
+     * @var Collection
      */
     protected $jobsToBeQueued;
 
@@ -53,9 +57,9 @@ class QueueFake extends QueueManager implements Fake, Queue
     /**
      * Create a new fake queue instance.
      *
-     * @param  \Illuminate\Contracts\Foundation\Application  $app
+     * @param  Application  $app
      * @param  array  $jobsToFake
-     * @param  \Illuminate\Queue\QueueManager|null  $queue
+     * @param QueueManager|null  $queue
      * @return void
      */
     public function __construct($app, $jobsToFake = [], $queue = null)
@@ -83,7 +87,7 @@ class QueueFake extends QueueManager implements Fake, Queue
     /**
      * Assert if a job was pushed based on a truth-test callback.
      *
-     * @param  string|\Closure  $job
+     * @param  string|Closure $job
      * @param  callable|int|null  $callback
      * @return void
      */
@@ -124,7 +128,7 @@ class QueueFake extends QueueManager implements Fake, Queue
      * Assert if a job was pushed based on a truth-test callback.
      *
      * @param  string  $queue
-     * @param  string|\Closure  $job
+     * @param  string|Closure $job
      * @param  callable|null  $callback
      * @return void
      */
@@ -262,7 +266,7 @@ class QueueFake extends QueueManager implements Fake, Queue
     /**
      * Determine if a job was pushed based on a truth-test callback.
      *
-     * @param  string|\Closure  $job
+     * @param  string|Closure $job
      * @param  callable|null  $callback
      * @return void
      */
@@ -309,7 +313,7 @@ class QueueFake extends QueueManager implements Fake, Queue
      *
      * @param  string  $job
      * @param  callable|null  $callback
-     * @return \Illuminate\Support\Collection
+     * @return Collection
      */
     public function pushed($job, $callback = null)
     {
@@ -339,7 +343,7 @@ class QueueFake extends QueueManager implements Fake, Queue
      * Resolve a queue connection instance.
      *
      * @param  mixed  $value
-     * @return \Illuminate\Contracts\Queue\Queue
+     * @return Queue
      */
     public function connection($value = null)
     {
@@ -440,7 +444,7 @@ class QueueFake extends QueueManager implements Fake, Queue
     /**
      * Push a new job onto the queue after (n) seconds.
      *
-     * @param  \DateTimeInterface|\DateInterval|int  $delay
+     * @param  DateTimeInterface|DateInterval|int  $delay
      * @param  string|object  $job
      * @param  mixed  $data
      * @param  string|null  $queue
@@ -468,7 +472,7 @@ class QueueFake extends QueueManager implements Fake, Queue
      * Push a new job onto a specific queue after (n) seconds.
      *
      * @param  string  $queue
-     * @param  \DateTimeInterface|\DateInterval|int  $delay
+     * @param  DateTimeInterface|DateInterval|int  $delay
      * @param  string|object  $job
      * @param  mixed  $data
      * @return mixed
@@ -482,7 +486,7 @@ class QueueFake extends QueueManager implements Fake, Queue
      * Pop the next job off of the queue.
      *
      * @param  string|null  $queue
-     * @return \Illuminate\Contracts\Queue\Job|null
+     * @return Job|null
      */
     public function pop($queue = null)
     {
@@ -566,7 +570,7 @@ class QueueFake extends QueueManager implements Fake, Queue
      * @param  array  $parameters
      * @return mixed
      *
-     * @throws \BadMethodCallException
+     * @throws BadMethodCallException
      */
     public function __call($method, $parameters)
     {

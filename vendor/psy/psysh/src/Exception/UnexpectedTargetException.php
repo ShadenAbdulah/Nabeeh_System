@@ -11,6 +11,8 @@
 
 namespace Psy\Exception;
 
+use Throwable;
+
 class UnexpectedTargetException extends RuntimeException
 {
     private $target;
@@ -19,9 +21,9 @@ class UnexpectedTargetException extends RuntimeException
      * @param mixed           $target
      * @param string          $message  (default: "")
      * @param int             $code     (default: 0)
-     * @param \Throwable|null $previous (default: null)
+     * @param Throwable|null $previous (default: null)
      */
-    public function __construct($target, string $message = '', int $code = 0, \Throwable $previous = null)
+    public function __construct($target, string $message = '', int $code = 0, Throwable $previous = null)
     {
         $this->target = $target;
         parent::__construct($message, $code, $previous);

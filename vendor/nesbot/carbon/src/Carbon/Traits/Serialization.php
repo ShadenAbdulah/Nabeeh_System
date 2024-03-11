@@ -12,8 +12,11 @@
 namespace Carbon\Traits;
 
 use Carbon\Exceptions\InvalidFormatException;
+use DateTimeInterface;
 use ReturnTypeWillChange;
 use Throwable;
+use function extension_loaded;
+use function is_string;
 
 /**
  * Trait Serialization.
@@ -105,11 +108,11 @@ trait Serialization
     #[ReturnTypeWillChange]
     public static function __set_state($dump)
     {
-        if (\is_string($dump)) {
+        if (is_string($dump)) {
             return static::parse($dump);
         }
 
-        /** @var \DateTimeInterface $date */
+        /** @var DateTimeInterface $date */
         $date = get_parent_class(static::class) && method_exists(parent::class, '__set_state')
             ? parent::__set_state((array) $dump)
             : (object) $dump;
@@ -163,7 +166,7 @@ trait Serialization
         ];
 
         // @codeCoverageIgnoreStart
-        if (\extension_loaded('msgpack') && isset($this->constructedObjectId)) {
+        if (extension_loaded('msgpack') && isset($this->constructedObjectId)) {
             $export['dumpDateProperties'] = [
                 'date' => $this->format('Y-m-d H:i:s.u'),
                 'timezone' => serialize($this->timezone ?? null),
@@ -257,7 +260,7 @@ trait Serialization
         $serializer = $this->localSerializer ?? static::$serializer;
 
         if ($serializer) {
-            return \is_string($serializer)
+            return is_string($serializer)
                 ? $this->rawFormat($serializer)
                 : $serializer($this);
         }
@@ -307,7 +310,7 @@ trait Serialization
         $properties = $this->dumpProperties;
 
         // @codeCoverageIgnoreStart
-        if (!\extension_loaded('msgpack')) {
+        if (!extension_loaded('msgpack')) {
             return $properties;
         }
 

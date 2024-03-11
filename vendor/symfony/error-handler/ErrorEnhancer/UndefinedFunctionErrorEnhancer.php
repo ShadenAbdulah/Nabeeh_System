@@ -13,22 +13,24 @@ namespace Symfony\Component\ErrorHandler\ErrorEnhancer;
 
 use Symfony\Component\ErrorHandler\Error\FatalError;
 use Symfony\Component\ErrorHandler\Error\UndefinedFunctionError;
+use Throwable;
+use function strlen;
 
 /**
  * @author Fabien Potencier <fabien@symfony.com>
  */
 class UndefinedFunctionErrorEnhancer implements ErrorEnhancerInterface
 {
-    public function enhance(\Throwable $error): ?\Throwable
+    public function enhance(Throwable $error): ?Throwable
     {
         if ($error instanceof FatalError) {
             return null;
         }
 
         $message = $error->getMessage();
-        $messageLen = \strlen($message);
+        $messageLen = strlen($message);
         $notFoundSuffix = '()';
-        $notFoundSuffixLen = \strlen($notFoundSuffix);
+        $notFoundSuffixLen = strlen($notFoundSuffix);
         if ($notFoundSuffixLen > $messageLen) {
             return null;
         }
@@ -38,7 +40,7 @@ class UndefinedFunctionErrorEnhancer implements ErrorEnhancerInterface
         }
 
         $prefix = 'Call to undefined function ';
-        $prefixLen = \strlen($prefix);
+        $prefixLen = strlen($prefix);
         if (!str_starts_with($message, $prefix)) {
             return null;
         }

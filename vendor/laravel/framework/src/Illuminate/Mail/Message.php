@@ -11,7 +11,7 @@ use Symfony\Component\Mime\Part\DataPart;
 use Symfony\Component\Mime\Part\File;
 
 /**
- * @mixin \Symfony\Component\Mime\Email
+ * @mixin Email
  */
 class Message
 {
@@ -20,7 +20,7 @@ class Message
     /**
      * The Symfony Email instance.
      *
-     * @var \Symfony\Component\Mime\Email
+     * @var Email
      */
     protected $message;
 
@@ -36,7 +36,7 @@ class Message
     /**
      * Create a new message instance.
      *
-     * @param  \Symfony\Component\Mime\Email  $message
+     * @param Email $message
      * @return void
      */
     public function __construct(Email $message)
@@ -253,7 +253,7 @@ class Message
      * Add an address debug header for a list of recipients.
      *
      * @param  string  $header
-     * @param  \Symfony\Component\Mime\Address[]  $addresses
+     * @param Address[] $addresses
      * @return $this
      */
     protected function addAddressDebugHeader(string $header, array $addresses)
@@ -295,7 +295,7 @@ class Message
     /**
      * Attach a file to the message.
      *
-     * @param  string|\Illuminate\Contracts\Mail\Attachable|\Illuminate\Mail\Attachment  $file
+     * @param  string|Attachable|Attachment $file
      * @param  array  $options
      * @return $this
      */
@@ -332,7 +332,7 @@ class Message
     /**
      * Embed a file in the message and get the CID.
      *
-     * @param  string|\Illuminate\Contracts\Mail\Attachable|\Illuminate\Mail\Attachment  $file
+     * @param  string|Attachable|Attachment $file
      * @return string
      */
     public function embed($file)
@@ -391,7 +391,7 @@ class Message
     /**
      * Get the underlying Symfony Email instance.
      *
-     * @return \Symfony\Component\Mime\Email
+     * @return Email
      */
     public function getSymfonyMessage()
     {

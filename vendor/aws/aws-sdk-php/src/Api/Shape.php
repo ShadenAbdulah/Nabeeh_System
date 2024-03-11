@@ -1,6 +1,8 @@
 <?php
 namespace Aws\Api;
 
+use RuntimeException;
+
 /**
  * Base class representing a modeled shape.
  */
@@ -13,7 +15,7 @@ class Shape extends AbstractModel
      * @param ShapeMap $shapeMap
      *
      * @return mixed
-     * @throws \RuntimeException if the type is invalid
+     * @throws RuntimeException if the type is invalid
      */
     public static function create(array $definition, ShapeMap $shapeMap)
     {
@@ -38,7 +40,7 @@ class Shape extends AbstractModel
         }
 
         if (!isset($map[$definition['type']])) {
-            throw new \RuntimeException('Invalid type: '
+            throw new RuntimeException('Invalid type: '
                 . print_r($definition, true));
         }
 

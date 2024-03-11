@@ -5,14 +5,18 @@ namespace Illuminate\Routing\Middleware;
 use Closure;
 use Illuminate\Cache\RateLimiter;
 use Illuminate\Contracts\Redis\Factory as Redis;
+use Illuminate\Http\Exceptions\ThrottleRequestsException;
+use Illuminate\Http\Request;
+use Illuminate\Redis\Connections\Connection;
 use Illuminate\Redis\Limiters\DurationLimiter;
+use Symfony\Component\HttpFoundation\Response;
 
 class ThrottleRequestsWithRedis extends ThrottleRequests
 {
     /**
      * The Redis factory implementation.
      *
-     * @var \Illuminate\Contracts\Redis\Factory
+     * @var Redis
      */
     protected $redis;
 
@@ -33,8 +37,8 @@ class ThrottleRequestsWithRedis extends ThrottleRequests
     /**
      * Create a new request throttler.
      *
-     * @param  \Illuminate\Cache\RateLimiter  $limiter
-     * @param  \Illuminate\Contracts\Redis\Factory  $redis
+     * @param RateLimiter $limiter
+     * @param Redis $redis
      * @return void
      */
     public function __construct(RateLimiter $limiter, Redis $redis)
@@ -47,12 +51,12 @@ class ThrottleRequestsWithRedis extends ThrottleRequests
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
+     * @param  Request  $request
+     * @param Closure $next
      * @param  array  $limits
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      *
-     * @throws \Illuminate\Http\Exceptions\ThrottleRequestsException
+     * @throws ThrottleRequestsException
      */
     protected function handleRequest($request, Closure $next, array $limits)
     {
@@ -123,7 +127,7 @@ class ThrottleRequestsWithRedis extends ThrottleRequests
     /**
      * Get the Redis connection that should be used for throttling.
      *
-     * @return \Illuminate\Redis\Connections\Connection
+     * @return Connection
      */
     protected function getRedisConnection()
     {

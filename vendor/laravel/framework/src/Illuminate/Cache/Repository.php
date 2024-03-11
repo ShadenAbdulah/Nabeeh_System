@@ -5,6 +5,7 @@ namespace Illuminate\Cache;
 use ArrayAccess;
 use BadMethodCallException;
 use Closure;
+use DateInterval;
 use DateTimeInterface;
 use Illuminate\Cache\Events\CacheHit;
 use Illuminate\Cache\Events\CacheMissed;
@@ -18,7 +19,7 @@ use Illuminate\Support\InteractsWithTime;
 use Illuminate\Support\Traits\Macroable;
 
 /**
- * @mixin \Illuminate\Contracts\Cache\Store
+ * @mixin Store
  */
 class Repository implements ArrayAccess, CacheContract
 {
@@ -30,14 +31,14 @@ class Repository implements ArrayAccess, CacheContract
     /**
      * The cache store implementation.
      *
-     * @var \Illuminate\Contracts\Cache\Store
+     * @var Store
      */
     protected $store;
 
     /**
      * The event dispatcher implementation.
      *
-     * @var \Illuminate\Contracts\Events\Dispatcher
+     * @var Dispatcher
      */
     protected $events;
 
@@ -51,7 +52,7 @@ class Repository implements ArrayAccess, CacheContract
     /**
      * Create a new cache repository instance.
      *
-     * @param  \Illuminate\Contracts\Cache\Store  $store
+     * @param Store $store
      * @return void
      */
     public function __construct(Store $store)
@@ -87,7 +88,7 @@ class Repository implements ArrayAccess, CacheContract
      * @template TCacheValue
      *
      * @param  array|string  $key
-     * @param  TCacheValue|(\Closure(): TCacheValue)  $default
+     * @param  TCacheValue|(Closure(): TCacheValue)  $default
      * @return (TCacheValue is null ? mixed : TCacheValue)
      */
     public function get($key, $default = null): mixed
@@ -180,7 +181,7 @@ class Repository implements ArrayAccess, CacheContract
      * @template TCacheValue
      *
      * @param  array|string  $key
-     * @param  TCacheValue|(\Closure(): TCacheValue)  $default
+     * @param  TCacheValue|(Closure(): TCacheValue)  $default
      * @return (TCacheValue is null ? mixed : TCacheValue)
      */
     public function pull($key, $default = null)
@@ -195,7 +196,7 @@ class Repository implements ArrayAccess, CacheContract
      *
      * @param  array|string  $key
      * @param  mixed  $value
-     * @param  \DateTimeInterface|\DateInterval|int|null  $ttl
+     * @param DateTimeInterface|DateInterval|int|null  $ttl
      * @return bool
      */
     public function put($key, $value, $ttl = null)
@@ -237,7 +238,7 @@ class Repository implements ArrayAccess, CacheContract
      * Store multiple items in the cache for a given number of seconds.
      *
      * @param  array  $values
-     * @param  \DateTimeInterface|\DateInterval|int|null  $ttl
+     * @param DateTimeInterface|DateInterval|int|null  $ttl
      * @return bool
      */
     public function putMany(array $values, $ttl = null)
@@ -297,7 +298,7 @@ class Repository implements ArrayAccess, CacheContract
      *
      * @param  string  $key
      * @param  mixed  $value
-     * @param  \DateTimeInterface|\DateInterval|int|null  $ttl
+     * @param DateTimeInterface|DateInterval|int|null  $ttl
      * @return bool
      */
     public function add($key, $value, $ttl = null)
@@ -379,8 +380,8 @@ class Repository implements ArrayAccess, CacheContract
      * @template TCacheValue
      *
      * @param  string  $key
-     * @param  \Closure|\DateTimeInterface|\DateInterval|int|null  $ttl
-     * @param  \Closure(): TCacheValue  $callback
+     * @param Closure|DateTimeInterface|DateInterval|int|null  $ttl
+     * @param Closure(): TCacheValue $callback
      * @return TCacheValue
      */
     public function remember($key, $ttl, Closure $callback)
@@ -407,7 +408,7 @@ class Repository implements ArrayAccess, CacheContract
      * @template TCacheValue
      *
      * @param  string  $key
-     * @param  \Closure(): TCacheValue  $callback
+     * @param Closure(): TCacheValue $callback
      * @return TCacheValue
      */
     public function sear($key, Closure $callback)
@@ -421,7 +422,7 @@ class Repository implements ArrayAccess, CacheContract
      * @template TCacheValue
      *
      * @param  string  $key
-     * @param  \Closure(): TCacheValue  $callback
+     * @param Closure(): TCacheValue $callback
      * @return TCacheValue
      */
     public function rememberForever($key, Closure $callback)
@@ -497,9 +498,9 @@ class Repository implements ArrayAccess, CacheContract
      * Begin executing a new tags operation if the store supports it.
      *
      * @param  array|mixed  $names
-     * @return \Illuminate\Cache\TaggedCache
+     * @return TaggedCache
      *
-     * @throws \BadMethodCallException
+     * @throws BadMethodCallException
      */
     public function tags($names)
     {
@@ -530,7 +531,7 @@ class Repository implements ArrayAccess, CacheContract
     /**
      * Calculate the number of seconds for the given TTL.
      *
-     * @param  \DateTimeInterface|\DateInterval|int  $ttl
+     * @param DateTimeInterface|DateInterval|int  $ttl
      * @return int
      */
     protected function getSeconds($ttl)
@@ -580,7 +581,7 @@ class Repository implements ArrayAccess, CacheContract
     /**
      * Get the cache store implementation.
      *
-     * @return \Illuminate\Contracts\Cache\Store
+     * @return Store
      */
     public function getStore()
     {
@@ -590,7 +591,7 @@ class Repository implements ArrayAccess, CacheContract
     /**
      * Set the cache store implementation.
      *
-     * @param  \Illuminate\Contracts\Cache\Store  $store
+     * @param Store $store
      * @return static
      */
     public function setStore($store)
@@ -614,7 +615,7 @@ class Repository implements ArrayAccess, CacheContract
     /**
      * Get the event dispatcher instance.
      *
-     * @return \Illuminate\Contracts\Events\Dispatcher
+     * @return Dispatcher
      */
     public function getEventDispatcher()
     {
@@ -624,7 +625,7 @@ class Repository implements ArrayAccess, CacheContract
     /**
      * Set the event dispatcher instance.
      *
-     * @param  \Illuminate\Contracts\Events\Dispatcher  $events
+     * @param Dispatcher $events
      * @return void
      */
     public function setEventDispatcher(Dispatcher $events)

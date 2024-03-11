@@ -2,6 +2,8 @@
 
 namespace Illuminate\Queue\Failed;
 
+use Throwable;
+
 /**
  * @method array ids(string $queue = null)
  */
@@ -13,7 +15,7 @@ interface FailedJobProviderInterface
      * @param  string  $connection
      * @param  string  $queue
      * @param  string  $payload
-     * @param  \Throwable  $exception
+     * @param  Throwable  $exception
      * @return string|int|null
      */
     public function log($connection, $queue, $payload, $exception);

@@ -3,6 +3,8 @@
 namespace Illuminate\Events;
 
 use Closure;
+use DateInterval;
+use DateTimeInterface;
 use Laravel\SerializableClosure\SerializableClosure;
 
 class QueuedClosure
@@ -10,7 +12,7 @@ class QueuedClosure
     /**
      * The underlying Closure.
      *
-     * @var \Closure
+     * @var Closure
      */
     public $closure;
 
@@ -31,7 +33,7 @@ class QueuedClosure
     /**
      * The number of seconds before the job should be made available.
      *
-     * @var \DateTimeInterface|\DateInterval|int|null
+     * @var DateTimeInterface|DateInterval|int|null
      */
     public $delay;
 
@@ -45,7 +47,7 @@ class QueuedClosure
     /**
      * Create a new queued closure event listener resolver.
      *
-     * @param  \Closure  $closure
+     * @param Closure $closure
      * @return void
      */
     public function __construct(Closure $closure)
@@ -82,7 +84,7 @@ class QueuedClosure
     /**
      * Set the desired delay in seconds for the job.
      *
-     * @param  \DateTimeInterface|\DateInterval|int|null  $delay
+     * @param  DateTimeInterface|DateInterval|int|null  $delay
      * @return $this
      */
     public function delay($delay)
@@ -95,7 +97,7 @@ class QueuedClosure
     /**
      * Specify a callback that should be invoked if the queued listener job fails.
      *
-     * @param  \Closure  $closure
+     * @param Closure $closure
      * @return $this
      */
     public function catch(Closure $closure)
@@ -108,7 +110,7 @@ class QueuedClosure
     /**
      * Resolve the actual event listener callback.
      *
-     * @return \Closure
+     * @return Closure
      */
     public function resolve()
     {

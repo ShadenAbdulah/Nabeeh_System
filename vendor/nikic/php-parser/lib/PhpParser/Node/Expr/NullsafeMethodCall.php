@@ -7,6 +7,7 @@ use PhpParser\Node\Arg;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Identifier;
 use PhpParser\Node\VariadicPlaceholder;
+use function is_string;
 
 class NullsafeMethodCall extends CallLike {
     /** @var Expr Variable holding object */
@@ -27,7 +28,7 @@ class NullsafeMethodCall extends CallLike {
     public function __construct(Expr $var, $name, array $args = [], array $attributes = []) {
         $this->attributes = $attributes;
         $this->var = $var;
-        $this->name = \is_string($name) ? new Identifier($name) : $name;
+        $this->name = is_string($name) ? new Identifier($name) : $name;
         $this->args = $args;
     }
 

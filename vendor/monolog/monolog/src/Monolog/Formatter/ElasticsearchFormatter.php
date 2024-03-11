@@ -13,6 +13,7 @@ namespace Monolog\Formatter;
 
 use DateTimeInterface;
 use Monolog\LogRecord;
+use RuntimeException;
 
 /**
  * Format a log message into an Elasticsearch record
@@ -35,7 +36,7 @@ class ElasticsearchFormatter extends NormalizerFormatter
      * @param string $index Elasticsearch index name
      * @param string $type  Elasticsearch record type
      *
-     * @throws \RuntimeException If the function json_encode does not exist
+     * @throws RuntimeException If the function json_encode does not exist
      */
     public function __construct(string $index, string $type)
     {

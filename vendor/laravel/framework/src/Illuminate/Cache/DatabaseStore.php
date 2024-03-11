@@ -7,6 +7,7 @@ use Illuminate\Contracts\Cache\LockProvider;
 use Illuminate\Contracts\Cache\Store;
 use Illuminate\Database\ConnectionInterface;
 use Illuminate\Database\PostgresConnection;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Database\QueryException;
 use Illuminate\Database\SqlServerConnection;
 use Illuminate\Support\InteractsWithTime;
@@ -19,14 +20,14 @@ class DatabaseStore implements LockProvider, Store
     /**
      * The database connection instance.
      *
-     * @var \Illuminate\Database\ConnectionInterface
+     * @var ConnectionInterface
      */
     protected $connection;
 
     /**
      * The database connection instance that should be used to manage locks.
      *
-     * @var \Illuminate\Database\ConnectionInterface
+     * @var ConnectionInterface
      */
     protected $lockConnection;
 
@@ -68,7 +69,7 @@ class DatabaseStore implements LockProvider, Store
     /**
      * Create a new database store.
      *
-     * @param  \Illuminate\Database\ConnectionInterface  $connection
+     * @param ConnectionInterface $connection
      * @param  string  $table
      * @param  string  $prefix
      * @param  string  $lockTable
@@ -206,7 +207,7 @@ class DatabaseStore implements LockProvider, Store
      *
      * @param  string  $key
      * @param  mixed  $value
-     * @param  \Closure  $callback
+     * @param Closure $callback
      * @return int|bool
      */
     protected function incrementOrDecrement($key, $value, Closure $callback)
@@ -347,7 +348,7 @@ class DatabaseStore implements LockProvider, Store
     /**
      * Get a query builder for the cache table.
      *
-     * @return \Illuminate\Database\Query\Builder
+     * @return Builder
      */
     protected function table()
     {
@@ -357,7 +358,7 @@ class DatabaseStore implements LockProvider, Store
     /**
      * Get the underlying database connection.
      *
-     * @return \Illuminate\Database\ConnectionInterface
+     * @return ConnectionInterface
      */
     public function getConnection()
     {
@@ -367,7 +368,7 @@ class DatabaseStore implements LockProvider, Store
     /**
      * Specify the name of the connection that should be used to manage locks.
      *
-     * @param  \Illuminate\Database\ConnectionInterface  $connection
+     * @param ConnectionInterface $connection
      * @return $this
      */
     public function setLockConnection($connection)

@@ -17,6 +17,7 @@ use Monolog\Formatter\LogglyFormatter;
 use function array_key_exists;
 use CurlHandle;
 use Monolog\LogRecord;
+use function count;
 
 /**
  * Sends errors to Loggly.
@@ -129,7 +130,7 @@ class LogglyHandler extends AbstractProcessingHandler
             return ($record->level->value >= $level->value);
         });
 
-        if (\count($records) > 0) {
+        if (count($records) > 0) {
             $this->send($this->getFormatter()->formatBatch($records), static::ENDPOINT_BATCH);
         }
     }
@@ -140,7 +141,7 @@ class LogglyHandler extends AbstractProcessingHandler
 
         $headers = ['Content-Type: application/json'];
 
-        if (\count($this->tag) > 0) {
+        if (count($this->tag) > 0) {
             $headers[] = 'X-LOGGLY-TAG: '.implode(',', $this->tag);
         }
 

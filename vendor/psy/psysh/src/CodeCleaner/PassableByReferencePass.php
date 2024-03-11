@@ -22,6 +22,10 @@ use PhpParser\Node\Expr\PropertyFetch;
 use PhpParser\Node\Expr\StaticCall;
 use PhpParser\Node\Expr\Variable;
 use Psy\Exception\FatalErrorException;
+use ReflectionException;
+use ReflectionFunction;
+use function array_key_exists;
+use const E_ERROR;
 
 /**
  * Validate that only variables (and variable-like things) are passed by reference.
@@ -53,17 +57,17 @@ class PassableByReferencePass extends CodeCleanerPass
             }
 
             try {
-                $refl = new \ReflectionFunction($name);
-            } catch (\ReflectionException $e) {
+                $refl = new ReflectionFunction($name);
+            } catch (ReflectionException $e) {
                 // Well, we gave it a shot!
                 return;
             }
 
             foreach ($refl->getParameters() as $key => $param) {
-                if (\array_key_exists($key, $node->args)) {
+                if (array_key_exists($key, $node->args)) {
                     $arg = $node->args[$key];
                     if ($param->isPassedByReference() && !$this->isPassableByReference($arg)) {
-                        throw new FatalErrorException(self::EXCEPTION_MESSAGE, 0, \E_ERROR, null, $node->getStartLine());
+                        throw new FatalErrorException(self::EXCEPTION_MESSAGE, 0, E_ERROR, null, $node->getStartLine());
                     }
                 }
             }
@@ -112,7 +116,7 @@ class PassableByReferencePass extends CodeCleanerPass
             } elseif (++$nonPassable > 2) {
                 // There can be *at most* two non-passable-by-reference args in a row. This is about
                 // as close as we can get to validating the arguments for this function :-/
-                throw new FatalErrorException(self::EXCEPTION_MESSAGE, 0, \E_ERROR, null, $node->getStartLine());
+                throw new FatalErrorException(self::EXCEPTION_MESSAGE, 0, E_ERROR, null, $node->getStartLine());
             }
         }
     }

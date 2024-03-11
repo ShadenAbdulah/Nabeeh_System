@@ -11,6 +11,10 @@
 
 namespace Monolog\Formatter;
 
+use DateTimeInterface;
+use JsonSerializable;
+use RuntimeException;
+use stdClass;
 use Stringable;
 use Throwable;
 use Monolog\LogRecord;
@@ -39,7 +43,7 @@ class JsonFormatter extends NormalizerFormatter
     /**
      * @param self::BATCH_MODE_* $batchMode
      *
-     * @throws \RuntimeException If the function json_encode does not exist
+     * @throws RuntimeException If the function json_encode does not exist
      */
     public function __construct(int $batchMode = self::BATCH_MODE_JSON, bool $appendNewline = true, bool $ignoreEmptyContextAndExtra = false, bool $includeStacktraces = false)
     {
@@ -82,14 +86,14 @@ class JsonFormatter extends NormalizerFormatter
             if ($this->ignoreEmptyContextAndExtra) {
                 unset($normalized['context']);
             } else {
-                $normalized['context'] = new \stdClass;
+                $normalized['context'] = new stdClass;
             }
         }
         if (isset($normalized['extra']) && $normalized['extra'] === []) {
             if ($this->ignoreEmptyContextAndExtra) {
                 unset($normalized['extra']);
             } else {
-                $normalized['extra'] = new \stdClass;
+                $normalized['extra'] = new stdClass;
             }
         }
 
@@ -171,7 +175,7 @@ class JsonFormatter extends NormalizerFormatter
         }
 
         if (is_object($data)) {
-            if ($data instanceof \DateTimeInterface) {
+            if ($data instanceof DateTimeInterface) {
                 return $this->formatDate($data);
             }
 
@@ -180,7 +184,7 @@ class JsonFormatter extends NormalizerFormatter
             }
 
             // if the object has specific json serializability we want to make sure we skip the __toString treatment below
-            if ($data instanceof \JsonSerializable) {
+            if ($data instanceof JsonSerializable) {
                 return $data;
             }
 

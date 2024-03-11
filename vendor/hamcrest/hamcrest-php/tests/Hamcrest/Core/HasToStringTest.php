@@ -1,6 +1,8 @@
 <?php
 namespace Hamcrest\Core;
 
+use Hamcrest\AbstractMatcherTest;
+
 class PhpForm
 {
     public function __toString()
@@ -30,24 +32,24 @@ class BothForms
     }
 }
 
-class HasToStringTest extends \Hamcrest\AbstractMatcherTest
+class HasToStringTest extends AbstractMatcherTest
 {
 
     protected function createMatcher()
     {
-        return \Hamcrest\Core\HasToString::hasToString('foo');
+        return HasToString::hasToString('foo');
     }
 
     public function testMatchesWhenToStringMatches()
     {
         $this->assertMatches(
             hasToString(equalTo('php')),
-            new \Hamcrest\Core\PhpForm(),
+            new PhpForm(),
             'correct __toString'
         );
         $this->assertMatches(
             hasToString(equalTo('java')),
-            new \Hamcrest\Core\JavaForm(),
+            new JavaForm(),
             'correct toString'
         );
     }
@@ -56,7 +58,7 @@ class HasToStringTest extends \Hamcrest\AbstractMatcherTest
     {
         $this->assertMatches(
             hasToString(equalTo('java')),
-            new \Hamcrest\Core\BothForms(),
+            new BothForms(),
             'correct toString'
         );
     }
@@ -65,17 +67,17 @@ class HasToStringTest extends \Hamcrest\AbstractMatcherTest
     {
         $this->assertDoesNotMatch(
             hasToString(equalTo('mismatch')),
-            new \Hamcrest\Core\PhpForm(),
+            new PhpForm(),
             'incorrect __toString'
         );
         $this->assertDoesNotMatch(
             hasToString(equalTo('mismatch')),
-            new \Hamcrest\Core\JavaForm(),
+            new JavaForm(),
             'incorrect toString'
         );
         $this->assertDoesNotMatch(
             hasToString(equalTo('mismatch')),
-            new \Hamcrest\Core\BothForms(),
+            new BothForms(),
             'incorrect __toString'
         );
     }
@@ -93,7 +95,7 @@ class HasToStringTest extends \Hamcrest\AbstractMatcherTest
     {
         $this->assertMatches(
             hasToString(equalTo('php')),
-            new \Hamcrest\Core\PhpForm(),
+            new PhpForm(),
             'correct __toString'
         );
     }

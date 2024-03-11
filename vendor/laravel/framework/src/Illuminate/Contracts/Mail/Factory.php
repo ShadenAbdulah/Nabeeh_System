@@ -8,7 +8,7 @@ interface Factory
      * Get a mailer instance by name.
      *
      * @param  string|null  $name
-     * @return \Illuminate\Contracts\Mail\Mailer
+     * @return Mailer
      */
     public function mailer($name = null);
 }

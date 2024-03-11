@@ -17,8 +17,8 @@ class PasswordResetLinkController extends Controller
     /**
      * Show the reset password link request view.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Laravel\Fortify\Contracts\RequestPasswordResetLinkViewResponse
+     * @param Request $request
+     * @return RequestPasswordResetLinkViewResponse
      */
     public function create(Request $request): RequestPasswordResetLinkViewResponse
     {
@@ -28,8 +28,8 @@ class PasswordResetLinkController extends Controller
     /**
      * Send a reset link to the given user.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Contracts\Support\Responsable
+     * @param Request $request
+     * @return Responsable
      */
     public function store(Request $request): Responsable
     {
@@ -50,7 +50,7 @@ class PasswordResetLinkController extends Controller
     /**
      * Get the broker to be used during password reset.
      *
-     * @return \Illuminate\Contracts\Auth\PasswordBroker
+     * @return PasswordBroker
      */
     protected function broker(): PasswordBroker
     {

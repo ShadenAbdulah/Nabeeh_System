@@ -11,7 +11,7 @@
 
 use Symfony\Polyfill\Php83 as p;
 
-if (\PHP_VERSION_ID >= 80300) {
+if (PHP_VERSION_ID >= 80300) {
     return;
 }
 
@@ -35,7 +35,7 @@ if (!function_exists('str_decrement')) {
     function str_decrement(string $string): string { return p\Php83::str_decrement($string); }
 }
 
-if (\PHP_VERSION_ID >= 80100) {
+if (PHP_VERSION_ID >= 80100) {
     return require __DIR__.'/bootstrap81.php';
 }
 
@@ -44,5 +44,5 @@ if (!function_exists('ldap_exop_sync') && function_exists('ldap_exop')) {
 }
 
 if (!function_exists('ldap_connect_wallet') && function_exists('ldap_connect')) {
-    function ldap_connect_wallet(?string $uri, string $wallet, string $password, int $auth_mode = \GSLC_SSL_NO_AUTH) { return ldap_connect($uri, $wallet, $password, $auth_mode); }
+    function ldap_connect_wallet(?string $uri, string $wallet, string $password, int $auth_mode = GSLC_SSL_NO_AUTH) { return ldap_connect($uri, $wallet, $password, $auth_mode); }
 }

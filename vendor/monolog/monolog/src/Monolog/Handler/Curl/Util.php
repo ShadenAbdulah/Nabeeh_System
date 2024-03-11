@@ -12,6 +12,7 @@
 namespace Monolog\Handler\Curl;
 
 use CurlHandle;
+use RuntimeException;
 
 /**
  * This class is marked as internal and it is not under the BC promise of the package.
@@ -51,7 +52,7 @@ final class Util
                         curl_close($ch);
                     }
 
-                    throw new \RuntimeException(sprintf('Curl error (code %d): %s', $curlErrno, $curlError));
+                    throw new RuntimeException(sprintf('Curl error (code %d): %s', $curlErrno, $curlError));
                 }
 
                 continue;

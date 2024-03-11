@@ -36,6 +36,10 @@
 
 namespace Psy\Readline\Hoa;
 
+use function function_exists;
+use function ord;
+use function preg_match;
+
 /**
  * This class represents a UTF-8 string.
  * Please, see:
@@ -50,7 +54,7 @@ class Ustring
      */
     public static function checkMbString(): bool
     {
-        return \function_exists('mb_substr');
+        return function_exists('mb_substr');
     }
 
     /**
@@ -81,7 +85,7 @@ class Ustring
 
         // Non-spacing characters.
         if (0xAD !== $c &&
-            0 !== \preg_match('#^[\p{Mn}\p{Me}\p{Cf}\x{1160}-\x{11ff}\x{200b}]#u', $char)) {
+            0 !== preg_match('#^[\p{Mn}\p{Me}\p{Cf}\x{1160}-\x{11ff}\x{200b}]#u', $char)) {
             return 0;
         }
 
@@ -116,7 +120,7 @@ class Ustring
     public static function toCode(string $char): int
     {
         $char = (string) $char;
-        $code = \ord($char[0]);
+        $code = ord($char[0]);
         $bytes = 1;
 
         if (!($code & 0x80)) { // 0xxxxxxx
@@ -135,7 +139,7 @@ class Ustring
         }
 
         for ($i = 2; $i <= $bytes; $i++) { // 10xxxxxx
-            $code = ($code << 6) + (\ord($char[$i - 1]) & ~0x80);
+            $code = ($code << 6) + (ord($char[$i - 1]) & ~0x80);
         }
 
         return $code;

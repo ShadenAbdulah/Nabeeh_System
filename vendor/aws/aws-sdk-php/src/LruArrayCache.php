@@ -1,6 +1,9 @@
 <?php
 namespace Aws;
 
+use Countable;
+use ReturnTypeWillChange;
+
 /**
  * Simple in-memory LRU cache that limits the number of cached entries.
  *
@@ -11,7 +14,7 @@ namespace Aws;
  * cache, if the number of cached items exceeds the allowed number, the first
  * N number of items are removed from the array.
  */
-class LruArrayCache implements CacheInterface, \Countable
+class LruArrayCache implements CacheInterface, Countable
 {
     /** @var int */
     private $maxItems;
@@ -75,7 +78,7 @@ class LruArrayCache implements CacheInterface, \Countable
     /**
      * @return int
      */
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function count()
     {
         return count($this->items);

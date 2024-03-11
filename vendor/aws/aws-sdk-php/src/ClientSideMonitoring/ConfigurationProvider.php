@@ -7,11 +7,12 @@ use Aws\ClientSideMonitoring\Exception\ConfigurationException;
 use Aws\ConfigurationProviderInterface;
 use GuzzleHttp\Promise;
 use GuzzleHttp\Promise\PromiseInterface;
+use InvalidArgumentException;
 
 /**
  * A configuration provider is a function that accepts no arguments and returns
- * a promise that is fulfilled with a {@see \Aws\ClientSideMonitoring\ConfigurationInterface}
- * or rejected with an {@see \Aws\ClientSideMonitoring\Exception\ConfigurationException}.
+ * a promise that is fulfilled with a {@see ConfigurationInterface}
+ * or rejected with an {@see ConfigurationException}.
  *
  * <code>
  * use Aws\ClientSideMonitoring\ConfigurationProvider;
@@ -208,7 +209,7 @@ class ConfigurationProvider extends AbstractConfigurationProvider
      *
      * @param  mixed $config
      * @return ConfigurationInterface
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public static function unwrap($config)
     {
@@ -230,7 +231,7 @@ class ConfigurationProvider extends AbstractConfigurationProvider
             return new Configuration($config['enabled'], $host, $port, $client_id);
         }
 
-        throw new \InvalidArgumentException('Not a valid CSM configuration '
+        throw new InvalidArgumentException('Not a valid CSM configuration '
             . 'argument.');
     }
 }

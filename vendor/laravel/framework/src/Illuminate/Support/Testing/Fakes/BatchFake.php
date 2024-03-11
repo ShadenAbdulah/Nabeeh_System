@@ -7,6 +7,8 @@ use Illuminate\Bus\Batch;
 use Illuminate\Bus\UpdatedBatchJobCounts;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Enumerable;
+use Throwable;
 
 class BatchFake extends Batch
 {
@@ -34,9 +36,9 @@ class BatchFake extends Batch
      * @param  int  $failedJobs
      * @param  array  $failedJobIds
      * @param  array  $options
-     * @param  \Carbon\CarbonImmutable  $createdAt
-     * @param  \Carbon\CarbonImmutable|null  $cancelledAt
-     * @param  \Carbon\CarbonImmutable|null  $finishedAt
+     * @param CarbonImmutable $createdAt
+     * @param CarbonImmutable|null  $cancelledAt
+     * @param CarbonImmutable|null  $finishedAt
      * @return void
      */
     public function __construct(string $id,
@@ -75,7 +77,7 @@ class BatchFake extends Batch
     /**
      * Add additional jobs to the batch.
      *
-     * @param  \Illuminate\Support\Enumerable|object|array  $jobs
+     * @param  Enumerable|object|array  $jobs
      * @return self
      */
     public function add($jobs)
@@ -104,7 +106,7 @@ class BatchFake extends Batch
      * Decrement the pending jobs for the batch.
      *
      * @param  string  $jobId
-     * @return \Illuminate\Bus\UpdatedBatchJobCounts
+     * @return UpdatedBatchJobCounts
      */
     public function decrementPendingJobs(string $jobId)
     {
@@ -115,7 +117,7 @@ class BatchFake extends Batch
      * Record that a job within the batch failed to finish successfully, executing any callbacks if necessary.
      *
      * @param  string  $jobId
-     * @param  \Throwable  $e
+     * @param  Throwable  $e
      * @return void
      */
     public function recordFailedJob(string $jobId, $e)
@@ -127,7 +129,7 @@ class BatchFake extends Batch
      * Increment the failed jobs for the batch.
      *
      * @param  string  $jobId
-     * @return \Illuminate\Bus\UpdatedBatchJobCounts
+     * @return UpdatedBatchJobCounts
      */
     public function incrementFailedJobs(string $jobId)
     {

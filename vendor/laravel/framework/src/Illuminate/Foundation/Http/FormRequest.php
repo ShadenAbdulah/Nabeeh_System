@@ -10,7 +10,9 @@ use Illuminate\Contracts\Validation\ValidatesWhenResolved;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
+use Illuminate\Support\ValidatedInput;
 use Illuminate\Validation\ValidatesWhenResolvedTrait;
+use Illuminate\Validation\ValidationException;
 
 class FormRequest extends Request implements ValidatesWhenResolved
 {
@@ -19,14 +21,14 @@ class FormRequest extends Request implements ValidatesWhenResolved
     /**
      * The container instance.
      *
-     * @var \Illuminate\Contracts\Container\Container
+     * @var Container
      */
     protected $container;
 
     /**
      * The redirector instance.
      *
-     * @var \Illuminate\Routing\Redirector
+     * @var Redirector
      */
     protected $redirector;
 
@@ -68,14 +70,14 @@ class FormRequest extends Request implements ValidatesWhenResolved
     /**
      * The validator instance.
      *
-     * @var \Illuminate\Contracts\Validation\Validator
+     * @var Validator
      */
     protected $validator;
 
     /**
      * Get the validator instance for the request.
      *
-     * @return \Illuminate\Contracts\Validation\Validator
+     * @return Validator
      */
     protected function getValidatorInstance()
     {
@@ -110,8 +112,8 @@ class FormRequest extends Request implements ValidatesWhenResolved
     /**
      * Create the default validator instance.
      *
-     * @param  \Illuminate\Contracts\Validation\Factory  $factory
-     * @return \Illuminate\Contracts\Validation\Validator
+     * @param ValidationFactory $factory
+     * @return Validator
      */
     protected function createDefaultValidator(ValidationFactory $factory)
     {
@@ -156,10 +158,10 @@ class FormRequest extends Request implements ValidatesWhenResolved
     /**
      * Handle a failed validation attempt.
      *
-     * @param  \Illuminate\Contracts\Validation\Validator  $validator
+     * @param Validator $validator
      * @return void
      *
-     * @throws \Illuminate\Validation\ValidationException
+     * @throws ValidationException
      */
     protected function failedValidation(Validator $validator)
     {
@@ -195,7 +197,7 @@ class FormRequest extends Request implements ValidatesWhenResolved
      *
      * @return bool
      *
-     * @throws \Illuminate\Auth\Access\AuthorizationException
+     * @throws AuthorizationException
      */
     protected function passesAuthorization()
     {
@@ -213,7 +215,7 @@ class FormRequest extends Request implements ValidatesWhenResolved
      *
      * @return void
      *
-     * @throws \Illuminate\Auth\Access\AuthorizationException
+     * @throws AuthorizationException
      */
     protected function failedAuthorization()
     {
@@ -224,7 +226,7 @@ class FormRequest extends Request implements ValidatesWhenResolved
      * Get a validated input container for the validated input.
      *
      * @param  array|null  $keys
-     * @return \Illuminate\Support\ValidatedInput|array
+     * @return ValidatedInput|array
      */
     public function safe(array $keys = null)
     {
@@ -268,7 +270,7 @@ class FormRequest extends Request implements ValidatesWhenResolved
     /**
      * Set the Validator instance.
      *
-     * @param  \Illuminate\Contracts\Validation\Validator  $validator
+     * @param Validator $validator
      * @return $this
      */
     public function setValidator(Validator $validator)
@@ -281,7 +283,7 @@ class FormRequest extends Request implements ValidatesWhenResolved
     /**
      * Set the Redirector instance.
      *
-     * @param  \Illuminate\Routing\Redirector  $redirector
+     * @param Redirector $redirector
      * @return $this
      */
     public function setRedirector(Redirector $redirector)
@@ -294,7 +296,7 @@ class FormRequest extends Request implements ValidatesWhenResolved
     /**
      * Set the container implementation.
      *
-     * @param  \Illuminate\Contracts\Container\Container  $container
+     * @param Container $container
      * @return $this
      */
     public function setContainer(Container $container)

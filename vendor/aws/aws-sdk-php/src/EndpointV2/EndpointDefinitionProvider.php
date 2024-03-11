@@ -2,6 +2,9 @@
 
 namespace Aws\EndpointV2;
 
+use InvalidArgumentException;
+use function Aws\manifest;
+
 /**
  * Provides Endpoint-related artifacts used for endpoint resolution
  * and testing.
@@ -35,7 +38,7 @@ class EndpointDefinitionProvider
         $basePath = $baseDir ? $baseDir :  __DIR__ . '/../data';
         $serviceDir = $basePath . "/{$service}";
         if (!is_dir($serviceDir)) {
-            throw new \InvalidArgumentException(
+            throw new InvalidArgumentException(
                 'Invalid service name.'
             );
         }
@@ -46,7 +49,7 @@ class EndpointDefinitionProvider
 
         $rulesetPath = $serviceDir . '/' . $apiVersion;
         if (!is_dir($rulesetPath)) {
-            throw new \InvalidArgumentException(
+            throw new InvalidArgumentException(
                 'Invalid api version.'
             );
         }
@@ -57,7 +60,7 @@ class EndpointDefinitionProvider
         } elseif (file_exists($rulesetPath . $fileName . '.json')) {
             return json_decode(file_get_contents($rulesetPath . $fileName . '.json'), true);
         } else {
-            throw new \InvalidArgumentException(
+            throw new InvalidArgumentException(
                 'Specified ' . $type . ' endpoint file for ' . $service . ' with api version ' . $apiVersion . ' does not exist.'
             );
         }
@@ -65,7 +68,7 @@ class EndpointDefinitionProvider
 
     private static function getLatest($service)
     {
-        $manifest = \Aws\manifest();
+        $manifest = manifest();
         return $manifest[$service]['versions']['latest'];
     }
 }

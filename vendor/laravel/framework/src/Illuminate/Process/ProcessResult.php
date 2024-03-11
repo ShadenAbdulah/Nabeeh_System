@@ -5,20 +5,21 @@ namespace Illuminate\Process;
 use Illuminate\Contracts\Process\ProcessResult as ProcessResultContract;
 use Illuminate\Process\Exceptions\ProcessFailedException;
 use Symfony\Component\Process\Process;
+use Throwable;
 
 class ProcessResult implements ProcessResultContract
 {
     /**
      * The underlying process instance.
      *
-     * @var \Symfony\Component\Process\Process
+     * @var Process
      */
     protected $process;
 
     /**
      * Create a new process result instance.
      *
-     * @param  \Symfony\Component\Process\Process  $process
+     * @param Process $process
      * @return void
      */
     public function __construct(Process $process)
@@ -114,7 +115,7 @@ class ProcessResult implements ProcessResultContract
      * @param  callable|null  $callback
      * @return $this
      *
-     * @throws \Illuminate\Process\Exceptions\ProcessFailedException
+     * @throws ProcessFailedException
      */
     public function throw(callable $callback = null)
     {
@@ -138,7 +139,7 @@ class ProcessResult implements ProcessResultContract
      * @param  callable|null  $callback
      * @return $this
      *
-     * @throws \Throwable
+     * @throws Throwable
      */
     public function throwIf(bool $condition, callable $callback = null)
     {

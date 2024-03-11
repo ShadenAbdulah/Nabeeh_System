@@ -1,18 +1,21 @@
 <?php
 namespace Hamcrest\Core;
 
-class IsAnythingTest extends \Hamcrest\AbstractMatcherTest
+use Hamcrest\AbstractMatcherTest;
+use stdClass;
+
+class IsAnythingTest extends AbstractMatcherTest
 {
 
     protected function createMatcher()
     {
-        return \Hamcrest\Core\IsAnything::anything();
+        return IsAnything::anything();
     }
 
     public function testAlwaysEvaluatesToTrue()
     {
         assertThat(null, anything());
-        assertThat(new \stdClass(), anything());
+        assertThat(new stdClass(), anything());
         assertThat('hi', anything());
     }
 

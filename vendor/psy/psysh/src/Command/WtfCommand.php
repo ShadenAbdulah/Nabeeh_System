@@ -11,6 +11,7 @@
 
 namespace Psy\Command;
 
+use InvalidArgumentException;
 use Psy\Context;
 use Psy\ContextAware;
 use Psy\Input\FilterOptions;
@@ -19,6 +20,14 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use function count;
+use function implode;
+use function max;
+use function pow;
+use function preg_replace;
+use function sprintf;
+use function strlen;
+use const PHP_INT_MAX;
 
 /**
  * Show the last uncaught exception.
@@ -88,13 +97,13 @@ HELP
     {
         $this->filter->bind($input);
 
-        $incredulity = \implode('', $input->getArgument('incredulity'));
-        if (\strlen(\preg_replace('/[\\?!]/', '', $incredulity))) {
-            throw new \InvalidArgumentException('Incredulity must include only "?" and "!"');
+        $incredulity = implode('', $input->getArgument('incredulity'));
+        if (strlen(preg_replace('/[\\?!]/', '', $incredulity))) {
+            throw new InvalidArgumentException('Incredulity must include only "?" and "!"');
         }
 
         $exception = $this->context->getLastException();
-        $count = $input->getOption('all') ? \PHP_INT_MAX : \max(3, \pow(2, \strlen($incredulity) + 1));
+        $count = $input->getOption('all') ? PHP_INT_MAX : max(3, pow(2, strlen($incredulity) + 1));
 
         $shell = $this->getApplication();
 
@@ -103,15 +112,15 @@ HELP
         }
 
         do {
-            $traceCount = \count($exception->getTrace());
+            $traceCount = count($exception->getTrace());
             $showLines = $count;
             // Show the whole trace if we'd only be hiding a few lines
-            if ($traceCount < \max($count * 1.2, $count + 2)) {
-                $showLines = \PHP_INT_MAX;
+            if ($traceCount < max($count * 1.2, $count + 2)) {
+                $showLines = PHP_INT_MAX;
             }
 
             $trace = $this->getBacktrace($exception, $showLines);
-            $moreLines = $traceCount - \count($trace);
+            $moreLines = $traceCount - count($trace);
 
             $output->writeln($shell->formatException($exception));
             $output->writeln('--');
@@ -119,7 +128,7 @@ HELP
             $output->writeln('');
 
             if ($moreLines > 0) {
-                $output->writeln(\sprintf(
+                $output->writeln(sprintf(
                     '<aside>Use <return>wtf -a</return> to see %d more lines</aside>',
                     $moreLines
                 ));

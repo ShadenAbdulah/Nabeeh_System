@@ -11,6 +11,8 @@
 
 namespace Symfony\Component\HttpKernel\Exception;
 
-class InvalidMetadataException extends \LogicException
+use LogicException;
+
+class InvalidMetadataException extends LogicException
 {
 }

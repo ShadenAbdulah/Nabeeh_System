@@ -11,9 +11,10 @@
 
 namespace Symfony\Component\HttpKernel\Attribute;
 
+use Attribute;
 use Symfony\Component\HttpKernel\Controller\ValueResolverInterface;
 
-#[\Attribute(\Attribute::TARGET_PARAMETER | \Attribute::IS_REPEATABLE)]
+#[Attribute(Attribute::TARGET_PARAMETER | Attribute::IS_REPEATABLE)]
 class ValueResolver
 {
     /**

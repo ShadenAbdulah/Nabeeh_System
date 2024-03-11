@@ -12,6 +12,7 @@
 namespace Symfony\Component\Mime\Part;
 
 use Symfony\Component\Mime\MimeTypes;
+use const PATHINFO_EXTENSION;
 
 /**
  * @author Fabien Potencier <fabien@symfony.com>
@@ -33,7 +34,7 @@ class File
 
     public function getContentType(): string
     {
-        $ext = strtolower(pathinfo($this->path, \PATHINFO_EXTENSION));
+        $ext = strtolower(pathinfo($this->path, PATHINFO_EXTENSION));
         self::$mimeTypes ??= new MimeTypes();
 
         return self::$mimeTypes->getMimeTypes($ext)[0] ?? 'application/octet-stream';

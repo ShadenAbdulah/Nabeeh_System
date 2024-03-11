@@ -13,7 +13,7 @@ use Psr\Http\Message\StreamInterface;
  */
 abstract class AbstractParser
 {
-    /** @var \Aws\Api\Service Representation of the service API*/
+    /** @var Service Representation of the service API*/
     protected $api;
 
     /** @var callable */

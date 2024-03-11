@@ -25,7 +25,7 @@ class NotIn
     /**
      * Create a new "not in" rule instance.
      *
-     * @param  \Illuminate\Contracts\Support\Arrayable|array|string  $values
+     * @param Arrayable|array|string  $values
      * @return void
      */
     public function __construct($values)

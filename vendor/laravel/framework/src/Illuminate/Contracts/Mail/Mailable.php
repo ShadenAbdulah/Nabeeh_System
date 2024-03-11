@@ -2,22 +2,25 @@
 
 namespace Illuminate\Contracts\Mail;
 
+use DateInterval;
+use DateTimeInterface;
 use Illuminate\Contracts\Queue\Factory as Queue;
+use Illuminate\Mail\SentMessage;
 
 interface Mailable
 {
     /**
      * Send the message using the given mailer.
      *
-     * @param  \Illuminate\Contracts\Mail\Factory|\Illuminate\Contracts\Mail\Mailer  $mailer
-     * @return \Illuminate\Mail\SentMessage|null
+     * @param Factory|Mailer $mailer
+     * @return SentMessage|null
      */
     public function send($mailer);
 
     /**
      * Queue the given message.
      *
-     * @param  \Illuminate\Contracts\Queue\Factory  $queue
+     * @param Queue $queue
      * @return mixed
      */
     public function queue(Queue $queue);
@@ -25,8 +28,8 @@ interface Mailable
     /**
      * Deliver the queued message after (n) seconds.
      *
-     * @param  \DateTimeInterface|\DateInterval|int  $delay
-     * @param  \Illuminate\Contracts\Queue\Factory  $queue
+     * @param  DateTimeInterface|DateInterval|int  $delay
+     * @param Queue $queue
      * @return mixed
      */
     public function later($delay, Queue $queue);

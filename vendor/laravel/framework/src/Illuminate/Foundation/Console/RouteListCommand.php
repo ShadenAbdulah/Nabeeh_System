@@ -9,6 +9,7 @@ use Illuminate\Routing\Route;
 use Illuminate\Routing\Router;
 use Illuminate\Routing\ViewController;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use ReflectionClass;
 use ReflectionFunction;
@@ -36,7 +37,7 @@ class RouteListCommand extends Command
     /**
      * The router instance.
      *
-     * @var \Illuminate\Routing\Router
+     * @var Router
      */
     protected $router;
 
@@ -50,7 +51,7 @@ class RouteListCommand extends Command
     /**
      * The terminal width resolver callback.
      *
-     * @var \Closure|null
+     * @var Closure|null
      */
     protected static $terminalWidthResolver;
 
@@ -73,7 +74,7 @@ class RouteListCommand extends Command
     /**
      * Create a new route command instance.
      *
-     * @param  \Illuminate\Routing\Router  $router
+     * @param Router $router
      * @return void
      */
     public function __construct(Router $router)
@@ -132,7 +133,7 @@ class RouteListCommand extends Command
     /**
      * Get the route information for a given route.
      *
-     * @param  \Illuminate\Routing\Route  $route
+     * @param Route $route
      * @return array
      */
     protected function getRouteInformation(Route $route)
@@ -193,7 +194,7 @@ class RouteListCommand extends Command
     /**
      * Get the middleware for the route.
      *
-     * @param  \Illuminate\Routing\Route  $route
+     * @param Route $route
      * @return string
      */
     protected function getMiddleware($route)
@@ -206,7 +207,7 @@ class RouteListCommand extends Command
     /**
      * Determine if the route has been defined outside of the application.
      *
-     * @param  \Illuminate\Routing\Route  $route
+     * @param Route $route
      * @return bool
      */
     protected function isVendorRoute(Route $route)
@@ -234,7 +235,7 @@ class RouteListCommand extends Command
     /**
      * Determine if the route uses a framework controller.
      *
-     * @param  \Illuminate\Routing\Route  $route
+     * @param Route $route
      * @return bool
      */
     protected function isFrameworkController(Route $route)
@@ -317,7 +318,7 @@ class RouteListCommand extends Command
     /**
      * Convert the given routes to JSON.
      *
-     * @param  \Illuminate\Support\Collection  $routes
+     * @param  Collection  $routes
      * @return string
      */
     protected function asJson($routes)
@@ -335,7 +336,7 @@ class RouteListCommand extends Command
     /**
      * Convert the given routes to regular CLI output.
      *
-     * @param  \Illuminate\Support\Collection  $routes
+     * @param  Collection  $routes
      * @return array
      */
     protected function forCli($routes)
@@ -438,7 +439,7 @@ class RouteListCommand extends Command
     /**
      * Determine and return the output for displaying the number of routes in the CLI output.
      *
-     * @param  \Illuminate\Support\Collection  $routes
+     * @param  Collection  $routes
      * @param  int  $terminalWidth
      * @return string
      */
@@ -468,7 +469,7 @@ class RouteListCommand extends Command
     /**
      * Set a callback that should be used when resolving the terminal width.
      *
-     * @param  \Closure|null  $resolver
+     * @param Closure|null  $resolver
      * @return void
      */
     public static function resolveTerminalWidthUsing($resolver)

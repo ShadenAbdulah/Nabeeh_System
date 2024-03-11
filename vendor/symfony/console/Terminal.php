@@ -12,6 +12,10 @@
 namespace Symfony\Component\Console;
 
 use Symfony\Component\Console\Output\AnsiColorMode;
+use function function_exists;
+use function is_resource;
+use function is_string;
+use const DIRECTORY_SEPARATOR;
 
 class Terminal
 {
@@ -34,7 +38,7 @@ class Terminal
         }
 
         // Try with $COLORTERM first
-        if (\is_string($colorterm = getenv('COLORTERM'))) {
+        if (is_string($colorterm = getenv('COLORTERM'))) {
             $colorterm = strtolower($colorterm);
 
             if (str_contains($colorterm, 'truecolor')) {
@@ -51,7 +55,7 @@ class Terminal
         }
 
         // Try with $TERM
-        if (\is_string($term = getenv('TERM'))) {
+        if (is_string($term = getenv('TERM'))) {
             $term = strtolower($term);
 
             if (str_contains($term, 'truecolor')) {
@@ -124,16 +128,16 @@ class Terminal
         }
 
         // skip check if shell_exec function is disabled
-        if (!\function_exists('shell_exec')) {
+        if (!function_exists('shell_exec')) {
             return false;
         }
 
-        return self::$stty = (bool) shell_exec('stty 2> '.('\\' === \DIRECTORY_SEPARATOR ? 'NUL' : '/dev/null'));
+        return self::$stty = (bool) shell_exec('stty 2> '.('\\' === DIRECTORY_SEPARATOR ? 'NUL' : '/dev/null'));
     }
 
     private static function initDimensions(): void
     {
-        if ('\\' === \DIRECTORY_SEPARATOR) {
+        if ('\\' === DIRECTORY_SEPARATOR) {
             $ansicon = getenv('ANSICON');
             if (false !== $ansicon && preg_match('/^(\d+)x(\d+)(?: \((\d+)x(\d+)\))?$/', trim($ansicon), $matches)) {
                 // extract [w, H] from "wxh (WxH)"
@@ -159,7 +163,7 @@ class Terminal
      */
     private static function hasVt100Support(): bool
     {
-        return \function_exists('sapi_windows_vt100_support') && sapi_windows_vt100_support(fopen('php://stdout', 'w'));
+        return function_exists('sapi_windows_vt100_support') && sapi_windows_vt100_support(fopen('php://stdout', 'w'));
     }
 
     /**
@@ -206,7 +210,7 @@ class Terminal
 
     private static function readFromProcess(string|array $command): ?string
     {
-        if (!\function_exists('proc_open')) {
+        if (!function_exists('proc_open')) {
             return null;
         }
 
@@ -215,10 +219,10 @@ class Terminal
             2 => ['pipe', 'w'],
         ];
 
-        $cp = \function_exists('sapi_windows_cp_set') ? sapi_windows_cp_get() : 0;
+        $cp = function_exists('sapi_windows_cp_set') ? sapi_windows_cp_get() : 0;
 
         $process = proc_open($command, $descriptorspec, $pipes, null, null, ['suppress_errors' => true]);
-        if (!\is_resource($process)) {
+        if (!is_resource($process)) {
             return null;
         }
 

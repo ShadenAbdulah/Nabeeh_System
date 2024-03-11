@@ -2,24 +2,26 @@
 namespace Aws\LaunchWizard;
 
 use Aws\AwsClient;
+use Aws\Result;
+use GuzzleHttp\Promise\Promise;
 
 /**
  * This client is used to interact with the **AWS Launch Wizard** service.
- * @method \Aws\Result createDeployment(array $args = [])
- * @method \GuzzleHttp\Promise\Promise createDeploymentAsync(array $args = [])
- * @method \Aws\Result deleteDeployment(array $args = [])
- * @method \GuzzleHttp\Promise\Promise deleteDeploymentAsync(array $args = [])
- * @method \Aws\Result getDeployment(array $args = [])
- * @method \GuzzleHttp\Promise\Promise getDeploymentAsync(array $args = [])
- * @method \Aws\Result getWorkload(array $args = [])
- * @method \GuzzleHttp\Promise\Promise getWorkloadAsync(array $args = [])
- * @method \Aws\Result listDeploymentEvents(array $args = [])
- * @method \GuzzleHttp\Promise\Promise listDeploymentEventsAsync(array $args = [])
- * @method \Aws\Result listDeployments(array $args = [])
- * @method \GuzzleHttp\Promise\Promise listDeploymentsAsync(array $args = [])
- * @method \Aws\Result listWorkloadDeploymentPatterns(array $args = [])
- * @method \GuzzleHttp\Promise\Promise listWorkloadDeploymentPatternsAsync(array $args = [])
- * @method \Aws\Result listWorkloads(array $args = [])
- * @method \GuzzleHttp\Promise\Promise listWorkloadsAsync(array $args = [])
+ * @method Result createDeployment(array $args = [])
+ * @method Promise createDeploymentAsync(array $args = [])
+ * @method Result deleteDeployment(array $args = [])
+ * @method Promise deleteDeploymentAsync(array $args = [])
+ * @method Result getDeployment(array $args = [])
+ * @method Promise getDeploymentAsync(array $args = [])
+ * @method Result getWorkload(array $args = [])
+ * @method Promise getWorkloadAsync(array $args = [])
+ * @method Result listDeploymentEvents(array $args = [])
+ * @method Promise listDeploymentEventsAsync(array $args = [])
+ * @method Result listDeployments(array $args = [])
+ * @method Promise listDeploymentsAsync(array $args = [])
+ * @method Result listWorkloadDeploymentPatterns(array $args = [])
+ * @method Promise listWorkloadDeploymentPatternsAsync(array $args = [])
+ * @method Result listWorkloads(array $args = [])
+ * @method Promise listWorkloadsAsync(array $args = [])
  */
 class LaunchWizardClient extends AwsClient {}

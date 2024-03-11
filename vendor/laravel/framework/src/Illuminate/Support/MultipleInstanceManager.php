@@ -3,6 +3,7 @@
 namespace Illuminate\Support;
 
 use Closure;
+use Illuminate\Contracts\Foundation\Application;
 use InvalidArgumentException;
 use RuntimeException;
 
@@ -11,7 +12,7 @@ abstract class MultipleInstanceManager
     /**
      * The application instance.
      *
-     * @var \Illuminate\Contracts\Foundation\Application
+     * @var Application
      */
     protected $app;
 
@@ -32,7 +33,7 @@ abstract class MultipleInstanceManager
     /**
      * Create a new manager instance.
      *
-     * @param  \Illuminate\Contracts\Foundation\Application  $app
+     * @param  Application  $app
      * @return void
      */
     public function __construct($app)
@@ -93,7 +94,7 @@ abstract class MultipleInstanceManager
      * @param  string  $name
      * @return mixed
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     protected function resolve($name)
     {
@@ -167,7 +168,7 @@ abstract class MultipleInstanceManager
      * Register a custom instance creator Closure.
      *
      * @param  string  $name
-     * @param  \Closure  $callback
+     * @param Closure $callback
      * @return $this
      */
     public function extend($name, Closure $callback)

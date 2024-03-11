@@ -19,6 +19,11 @@ use Closure;
 use DateInterval;
 use DateMalformedStringException;
 use ReturnTypeWillChange;
+use function count;
+use function func_get_args;
+use function func_num_args;
+use function in_array;
+use function is_string;
 
 /**
  * Trait Units.
@@ -166,7 +171,7 @@ trait Units
             'weekday',
         ];
 
-        return \in_array($unit, $modifiableUnits, true) || \in_array($unit, static::$units, true);
+        return in_array($unit, $modifiableUnits, true) || in_array($unit, static::$units, true);
     }
 
     /**
@@ -197,7 +202,7 @@ trait Units
     #[ReturnTypeWillChange]
     public function add($unit, $value = 1, $overflow = null)
     {
-        if (\is_string($unit) && \func_num_args() === 1) {
+        if (is_string($unit) && func_num_args() === 1) {
             $unit = CarbonInterval::make($unit, [], true);
         }
 
@@ -231,7 +236,7 @@ trait Units
      */
     public function addUnit($unit, $value = 1, $overflow = null)
     {
-        $originalArgs = \func_get_args();
+        $originalArgs = func_get_args();
 
         $date = $this;
 
@@ -258,14 +263,14 @@ trait Units
             if ($weekendDays !== [static::SATURDAY, static::SUNDAY]) {
                 $absoluteValue = abs($value);
                 $sign = $value / max(1, $absoluteValue);
-                $weekDaysCount = 7 - min(6, \count(array_unique($weekendDays)));
+                $weekDaysCount = 7 - min(6, count(array_unique($weekendDays)));
                 $weeks = floor($absoluteValue / $weekDaysCount);
 
                 for ($diff = $absoluteValue % $weekDaysCount; $diff; $diff--) {
                     /** @var static $date */
                     $date = $date->addDays($sign);
 
-                    while (\in_array($date->dayOfWeek, $weekendDays, true)) {
+                    while (in_array($date->dayOfWeek, $weekendDays, true)) {
                         $date = $date->addDays($sign);
                     }
                 }
@@ -275,7 +280,7 @@ trait Units
             }
 
             $timeString = $date->toTimeString();
-        } elseif ($canOverflow = (\in_array($unit, [
+        } elseif ($canOverflow = (in_array($unit, [
                 'month',
                 'year',
             ]) && ($overflow === false || (
@@ -367,7 +372,7 @@ trait Units
     #[ReturnTypeWillChange]
     public function sub($unit, $value = 1, $overflow = null)
     {
-        if (\is_string($unit) && \func_num_args() === 1) {
+        if (is_string($unit) && func_num_args() === 1) {
             $unit = CarbonInterval::make($unit, [], true);
         }
 
@@ -403,7 +408,7 @@ trait Units
      */
     public function subtract($unit, $value = 1, $overflow = null)
     {
-        if (\is_string($unit) && \func_num_args() === 1) {
+        if (is_string($unit) && func_num_args() === 1) {
             $unit = CarbonInterval::make($unit, [], true);
         }
 

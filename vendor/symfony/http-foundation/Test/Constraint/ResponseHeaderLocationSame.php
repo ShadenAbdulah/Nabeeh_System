@@ -14,6 +14,7 @@ namespace Symfony\Component\HttpFoundation\Test\Constraint;
 use PHPUnit\Framework\Constraint\Constraint;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use const PHP_URL_PATH;
 
 final class ResponseHeaderLocationSame extends Constraint
 {
@@ -48,7 +49,7 @@ final class ResponseHeaderLocationSame extends Constraint
 
     private function toFullUrl(string $url): string
     {
-        if (null === parse_url($url, \PHP_URL_PATH)) {
+        if (null === parse_url($url, PHP_URL_PATH)) {
             $url .= '/';
         }
 

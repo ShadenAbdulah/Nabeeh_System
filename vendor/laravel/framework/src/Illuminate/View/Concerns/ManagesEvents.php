@@ -12,7 +12,7 @@ trait ManagesEvents
      * Register a view creator event.
      *
      * @param  array|string  $views
-     * @param  \Closure|string  $callback
+     * @param Closure|string  $callback
      * @return array
      */
     public function creator($views, $callback)
@@ -47,7 +47,7 @@ trait ManagesEvents
      * Register a view composer event.
      *
      * @param  array|string  $views
-     * @param  \Closure|string  $callback
+     * @param Closure|string  $callback
      * @return array
      */
     public function composer($views, $callback)
@@ -65,9 +65,9 @@ trait ManagesEvents
      * Add an event for a given view.
      *
      * @param  string  $view
-     * @param  \Closure|string  $callback
+     * @param Closure|string  $callback
      * @param  string  $prefix
-     * @return \Closure|null
+     * @return Closure|null
      */
     protected function addViewEvent($view, $callback, $prefix = 'composing: ')
     {
@@ -88,7 +88,7 @@ trait ManagesEvents
      * @param  string  $view
      * @param  string  $class
      * @param  string  $prefix
-     * @return \Closure
+     * @return Closure
      */
     protected function addClassEvent($view, $class, $prefix)
     {
@@ -111,7 +111,7 @@ trait ManagesEvents
      *
      * @param  string  $class
      * @param  string  $prefix
-     * @return \Closure
+     * @return Closure
      */
     protected function buildClassEventCallback($class, $prefix)
     {
@@ -152,7 +152,7 @@ trait ManagesEvents
      * Add a listener to the event dispatcher.
      *
      * @param  string  $name
-     * @param  \Closure  $callback
+     * @param Closure $callback
      * @return void
      */
     protected function addEventListener($name, $callback)
@@ -169,7 +169,7 @@ trait ManagesEvents
     /**
      * Call the composer for a given view.
      *
-     * @param  \Illuminate\Contracts\View\View  $view
+     * @param ViewContract $view
      * @return void
      */
     public function callComposer(ViewContract $view)
@@ -180,7 +180,7 @@ trait ManagesEvents
     /**
      * Call the creator for a given view.
      *
-     * @param  \Illuminate\Contracts\View\View  $view
+     * @param ViewContract $view
      * @return void
      */
     public function callCreator(ViewContract $view)

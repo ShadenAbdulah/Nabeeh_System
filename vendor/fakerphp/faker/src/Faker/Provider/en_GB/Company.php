@@ -2,6 +2,8 @@
 
 namespace Faker\Provider\en_GB;
 
+use InvalidArgumentException;
+
 class Company extends \Faker\Provider\Company
 {
     public const VAT_PREFIX = 'GB';
@@ -106,7 +108,7 @@ class Company extends \Faker\Provider\Company
         $digits = str_split($input);
 
         if (count($digits) !== 7) {
-            throw new \InvalidArgumentException();
+            throw new InvalidArgumentException();
         }
         $multiplier = 8;
         $sum = 0;

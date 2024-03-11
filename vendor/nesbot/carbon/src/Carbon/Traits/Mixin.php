@@ -20,6 +20,8 @@ use ReflectionClass;
 use ReflectionException;
 use ReflectionMethod;
 use Throwable;
+use function get_class;
+use function is_string;
 
 /**
  * Trait Mixin.
@@ -68,7 +70,7 @@ trait Mixin
      */
     public static function mixin($mixin)
     {
-        \is_string($mixin) && trait_exists($mixin)
+        is_string($mixin) && trait_exists($mixin)
             ? self::loadMixinTrait($mixin)
             : self::loadMixinClass($mixin);
     }
@@ -101,7 +103,7 @@ trait Mixin
     private static function loadMixinTrait($trait)
     {
         $context = eval(self::getAnonymousClassCodeForTrait($trait));
-        $className = \get_class($context);
+        $className = get_class($context);
         $baseClass = static::class;
 
         foreach (self::getMixableMethods($context) as $name) {

@@ -3,6 +3,12 @@
 namespace Laravel\Tinker;
 
 use Exception;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Application;
+use Illuminate\Process\ProcessResult;
+use Illuminate\Support\Collection;
+use Illuminate\Support\HtmlString;
+use Illuminate\Support\Stringable;
 use Symfony\Component\VarDumper\Caster\Caster;
 
 class TinkerCaster
@@ -33,7 +39,7 @@ class TinkerCaster
     /**
      * Get an array representing the properties of an application.
      *
-     * @param  \Illuminate\Foundation\Application  $app
+     * @param  Application  $app
      * @return array
      */
     public static function castApplication($app)
@@ -58,7 +64,7 @@ class TinkerCaster
     /**
      * Get an array representing the properties of a collection.
      *
-     * @param  \Illuminate\Support\Collection  $collection
+     * @param  Collection  $collection
      * @return array
      */
     public static function castCollection($collection)
@@ -71,7 +77,7 @@ class TinkerCaster
     /**
      * Get an array representing the properties of an html string.
      *
-     * @param  \Illuminate\Support\HtmlString  $htmlString
+     * @param  HtmlString  $htmlString
      * @return array
      */
     public static function castHtmlString($htmlString)
@@ -84,7 +90,7 @@ class TinkerCaster
     /**
      * Get an array representing the properties of a fluent string.
      *
-     * @param  \Illuminate\Support\Stringable  $stringable
+     * @param  Stringable  $stringable
      * @return array
      */
     public static function castStringable($stringable)
@@ -97,7 +103,7 @@ class TinkerCaster
     /**
      * Get an array representing the properties of a process result.
      *
-     * @param  \Illuminate\Process\ProcessResult  $result
+     * @param  ProcessResult  $result
      * @return array
      */
     public static function castProcessResult($result)
@@ -113,7 +119,7 @@ class TinkerCaster
     /**
      * Get an array representing the properties of a model.
      *
-     * @param  \Illuminate\Database\Eloquent\Model  $model
+     * @param  Model  $model
      * @return array
      */
     public static function castModel($model)

@@ -2,5 +2,7 @@
 
 namespace PhpParser;
 
-class ConstExprEvaluationException extends \Exception {
+use Exception;
+
+class ConstExprEvaluationException extends Exception {
 }

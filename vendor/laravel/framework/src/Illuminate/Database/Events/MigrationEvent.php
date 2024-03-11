@@ -10,7 +10,7 @@ abstract class MigrationEvent implements MigrationEventContract
     /**
      * A migration instance.
      *
-     * @var \Illuminate\Database\Migrations\Migration
+     * @var Migration
      */
     public $migration;
 
@@ -24,7 +24,7 @@ abstract class MigrationEvent implements MigrationEventContract
     /**
      * Create a new event instance.
      *
-     * @param  \Illuminate\Database\Migrations\Migration  $migration
+     * @param Migration $migration
      * @param  string  $method
      * @return void
      */

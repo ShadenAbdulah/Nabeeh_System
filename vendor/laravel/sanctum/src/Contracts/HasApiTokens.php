@@ -2,12 +2,15 @@
 
 namespace Laravel\Sanctum\Contracts;
 
+use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Laravel\Sanctum\NewAccessToken;
+
 interface HasApiTokens
 {
     /**
      * Get the access tokens that belong to model.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+     * @return MorphMany
      */
     public function tokens();
 
@@ -24,22 +27,22 @@ interface HasApiTokens
      *
      * @param  string  $name
      * @param  array  $abilities
-     * @return \Laravel\Sanctum\NewAccessToken
+     * @return NewAccessToken
      */
     public function createToken(string $name, array $abilities = ['*']);
 
     /**
      * Get the access token currently associated with the user.
      *
-     * @return \Laravel\Sanctum\Contracts\HasAbilities
+     * @return HasAbilities
      */
     public function currentAccessToken();
 
     /**
      * Set the current access token for the user.
      *
-     * @param  \Laravel\Sanctum\Contracts\HasAbilities  $accessToken
-     * @return \Laravel\Sanctum\Contracts\HasApiTokens
+     * @param HasAbilities $accessToken
+     * @return HasApiTokens
      */
     public function withAccessToken($accessToken);
 }

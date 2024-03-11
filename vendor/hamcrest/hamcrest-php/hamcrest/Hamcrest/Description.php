@@ -5,6 +5,10 @@ namespace Hamcrest;
  Copyright (c) 2009 hamcrest.org
  */
 
+use;
+use Iterator;
+use IteratorAggregate;
+
 /**
  * A description of a Matcher. A Matcher will describe itself to a description
  * which can later be used for reporting.
@@ -19,7 +23,7 @@ interface Description
      *
      * @param string $text
      *
-     * @return \Hamcrest\Description
+     * @return Description
      */
     public function appendText($text);
 
@@ -27,9 +31,9 @@ interface Description
      * Appends the description of a {@link Hamcrest\SelfDescribing} value to
      * this description.
      *
-     * @param \Hamcrest\SelfDescribing $value
+     * @param SelfDescribing $value
      *
-     * @return \Hamcrest\Description
+     * @return Description
      */
     public function appendDescriptionOf(SelfDescribing $value);
 
@@ -38,7 +42,7 @@ interface Description
      *
      * @param mixed $value
      *
-     * @return \Hamcrest\Description
+     * @return Description
      */
     public function appendValue($value);
 
@@ -48,9 +52,9 @@ interface Description
      * @param string $start
      * @param string $separator
      * @param string $end
-     * @param array|\IteratorAggregate|\Iterator $values
+     * @param array|IteratorAggregate|Iterator $values
      *
-     * @return \Hamcrest\Description
+     * @return Description
      */
     public function appendValueList($start, $separator, $end, $values);
 
@@ -61,10 +65,10 @@ interface Description
      * @param string $start
      * @param string $separator
      * @param string $end
-     * @param array|\\IteratorAggregate|\\Iterator $values
+     * @param array|\IteratorAggregate|\\Iterator $values
      *   must be instances of {@link Hamcrest\SelfDescribing}
      *
-     * @return \Hamcrest\Description
+     * @return Description
      */
     public function appendList($start, $separator, $end, $values);
 }

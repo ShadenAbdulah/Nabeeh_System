@@ -3,6 +3,7 @@
 namespace PhpParser\Lexer\TokenEmulator;
 
 use PhpParser\PhpVersion;
+use const T_MATCH;
 
 final class MatchTokenEmulator extends KeywordEmulator {
     public function getPhpVersion(): PhpVersion {
@@ -14,6 +15,6 @@ final class MatchTokenEmulator extends KeywordEmulator {
     }
 
     public function getKeywordToken(): int {
-        return \T_MATCH;
+        return T_MATCH;
     }
 }

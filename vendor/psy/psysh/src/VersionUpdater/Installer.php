@@ -11,7 +11,20 @@
 
 namespace Psy\VersionUpdater;
 
+use Phar;
+use PharData;
 use Psy\Exception\ErrorException;
+use function basename;
+use function class_exists;
+use function file_exists;
+use function is_writable;
+use function mkdir;
+use function rename;
+use function rmdir;
+use function sprintf;
+use function sys_get_temp_dir;
+use function tempnam;
+use function unlink;
 
 class Installer
 {
@@ -27,8 +40,8 @@ class Installer
 
     public function __construct(string $tempDirectory = null)
     {
-        $this->tempDirectory = $tempDirectory ?: \sys_get_temp_dir();
-        $this->installLocation = \Phar::running(false);
+        $this->tempDirectory = $tempDirectory ?: sys_get_temp_dir();
+        $this->installLocation = Phar::running(false);
     }
 
     /**
@@ -44,7 +57,7 @@ class Installer
      */
     public function isInstallLocationWritable(): bool
     {
-        return \is_writable($this->installLocation);
+        return is_writable($this->installLocation);
     }
 
     /**
@@ -52,7 +65,7 @@ class Installer
      */
     public function isTempDirectoryWritable(): bool
     {
-        return \is_writable($this->tempDirectory);
+        return is_writable($this->tempDirectory);
     }
 
     /**
@@ -62,10 +75,10 @@ class Installer
      */
     public function isValidSource(string $sourceArchive): bool
     {
-        if (!\class_exists('\PharData')) {
+        if (!class_exists('\PharData')) {
             return false;
         }
-        $pharArchive = new \PharData($sourceArchive);
+        $pharArchive = new PharData($sourceArchive);
 
         return $pharArchive->valid();
     }
@@ -77,20 +90,20 @@ class Installer
      */
     public function install(string $sourceArchive): bool
     {
-        $pharArchive = new \PharData($sourceArchive);
-        $outputDirectory = \tempnam($this->tempDirectory, 'psysh-');
+        $pharArchive = new PharData($sourceArchive);
+        $outputDirectory = tempnam($this->tempDirectory, 'psysh-');
 
         // remove the temp file, and replace it with a sub-directory
-        if (!\unlink($outputDirectory) || !\mkdir($outputDirectory, 0700)) {
+        if (!unlink($outputDirectory) || !mkdir($outputDirectory, 0700)) {
             return false;
         }
 
         $pharArchive->extractTo($outputDirectory, ['psysh'], true);
 
-        $renamed = \rename($outputDirectory.'/psysh', $this->installLocation);
+        $renamed = rename($outputDirectory.'/psysh', $this->installLocation);
 
         // Remove the sub-directory created to extract the psysh binary/phar
-        \rmdir($outputDirectory);
+        rmdir($outputDirectory);
 
         return $renamed;
     }
@@ -104,11 +117,11 @@ class Installer
     {
         $backupFilename = $this->getBackupFilename($version);
 
-        if (\file_exists($backupFilename) && !\is_writable($backupFilename)) {
+        if (file_exists($backupFilename) && !is_writable($backupFilename)) {
             return false;
         }
 
-        return \rename($this->installLocation, $backupFilename);
+        return rename($this->installLocation, $backupFilename);
     }
 
     /**
@@ -122,11 +135,11 @@ class Installer
     {
         $backupFilename = $this->getBackupFilename($version);
 
-        if (!\file_exists($backupFilename)) {
+        if (!file_exists($backupFilename)) {
             throw new ErrorException("Cannot restore from backup. File not found! [{$backupFilename}]");
         }
 
-        return \rename($backupFilename, $this->installLocation);
+        return rename($backupFilename, $this->installLocation);
     }
 
     /**
@@ -136,8 +149,8 @@ class Installer
      */
     public function getBackupFilename(string $version): string
     {
-        $installFilename = \basename($this->installLocation);
+        $installFilename = basename($this->installLocation);
 
-        return \sprintf('%s/%s.%s', $this->tempDirectory, $installFilename, $version);
+        return sprintf('%s/%s.%s', $this->tempDirectory, $installFilename, $version);
     }
 }

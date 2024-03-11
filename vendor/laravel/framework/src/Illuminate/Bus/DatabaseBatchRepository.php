@@ -16,14 +16,14 @@ class DatabaseBatchRepository implements PrunableBatchRepository
     /**
      * The batch factory instance.
      *
-     * @var \Illuminate\Bus\BatchFactory
+     * @var BatchFactory
      */
     protected $factory;
 
     /**
      * The database connection instance.
      *
-     * @var \Illuminate\Database\Connection
+     * @var Connection
      */
     protected $connection;
 
@@ -37,8 +37,8 @@ class DatabaseBatchRepository implements PrunableBatchRepository
     /**
      * Create a new batch repository instance.
      *
-     * @param  \Illuminate\Bus\BatchFactory  $factory
-     * @param  \Illuminate\Database\Connection  $connection
+     * @param BatchFactory $factory
+     * @param Connection $connection
      * @param  string  $table
      */
     public function __construct(BatchFactory $factory, Connection $connection, string $table)
@@ -53,7 +53,7 @@ class DatabaseBatchRepository implements PrunableBatchRepository
      *
      * @param  int  $limit
      * @param  mixed  $before
-     * @return \Illuminate\Bus\Batch[]
+     * @return Batch[]
      */
     public function get($limit = 50, $before = null)
     {
@@ -72,7 +72,7 @@ class DatabaseBatchRepository implements PrunableBatchRepository
      * Retrieve information about an existing batch.
      *
      * @param  string  $batchId
-     * @return \Illuminate\Bus\Batch|null
+     * @return Batch|null
      */
     public function find(string $batchId)
     {
@@ -89,8 +89,8 @@ class DatabaseBatchRepository implements PrunableBatchRepository
     /**
      * Store a new pending batch.
      *
-     * @param  \Illuminate\Bus\PendingBatch  $batch
-     * @return \Illuminate\Bus\Batch
+     * @param PendingBatch $batch
+     * @return Batch
      */
     public function store(PendingBatch $batch)
     {
@@ -133,7 +133,7 @@ class DatabaseBatchRepository implements PrunableBatchRepository
      *
      * @param  string  $batchId
      * @param  string  $jobId
-     * @return \Illuminate\Bus\UpdatedBatchJobCounts
+     * @return UpdatedBatchJobCounts
      */
     public function decrementPendingJobs(string $batchId, string $jobId)
     {
@@ -156,7 +156,7 @@ class DatabaseBatchRepository implements PrunableBatchRepository
      *
      * @param  string  $batchId
      * @param  string  $jobId
-     * @return \Illuminate\Bus\UpdatedBatchJobCounts
+     * @return UpdatedBatchJobCounts
      */
     public function incrementFailedJobs(string $batchId, string $jobId)
     {
@@ -178,7 +178,7 @@ class DatabaseBatchRepository implements PrunableBatchRepository
      * Update an atomic value within the batch.
      *
      * @param  string  $batchId
-     * @param  \Closure  $callback
+     * @param Closure $callback
      * @return int|null
      */
     protected function updateAtomicValues(string $batchId, Closure $callback)
@@ -235,7 +235,7 @@ class DatabaseBatchRepository implements PrunableBatchRepository
     /**
      * Prune all of the entries older than the given date.
      *
-     * @param  \DateTimeInterface  $before
+     * @param DateTimeInterface $before
      * @return int
      */
     public function prune(DateTimeInterface $before)
@@ -258,7 +258,7 @@ class DatabaseBatchRepository implements PrunableBatchRepository
     /**
      * Prune all of the unfinished entries older than the given date.
      *
-     * @param  \DateTimeInterface  $before
+     * @param DateTimeInterface $before
      * @return int
      */
     public function pruneUnfinished(DateTimeInterface $before)
@@ -281,7 +281,7 @@ class DatabaseBatchRepository implements PrunableBatchRepository
     /**
      * Prune all of the cancelled entries older than the given date.
      *
-     * @param  \DateTimeInterface  $before
+     * @param DateTimeInterface $before
      * @return int
      */
     public function pruneCancelled(DateTimeInterface $before)
@@ -304,7 +304,7 @@ class DatabaseBatchRepository implements PrunableBatchRepository
     /**
      * Execute the given Closure within a storage specific transaction.
      *
-     * @param  \Closure  $callback
+     * @param Closure $callback
      * @return mixed
      */
     public function transaction(Closure $callback)
@@ -361,7 +361,7 @@ class DatabaseBatchRepository implements PrunableBatchRepository
      * Convert the given raw batch to a Batch object.
      *
      * @param  object  $batch
-     * @return \Illuminate\Bus\Batch
+     * @return Batch
      */
     protected function toBatch($batch)
     {
@@ -383,7 +383,7 @@ class DatabaseBatchRepository implements PrunableBatchRepository
     /**
      * Get the underlying database connection.
      *
-     * @return \Illuminate\Database\Connection
+     * @return Connection
      */
     public function getConnection()
     {
@@ -393,7 +393,7 @@ class DatabaseBatchRepository implements PrunableBatchRepository
     /**
      * Set the underlying database connection.
      *
-     * @param  \Illuminate\Database\Connection  $connection
+     * @param Connection $connection
      * @return void
      */
     public function setConnection(Connection $connection)

@@ -4,10 +4,12 @@ namespace Illuminate\Console\Concerns;
 
 use Closure;
 use Illuminate\Console\OutputStyle;
+use Illuminate\Console\View\Components\Factory;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Str;
 use Symfony\Component\Console\Formatter\OutputFormatterStyle;
 use Symfony\Component\Console\Helper\Table;
+use Symfony\Component\Console\Helper\TableStyle;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ChoiceQuestion;
@@ -18,7 +20,7 @@ trait InteractsWithIO
     /**
      * The console components factory.
      *
-     * @var \Illuminate\Console\View\Components\Factory
+     * @var Factory
      *
      * @internal This property is not meant to be used or overwritten outside the framework.
      */
@@ -27,14 +29,14 @@ trait InteractsWithIO
     /**
      * The input interface implementation.
      *
-     * @var \Symfony\Component\Console\Input\InputInterface
+     * @var InputInterface
      */
     protected $input;
 
     /**
      * The output interface implementation.
      *
-     * @var \Illuminate\Console\OutputStyle
+     * @var OutputStyle
      */
     protected $output;
 
@@ -225,8 +227,8 @@ trait InteractsWithIO
      * Format input to textual table.
      *
      * @param  array  $headers
-     * @param  \Illuminate\Contracts\Support\Arrayable|array  $rows
-     * @param  \Symfony\Component\Console\Helper\TableStyle|string  $tableStyle
+     * @param Arrayable|array  $rows
+     * @param  TableStyle|string  $tableStyle
      * @param  array  $columnStyles
      * @return void
      */
@@ -251,7 +253,7 @@ trait InteractsWithIO
      * Execute a given callback while advancing a progress bar.
      *
      * @param  iterable|int  $totalSteps
-     * @param  \Closure  $callback
+     * @param Closure $callback
      * @return mixed|void
      */
     public function withProgressBar($totalSteps, Closure $callback)
@@ -394,7 +396,7 @@ trait InteractsWithIO
     /**
      * Set the input interface implementation.
      *
-     * @param  \Symfony\Component\Console\Input\InputInterface  $input
+     * @param InputInterface $input
      * @return void
      */
     public function setInput(InputInterface $input)
@@ -405,7 +407,7 @@ trait InteractsWithIO
     /**
      * Set the output interface implementation.
      *
-     * @param  \Illuminate\Console\OutputStyle  $output
+     * @param OutputStyle $output
      * @return void
      */
     public function setOutput(OutputStyle $output)
@@ -444,7 +446,7 @@ trait InteractsWithIO
     /**
      * Get the output implementation.
      *
-     * @return \Illuminate\Console\OutputStyle
+     * @return OutputStyle
      */
     public function getOutput()
     {
@@ -454,7 +456,7 @@ trait InteractsWithIO
     /**
      * Get the output component factory implementation.
      *
-     * @return \Illuminate\Console\View\Components\Factory
+     * @return Factory
      */
     public function outputComponents()
     {

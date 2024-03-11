@@ -11,7 +11,9 @@
 
 namespace Symfony\Component\Mime;
 
+use Generator;
 use Symfony\Component\Mime\Exception\LogicException;
+use function is_string;
 
 /**
  * @author Fabien Potencier <fabien@symfony.com>
@@ -28,7 +30,7 @@ class RawMessage
 
     public function toString(): string
     {
-        if (\is_string($this->message)) {
+        if (is_string($this->message)) {
             return $this->message;
         }
 
@@ -47,13 +49,13 @@ class RawMessage
             // throw new LogicException('Unable to send the email as its generator is already closed.');
         }
 
-        if (\is_string($this->message)) {
+        if (is_string($this->message)) {
             yield $this->message;
 
             return;
         }
 
-        if ($this->message instanceof \Generator) {
+        if ($this->message instanceof Generator) {
             $message = '';
             foreach ($this->message as $chunk) {
                 $message .= $chunk;

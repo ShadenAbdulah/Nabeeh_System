@@ -19,7 +19,7 @@ class PendingBatch
     /**
      * The IoC container instance.
      *
-     * @var \Illuminate\Contracts\Container\Container
+     * @var Container
      */
     protected $container;
 
@@ -33,7 +33,7 @@ class PendingBatch
     /**
      * The jobs that belong to the batch.
      *
-     * @var \Illuminate\Support\Collection
+     * @var Collection
      */
     public $jobs;
 
@@ -47,8 +47,8 @@ class PendingBatch
     /**
      * Create a new pending batch instance.
      *
-     * @param  \Illuminate\Contracts\Container\Container  $container
-     * @param  \Illuminate\Support\Collection  $jobs
+     * @param Container $container
+     * @param Collection $jobs
      * @return void
      */
     public function __construct(Container $container, Collection $jobs)
@@ -298,9 +298,9 @@ class PendingBatch
     /**
      * Dispatch the batch.
      *
-     * @return \Illuminate\Bus\Batch
+     * @return Batch
      *
-     * @throws \Throwable
+     * @throws Throwable
      */
     public function dispatch()
     {
@@ -328,7 +328,7 @@ class PendingBatch
     /**
      * Dispatch the batch after the response is sent to the browser.
      *
-     * @return \Illuminate\Bus\Batch
+     * @return Batch
      */
     public function dispatchAfterResponse()
     {
@@ -348,10 +348,10 @@ class PendingBatch
     /**
      * Dispatch an existing batch.
      *
-     * @param  \Illuminate\Bus\Batch  $batch
+     * @param Batch $batch
      * @return void
      *
-     * @throws \Throwable
+     * @throws Throwable
      */
     protected function dispatchExistingBatch($batch)
     {
@@ -373,8 +373,8 @@ class PendingBatch
     /**
      * Dispatch the batch if the given truth test passes.
      *
-     * @param  bool|\Closure  $boolean
-     * @return \Illuminate\Bus\Batch|null
+     * @param  bool|Closure $boolean
+     * @return Batch|null
      */
     public function dispatchIf($boolean)
     {
@@ -384,8 +384,8 @@ class PendingBatch
     /**
      * Dispatch the batch unless the given truth test passes.
      *
-     * @param  bool|\Closure  $boolean
-     * @return \Illuminate\Bus\Batch|null
+     * @param  bool|Closure $boolean
+     * @return Batch|null
      */
     public function dispatchUnless($boolean)
     {
@@ -395,8 +395,8 @@ class PendingBatch
     /**
      * Store the batch using the given repository.
      *
-     * @param  \Illuminate\Bus\BatchRepository  $repository
-     * @return \Illuminate\Bus\Batch
+     * @param BatchRepository $repository
+     * @return Batch
      */
     protected function store($repository)
     {

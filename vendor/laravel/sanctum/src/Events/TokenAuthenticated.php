@@ -2,19 +2,21 @@
 
 namespace Laravel\Sanctum\Events;
 
+use Laravel\Sanctum\PersonalAccessToken;
+
 class TokenAuthenticated
 {
     /**
      * The personal access token that was authenticated.
      *
-     * @var \Laravel\Sanctum\PersonalAccessToken
+     * @var PersonalAccessToken
      */
     public $token;
 
     /**
      * Create a new event instance.
      *
-     * @param  \Laravel\Sanctum\PersonalAccessToken  $token
+     * @param  PersonalAccessToken  $token
      * @return void
      */
     public function __construct($token)

@@ -11,6 +11,7 @@
 
 namespace Psy\Input;
 
+use InvalidArgumentException;
 use Symfony\Component\Console\Input\InputArgument;
 
 /**
@@ -37,12 +38,12 @@ class CodeArgument extends InputArgument
      * @param string $description A description text
      * @param mixed  $default     The default value (for self::OPTIONAL mode only)
      *
-     * @throws \InvalidArgumentException When argument mode is not valid
+     * @throws InvalidArgumentException When argument mode is not valid
      */
     public function __construct(string $name, int $mode = null, string $description = '', $default = null)
     {
         if ($mode & InputArgument::IS_ARRAY) {
-            throw new \InvalidArgumentException('Argument mode IS_ARRAY is not valid');
+            throw new InvalidArgumentException('Argument mode IS_ARRAY is not valid');
         }
 
         parent::__construct($name, $mode, $description, $default);

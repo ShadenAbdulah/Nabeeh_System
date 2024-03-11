@@ -9,7 +9,10 @@ declare(strict_types=1);
 
 namespace Nette\Utils;
 
+use Closure;
 use Nette;
+use ReflectionException;
+use ReflectionFunction;
 use function is_array, is_object, is_string;
 
 
@@ -72,9 +75,9 @@ final class Callback
 	 */
 	public static function toString(mixed $callable): string
 	{
-		if ($callable instanceof \Closure) {
+		if ($callable instanceof Closure) {
 			$inner = self::unwrap($callable);
-			return '{closure' . ($inner instanceof \Closure ? '}' : ' ' . self::toString($inner) . '}');
+			return '{closure' . ($inner instanceof Closure ? '}' : ' ' . self::toString($inner) . '}');
 		} else {
 			is_callable(is_object($callable) ? [$callable, '__invoke'] : $callable, true, $textual);
 			return $textual;
@@ -85,11 +88,11 @@ final class Callback
 	/**
 	 * Returns reflection for method or function used in PHP callback.
 	 * @param  callable  $callable  type check is escalated to ReflectionException
-	 * @throws \ReflectionException  if callback is not valid
+	 * @throws ReflectionException  if callback is not valid
 	 */
-	public static function toReflection($callable): \ReflectionMethod|\ReflectionFunction
+	public static function toReflection($callable): \ReflectionMethod|ReflectionFunction
 	{
-		if ($callable instanceof \Closure) {
+		if ($callable instanceof Closure) {
 			$callable = self::unwrap($callable);
 		}
 
@@ -97,10 +100,10 @@ final class Callback
 			return new ReflectionMethod($callable);
 		} elseif (is_array($callable)) {
 			return new ReflectionMethod($callable[0], $callable[1]);
-		} elseif (is_object($callable) && !$callable instanceof \Closure) {
+		} elseif (is_object($callable) && !$callable instanceof Closure) {
 			return new ReflectionMethod($callable, '__invoke');
 		} else {
-			return new \ReflectionFunction($callable);
+			return new ReflectionFunction($callable);
 		}
 	}
 
@@ -117,9 +120,9 @@ final class Callback
 	/**
 	 * Unwraps closure created by Closure::fromCallable().
 	 */
-	public static function unwrap(\Closure $closure): callable|array
+	public static function unwrap(Closure $closure): callable|array
 	{
-		$r = new \ReflectionFunction($closure);
+		$r = new ReflectionFunction($closure);
 		$class = $r->getClosureScopeClass()?->name;
 		if (str_ends_with($r->name, '}')) {
 			return $closure;

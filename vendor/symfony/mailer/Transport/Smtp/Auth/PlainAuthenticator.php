@@ -12,6 +12,7 @@
 namespace Symfony\Component\Mailer\Transport\Smtp\Auth;
 
 use Symfony\Component\Mailer\Transport\Smtp\EsmtpTransport;
+use function chr;
 
 /**
  * Handles PLAIN authentication.
@@ -30,6 +31,6 @@ class PlainAuthenticator implements AuthenticatorInterface
      */
     public function authenticate(EsmtpTransport $client): void
     {
-        $client->executeCommand(sprintf("AUTH PLAIN %s\r\n", base64_encode($client->getUsername().\chr(0).$client->getUsername().\chr(0).$client->getPassword())), [235]);
+        $client->executeCommand(sprintf("AUTH PLAIN %s\r\n", base64_encode($client->getUsername(). chr(0).$client->getUsername(). chr(0).$client->getPassword())), [235]);
     }
 }

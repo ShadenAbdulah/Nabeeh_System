@@ -11,6 +11,8 @@
 
 namespace Symfony\Component\Translation\Extractor;
 
+use function chr;
+
 trigger_deprecation('symfony/translation', '6.2', '"%s" is deprecated.', PhpStringTokenParser::class);
 
 /*
@@ -114,9 +116,9 @@ class PhpStringTokenParser
         if (isset(self::$replacements[$str])) {
             return self::$replacements[$str];
         } elseif ('x' === $str[0] || 'X' === $str[0]) {
-            return \chr(hexdec($str));
+            return chr(hexdec($str));
         } else {
-            return \chr(octdec($str));
+            return chr(octdec($str));
         }
     }
 

@@ -8,6 +8,7 @@ use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Uri;
 use GuzzleHttp\Promise;
 use Aws;
+use InvalidArgumentException;
 
 /**
  * Generates RDS auth tokens for use with IAM authentication.
@@ -46,7 +47,7 @@ class AuthTokenGenerator
     public function createToken($endpoint, $region, $username, $lifetime = 15)
     {
         if (!is_numeric($lifetime) || $lifetime > 15 || $lifetime <= 0) {
-            throw new \InvalidArgumentException(
+            throw new InvalidArgumentException(
                 "Lifetime must be a positive number less than or equal to 15, was {$lifetime}"
             );
         }

@@ -10,10 +10,12 @@ declare(strict_types=1);
 namespace Nette\Utils;
 
 
+use Exception;
+
 /**
  * The exception that is thrown when an image error occurs.
  */
-class ImageException extends \Exception
+class ImageException extends Exception
 {
 }
 
@@ -37,7 +39,7 @@ class JsonException extends \JsonException
 /**
  * The exception that indicates error of the last Regexp execution.
  */
-class RegexpException extends \Exception
+class RegexpException extends Exception
 {
 }
 
@@ -45,6 +47,6 @@ class RegexpException extends \Exception
 /**
  * The exception that indicates assertion error.
  */
-class AssertionException extends \Exception
+class AssertionException extends Exception
 {
 }

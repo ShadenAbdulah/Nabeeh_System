@@ -3,6 +3,7 @@
 namespace PhpParser\Node\Stmt;
 
 use PhpParser\Node;
+use function is_string;
 
 class Enum_ extends ClassLike {
     /** @var null|Node\Identifier Scalar Type */
@@ -25,7 +26,7 @@ class Enum_ extends ClassLike {
      * @param array<string, mixed> $attributes Additional attributes
      */
     public function __construct($name, array $subNodes = [], array $attributes = []) {
-        $this->name = \is_string($name) ? new Node\Identifier($name) : $name;
+        $this->name = is_string($name) ? new Node\Identifier($name) : $name;
         $this->scalarType = $subNodes['scalarType'] ?? null;
         $this->implements = $subNodes['implements'] ?? [];
         $this->stmts = $subNodes['stmts'] ?? [];

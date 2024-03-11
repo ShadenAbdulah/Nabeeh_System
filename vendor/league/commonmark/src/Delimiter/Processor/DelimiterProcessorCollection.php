@@ -20,6 +20,9 @@ declare(strict_types=1);
 namespace League\CommonMark\Delimiter\Processor;
 
 use League\CommonMark\Exception\InvalidArgumentException;
+use function array_keys;
+use function count;
+use function sprintf;
 
 final class DelimiterProcessorCollection implements DelimiterProcessorCollectionInterface
 {
@@ -58,13 +61,13 @@ final class DelimiterProcessorCollection implements DelimiterProcessorCollection
      */
     public function getDelimiterCharacters(): array
     {
-        return \array_keys($this->processorsByChar);
+        return array_keys($this->processorsByChar);
     }
 
     private function addDelimiterProcessorForChar(string $delimiterChar, DelimiterProcessorInterface $processor): void
     {
         if (isset($this->processorsByChar[$delimiterChar])) {
-            throw new InvalidArgumentException(\sprintf('Delim processor for character "%s" already exists', $processor->getOpeningCharacter()));
+            throw new InvalidArgumentException(sprintf('Delim processor for character "%s" already exists', $processor->getOpeningCharacter()));
         }
 
         $this->processorsByChar[$delimiterChar] = $processor;
@@ -84,6 +87,6 @@ final class DelimiterProcessorCollection implements DelimiterProcessorCollection
 
     public function count(): int
     {
-        return \count($this->processorsByChar);
+        return count($this->processorsByChar);
     }
 }

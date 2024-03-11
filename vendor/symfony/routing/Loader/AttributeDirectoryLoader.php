@@ -11,8 +11,18 @@
 
 namespace Symfony\Component\Routing\Loader;
 
+use Exception;
+use FilesystemIterator;
+use InvalidArgumentException;
+use RecursiveCallbackFilterIterator;
+use RecursiveDirectoryIterator;
+use RecursiveIteratorIterator;
+use ReflectionClass;
+use SplFileInfo;
 use Symfony\Component\Config\Resource\DirectoryResource;
 use Symfony\Component\Routing\RouteCollection;
+use function in_array;
+use function is_string;
 
 /**
  * AttributeDirectoryLoader loads routing information from attributes set
@@ -24,7 +34,7 @@ use Symfony\Component\Routing\RouteCollection;
 class AttributeDirectoryLoader extends AttributeFileLoader
 {
     /**
-     * @throws \InvalidArgumentException When the directory does not exist or its routes cannot be parsed
+     * @throws InvalidArgumentException When the directory does not exist or its routes cannot be parsed
      */
     public function load(mixed $path, ?string $type = null): ?RouteCollection
     {
@@ -34,14 +44,14 @@ class AttributeDirectoryLoader extends AttributeFileLoader
 
         $collection = new RouteCollection();
         $collection->addResource(new DirectoryResource($dir, '/\.php$/'));
-        $files = iterator_to_array(new \RecursiveIteratorIterator(
-            new \RecursiveCallbackFilterIterator(
-                new \RecursiveDirectoryIterator($dir, \FilesystemIterator::SKIP_DOTS | \FilesystemIterator::FOLLOW_SYMLINKS),
-                fn (\SplFileInfo $current) => !str_starts_with($current->getBasename(), '.')
+        $files = iterator_to_array(new RecursiveIteratorIterator(
+            new RecursiveCallbackFilterIterator(
+                new RecursiveDirectoryIterator($dir, FilesystemIterator::SKIP_DOTS | FilesystemIterator::FOLLOW_SYMLINKS),
+                fn (SplFileInfo $current) => !str_starts_with($current->getBasename(), '.')
             ),
-            \RecursiveIteratorIterator::LEAVES_ONLY
+            RecursiveIteratorIterator::LEAVES_ONLY
         ));
-        usort($files, fn (\SplFileInfo $a, \SplFileInfo $b) => (string) $a > (string) $b ? 1 : -1);
+        usort($files, fn (SplFileInfo $a, SplFileInfo $b) => (string) $a > (string) $b ? 1 : -1);
 
         foreach ($files as $file) {
             if (!$file->isFile() || !str_ends_with($file->getFilename(), '.php')) {
@@ -49,7 +59,7 @@ class AttributeDirectoryLoader extends AttributeFileLoader
             }
 
             if ($class = $this->findClass($file)) {
-                $refl = new \ReflectionClass($class);
+                $refl = new ReflectionClass($class);
                 if ($refl->isAbstract()) {
                     continue;
                 }
@@ -63,11 +73,11 @@ class AttributeDirectoryLoader extends AttributeFileLoader
 
     public function supports(mixed $resource, ?string $type = null): bool
     {
-        if (!\is_string($resource)) {
+        if (!is_string($resource)) {
             return false;
         }
 
-        if (\in_array($type, ['annotation', 'attribute'], true)) {
+        if (in_array($type, ['annotation', 'attribute'], true)) {
             if ('annotation' === $type) {
                 trigger_deprecation('symfony/routing', '6.4', 'The "annotation" route type is deprecated, use the "attribute" route type instead.');
             }
@@ -81,7 +91,7 @@ class AttributeDirectoryLoader extends AttributeFileLoader
 
         try {
             return is_dir($this->locator->locate($resource));
-        } catch (\Exception) {
+        } catch (Exception) {
             return false;
         }
     }

@@ -5,7 +5,7 @@
  */
 namespace AWS\CRT\Internal;
 
-use \RuntimeException;
+use RuntimeException;
 
 /**
  * @internal

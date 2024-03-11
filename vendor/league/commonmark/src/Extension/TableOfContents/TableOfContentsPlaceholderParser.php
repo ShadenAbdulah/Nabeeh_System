@@ -23,6 +23,7 @@ use League\CommonMark\Parser\Cursor;
 use League\CommonMark\Parser\MarkdownParserStateInterface;
 use League\Config\ConfigurationAwareInterface;
 use League\Config\ConfigurationInterface;
+use function preg_quote;
 
 final class TableOfContentsPlaceholderParser extends AbstractBlockContinueParser
 {
@@ -58,7 +59,7 @@ final class TableOfContentsPlaceholderParser extends AbstractBlockContinueParser
                 }
 
                 // The placeholder must be the only thing on the line
-                if ($cursor->match('/^' . \preg_quote($placeholder, '/') . '$/') === null) {
+                if ($cursor->match('/^' . preg_quote($placeholder, '/') . '$/') === null) {
                     return BlockStart::none();
                 }
 

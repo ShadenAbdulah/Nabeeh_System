@@ -12,6 +12,14 @@
 namespace Psy\Readline;
 
 use Psy\Exception\BreakException;
+use function array_search;
+use function array_slice;
+use function array_values;
+use function count;
+use function feof;
+use function fgets;
+use function fopen;
+use function rtrim;
 
 /**
  * An array-based Readline emulation implementation.
@@ -58,7 +66,7 @@ class Transient implements Readline
     public function addHistory(string $line): bool
     {
         if ($this->eraseDups) {
-            if (($key = \array_search($line, $this->history)) !== false) {
+            if (($key = array_search($line, $this->history)) !== false) {
                 unset($this->history[$key]);
             }
         }
@@ -66,13 +74,13 @@ class Transient implements Readline
         $this->history[] = $line;
 
         if ($this->historySize > 0) {
-            $histsize = \count($this->history);
+            $histsize = count($this->history);
             if ($histsize > $this->historySize) {
-                $this->history = \array_slice($this->history, $histsize - $this->historySize);
+                $this->history = array_slice($this->history, $histsize - $this->historySize);
             }
         }
 
-        $this->history = \array_values($this->history);
+        $this->history = array_values($this->history);
 
         return true;
     }
@@ -114,7 +122,7 @@ class Transient implements Readline
     {
         echo $prompt;
 
-        return \rtrim(\fgets($this->getStdin()), "\n\r");
+        return rtrim(fgets($this->getStdin()), "\n\r");
     }
 
     /**
@@ -143,10 +151,10 @@ class Transient implements Readline
     private function getStdin()
     {
         if (!isset($this->stdin)) {
-            $this->stdin = \fopen('php://stdin', 'r');
+            $this->stdin = fopen('php://stdin', 'r');
         }
 
-        if (\feof($this->stdin)) {
+        if (feof($this->stdin)) {
             throw new BreakException('Ctrl+D');
         }
 

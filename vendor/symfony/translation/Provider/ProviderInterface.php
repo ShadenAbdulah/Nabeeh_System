@@ -11,10 +11,11 @@
 
 namespace Symfony\Component\Translation\Provider;
 
+use Stringable;
 use Symfony\Component\Translation\TranslatorBag;
 use Symfony\Component\Translation\TranslatorBagInterface;
 
-interface ProviderInterface extends \Stringable
+interface ProviderInterface extends Stringable
 {
     /**
      * Translations available in the TranslatorBag only must be created.

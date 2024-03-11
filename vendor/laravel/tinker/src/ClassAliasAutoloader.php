@@ -2,6 +2,7 @@
 
 namespace Laravel\Tinker;
 
+use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Psy\Shell;
 
@@ -10,7 +11,7 @@ class ClassAliasAutoloader
     /**
      * The shell instance.
      *
-     * @var \Psy\Shell
+     * @var Shell
      */
     protected $shell;
 
@@ -31,21 +32,21 @@ class ClassAliasAutoloader
     /**
      * Explicitly included namespaces/classes.
      *
-     * @var \Illuminate\Support\Collection
+     * @var Collection
      */
     protected $includedAliases;
 
     /**
      * Excluded namespaces/classes.
      *
-     * @var \Illuminate\Support\Collection
+     * @var Collection
      */
     protected $excludedAliases;
 
     /**
      * Register a new alias loader instance.
      *
-     * @param  \Psy\Shell  $shell
+     * @param Shell $shell
      * @param  string  $classMapPath
      * @param  array  $includedAliases
      * @param  array  $excludedAliases
@@ -61,7 +62,7 @@ class ClassAliasAutoloader
     /**
      * Create a new alias loader instance.
      *
-     * @param  \Psy\Shell  $shell
+     * @param Shell $shell
      * @param  string  $classMapPath
      * @param  array  $includedAliases
      * @param  array  $excludedAliases

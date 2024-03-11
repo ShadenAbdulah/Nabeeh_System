@@ -25,14 +25,14 @@ class View implements ArrayAccess, Htmlable, ViewContract
     /**
      * The view factory instance.
      *
-     * @var \Illuminate\View\Factory
+     * @var Factory
      */
     protected $factory;
 
     /**
      * The engine implementation.
      *
-     * @var \Illuminate\Contracts\View\Engine
+     * @var Engine
      */
     protected $engine;
 
@@ -60,8 +60,8 @@ class View implements ArrayAccess, Htmlable, ViewContract
     /**
      * Create a new view instance.
      *
-     * @param  \Illuminate\View\Factory  $factory
-     * @param  \Illuminate\Contracts\View\Engine  $engine
+     * @param Factory $factory
+     * @param Engine $engine
      * @param  string  $view
      * @param  string  $path
      * @param  mixed  $data
@@ -151,7 +151,7 @@ class View implements ArrayAccess, Htmlable, ViewContract
      * @param  callable|null  $callback
      * @return string
      *
-     * @throws \Throwable
+     * @throws Throwable
      */
     public function render(callable $callback = null)
     {
@@ -230,7 +230,7 @@ class View implements ArrayAccess, Htmlable, ViewContract
      *
      * @return array
      *
-     * @throws \Throwable
+     * @throws Throwable
      */
     public function renderSections()
     {
@@ -273,7 +273,7 @@ class View implements ArrayAccess, Htmlable, ViewContract
     /**
      * Add validation errors to the view.
      *
-     * @param  \Illuminate\Contracts\Support\MessageProvider|array  $provider
+     * @param MessageProvider|array  $provider
      * @param  string  $bag
      * @return $this
      */
@@ -287,8 +287,8 @@ class View implements ArrayAccess, Htmlable, ViewContract
     /**
      * Parse the given errors into an appropriate value.
      *
-     * @param  \Illuminate\Contracts\Support\MessageProvider|array|string  $provider
-     * @return \Illuminate\Support\MessageBag
+     * @param MessageProvider|array|string  $provider
+     * @return MessageBag
      */
     protected function formatErrors($provider)
     {
@@ -351,7 +351,7 @@ class View implements ArrayAccess, Htmlable, ViewContract
     /**
      * Get the view factory instance.
      *
-     * @return \Illuminate\View\Factory
+     * @return Factory
      */
     public function getFactory()
     {
@@ -361,7 +361,7 @@ class View implements ArrayAccess, Htmlable, ViewContract
     /**
      * Get the view's rendering engine.
      *
-     * @return \Illuminate\Contracts\View\Engine
+     * @return Engine
      */
     public function getEngine()
     {
@@ -463,9 +463,9 @@ class View implements ArrayAccess, Htmlable, ViewContract
      *
      * @param  string  $method
      * @param  array  $parameters
-     * @return \Illuminate\View\View
+     * @return View
      *
-     * @throws \BadMethodCallException
+     * @throws BadMethodCallException
      */
     public function __call($method, $parameters)
     {
@@ -497,7 +497,7 @@ class View implements ArrayAccess, Htmlable, ViewContract
      *
      * @return string
      *
-     * @throws \Throwable
+     * @throws Throwable
      */
     public function __toString()
     {

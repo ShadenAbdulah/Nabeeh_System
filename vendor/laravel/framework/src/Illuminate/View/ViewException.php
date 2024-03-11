@@ -4,6 +4,8 @@ namespace Illuminate\View;
 
 use ErrorException;
 use Illuminate\Container\Container;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Reflector;
 
 class ViewException extends ErrorException
@@ -27,8 +29,8 @@ class ViewException extends ErrorException
     /**
      * Render the exception into an HTTP response.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response|null
+     * @param  Request  $request
+     * @return Response|null
      */
     public function render($request)
     {

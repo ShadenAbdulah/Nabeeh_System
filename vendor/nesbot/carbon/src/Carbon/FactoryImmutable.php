@@ -15,6 +15,7 @@ use Closure;
 use DateTimeImmutable;
 use DateTimeZone;
 use Psr\Clock\ClockInterface;
+use Symfony\Component\Translation\TranslatorInterface;
 
 /**
  * A factory to generate CarbonImmutable instances with common settings.
@@ -81,7 +82,7 @@ use Psr\Clock\ClockInterface;
  *                                                                                                                                                                                         instance is created.
  * @method string                                             getTimeFormatByPrecision($unitPrecision)                                                                                     Return a format from H:i to H:i:s.u according to given unit precision.
  * @method string                                             getTranslationMessageWith($translator, string $key, ?string $locale = null, ?string $default = null)                         Returns raw translation message for a given key.
- * @method \Symfony\Component\Translation\TranslatorInterface getTranslator()                                                                                                              Get the default translator instance in use.
+ * @method TranslatorInterface getTranslator()                                                                                                              Get the default translator instance in use.
  * @method int                                                getWeekEndsAt()                                                                                                              Get the last day of week
  * @method int                                                getWeekStartsAt()                                                                                                            Get the first day of week
  * @method array                                              getWeekendDays()                                                                                                             Get weekend days

@@ -9,6 +9,7 @@
  */
 namespace SebastianBergmann\CodeCoverage\Node;
 
+use SebastianBergmann\CodeCoverage\StaticAnalysis\FileAnalyser;
 use function array_merge;
 use function count;
 use IteratorAggregate;
@@ -17,7 +18,7 @@ use RecursiveIteratorIterator;
 /**
  * @internal This class is not covered by the backward compatibility promise for phpunit/php-code-coverage
  *
- * @psalm-import-type LinesOfCodeType from \SebastianBergmann\CodeCoverage\StaticAnalysis\FileAnalyser
+ * @psalm-import-type LinesOfCodeType from FileAnalyser
  */
 final class Directory extends AbstractNode implements IteratorAggregate
 {

@@ -9,10 +9,10 @@ class MiddlewareNameResolver
     /**
      * Resolve the middleware name to a class name(s) preserving passed parameters.
      *
-     * @param  \Closure|string  $name
+     * @param Closure|string  $name
      * @param  array  $map
      * @param  array  $middlewareGroups
-     * @return \Closure|string|array
+     * @return Closure|string|array
      */
     public static function resolve($name, $map, $middlewareGroups)
     {

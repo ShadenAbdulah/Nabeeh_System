@@ -10,13 +10,14 @@ declare(strict_types=1);
 namespace Nette\Utils;
 
 use Nette;
+use SplFileInfo;
 
 
 /**
  * Represents the file or directory returned by the Finder.
  * @internal do not create instances directly
  */
-final class FileInfo extends \SplFileInfo
+final class FileInfo extends SplFileInfo
 {
 	private string $relativePath;
 

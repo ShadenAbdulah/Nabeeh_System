@@ -56,7 +56,7 @@ class ArgonHasher extends AbstractHasher implements HasherContract
      * @param  array  $options
      * @return string
      *
-     * @throws \RuntimeException
+     * @throws RuntimeException
      */
     public function make($value, array $options = [])
     {
@@ -91,7 +91,7 @@ class ArgonHasher extends AbstractHasher implements HasherContract
      * @param  array  $options
      * @return bool
      *
-     * @throws \RuntimeException
+     * @throws RuntimeException
      */
     public function check($value, $hashedValue, array $options = [])
     {

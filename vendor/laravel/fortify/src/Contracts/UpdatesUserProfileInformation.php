@@ -2,8 +2,10 @@
 
 namespace Laravel\Fortify\Contracts;
 
+use Illuminate\Foundation\Auth\User;
+
 /**
- * @method void update(\Illuminate\Foundation\Auth\User $user, array $input)
+ * @method void update(User $user, array $input)
  */
 interface UpdatesUserProfileInformation
 {

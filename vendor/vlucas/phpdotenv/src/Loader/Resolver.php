@@ -9,6 +9,7 @@ use Dotenv\Repository\RepositoryInterface;
 use Dotenv\Util\Regex;
 use Dotenv\Util\Str;
 use PhpOption\Option;
+use function array_reduce;
 
 final class Resolver
 {
@@ -30,14 +31,14 @@ final class Resolver
      * Replaces ${varname} patterns in the allowed positions in the variable
      * value by an existing environment variable.
      *
-     * @param \Dotenv\Repository\RepositoryInterface $repository
-     * @param \Dotenv\Parser\Value                   $value
+     * @param RepositoryInterface $repository
+     * @param Value $value
      *
      * @return string
      */
     public static function resolve(RepositoryInterface $repository, Value $value)
     {
-        return \array_reduce($value->getVars(), static function (string $s, int $i) use ($repository) {
+        return array_reduce($value->getVars(), static function (string $s, int $i) use ($repository) {
             return Str::substr($s, 0, $i).self::resolveVariable($repository, Str::substr($s, $i));
         }, $value->getChars());
     }
@@ -45,7 +46,7 @@ final class Resolver
     /**
      * Resolve a single nested variable.
      *
-     * @param \Dotenv\Repository\RepositoryInterface $repository
+     * @param RepositoryInterface $repository
      * @param string                                 $str
      *
      * @return string

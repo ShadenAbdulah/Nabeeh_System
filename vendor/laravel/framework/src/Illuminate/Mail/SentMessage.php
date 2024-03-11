@@ -6,7 +6,7 @@ use Illuminate\Support\Traits\ForwardsCalls;
 use Symfony\Component\Mailer\SentMessage as SymfonySentMessage;
 
 /**
- * @mixin \Symfony\Component\Mailer\SentMessage
+ * @mixin SymfonySentMessage
  */
 class SentMessage
 {
@@ -15,14 +15,14 @@ class SentMessage
     /**
      * The Symfony SentMessage instance.
      *
-     * @var \Symfony\Component\Mailer\SentMessage
+     * @var SymfonySentMessage
      */
     protected $sentMessage;
 
     /**
      * Create a new SentMessage instance.
      *
-     * @param  \Symfony\Component\Mailer\SentMessage  $sentMessage
+     * @param SymfonySentMessage $sentMessage
      * @return void
      */
     public function __construct(SymfonySentMessage $sentMessage)
@@ -33,7 +33,7 @@ class SentMessage
     /**
      * Get the underlying Symfony Email instance.
      *
-     * @return \Symfony\Component\Mailer\SentMessage
+     * @return SymfonySentMessage
      */
     public function getSymfonySentMessage()
     {

@@ -7,6 +7,7 @@ use Doctrine\DBAL\Schema\ForeignKeyConstraint;
 use Doctrine\DBAL\Schema\Index;
 use Doctrine\DBAL\Schema\Table;
 use Illuminate\Database\ConnectionResolverInterface;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Symfony\Component\Console\Attribute\AsCommand;
 
@@ -83,8 +84,8 @@ class TableCommand extends DatabaseInspectionCommand
     /**
      * Get the information regarding the table's columns.
      *
-     * @param  \Doctrine\DBAL\Schema\Table  $table
-     * @return \Illuminate\Support\Collection
+     * @param Table $table
+     * @return Collection
      */
     protected function columns(Table $table)
     {
@@ -99,8 +100,8 @@ class TableCommand extends DatabaseInspectionCommand
     /**
      * Get the attributes for a table column.
      *
-     * @param  \Doctrine\DBAL\Schema\Column  $column
-     * @return \Illuminate\Support\Collection
+     * @param Column $column
+     * @return Collection
      */
     protected function getAttributesForColumn(Column $column)
     {
@@ -115,8 +116,8 @@ class TableCommand extends DatabaseInspectionCommand
     /**
      * Get the information regarding the table's indexes.
      *
-     * @param  \Doctrine\DBAL\Schema\Table  $table
-     * @return \Illuminate\Support\Collection
+     * @param Table $table
+     * @return Collection
      */
     protected function indexes(Table $table)
     {
@@ -130,8 +131,8 @@ class TableCommand extends DatabaseInspectionCommand
     /**
      * Get the attributes for a table index.
      *
-     * @param  \Doctrine\DBAL\Schema\Index  $index
-     * @return \Illuminate\Support\Collection
+     * @param Index $index
+     * @return Collection
      */
     protected function getAttributesForIndex(Index $index)
     {
@@ -145,8 +146,8 @@ class TableCommand extends DatabaseInspectionCommand
     /**
      * Get the information regarding the table's foreign keys.
      *
-     * @param  \Doctrine\DBAL\Schema\Table  $table
-     * @return \Illuminate\Support\Collection
+     * @param Table $table
+     * @return Collection
      */
     protected function foreignKeys(Table $table)
     {

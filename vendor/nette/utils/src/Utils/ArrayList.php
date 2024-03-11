@@ -9,16 +9,20 @@ declare(strict_types=1);
 
 namespace Nette\Utils;
 
+use ArrayAccess;
+use Countable;
+use Iterator;
+use IteratorAggregate;
 use Nette;
 
 
 /**
  * Provides the base class for a generic list (items can be accessed by index).
  * @template T
- * @implements \IteratorAggregate<int, T>
- * @implements \ArrayAccess<int, T>
+ * @implements IteratorAggregate<int, T>
+ * @implements ArrayAccess<int, T>
  */
-class ArrayList implements \ArrayAccess, \Countable, \IteratorAggregate
+class ArrayList implements ArrayAccess, Countable, IteratorAggregate
 {
 	use Nette\SmartObject;
 
@@ -43,9 +47,9 @@ class ArrayList implements \ArrayAccess, \Countable, \IteratorAggregate
 
 	/**
 	 * Returns an iterator over all items.
-	 * @return \Iterator<int, T>
+	 * @return Iterator<int, T>
 	 */
-	public function &getIterator(): \Iterator
+	public function &getIterator(): Iterator
 	{
 		foreach ($this->list as &$item) {
 			yield $item;

@@ -18,7 +18,7 @@ trait UserAgentTrait
                     $userAgent = $req->getHeader('User-Agent')[0];
                     if (strpos($userAgent, $agentString) === false) {
                         $userAgent .= " {$agentString}";
-                    };
+                    }
                 } else {
                     $userAgent = $agentString;
                 }

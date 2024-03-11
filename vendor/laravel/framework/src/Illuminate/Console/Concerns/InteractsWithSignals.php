@@ -2,6 +2,7 @@
 
 namespace Illuminate\Console\Concerns;
 
+use Closure;
 use Illuminate\Console\Signals;
 use Illuminate\Support\Arr;
 
@@ -10,7 +11,7 @@ trait InteractsWithSignals
     /**
      * The signal registrar instance.
      *
-     * @var \Illuminate\Console\Signals|null
+     * @var Signals|null
      */
     protected $signals;
 
@@ -19,7 +20,7 @@ trait InteractsWithSignals
      *
      * @template TSignals of iterable<array-key, int>|int
      *
-     * @param  (\Closure():(TSignals))|TSignals  $signals
+     * @param  (Closure():(TSignals))|TSignals  $signals
      * @param  callable(int $signal): void  $callback
      * @return void
      */

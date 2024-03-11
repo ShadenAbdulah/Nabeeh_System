@@ -113,7 +113,7 @@ class ValidatedInput implements ValidatedData
     /**
      * Get the input as a collection.
      *
-     * @return \Illuminate\Support\Collection
+     * @return Collection
      */
     public function collect()
     {
@@ -236,7 +236,7 @@ class ValidatedInput implements ValidatedData
     /**
      * Get an iterator for the input.
      *
-     * @return \ArrayIterator
+     * @return ArrayIterator
      */
     public function getIterator(): Traversable
     {

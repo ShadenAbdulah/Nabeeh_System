@@ -11,6 +11,10 @@
 
 namespace Symfony\Component\Routing\Attribute;
 
+use Attribute;
+use Stringable;
+use function is_array;
+
 /**
  * Annotation class for @Route().
  *
@@ -21,7 +25,7 @@ namespace Symfony\Component\Routing\Attribute;
  * @author Fabien Potencier <fabien@symfony.com>
  * @author Alexander M. Turek <me@derrabus.de>
  */
-#[\Attribute(\Attribute::IS_REPEATABLE | \Attribute::TARGET_CLASS | \Attribute::TARGET_METHOD)]
+#[Attribute(Attribute::IS_REPEATABLE | Attribute::TARGET_CLASS | Attribute::TARGET_METHOD)]
 class Route
 {
     private ?string $path = null;
@@ -30,7 +34,7 @@ class Route
     private array $schemes;
 
     /**
-     * @param array<string|\Stringable> $requirements
+     * @param array<string|Stringable> $requirements
      * @param string[]|string           $methods
      * @param string[]|string           $schemes
      */
@@ -51,7 +55,7 @@ class Route
         ?bool $stateless = null,
         private ?string $env = null
     ) {
-        if (\is_array($path)) {
+        if (is_array($path)) {
             $this->localizedPaths = $path;
         } else {
             $this->path = $path;

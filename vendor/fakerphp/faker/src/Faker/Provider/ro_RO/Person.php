@@ -2,6 +2,9 @@
 
 namespace Faker\Provider\ro_RO;
 
+use DateTime;
+use InvalidArgumentException;
+
 class Person extends \Faker\Provider\Person
 {
     // http://en.wikipedia.org/wiki/Romanian_name, prefixes are for more formal purposes
@@ -122,7 +125,7 @@ class Person extends \Faker\Provider\Person
         if (empty($gender)) {
             $gender = static::randomElement($genders);
         } elseif (!in_array($gender, $genders, false)) {
-            throw new \InvalidArgumentException("Gender must be '{Person::GENDER_MALE}' or '{Person::GENDER_FEMALE}'");
+            throw new InvalidArgumentException("Gender must be '{Person::GENDER_MALE}' or '{Person::GENDER_FEMALE}'");
         }
 
         $date = $this->getDateOfBirth($dateOfBirth);
@@ -130,7 +133,7 @@ class Person extends \Faker\Provider\Person
         if (null === $county) {
             $countyCode = static::randomElement(array_values(static::$cnpCountyCodes));
         } elseif (!array_key_exists($county, static::$cnpCountyCodes)) {
-            throw new \InvalidArgumentException("Invalid county code '{$county}' received");
+            throw new InvalidArgumentException("Invalid county code '{$county}' received");
         } else {
             $countyCode = static::$cnpCountyCodes[$county];
         }
@@ -149,7 +152,7 @@ class Person extends \Faker\Provider\Person
     /**
      * @param string|null $dateOfBirth
      *
-     * @return \DateTime
+     * @return DateTime
      */
     protected function getDateOfBirth($dateOfBirth)
     {
@@ -173,19 +176,19 @@ class Person extends \Faker\Provider\Person
                 break;
 
             default:
-                throw new \InvalidArgumentException("Invalid date of birth - must be null or in the 'Y-m-d', 'Y-m', 'Y' format");
+                throw new InvalidArgumentException("Invalid date of birth - must be null or in the 'Y-m-d', 'Y-m', 'Y' format");
         }
 
         if ($dateOfBirthParts[0] < 1800 || $dateOfBirthParts[0] > 2099) {
-            throw new \InvalidArgumentException("Invalid date of birth - year must be between 1800 and 2099, '{$dateOfBirthParts[0]}' received");
+            throw new InvalidArgumentException("Invalid date of birth - year must be between 1800 and 2099, '{$dateOfBirthParts[0]}' received");
         }
 
         $dateOfBirthFinal = implode('-', $dateOfBirthParts);
-        $date = \DateTime::createFromFormat('Y-m-d', $dateOfBirthFinal);
+        $date = DateTime::createFromFormat('Y-m-d', $dateOfBirthFinal);
 
         //a full (invalid) date might have been supplied, check if it converts
         if ($date->format('Y-m-d') !== $dateOfBirthFinal) {
-            throw new \InvalidArgumentException("Invalid date of birth - '{$date->format('Y-m-d')}' generated based on '{$dateOfBirth}' received");
+            throw new InvalidArgumentException("Invalid date of birth - '{$date->format('Y-m-d')}' generated based on '{$dateOfBirth}' received");
         }
 
         return $date;
@@ -199,7 +202,7 @@ class Person extends \Faker\Provider\Person
      *
      * @return int
      */
-    protected static function getGenderDigit(\DateTime $dateOfBirth, $gender, $isResident)
+    protected static function getGenderDigit(DateTime $dateOfBirth, $gender, $isResident)
     {
         if (!$isResident) {
             return 9;

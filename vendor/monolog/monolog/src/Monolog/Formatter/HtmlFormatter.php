@@ -14,6 +14,8 @@ namespace Monolog\Formatter;
 use Monolog\Level;
 use Monolog\Utils;
 use Monolog\LogRecord;
+use RuntimeException;
+use function count;
 
 /**
  * Formats incoming records into an HTML table
@@ -43,7 +45,7 @@ class HtmlFormatter extends NormalizerFormatter
 
     /**
      * @param string|null $dateFormat The format of the timestamp: one supported by DateTime::format
-     * @throws \RuntimeException If the function json_encode does not exist
+     * @throws RuntimeException If the function json_encode does not exist
      */
     public function __construct(?string $dateFormat = null)
     {
@@ -92,7 +94,7 @@ class HtmlFormatter extends NormalizerFormatter
         $output .= $this->addRow('Message', $record->message);
         $output .= $this->addRow('Time', $this->formatDate($record->datetime));
         $output .= $this->addRow('Channel', $record->channel);
-        if (\count($record->context) > 0) {
+        if (count($record->context) > 0) {
             $embeddedTable = '<table cellspacing="1" width="100%">';
             foreach ($record->context as $key => $value) {
                 $embeddedTable .= $this->addRow((string) $key, $this->convertToString($value));
@@ -100,7 +102,7 @@ class HtmlFormatter extends NormalizerFormatter
             $embeddedTable .= '</table>';
             $output .= $this->addRow('Context', $embeddedTable, false);
         }
-        if (\count($record->extra) > 0) {
+        if (count($record->extra) > 0) {
             $embeddedTable = '<table cellspacing="1" width="100%">';
             foreach ($record->extra as $key => $value) {
                 $embeddedTable .= $this->addRow((string) $key, $this->convertToString($value));

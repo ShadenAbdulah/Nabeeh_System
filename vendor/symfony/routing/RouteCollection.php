@@ -11,9 +11,15 @@
 
 namespace Symfony\Component\Routing;
 
+use ArrayIterator;
+use Countable;
+use IteratorAggregate;
 use Symfony\Component\Config\Resource\ResourceInterface;
 use Symfony\Component\Routing\Exception\InvalidArgumentException;
 use Symfony\Component\Routing\Exception\RouteCircularReferenceException;
+use function array_slice;
+use function count;
+use function in_array;
 
 /**
  * A RouteCollection represents a set of Route instances.
@@ -25,9 +31,9 @@ use Symfony\Component\Routing\Exception\RouteCircularReferenceException;
  * @author Fabien Potencier <fabien@symfony.com>
  * @author Tobias Schultze <http://tobion.de>
  *
- * @implements \IteratorAggregate<string, Route>
+ * @implements IteratorAggregate<string, Route>
  */
-class RouteCollection implements \IteratorAggregate, \Countable
+class RouteCollection implements IteratorAggregate, Countable
 {
     /**
      * @var array<string, Route>
@@ -67,11 +73,11 @@ class RouteCollection implements \IteratorAggregate, \Countable
      *
      * @see all()
      *
-     * @return \ArrayIterator<string, Route>
+     * @return ArrayIterator<string, Route>
      */
-    public function getIterator(): \ArrayIterator
+    public function getIterator(): ArrayIterator
     {
-        return new \ArrayIterator($this->all());
+        return new ArrayIterator($this->all());
     }
 
     /**
@@ -79,7 +85,7 @@ class RouteCollection implements \IteratorAggregate, \Countable
      */
     public function count(): int
     {
-        return \count($this->routes);
+        return count($this->routes);
     }
 
     /**
@@ -122,7 +128,7 @@ class RouteCollection implements \IteratorAggregate, \Countable
             if (false !== $searchKey = array_search($name, $visited)) {
                 $visited[] = $name;
 
-                throw new RouteCircularReferenceException($name, \array_slice($visited, $searchKey));
+                throw new RouteCircularReferenceException($name, array_slice($visited, $searchKey));
             }
 
             if ($alias->isDeprecated()) {
@@ -161,7 +167,7 @@ class RouteCollection implements \IteratorAggregate, \Countable
         }
 
         foreach ($this->aliases as $k => $alias) {
-            if (\in_array($alias->getId(), $routes, true)) {
+            if (in_array($alias->getId(), $routes, true)) {
                 unset($this->aliases[$k]);
             }
         }

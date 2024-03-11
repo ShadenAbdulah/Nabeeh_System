@@ -11,6 +11,7 @@
 
 namespace Symfony\Component\Routing;
 
+use InvalidArgumentException;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Config\ConfigCacheFactory;
 use Symfony\Component\Config\ConfigCacheFactoryInterface;
@@ -28,6 +29,12 @@ use Symfony\Component\Routing\Matcher\Dumper\CompiledUrlMatcherDumper;
 use Symfony\Component\Routing\Matcher\Dumper\MatcherDumperInterface;
 use Symfony\Component\Routing\Matcher\RequestMatcherInterface;
 use Symfony\Component\Routing\Matcher\UrlMatcherInterface;
+use function array_key_exists;
+use function function_exists;
+use function in_array;
+use function ini_get;
+use const FILTER_VALIDATE_BOOL;
+use const PHP_SAPI;
 
 /**
  * The Router class is an example of the integration of all pieces of the
@@ -118,7 +125,7 @@ class Router implements RouterInterface, RequestMatcherInterface
      *
      * @return void
      *
-     * @throws \InvalidArgumentException When unsupported option is provided
+     * @throws InvalidArgumentException When unsupported option is provided
      */
     public function setOptions(array $options)
     {
@@ -136,7 +143,7 @@ class Router implements RouterInterface, RequestMatcherInterface
         // check option names and live merge, if errors are encountered Exception will be thrown
         $invalid = [];
         foreach ($options as $key => $value) {
-            if (\array_key_exists($key, $this->options)) {
+            if (array_key_exists($key, $this->options)) {
                 $this->options[$key] = $value;
             } else {
                 $invalid[] = $key;
@@ -144,7 +151,7 @@ class Router implements RouterInterface, RequestMatcherInterface
         }
 
         if ($invalid) {
-            throw new \InvalidArgumentException(sprintf('The Router does not support the following options: "%s".', implode('", "', $invalid)));
+            throw new InvalidArgumentException(sprintf('The Router does not support the following options: "%s".', implode('", "', $invalid)));
         }
     }
 
@@ -153,12 +160,12 @@ class Router implements RouterInterface, RequestMatcherInterface
      *
      * @return void
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function setOption(string $key, mixed $value)
     {
-        if (!\array_key_exists($key, $this->options)) {
-            throw new \InvalidArgumentException(sprintf('The Router does not support the "%s" option.', $key));
+        if (!array_key_exists($key, $this->options)) {
+            throw new InvalidArgumentException(sprintf('The Router does not support the "%s" option.', $key));
         }
 
         $this->options[$key] = $value;
@@ -167,12 +174,12 @@ class Router implements RouterInterface, RequestMatcherInterface
     /**
      * Gets an option value.
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function getOption(string $key): mixed
     {
-        if (!\array_key_exists($key, $this->options)) {
-            throw new \InvalidArgumentException(sprintf('The Router does not support the "%s" option.', $key));
+        if (!array_key_exists($key, $this->options)) {
+            throw new InvalidArgumentException(sprintf('The Router does not support the "%s" option.', $key));
         }
 
         return $this->options[$key];
@@ -343,7 +350,7 @@ class Router implements RouterInterface, RequestMatcherInterface
 
     private static function getCompiledRoutes(string $path): array
     {
-        if ([] === self::$cache && \function_exists('opcache_invalidate') && filter_var(\ini_get('opcache.enable'), \FILTER_VALIDATE_BOOL) && (!\in_array(\PHP_SAPI, ['cli', 'phpdbg', 'embed'], true) || filter_var(\ini_get('opcache.enable_cli'), \FILTER_VALIDATE_BOOL))) {
+        if ([] === self::$cache && function_exists('opcache_invalidate') && filter_var(ini_get('opcache.enable'), FILTER_VALIDATE_BOOL) && (!in_array(PHP_SAPI, ['cli', 'phpdbg', 'embed'], true) || filter_var(ini_get('opcache.enable_cli'), FILTER_VALIDATE_BOOL))) {
             self::$cache = null;
         }
 

@@ -2,6 +2,7 @@
 
 namespace PhpParser;
 
+use LogicException;
 use PhpParser\Node\ComplexType;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Identifier;
@@ -9,6 +10,7 @@ use PhpParser\Node\Name;
 use PhpParser\Node\NullableType;
 use PhpParser\Node\Scalar;
 use PhpParser\Node\Stmt;
+use function is_string;
 
 /**
  * This class defines helpers used in the implementation of builders. Don't use it directly.
@@ -32,7 +34,7 @@ final class BuilderHelpers {
             return $node;
         }
 
-        throw new \LogicException('Expected node or builder object');
+        throw new LogicException('Expected node or builder object');
     }
 
     /**
@@ -54,7 +56,7 @@ final class BuilderHelpers {
             return new Stmt\Expression($node);
         }
 
-        throw new \LogicException('Expected statement or expression node');
+        throw new LogicException('Expected statement or expression node');
     }
 
     /**
@@ -69,11 +71,11 @@ final class BuilderHelpers {
             return $name;
         }
 
-        if (\is_string($name)) {
+        if (is_string($name)) {
             return new Identifier($name);
         }
 
-        throw new \LogicException('Expected string or instance of Node\Identifier');
+        throw new LogicException('Expected string or instance of Node\Identifier');
     }
 
     /**
@@ -88,11 +90,11 @@ final class BuilderHelpers {
             return $name;
         }
 
-        if (\is_string($name)) {
+        if (is_string($name)) {
             return new Identifier($name);
         }
 
-        throw new \LogicException('Expected string or instance of Node\Identifier or Node\Expr');
+        throw new LogicException('Expected string or instance of Node\Identifier or Node\Expr');
     }
 
     /**
@@ -109,7 +111,7 @@ final class BuilderHelpers {
 
         if (is_string($name)) {
             if (!$name) {
-                throw new \LogicException('Name cannot be empty');
+                throw new LogicException('Name cannot be empty');
             }
 
             if ($name[0] === '\\') {
@@ -123,7 +125,7 @@ final class BuilderHelpers {
             return new Name($name);
         }
 
-        throw new \LogicException('Name must be a string or an instance of Node\Name');
+        throw new LogicException('Name must be a string or an instance of Node\Name');
     }
 
     /**
@@ -139,7 +141,7 @@ final class BuilderHelpers {
         }
 
         if (!is_string($name) && !($name instanceof Name)) {
-            throw new \LogicException(
+            throw new LogicException(
                 'Name must be a string or an instance of Node\Name or Node\Expr'
             );
         }
@@ -163,7 +165,7 @@ final class BuilderHelpers {
                 !$type instanceof Name && !$type instanceof Identifier &&
                 !$type instanceof ComplexType
             ) {
-                throw new \LogicException(
+                throw new LogicException(
                     'Type must be a string, or an instance of Name, Identifier or ComplexType'
                 );
             }
@@ -204,7 +206,7 @@ final class BuilderHelpers {
             'void', 'mixed', 'never',
         ];
         if ($nullable && in_array((string) $type, $notNullableTypes)) {
-            throw new \LogicException(sprintf('%s type cannot be nullable', $type));
+            throw new LogicException(sprintf('%s type cannot be nullable', $type));
         }
 
         return $nullable ? new NullableType($type) : $type;
@@ -268,7 +270,7 @@ final class BuilderHelpers {
             return new Expr\Array_($items);
         }
 
-        throw new \LogicException('Invalid value');
+        throw new LogicException('Invalid value');
     }
 
     /**
@@ -287,7 +289,7 @@ final class BuilderHelpers {
             return new Comment\Doc($docComment);
         }
 
-        throw new \LogicException('Doc comment must be a string or an instance of PhpParser\Comment\Doc');
+        throw new LogicException('Doc comment must be a string or an instance of PhpParser\Comment\Doc');
     }
 
     /**
@@ -303,7 +305,7 @@ final class BuilderHelpers {
         }
 
         if (!($attribute instanceof Node\Attribute)) {
-            throw new \LogicException('Attribute must be an instance of PhpParser\Node\Attribute or PhpParser\Node\AttributeGroup');
+            throw new LogicException('Attribute must be an instance of PhpParser\Node\Attribute or PhpParser\Node\AttributeGroup');
         }
 
         return new Node\AttributeGroup([$attribute]);

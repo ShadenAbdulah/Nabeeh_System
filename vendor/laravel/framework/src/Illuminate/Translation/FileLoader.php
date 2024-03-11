@@ -11,7 +11,7 @@ class FileLoader implements Loader
     /**
      * The filesystem instance.
      *
-     * @var \Illuminate\Filesystem\Filesystem
+     * @var Filesystem
      */
     protected $files;
 
@@ -39,7 +39,7 @@ class FileLoader implements Loader
     /**
      * Create a new file loader instance.
      *
-     * @param  \Illuminate\Filesystem\Filesystem  $files
+     * @param Filesystem $files
      * @param  array|string  $path
      * @return void
      */
@@ -139,7 +139,7 @@ class FileLoader implements Loader
      * @param  string  $locale
      * @return array
      *
-     * @throws \RuntimeException
+     * @throws RuntimeException
      */
     protected function loadJsonPaths($locale)
     {

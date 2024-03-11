@@ -2,6 +2,10 @@
 
 namespace Illuminate\Contracts\Routing;
 
+use Closure;
+use Illuminate\Routing\PendingResourceRegistration;
+use Illuminate\Routing\Route;
+
 interface Registrar
 {
     /**
@@ -9,7 +13,7 @@ interface Registrar
      *
      * @param  string  $uri
      * @param  array|string|callable  $action
-     * @return \Illuminate\Routing\Route
+     * @return Route
      */
     public function get($uri, $action);
 
@@ -18,7 +22,7 @@ interface Registrar
      *
      * @param  string  $uri
      * @param  array|string|callable  $action
-     * @return \Illuminate\Routing\Route
+     * @return Route
      */
     public function post($uri, $action);
 
@@ -27,7 +31,7 @@ interface Registrar
      *
      * @param  string  $uri
      * @param  array|string|callable  $action
-     * @return \Illuminate\Routing\Route
+     * @return Route
      */
     public function put($uri, $action);
 
@@ -36,7 +40,7 @@ interface Registrar
      *
      * @param  string  $uri
      * @param  array|string|callable  $action
-     * @return \Illuminate\Routing\Route
+     * @return Route
      */
     public function delete($uri, $action);
 
@@ -45,7 +49,7 @@ interface Registrar
      *
      * @param  string  $uri
      * @param  array|string|callable  $action
-     * @return \Illuminate\Routing\Route
+     * @return Route
      */
     public function patch($uri, $action);
 
@@ -54,7 +58,7 @@ interface Registrar
      *
      * @param  string  $uri
      * @param  array|string|callable  $action
-     * @return \Illuminate\Routing\Route
+     * @return Route
      */
     public function options($uri, $action);
 
@@ -64,7 +68,7 @@ interface Registrar
      * @param  array|string  $methods
      * @param  string  $uri
      * @param  array|string|callable  $action
-     * @return \Illuminate\Routing\Route
+     * @return Route
      */
     public function match($methods, $uri, $action);
 
@@ -74,7 +78,7 @@ interface Registrar
      * @param  string  $name
      * @param  string  $controller
      * @param  array  $options
-     * @return \Illuminate\Routing\PendingResourceRegistration
+     * @return PendingResourceRegistration
      */
     public function resource($name, $controller, array $options = []);
 
@@ -82,7 +86,7 @@ interface Registrar
      * Create a route group with shared attributes.
      *
      * @param  array  $attributes
-     * @param  \Closure|string  $routes
+     * @param  Closure|string  $routes
      * @return void
      */
     public function group(array $attributes, $routes);
@@ -90,15 +94,15 @@ interface Registrar
     /**
      * Substitute the route bindings onto the route.
      *
-     * @param  \Illuminate\Routing\Route  $route
-     * @return \Illuminate\Routing\Route
+     * @param  Route  $route
+     * @return Route
      */
     public function substituteBindings($route);
 
     /**
      * Substitute the implicit Eloquent model bindings for the route.
      *
-     * @param  \Illuminate\Routing\Route  $route
+     * @param  Route  $route
      * @return void
      */
     public function substituteImplicitBindings($route);

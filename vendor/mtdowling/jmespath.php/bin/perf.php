@@ -1,6 +1,10 @@
 #!/usr/bin/env php
 <?php
 
+use Composer\XdebugHandler\XdebugHandler;
+use JmesPath\CompilerRuntime;
+use JmesPath\Env;
+
 if (file_exists(__DIR__ . '/../vendor/autoload.php')) {
     require __DIR__ . '/../vendor/autoload.php';
 } elseif (file_exists(__DIR__ . '/../../../autoload.php')) {
@@ -9,14 +13,14 @@ if (file_exists(__DIR__ . '/../vendor/autoload.php')) {
     throw new RuntimeException('Unable to locate autoload.php file.');
 }
 
-$xdebug = new \Composer\XdebugHandler\XdebugHandler('perf.php');
+$xdebug = new XdebugHandler('perf.php');
 $xdebug->check();
 unset($xdebug);
 
 $dir = isset($argv[1]) ? $argv[1] : __DIR__ . '/../tests/compliance/perf';
 is_dir($dir) or die('Dir not found: ' . $dir);
 // Warm up the runner
-\JmesPath\Env::search('foo', []);
+Env::search('foo', []);
 
 $total = 0;
 foreach (glob($dir . '/*.json') as $file) {
@@ -44,7 +48,7 @@ function runSuite($file)
 function runCase($given, $expression, $name)
 {
     $best = 99999;
-    $runtime = \JmesPath\Env::createRuntime();
+    $runtime = Env::createRuntime();
 
     for ($i = 0; $i < 100; $i++) {
         $t = microtime(true);
@@ -54,9 +58,9 @@ function runCase($given, $expression, $name)
             $best = $tryTime;
         }
         if (!getenv('CACHE')) {
-            $runtime = \JmesPath\Env::createRuntime();
+            $runtime = Env::createRuntime();
             // Delete compiled scripts if not caching.
-            if ($runtime instanceof \JmesPath\CompilerRuntime) {
+            if ($runtime instanceof CompilerRuntime) {
                 array_map('unlink', glob(sys_get_temp_dir() . '/jmespath_*.php'));
             }
         }

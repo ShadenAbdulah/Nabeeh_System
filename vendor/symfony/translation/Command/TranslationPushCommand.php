@@ -25,6 +25,8 @@ use Symfony\Component\Translation\Provider\FilteringProvider;
 use Symfony\Component\Translation\Provider\TranslationProviderCollection;
 use Symfony\Component\Translation\Reader\TranslationReaderInterface;
 use Symfony\Component\Translation\TranslatorBag;
+use function count;
+use const PHP_URL_SCHEME;
 
 /**
  * @author Mathieu Santostefano <msantostefano@protonmail.com>
@@ -76,7 +78,7 @@ final class TranslationPushCommand extends Command
     protected function configure(): void
     {
         $keys = $this->providers->keys();
-        $defaultProvider = 1 === \count($keys) ? $keys[0] : null;
+        $defaultProvider = 1 === count($keys) ? $keys[0] : null;
 
         $this
             ->setDefinition([
@@ -115,7 +117,7 @@ EOF
         $provider = $this->providers->get($input->getArgument('provider'));
 
         if (!$this->enabledLocales) {
-            throw new InvalidArgumentException(sprintf('You must define "framework.enabled_locales" or "framework.translator.providers.%s.locales" config key in order to work with translation providers.', parse_url($provider, \PHP_URL_SCHEME)));
+            throw new InvalidArgumentException(sprintf('You must define "framework.enabled_locales" or "framework.translator.providers.%s.locales" config key in order to work with translation providers.', parse_url($provider, PHP_URL_SCHEME)));
         }
 
         $io = new SymfonyStyle($input, $output);
@@ -139,7 +141,7 @@ EOF
         if (!$deleteMissing && $force) {
             $provider->write($localTranslations);
 
-            $io->success(sprintf('All local translations has been sent to "%s" (for "%s" locale(s), and "%s" domain(s)).', parse_url($provider, \PHP_URL_SCHEME), implode(', ', $locales), implode(', ', $domains)));
+            $io->success(sprintf('All local translations has been sent to "%s" (for "%s" locale(s), and "%s" domain(s)).', parse_url($provider, PHP_URL_SCHEME), implode(', ', $locales), implode(', ', $domains)));
 
             return 0;
         }
@@ -149,7 +151,7 @@ EOF
         if ($deleteMissing) {
             $provider->delete($providerTranslations->diff($localTranslations));
 
-            $io->success(sprintf('Missing translations on "%s" has been deleted (for "%s" locale(s), and "%s" domain(s)).', parse_url($provider, \PHP_URL_SCHEME), implode(', ', $locales), implode(', ', $domains)));
+            $io->success(sprintf('Missing translations on "%s" has been deleted (for "%s" locale(s), and "%s" domain(s)).', parse_url($provider, PHP_URL_SCHEME), implode(', ', $locales), implode(', ', $domains)));
 
             // Read provider translations again, after missing translations deletion,
             // to avoid push freshly deleted translations.
@@ -164,7 +166,7 @@ EOF
 
         $provider->write($translationsToWrite);
 
-        $io->success(sprintf('%s local translations has been sent to "%s" (for "%s" locale(s), and "%s" domain(s)).', $force ? 'All' : 'New', parse_url($provider, \PHP_URL_SCHEME), implode(', ', $locales), implode(', ', $domains)));
+        $io->success(sprintf('%s local translations has been sent to "%s" (for "%s" locale(s), and "%s" domain(s)).', $force ? 'All' : 'New', parse_url($provider, PHP_URL_SCHEME), implode(', ', $locales), implode(', ', $domains)));
 
         return 0;
     }

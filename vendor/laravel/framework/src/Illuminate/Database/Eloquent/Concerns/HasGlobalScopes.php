@@ -39,11 +39,11 @@ trait HasGlobalScopes
     /**
      * Register a new global scope on the model.
      *
-     * @param  \Illuminate\Database\Eloquent\Scope|\Closure|string  $scope
-     * @param  \Illuminate\Database\Eloquent\Scope|\Closure|null  $implementation
+     * @param Scope|Closure|string  $scope
+     * @param Scope|Closure|null  $implementation
      * @return mixed
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public static function addGlobalScope($scope, $implementation = null)
     {
@@ -80,7 +80,7 @@ trait HasGlobalScopes
     /**
      * Determine if a model has a global scope.
      *
-     * @param  \Illuminate\Database\Eloquent\Scope|string  $scope
+     * @param Scope|string  $scope
      * @return bool
      */
     public static function hasGlobalScope($scope)
@@ -91,8 +91,8 @@ trait HasGlobalScopes
     /**
      * Get a global scope registered with the model.
      *
-     * @param  \Illuminate\Database\Eloquent\Scope|string  $scope
-     * @return \Illuminate\Database\Eloquent\Scope|\Closure|null
+     * @param Scope|string  $scope
+     * @return Scope|Closure|null
      */
     public static function getGlobalScope($scope)
     {

@@ -18,6 +18,7 @@ use PhpParser\Node\Expr\NullsafePropertyFetch;
 use PhpParser\Node\Expr\PropertyFetch;
 use PhpParser\Node\Expr\Variable;
 use Psy\Exception\FatalErrorException;
+use const E_ERROR;
 
 /**
  * Code cleaner pass to ensure we only allow variables, array fetch and property
@@ -42,7 +43,7 @@ class IssetPass extends CodeCleanerPass
 
         foreach ($node->vars as $var) {
             if (!$var instanceof Variable && !$var instanceof ArrayDimFetch && !$var instanceof PropertyFetch && !$var instanceof NullsafePropertyFetch) {
-                throw new FatalErrorException(self::EXCEPTION_MSG, 0, \E_ERROR, null, $node->getStartLine());
+                throw new FatalErrorException(self::EXCEPTION_MSG, 0, E_ERROR, null, $node->getStartLine());
             }
         }
     }

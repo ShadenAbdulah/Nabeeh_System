@@ -8,6 +8,9 @@ use Brick\Math\Exception\DivisionByZeroException;
 use Brick\Math\Exception\MathException;
 use Brick\Math\Exception\NumberFormatException;
 use Brick\Math\Exception\RoundingNecessaryException;
+use InvalidArgumentException;
+use LogicException;
+use function explode;
 
 /**
  * An arbitrarily large rational number.
@@ -260,7 +263,7 @@ final class BigRational extends BigNumber
     /**
      * Returns this number exponentiated to the given value.
      *
-     * @throws \InvalidArgumentException If the exponent is not in the range 0 to 1,000,000.
+     * @throws InvalidArgumentException If the exponent is not in the range 0 to 1,000,000.
      */
     public function power(int $exponent) : BigRational
     {
@@ -401,12 +404,12 @@ final class BigRational extends BigNumber
      *
      * @param array{numerator: BigInteger, denominator: BigInteger} $data
      *
-     * @throws \LogicException
+     * @throws LogicException
      */
     public function __unserialize(array $data): void
     {
         if (isset($this->numerator)) {
-            throw new \LogicException('__unserialize() is an internal function, it must not be called directly.');
+            throw new LogicException('__unserialize() is an internal function, it must not be called directly.');
         }
 
         $this->numerator = $data['numerator'];
@@ -429,15 +432,15 @@ final class BigRational extends BigNumber
      * @internal
      * @psalm-suppress RedundantPropertyInitializationCheck
      *
-     * @throws \LogicException
+     * @throws LogicException
      */
     public function unserialize($value) : void
     {
         if (isset($this->numerator)) {
-            throw new \LogicException('unserialize() is an internal function, it must not be called directly.');
+            throw new LogicException('unserialize() is an internal function, it must not be called directly.');
         }
 
-        [$numerator, $denominator] = \explode('/', $value);
+        [$numerator, $denominator] = explode('/', $value);
 
         $this->numerator   = BigInteger::of($numerator);
         $this->denominator = BigInteger::of($denominator);

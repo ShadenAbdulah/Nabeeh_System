@@ -8,8 +8,8 @@ if (! function_exists('Illuminate\Events\queueable')) {
     /**
      * Create a new queued Closure event listener.
      *
-     * @param  \Closure  $closure
-     * @return \Illuminate\Events\QueuedClosure
+     * @param Closure $closure
+     * @return QueuedClosure
      */
     function queueable(Closure $closure)
     {

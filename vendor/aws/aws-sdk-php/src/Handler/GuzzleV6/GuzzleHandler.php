@@ -9,6 +9,7 @@ use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\TransferStats;
 use Psr\Http\Message\RequestInterface as Psr7Request;
+use function GuzzleHttp\default_user_agent;
 
 /**
  * A request handler that sends PSR-7-compatible requests with Guzzle 6.
@@ -37,7 +38,7 @@ class GuzzleHandler
         $request = $request->withHeader(
             'User-Agent',
             $request->getHeaderLine('User-Agent')
-                . ' ' . \GuzzleHttp\default_user_agent()
+                . ' ' . default_user_agent()
         );
 
         return $this->client->sendAsync($request, $this->parseOptions($options))

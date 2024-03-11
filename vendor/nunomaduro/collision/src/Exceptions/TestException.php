@@ -7,6 +7,7 @@ namespace NunoMaduro\Collision\Exceptions;
 use PHPUnit\Event\Code\Throwable;
 use PHPUnit\Framework\ExpectationFailedException;
 use ReflectionClass;
+use ReflectionException;
 
 /**
  * @internal
@@ -125,7 +126,7 @@ final class TestException
     }
 
     /**
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     public function getFile(): string
     {

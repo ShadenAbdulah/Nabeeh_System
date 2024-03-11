@@ -2,10 +2,12 @@
 
 namespace Illuminate\Database\Eloquent;
 
+use Closure;
+
 /**
- * @method static \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Query\Builder withTrashed(bool $withTrashed = true)
- * @method static \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Query\Builder onlyTrashed()
- * @method static \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Query\Builder withoutTrashed()
+ * @method static Builder|\Illuminate\Database\Query\Builder withTrashed(bool $withTrashed = true)
+ * @method static Builder|\Illuminate\Database\Query\Builder onlyTrashed()
+ * @method static Builder|\Illuminate\Database\Query\Builder withoutTrashed()
  */
 trait SoftDeletes
 {
@@ -165,7 +167,7 @@ trait SoftDeletes
     /**
      * Register a "softDeleted" model event callback with the dispatcher.
      *
-     * @param  \Closure|string  $callback
+     * @param  Closure|string  $callback
      * @return void
      */
     public static function softDeleted($callback)
@@ -176,7 +178,7 @@ trait SoftDeletes
     /**
      * Register a "restoring" model event callback with the dispatcher.
      *
-     * @param  \Closure|string  $callback
+     * @param  Closure|string  $callback
      * @return void
      */
     public static function restoring($callback)
@@ -187,7 +189,7 @@ trait SoftDeletes
     /**
      * Register a "restored" model event callback with the dispatcher.
      *
-     * @param  \Closure|string  $callback
+     * @param  Closure|string  $callback
      * @return void
      */
     public static function restored($callback)
@@ -198,7 +200,7 @@ trait SoftDeletes
     /**
      * Register a "forceDeleting" model event callback with the dispatcher.
      *
-     * @param  \Closure|string  $callback
+     * @param  Closure|string  $callback
      * @return void
      */
     public static function forceDeleting($callback)
@@ -209,7 +211,7 @@ trait SoftDeletes
     /**
      * Register a "forceDeleted" model event callback with the dispatcher.
      *
-     * @param  \Closure|string  $callback
+     * @param  Closure|string  $callback
      * @return void
      */
     public static function forceDeleted($callback)

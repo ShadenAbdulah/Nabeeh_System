@@ -6,16 +6,22 @@ use Faker\DefaultGenerator;
 use Faker\Generator;
 use Faker\UniqueGenerator;
 use Faker\ValidGenerator;
+use InvalidArgumentException;
+use LengthException;
+use OverflowException;
+use Traversable;
+use UnitEnum;
+use function iterator_to_array;
 
 class Base
 {
     /**
-     * @var \Faker\Generator
+     * @var Generator
      */
     protected $generator;
 
     /**
-     * @var \Faker\UniqueGenerator
+     * @var UniqueGenerator
      */
     protected $unique;
 
@@ -77,7 +83,7 @@ class Base
     public static function randomNumber($nbDigits = null, $strict = false)
     {
         if (!is_bool($strict)) {
-            throw new \InvalidArgumentException('randomNumber() generates numbers of fixed width. To generate numbers between two boundaries, use numberBetween() instead.');
+            throw new InvalidArgumentException('randomNumber() generates numbers of fixed width. To generate numbers between two boundaries, use numberBetween() instead.');
         }
 
         if (null === $nbDigits) {
@@ -86,7 +92,7 @@ class Base
         $max = 10 ** $nbDigits - 1;
 
         if ($max > mt_getrandmax()) {
-            throw new \InvalidArgumentException('randomNumber() can only generate numbers up to mt_getrandmax()');
+            throw new InvalidArgumentException('randomNumber() can only generate numbers up to mt_getrandmax()');
         }
 
         if ($strict) {
@@ -179,16 +185,16 @@ class Base
     /**
      * Returns randomly ordered subsequence of $count elements from a provided array
      *
-     * @todo update default $count to `null` (BC) for next major version
-     *
-     * @param array|class-string|\Traversable $array           Array to take elements from. Defaults to a-c
+     * @param array|class-string|Traversable $array           Array to take elements from. Defaults to a-c
      * @param int|null                        $count           Number of elements to take. If `null` then returns random number of elements
      * @param bool                            $allowDuplicates Allow elements to be picked several times. Defaults to false
      *
-     * @throws \InvalidArgumentException
-     * @throws \LengthException          When requesting more elements than provided
-     *
      * @return array New array with $count elements from $array
+     *@throws LengthException          When requesting more elements than provided
+     *
+     * @throws InvalidArgumentException
+     * @todo update default $count to `null` (BC) for next major version
+     *
      */
     public static function randomElements($array = ['a', 'b', 'c'], $count = 1, $allowDuplicates = false)
     {
@@ -198,15 +204,15 @@ class Base
             $elements = $array::cases();
         }
 
-        if ($array instanceof \Traversable) {
-            $elements = \iterator_to_array($array, false);
+        if ($array instanceof Traversable) {
+            $elements = iterator_to_array($array, false);
         }
 
         if (!is_array($elements)) {
-            throw new \InvalidArgumentException(sprintf(
+            throw new InvalidArgumentException(sprintf(
                 'Argument for parameter $array needs to be array, an instance of %s, or an instance of %s, got %s instead.',
-                \UnitEnum::class,
-                \Traversable::class,
+                UnitEnum::class,
+                Traversable::class,
                 is_object($array) ? get_class($array) : gettype($array),
             ));
         }
@@ -214,7 +220,7 @@ class Base
         $numberOfElements = count($elements);
 
         if (!$allowDuplicates && null !== $count && $numberOfElements < $count) {
-            throw new \LengthException(sprintf(
+            throw new LengthException(sprintf(
                 'Cannot get %d elements, only %d in array',
                 $count,
                 $numberOfElements,
@@ -256,9 +262,9 @@ class Base
     /**
      * Returns a random element from a passed array
      *
-     * @param array|class-string|\Traversable $array
+     * @param array|class-string|Traversable $array
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public static function randomElement($array = ['a', 'b', 'c'])
     {
@@ -268,7 +274,7 @@ class Base
             $elements = $array::cases();
         }
 
-        if ($array instanceof \Traversable) {
+        if ($array instanceof Traversable) {
             $elements = iterator_to_array($array, false);
         }
 
@@ -277,10 +283,10 @@ class Base
         }
 
         if (!is_array($elements)) {
-            throw new \InvalidArgumentException(sprintf(
+            throw new InvalidArgumentException(sprintf(
                 'Argument for parameter $array needs to be array, an instance of %s, or an instance of %s, got %s instead.',
-                \UnitEnum::class,
-                \Traversable::class,
+                UnitEnum::class,
+                Traversable::class,
                 is_object($array) ? get_class($array) : gettype($array),
             ));
         }
@@ -332,7 +338,7 @@ class Base
             return static::shuffleString($arg);
         }
 
-        throw new \InvalidArgumentException('shuffle() only supports strings or arrays');
+        throw new InvalidArgumentException('shuffle() only supports strings or arrays');
     }
 
     /**
@@ -666,7 +672,7 @@ class Base
      * @param int  $maxRetries Maximum number of retries to find a unique value,
      *                         After which an OverflowException is thrown.
      *
-     * @throws \OverflowException When no unique value can be found by iterating $maxRetries times
+     * @throws OverflowException When no unique value can be found by iterating $maxRetries times
      *
      * @return UniqueGenerator A proxy class returning only non-existing values
      */
@@ -699,7 +705,7 @@ class Base
      * @param int     $maxRetries Maximum number of retries to find a unique value,
      *                            After which an OverflowException is thrown.
      *
-     * @throws \OverflowException When no valid value can be found by iterating $maxRetries times
+     * @throws OverflowException When no valid value can be found by iterating $maxRetries times
      *
      * @return ValidGenerator A proxy class returning only valid values
      */

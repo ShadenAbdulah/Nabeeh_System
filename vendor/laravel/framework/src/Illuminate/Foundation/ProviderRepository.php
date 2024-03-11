@@ -5,20 +5,21 @@ namespace Illuminate\Foundation;
 use Exception;
 use Illuminate\Contracts\Foundation\Application as ApplicationContract;
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\Support\ServiceProvider;
 
 class ProviderRepository
 {
     /**
      * The application implementation.
      *
-     * @var \Illuminate\Contracts\Foundation\Application
+     * @var ApplicationContract
      */
     protected $app;
 
     /**
      * The filesystem instance.
      *
-     * @var \Illuminate\Filesystem\Filesystem
+     * @var Filesystem
      */
     protected $files;
 
@@ -32,8 +33,8 @@ class ProviderRepository
     /**
      * Create a new service repository instance.
      *
-     * @param  \Illuminate\Contracts\Foundation\Application  $app
-     * @param  \Illuminate\Filesystem\Filesystem  $files
+     * @param ApplicationContract $app
+     * @param Filesystem $files
      * @param  string  $manifestPath
      * @return void
      */
@@ -180,7 +181,7 @@ class ProviderRepository
      * @param  array  $manifest
      * @return array
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function writeManifest($manifest)
     {
@@ -199,7 +200,7 @@ class ProviderRepository
      * Create a new provider instance.
      *
      * @param  string  $provider
-     * @return \Illuminate\Support\ServiceProvider
+     * @return ServiceProvider
      */
     public function createProvider($provider)
     {

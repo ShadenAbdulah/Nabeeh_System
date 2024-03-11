@@ -19,14 +19,14 @@ class Dispatcher implements QueueingDispatcher
     /**
      * The container implementation.
      *
-     * @var \Illuminate\Contracts\Container\Container
+     * @var Container
      */
     protected $container;
 
     /**
      * The pipeline instance for the bus.
      *
-     * @var \Illuminate\Pipeline\Pipeline
+     * @var Pipeline
      */
     protected $pipeline;
 
@@ -47,15 +47,15 @@ class Dispatcher implements QueueingDispatcher
     /**
      * The queue resolver callback.
      *
-     * @var \Closure|null
+     * @var Closure|null
      */
     protected $queueResolver;
 
     /**
      * Create a new command dispatcher instance.
      *
-     * @param  \Illuminate\Contracts\Container\Container  $container
-     * @param  \Closure|null  $queueResolver
+     * @param Container $container
+     * @param Closure|null  $queueResolver
      * @return void
      */
     public function __construct(Container $container, Closure $queueResolver = null)
@@ -136,7 +136,7 @@ class Dispatcher implements QueueingDispatcher
      * Attempt to find the batch with the given ID.
      *
      * @param  string  $batchId
-     * @return \Illuminate\Bus\Batch|null
+     * @return Batch|null
      */
     public function findBatch(string $batchId)
     {
@@ -146,8 +146,8 @@ class Dispatcher implements QueueingDispatcher
     /**
      * Create a new batch of queueable jobs.
      *
-     * @param  \Illuminate\Support\Collection|array|mixed  $jobs
-     * @return \Illuminate\Bus\PendingBatch
+     * @param Collection|array|mixed  $jobs
+     * @return PendingBatch
      */
     public function batch($jobs)
     {
@@ -157,8 +157,8 @@ class Dispatcher implements QueueingDispatcher
     /**
      * Create a new chain of queueable jobs.
      *
-     * @param  \Illuminate\Support\Collection|array  $jobs
-     * @return \Illuminate\Foundation\Bus\PendingChain
+     * @param Collection|array  $jobs
+     * @return PendingChain
      */
     public function chain($jobs)
     {
@@ -211,7 +211,7 @@ class Dispatcher implements QueueingDispatcher
      * @param  mixed  $command
      * @return mixed
      *
-     * @throws \RuntimeException
+     * @throws RuntimeException
      */
     public function dispatchToQueue($command)
     {
@@ -233,7 +233,7 @@ class Dispatcher implements QueueingDispatcher
     /**
      * Push the command onto the given queue instance.
      *
-     * @param  \Illuminate\Contracts\Queue\Queue  $queue
+     * @param Queue $queue
      * @param  mixed  $command
      * @return mixed
      */

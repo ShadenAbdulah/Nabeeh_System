@@ -3,6 +3,7 @@
 namespace Illuminate\Broadcasting\Broadcasters;
 
 use Illuminate\Broadcasting\BroadcastException;
+use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Pusher\ApiErrorException;
@@ -16,14 +17,14 @@ class PusherBroadcaster extends Broadcaster
     /**
      * The Pusher SDK instance.
      *
-     * @var \Pusher\Pusher
+     * @var Pusher
      */
     protected $pusher;
 
     /**
      * Create a new broadcaster instance.
      *
-     * @param  \Pusher\Pusher  $pusher
+     * @param Pusher $pusher
      * @return void
      */
     public function __construct(Pusher $pusher)
@@ -37,7 +38,7 @@ class PusherBroadcaster extends Broadcaster
      * See: https://pusher.com/docs/channels/library_auth_reference/auth-signatures/#user-authentication
      * See: https://pusher.com/docs/channels/server_api/authenticating-users/#response
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  Request  $request
      * @return array|null
      */
     public function resolveAuthenticatedUser($request)
@@ -67,10 +68,10 @@ class PusherBroadcaster extends Broadcaster
     /**
      * Authenticate the incoming request for a given channel.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  Request  $request
      * @return mixed
      *
-     * @throws \Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException
+     * @throws AccessDeniedHttpException
      */
     public function auth($request)
     {
@@ -90,7 +91,7 @@ class PusherBroadcaster extends Broadcaster
     /**
      * Return the valid authentication response.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  Request  $request
      * @param  mixed  $result
      * @return mixed
      */
@@ -124,7 +125,7 @@ class PusherBroadcaster extends Broadcaster
     /**
      * Decode the given Pusher response.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  Request  $request
      * @param  mixed  $response
      * @return array
      */
@@ -146,7 +147,7 @@ class PusherBroadcaster extends Broadcaster
      * @param  array  $payload
      * @return void
      *
-     * @throws \Illuminate\Broadcasting\BroadcastException
+     * @throws BroadcastException
      */
     public function broadcast(array $channels, $event, array $payload = [])
     {
@@ -170,7 +171,7 @@ class PusherBroadcaster extends Broadcaster
     /**
      * Get the Pusher SDK instance.
      *
-     * @return \Pusher\Pusher
+     * @return Pusher
      */
     public function getPusher()
     {
@@ -180,7 +181,7 @@ class PusherBroadcaster extends Broadcaster
     /**
      * Set the Pusher SDK instance.
      *
-     * @param  \Pusher\Pusher  $pusher
+     * @param Pusher $pusher
      * @return void
      */
     public function setPusher($pusher)

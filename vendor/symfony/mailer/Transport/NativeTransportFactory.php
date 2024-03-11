@@ -15,6 +15,8 @@ use Symfony\Component\Mailer\Exception\TransportException;
 use Symfony\Component\Mailer\Exception\UnsupportedSchemeException;
 use Symfony\Component\Mailer\Transport\Smtp\SmtpTransport;
 use Symfony\Component\Mailer\Transport\Smtp\Stream\SocketStream;
+use function in_array;
+use const DIRECTORY_SEPARATOR;
 
 /**
  * Factory that configures a transport (sendmail or SMTP) based on php.ini settings.
@@ -25,7 +27,7 @@ final class NativeTransportFactory extends AbstractTransportFactory
 {
     public function create(Dsn $dsn): TransportInterface
     {
-        if (!\in_array($dsn->getScheme(), $this->getSupportedSchemes(), true)) {
+        if (!in_array($dsn->getScheme(), $this->getSupportedSchemes(), true)) {
             throw new UnsupportedSchemeException($dsn, 'native', $this->getSupportedSchemes());
         }
 
@@ -33,7 +35,7 @@ final class NativeTransportFactory extends AbstractTransportFactory
             return new SendmailTransport($sendMailPath, $this->dispatcher, $this->logger);
         }
 
-        if ('\\' !== \DIRECTORY_SEPARATOR) {
+        if ('\\' !== DIRECTORY_SEPARATOR) {
             throw new TransportException('sendmail_path is not configured in php.ini.');
         }
 

@@ -6,7 +6,9 @@ use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Contracts\Validation\ValidatorAwareRule;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Traits\Conditionable;
+use Illuminate\Validation\Validator;
 use TypeError;
+use UnitEnum;
 
 class Enum implements Rule, ValidatorAwareRule
 {
@@ -22,7 +24,7 @@ class Enum implements Rule, ValidatorAwareRule
     /**
      * The current validator instance.
      *
-     * @var \Illuminate\Validation\Validator
+     * @var Validator
      */
     protected $validator;
 
@@ -80,7 +82,7 @@ class Enum implements Rule, ValidatorAwareRule
     /**
      * Specify the cases that should be considered valid.
      *
-     * @param  \UnitEnum[]|\UnitEnum  $values
+     * @param  UnitEnum[]|UnitEnum  $values
      * @return $this
      */
     public function only($values)
@@ -93,7 +95,7 @@ class Enum implements Rule, ValidatorAwareRule
     /**
      * Specify the cases that should be considered invalid.
      *
-     * @param  \UnitEnum[]|\UnitEnum  $values
+     * @param  UnitEnum[]|UnitEnum  $values
      * @return $this
      */
     public function except($values)
@@ -135,7 +137,7 @@ class Enum implements Rule, ValidatorAwareRule
     /**
      * Set the current validator.
      *
-     * @param  \Illuminate\Validation\Validator  $validator
+     * @param  Validator  $validator
      * @return $this
      */
     public function setValidator($validator)

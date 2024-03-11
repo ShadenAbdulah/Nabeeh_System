@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace GuzzleHttp\Promise;
 
+use Throwable;
+
 final class Utils
 {
     /**
@@ -49,7 +51,7 @@ final class Utils
                 if (Is::pending($promise)) {
                     $promise->resolve($task());
                 }
-            } catch (\Throwable $e) {
+            } catch (Throwable $e) {
                 $promise->reject($e);
             }
         });
@@ -78,7 +80,7 @@ final class Utils
             ];
         } catch (RejectionException $e) {
             return ['state' => PromiseInterface::REJECTED, 'reason' => $e->getReason()];
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             return ['state' => PromiseInterface::REJECTED, 'reason' => $e];
         }
     }
@@ -112,7 +114,7 @@ final class Utils
      *
      * @param iterable<PromiseInterface> $promises Iterable of PromiseInterface objects to wait on.
      *
-     * @throws \Throwable on error
+     * @throws Throwable on error
      */
     public static function unwrap($promises): array
     {

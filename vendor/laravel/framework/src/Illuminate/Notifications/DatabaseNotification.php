@@ -4,6 +4,7 @@ namespace Illuminate\Notifications;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 class DatabaseNotification extends Model
 {
@@ -48,7 +49,7 @@ class DatabaseNotification extends Model
     /**
      * Get the notifiable entity that the notification belongs to.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\MorphTo
+     * @return MorphTo
      */
     public function notifiable()
     {
@@ -102,8 +103,8 @@ class DatabaseNotification extends Model
     /**
      * Scope a query to only include read notifications.
      *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @param Builder $query
+     * @return Builder
      */
     public function scopeRead(Builder $query)
     {
@@ -113,8 +114,8 @@ class DatabaseNotification extends Model
     /**
      * Scope a query to only include unread notifications.
      *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @param Builder $query
+     * @return Builder
      */
     public function scopeUnread(Builder $query)
     {
@@ -125,7 +126,7 @@ class DatabaseNotification extends Model
      * Create a new database notification collection instance.
      *
      * @param  array  $models
-     * @return \Illuminate\Notifications\DatabaseNotificationCollection
+     * @return DatabaseNotificationCollection
      */
     public function newCollection(array $models = [])
     {

@@ -10,7 +10,7 @@ class MorphMany extends MorphOneOrMany
     /**
      * Convert the relationship to a "morph one" relationship.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\MorphOne
+     * @return MorphOne
      */
     public function one()
     {
@@ -55,7 +55,7 @@ class MorphMany extends MorphOneOrMany
      * Match the eagerly loaded results to their parents.
      *
      * @param  array  $models
-     * @param  \Illuminate\Database\Eloquent\Collection  $results
+     * @param Collection $results
      * @param  string  $relation
      * @return array
      */
@@ -68,7 +68,7 @@ class MorphMany extends MorphOneOrMany
      * Create a new instance of the related model. Allow mass-assignment.
      *
      * @param  array  $attributes
-     * @return \Illuminate\Database\Eloquent\Model
+     * @return Model
      */
     public function forceCreate(array $attributes = [])
     {
@@ -81,7 +81,7 @@ class MorphMany extends MorphOneOrMany
      * Create a new instance of the related model with mass assignment without raising model events.
      *
      * @param  array  $attributes
-     * @return \Illuminate\Database\Eloquent\Model
+     * @return Model
      */
     public function forceCreateQuietly(array $attributes = [])
     {

@@ -11,10 +11,18 @@
 
 namespace Psy\TabCompletion\Matcher;
 
+use ReflectionParameter;
+use function count;
+use function implode;
+use function is_array;
+use function is_numeric;
+use function json_encode;
+use function sprintf;
+
 abstract class AbstractDefaultParametersMatcher extends AbstractContextAwareMatcher
 {
     /**
-     * @param \ReflectionParameter[] $reflectionParameters
+     * @param ReflectionParameter[] $reflectionParameters
      *
      * @return array
      */
@@ -29,14 +37,14 @@ abstract class AbstractDefaultParametersMatcher extends AbstractContextAwareMatc
 
             $defaultValue = $this->valueToShortString($parameter->getDefaultValue());
 
-            $parametersProcessed[] = \sprintf('$%s = %s', $parameter->getName(), $defaultValue);
+            $parametersProcessed[] = sprintf('$%s = %s', $parameter->getName(), $defaultValue);
         }
 
         if (empty($parametersProcessed)) {
             return [];
         }
 
-        return [\implode(', ', $parametersProcessed).')'];
+        return [implode(', ', $parametersProcessed).')'];
     }
 
     /**
@@ -48,8 +56,8 @@ abstract class AbstractDefaultParametersMatcher extends AbstractContextAwareMatc
      */
     private function valueToShortString($value): string
     {
-        if (!\is_array($value)) {
-            return \json_encode($value);
+        if (!is_array($value)) {
+            return json_encode($value);
         }
 
         $chunks = [];
@@ -58,7 +66,7 @@ abstract class AbstractDefaultParametersMatcher extends AbstractContextAwareMatc
         $allSequential = true;
 
         foreach ($value as $key => $item) {
-            $allSequential = $allSequential && \is_numeric($key) && $key === \count($chunksSequential);
+            $allSequential = $allSequential && is_numeric($key) && $key === count($chunksSequential);
 
             $keyString = $this->valueToShortString($key);
             $itemString = $this->valueToShortString($item);
@@ -69,6 +77,6 @@ abstract class AbstractDefaultParametersMatcher extends AbstractContextAwareMatc
 
         $chunksToImplode = $allSequential ? $chunksSequential : $chunks;
 
-        return '['.\implode(', ', $chunksToImplode).']';
+        return '['. implode(', ', $chunksToImplode).']';
     }
 }

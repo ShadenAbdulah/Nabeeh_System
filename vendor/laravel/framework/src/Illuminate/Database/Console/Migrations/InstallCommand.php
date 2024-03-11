@@ -25,14 +25,14 @@ class InstallCommand extends Command
     /**
      * The repository instance.
      *
-     * @var \Illuminate\Database\Migrations\MigrationRepositoryInterface
+     * @var MigrationRepositoryInterface
      */
     protected $repository;
 
     /**
      * Create a new migration install command instance.
      *
-     * @param  \Illuminate\Database\Migrations\MigrationRepositoryInterface  $repository
+     * @param MigrationRepositoryInterface $repository
      * @return void
      */
     public function __construct(MigrationRepositoryInterface $repository)

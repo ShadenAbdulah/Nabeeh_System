@@ -31,10 +31,10 @@ class Backtrace
     /** @var int */
     protected $limit = 0;
 
-    /** @var \Closure|null */
+    /** @var Closure|null */
     protected $startingFromFrameClosure = null;
 
-    /** @var \Throwable|null */
+    /** @var Throwable|null */
     protected $throwable = null;
 
     public static function create(): self
@@ -112,7 +112,7 @@ class Backtrace
     }
 
     /**
-     * @return \Spatie\Backtrace\Frame[]
+     * @return Frame[]
      */
     public function frames(): array
     {
@@ -158,7 +158,7 @@ class Backtrace
     }
 
     /**
-     * @return \Spatie\Backtrace\Frame[]
+     * @return Frame[]
      */
     protected function toFrameObjects(array $rawFrames): array
     {
@@ -236,8 +236,8 @@ class Backtrace
     }
 
     /**
-     * @param \Spatie\Backtrace\Frame[] $frames
-     * @param \Closure $closure
+     * @param Frame[] $frames
+     * @param Closure $closure
      *
      * @return array
      */

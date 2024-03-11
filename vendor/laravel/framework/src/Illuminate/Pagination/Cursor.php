@@ -39,7 +39,7 @@ class Cursor implements Arrayable
      * @param  string  $parameterName
      * @return string|null
      *
-     * @throws \UnexpectedValueException
+     * @throws UnexpectedValueException
      */
     public function parameter(string $parameterName)
     {

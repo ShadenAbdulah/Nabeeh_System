@@ -11,6 +11,7 @@
 
 namespace Monolog\Handler;
 
+use BadMethodCallException;
 use Monolog\Level;
 use Monolog\Logger;
 use Psr\Log\LogLevel;
@@ -190,6 +191,6 @@ class TestHandler extends AbstractProcessingHandler
             }
         }
 
-        throw new \BadMethodCallException('Call to undefined method ' . get_class($this) . '::' . $method . '()');
+        throw new BadMethodCallException('Call to undefined method ' . get_class($this) . '::' . $method . '()');
     }
 }

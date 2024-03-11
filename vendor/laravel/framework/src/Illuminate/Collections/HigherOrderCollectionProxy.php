@@ -3,14 +3,14 @@
 namespace Illuminate\Support;
 
 /**
- * @mixin \Illuminate\Support\Enumerable
+ * @mixin Enumerable
  */
 class HigherOrderCollectionProxy
 {
     /**
      * The collection being operated on.
      *
-     * @var \Illuminate\Support\Enumerable
+     * @var Enumerable
      */
     protected $collection;
 
@@ -24,7 +24,7 @@ class HigherOrderCollectionProxy
     /**
      * Create a new proxy instance.
      *
-     * @param  \Illuminate\Support\Enumerable  $collection
+     * @param Enumerable $collection
      * @param  string  $method
      * @return void
      */

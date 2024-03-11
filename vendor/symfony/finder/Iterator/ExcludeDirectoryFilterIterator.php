@@ -11,21 +11,27 @@
 
 namespace Symfony\Component\Finder\Iterator;
 
+use FilterIterator;
+use InvalidArgumentException;
+use Iterator;
+use RecursiveIterator;
 use Symfony\Component\Finder\SplFileInfo;
+use function is_callable;
+use function is_string;
 
 /**
  * ExcludeDirectoryFilterIterator filters out directories.
  *
  * @author Fabien Potencier <fabien@symfony.com>
  *
- * @extends \FilterIterator<string, SplFileInfo>
+ * @extends FilterIterator<string, SplFileInfo>
  *
- * @implements \RecursiveIterator<string, SplFileInfo>
+ * @implements RecursiveIterator<string, SplFileInfo>
  */
-class ExcludeDirectoryFilterIterator extends \FilterIterator implements \RecursiveIterator
+class ExcludeDirectoryFilterIterator extends FilterIterator implements RecursiveIterator
 {
-    /** @var \Iterator<string, SplFileInfo> */
-    private \Iterator $iterator;
+    /** @var Iterator<string, SplFileInfo> */
+    private Iterator $iterator;
     private bool $isRecursive;
     /** @var array<string, true> */
     private array $excludedDirs = [];
@@ -34,18 +40,18 @@ class ExcludeDirectoryFilterIterator extends \FilterIterator implements \Recursi
     private array $pruneFilters = [];
 
     /**
-     * @param \Iterator<string, SplFileInfo>          $iterator    The Iterator to filter
+     * @param Iterator<string, SplFileInfo>          $iterator    The Iterator to filter
      * @param list<string|callable(SplFileInfo):bool> $directories An array of directories to exclude
      */
-    public function __construct(\Iterator $iterator, array $directories)
+    public function __construct(Iterator $iterator, array $directories)
     {
         $this->iterator = $iterator;
-        $this->isRecursive = $iterator instanceof \RecursiveIterator;
+        $this->isRecursive = $iterator instanceof RecursiveIterator;
         $patterns = [];
         foreach ($directories as $directory) {
-            if (!\is_string($directory)) {
-                if (!\is_callable($directory)) {
-                    throw new \InvalidArgumentException('Invalid PHP callback.');
+            if (!is_string($directory)) {
+                if (!is_callable($directory)) {
+                    throw new InvalidArgumentException('Invalid PHP callback.');
                 }
 
                 $this->pruneFilters[] = $directory;

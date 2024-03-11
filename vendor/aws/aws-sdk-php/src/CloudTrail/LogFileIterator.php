@@ -3,6 +3,12 @@ namespace Aws\CloudTrail;
 
 use Aws\S3\S3Client;
 use Aws\CloudTrail\Exception\CloudTrailException;
+use CallbackFilterIterator;
+use DateTimeInterface;
+use InvalidArgumentException;
+use Iterator;
+use IteratorIterator;
+use ReturnTypeWillChange;
 
 /**
  * The `Aws\CloudTrail\LogFileIterator` provides an easy way to iterate over
@@ -16,7 +22,7 @@ use Aws\CloudTrail\Exception\CloudTrailException;
  *
  * Yields an array containing the Amazon S3 bucket and key of the log file.
  */
-class LogFileIterator extends \IteratorIterator
+class LogFileIterator extends IteratorIterator
 {
     // For internal use
     const DEFAULT_TRAIL_NAME = 'Default';
@@ -49,7 +55,7 @@ class LogFileIterator extends \IteratorIterator
      * @param array            $options
      *
      * @return LogRecordIterator
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      * @see LogRecordIterator::__contruct
      */
     public static function forTrail(
@@ -80,7 +86,7 @@ class LogFileIterator extends \IteratorIterator
         // If the bucket name is still unknown, then throw an exception
         if (!$s3BucketName) {
             $prev = isset($e) ? $e : null;
-            throw new \InvalidArgumentException('The bucket name could not '
+            throw new InvalidArgumentException('The bucket name could not '
                 . 'be determined from the trail.', 0, $prev);
         }
 
@@ -127,7 +133,7 @@ class LogFileIterator extends \IteratorIterator
      *
      * @return array|bool
      */
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function current()
     {
         if ($object = parent::current()) {
@@ -146,7 +152,7 @@ class LogFileIterator extends \IteratorIterator
      *
      * @param array $options
      *
-     * @return \Iterator
+     * @return Iterator
      */
     private function buildListObjectsIterator(array $options)
     {
@@ -209,20 +215,20 @@ class LogFileIterator extends \IteratorIterator
     /**
      * Normalizes a date value to a unix timestamp
      *
-     * @param int|string|\DateTimeInterface $date
+     * @param int|string|DateTimeInterface $date
      *
      * @return int
-     * @throws \InvalidArgumentException if the value cannot be converted to
+     * @throws InvalidArgumentException if the value cannot be converted to
      *     a timestamp
      */
     private function normalizeDateValue($date)
     {
         if (is_string($date)) {
             $date = strtotime($date);
-        } elseif ($date instanceof \DateTimeInterface) {
+        } elseif ($date instanceof DateTimeInterface) {
             $date = $date->format('U');
         } elseif (!is_int($date)) {
-            throw new \InvalidArgumentException('Date values must be a '
+            throw new InvalidArgumentException('Date values must be a '
                 . 'string, an int, or a DateTime object.');
         }
 
@@ -257,11 +263,11 @@ class LogFileIterator extends \IteratorIterator
      * Applies a regex iterator filter that limits the ListObjects result set
      * based on the provided options.
      *
-     * @param \Iterator $objectsIterator
+     * @param Iterator $objectsIterator
      * @param string    $logKeyPrefix
      * @param string    $candidatePrefix
      *
-     * @return \Iterator
+     * @return Iterator
      */
     private function applyRegexFilter(
         $objectsIterator,
@@ -281,7 +287,7 @@ class LogFileIterator extends \IteratorIterator
             if ($logKeyPrefix !== $regex) {
                 // Apply a regex filter iterator to remove files that don't
                 // match the provided options.
-                $objectsIterator = new \CallbackFilterIterator(
+                $objectsIterator = new CallbackFilterIterator(
                     $objectsIterator,
                     function ($object) use ($regex) {
                         return preg_match("#{$regex}#", $object['Key']);
@@ -297,11 +303,11 @@ class LogFileIterator extends \IteratorIterator
      * Applies an iterator filter to restrict the ListObjects result set to the
      * specified date range.
      *
-     * @param \Iterator $objectsIterator
+     * @param Iterator $objectsIterator
      * @param int       $startDate
      * @param int       $endDate
      *
-     * @return \Iterator
+     * @return Iterator
      */
     private function applyDateFilter($objectsIterator, $startDate, $endDate)
     {
@@ -317,7 +323,7 @@ class LogFileIterator extends \IteratorIterator
                 return (!$startDate || $date >= $startDate)
                     && (!$endDate || $date <= $endDate);
             };
-            $objectsIterator = new \CallbackFilterIterator($objectsIterator, $fn);
+            $objectsIterator = new CallbackFilterIterator($objectsIterator, $fn);
         }
 
         return $objectsIterator;

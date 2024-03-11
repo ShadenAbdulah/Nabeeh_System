@@ -10,6 +10,8 @@ declare(strict_types=1);
 namespace Nette\Schema;
 
 
+use Closure;
+
 final class Context
 {
 	public bool $skipDefaults = false;
@@ -42,8 +44,8 @@ final class Context
 	}
 
 
-	/** @return \Closure(): bool */
-	public function createChecker(): \Closure
+	/** @return Closure(): bool */
+	public function createChecker(): Closure
 	{
 		$count = count($this->errors);
 		return fn(): bool => $count === count($this->errors);

@@ -12,6 +12,8 @@
 namespace Monolog\Formatter;
 
 use Monolog\LogRecord;
+use RuntimeException;
+use function count;
 
 /**
  * Serializes a log message to Logstash Event Format
@@ -49,7 +51,7 @@ class LogstashFormatter extends NormalizerFormatter
      * @param string      $extraKey        The key for extra keys inside logstash "fields", defaults to extra
      * @param string      $contextKey      The key for context keys inside logstash "fields", defaults to context
      *
-     * @throws \RuntimeException If the function json_encode does not exist
+     * @throws RuntimeException If the function json_encode does not exist
      */
     public function __construct(string $applicationName, ?string $systemName = null, string $extraKey = 'extra', string $contextKey = 'context')
     {
@@ -90,10 +92,10 @@ class LogstashFormatter extends NormalizerFormatter
         if ('' !== $this->applicationName) {
             $message['type'] = $this->applicationName;
         }
-        if (\count($recordData['extra']) > 0) {
+        if (count($recordData['extra']) > 0) {
             $message[$this->extraKey] = $recordData['extra'];
         }
-        if (\count($recordData['context']) > 0) {
+        if (count($recordData['context']) > 0) {
             $message[$this->contextKey] = $recordData['context'];
         }
 

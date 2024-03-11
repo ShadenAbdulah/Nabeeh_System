@@ -5,7 +5,10 @@ declare(strict_types=1);
 namespace GuzzleHttp\Psr7;
 
 use GuzzleHttp\Psr7\Exception\MalformedUriException;
+use InvalidArgumentException;
+use JsonSerializable;
 use Psr\Http\Message\UriInterface;
+use function strtr;
 
 /**
  * PSR-7 URI implementation.
@@ -14,7 +17,7 @@ use Psr\Http\Message\UriInterface;
  * @author Tobias Schultze
  * @author Matthew Weier O'Phinney
  */
-class Uri implements UriInterface, \JsonSerializable
+class Uri implements UriInterface, JsonSerializable
 {
     /**
      * Absolute http and https URIs require a host per RFC 7230 Section 2.7
@@ -573,26 +576,26 @@ class Uri implements UriInterface, \JsonSerializable
     /**
      * @param mixed $scheme
      *
-     * @throws \InvalidArgumentException If the scheme is invalid.
+     * @throws InvalidArgumentException If the scheme is invalid.
      */
     private function filterScheme($scheme): string
     {
         if (!is_string($scheme)) {
-            throw new \InvalidArgumentException('Scheme must be a string');
+            throw new InvalidArgumentException('Scheme must be a string');
         }
 
-        return \strtr($scheme, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz');
+        return strtr($scheme, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz');
     }
 
     /**
      * @param mixed $component
      *
-     * @throws \InvalidArgumentException If the user info is invalid.
+     * @throws InvalidArgumentException If the user info is invalid.
      */
     private function filterUserInfoComponent($component): string
     {
         if (!is_string($component)) {
-            throw new \InvalidArgumentException('User info must be a string');
+            throw new InvalidArgumentException('User info must be a string');
         }
 
         return preg_replace_callback(
@@ -605,21 +608,21 @@ class Uri implements UriInterface, \JsonSerializable
     /**
      * @param mixed $host
      *
-     * @throws \InvalidArgumentException If the host is invalid.
+     * @throws InvalidArgumentException If the host is invalid.
      */
     private function filterHost($host): string
     {
         if (!is_string($host)) {
-            throw new \InvalidArgumentException('Host must be a string');
+            throw new InvalidArgumentException('Host must be a string');
         }
 
-        return \strtr($host, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz');
+        return strtr($host, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz');
     }
 
     /**
      * @param mixed $port
      *
-     * @throws \InvalidArgumentException If the port is invalid.
+     * @throws InvalidArgumentException If the port is invalid.
      */
     private function filterPort($port): ?int
     {
@@ -629,7 +632,7 @@ class Uri implements UriInterface, \JsonSerializable
 
         $port = (int) $port;
         if (0 > $port || 0xFFFF < $port) {
-            throw new \InvalidArgumentException(
+            throw new InvalidArgumentException(
                 sprintf('Invalid port: %d. Must be between 0 and 65535', $port)
             );
         }
@@ -685,12 +688,12 @@ class Uri implements UriInterface, \JsonSerializable
      *
      * @param mixed $path
      *
-     * @throws \InvalidArgumentException If the path is invalid.
+     * @throws InvalidArgumentException If the path is invalid.
      */
     private function filterPath($path): string
     {
         if (!is_string($path)) {
-            throw new \InvalidArgumentException('Path must be a string');
+            throw new InvalidArgumentException('Path must be a string');
         }
 
         return preg_replace_callback(
@@ -705,12 +708,12 @@ class Uri implements UriInterface, \JsonSerializable
      *
      * @param mixed $str
      *
-     * @throws \InvalidArgumentException If the query or fragment is invalid.
+     * @throws InvalidArgumentException If the query or fragment is invalid.
      */
     private function filterQueryAndFragment($str): string
     {
         if (!is_string($str)) {
-            throw new \InvalidArgumentException('Query and fragment must be a string');
+            throw new InvalidArgumentException('Query and fragment must be a string');
         }
 
         return preg_replace_callback(

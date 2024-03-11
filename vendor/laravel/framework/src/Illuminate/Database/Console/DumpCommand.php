@@ -34,8 +34,8 @@ class DumpCommand extends Command
     /**
      * Execute the console command.
      *
-     * @param  \Illuminate\Database\ConnectionResolverInterface  $connections
-     * @param  \Illuminate\Contracts\Events\Dispatcher  $dispatcher
+     * @param ConnectionResolverInterface $connections
+     * @param Dispatcher $dispatcher
      * @return void
      */
     public function handle(ConnectionResolverInterface $connections, Dispatcher $dispatcher)
@@ -64,7 +64,7 @@ class DumpCommand extends Command
     /**
      * Create a schema state instance for the given connection.
      *
-     * @param  \Illuminate\Database\Connection  $connection
+     * @param Connection $connection
      * @return mixed
      */
     protected function schemaState(Connection $connection)
@@ -79,7 +79,7 @@ class DumpCommand extends Command
     /**
      * Get the path that the dump should be written to.
      *
-     * @param  \Illuminate\Database\Connection  $connection
+     * @param Connection $connection
      */
     protected function path(Connection $connection)
     {

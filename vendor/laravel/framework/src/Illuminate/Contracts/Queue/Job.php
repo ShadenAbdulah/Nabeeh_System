@@ -2,6 +2,8 @@
 
 namespace Illuminate\Contracts\Queue;
 
+use Throwable;
+
 interface Job
 {
     /**
@@ -92,7 +94,7 @@ interface Job
     /**
      * Delete the job, call the "failed" method, and raise the failed job event.
      *
-     * @param  \Throwable|null  $e
+     * @param  Throwable|null  $e
      * @return void
      */
     public function fail($e = null);

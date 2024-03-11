@@ -11,7 +11,10 @@
 
 namespace Symfony\Contracts\Service;
 
+use LogicException;
 use Psr\Container\ContainerInterface;
+use ReflectionClass;
+use ReflectionNamedType;
 use Symfony\Contracts\Service\Attribute\Required;
 use Symfony\Contracts\Service\Attribute\SubscribedService;
 
@@ -30,7 +33,7 @@ trait ServiceSubscriberTrait
     {
         $services = method_exists(get_parent_class(self::class) ?: '', __FUNCTION__) ? parent::getSubscribedServices() : [];
 
-        foreach ((new \ReflectionClass(self::class))->getMethods() as $method) {
+        foreach ((new ReflectionClass(self::class))->getMethods() as $method) {
             if (self::class !== $method->getDeclaringClass()->name) {
                 continue;
             }
@@ -40,17 +43,17 @@ trait ServiceSubscriberTrait
             }
 
             if ($method->isStatic() || $method->isAbstract() || $method->isGenerator() || $method->isInternal() || $method->getNumberOfRequiredParameters()) {
-                throw new \LogicException(sprintf('Cannot use "%s" on method "%s::%s()" (can only be used on non-static, non-abstract methods with no parameters).', SubscribedService::class, self::class, $method->name));
+                throw new LogicException(sprintf('Cannot use "%s" on method "%s::%s()" (can only be used on non-static, non-abstract methods with no parameters).', SubscribedService::class, self::class, $method->name));
             }
 
             if (!$returnType = $method->getReturnType()) {
-                throw new \LogicException(sprintf('Cannot use "%s" on methods without a return type in "%s::%s()".', SubscribedService::class, $method->name, self::class));
+                throw new LogicException(sprintf('Cannot use "%s" on methods without a return type in "%s::%s()".', SubscribedService::class, $method->name, self::class));
             }
 
             /* @var SubscribedService $attribute */
             $attribute = $attribute->newInstance();
             $attribute->key ??= self::class.'::'.$method->name;
-            $attribute->type ??= $returnType instanceof \ReflectionNamedType ? $returnType->getName() : (string) $returnType;
+            $attribute->type ??= $returnType instanceof ReflectionNamedType ? $returnType->getName() : (string) $returnType;
             $attribute->nullable = $returnType->allowsNull();
 
             if ($attribute->attributes) {

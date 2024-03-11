@@ -7,14 +7,14 @@ class DynamoDbLock extends Lock
     /**
      * The DynamoDB client instance.
      *
-     * @var \Illuminate\Cache\DynamoDbStore
+     * @var DynamoDbStore
      */
     protected $dynamo;
 
     /**
      * Create a new lock instance.
      *
-     * @param  \Illuminate\Cache\DynamoDbStore  $dynamo
+     * @param DynamoDbStore $dynamo
      * @param  string  $name
      * @param  int  $seconds
      * @param  string|null  $owner

@@ -36,6 +36,11 @@
 
 namespace Psy\Readline\Hoa;
 
+use function defined;
+use function fstat;
+use function register_shutdown_function;
+use const STDIN;
+
 /**
  * Class \Hoa\Console.
  *
@@ -122,13 +127,13 @@ class Console
             return self::$_advanced;
         }
 
-        if (\defined('PHP_WINDOWS_VERSION_PLATFORM')) {
+        if (defined('PHP_WINDOWS_VERSION_PLATFORM')) {
             return self::$_advanced = false;
         }
 
         if (false === $force &&
-            true === \defined('STDIN') &&
-            false === self::isDirect(\STDIN)) {
+            true === defined('STDIN') &&
+            false === self::isDirect(STDIN)) {
             return self::$_advanced = false;
         }
 
@@ -156,7 +161,7 @@ class Console
      * Get mode of a certain pipe.
      * Inspired by sys/stat.h.
      */
-    public static function getMode($pipe = \STDIN): int
+    public static function getMode($pipe = STDIN): int
     {
         $_pipe = (int) $pipe;
 
@@ -164,7 +169,7 @@ class Console
             return self::$_mode[$_pipe];
         }
 
-        $stat = \fstat($pipe);
+        $stat = fstat($pipe);
 
         switch ($stat['mode'] & 0170000) {
             // named pipe (fifo).
@@ -344,4 +349,4 @@ class Console
 /*
  * Restore interaction.
  */
-\register_shutdown_function([Console::class, 'restoreInteraction']);
+register_shutdown_function([Console::class, 'restoreInteraction']);

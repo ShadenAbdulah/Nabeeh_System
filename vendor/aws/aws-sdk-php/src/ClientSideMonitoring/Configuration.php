@@ -1,6 +1,8 @@
 <?php
 namespace Aws\ClientSideMonitoring;
 
+use InvalidArgumentException;
+
 class Configuration implements ConfigurationInterface
 {
     private $clientId;
@@ -21,7 +23,7 @@ class Configuration implements ConfigurationInterface
         $this->host = $host;
         $this->port = filter_var($port, FILTER_VALIDATE_INT);
         if ($this->port === false) {
-            throw new \InvalidArgumentException(
+            throw new InvalidArgumentException(
                 "CSM 'port' value must be an integer!");
         }
 

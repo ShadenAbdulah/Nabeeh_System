@@ -11,10 +11,12 @@
 
 namespace Monolog\Handler;
 
+use InvalidArgumentException;
 use RuntimeException;
 use Monolog\Level;
 use Monolog\Utils;
 use Monolog\LogRecord;
+use function count;
 
 /**
  * Handler sends logs to Telegram using Telegram Bot API.
@@ -140,7 +142,7 @@ class TelegramBotHandler extends AbstractProcessingHandler
     public function setParseMode(string $parseMode = null): self
     {
         if ($parseMode !== null && !in_array($parseMode, self::AVAILABLE_PARSE_MODES, true)) {
-            throw new \InvalidArgumentException('Unknown parseMode, use one of these: ' . implode(', ', self::AVAILABLE_PARSE_MODES) . '.');
+            throw new InvalidArgumentException('Unknown parseMode, use one of these: ' . implode(', ', self::AVAILABLE_PARSE_MODES) . '.');
         }
 
         $this->parseMode = $parseMode;
@@ -215,14 +217,14 @@ class TelegramBotHandler extends AbstractProcessingHandler
                 continue;
             }
 
-            if (\count($this->processors) > 0) {
+            if (count($this->processors) > 0) {
                 $record = $this->processRecord($record);
             }
 
             $messages[] = $record;
         }
 
-        if (\count($messages) > 0) {
+        if (count($messages) > 0) {
             $this->send((string) $this->getFormatter()->formatBatch($messages));
         }
     }

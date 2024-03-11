@@ -1,6 +1,7 @@
 <?php
 namespace JmesPath;
 
+use BadMethodCallException;
 use JmesPath\Lexer as T;
 
 /**
@@ -514,6 +515,6 @@ class Parser
             throw $this->syntax($message);
         }
 
-        throw new \BadMethodCallException("Call to undefined method $method");
+        throw new BadMethodCallException("Call to undefined method $method");
     }
 }

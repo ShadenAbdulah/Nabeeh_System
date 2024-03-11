@@ -15,11 +15,12 @@ namespace League\CommonMark\Renderer;
 
 use League\CommonMark\Exception\InvalidArgumentException;
 use League\CommonMark\Node\Node;
+use Stringable;
 
 interface NodeRendererInterface
 {
     /**
-     * @return \Stringable|string|null
+     * @return Stringable|string|null
      *
      * @throws InvalidArgumentException if the wrong type of Node is provided
      */

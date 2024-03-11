@@ -17,6 +17,10 @@ use Symfony\Component\Console\Output\ConsoleOutputInterface;
 use Symfony\Component\Console\Output\ConsoleSectionOutput;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Terminal;
+use function assert;
+use function count;
+use const PHP_EOL;
+use const STR_PAD_LEFT;
 
 /**
  * The ProgressBar provides helpers to display progress output.
@@ -315,7 +319,7 @@ final class ProgressBar
      */
     public function iterate(iterable $iterable, ?int $max = null): iterable
     {
-        $this->start($max ?? (is_countable($iterable) ? \count($iterable) : 0));
+        $this->start($max ?? (is_countable($iterable) ? count($iterable) : 0));
 
         foreach ($iterable as $key => $value) {
             yield $key => $value;
@@ -485,7 +489,7 @@ final class ProgressBar
             if (null !== $this->previousMessage) {
                 if ($this->output instanceof ConsoleSectionOutput) {
                     $messageLines = explode("\n", $this->previousMessage);
-                    $lineCount = \count($messageLines);
+                    $lineCount = count($messageLines);
                     foreach ($messageLines as $messageLine) {
                         $messageLineLength = Helper::width(Helper::removeDecoration($this->output->getFormatter(), $messageLine));
                         if ($messageLineLength > $this->terminal->getWidth()) {
@@ -506,7 +510,7 @@ final class ProgressBar
                 }
             }
         } elseif ($this->step > 0) {
-            $message = \PHP_EOL.$message;
+            $message = PHP_EOL.$message;
         }
 
         $this->previousMessage = $originalMessage;
@@ -556,7 +560,7 @@ final class ProgressBar
                 return Helper::formatTime($bar->getEstimated(), 2);
             },
             'memory' => fn (self $bar) => Helper::formatMemory(memory_get_usage(true)),
-            'current' => fn (self $bar) => str_pad($bar->getProgress(), $bar->getStepWidth(), ' ', \STR_PAD_LEFT),
+            'current' => fn (self $bar) => str_pad($bar->getProgress(), $bar->getStepWidth(), ' ', STR_PAD_LEFT),
             'max' => fn (self $bar) => $bar->getMaxSteps(),
             'percent' => fn (self $bar) => floor($bar->getProgressPercent() * 100),
         ];
@@ -581,7 +585,7 @@ final class ProgressBar
 
     private function buildLine(): string
     {
-        \assert(null !== $this->format);
+        assert(null !== $this->format);
 
         $regex = "{%([a-z\-_]+)(?:\:([^%]+))?%}i";
         $callback = function ($matches) {

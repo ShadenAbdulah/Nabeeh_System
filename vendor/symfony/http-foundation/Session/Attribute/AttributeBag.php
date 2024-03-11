@@ -11,12 +11,18 @@
 
 namespace Symfony\Component\HttpFoundation\Session\Attribute;
 
+use ArrayIterator;
+use Countable;
+use IteratorAggregate;
+use function array_key_exists;
+use function count;
+
 /**
  * This class relates to session attribute storage.
  *
- * @implements \IteratorAggregate<string, mixed>
+ * @implements IteratorAggregate<string, mixed>
  */
-class AttributeBag implements AttributeBagInterface, \IteratorAggregate, \Countable
+class AttributeBag implements AttributeBagInterface, IteratorAggregate, Countable
 {
     private string $name = 'attributes';
     private string $storageKey;
@@ -59,12 +65,12 @@ class AttributeBag implements AttributeBagInterface, \IteratorAggregate, \Counta
 
     public function has(string $name): bool
     {
-        return \array_key_exists($name, $this->attributes);
+        return array_key_exists($name, $this->attributes);
     }
 
     public function get(string $name, mixed $default = null): mixed
     {
-        return \array_key_exists($name, $this->attributes) ? $this->attributes[$name] : $default;
+        return array_key_exists($name, $this->attributes) ? $this->attributes[$name] : $default;
     }
 
     /**
@@ -94,7 +100,7 @@ class AttributeBag implements AttributeBagInterface, \IteratorAggregate, \Counta
     public function remove(string $name): mixed
     {
         $retval = null;
-        if (\array_key_exists($name, $this->attributes)) {
+        if (array_key_exists($name, $this->attributes)) {
             $retval = $this->attributes[$name];
             unset($this->attributes[$name]);
         }
@@ -113,11 +119,11 @@ class AttributeBag implements AttributeBagInterface, \IteratorAggregate, \Counta
     /**
      * Returns an iterator for attributes.
      *
-     * @return \ArrayIterator<string, mixed>
+     * @return ArrayIterator<string, mixed>
      */
-    public function getIterator(): \ArrayIterator
+    public function getIterator(): ArrayIterator
     {
-        return new \ArrayIterator($this->attributes);
+        return new ArrayIterator($this->attributes);
     }
 
     /**
@@ -125,6 +131,6 @@ class AttributeBag implements AttributeBagInterface, \IteratorAggregate, \Counta
      */
     public function count(): int
     {
-        return \count($this->attributes);
+        return count($this->attributes);
     }
 }

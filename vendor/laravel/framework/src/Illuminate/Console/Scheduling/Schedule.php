@@ -4,6 +4,7 @@ namespace Illuminate\Console\Scheduling;
 
 use Closure;
 use DateTimeInterface;
+use DateTimeZone;
 use Illuminate\Bus\UniqueLock;
 use Illuminate\Console\Application;
 use Illuminate\Container\Container;
@@ -13,6 +14,7 @@ use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\CallQueuedClosure;
+use Illuminate\Support\Collection;
 use Illuminate\Support\ProcessUtils;
 use Illuminate\Support\Traits\Macroable;
 use RuntimeException;
@@ -38,35 +40,35 @@ class Schedule
     /**
      * All of the events on the schedule.
      *
-     * @var \Illuminate\Console\Scheduling\Event[]
+     * @var Event[]
      */
     protected $events = [];
 
     /**
      * The event mutex implementation.
      *
-     * @var \Illuminate\Console\Scheduling\EventMutex
+     * @var EventMutex
      */
     protected $eventMutex;
 
     /**
      * The scheduling mutex implementation.
      *
-     * @var \Illuminate\Console\Scheduling\SchedulingMutex
+     * @var SchedulingMutex
      */
     protected $schedulingMutex;
 
     /**
      * The timezone the date should be evaluated on.
      *
-     * @var \DateTimeZone|string
+     * @var DateTimeZone|string
      */
     protected $timezone;
 
     /**
      * The job dispatcher implementation.
      *
-     * @var \Illuminate\Contracts\Bus\Dispatcher
+     * @var Dispatcher
      */
     protected $dispatcher;
 
@@ -80,10 +82,10 @@ class Schedule
     /**
      * Create a new schedule instance.
      *
-     * @param  \DateTimeZone|string|null  $timezone
+     * @param  DateTimeZone|string|null  $timezone
      * @return void
      *
-     * @throws \RuntimeException
+     * @throws RuntimeException
      */
     public function __construct($timezone = null)
     {
@@ -111,7 +113,7 @@ class Schedule
      *
      * @param  string|callable  $callback
      * @param  array  $parameters
-     * @return \Illuminate\Console\Scheduling\CallbackEvent
+     * @return CallbackEvent
      */
     public function call($callback, array $parameters = [])
     {
@@ -127,7 +129,7 @@ class Schedule
      *
      * @param  string  $command
      * @param  array  $parameters
-     * @return \Illuminate\Console\Scheduling\Event
+     * @return Event
      */
     public function command($command, array $parameters = [])
     {
@@ -150,7 +152,7 @@ class Schedule
      * @param  object|string  $job
      * @param  string|null  $queue
      * @param  string|null  $connection
-     * @return \Illuminate\Console\Scheduling\CallbackEvent
+     * @return CallbackEvent
      */
     public function job($job, $queue = null, $connection = null)
     {
@@ -173,7 +175,7 @@ class Schedule
      * @param  string|null  $connection
      * @return void
      *
-     * @throws \RuntimeException
+     * @throws RuntimeException
      */
     protected function dispatchToQueue($job, $queue, $connection)
     {
@@ -204,7 +206,7 @@ class Schedule
      * @param  string|null  $connection
      * @return void
      *
-     * @throws \RuntimeException
+     * @throws RuntimeException
      */
     protected function dispatchUniqueJobToQueue($job, $queue, $connection)
     {
@@ -237,7 +239,7 @@ class Schedule
      *
      * @param  string  $command
      * @param  array  $parameters
-     * @return \Illuminate\Console\Scheduling\Event
+     * @return Event
      */
     public function exec($command, array $parameters = [])
     {
@@ -300,8 +302,8 @@ class Schedule
     /**
      * Determine if the server is allowed to run this event.
      *
-     * @param  \Illuminate\Console\Scheduling\Event  $event
-     * @param  \DateTimeInterface  $time
+     * @param Event $event
+     * @param DateTimeInterface $time
      * @return bool
      */
     public function serverShouldRun(Event $event, DateTimeInterface $time)
@@ -313,7 +315,7 @@ class Schedule
      * Get all of the events on the schedule that are due.
      *
      * @param  \Illuminate\Contracts\Foundation\Application  $app
-     * @return \Illuminate\Support\Collection
+     * @return Collection
      */
     public function dueEvents($app)
     {
@@ -323,7 +325,7 @@ class Schedule
     /**
      * Get all of the events on the schedule.
      *
-     * @return \Illuminate\Console\Scheduling\Event[]
+     * @return Event[]
      */
     public function events()
     {
@@ -352,9 +354,9 @@ class Schedule
     /**
      * Get the job dispatcher, if available.
      *
-     * @return \Illuminate\Contracts\Bus\Dispatcher
+     * @return Dispatcher
      *
-     * @throws \RuntimeException
+     * @throws RuntimeException
      */
     protected function getDispatcher()
     {

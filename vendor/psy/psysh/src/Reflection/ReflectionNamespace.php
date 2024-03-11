@@ -11,10 +11,13 @@
 
 namespace Psy\Reflection;
 
+use Reflector;
+use RuntimeException;
+
 /**
  * A fake Reflector for namespaces.
  */
-class ReflectionNamespace implements \Reflector
+class ReflectionNamespace implements Reflector
 {
     private $name;
 
@@ -41,11 +44,11 @@ class ReflectionNamespace implements \Reflector
     /**
      * This can't (and shouldn't) do anything :).
      *
-     * @throws \RuntimeException
+     * @throws RuntimeException
      */
     public static function export($name)
     {
-        throw new \RuntimeException('Not yet implemented because it\'s unclear what I should do here :)');
+        throw new RuntimeException('Not yet implemented because it\'s unclear what I should do here :)');
     }
 
     /**

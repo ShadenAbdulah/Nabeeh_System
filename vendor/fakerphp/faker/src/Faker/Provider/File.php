@@ -2,6 +2,8 @@
 
 namespace Faker\Provider;
 
+use InvalidArgumentException;
+
 class File extends Base
 {
     /**
@@ -576,15 +578,15 @@ class File extends Base
     public static function file($sourceDirectory = '/tmp', $targetDirectory = '/tmp', $fullPath = true)
     {
         if (!is_dir($sourceDirectory)) {
-            throw new \InvalidArgumentException(sprintf('Source directory %s does not exist or is not a directory.', $sourceDirectory));
+            throw new InvalidArgumentException(sprintf('Source directory %s does not exist or is not a directory.', $sourceDirectory));
         }
 
         if (!is_dir($targetDirectory)) {
-            throw new \InvalidArgumentException(sprintf('Target directory %s does not exist or is not a directory.', $targetDirectory));
+            throw new InvalidArgumentException(sprintf('Target directory %s does not exist or is not a directory.', $targetDirectory));
         }
 
         if ($sourceDirectory == $targetDirectory) {
-            throw new \InvalidArgumentException('Source and target directories must differ.');
+            throw new InvalidArgumentException('Source and target directories must differ.');
         }
 
         // Drop . and .. and reset array keys
@@ -593,7 +595,7 @@ class File extends Base
         });
 
         if (empty($files)) {
-            throw new \InvalidArgumentException(sprintf('Source directory %s is empty.', $sourceDirectory));
+            throw new InvalidArgumentException(sprintf('Source directory %s is empty.', $sourceDirectory));
         }
 
         $sourceFullPath = $sourceDirectory . DIRECTORY_SEPARATOR . static::randomElement($files);

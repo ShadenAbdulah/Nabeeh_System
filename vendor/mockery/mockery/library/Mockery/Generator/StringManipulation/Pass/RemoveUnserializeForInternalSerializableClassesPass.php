@@ -11,6 +11,7 @@
 namespace Mockery\Generator\StringManipulation\Pass;
 
 use Mockery\Generator\MockConfiguration;
+use const PHP_VERSION_ID;
 
 /**
  * Internal classes can not be instantiated with the newInstanceWithoutArgs
@@ -35,7 +36,7 @@ class RemoveUnserializeForInternalSerializableClassesPass
             return $code;
         }
 
-        $code = $this->appendToClass($code, \PHP_VERSION_ID < 80100 ? self::DUMMY_METHOD_DEFINITION_LEGACY : self::DUMMY_METHOD_DEFINITION);
+        $code = $this->appendToClass($code, PHP_VERSION_ID < 80100 ? self::DUMMY_METHOD_DEFINITION_LEGACY : self::DUMMY_METHOD_DEFINITION);
 
         return $code;
     }

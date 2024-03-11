@@ -11,11 +11,13 @@
 
 namespace Monolog\Handler;
 
+use InvalidArgumentException;
 use Monolog\Formatter\LineFormatter;
 use Monolog\Formatter\FormatterInterface;
 use Monolog\Level;
 use Monolog\Utils;
 use Monolog\LogRecord;
+use RuntimeException;
 
 /**
  * Stores to PHP error_log() handler.
@@ -34,7 +36,7 @@ class ErrorLogHandler extends AbstractProcessingHandler
      * @param int  $messageType    Says where the error should go.
      * @param bool $expandNewlines If set to true, newlines in the message will be expanded to be take multiple log entries
      *
-     * @throws \InvalidArgumentException If an unsupported message type is set
+     * @throws InvalidArgumentException If an unsupported message type is set
      */
     public function __construct(int $messageType = self::OPERATING_SYSTEM, int|string|Level $level = Level::Debug, bool $bubble = true, bool $expandNewlines = false)
     {
@@ -43,7 +45,7 @@ class ErrorLogHandler extends AbstractProcessingHandler
         if (false === in_array($messageType, self::getAvailableTypes(), true)) {
             $message = sprintf('The given message type "%s" is not supported', print_r($messageType, true));
 
-            throw new \InvalidArgumentException($message);
+            throw new InvalidArgumentException($message);
         }
 
         $this->messageType = $messageType;
@@ -84,7 +86,7 @@ class ErrorLogHandler extends AbstractProcessingHandler
         if ($lines === false) {
             $pcreErrorCode = preg_last_error();
 
-            throw new \RuntimeException('Failed to preg_split formatted string: ' . $pcreErrorCode . ' / '. Utils::pcreLastErrorMessage($pcreErrorCode));
+            throw new RuntimeException('Failed to preg_split formatted string: ' . $pcreErrorCode . ' / '. Utils::pcreLastErrorMessage($pcreErrorCode));
         }
         foreach ($lines as $line) {
             error_log($line, $this->messageType);

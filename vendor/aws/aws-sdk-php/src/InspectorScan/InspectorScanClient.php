@@ -2,10 +2,12 @@
 namespace Aws\InspectorScan;
 
 use Aws\AwsClient;
+use Aws\Result;
+use GuzzleHttp\Promise\Promise;
 
 /**
  * This client is used to interact with the **Inspector Scan** service.
- * @method \Aws\Result scanSbom(array $args = [])
- * @method \GuzzleHttp\Promise\Promise scanSbomAsync(array $args = [])
+ * @method Result scanSbom(array $args = [])
+ * @method Promise scanSbomAsync(array $args = [])
  */
 class InspectorScanClient extends AwsClient {}

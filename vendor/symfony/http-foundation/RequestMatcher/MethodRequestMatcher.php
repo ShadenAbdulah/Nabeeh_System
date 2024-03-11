@@ -13,6 +13,7 @@ namespace Symfony\Component\HttpFoundation\RequestMatcher;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestMatcherInterface;
+use function in_array;
 
 /**
  * Checks the HTTP method of a Request.
@@ -41,6 +42,6 @@ class MethodRequestMatcher implements RequestMatcherInterface
             return true;
         }
 
-        return \in_array($request->getMethod(), $this->methods, true);
+        return in_array($request->getMethod(), $this->methods, true);
     }
 }

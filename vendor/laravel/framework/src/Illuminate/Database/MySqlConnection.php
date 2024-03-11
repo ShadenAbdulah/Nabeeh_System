@@ -30,7 +30,7 @@ class MySqlConnection extends Connection
     /**
      * Determine if the given database exception was caused by a unique constraint violation.
      *
-     * @param  \Exception  $exception
+     * @param Exception $exception
      * @return bool
      */
     protected function isUniqueConstraintError(Exception $exception)
@@ -51,7 +51,7 @@ class MySqlConnection extends Connection
     /**
      * Get the default query grammar instance.
      *
-     * @return \Illuminate\Database\Query\Grammars\MySqlGrammar
+     * @return QueryGrammar
      */
     protected function getDefaultQueryGrammar()
     {
@@ -63,7 +63,7 @@ class MySqlConnection extends Connection
     /**
      * Get a schema builder instance for the connection.
      *
-     * @return \Illuminate\Database\Schema\MySqlBuilder
+     * @return MySqlBuilder
      */
     public function getSchemaBuilder()
     {
@@ -77,7 +77,7 @@ class MySqlConnection extends Connection
     /**
      * Get the default schema grammar instance.
      *
-     * @return \Illuminate\Database\Schema\Grammars\MySqlGrammar
+     * @return SchemaGrammar
      */
     protected function getDefaultSchemaGrammar()
     {
@@ -89,9 +89,9 @@ class MySqlConnection extends Connection
     /**
      * Get the schema state for the connection.
      *
-     * @param  \Illuminate\Filesystem\Filesystem|null  $files
+     * @param Filesystem|null  $files
      * @param  callable|null  $processFactory
-     * @return \Illuminate\Database\Schema\MySqlSchemaState
+     * @return MySqlSchemaState
      */
     public function getSchemaState(Filesystem $files = null, callable $processFactory = null)
     {
@@ -101,7 +101,7 @@ class MySqlConnection extends Connection
     /**
      * Get the default post processor instance.
      *
-     * @return \Illuminate\Database\Query\Processors\MySqlProcessor
+     * @return MySqlProcessor
      */
     protected function getDefaultPostProcessor()
     {
@@ -111,7 +111,7 @@ class MySqlConnection extends Connection
     /**
      * Get the Doctrine DBAL driver.
      *
-     * @return \Illuminate\Database\PDO\MySqlDriver
+     * @return MySqlDriver
      */
     protected function getDoctrineDriver()
     {

@@ -3,9 +3,12 @@
 namespace Illuminate\Bus;
 
 use Closure;
+use DateInterval;
+use DateTimeInterface;
 use Illuminate\Queue\CallQueuedClosure;
 use Illuminate\Support\Arr;
 use RuntimeException;
+use Throwable;
 
 trait Queueable
 {
@@ -47,7 +50,7 @@ trait Queueable
     /**
      * The number of seconds before the job should be made available.
      *
-     * @var \DateTimeInterface|\DateInterval|array|int|null
+     * @var DateTimeInterface|DateInterval|array|int|null
      */
     public $delay;
 
@@ -129,7 +132,7 @@ trait Queueable
     /**
      * Set the desired delay in seconds for the job.
      *
-     * @param  \DateTimeInterface|\DateInterval|array|int|null  $delay
+     * @param  DateTimeInterface|DateInterval|array|int|null  $delay
      * @return $this
      */
     public function delay($delay)
@@ -223,7 +226,7 @@ trait Queueable
      * @param  mixed  $job
      * @return string
      *
-     * @throws \RuntimeException
+     * @throws RuntimeException
      */
     protected function serializeJob($job)
     {
@@ -264,7 +267,7 @@ trait Queueable
     /**
      * Invoke all of the chain's failed job callbacks.
      *
-     * @param  \Throwable  $e
+     * @param  Throwable  $e
      * @return void
      */
     public function invokeChainCatchCallbacks($e)

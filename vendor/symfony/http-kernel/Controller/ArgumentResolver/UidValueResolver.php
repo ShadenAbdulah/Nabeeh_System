@@ -11,12 +11,14 @@
 
 namespace Symfony\Component\HttpKernel\Controller\ArgumentResolver;
 
+use InvalidArgumentException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Controller\ArgumentValueResolverInterface;
 use Symfony\Component\HttpKernel\Controller\ValueResolverInterface;
 use Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadata;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Uid\AbstractUid;
+use function is_string;
 
 final class UidValueResolver implements ArgumentValueResolverInterface, ValueResolverInterface
 {
@@ -28,7 +30,7 @@ final class UidValueResolver implements ArgumentValueResolverInterface, ValueRes
         @trigger_deprecation('symfony/http-kernel', '6.2', 'The "%s()" method is deprecated, use "resolve()" instead.', __METHOD__);
 
         return !$argument->isVariadic()
-            && \is_string($request->attributes->get($argument->getName()))
+            && is_string($request->attributes->get($argument->getName()))
             && null !== $argument->getType()
             && is_subclass_of($argument->getType(), AbstractUid::class, true);
     }
@@ -36,7 +38,7 @@ final class UidValueResolver implements ArgumentValueResolverInterface, ValueRes
     public function resolve(Request $request, ArgumentMetadata $argument): array
     {
         if ($argument->isVariadic()
-            || !\is_string($value = $request->attributes->get($argument->getName()))
+            || !is_string($value = $request->attributes->get($argument->getName()))
             || null === ($uidClass = $argument->getType())
             || !is_subclass_of($uidClass, AbstractUid::class, true)
         ) {
@@ -45,7 +47,7 @@ final class UidValueResolver implements ArgumentValueResolverInterface, ValueRes
 
         try {
             return [$uidClass::fromString($value)];
-        } catch (\InvalidArgumentException $e) {
+        } catch (InvalidArgumentException $e) {
             throw new NotFoundHttpException(sprintf('The uid for the "%s" parameter is invalid.', $argument->getName()), $e);
         }
     }

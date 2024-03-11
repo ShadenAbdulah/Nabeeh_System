@@ -9,7 +9,7 @@ class ResourceRegistrar
     /**
      * The router instance.
      *
-     * @var \Illuminate\Routing\Router
+     * @var Router
      */
     protected $router;
 
@@ -61,7 +61,7 @@ class ResourceRegistrar
     /**
      * Create a new resource registrar instance.
      *
-     * @param  \Illuminate\Routing\Router  $router
+     * @param Router $router
      * @return void
      */
     public function __construct(Router $router)
@@ -75,7 +75,7 @@ class ResourceRegistrar
      * @param  string  $name
      * @param  string  $controller
      * @param  array  $options
-     * @return \Illuminate\Routing\RouteCollection
+     * @return RouteCollection
      */
     public function register($name, $controller, array $options = [])
     {
@@ -129,7 +129,7 @@ class ResourceRegistrar
      * @param  string  $name
      * @param  string  $controller
      * @param  array  $options
-     * @return \Illuminate\Routing\RouteCollection
+     * @return RouteCollection
      */
     public function singleton($name, $controller, array $options = [])
     {
@@ -179,7 +179,7 @@ class ResourceRegistrar
      * @param  string  $name
      * @param  string  $controller
      * @param  array  $options
-     * @return \Illuminate\Routing\Router
+     * @return Router
      */
     protected function prefixedResource($name, $controller, array $options)
     {
@@ -201,7 +201,7 @@ class ResourceRegistrar
      * @param  string  $name
      * @param  string  $controller
      * @param  array  $options
-     * @return \Illuminate\Routing\Router
+     * @return Router
      */
     protected function prefixedSingleton($name, $controller, array $options)
     {
@@ -264,7 +264,7 @@ class ResourceRegistrar
      * @param  string  $base
      * @param  string  $controller
      * @param  array  $options
-     * @return \Illuminate\Routing\Route
+     * @return Route
      */
     protected function addResourceIndex($name, $base, $controller, $options)
     {
@@ -284,7 +284,7 @@ class ResourceRegistrar
      * @param  string  $base
      * @param  string  $controller
      * @param  array  $options
-     * @return \Illuminate\Routing\Route
+     * @return Route
      */
     protected function addResourceCreate($name, $base, $controller, $options)
     {
@@ -304,7 +304,7 @@ class ResourceRegistrar
      * @param  string  $base
      * @param  string  $controller
      * @param  array  $options
-     * @return \Illuminate\Routing\Route
+     * @return Route
      */
     protected function addResourceStore($name, $base, $controller, $options)
     {
@@ -324,7 +324,7 @@ class ResourceRegistrar
      * @param  string  $base
      * @param  string  $controller
      * @param  array  $options
-     * @return \Illuminate\Routing\Route
+     * @return Route
      */
     protected function addResourceShow($name, $base, $controller, $options)
     {
@@ -344,7 +344,7 @@ class ResourceRegistrar
      * @param  string  $base
      * @param  string  $controller
      * @param  array  $options
-     * @return \Illuminate\Routing\Route
+     * @return Route
      */
     protected function addResourceEdit($name, $base, $controller, $options)
     {
@@ -364,7 +364,7 @@ class ResourceRegistrar
      * @param  string  $base
      * @param  string  $controller
      * @param  array  $options
-     * @return \Illuminate\Routing\Route
+     * @return Route
      */
     protected function addResourceUpdate($name, $base, $controller, $options)
     {
@@ -384,7 +384,7 @@ class ResourceRegistrar
      * @param  string  $base
      * @param  string  $controller
      * @param  array  $options
-     * @return \Illuminate\Routing\Route
+     * @return Route
      */
     protected function addResourceDestroy($name, $base, $controller, $options)
     {
@@ -403,7 +403,7 @@ class ResourceRegistrar
      * @param  string  $name
      * @param  string  $controller
      * @param  array  $options
-     * @return \Illuminate\Routing\Route
+     * @return Route
      */
     protected function addSingletonCreate($name, $controller, $options)
     {
@@ -422,7 +422,7 @@ class ResourceRegistrar
      * @param  string  $name
      * @param  string  $controller
      * @param  array  $options
-     * @return \Illuminate\Routing\Route
+     * @return Route
      */
     protected function addSingletonStore($name, $controller, $options)
     {
@@ -441,7 +441,7 @@ class ResourceRegistrar
      * @param  string  $name
      * @param  string  $controller
      * @param  array  $options
-     * @return \Illuminate\Routing\Route
+     * @return Route
      */
     protected function addSingletonShow($name, $controller, $options)
     {
@@ -460,7 +460,7 @@ class ResourceRegistrar
      * @param  string  $name
      * @param  string  $controller
      * @param  array  $options
-     * @return \Illuminate\Routing\Route
+     * @return Route
      */
     protected function addSingletonEdit($name, $controller, $options)
     {
@@ -479,7 +479,7 @@ class ResourceRegistrar
      * @param  string  $name
      * @param  string  $controller
      * @param  array  $options
-     * @return \Illuminate\Routing\Route
+     * @return Route
      */
     protected function addSingletonUpdate($name, $controller, $options)
     {
@@ -498,7 +498,7 @@ class ResourceRegistrar
      * @param  string  $name
      * @param  string  $controller
      * @param  array  $options
-     * @return \Illuminate\Routing\Route
+     * @return Route
      */
     protected function addSingletonDestroy($name, $controller, $options)
     {
@@ -528,7 +528,7 @@ class ResourceRegistrar
     /**
      * Set the route's binding fields if the resource is scoped.
      *
-     * @param  \Illuminate\Routing\Route  $route
+     * @param Route $route
      * @param  array  $bindingFields
      * @return void
      */

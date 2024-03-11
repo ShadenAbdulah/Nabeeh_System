@@ -3,6 +3,8 @@
 namespace Faker;
 
 use Faker\Extension\Extension;
+use InvalidArgumentException;
+use OverflowException;
 
 /**
  * Proxy for other generators, to return only valid values. Works with
@@ -28,7 +30,7 @@ class ValidGenerator
                 return true;
             };
         } elseif (!is_callable($validator)) {
-            throw new \InvalidArgumentException('valid() only accepts callables as first argument');
+            throw new InvalidArgumentException('valid() only accepts callables as first argument');
         }
         $this->generator = $generator;
         $this->validator = $validator;
@@ -69,7 +71,7 @@ class ValidGenerator
             ++$i;
 
             if ($i > $this->maxRetries) {
-                throw new \OverflowException(sprintf('Maximum retries of %d reached without finding a valid value', $this->maxRetries));
+                throw new OverflowException(sprintf('Maximum retries of %d reached without finding a valid value', $this->maxRetries));
             }
         } while (!call_user_func($this->validator, $res));
 

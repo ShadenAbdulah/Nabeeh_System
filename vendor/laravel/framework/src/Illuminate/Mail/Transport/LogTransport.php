@@ -14,14 +14,14 @@ class LogTransport implements TransportInterface
     /**
      * The Logger instance.
      *
-     * @var \Psr\Log\LoggerInterface
+     * @var LoggerInterface
      */
     protected $logger;
 
     /**
      * Create a new log transport instance.
      *
-     * @param  \Psr\Log\LoggerInterface  $logger
+     * @param LoggerInterface $logger
      * @return void
      */
     public function __construct(LoggerInterface $logger)
@@ -79,7 +79,7 @@ class LogTransport implements TransportInterface
     /**
      * Get the logger for the LogTransport instance.
      *
-     * @return \Psr\Log\LoggerInterface
+     * @return LoggerInterface
      */
     public function logger()
     {

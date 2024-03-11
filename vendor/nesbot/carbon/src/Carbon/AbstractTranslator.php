@@ -18,6 +18,8 @@ use ReflectionFunction;
 use Symfony\Component\Translation;
 use Symfony\Component\Translation\Formatter\MessageFormatterInterface;
 use Symfony\Component\Translation\Loader\ArrayLoader;
+use function count;
+use function strlen;
 
 abstract class AbstractTranslator extends Translation\Translator
 {
@@ -235,7 +237,7 @@ abstract class AbstractTranslator extends Translation\Translator
 
             return $format(
                 ...array_values($parameters),
-                ...array_fill(0, max(0, $count - \count($parameters)), null)
+                ...array_fill(0, max(0, $count - count($parameters)), null)
             );
         }
 
@@ -312,7 +314,7 @@ abstract class AbstractTranslator extends Translation\Translator
             // _2-letters or YUE is a region, _3+-letters is a variant
             $upper = strtoupper($matches[1]);
 
-            if ($upper === 'YUE' || $upper === 'ISO' || \strlen($upper) < 3) {
+            if ($upper === 'YUE' || $upper === 'ISO' || strlen($upper) < 3) {
                 return "_$upper";
             }
 

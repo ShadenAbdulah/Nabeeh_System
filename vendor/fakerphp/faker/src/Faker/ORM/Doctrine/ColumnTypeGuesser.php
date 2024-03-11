@@ -2,6 +2,8 @@
 
 namespace Faker\ORM\Doctrine;
 
+use Closure;
+use DateTimeImmutable;
 use Doctrine\Common\Persistence\Mapping\ClassMetadata;
 use Faker\Generator;
 
@@ -17,7 +19,7 @@ class ColumnTypeGuesser
     }
 
     /**
-     * @return \Closure|null
+     * @return Closure|null
      */
     public function guessFormat($fieldName, ClassMetadata $class)
     {
@@ -80,7 +82,7 @@ class ColumnTypeGuesser
             case 'date_immutable':
             case 'time_immutable':
                 return static function () use ($generator) {
-                    return \DateTimeImmutable::createFromMutable($generator->datetime);
+                    return DateTimeImmutable::createFromMutable($generator->datetime);
                 };
 
             default:

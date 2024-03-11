@@ -2,22 +2,24 @@
 
 namespace Illuminate\Http\Middleware;
 
+use Closure;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 abstract class TrustHosts
 {
     /**
      * The application instance.
      *
-     * @var \Illuminate\Contracts\Foundation\Application
+     * @var Application
      */
     protected $app;
 
     /**
      * Create a new middleware instance.
      *
-     * @param  \Illuminate\Contracts\Foundation\Application  $app
+     * @param Application $app
      * @return void
      */
     public function __construct(Application $app)
@@ -35,9 +37,9 @@ abstract class TrustHosts
     /**
      * Handle the incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param  Closure  $next
+     * @return Response
      */
     public function handle(Request $request, $next)
     {

@@ -314,7 +314,7 @@ trait ValidatesAttributes
      *
      * @param  string  $format
      * @param  string  $value
-     * @return \DateTime|null
+     * @return DateTime|null
      */
     protected function getDateTimeWithOptionalFormat($format, $value)
     {
@@ -329,7 +329,7 @@ trait ValidatesAttributes
      * Get a DateTime instance from a string with no format.
      *
      * @param  string  $value
-     * @return \DateTime|null
+     * @return DateTime|null
      */
     protected function getDateTime($value)
     {
@@ -2509,7 +2509,7 @@ trait ValidatesAttributes
      * @param  string  $operator
      * @return bool
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     protected function compare($first, $second, $operator)
     {
@@ -2548,7 +2548,7 @@ trait ValidatesAttributes
      * @param  string  $rule
      * @return void
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function requireParameterCount($count, $parameters, $rule)
     {

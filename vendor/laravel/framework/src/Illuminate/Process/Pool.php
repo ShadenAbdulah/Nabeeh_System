@@ -5,15 +5,15 @@ namespace Illuminate\Process;
 use InvalidArgumentException;
 
 /**
- * @mixin \Illuminate\Process\Factory
- * @mixin \Illuminate\Process\PendingProcess
+ * @mixin Factory
+ * @mixin PendingProcess
  */
 class Pool
 {
     /**
      * The process factory instance.
      *
-     * @var \Illuminate\Process\Factory
+     * @var Factory
      */
     protected $factory;
 
@@ -34,7 +34,7 @@ class Pool
     /**
      * Create a new process pool.
      *
-     * @param  \Illuminate\Process\Factory  $factory
+     * @param Factory $factory
      * @param  callable  $callback
      * @return void
      */
@@ -48,7 +48,7 @@ class Pool
      * Add a process to the pool with a key.
      *
      * @param  string  $key
-     * @return \Illuminate\Process\PendingProcess
+     * @return PendingProcess
      */
     public function as(string $key)
     {
@@ -61,7 +61,7 @@ class Pool
      * Start all of the processes in the pool.
      *
      * @param  callable|null  $output
-     * @return \Illuminate\Process\InvokedProcessPool
+     * @return InvokedProcessPool
      */
     public function start(?callable $output = null)
     {
@@ -85,7 +85,7 @@ class Pool
     /**
      * Start and wait for the processes to finish.
      *
-     * @return \Illuminate\Process\ProcessPoolResults
+     * @return ProcessPoolResults
      */
     public function run()
     {
@@ -95,7 +95,7 @@ class Pool
     /**
      * Start and wait for the processes to finish.
      *
-     * @return \Illuminate\Process\ProcessPoolResults
+     * @return ProcessPoolResults
      */
     public function wait()
     {
@@ -107,7 +107,7 @@ class Pool
      *
      * @param  string  $method
      * @param  array  $parameters
-     * @return \Illuminate\Process\PendingProcess
+     * @return PendingProcess
      */
     public function __call($method, $parameters)
     {

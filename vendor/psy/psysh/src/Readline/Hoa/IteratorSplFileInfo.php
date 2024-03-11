@@ -36,12 +36,18 @@
 
 namespace Psy\Readline\Hoa;
 
+use RuntimeException;
+use SplFileInfo;
+use function md5;
+use function strlen;
+use function substr;
+
 /**
  * Class \Hoa\Iterator\SplFileInfo.
  *
  * Enhance SplFileInfo implementation.
  */
-class IteratorSplFileInfo extends \SplFileInfo
+class IteratorSplFileInfo extends SplFileInfo
 {
     /**
      * Hash.
@@ -61,7 +67,7 @@ class IteratorSplFileInfo extends \SplFileInfo
         parent::__construct($filename);
 
         if (-1 !== $mtime = $this->getMTime()) {
-            $this->_hash = \md5($this->getPathname().$mtime);
+            $this->_hash = md5($this->getPathname().$mtime);
         }
 
         $this->_relativePath = $relativePath;
@@ -84,7 +90,7 @@ class IteratorSplFileInfo extends \SplFileInfo
     {
         try {
             return parent::getMTime();
-        } catch (\RuntimeException $e) {
+        } catch (RuntimeException $e) {
             return -1;
         }
     }
@@ -117,6 +123,6 @@ class IteratorSplFileInfo extends \SplFileInfo
             return $this->getPathname();
         }
 
-        return \substr($this->getPathname(), \strlen($relative));
+        return substr($this->getPathname(), strlen($relative));
     }
 }

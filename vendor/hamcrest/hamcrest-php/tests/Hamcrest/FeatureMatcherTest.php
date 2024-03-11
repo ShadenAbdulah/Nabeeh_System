@@ -15,7 +15,7 @@ class Thingy
 }
 
 /* Test-specific subclass only */
-class ResultMatcher extends \Hamcrest\FeatureMatcher
+class ResultMatcher extends FeatureMatcher
 {
     public function __construct()
     {
@@ -23,13 +23,13 @@ class ResultMatcher extends \Hamcrest\FeatureMatcher
     }
     public function featureValueOf($actual)
     {
-        if ($actual instanceof \Hamcrest\Thingy) {
+        if ($actual instanceof Thingy) {
             return $actual->getResult();
         }
     }
 }
 
-class FeatureMatcherTest extends \Hamcrest\AbstractMatcherTest
+class FeatureMatcherTest extends AbstractMatcherTest
 {
 
     private $_resultMatcher;
@@ -46,7 +46,7 @@ class FeatureMatcherTest extends \Hamcrest\AbstractMatcherTest
 
     public function testMatchesPartOfAnObject()
     {
-        $this->assertMatches($this->_resultMatcher, new \Hamcrest\Thingy('bar'), 'feature');
+        $this->assertMatches($this->_resultMatcher, new Thingy('bar'), 'feature');
         $this->assertDescription('Thingy with result "bar"', $this->_resultMatcher);
     }
 
@@ -55,7 +55,7 @@ class FeatureMatcherTest extends \Hamcrest\AbstractMatcherTest
         $this->assertMismatchDescription(
             'result was "foo"',
             $this->_resultMatcher,
-            new \Hamcrest\Thingy('foo')
+            new Thingy('foo')
         );
     }
 
@@ -68,6 +68,6 @@ class FeatureMatcherTest extends \Hamcrest\AbstractMatcherTest
 
     private function _resultMatcher()
     {
-        return new \Hamcrest\ResultMatcher();
+        return new ResultMatcher();
     }
 }

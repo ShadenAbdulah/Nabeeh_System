@@ -9,6 +9,8 @@ defined('T_NULLSAFE_OBJECT_OPERATOR') || define('T_NULLSAFE_OBJECT_OPERATOR', -7
 
 use Closure;
 use ReflectionFunction;
+use const PHP_MAJOR_VERSION;
+use const PHP_MINOR_VERSION;
 
 class ReflectionClosure extends ReflectionFunction
 {
@@ -30,7 +32,7 @@ class ReflectionClosure extends ReflectionFunction
     /**
      * Creates a new reflection closure instance.
      *
-     * @param  \Closure  $closure
+     * @param Closure $closure
      * @param  string|null  $code
      * @return void
      */
@@ -571,7 +573,7 @@ class ReflectionClosure extends ReflectionFunction
                                     if (! $inside_structure) {
                                         $isUsingScope = $token[0] === T_DOUBLE_COLON;
                                     }
-                                } elseif (! (\PHP_MAJOR_VERSION >= 7 && in_array($id_start_ci, $builtin_types))) {
+                                } elseif (! (PHP_MAJOR_VERSION >= 7 && in_array($id_start_ci, $builtin_types))) {
                                     if ($classes === null) {
                                         $classes = $this->getClasses();
                                     }
@@ -621,7 +623,7 @@ class ReflectionClosure extends ReflectionFunction
                                         if (! $inside_structure && ! $id_start_ci === 'static') {
                                             $isUsingScope = true;
                                         }
-                                    } elseif (! (\PHP_MAJOR_VERSION >= 7 && in_array($id_start_ci, $builtin_types))) {
+                                    } elseif (! (PHP_MAJOR_VERSION >= 7 && in_array($id_start_ci, $builtin_types))) {
                                         if ($classes === null) {
                                             $classes = $this->getClasses();
                                         }
@@ -721,12 +723,12 @@ class ReflectionClosure extends ReflectionFunction
         }
 
         // PHP 8
-        if (\PHP_MAJOR_VERSION === 8) {
+        if (PHP_MAJOR_VERSION === 8) {
             return ['array', 'callable', 'string', 'int', 'bool', 'float', 'iterable', 'void', 'object', 'mixed', 'false', 'null'];
         }
 
         // PHP 7
-        switch (\PHP_MINOR_VERSION) {
+        switch (PHP_MINOR_VERSION) {
             case 0:
                 return ['array', 'callable', 'string', 'int', 'bool', 'float'];
             case 1:

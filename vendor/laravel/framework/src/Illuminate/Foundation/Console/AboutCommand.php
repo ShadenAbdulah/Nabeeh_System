@@ -4,6 +4,7 @@ namespace Illuminate\Foundation\Console;
 
 use Closure;
 use Illuminate\Console\Command;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Composer;
 use Illuminate\Support\Str;
 use Symfony\Component\Console\Attribute\AsCommand;
@@ -29,7 +30,7 @@ class AboutCommand extends Command
     /**
      * The Composer instance.
      *
-     * @var \Illuminate\Support\Composer
+     * @var Composer
      */
     protected $composer;
 
@@ -50,7 +51,7 @@ class AboutCommand extends Command
     /**
      * Create a new command instance.
      *
-     * @param  \Illuminate\Support\Composer  $composer
+     * @param Composer $composer
      * @return void
      */
     public function __construct(Composer $composer)
@@ -104,7 +105,7 @@ class AboutCommand extends Command
     /**
      * Display the application information.
      *
-     * @param  \Illuminate\Support\Collection  $data
+     * @param  Collection  $data
      * @return void
      */
     protected function display($data)
@@ -115,7 +116,7 @@ class AboutCommand extends Command
     /**
      * Display the application information as a detail view.
      *
-     * @param  \Illuminate\Support\Collection  $data
+     * @param  Collection  $data
      * @return void
      */
     protected function displayDetail($data)
@@ -136,7 +137,7 @@ class AboutCommand extends Command
     /**
      * Display the application information as JSON.
      *
-     * @param  \Illuminate\Support\Collection  $data
+     * @param  Collection  $data
      * @return void
      */
     protected function displayJson($data)
@@ -275,9 +276,9 @@ class AboutCommand extends Command
      * Materialize a function that formats a given value for CLI or JSON output.
      *
      * @param  mixed  $value
-     * @param  (\Closure(mixed):(mixed))|null  $console
-     * @param  (\Closure(mixed):(mixed))|null  $json
-     * @return \Closure(bool):mixed
+     * @param  (Closure(mixed):(mixed))|null  $console
+     * @param  (Closure(mixed):(mixed))|null  $json
+     * @return Closure(bool):mixed
      */
     public static function format($value, Closure $console = null, Closure $json = null)
     {

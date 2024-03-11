@@ -15,6 +15,7 @@ namespace League\CommonMark\Extension\Mention\Generator;
 
 use League\CommonMark\Extension\Mention\Mention;
 use League\CommonMark\Node\Inline\AbstractInline;
+use function sprintf;
 
 final class StringTemplateLinkGenerator implements MentionGeneratorInterface
 {
@@ -27,7 +28,7 @@ final class StringTemplateLinkGenerator implements MentionGeneratorInterface
 
     public function generateMention(Mention $mention): ?AbstractInline
     {
-        $mention->setUrl(\sprintf($this->urlTemplate, $mention->getIdentifier()));
+        $mention->setUrl(sprintf($this->urlTemplate, $mention->getIdentifier()));
 
         return $mention;
     }

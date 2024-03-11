@@ -15,6 +15,7 @@ use Aws\HandlerList;
 use Aws\Identity\S3\S3ExpressIdentityProvider;
 use Aws\InputValidationMiddleware;
 use Aws\Middleware;
+use Aws\Result;
 use Aws\ResultInterface;
 use Aws\Retry\QuotaManager;
 use Aws\RetryMiddleware;
@@ -23,211 +24,214 @@ use Aws\S3\RegionalEndpoint\ConfigurationProvider;
 use Aws\S3\UseArnRegion\Configuration;
 use Aws\S3\UseArnRegion\ConfigurationInterface;
 use Aws\S3\UseArnRegion\ConfigurationProvider as UseArnRegionConfigurationProvider;
+use Aws\Signature\SignatureInterface;
+use Closure;
 use GuzzleHttp\Exception\RequestException;
+use GuzzleHttp\Promise\Promise;
 use GuzzleHttp\Promise\PromiseInterface;
 use Psr\Http\Message\RequestInterface;
 
 /**
  * Client used to interact with **Amazon Simple Storage Service (Amazon S3)**.
  *
- * @method \Aws\Result abortMultipartUpload(array $args = [])
- * @method \GuzzleHttp\Promise\Promise abortMultipartUploadAsync(array $args = [])
- * @method \Aws\Result completeMultipartUpload(array $args = [])
- * @method \GuzzleHttp\Promise\Promise completeMultipartUploadAsync(array $args = [])
- * @method \Aws\Result copyObject(array $args = [])
- * @method \GuzzleHttp\Promise\Promise copyObjectAsync(array $args = [])
- * @method \Aws\Result createBucket(array $args = [])
- * @method \GuzzleHttp\Promise\Promise createBucketAsync(array $args = [])
- * @method \Aws\Result createMultipartUpload(array $args = [])
- * @method \GuzzleHttp\Promise\Promise createMultipartUploadAsync(array $args = [])
- * @method \Aws\Result createSession(array $args = [])
- * @method \GuzzleHttp\Promise\Promise createSessionAsync(array $args = [])
- * @method \Aws\Result deleteBucket(array $args = [])
- * @method \GuzzleHttp\Promise\Promise deleteBucketAsync(array $args = [])
- * @method \Aws\Result deleteBucketAnalyticsConfiguration(array $args = [])
- * @method \GuzzleHttp\Promise\Promise deleteBucketAnalyticsConfigurationAsync(array $args = [])
- * @method \Aws\Result deleteBucketCors(array $args = [])
- * @method \GuzzleHttp\Promise\Promise deleteBucketCorsAsync(array $args = [])
- * @method \Aws\Result deleteBucketEncryption(array $args = [])
- * @method \GuzzleHttp\Promise\Promise deleteBucketEncryptionAsync(array $args = [])
- * @method \Aws\Result deleteBucketIntelligentTieringConfiguration(array $args = [])
- * @method \GuzzleHttp\Promise\Promise deleteBucketIntelligentTieringConfigurationAsync(array $args = [])
- * @method \Aws\Result deleteBucketInventoryConfiguration(array $args = [])
- * @method \GuzzleHttp\Promise\Promise deleteBucketInventoryConfigurationAsync(array $args = [])
- * @method \Aws\Result deleteBucketLifecycle(array $args = [])
- * @method \GuzzleHttp\Promise\Promise deleteBucketLifecycleAsync(array $args = [])
- * @method \Aws\Result deleteBucketMetricsConfiguration(array $args = [])
- * @method \GuzzleHttp\Promise\Promise deleteBucketMetricsConfigurationAsync(array $args = [])
- * @method \Aws\Result deleteBucketOwnershipControls(array $args = [])
- * @method \GuzzleHttp\Promise\Promise deleteBucketOwnershipControlsAsync(array $args = [])
- * @method \Aws\Result deleteBucketPolicy(array $args = [])
- * @method \GuzzleHttp\Promise\Promise deleteBucketPolicyAsync(array $args = [])
- * @method \Aws\Result deleteBucketReplication(array $args = [])
- * @method \GuzzleHttp\Promise\Promise deleteBucketReplicationAsync(array $args = [])
- * @method \Aws\Result deleteBucketTagging(array $args = [])
- * @method \GuzzleHttp\Promise\Promise deleteBucketTaggingAsync(array $args = [])
- * @method \Aws\Result deleteBucketWebsite(array $args = [])
- * @method \GuzzleHttp\Promise\Promise deleteBucketWebsiteAsync(array $args = [])
- * @method \Aws\Result deleteObject(array $args = [])
- * @method \GuzzleHttp\Promise\Promise deleteObjectAsync(array $args = [])
- * @method \Aws\Result deleteObjectTagging(array $args = [])
- * @method \GuzzleHttp\Promise\Promise deleteObjectTaggingAsync(array $args = [])
- * @method \Aws\Result deleteObjects(array $args = [])
- * @method \GuzzleHttp\Promise\Promise deleteObjectsAsync(array $args = [])
- * @method \Aws\Result deletePublicAccessBlock(array $args = [])
- * @method \GuzzleHttp\Promise\Promise deletePublicAccessBlockAsync(array $args = [])
- * @method \Aws\Result getBucketAccelerateConfiguration(array $args = [])
- * @method \GuzzleHttp\Promise\Promise getBucketAccelerateConfigurationAsync(array $args = [])
- * @method \Aws\Result getBucketAcl(array $args = [])
- * @method \GuzzleHttp\Promise\Promise getBucketAclAsync(array $args = [])
- * @method \Aws\Result getBucketAnalyticsConfiguration(array $args = [])
- * @method \GuzzleHttp\Promise\Promise getBucketAnalyticsConfigurationAsync(array $args = [])
- * @method \Aws\Result getBucketCors(array $args = [])
- * @method \GuzzleHttp\Promise\Promise getBucketCorsAsync(array $args = [])
- * @method \Aws\Result getBucketEncryption(array $args = [])
- * @method \GuzzleHttp\Promise\Promise getBucketEncryptionAsync(array $args = [])
- * @method \Aws\Result getBucketIntelligentTieringConfiguration(array $args = [])
- * @method \GuzzleHttp\Promise\Promise getBucketIntelligentTieringConfigurationAsync(array $args = [])
- * @method \Aws\Result getBucketInventoryConfiguration(array $args = [])
- * @method \GuzzleHttp\Promise\Promise getBucketInventoryConfigurationAsync(array $args = [])
- * @method \Aws\Result getBucketLifecycle(array $args = [])
- * @method \GuzzleHttp\Promise\Promise getBucketLifecycleAsync(array $args = [])
- * @method \Aws\Result getBucketLifecycleConfiguration(array $args = [])
- * @method \GuzzleHttp\Promise\Promise getBucketLifecycleConfigurationAsync(array $args = [])
- * @method \Aws\Result getBucketLocation(array $args = [])
- * @method \GuzzleHttp\Promise\Promise getBucketLocationAsync(array $args = [])
- * @method \Aws\Result getBucketLogging(array $args = [])
- * @method \GuzzleHttp\Promise\Promise getBucketLoggingAsync(array $args = [])
- * @method \Aws\Result getBucketMetricsConfiguration(array $args = [])
- * @method \GuzzleHttp\Promise\Promise getBucketMetricsConfigurationAsync(array $args = [])
- * @method \Aws\Result getBucketNotification(array $args = [])
- * @method \GuzzleHttp\Promise\Promise getBucketNotificationAsync(array $args = [])
- * @method \Aws\Result getBucketNotificationConfiguration(array $args = [])
- * @method \GuzzleHttp\Promise\Promise getBucketNotificationConfigurationAsync(array $args = [])
- * @method \Aws\Result getBucketOwnershipControls(array $args = [])
- * @method \GuzzleHttp\Promise\Promise getBucketOwnershipControlsAsync(array $args = [])
- * @method \Aws\Result getBucketPolicy(array $args = [])
- * @method \GuzzleHttp\Promise\Promise getBucketPolicyAsync(array $args = [])
- * @method \Aws\Result getBucketPolicyStatus(array $args = [])
- * @method \GuzzleHttp\Promise\Promise getBucketPolicyStatusAsync(array $args = [])
- * @method \Aws\Result getBucketReplication(array $args = [])
- * @method \GuzzleHttp\Promise\Promise getBucketReplicationAsync(array $args = [])
- * @method \Aws\Result getBucketRequestPayment(array $args = [])
- * @method \GuzzleHttp\Promise\Promise getBucketRequestPaymentAsync(array $args = [])
- * @method \Aws\Result getBucketTagging(array $args = [])
- * @method \GuzzleHttp\Promise\Promise getBucketTaggingAsync(array $args = [])
- * @method \Aws\Result getBucketVersioning(array $args = [])
- * @method \GuzzleHttp\Promise\Promise getBucketVersioningAsync(array $args = [])
- * @method \Aws\Result getBucketWebsite(array $args = [])
- * @method \GuzzleHttp\Promise\Promise getBucketWebsiteAsync(array $args = [])
- * @method \Aws\Result getObject(array $args = [])
- * @method \GuzzleHttp\Promise\Promise getObjectAsync(array $args = [])
- * @method \Aws\Result getObjectAcl(array $args = [])
- * @method \GuzzleHttp\Promise\Promise getObjectAclAsync(array $args = [])
- * @method \Aws\Result getObjectAttributes(array $args = [])
- * @method \GuzzleHttp\Promise\Promise getObjectAttributesAsync(array $args = [])
- * @method \Aws\Result getObjectLegalHold(array $args = [])
- * @method \GuzzleHttp\Promise\Promise getObjectLegalHoldAsync(array $args = [])
- * @method \Aws\Result getObjectLockConfiguration(array $args = [])
- * @method \GuzzleHttp\Promise\Promise getObjectLockConfigurationAsync(array $args = [])
- * @method \Aws\Result getObjectRetention(array $args = [])
- * @method \GuzzleHttp\Promise\Promise getObjectRetentionAsync(array $args = [])
- * @method \Aws\Result getObjectTagging(array $args = [])
- * @method \GuzzleHttp\Promise\Promise getObjectTaggingAsync(array $args = [])
- * @method \Aws\Result getObjectTorrent(array $args = [])
- * @method \GuzzleHttp\Promise\Promise getObjectTorrentAsync(array $args = [])
- * @method \Aws\Result getPublicAccessBlock(array $args = [])
- * @method \GuzzleHttp\Promise\Promise getPublicAccessBlockAsync(array $args = [])
- * @method \Aws\Result headBucket(array $args = [])
- * @method \GuzzleHttp\Promise\Promise headBucketAsync(array $args = [])
- * @method \Aws\Result headObject(array $args = [])
- * @method \GuzzleHttp\Promise\Promise headObjectAsync(array $args = [])
- * @method \Aws\Result listBucketAnalyticsConfigurations(array $args = [])
- * @method \GuzzleHttp\Promise\Promise listBucketAnalyticsConfigurationsAsync(array $args = [])
- * @method \Aws\Result listBucketIntelligentTieringConfigurations(array $args = [])
- * @method \GuzzleHttp\Promise\Promise listBucketIntelligentTieringConfigurationsAsync(array $args = [])
- * @method \Aws\Result listBucketInventoryConfigurations(array $args = [])
- * @method \GuzzleHttp\Promise\Promise listBucketInventoryConfigurationsAsync(array $args = [])
- * @method \Aws\Result listBucketMetricsConfigurations(array $args = [])
- * @method \GuzzleHttp\Promise\Promise listBucketMetricsConfigurationsAsync(array $args = [])
- * @method \Aws\Result listBuckets(array $args = [])
- * @method \GuzzleHttp\Promise\Promise listBucketsAsync(array $args = [])
- * @method \Aws\Result listDirectoryBuckets(array $args = [])
- * @method \GuzzleHttp\Promise\Promise listDirectoryBucketsAsync(array $args = [])
- * @method \Aws\Result listMultipartUploads(array $args = [])
- * @method \GuzzleHttp\Promise\Promise listMultipartUploadsAsync(array $args = [])
- * @method \Aws\Result listObjectVersions(array $args = [])
- * @method \GuzzleHttp\Promise\Promise listObjectVersionsAsync(array $args = [])
- * @method \Aws\Result listObjects(array $args = [])
- * @method \GuzzleHttp\Promise\Promise listObjectsAsync(array $args = [])
- * @method \Aws\Result listObjectsV2(array $args = [])
- * @method \GuzzleHttp\Promise\Promise listObjectsV2Async(array $args = [])
- * @method \Aws\Result listParts(array $args = [])
- * @method \GuzzleHttp\Promise\Promise listPartsAsync(array $args = [])
- * @method \Aws\Result putBucketAccelerateConfiguration(array $args = [])
- * @method \GuzzleHttp\Promise\Promise putBucketAccelerateConfigurationAsync(array $args = [])
- * @method \Aws\Result putBucketAcl(array $args = [])
- * @method \GuzzleHttp\Promise\Promise putBucketAclAsync(array $args = [])
- * @method \Aws\Result putBucketAnalyticsConfiguration(array $args = [])
- * @method \GuzzleHttp\Promise\Promise putBucketAnalyticsConfigurationAsync(array $args = [])
- * @method \Aws\Result putBucketCors(array $args = [])
- * @method \GuzzleHttp\Promise\Promise putBucketCorsAsync(array $args = [])
- * @method \Aws\Result putBucketEncryption(array $args = [])
- * @method \GuzzleHttp\Promise\Promise putBucketEncryptionAsync(array $args = [])
- * @method \Aws\Result putBucketIntelligentTieringConfiguration(array $args = [])
- * @method \GuzzleHttp\Promise\Promise putBucketIntelligentTieringConfigurationAsync(array $args = [])
- * @method \Aws\Result putBucketInventoryConfiguration(array $args = [])
- * @method \GuzzleHttp\Promise\Promise putBucketInventoryConfigurationAsync(array $args = [])
- * @method \Aws\Result putBucketLifecycle(array $args = [])
- * @method \GuzzleHttp\Promise\Promise putBucketLifecycleAsync(array $args = [])
- * @method \Aws\Result putBucketLifecycleConfiguration(array $args = [])
- * @method \GuzzleHttp\Promise\Promise putBucketLifecycleConfigurationAsync(array $args = [])
- * @method \Aws\Result putBucketLogging(array $args = [])
- * @method \GuzzleHttp\Promise\Promise putBucketLoggingAsync(array $args = [])
- * @method \Aws\Result putBucketMetricsConfiguration(array $args = [])
- * @method \GuzzleHttp\Promise\Promise putBucketMetricsConfigurationAsync(array $args = [])
- * @method \Aws\Result putBucketNotification(array $args = [])
- * @method \GuzzleHttp\Promise\Promise putBucketNotificationAsync(array $args = [])
- * @method \Aws\Result putBucketNotificationConfiguration(array $args = [])
- * @method \GuzzleHttp\Promise\Promise putBucketNotificationConfigurationAsync(array $args = [])
- * @method \Aws\Result putBucketOwnershipControls(array $args = [])
- * @method \GuzzleHttp\Promise\Promise putBucketOwnershipControlsAsync(array $args = [])
- * @method \Aws\Result putBucketPolicy(array $args = [])
- * @method \GuzzleHttp\Promise\Promise putBucketPolicyAsync(array $args = [])
- * @method \Aws\Result putBucketReplication(array $args = [])
- * @method \GuzzleHttp\Promise\Promise putBucketReplicationAsync(array $args = [])
- * @method \Aws\Result putBucketRequestPayment(array $args = [])
- * @method \GuzzleHttp\Promise\Promise putBucketRequestPaymentAsync(array $args = [])
- * @method \Aws\Result putBucketTagging(array $args = [])
- * @method \GuzzleHttp\Promise\Promise putBucketTaggingAsync(array $args = [])
- * @method \Aws\Result putBucketVersioning(array $args = [])
- * @method \GuzzleHttp\Promise\Promise putBucketVersioningAsync(array $args = [])
- * @method \Aws\Result putBucketWebsite(array $args = [])
- * @method \GuzzleHttp\Promise\Promise putBucketWebsiteAsync(array $args = [])
- * @method \Aws\Result putObject(array $args = [])
- * @method \GuzzleHttp\Promise\Promise putObjectAsync(array $args = [])
- * @method \Aws\Result putObjectAcl(array $args = [])
- * @method \GuzzleHttp\Promise\Promise putObjectAclAsync(array $args = [])
- * @method \Aws\Result putObjectLegalHold(array $args = [])
- * @method \GuzzleHttp\Promise\Promise putObjectLegalHoldAsync(array $args = [])
- * @method \Aws\Result putObjectLockConfiguration(array $args = [])
- * @method \GuzzleHttp\Promise\Promise putObjectLockConfigurationAsync(array $args = [])
- * @method \Aws\Result putObjectRetention(array $args = [])
- * @method \GuzzleHttp\Promise\Promise putObjectRetentionAsync(array $args = [])
- * @method \Aws\Result putObjectTagging(array $args = [])
- * @method \GuzzleHttp\Promise\Promise putObjectTaggingAsync(array $args = [])
- * @method \Aws\Result putPublicAccessBlock(array $args = [])
- * @method \GuzzleHttp\Promise\Promise putPublicAccessBlockAsync(array $args = [])
- * @method \Aws\Result restoreObject(array $args = [])
- * @method \GuzzleHttp\Promise\Promise restoreObjectAsync(array $args = [])
- * @method \Aws\Result selectObjectContent(array $args = [])
- * @method \GuzzleHttp\Promise\Promise selectObjectContentAsync(array $args = [])
- * @method \Aws\Result uploadPart(array $args = [])
- * @method \GuzzleHttp\Promise\Promise uploadPartAsync(array $args = [])
- * @method \Aws\Result uploadPartCopy(array $args = [])
- * @method \GuzzleHttp\Promise\Promise uploadPartCopyAsync(array $args = [])
- * @method \Aws\Result writeGetObjectResponse(array $args = [])
- * @method \GuzzleHttp\Promise\Promise writeGetObjectResponseAsync(array $args = [])
+ * @method Result abortMultipartUpload(array $args = [])
+ * @method Promise abortMultipartUploadAsync(array $args = [])
+ * @method Result completeMultipartUpload(array $args = [])
+ * @method Promise completeMultipartUploadAsync(array $args = [])
+ * @method Result copyObject(array $args = [])
+ * @method Promise copyObjectAsync(array $args = [])
+ * @method Result createBucket(array $args = [])
+ * @method Promise createBucketAsync(array $args = [])
+ * @method Result createMultipartUpload(array $args = [])
+ * @method Promise createMultipartUploadAsync(array $args = [])
+ * @method Result createSession(array $args = [])
+ * @method Promise createSessionAsync(array $args = [])
+ * @method Result deleteBucket(array $args = [])
+ * @method Promise deleteBucketAsync(array $args = [])
+ * @method Result deleteBucketAnalyticsConfiguration(array $args = [])
+ * @method Promise deleteBucketAnalyticsConfigurationAsync(array $args = [])
+ * @method Result deleteBucketCors(array $args = [])
+ * @method Promise deleteBucketCorsAsync(array $args = [])
+ * @method Result deleteBucketEncryption(array $args = [])
+ * @method Promise deleteBucketEncryptionAsync(array $args = [])
+ * @method Result deleteBucketIntelligentTieringConfiguration(array $args = [])
+ * @method Promise deleteBucketIntelligentTieringConfigurationAsync(array $args = [])
+ * @method Result deleteBucketInventoryConfiguration(array $args = [])
+ * @method Promise deleteBucketInventoryConfigurationAsync(array $args = [])
+ * @method Result deleteBucketLifecycle(array $args = [])
+ * @method Promise deleteBucketLifecycleAsync(array $args = [])
+ * @method Result deleteBucketMetricsConfiguration(array $args = [])
+ * @method Promise deleteBucketMetricsConfigurationAsync(array $args = [])
+ * @method Result deleteBucketOwnershipControls(array $args = [])
+ * @method Promise deleteBucketOwnershipControlsAsync(array $args = [])
+ * @method Result deleteBucketPolicy(array $args = [])
+ * @method Promise deleteBucketPolicyAsync(array $args = [])
+ * @method Result deleteBucketReplication(array $args = [])
+ * @method Promise deleteBucketReplicationAsync(array $args = [])
+ * @method Result deleteBucketTagging(array $args = [])
+ * @method Promise deleteBucketTaggingAsync(array $args = [])
+ * @method Result deleteBucketWebsite(array $args = [])
+ * @method Promise deleteBucketWebsiteAsync(array $args = [])
+ * @method Result deleteObject(array $args = [])
+ * @method Promise deleteObjectAsync(array $args = [])
+ * @method Result deleteObjectTagging(array $args = [])
+ * @method Promise deleteObjectTaggingAsync(array $args = [])
+ * @method Result deleteObjects(array $args = [])
+ * @method Promise deleteObjectsAsync(array $args = [])
+ * @method Result deletePublicAccessBlock(array $args = [])
+ * @method Promise deletePublicAccessBlockAsync(array $args = [])
+ * @method Result getBucketAccelerateConfiguration(array $args = [])
+ * @method Promise getBucketAccelerateConfigurationAsync(array $args = [])
+ * @method Result getBucketAcl(array $args = [])
+ * @method Promise getBucketAclAsync(array $args = [])
+ * @method Result getBucketAnalyticsConfiguration(array $args = [])
+ * @method Promise getBucketAnalyticsConfigurationAsync(array $args = [])
+ * @method Result getBucketCors(array $args = [])
+ * @method Promise getBucketCorsAsync(array $args = [])
+ * @method Result getBucketEncryption(array $args = [])
+ * @method Promise getBucketEncryptionAsync(array $args = [])
+ * @method Result getBucketIntelligentTieringConfiguration(array $args = [])
+ * @method Promise getBucketIntelligentTieringConfigurationAsync(array $args = [])
+ * @method Result getBucketInventoryConfiguration(array $args = [])
+ * @method Promise getBucketInventoryConfigurationAsync(array $args = [])
+ * @method Result getBucketLifecycle(array $args = [])
+ * @method Promise getBucketLifecycleAsync(array $args = [])
+ * @method Result getBucketLifecycleConfiguration(array $args = [])
+ * @method Promise getBucketLifecycleConfigurationAsync(array $args = [])
+ * @method Result getBucketLocation(array $args = [])
+ * @method Promise getBucketLocationAsync(array $args = [])
+ * @method Result getBucketLogging(array $args = [])
+ * @method Promise getBucketLoggingAsync(array $args = [])
+ * @method Result getBucketMetricsConfiguration(array $args = [])
+ * @method Promise getBucketMetricsConfigurationAsync(array $args = [])
+ * @method Result getBucketNotification(array $args = [])
+ * @method Promise getBucketNotificationAsync(array $args = [])
+ * @method Result getBucketNotificationConfiguration(array $args = [])
+ * @method Promise getBucketNotificationConfigurationAsync(array $args = [])
+ * @method Result getBucketOwnershipControls(array $args = [])
+ * @method Promise getBucketOwnershipControlsAsync(array $args = [])
+ * @method Result getBucketPolicy(array $args = [])
+ * @method Promise getBucketPolicyAsync(array $args = [])
+ * @method Result getBucketPolicyStatus(array $args = [])
+ * @method Promise getBucketPolicyStatusAsync(array $args = [])
+ * @method Result getBucketReplication(array $args = [])
+ * @method Promise getBucketReplicationAsync(array $args = [])
+ * @method Result getBucketRequestPayment(array $args = [])
+ * @method Promise getBucketRequestPaymentAsync(array $args = [])
+ * @method Result getBucketTagging(array $args = [])
+ * @method Promise getBucketTaggingAsync(array $args = [])
+ * @method Result getBucketVersioning(array $args = [])
+ * @method Promise getBucketVersioningAsync(array $args = [])
+ * @method Result getBucketWebsite(array $args = [])
+ * @method Promise getBucketWebsiteAsync(array $args = [])
+ * @method Result getObject(array $args = [])
+ * @method Promise getObjectAsync(array $args = [])
+ * @method Result getObjectAcl(array $args = [])
+ * @method Promise getObjectAclAsync(array $args = [])
+ * @method Result getObjectAttributes(array $args = [])
+ * @method Promise getObjectAttributesAsync(array $args = [])
+ * @method Result getObjectLegalHold(array $args = [])
+ * @method Promise getObjectLegalHoldAsync(array $args = [])
+ * @method Result getObjectLockConfiguration(array $args = [])
+ * @method Promise getObjectLockConfigurationAsync(array $args = [])
+ * @method Result getObjectRetention(array $args = [])
+ * @method Promise getObjectRetentionAsync(array $args = [])
+ * @method Result getObjectTagging(array $args = [])
+ * @method Promise getObjectTaggingAsync(array $args = [])
+ * @method Result getObjectTorrent(array $args = [])
+ * @method Promise getObjectTorrentAsync(array $args = [])
+ * @method Result getPublicAccessBlock(array $args = [])
+ * @method Promise getPublicAccessBlockAsync(array $args = [])
+ * @method Result headBucket(array $args = [])
+ * @method Promise headBucketAsync(array $args = [])
+ * @method Result headObject(array $args = [])
+ * @method Promise headObjectAsync(array $args = [])
+ * @method Result listBucketAnalyticsConfigurations(array $args = [])
+ * @method Promise listBucketAnalyticsConfigurationsAsync(array $args = [])
+ * @method Result listBucketIntelligentTieringConfigurations(array $args = [])
+ * @method Promise listBucketIntelligentTieringConfigurationsAsync(array $args = [])
+ * @method Result listBucketInventoryConfigurations(array $args = [])
+ * @method Promise listBucketInventoryConfigurationsAsync(array $args = [])
+ * @method Result listBucketMetricsConfigurations(array $args = [])
+ * @method Promise listBucketMetricsConfigurationsAsync(array $args = [])
+ * @method Result listBuckets(array $args = [])
+ * @method Promise listBucketsAsync(array $args = [])
+ * @method Result listDirectoryBuckets(array $args = [])
+ * @method Promise listDirectoryBucketsAsync(array $args = [])
+ * @method Result listMultipartUploads(array $args = [])
+ * @method Promise listMultipartUploadsAsync(array $args = [])
+ * @method Result listObjectVersions(array $args = [])
+ * @method Promise listObjectVersionsAsync(array $args = [])
+ * @method Result listObjects(array $args = [])
+ * @method Promise listObjectsAsync(array $args = [])
+ * @method Result listObjectsV2(array $args = [])
+ * @method Promise listObjectsV2Async(array $args = [])
+ * @method Result listParts(array $args = [])
+ * @method Promise listPartsAsync(array $args = [])
+ * @method Result putBucketAccelerateConfiguration(array $args = [])
+ * @method Promise putBucketAccelerateConfigurationAsync(array $args = [])
+ * @method Result putBucketAcl(array $args = [])
+ * @method Promise putBucketAclAsync(array $args = [])
+ * @method Result putBucketAnalyticsConfiguration(array $args = [])
+ * @method Promise putBucketAnalyticsConfigurationAsync(array $args = [])
+ * @method Result putBucketCors(array $args = [])
+ * @method Promise putBucketCorsAsync(array $args = [])
+ * @method Result putBucketEncryption(array $args = [])
+ * @method Promise putBucketEncryptionAsync(array $args = [])
+ * @method Result putBucketIntelligentTieringConfiguration(array $args = [])
+ * @method Promise putBucketIntelligentTieringConfigurationAsync(array $args = [])
+ * @method Result putBucketInventoryConfiguration(array $args = [])
+ * @method Promise putBucketInventoryConfigurationAsync(array $args = [])
+ * @method Result putBucketLifecycle(array $args = [])
+ * @method Promise putBucketLifecycleAsync(array $args = [])
+ * @method Result putBucketLifecycleConfiguration(array $args = [])
+ * @method Promise putBucketLifecycleConfigurationAsync(array $args = [])
+ * @method Result putBucketLogging(array $args = [])
+ * @method Promise putBucketLoggingAsync(array $args = [])
+ * @method Result putBucketMetricsConfiguration(array $args = [])
+ * @method Promise putBucketMetricsConfigurationAsync(array $args = [])
+ * @method Result putBucketNotification(array $args = [])
+ * @method Promise putBucketNotificationAsync(array $args = [])
+ * @method Result putBucketNotificationConfiguration(array $args = [])
+ * @method Promise putBucketNotificationConfigurationAsync(array $args = [])
+ * @method Result putBucketOwnershipControls(array $args = [])
+ * @method Promise putBucketOwnershipControlsAsync(array $args = [])
+ * @method Result putBucketPolicy(array $args = [])
+ * @method Promise putBucketPolicyAsync(array $args = [])
+ * @method Result putBucketReplication(array $args = [])
+ * @method Promise putBucketReplicationAsync(array $args = [])
+ * @method Result putBucketRequestPayment(array $args = [])
+ * @method Promise putBucketRequestPaymentAsync(array $args = [])
+ * @method Result putBucketTagging(array $args = [])
+ * @method Promise putBucketTaggingAsync(array $args = [])
+ * @method Result putBucketVersioning(array $args = [])
+ * @method Promise putBucketVersioningAsync(array $args = [])
+ * @method Result putBucketWebsite(array $args = [])
+ * @method Promise putBucketWebsiteAsync(array $args = [])
+ * @method Result putObject(array $args = [])
+ * @method Promise putObjectAsync(array $args = [])
+ * @method Result putObjectAcl(array $args = [])
+ * @method Promise putObjectAclAsync(array $args = [])
+ * @method Result putObjectLegalHold(array $args = [])
+ * @method Promise putObjectLegalHoldAsync(array $args = [])
+ * @method Result putObjectLockConfiguration(array $args = [])
+ * @method Promise putObjectLockConfigurationAsync(array $args = [])
+ * @method Result putObjectRetention(array $args = [])
+ * @method Promise putObjectRetentionAsync(array $args = [])
+ * @method Result putObjectTagging(array $args = [])
+ * @method Promise putObjectTaggingAsync(array $args = [])
+ * @method Result putPublicAccessBlock(array $args = [])
+ * @method Promise putPublicAccessBlockAsync(array $args = [])
+ * @method Result restoreObject(array $args = [])
+ * @method Promise restoreObjectAsync(array $args = [])
+ * @method Result selectObjectContent(array $args = [])
+ * @method Promise selectObjectContentAsync(array $args = [])
+ * @method Result uploadPart(array $args = [])
+ * @method Promise uploadPartAsync(array $args = [])
+ * @method Result uploadPartCopy(array $args = [])
+ * @method Promise uploadPartCopyAsync(array $args = [])
+ * @method Result writeGetObjectResponse(array $args = [])
+ * @method Promise writeGetObjectResponseAsync(array $args = [])
  */
 class S3Client extends AwsClient implements S3ClientInterface
 {
@@ -507,7 +511,7 @@ class S3Client extends AwsClient implements S3ClientInterface
             : $command->getAuthSchemes()['name'];
         $signature_version = $this->getSignatureVersionFromCommand($command);
 
-        /** @var \Aws\Signature\SignatureInterface $signer */
+        /** @var SignatureInterface $signer */
         $signer = call_user_func(
             $this->getSignatureProvider(),
             $signature_version,
@@ -533,7 +537,7 @@ class S3Client extends AwsClient implements S3ClientInterface
      *
      * The URL returned by this method is not signed nor does it ensure that the
      * bucket and key given to the method exist. If you need a signed URL, then
-     * use the {@see \Aws\S3\S3Client::createPresignedRequest} method and get
+     * use the {@see S3Client::createPresignedRequest} method and get
      * the URI of the signed request.
      *
      * @param string $bucket  The name of the bucket where the object is located
@@ -566,7 +570,7 @@ class S3Client extends AwsClient implements S3ClientInterface
     /**
      * Provides a middleware that removes the need to specify LocationConstraint on CreateBucket.
      *
-     * @return \Closure
+     * @return Closure
      */
     private function getLocationConstraintMiddleware()
     {
@@ -593,7 +597,7 @@ class S3Client extends AwsClient implements S3ClientInterface
     /**
      * Provides a middleware that supports the `SaveAs` parameter.
      *
-     * @return \Closure
+     * @return Closure
      */
     private function getSaveAsParameter()
     {
@@ -613,7 +617,7 @@ class S3Client extends AwsClient implements S3ClientInterface
      * Provides a middleware that disables content decoding on HeadObject
      * commands.
      *
-     * @return \Closure
+     * @return Closure
      */
     private function getHeadObjectMiddleware()
     {
@@ -637,7 +641,7 @@ class S3Client extends AwsClient implements S3ClientInterface
      * Provides a middleware that autopopulates the EncodingType parameter on
      * ListObjects commands.
      *
-     * @return \Closure
+     * @return Closure
      */
     private function getEncodingTypeMiddleware()
     {
@@ -693,7 +697,7 @@ class S3Client extends AwsClient implements S3ClientInterface
      * Provides a middleware that checks for an empty path and a
      * non-empty query string.
      *
-     * @return \Closure
+     * @return Closure
      */
     private function getEmptyPathWithQuery()
     {
@@ -714,7 +718,7 @@ class S3Client extends AwsClient implements S3ClientInterface
      * Provides a middleware that disables express session auth when
      * customers opt out of it.
      *
-     * @return \Closure
+     * @return Closure
      */
     private function getDisableExpressSessionAuthMiddleware()
     {
@@ -814,7 +818,7 @@ class S3Client extends AwsClient implements S3ClientInterface
         }
 
         $key = 'AWS::S3::UseGlobalEndpoint';
-        $result = $args['s3_us_east_1_regional_endpoint'] instanceof \Closure ?
+        $result = $args['s3_us_east_1_regional_endpoint'] instanceof Closure ?
             $args['s3_us_east_1_regional_endpoint']()->wait() : $args['s3_us_east_1_regional_endpoint'];
 
         if (is_string($result)) {

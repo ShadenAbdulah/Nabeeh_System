@@ -12,6 +12,7 @@
 namespace Symfony\Component\Console;
 
 use Symfony\Component\Console\Exception\InvalidArgumentException;
+use function count;
 
 /**
  * @author Fabien Potencier <fabien@symfony.com>
@@ -84,7 +85,7 @@ final class Color
         foreach ($this->options as $option) {
             $setCodes[] = $option['set'];
         }
-        if (0 === \count($setCodes)) {
+        if (0 === count($setCodes)) {
             return '';
         }
 
@@ -103,7 +104,7 @@ final class Color
         foreach ($this->options as $option) {
             $unsetCodes[] = $option['unset'];
         }
-        if (0 === \count($unsetCodes)) {
+        if (0 === count($unsetCodes)) {
             return '';
         }
 

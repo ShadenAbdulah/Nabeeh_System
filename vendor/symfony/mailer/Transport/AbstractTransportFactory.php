@@ -15,6 +15,7 @@ use Psr\EventDispatcher\EventDispatcherInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Mailer\Exception\IncompleteDsnException;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
+use function in_array;
 
 /**
  * @author Konstantin Myakshin <molodchick@gmail.com>
@@ -34,7 +35,7 @@ abstract class AbstractTransportFactory implements TransportFactoryInterface
 
     public function supports(Dsn $dsn): bool
     {
-        return \in_array($dsn->getScheme(), $this->getSupportedSchemes());
+        return in_array($dsn->getScheme(), $this->getSupportedSchemes());
     }
 
     abstract protected function getSupportedSchemes(): array;

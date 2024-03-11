@@ -5,6 +5,9 @@ namespace ParagonIE\ConstantTime;
 use InvalidArgumentException;
 use RangeException;
 use TypeError;
+use function pack;
+use function rtrim;
+use function unpack;
 
 /**
  *  Copyright (c) 2016 - 2022 Paragon Initiative Enterprises.
@@ -81,7 +84,7 @@ abstract class Base64 implements EncoderInterface
         // Main loop (no padding):
         for ($i = 0; $i + 3 <= $srcLen; $i += 3) {
             /** @var array<int, int> $chunk */
-            $chunk = \unpack('C*', Binary::safeSubstr($src, $i, 3));
+            $chunk = unpack('C*', Binary::safeSubstr($src, $i, 3));
             $b0 = $chunk[1];
             $b1 = $chunk[2];
             $b2 = $chunk[3];
@@ -95,7 +98,7 @@ abstract class Base64 implements EncoderInterface
         // The last chunk, which may have padding:
         if ($i < $srcLen) {
             /** @var array<int, int> $chunk */
-            $chunk = \unpack('C*', Binary::safeSubstr($src, $i, $srcLen - $i));
+            $chunk = unpack('C*', Binary::safeSubstr($src, $i, $srcLen - $i));
             $b0 = $chunk[1];
             if ($i + 1 < $srcLen) {
                 $b1 = $chunk[2];
@@ -159,7 +162,7 @@ abstract class Base64 implements EncoderInterface
                 );
             }
         } else {
-            $encodedString = \rtrim($encodedString, '=');
+            $encodedString = rtrim($encodedString, '=');
             $srcLen = Binary::safeStrlen($encodedString);
         }
 
@@ -168,13 +171,13 @@ abstract class Base64 implements EncoderInterface
         // Main loop (no padding):
         for ($i = 0; $i + 4 <= $srcLen; $i += 4) {
             /** @var array<int, int> $chunk */
-            $chunk = \unpack('C*', Binary::safeSubstr($encodedString, $i, 4));
+            $chunk = unpack('C*', Binary::safeSubstr($encodedString, $i, 4));
             $c0 = static::decode6Bits($chunk[1]);
             $c1 = static::decode6Bits($chunk[2]);
             $c2 = static::decode6Bits($chunk[3]);
             $c3 = static::decode6Bits($chunk[4]);
 
-            $dest .= \pack(
+            $dest .= pack(
                 'CCC',
                 ((($c0 << 2) | ($c1 >> 4)) & 0xff),
                 ((($c1 << 4) | ($c2 >> 2)) & 0xff),
@@ -185,13 +188,13 @@ abstract class Base64 implements EncoderInterface
         // The last chunk, which may have padding:
         if ($i < $srcLen) {
             /** @var array<int, int> $chunk */
-            $chunk = \unpack('C*', Binary::safeSubstr($encodedString, $i, $srcLen - $i));
+            $chunk = unpack('C*', Binary::safeSubstr($encodedString, $i, $srcLen - $i));
             $c0 = static::decode6Bits($chunk[1]);
 
             if ($i + 2 < $srcLen) {
                 $c1 = static::decode6Bits($chunk[2]);
                 $c2 = static::decode6Bits($chunk[3]);
-                $dest .= \pack(
+                $dest .= pack(
                     'CC',
                     ((($c0 << 2) | ($c1 >> 4)) & 0xff),
                     ((($c1 << 4) | ($c2 >> 2)) & 0xff)
@@ -202,7 +205,7 @@ abstract class Base64 implements EncoderInterface
                 }
             } elseif ($i + 1 < $srcLen) {
                 $c1 = static::decode6Bits($chunk[2]);
-                $dest .= \pack(
+                $dest .= pack(
                     'C',
                     ((($c0 << 2) | ($c1 >> 4)) & 0xff)
                 );
@@ -309,6 +312,6 @@ abstract class Base64 implements EncoderInterface
         // if ($src > 62) $diff += 0x2f - 0x2b - 1; // 3
         $diff += ((62 - $src) >> 8) & 3;
 
-        return \pack('C', $src + $diff);
+        return pack('C', $src + $diff);
     }
 }

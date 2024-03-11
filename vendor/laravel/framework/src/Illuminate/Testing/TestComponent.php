@@ -4,13 +4,15 @@ namespace Illuminate\Testing;
 
 use Illuminate\Testing\Assert as PHPUnit;
 use Illuminate\Testing\Constraints\SeeInOrder;
+use Illuminate\View\Component;
+use Illuminate\View\View;
 
 class TestComponent
 {
     /**
      * The original component.
      *
-     * @var \Illuminate\View\Component
+     * @var Component
      */
     public $component;
 
@@ -24,8 +26,8 @@ class TestComponent
     /**
      * Create a new test component instance.
      *
-     * @param  \Illuminate\View\Component  $component
-     * @param  \Illuminate\View\View  $view
+     * @param  Component  $component
+     * @param  View  $view
      * @return void
      */
     public function __construct($component, $view)

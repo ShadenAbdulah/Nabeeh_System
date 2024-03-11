@@ -9,6 +9,8 @@
  */
 namespace SebastianBergmann\CodeCoverage\Node;
 
+use SebastianBergmann\CodeCoverage\StaticAnalysis\CodeUnitFindingVisitor;
+use SebastianBergmann\CodeCoverage\StaticAnalysis\FileAnalyser;
 use function array_filter;
 use function count;
 use function range;
@@ -16,12 +18,12 @@ use function range;
 /**
  * @internal This class is not covered by the backward compatibility promise for phpunit/php-code-coverage
  *
- * @psalm-import-type CodeUnitFunctionType from \SebastianBergmann\CodeCoverage\StaticAnalysis\CodeUnitFindingVisitor
- * @psalm-import-type CodeUnitMethodType from \SebastianBergmann\CodeCoverage\StaticAnalysis\CodeUnitFindingVisitor
- * @psalm-import-type CodeUnitClassType from \SebastianBergmann\CodeCoverage\StaticAnalysis\CodeUnitFindingVisitor
- * @psalm-import-type CodeUnitTraitType from \SebastianBergmann\CodeCoverage\StaticAnalysis\CodeUnitFindingVisitor
- * @psalm-import-type LinesOfCodeType from \SebastianBergmann\CodeCoverage\StaticAnalysis\FileAnalyser
- * @psalm-import-type LinesType from \SebastianBergmann\CodeCoverage\StaticAnalysis\FileAnalyser
+ * @psalm-import-type CodeUnitFunctionType from CodeUnitFindingVisitor
+ * @psalm-import-type CodeUnitMethodType from CodeUnitFindingVisitor
+ * @psalm-import-type CodeUnitClassType from CodeUnitFindingVisitor
+ * @psalm-import-type CodeUnitTraitType from CodeUnitFindingVisitor
+ * @psalm-import-type LinesOfCodeType from FileAnalyser
+ * @psalm-import-type LinesType from FileAnalyser
  *
  * @psalm-type ProcessedFunctionType = array{
  *     functionName: string,

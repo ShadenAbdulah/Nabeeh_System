@@ -11,8 +11,10 @@
 
 namespace Symfony\Component\Routing\Loader\Configurator\Traits;
 
+use InvalidArgumentException;
 use Symfony\Component\Routing\Route;
 use Symfony\Component\Routing\RouteCollection;
+use function is_array;
 
 /**
  * @internal
@@ -23,7 +25,7 @@ trait PrefixTrait
 {
     final protected function addPrefix(RouteCollection $routes, string|array $prefix, bool $trailingSlashOnRoot): void
     {
-        if (\is_array($prefix)) {
+        if (is_array($prefix)) {
             foreach ($prefix as $locale => $localePrefix) {
                 $prefix[$locale] = trim(trim($localePrefix), '/');
             }
@@ -40,7 +42,7 @@ trait PrefixTrait
                         $routes->add($name.'.'.$locale, $localizedRoute, $priority);
                     }
                 } elseif (!isset($prefix[$locale])) {
-                    throw new \InvalidArgumentException(sprintf('Route "%s" with locale "%s" is missing a corresponding prefix in its parent collection.', $name, $locale));
+                    throw new InvalidArgumentException(sprintf('Route "%s" with locale "%s" is missing a corresponding prefix in its parent collection.', $name, $locale));
                 } else {
                     $route->setPath($prefix[$locale].(!$trailingSlashOnRoot && '/' === $route->getPath() ? '' : $route->getPath()));
                     $routes->add($name, $route, $routes->getPriority($name) ?? 0);

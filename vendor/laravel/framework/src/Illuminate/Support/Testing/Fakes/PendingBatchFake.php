@@ -2,6 +2,7 @@
 
 namespace Illuminate\Support\Testing\Fakes;
 
+use Illuminate\Bus\Batch;
 use Illuminate\Bus\PendingBatch;
 use Illuminate\Support\Collection;
 
@@ -10,15 +11,15 @@ class PendingBatchFake extends PendingBatch
     /**
      * The fake bus instance.
      *
-     * @var \Illuminate\Support\Testing\Fakes\BusFake
+     * @var BusFake
      */
     protected $bus;
 
     /**
      * Create a new pending batch instance.
      *
-     * @param  \Illuminate\Support\Testing\Fakes\BusFake  $bus
-     * @param  \Illuminate\Support\Collection  $jobs
+     * @param BusFake $bus
+     * @param Collection $jobs
      * @return void
      */
     public function __construct(BusFake $bus, Collection $jobs)
@@ -30,7 +31,7 @@ class PendingBatchFake extends PendingBatch
     /**
      * Dispatch the batch.
      *
-     * @return \Illuminate\Bus\Batch
+     * @return Batch
      */
     public function dispatch()
     {
@@ -40,7 +41,7 @@ class PendingBatchFake extends PendingBatch
     /**
      * Dispatch the batch after the response is sent to the browser.
      *
-     * @return \Illuminate\Bus\Batch
+     * @return Batch
      */
     public function dispatchAfterResponse()
     {

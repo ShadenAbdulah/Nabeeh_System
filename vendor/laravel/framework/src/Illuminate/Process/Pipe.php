@@ -5,15 +5,15 @@ namespace Illuminate\Process;
 use InvalidArgumentException;
 
 /**
- * @mixin \Illuminate\Process\Factory
- * @mixin \Illuminate\Process\PendingProcess
+ * @mixin Factory
+ * @mixin PendingProcess
  */
 class Pipe
 {
     /**
      * The process factory instance.
      *
-     * @var \Illuminate\Process\Factory
+     * @var Factory
      */
     protected $factory;
 
@@ -34,7 +34,7 @@ class Pipe
     /**
      * Create a new series of piped processes.
      *
-     * @param  \Illuminate\Process\Factory  $factory
+     * @param Factory $factory
      * @param  callable  $callback
      * @return void
      */
@@ -48,7 +48,7 @@ class Pipe
      * Add a process to the pipe with a key.
      *
      * @param  string  $key
-     * @return \Illuminate\Process\PendingProcess
+     * @return PendingProcess
      */
     public function as(string $key)
     {
@@ -91,7 +91,7 @@ class Pipe
      *
      * @param  string  $method
      * @param  array  $parameters
-     * @return \Illuminate\Process\PendingProcess
+     * @return PendingProcess
      */
     public function __call($method, $parameters)
     {

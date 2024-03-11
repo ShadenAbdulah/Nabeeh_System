@@ -11,7 +11,11 @@
 
 namespace Monolog\Processor;
 
+use Closure;
 use Monolog\LogRecord;
+use Throwable;
+use function count;
+use function is_array;
 
 /**
  * Generates a context from a Closure if the Closure is the only value
@@ -29,17 +33,17 @@ class ClosureContextProcessor implements ProcessorInterface
     public function __invoke(LogRecord $record): LogRecord
     {
         $context = $record->context;
-        if (isset($context[0]) && 1 === \count($context) && $context[0] instanceof \Closure) {
+        if (isset($context[0]) && 1 === count($context) && $context[0] instanceof Closure) {
             try {
                 $context = $context[0]();
-            } catch (\Throwable $e) {
+            } catch (Throwable $e) {
                 $context = [
                     'error_on_context_generation' => $e->getMessage(),
                     'exception' => $e,
                 ];
             }
 
-            if (!\is_array($context)) {
+            if (!is_array($context)) {
                 $context = [$context];
             }
 

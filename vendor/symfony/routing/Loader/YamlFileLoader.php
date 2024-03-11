@@ -11,6 +11,7 @@
 
 namespace Symfony\Component\Routing\Loader;
 
+use InvalidArgumentException;
 use Symfony\Component\Config\Loader\FileLoader;
 use Symfony\Component\Config\Resource\FileResource;
 use Symfony\Component\Routing\Loader\Configurator\Traits\HostTrait;
@@ -20,6 +21,12 @@ use Symfony\Component\Routing\RouteCollection;
 use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Yaml\Parser as YamlParser;
 use Symfony\Component\Yaml\Yaml;
+use function dirname;
+use function in_array;
+use function is_array;
+use function is_int;
+use function is_string;
+use const PATHINFO_EXTENSION;
 
 /**
  * YamlFileLoader loads Yaml routing files.
@@ -39,18 +46,18 @@ class YamlFileLoader extends FileLoader
     private YamlParser $yamlParser;
 
     /**
-     * @throws \InvalidArgumentException When a route can't be parsed because YAML is invalid
+     * @throws InvalidArgumentException When a route can't be parsed because YAML is invalid
      */
     public function load(mixed $file, ?string $type = null): RouteCollection
     {
         $path = $this->locator->locate($file);
 
         if (!stream_is_local($path)) {
-            throw new \InvalidArgumentException(sprintf('This is not a local file "%s".', $path));
+            throw new InvalidArgumentException(sprintf('This is not a local file "%s".', $path));
         }
 
         if (!file_exists($path)) {
-            throw new \InvalidArgumentException(sprintf('File "%s" not found.', $path));
+            throw new InvalidArgumentException(sprintf('File "%s" not found.', $path));
         }
 
         $this->yamlParser ??= new YamlParser();
@@ -58,7 +65,7 @@ class YamlFileLoader extends FileLoader
         try {
             $parsedConfig = $this->yamlParser->parseFile($path, Yaml::PARSE_CONSTANT);
         } catch (ParseException $e) {
-            throw new \InvalidArgumentException(sprintf('The file "%s" does not contain valid YAML: ', $path).$e->getMessage(), 0, $e);
+            throw new InvalidArgumentException(sprintf('The file "%s" does not contain valid YAML: ', $path).$e->getMessage(), 0, $e);
         }
 
         $collection = new RouteCollection();
@@ -70,8 +77,8 @@ class YamlFileLoader extends FileLoader
         }
 
         // not an array
-        if (!\is_array($parsedConfig)) {
-            throw new \InvalidArgumentException(sprintf('The file "%s" must contain a YAML array.', $path));
+        if (!is_array($parsedConfig)) {
+            throw new InvalidArgumentException(sprintf('The file "%s" must contain a YAML array.', $path));
         }
 
         foreach ($parsedConfig as $name => $config) {
@@ -107,7 +114,7 @@ class YamlFileLoader extends FileLoader
 
     public function supports(mixed $resource, ?string $type = null): bool
     {
-        return \is_string($resource) && \in_array(pathinfo($resource, \PATHINFO_EXTENSION), ['yml', 'yaml'], true) && (!$type || 'yaml' === $type);
+        return is_string($resource) && in_array(pathinfo($resource, PATHINFO_EXTENSION), ['yml', 'yaml'], true) && (!$type || 'yaml' === $type);
     }
 
     /**
@@ -136,8 +143,8 @@ class YamlFileLoader extends FileLoader
         $options = $config['options'] ?? [];
 
         foreach ($requirements as $placeholder => $requirement) {
-            if (\is_int($placeholder)) {
-                throw new \InvalidArgumentException(sprintf('A placeholder name must be a string (%d given). Did you forget to specify the placeholder key for the requirement "%s" of route "%s" in "%s"?', $placeholder, $requirement, $name, $path));
+            if (is_int($placeholder)) {
+                throw new InvalidArgumentException(sprintf('A placeholder name must be a string (%d given). Did you forget to specify the placeholder key for the requirement "%s" of route "%s" in "%s"?', $placeholder, $requirement, $name, $path));
             }
         }
 
@@ -206,12 +213,12 @@ class YamlFileLoader extends FileLoader
             $defaults['_stateless'] = $config['stateless'];
         }
 
-        $this->setCurrentDir(\dirname($path));
+        $this->setCurrentDir(dirname($path));
 
         /** @var RouteCollection[] $imported */
         $imported = $this->import($config['resource'], $type, false, $file, $exclude) ?: [];
 
-        if (!\is_array($imported)) {
+        if (!is_array($imported)) {
             $imported = [$imported];
         }
 
@@ -244,13 +251,13 @@ class YamlFileLoader extends FileLoader
     /**
      * @return void
      *
-     * @throws \InvalidArgumentException If one of the provided config keys is not supported,
+     * @throws InvalidArgumentException If one of the provided config keys is not supported,
      *                                   something is missing or the combination is nonsense
      */
     protected function validate(mixed $config, string $name, string $path)
     {
-        if (!\is_array($config)) {
-            throw new \InvalidArgumentException(sprintf('The definition of "%s" in "%s" must be a YAML array.', $name, $path));
+        if (!is_array($config)) {
+            throw new InvalidArgumentException(sprintf('The definition of "%s" in "%s" must be a YAML array.', $name, $path));
         }
         if (isset($config['alias'])) {
             $this->validateAlias($config, $name, $path);
@@ -258,43 +265,43 @@ class YamlFileLoader extends FileLoader
             return;
         }
         if ($extraKeys = array_diff(array_keys($config), self::AVAILABLE_KEYS)) {
-            throw new \InvalidArgumentException(sprintf('The routing file "%s" contains unsupported keys for "%s": "%s". Expected one of: "%s".', $path, $name, implode('", "', $extraKeys), implode('", "', self::AVAILABLE_KEYS)));
+            throw new InvalidArgumentException(sprintf('The routing file "%s" contains unsupported keys for "%s": "%s". Expected one of: "%s".', $path, $name, implode('", "', $extraKeys), implode('", "', self::AVAILABLE_KEYS)));
         }
         if (isset($config['resource']) && isset($config['path'])) {
-            throw new \InvalidArgumentException(sprintf('The routing file "%s" must not specify both the "resource" key and the "path" key for "%s". Choose between an import and a route definition.', $path, $name));
+            throw new InvalidArgumentException(sprintf('The routing file "%s" must not specify both the "resource" key and the "path" key for "%s". Choose between an import and a route definition.', $path, $name));
         }
         if (!isset($config['resource']) && isset($config['type'])) {
-            throw new \InvalidArgumentException(sprintf('The "type" key for the route definition "%s" in "%s" is unsupported. It is only available for imports in combination with the "resource" key.', $name, $path));
+            throw new InvalidArgumentException(sprintf('The "type" key for the route definition "%s" in "%s" is unsupported. It is only available for imports in combination with the "resource" key.', $name, $path));
         }
         if (!isset($config['resource']) && !isset($config['path'])) {
-            throw new \InvalidArgumentException(sprintf('You must define a "path" for the route "%s" in file "%s".', $name, $path));
+            throw new InvalidArgumentException(sprintf('You must define a "path" for the route "%s" in file "%s".', $name, $path));
         }
         if (isset($config['controller']) && isset($config['defaults']['_controller'])) {
-            throw new \InvalidArgumentException(sprintf('The routing file "%s" must not specify both the "controller" key and the defaults key "_controller" for "%s".', $path, $name));
+            throw new InvalidArgumentException(sprintf('The routing file "%s" must not specify both the "controller" key and the defaults key "_controller" for "%s".', $path, $name));
         }
         if (isset($config['stateless']) && isset($config['defaults']['_stateless'])) {
-            throw new \InvalidArgumentException(sprintf('The routing file "%s" must not specify both the "stateless" key and the defaults key "_stateless" for "%s".', $path, $name));
+            throw new InvalidArgumentException(sprintf('The routing file "%s" must not specify both the "stateless" key and the defaults key "_stateless" for "%s".', $path, $name));
         }
     }
 
     /**
-     * @throws \InvalidArgumentException If one of the provided config keys is not supported,
+     * @throws InvalidArgumentException If one of the provided config keys is not supported,
      *                                   something is missing or the combination is nonsense
      */
     private function validateAlias(array $config, string $name, string $path): void
     {
         foreach ($config as $key => $value) {
-            if (!\in_array($key, ['alias', 'deprecated'], true)) {
-                throw new \InvalidArgumentException(sprintf('The routing file "%s" must not specify other keys than "alias" and "deprecated" for "%s".', $path, $name));
+            if (!in_array($key, ['alias', 'deprecated'], true)) {
+                throw new InvalidArgumentException(sprintf('The routing file "%s" must not specify other keys than "alias" and "deprecated" for "%s".', $path, $name));
             }
 
             if ('deprecated' === $key) {
                 if (!isset($value['package'])) {
-                    throw new \InvalidArgumentException(sprintf('The routing file "%s" must specify the attribute "package" of the "deprecated" option for "%s".', $path, $name));
+                    throw new InvalidArgumentException(sprintf('The routing file "%s" must specify the attribute "package" of the "deprecated" option for "%s".', $path, $name));
                 }
 
                 if (!isset($value['version'])) {
-                    throw new \InvalidArgumentException(sprintf('The routing file "%s" must specify the attribute "version" of the "deprecated" option for "%s".', $path, $name));
+                    throw new InvalidArgumentException(sprintf('The routing file "%s" must specify the attribute "version" of the "deprecated" option for "%s".', $path, $name));
                 }
             }
         }

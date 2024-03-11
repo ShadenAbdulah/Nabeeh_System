@@ -7,7 +7,7 @@ use Illuminate\Database\Events\QueryExecuted;
 
 class QueryRecorder
 {
-    /** @var \Spatie\LaravelIgnition\Recorders\QueryRecorder\Query[] */
+    /** @var Query[] */
     protected array $queries = [];
 
     protected Application $app;

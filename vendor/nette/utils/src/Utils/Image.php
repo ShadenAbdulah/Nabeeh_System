@@ -9,7 +9,10 @@ declare(strict_types=1);
 
 namespace Nette\Utils;
 
+use GdImage;
 use Nette;
+use function imagecolorat;
+use function imagesetpixel;
 
 
 /**
@@ -86,7 +89,7 @@ use Nette;
  * @method array ttfText(float $size, float $angle, int $x, int $y, ImageColor $color, string $fontfile, string $text, array $options = [])
  * @property-read positive-int $width
  * @property-read positive-int $height
- * @property-read \GdImage $imageResource
+ * @property-read GdImage $imageResource
  */
 class Image
 {
@@ -138,7 +141,7 @@ class Image
 
 	private const Formats = [ImageType::JPEG => 'jpeg', ImageType::PNG => 'png', ImageType::GIF => 'gif', ImageType::WEBP => 'webp', ImageType::AVIF => 'avif', ImageType::BMP => 'bmp'];
 
-	private \GdImage $image;
+	private GdImage $image;
 
 
 	/**
@@ -338,7 +341,7 @@ class Image
 	/**
 	 * Wraps GD image.
 	 */
-	public function __construct(\GdImage $image)
+	public function __construct(GdImage $image)
 	{
 		$this->setImageResource($image);
 		imagesavealpha($image, true);
@@ -368,7 +371,7 @@ class Image
 	/**
 	 * Sets image resource.
 	 */
-	protected function setImageResource(\GdImage $image): static
+	protected function setImageResource(GdImage $image): static
 	{
 		$this->image = $image;
 		return $this;
@@ -378,7 +381,7 @@ class Image
 	/**
 	 * Returns image GD resource.
 	 */
-	public function getImageResource(): \GdImage
+	public function getImageResource(): GdImage
 	{
 		return $this->image;
 	}
@@ -606,9 +609,9 @@ class Image
 
 			for ($x = 0; $x < $width; $x++) {
 				for ($y = 0; $y < $height; $y++) {
-					$c = \imagecolorat($input, $x, $y);
+					$c = imagecolorat($input, $x, $y);
 					$c = ($c & 0xFFFFFF) + ($tbl[$c >> 24] << 24);
-					\imagesetpixel($output, $x, $y, $c);
+					imagesetpixel($output, $x, $y, $c);
 				}
 			}
 
@@ -784,7 +787,7 @@ class Image
 		}
 
 		$res = $function($this->image, ...$args);
-		return $res instanceof \GdImage
+		return $res instanceof GdImage
 			? $this->setImageResource($res)
 			: $res;
 	}

@@ -2,7 +2,9 @@
 
 namespace Illuminate\Database;
 
+use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Types\Type;
+use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Database\Connectors\ConnectionFactory;
 use Illuminate\Database\Events\ConnectionEstablished;
 use Illuminate\Support\Arr;
@@ -14,7 +16,7 @@ use PDO;
 use RuntimeException;
 
 /**
- * @mixin \Illuminate\Database\Connection
+ * @mixin Connection
  */
 class DatabaseManager implements ConnectionResolverInterface
 {
@@ -25,21 +27,21 @@ class DatabaseManager implements ConnectionResolverInterface
     /**
      * The application instance.
      *
-     * @var \Illuminate\Contracts\Foundation\Application
+     * @var Application
      */
     protected $app;
 
     /**
      * The database connection factory instance.
      *
-     * @var \Illuminate\Database\Connectors\ConnectionFactory
+     * @var ConnectionFactory
      */
     protected $factory;
 
     /**
      * The active connection instances.
      *
-     * @var array<string, \Illuminate\Database\Connection>
+     * @var array<string, Connection>
      */
     protected $connections = [];
 
@@ -67,8 +69,8 @@ class DatabaseManager implements ConnectionResolverInterface
     /**
      * Create a new database manager instance.
      *
-     * @param  \Illuminate\Contracts\Foundation\Application  $app
-     * @param  \Illuminate\Database\Connectors\ConnectionFactory  $factory
+     * @param  Application  $app
+     * @param ConnectionFactory $factory
      * @return void
      */
     public function __construct($app, ConnectionFactory $factory)
@@ -85,7 +87,7 @@ class DatabaseManager implements ConnectionResolverInterface
      * Get a database connection instance.
      *
      * @param  string|null  $name
-     * @return \Illuminate\Database\Connection
+     * @return Connection
      */
     public function connection($name = null)
     {
@@ -113,7 +115,7 @@ class DatabaseManager implements ConnectionResolverInterface
      * @param  string  $name
      * @param  array  $config
      * @param  bool  $force
-     * @return \Illuminate\Database\ConnectionInterface
+     * @return ConnectionInterface
      */
     public function connectUsing(string $name, array $config, bool $force = false)
     {
@@ -152,7 +154,7 @@ class DatabaseManager implements ConnectionResolverInterface
      * Make the database connection instance.
      *
      * @param  string  $name
-     * @return \Illuminate\Database\Connection
+     * @return Connection
      */
     protected function makeConnection($name)
     {
@@ -181,7 +183,7 @@ class DatabaseManager implements ConnectionResolverInterface
      * @param  string  $name
      * @return array
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     protected function configuration($name)
     {
@@ -203,9 +205,9 @@ class DatabaseManager implements ConnectionResolverInterface
     /**
      * Prepare the database connection instance.
      *
-     * @param  \Illuminate\Database\Connection  $connection
+     * @param Connection $connection
      * @param  string  $type
-     * @return \Illuminate\Database\Connection
+     * @return Connection
      */
     protected function configure(Connection $connection, $type)
     {
@@ -235,7 +237,7 @@ class DatabaseManager implements ConnectionResolverInterface
     /**
      * Dispatch the ConnectionEstablished event if the event dispatcher is available.
      *
-     * @param  \Illuminate\Database\Connection  $connection
+     * @param Connection $connection
      * @return void
      */
     protected function dispatchConnectionEstablishedEvent(Connection $connection)
@@ -252,9 +254,9 @@ class DatabaseManager implements ConnectionResolverInterface
     /**
      * Prepare the read / write mode for database connection instance.
      *
-     * @param  \Illuminate\Database\Connection  $connection
+     * @param Connection $connection
      * @param  string|null  $type
-     * @return \Illuminate\Database\Connection
+     * @return Connection
      */
     protected function setPdoForType(Connection $connection, $type = null)
     {
@@ -270,7 +272,7 @@ class DatabaseManager implements ConnectionResolverInterface
     /**
      * Register custom Doctrine types with the connection.
      *
-     * @param  \Illuminate\Database\Connection  $connection
+     * @param Connection $connection
      * @return void
      */
     protected function registerConfiguredDoctrineTypes(Connection $connection): void
@@ -292,8 +294,8 @@ class DatabaseManager implements ConnectionResolverInterface
      * @param  string  $type
      * @return void
      *
-     * @throws \Doctrine\DBAL\Exception
-     * @throws \RuntimeException
+     * @throws Exception
+     * @throws RuntimeException
      */
     public function registerDoctrineType(string $class, string $name, string $type): void
     {
@@ -342,7 +344,7 @@ class DatabaseManager implements ConnectionResolverInterface
      * Reconnect to the given database.
      *
      * @param  string|null  $name
-     * @return \Illuminate\Database\Connection
+     * @return Connection
      */
     public function reconnect($name = null)
     {
@@ -377,7 +379,7 @@ class DatabaseManager implements ConnectionResolverInterface
      * Refresh the PDO connections on a given connection.
      *
      * @param  string  $name
-     * @return \Illuminate\Database\Connection
+     * @return Connection
      */
     protected function refreshPdoConnections($name)
     {
@@ -462,7 +464,7 @@ class DatabaseManager implements ConnectionResolverInterface
     /**
      * Return all of the created connections.
      *
-     * @return array<string, \Illuminate\Database\Connection>
+     * @return array<string, Connection>
      */
     public function getConnections()
     {
@@ -483,7 +485,7 @@ class DatabaseManager implements ConnectionResolverInterface
     /**
      * Set the application instance used by the manager.
      *
-     * @param  \Illuminate\Contracts\Foundation\Application  $app
+     * @param  Application  $app
      * @return $this
      */
     public function setApplication($app)

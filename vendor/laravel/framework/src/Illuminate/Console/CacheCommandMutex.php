@@ -6,6 +6,7 @@ use Carbon\CarbonInterval;
 use Illuminate\Cache\DynamoDbStore;
 use Illuminate\Contracts\Cache\Factory as Cache;
 use Illuminate\Contracts\Cache\LockProvider;
+use Illuminate\Contracts\Cache\Store;
 use Illuminate\Support\InteractsWithTime;
 
 class CacheCommandMutex implements CommandMutex
@@ -15,7 +16,7 @@ class CacheCommandMutex implements CommandMutex
     /**
      * The cache factory implementation.
      *
-     * @var \Illuminate\Contracts\Cache\Factory
+     * @var Cache
      */
     public $cache;
 
@@ -29,7 +30,7 @@ class CacheCommandMutex implements CommandMutex
     /**
      * Create a new command mutex.
      *
-     * @param  \Illuminate\Contracts\Cache\Factory  $cache
+     * @param Cache $cache
      */
     public function __construct(Cache $cache)
     {
@@ -39,7 +40,7 @@ class CacheCommandMutex implements CommandMutex
     /**
      * Attempt to obtain a command mutex for the given command.
      *
-     * @param  \Illuminate\Console\Command  $command
+     * @param Command $command
      * @return bool
      */
     public function create($command)
@@ -63,7 +64,7 @@ class CacheCommandMutex implements CommandMutex
     /**
      * Determine if a command mutex exists for the given command.
      *
-     * @param  \Illuminate\Console\Command  $command
+     * @param Command $command
      * @return bool
      */
     public function exists($command)
@@ -86,7 +87,7 @@ class CacheCommandMutex implements CommandMutex
     /**
      * Release the mutex for the given command.
      *
-     * @param  \Illuminate\Console\Command  $command
+     * @param Command $command
      * @return bool
      */
     public function forget($command)
@@ -103,7 +104,7 @@ class CacheCommandMutex implements CommandMutex
     /**
      * Get the isolatable command mutex name.
      *
-     * @param  \Illuminate\Console\Command  $command
+     * @param Command $command
      * @return string
      */
     protected function commandMutexName($command)
@@ -131,7 +132,7 @@ class CacheCommandMutex implements CommandMutex
     /**
      * Determine if the given store should use locks for command mutexes.
      *
-     * @param  \Illuminate\Contracts\Cache\Store  $store
+     * @param  Store  $store
      * @return bool
      */
     protected function shouldUseLocks($store)

@@ -2,12 +2,15 @@
 
 namespace Illuminate\Events;
 
+use Laravel\SerializableClosure\SerializableClosure;
+use Throwable;
+
 class InvokeQueuedClosure
 {
     /**
      * Handle the event.
      *
-     * @param  \Laravel\SerializableClosure\SerializableClosure  $closure
+     * @param  SerializableClosure  $closure
      * @param  array  $arguments
      * @return void
      */
@@ -19,10 +22,10 @@ class InvokeQueuedClosure
     /**
      * Handle a job failure.
      *
-     * @param  \Laravel\SerializableClosure\SerializableClosure  $closure
+     * @param  SerializableClosure  $closure
      * @param  array  $arguments
      * @param  array  $catchCallbacks
-     * @param  \Throwable  $exception
+     * @param  Throwable  $exception
      * @return void
      */
     public function failed($closure, array $arguments, array $catchCallbacks, $exception)

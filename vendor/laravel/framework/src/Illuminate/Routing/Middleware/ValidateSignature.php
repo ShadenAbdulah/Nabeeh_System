@@ -3,6 +3,8 @@
 namespace Illuminate\Routing\Middleware;
 
 use Closure;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Routing\Exceptions\InvalidSignatureException;
 use Illuminate\Support\Arr;
 
@@ -48,12 +50,12 @@ class ValidateSignature
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
+     * @param  Request  $request
+     * @param Closure $next
      * @param  array|null  $args
-     * @return \Illuminate\Http\Response
+     * @return Response
      *
-     * @throws \Illuminate\Routing\Exceptions\InvalidSignatureException
+     * @throws InvalidSignatureException
      */
     public function handle($request, Closure $next, ...$args)
     {

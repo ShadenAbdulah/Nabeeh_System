@@ -11,6 +11,21 @@
 
 namespace Psy\Readline;
 
+use function array_flip;
+use function array_slice;
+use function count;
+use function function_exists;
+use function ksort;
+use function readline;
+use function readline_add_history;
+use function readline_clear_history;
+use function readline_info;
+use function readline_list_history;
+use function readline_read_history;
+use function readline_redisplay;
+use function readline_write_history;
+use function stripos;
+
 /**
  * A Readline interface implementation for GNU Readline.
  *
@@ -37,7 +52,7 @@ class GNUReadline implements Readline
      */
     public static function isSupported(): bool
     {
-        return \function_exists('readline') && \function_exists('readline_list_history');
+        return function_exists('readline') && function_exists('readline_list_history');
     }
 
     /**
@@ -47,7 +62,7 @@ class GNUReadline implements Readline
      */
     public static function supportsBracketedPaste(): bool
     {
-        return self::isSupported() && \stripos(\readline_info('library_version') ?: '', 'editline') === false;
+        return self::isSupported() && stripos(readline_info('library_version') ?: '', 'editline') === false;
     }
 
     public function __construct($historyFile = null, $historySize = 0, $eraseDups = false)
@@ -56,7 +71,7 @@ class GNUReadline implements Readline
         $this->historySize = $historySize;
         $this->eraseDups = $eraseDups;
 
-        \readline_info('readline_name', 'psysh');
+        readline_info('readline_name', 'psysh');
     }
 
     /**
@@ -64,7 +79,7 @@ class GNUReadline implements Readline
      */
     public function addHistory(string $line): bool
     {
-        if ($res = \readline_add_history($line)) {
+        if ($res = readline_add_history($line)) {
             $this->writeHistory();
         }
 
@@ -76,7 +91,7 @@ class GNUReadline implements Readline
      */
     public function clearHistory(): bool
     {
-        if ($res = \readline_clear_history()) {
+        if ($res = readline_clear_history()) {
             $this->writeHistory();
         }
 
@@ -88,7 +103,7 @@ class GNUReadline implements Readline
      */
     public function listHistory(): array
     {
-        return \readline_list_history();
+        return readline_list_history();
     }
 
     /**
@@ -96,10 +111,10 @@ class GNUReadline implements Readline
      */
     public function readHistory(): bool
     {
-        \readline_read_history();
-        \readline_clear_history();
+        readline_read_history();
+        readline_clear_history();
 
-        return \readline_read_history($this->historyFile);
+        return readline_read_history($this->historyFile);
     }
 
     /**
@@ -107,7 +122,7 @@ class GNUReadline implements Readline
      */
     public function readline(string $prompt = null)
     {
-        return \readline($prompt);
+        return readline($prompt);
     }
 
     /**
@@ -115,7 +130,7 @@ class GNUReadline implements Readline
      */
     public function redisplay()
     {
-        \readline_redisplay();
+        readline_redisplay();
     }
 
     /**
@@ -126,7 +141,7 @@ class GNUReadline implements Readline
         // We have to write history first, since it is used
         // by Libedit to list history
         if ($this->historyFile !== false) {
-            $res = \readline_write_history($this->historyFile);
+            $res = readline_write_history($this->historyFile);
         } else {
             $res = true;
         }
@@ -142,25 +157,25 @@ class GNUReadline implements Readline
 
         if ($this->eraseDups) {
             // flip-flip technique: removes duplicates, latest entries win.
-            $hist = \array_flip(\array_flip($hist));
+            $hist = array_flip(array_flip($hist));
             // sort on keys to get the order back
-            \ksort($hist);
+            ksort($hist);
         }
 
         if ($this->historySize > 0) {
-            $histsize = \count($hist);
+            $histsize = count($hist);
             if ($histsize > $this->historySize) {
-                $hist = \array_slice($hist, $histsize - $this->historySize);
+                $hist = array_slice($hist, $histsize - $this->historySize);
             }
         }
 
-        \readline_clear_history();
+        readline_clear_history();
         foreach ($hist as $line) {
-            \readline_add_history($line);
+            readline_add_history($line);
         }
 
         if ($this->historyFile !== false) {
-            return \readline_write_history($this->historyFile);
+            return readline_write_history($this->historyFile);
         }
 
         return true;

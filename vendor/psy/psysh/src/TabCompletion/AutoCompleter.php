@@ -12,6 +12,16 @@
 namespace Psy\TabCompletion;
 
 use Psy\TabCompletion\Matcher\AbstractMatcher;
+use function array_filter;
+use function array_merge;
+use function array_unique;
+use function array_values;
+use function function_exists;
+use function readline_callback_handler_remove;
+use function readline_completion_function;
+use function readline_info;
+use function substr;
+use function token_get_all;
 
 /**
  * A readline tab completion service.
@@ -38,7 +48,7 @@ class AutoCompleter
      */
     public function activate()
     {
-        \readline_completion_function([&$this, 'callback']);
+        readline_completion_function([&$this, 'callback']);
     }
 
     /**
@@ -56,29 +66,29 @@ class AutoCompleter
         // try to work around it.
         $line = $info['line_buffer'];
         if (isset($info['end'])) {
-            $line = \substr($line, 0, $info['end']);
+            $line = substr($line, 0, $info['end']);
         }
         if ($line === '' && $input !== '') {
             $line = $input;
         }
 
-        $tokens = \token_get_all('<?php '.$line);
+        $tokens = token_get_all('<?php '.$line);
 
         // remove whitespaces
-        $tokens = \array_filter($tokens, function ($token) {
+        $tokens = array_filter($tokens, function ($token) {
             return !AbstractMatcher::tokenIs($token, AbstractMatcher::T_WHITESPACE);
         });
         // reset index from 0 to remove missing index number
-        $tokens = \array_values($tokens);
+        $tokens = array_values($tokens);
 
         $matches = [];
         foreach ($this->matchers as $matcher) {
             if ($matcher->hasMatched($tokens)) {
-                $matches = \array_merge($matcher->getMatches($tokens), $matches);
+                $matches = array_merge($matcher->getMatches($tokens), $matches);
             }
         }
 
-        $matches = \array_unique($matches);
+        $matches = array_unique($matches);
 
         return !empty($matches) ? $matches : [''];
     }
@@ -95,7 +105,7 @@ class AutoCompleter
      */
     public function callback(string $input, int $index): array
     {
-        return $this->processCallback($input, $index, \readline_info());
+        return $this->processCallback($input, $index, readline_info());
     }
 
     /**
@@ -105,8 +115,8 @@ class AutoCompleter
     {
         // PHP didn't implement the whole readline API when they first switched
         // to libedit. And they still haven't.
-        if (\function_exists('readline_callback_handler_remove')) {
-            \readline_callback_handler_remove();
+        if (function_exists('readline_callback_handler_remove')) {
+            readline_callback_handler_remove();
         }
     }
 }

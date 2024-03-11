@@ -17,6 +17,7 @@ use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Expr\StaticCall;
 use PhpParser\Node\VariadicPlaceholder;
 use Psy\Exception\FatalErrorException;
+use const E_ERROR;
 
 /**
  * Validate that the user did not use the call-time pass-by-reference that causes a fatal error.
@@ -50,7 +51,7 @@ class CallTimePassByReferencePass extends CodeCleanerPass
             }
 
             if ($arg->byRef) {
-                throw new FatalErrorException(self::EXCEPTION_MESSAGE, 0, \E_ERROR, null, $node->getStartLine());
+                throw new FatalErrorException(self::EXCEPTION_MESSAGE, 0, E_ERROR, null, $node->getStartLine());
             }
         }
     }

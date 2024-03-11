@@ -13,14 +13,14 @@ class SymfonySessionDecorator implements SessionInterface
     /**
      * The underlying Laravel session store.
      *
-     * @var \Illuminate\Session\Store
+     * @var Store
      */
     protected $store;
 
     /**
      * Create a new session decorator.
      *
-     * @param  \Illuminate\Contracts\Session\Session  $store
+     * @param Session $store
      * @return void
      */
     public function __construct(Session $store)

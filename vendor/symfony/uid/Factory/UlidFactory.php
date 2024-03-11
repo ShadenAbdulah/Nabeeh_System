@@ -11,11 +11,12 @@
 
 namespace Symfony\Component\Uid\Factory;
 
+use DateTimeInterface;
 use Symfony\Component\Uid\Ulid;
 
 class UlidFactory
 {
-    public function create(?\DateTimeInterface $time = null): Ulid
+    public function create(?DateTimeInterface $time = null): Ulid
     {
         return new Ulid(null === $time ? null : Ulid::generate($time));
     }

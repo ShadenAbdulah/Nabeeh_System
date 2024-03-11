@@ -3,9 +3,12 @@
 namespace Illuminate\Http\Middleware;
 
 use Closure;
+use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
+use InvalidArgumentException;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class SetCacheHeaders
@@ -31,12 +34,12 @@ class SetCacheHeaders
     /**
      * Add cache related HTTP headers.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
+     * @param  Request  $request
+     * @param Closure $next
      * @param  string|array  $options
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function handle($request, Closure $next, $options = [])
     {

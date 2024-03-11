@@ -12,6 +12,7 @@
 namespace Symfony\Component\Mailer\Transport\Smtp\Stream;
 
 use Symfony\Component\Mailer\Exception\TransportException;
+use const DIRECTORY_SEPARATOR;
 
 /**
  * A stream supporting local processes.
@@ -35,7 +36,7 @@ final class ProcessStream extends AbstractStream
         $descriptorSpec = [
             0 => ['pipe', 'r'],
             1 => ['pipe', 'w'],
-            2 => ['pipe', '\\' === \DIRECTORY_SEPARATOR ? 'a' : 'w'],
+            2 => ['pipe', '\\' === DIRECTORY_SEPARATOR ? 'a' : 'w'],
         ];
         $pipes = [];
         $this->stream = proc_open($this->command, $descriptorSpec, $pipes);

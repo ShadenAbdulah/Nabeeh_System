@@ -11,6 +11,17 @@
 
 namespace Symfony\Component\HttpFoundation;
 
+use RuntimeException;
+use function array_slice;
+use function count;
+use function defined;
+use function extension_loaded;
+use function is_array;
+use function strlen;
+use const FILTER_FLAG_IPV4;
+use const FILTER_FLAG_IPV6;
+use const FILTER_VALIDATE_IP;
+
 /**
  * Http utility functions.
  *
@@ -49,7 +60,7 @@ class IpUtils
      */
     public static function checkIp(string $requestIp, string|array $ips): bool
     {
-        if (!\is_array($ips)) {
+        if (!is_array($ips)) {
             $ips = [$ips];
         }
 
@@ -79,7 +90,7 @@ class IpUtils
             return $cacheValue;
         }
 
-        if (!filter_var($requestIp, \FILTER_VALIDATE_IP, \FILTER_FLAG_IPV4)) {
+        if (!filter_var($requestIp, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)) {
             return self::setCacheResult($cacheKey, false);
         }
 
@@ -87,7 +98,7 @@ class IpUtils
             [$address, $netmask] = explode('/', $ip, 2);
 
             if ('0' === $netmask) {
-                return self::setCacheResult($cacheKey, false !== filter_var($address, \FILTER_VALIDATE_IP, \FILTER_FLAG_IPV4));
+                return self::setCacheResult($cacheKey, false !== filter_var($address, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4));
             }
 
             if ($netmask < 0 || $netmask > 32) {
@@ -115,7 +126,7 @@ class IpUtils
      *
      * @param string $ip IPv6 address or subnet in CIDR notation
      *
-     * @throws \RuntimeException When IPV6 support is not enabled
+     * @throws RuntimeException When IPV6 support is not enabled
      */
     public static function checkIp6(string $requestIp, string $ip): bool
     {
@@ -124,19 +135,19 @@ class IpUtils
             return $cacheValue;
         }
 
-        if (!((\extension_loaded('sockets') && \defined('AF_INET6')) || @inet_pton('::1'))) {
-            throw new \RuntimeException('Unable to check Ipv6. Check that PHP was not compiled with option "disable-ipv6".');
+        if (!((extension_loaded('sockets') && defined('AF_INET6')) || @inet_pton('::1'))) {
+            throw new RuntimeException('Unable to check Ipv6. Check that PHP was not compiled with option "disable-ipv6".');
         }
 
         // Check to see if we were given a IP4 $requestIp or $ip by mistake
-        if (!filter_var($requestIp, \FILTER_VALIDATE_IP, \FILTER_FLAG_IPV6)) {
+        if (!filter_var($requestIp, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6)) {
             return self::setCacheResult($cacheKey, false);
         }
 
         if (str_contains($ip, '/')) {
             [$address, $netmask] = explode('/', $ip, 2);
 
-            if (!filter_var($address, \FILTER_VALIDATE_IP, \FILTER_FLAG_IPV6)) {
+            if (!filter_var($address, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6)) {
                 return self::setCacheResult($cacheKey, false);
             }
 
@@ -148,7 +159,7 @@ class IpUtils
                 return self::setCacheResult($cacheKey, false);
             }
         } else {
-            if (!filter_var($ip, \FILTER_VALIDATE_IP, \FILTER_FLAG_IPV6)) {
+            if (!filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6)) {
                 return self::setCacheResult($cacheKey, false);
             }
 
@@ -189,7 +200,7 @@ class IpUtils
         }
 
         $packedAddress = inet_pton($ip);
-        if (4 === \strlen($packedAddress)) {
+        if (4 === strlen($packedAddress)) {
             $mask = '255.255.255.0';
         } elseif ($ip === inet_ntop($packedAddress & inet_pton('::ffff:ffff:ffff'))) {
             $mask = '::ffff:ffff:ff00';
@@ -231,9 +242,9 @@ class IpUtils
 
     private static function setCacheResult(string $cacheKey, bool $result): bool
     {
-        if (1000 < \count(self::$checkedIps)) {
+        if (1000 < count(self::$checkedIps)) {
             // stop memory leak if there are many keys
-            self::$checkedIps = \array_slice(self::$checkedIps, 500, null, true);
+            self::$checkedIps = array_slice(self::$checkedIps, 500, null, true);
         }
 
         return self::$checkedIps[$cacheKey] = $result;

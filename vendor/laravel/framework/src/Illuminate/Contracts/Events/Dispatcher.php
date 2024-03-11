@@ -2,13 +2,15 @@
 
 namespace Illuminate\Contracts\Events;
 
+use Closure;
+
 interface Dispatcher
 {
     /**
      * Register an event listener with the dispatcher.
      *
-     * @param  \Closure|string|array  $events
-     * @param  \Closure|string|array|null  $listener
+     * @param  Closure|string|array  $events
+     * @param  Closure|string|array|null  $listener
      * @return void
      */
     public function listen($events, $listener = null);

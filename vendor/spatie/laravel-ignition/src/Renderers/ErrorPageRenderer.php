@@ -2,6 +2,7 @@
 
 namespace Spatie\LaravelIgnition\Renderers;
 
+use Illuminate\Foundation\Vite;
 use Spatie\FlareClient\Flare;
 use Spatie\Ignition\Config\IgnitionConfig;
 use Spatie\Ignition\Contracts\SolutionProviderRepository;
@@ -18,7 +19,7 @@ class ErrorPageRenderer
         $viteJsAutoRefresh = '';
 
         if (class_exists('Illuminate\Foundation\Vite')) {
-            $vite = app(\Illuminate\Foundation\Vite::class);
+            $vite = app(Vite::class);
 
             if (is_file($vite->hotFile())) {
                 $viteJsAutoRefresh = $vite->__invoke([]);

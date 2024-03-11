@@ -11,8 +11,10 @@
 
 namespace Symfony\Component\Translation\Provider;
 
+use SensitiveParameter;
 use Symfony\Component\Translation\Exception\InvalidArgumentException;
 use Symfony\Component\Translation\Exception\MissingRequiredOptionException;
+use function array_key_exists;
 
 /**
  * @author Fabien Potencier <fabien@symfony.com>
@@ -29,7 +31,7 @@ final class Dsn
     private array $options = [];
     private string $originalDsn;
 
-    public function __construct(#[\SensitiveParameter] string $dsn)
+    public function __construct(#[SensitiveParameter] string $dsn)
     {
         $this->originalDsn = $dsn;
 
@@ -86,7 +88,7 @@ final class Dsn
 
     public function getRequiredOption(string $key): mixed
     {
-        if (!\array_key_exists($key, $this->options) || '' === trim($this->options[$key])) {
+        if (!array_key_exists($key, $this->options) || '' === trim($this->options[$key])) {
             throw new MissingRequiredOptionException($key);
         }
 

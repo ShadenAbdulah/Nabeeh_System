@@ -15,6 +15,13 @@ use Psy\Exception\ErrorException;
 use Psy\Exception\RuntimeException;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
+use function preg_match;
+use function preg_quote;
+use function restore_error_handler;
+use function set_error_handler;
+use function str_replace;
+use function strlen;
+use function substr;
 
 /**
  * Parse, validate and match --grep, --insensitive and --invert command options.
@@ -56,7 +63,7 @@ class FilterOptions
         }
 
         if (!$this->stringIsRegex($pattern)) {
-            $pattern = '/'.\preg_quote($pattern, '/').'/';
+            $pattern = '/'. preg_quote($pattern, '/').'/';
         }
 
         if ($insensitive = $input->getOption('insensitive')) {
@@ -87,7 +94,7 @@ class FilterOptions
      */
     public function match(string $string, array &$matches = null): bool
     {
-        return $this->filter === false || (\preg_match($this->pattern, $string, $matches) xor $this->invert);
+        return $this->filter === false || (preg_match($this->pattern, $string, $matches) xor $this->invert);
     }
 
     /**
@@ -115,7 +122,7 @@ class FilterOptions
      */
     private function stringIsRegex(string $string): bool
     {
-        return \substr($string, 0, 1) === '/' && \substr($string, -1) === '/' && \strlen($string) >= 3;
+        return substr($string, 0, 1) === '/' && substr($string, -1) === '/' && strlen($string) >= 3;
     }
 
     /**
@@ -127,13 +134,13 @@ class FilterOptions
      */
     private function validateRegex(string $pattern)
     {
-        \set_error_handler([ErrorException::class, 'throwException']);
+        set_error_handler([ErrorException::class, 'throwException']);
         try {
-            \preg_match($pattern, '');
+            preg_match($pattern, '');
         } catch (ErrorException $e) {
-            throw new RuntimeException(\str_replace('preg_match(): ', 'Invalid regular expression: ', $e->getRawMessage()));
+            throw new RuntimeException(str_replace('preg_match(): ', 'Invalid regular expression: ', $e->getRawMessage()));
         } finally {
-            \restore_error_handler();
+            restore_error_handler();
         }
     }
 }

@@ -1,12 +1,14 @@
 <?php
 namespace Aws;
 
+use HashContext;
+
 /**
  * Incremental hashing using PHP's hash functions.
  */
 class PhpHash implements HashInterface
 {
-    /** @var resource|\HashContext */
+    /** @var resource|HashContext */
     private $context;
 
     /** @var string */
@@ -63,7 +65,7 @@ class PhpHash implements HashInterface
     /**
      * Get a hash context or create one if needed
      *
-     * @return resource|\HashContext 
+     * @return resource|HashContext
      */
     private function getContext()
     {

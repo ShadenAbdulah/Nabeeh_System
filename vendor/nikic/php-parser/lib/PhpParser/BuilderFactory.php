@@ -2,6 +2,7 @@
 
 namespace PhpParser;
 
+use LogicException;
 use PhpParser\Node\Arg;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\BinaryOp\Concat;
@@ -9,6 +10,7 @@ use PhpParser\Node\Identifier;
 use PhpParser\Node\Name;
 use PhpParser\Node\Scalar\String_;
 use PhpParser\Node\Stmt\Use_;
+use function is_string;
 
 class BuilderFactory {
     /**
@@ -222,8 +224,8 @@ class BuilderFactory {
      * @param string|Expr $name Name
      */
     public function var($name): Expr\Variable {
-        if (!\is_string($name) && !$name instanceof Expr) {
-            throw new \LogicException('Variable name must be string or Expr');
+        if (!is_string($name) && !$name instanceof Expr) {
+            throw new LogicException('Variable name must be string or Expr');
         }
 
         return new Expr\Variable($name);
@@ -244,7 +246,7 @@ class BuilderFactory {
             if (!($arg instanceof Arg)) {
                 $arg = new Arg(BuilderHelpers::normalizeValue($arg));
             }
-            if (\is_string($key)) {
+            if (is_string($key)) {
                 $arg->name = BuilderHelpers::normalizeIdentifier($key);
             }
             $normalizedArgs[] = $arg;
@@ -348,7 +350,7 @@ class BuilderFactory {
     public function concat(...$exprs): Concat {
         $numExprs = count($exprs);
         if ($numExprs < 2) {
-            throw new \LogicException('Expected at least two expressions');
+            throw new LogicException('Expected at least two expressions');
         }
 
         $lastConcat = $this->normalizeStringExpr($exprs[0]);
@@ -366,10 +368,10 @@ class BuilderFactory {
             return $expr;
         }
 
-        if (\is_string($expr)) {
+        if (is_string($expr)) {
             return new String_($expr);
         }
 
-        throw new \LogicException('Expected string or Expr');
+        throw new LogicException('Expected string or Expr');
     }
 }

@@ -11,6 +11,7 @@
 
 namespace Symfony\Component\Translation\Dumper;
 
+use DOMDocument;
 use Symfony\Component\Translation\MessageCatalogue;
 
 /**
@@ -22,7 +23,7 @@ class QtFileDumper extends FileDumper
 {
     public function formatCatalogue(MessageCatalogue $messages, string $domain, array $options = []): string
     {
-        $dom = new \DOMDocument('1.0', 'utf-8');
+        $dom = new DOMDocument('1.0', 'utf-8');
         $dom->formatOutput = true;
         $ts = $dom->appendChild($dom->createElement('TS'));
         $context = $ts->appendChild($dom->createElement('context'));

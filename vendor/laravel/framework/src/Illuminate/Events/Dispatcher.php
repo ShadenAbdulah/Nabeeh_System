@@ -11,9 +11,11 @@ use Illuminate\Contracts\Container\Container as ContainerContract;
 use Illuminate\Contracts\Events\Dispatcher as DispatcherContract;
 use Illuminate\Contracts\Events\ShouldDispatchAfterCommit;
 use Illuminate\Contracts\Events\ShouldHandleEventsAfterCommit;
+use Illuminate\Contracts\Queue\Queue;
 use Illuminate\Contracts\Queue\ShouldBeEncrypted;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Contracts\Queue\ShouldQueueAfterCommit;
+use Illuminate\Database\DatabaseTransactionsManager;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Support\Traits\Macroable;
@@ -27,7 +29,7 @@ class Dispatcher implements DispatcherContract
     /**
      * The IoC container instance.
      *
-     * @var \Illuminate\Contracts\Container\Container
+     * @var ContainerContract
      */
     protected $container;
 
@@ -69,7 +71,7 @@ class Dispatcher implements DispatcherContract
     /**
      * Create a new event dispatcher instance.
      *
-     * @param  \Illuminate\Contracts\Container\Container|null  $container
+     * @param ContainerContract|null  $container
      * @return void
      */
     public function __construct(ContainerContract $container = null)
@@ -80,8 +82,8 @@ class Dispatcher implements DispatcherContract
     /**
      * Register an event listener with the dispatcher.
      *
-     * @param  \Closure|string|array  $events
-     * @param  \Closure|string|array|null  $listener
+     * @param Closure|string|array  $events
+     * @param Closure|string|array|null  $listener
      * @return void
      */
     public function listen($events, $listener = null)
@@ -113,7 +115,7 @@ class Dispatcher implements DispatcherContract
      * Setup a wildcard listener callback.
      *
      * @param  string  $event
-     * @param  \Closure|string  $listener
+     * @param Closure|string  $listener
      * @return void
      */
     protected function setupWildcardListen($event, $listener)
@@ -349,7 +351,7 @@ class Dispatcher implements DispatcherContract
     /**
      * Broadcast the given event class.
      *
-     * @param  \Illuminate\Contracts\Broadcasting\ShouldBroadcast  $event
+     * @param ShouldBroadcast $event
      * @return void
      */
     protected function broadcastEvent($event)
@@ -420,7 +422,7 @@ class Dispatcher implements DispatcherContract
      * Prepare the listeners for a given event.
      *
      * @param  string  $eventName
-     * @return \Closure[]
+     * @return Closure[]
      */
     protected function prepareListeners(string $eventName)
     {
@@ -436,9 +438,9 @@ class Dispatcher implements DispatcherContract
     /**
      * Register an event listener with the dispatcher.
      *
-     * @param  \Closure|string|array  $listener
+     * @param Closure|string|array  $listener
      * @param  bool  $wildcard
-     * @return \Closure
+     * @return Closure
      */
     public function makeListener($listener, $wildcard = false)
     {
@@ -464,7 +466,7 @@ class Dispatcher implements DispatcherContract
      *
      * @param  string  $listener
      * @param  bool  $wildcard
-     * @return \Closure
+     * @return Closure
      */
     public function createClassListener($listener, $wildcard = false)
     {
@@ -539,7 +541,7 @@ class Dispatcher implements DispatcherContract
      *
      * @param  string  $class
      * @param  string  $method
-     * @return \Closure
+     * @return Closure
      */
     protected function createQueuedHandlerCallable($class, $method)
     {
@@ -572,7 +574,7 @@ class Dispatcher implements DispatcherContract
      *
      * @param  mixed  $listener
      * @param  string  $method
-     * @return \Closure
+     * @return Closure
      */
     protected function createCallbackForListenerRunningAfterCommits($listener, $method)
     {
@@ -655,7 +657,7 @@ class Dispatcher implements DispatcherContract
      * Propagate listener options to the job.
      *
      * @param  mixed  $listener
-     * @param  \Illuminate\Events\CallQueuedListener  $job
+     * @param CallQueuedListener $job
      * @return mixed
      */
     protected function propagateListenerOptions($listener, $job)
@@ -722,7 +724,7 @@ class Dispatcher implements DispatcherContract
     /**
      * Get the queue implementation from the resolver.
      *
-     * @return \Illuminate\Contracts\Queue\Queue
+     * @return Queue
      */
     protected function resolveQueue()
     {
@@ -745,7 +747,7 @@ class Dispatcher implements DispatcherContract
     /**
      * Get the database transaction manager implementation from the resolver.
      *
-     * @return \Illuminate\Database\DatabaseTransactionsManager|null
+     * @return DatabaseTransactionsManager|null
      */
     protected function resolveTransactionManager()
     {

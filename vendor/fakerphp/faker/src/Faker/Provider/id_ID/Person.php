@@ -2,6 +2,8 @@
 
 namespace Faker\Provider\id_ID;
 
+use DateTime;
+
 class Person extends \Faker\Provider\Person
 {
     protected static $lastNameFormat = [
@@ -297,7 +299,7 @@ class Person extends \Faker\Provider\Person
      * @see https://en.wikipedia.org/wiki/National_identification_number#Indonesia
      *
      * @param string|null    $gender
-     * @param \DateTime|null $birthDate
+     * @param DateTime|null $birthDate
      *
      * @return string
      */

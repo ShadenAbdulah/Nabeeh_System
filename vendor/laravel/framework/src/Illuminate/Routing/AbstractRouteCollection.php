@@ -20,11 +20,11 @@ abstract class AbstractRouteCollection implements Countable, IteratorAggregate, 
     /**
      * Handle the matched route.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Illuminate\Routing\Route|null  $route
-     * @return \Illuminate\Routing\Route
+     * @param Request $request
+     * @param Route|null  $route
+     * @return Route
      *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
+     * @throws NotFoundHttpException
      */
     protected function handleMatchedRoute(Request $request, $route)
     {
@@ -50,7 +50,7 @@ abstract class AbstractRouteCollection implements Countable, IteratorAggregate, 
     /**
      * Determine if any routes match on another HTTP verb.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param Request $request
      * @return array
      */
     protected function checkForAlternateVerbs($request)
@@ -71,10 +71,10 @@ abstract class AbstractRouteCollection implements Countable, IteratorAggregate, 
     /**
      * Determine if a route in the array matches the request.
      *
-     * @param  \Illuminate\Routing\Route[]  $routes
-     * @param  \Illuminate\Http\Request  $request
+     * @param Route[] $routes
+     * @param Request $request
      * @param  bool  $includingMethod
-     * @return \Illuminate\Routing\Route|null
+     * @return Route|null
      */
     protected function matchAgainstRoutes(array $routes, $request, $includingMethod = true)
     {
@@ -90,11 +90,11 @@ abstract class AbstractRouteCollection implements Countable, IteratorAggregate, 
     /**
      * Get a route (if necessary) that responds when other available methods are present.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param Request $request
      * @param  string[]  $methods
-     * @return \Illuminate\Routing\Route
+     * @return Route
      *
-     * @throws \Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException
+     * @throws MethodNotAllowedHttpException
      */
     protected function getRouteForMethods($request, array $methods)
     {
@@ -110,12 +110,12 @@ abstract class AbstractRouteCollection implements Countable, IteratorAggregate, 
     /**
      * Throw a method not allowed HTTP exception.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param Request $request
      * @param  array  $others
      * @param  string  $method
      * @return void
      *
-     * @throws \Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException
+     * @throws MethodNotAllowedHttpException
      */
     protected function requestMethodNotAllowed($request, array $others, $method)
     {
@@ -137,9 +137,9 @@ abstract class AbstractRouteCollection implements Countable, IteratorAggregate, 
      * @param  string  $method
      * @return void
      *
-     * @deprecated use requestMethodNotAllowed
+     * @throws MethodNotAllowedHttpException
+     *@deprecated use requestMethodNotAllowed
      *
-     * @throws \Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException
      */
     protected function methodNotAllowed(array $others, $method)
     {
@@ -185,7 +185,7 @@ abstract class AbstractRouteCollection implements Countable, IteratorAggregate, 
     /**
      * Return the CompiledUrlMatcherDumper instance for the route collection.
      *
-     * @return \Symfony\Component\Routing\Matcher\Dumper\CompiledUrlMatcherDumper
+     * @return CompiledUrlMatcherDumper
      */
     public function dumper()
     {
@@ -195,7 +195,7 @@ abstract class AbstractRouteCollection implements Countable, IteratorAggregate, 
     /**
      * Convert the collection to a Symfony RouteCollection instance.
      *
-     * @return \Symfony\Component\Routing\RouteCollection
+     * @return SymfonyRouteCollection
      */
     public function toSymfonyRouteCollection()
     {
@@ -221,11 +221,11 @@ abstract class AbstractRouteCollection implements Countable, IteratorAggregate, 
     /**
      * Add a route to the SymfonyRouteCollection instance.
      *
-     * @param  \Symfony\Component\Routing\RouteCollection  $symfonyRoutes
-     * @param  \Illuminate\Routing\Route  $route
-     * @return \Symfony\Component\Routing\RouteCollection
+     * @param SymfonyRouteCollection $symfonyRoutes
+     * @param Route $route
+     * @return SymfonyRouteCollection
      *
-     * @throws \LogicException
+     * @throws LogicException
      */
     protected function addToSymfonyRoutesCollection(SymfonyRouteCollection $symfonyRoutes, Route $route)
     {
@@ -265,7 +265,7 @@ abstract class AbstractRouteCollection implements Countable, IteratorAggregate, 
     /**
      * Get an iterator for the items.
      *
-     * @return \ArrayIterator
+     * @return ArrayIterator
      */
     public function getIterator(): Traversable
     {

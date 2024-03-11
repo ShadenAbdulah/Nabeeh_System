@@ -5,6 +5,7 @@ namespace Illuminate\Foundation\Console;
 use Carbon\CarbonInterval;
 use Closure;
 use DateTimeInterface;
+use DateTimeZone;
 use Illuminate\Console\Application as Artisan;
 use Illuminate\Console\Command;
 use Illuminate\Console\Events\CommandFinished;
@@ -14,6 +15,14 @@ use Illuminate\Contracts\Console\Kernel as KernelContract;
 use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Foundation\Bootstrap\BootProviders;
+use Illuminate\Foundation\Bootstrap\HandleExceptions;
+use Illuminate\Foundation\Bootstrap\LoadConfiguration;
+use Illuminate\Foundation\Bootstrap\LoadEnvironmentVariables;
+use Illuminate\Foundation\Bootstrap\RegisterFacades;
+use Illuminate\Foundation\Bootstrap\RegisterProviders;
+use Illuminate\Foundation\Bootstrap\SetRequestForConsole;
+use Illuminate\Foundation\Bus\PendingDispatch;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Env;
@@ -24,8 +33,12 @@ use SplFileInfo;
 use Symfony\Component\Console\ConsoleEvents;
 use Symfony\Component\Console\Event\ConsoleCommandEvent;
 use Symfony\Component\Console\Event\ConsoleTerminateEvent;
+use Symfony\Component\Console\Exception\CommandNotFoundException;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\Finder\Finder;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Throwable;
 
 class Kernel implements KernelContract
@@ -35,28 +48,28 @@ class Kernel implements KernelContract
     /**
      * The application implementation.
      *
-     * @var \Illuminate\Contracts\Foundation\Application
+     * @var Application
      */
     protected $app;
 
     /**
      * The event dispatcher implementation.
      *
-     * @var \Illuminate\Contracts\Events\Dispatcher
+     * @var Dispatcher
      */
     protected $events;
 
     /**
      * The Symfony event dispatcher implementation.
      *
-     * @var \Symfony\Contracts\EventDispatcher\EventDispatcherInterface|null
+     * @var EventDispatcherInterface|null
      */
     protected $symfonyDispatcher;
 
     /**
      * The Artisan application instance.
      *
-     * @var \Illuminate\Console\Application|null
+     * @var Artisan|null
      */
     protected $artisan;
 
@@ -84,7 +97,7 @@ class Kernel implements KernelContract
     /**
      * When the currently handled command started.
      *
-     * @var \Illuminate\Support\Carbon|null
+     * @var Carbon|null
      */
     protected $commandStartedAt;
 
@@ -94,20 +107,20 @@ class Kernel implements KernelContract
      * @var string[]
      */
     protected $bootstrappers = [
-        \Illuminate\Foundation\Bootstrap\LoadEnvironmentVariables::class,
-        \Illuminate\Foundation\Bootstrap\LoadConfiguration::class,
-        \Illuminate\Foundation\Bootstrap\HandleExceptions::class,
-        \Illuminate\Foundation\Bootstrap\RegisterFacades::class,
-        \Illuminate\Foundation\Bootstrap\SetRequestForConsole::class,
-        \Illuminate\Foundation\Bootstrap\RegisterProviders::class,
-        \Illuminate\Foundation\Bootstrap\BootProviders::class,
+        LoadEnvironmentVariables::class,
+        LoadConfiguration::class,
+        HandleExceptions::class,
+        RegisterFacades::class,
+        SetRequestForConsole::class,
+        RegisterProviders::class,
+        BootProviders::class,
     ];
 
     /**
      * Create a new console kernel instance.
      *
-     * @param  \Illuminate\Contracts\Foundation\Application  $app
-     * @param  \Illuminate\Contracts\Events\Dispatcher  $events
+     * @param Application $app
+     * @param Dispatcher $events
      * @return void
      */
     public function __construct(Application $app, Dispatcher $events)
@@ -183,8 +196,8 @@ class Kernel implements KernelContract
     /**
      * Run the console application.
      *
-     * @param  \Symfony\Component\Console\Input\InputInterface  $input
-     * @param  \Symfony\Component\Console\Output\OutputInterface|null  $output
+     * @param  InputInterface  $input
+     * @param  OutputInterface|null  $output
      * @return int
      */
     public function handle($input, $output = null)
@@ -211,7 +224,7 @@ class Kernel implements KernelContract
     /**
      * Terminate the application.
      *
-     * @param  \Symfony\Component\Console\Input\InputInterface  $input
+     * @param  InputInterface  $input
      * @param  int  $status
      * @return void
      */
@@ -239,7 +252,7 @@ class Kernel implements KernelContract
     /**
      * Register a callback to be invoked when the command lifecycle duration exceeds a given amount of time.
      *
-     * @param  \DateTimeInterface|\Carbon\CarbonInterval|float|int  $threshold
+     * @param DateTimeInterface|CarbonInterval|float|int  $threshold
      * @param  callable  $handler
      * @return void
      */
@@ -262,7 +275,7 @@ class Kernel implements KernelContract
     /**
      * When the command being handled started.
      *
-     * @return \Illuminate\Support\Carbon|null
+     * @return Carbon|null
      */
     public function commandStartedAt()
     {
@@ -272,7 +285,7 @@ class Kernel implements KernelContract
     /**
      * Define the application's command schedule.
      *
-     * @param  \Illuminate\Console\Scheduling\Schedule  $schedule
+     * @param Schedule $schedule
      * @return void
      */
     protected function schedule(Schedule $schedule)
@@ -283,7 +296,7 @@ class Kernel implements KernelContract
     /**
      * Get the timezone that should be used by default for scheduled events.
      *
-     * @return \DateTimeZone|string|null
+     * @return DateTimeZone|string|null
      */
     protected function scheduleTimezone()
     {
@@ -306,8 +319,8 @@ class Kernel implements KernelContract
      * Register a Closure based command with the application.
      *
      * @param  string  $signature
-     * @param  \Closure  $callback
-     * @return \Illuminate\Foundation\Console\ClosureCommand
+     * @param Closure $callback
+     * @return ClosureCommand
      */
     public function command($signature, Closure $callback)
     {
@@ -355,7 +368,7 @@ class Kernel implements KernelContract
     /**
      * Extract the command class name from the given file path.
      *
-     * @param  \SplFileInfo  $file
+     * @param SplFileInfo $file
      * @param  string  $namespace
      * @return string
      */
@@ -384,10 +397,10 @@ class Kernel implements KernelContract
      *
      * @param  string  $command
      * @param  array  $parameters
-     * @param  \Symfony\Component\Console\Output\OutputInterface|null  $outputBuffer
+     * @param  OutputInterface|null  $outputBuffer
      * @return int
      *
-     * @throws \Symfony\Component\Console\Exception\CommandNotFoundException
+     * @throws CommandNotFoundException
      */
     public function call($command, array $parameters = [], $outputBuffer = null)
     {
@@ -405,7 +418,7 @@ class Kernel implements KernelContract
      *
      * @param  string  $command
      * @param  array  $parameters
-     * @return \Illuminate\Foundation\Bus\PendingDispatch
+     * @return PendingDispatch
      */
     public function queue($command, array $parameters = [])
     {
@@ -465,7 +478,7 @@ class Kernel implements KernelContract
     {
         $this->app->bootstrapWith(
             collect($this->bootstrappers())->reject(function ($bootstrapper) {
-                return $bootstrapper === \Illuminate\Foundation\Bootstrap\BootProviders::class;
+                return $bootstrapper === BootProviders::class;
             })->all()
         );
     }
@@ -473,7 +486,7 @@ class Kernel implements KernelContract
     /**
      * Get the Artisan application instance.
      *
-     * @return \Illuminate\Console\Application
+     * @return Artisan
      */
     protected function getArtisan()
     {
@@ -494,7 +507,7 @@ class Kernel implements KernelContract
     /**
      * Set the Artisan application instance.
      *
-     * @param  \Illuminate\Console\Application|null  $artisan
+     * @param Artisan|null  $artisan
      * @return void
      */
     public function setArtisan($artisan)
@@ -515,7 +528,7 @@ class Kernel implements KernelContract
     /**
      * Report the exception to the exception handler.
      *
-     * @param  \Throwable  $e
+     * @param Throwable $e
      * @return void
      */
     protected function reportException(Throwable $e)
@@ -526,8 +539,8 @@ class Kernel implements KernelContract
     /**
      * Render the given exception.
      *
-     * @param  \Symfony\Component\Console\Output\OutputInterface  $output
-     * @param  \Throwable  $e
+     * @param  OutputInterface  $output
+     * @param Throwable $e
      * @return void
      */
     protected function renderException($output, Throwable $e)

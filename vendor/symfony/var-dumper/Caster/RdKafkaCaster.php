@@ -11,6 +11,7 @@
 
 namespace Symfony\Component\VarDumper\Caster;
 
+use RdKafka;
 use RdKafka\Conf;
 use RdKafka\Exception as RdKafkaException;
 use RdKafka\KafkaConsumer;
@@ -129,7 +130,7 @@ class RdKafkaCaster
     /**
      * @return array
      */
-    public static function castRdKafka(\RdKafka $c, array $a, Stub $stub, bool $isNested)
+    public static function castRdKafka(RdKafka $c, array $a, Stub $stub, bool $isNested)
     {
         $prefix = Caster::PREFIX_VIRTUAL;
 
@@ -202,7 +203,7 @@ class RdKafkaCaster
     /**
      * @return array
      */
-    private static function extractMetadata(KafkaConsumer|\RdKafka $c)
+    private static function extractMetadata(KafkaConsumer|RdKafka $c)
     {
         $prefix = Caster::PREFIX_VIRTUAL;
 

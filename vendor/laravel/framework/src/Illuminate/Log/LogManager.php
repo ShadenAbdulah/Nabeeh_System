@@ -3,8 +3,11 @@
 namespace Illuminate\Log;
 
 use Closure;
+use Illuminate\Contracts\Container\BindingResolutionException;
+use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\Str;
 use InvalidArgumentException;
+use Monolog\Formatter\FormatterInterface;
 use Monolog\Formatter\LineFormatter;
 use Monolog\Handler\ErrorLogHandler;
 use Monolog\Handler\FingersCrossedHandler;
@@ -19,10 +22,11 @@ use Monolog\Logger as Monolog;
 use Monolog\Processor\ProcessorInterface;
 use Monolog\Processor\PsrLogMessageProcessor;
 use Psr\Log\LoggerInterface;
+use Stringable;
 use Throwable;
 
 /**
- * @mixin \Illuminate\Log\Logger
+ * @mixin Logger
  */
 class LogManager implements LoggerInterface
 {
@@ -31,7 +35,7 @@ class LogManager implements LoggerInterface
     /**
      * The application instance.
      *
-     * @var \Illuminate\Contracts\Foundation\Application
+     * @var Application
      */
     protected $app;
 
@@ -66,7 +70,7 @@ class LogManager implements LoggerInterface
     /**
      * Create a new Log manager instance.
      *
-     * @param  \Illuminate\Contracts\Foundation\Application  $app
+     * @param  Application  $app
      * @return void
      */
     public function __construct($app)
@@ -78,7 +82,7 @@ class LogManager implements LoggerInterface
      * Build an on-demand log channel.
      *
      * @param  array  $config
-     * @return \Psr\Log\LoggerInterface
+     * @return LoggerInterface
      */
     public function build(array $config)
     {
@@ -92,7 +96,7 @@ class LogManager implements LoggerInterface
      *
      * @param  array  $channels
      * @param  string|null  $channel
-     * @return \Psr\Log\LoggerInterface
+     * @return LoggerInterface
      */
     public function stack(array $channels, $channel = null)
     {
@@ -106,7 +110,7 @@ class LogManager implements LoggerInterface
      * Get a log channel instance.
      *
      * @param  string|null  $channel
-     * @return \Psr\Log\LoggerInterface
+     * @return LoggerInterface
      */
     public function channel($channel = null)
     {
@@ -117,7 +121,7 @@ class LogManager implements LoggerInterface
      * Get a log driver instance.
      *
      * @param  string|null  $driver
-     * @return \Psr\Log\LoggerInterface
+     * @return LoggerInterface
      */
     public function driver($driver = null)
     {
@@ -129,7 +133,7 @@ class LogManager implements LoggerInterface
      *
      * @param  string  $name
      * @param  array|null  $config
-     * @return \Psr\Log\LoggerInterface
+     * @return LoggerInterface
      */
     protected function get($name, ?array $config = null)
     {
@@ -150,8 +154,8 @@ class LogManager implements LoggerInterface
      * Apply the configured taps for the logger.
      *
      * @param  string  $name
-     * @param  \Illuminate\Log\Logger  $logger
-     * @return \Illuminate\Log\Logger
+     * @param Logger $logger
+     * @return Logger
      */
     protected function tap($name, Logger $logger)
     {
@@ -178,7 +182,7 @@ class LogManager implements LoggerInterface
     /**
      * Create an emergency log handler to avoid white screens of death.
      *
-     * @return \Psr\Log\LoggerInterface
+     * @return LoggerInterface
      */
     protected function createEmergencyLogger()
     {
@@ -200,9 +204,9 @@ class LogManager implements LoggerInterface
      *
      * @param  string  $name
      * @param  array|null  $config
-     * @return \Psr\Log\LoggerInterface
+     * @return LoggerInterface
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     protected function resolve($name, ?array $config = null)
     {
@@ -240,7 +244,7 @@ class LogManager implements LoggerInterface
      * Create a custom log driver instance.
      *
      * @param  array  $config
-     * @return \Psr\Log\LoggerInterface
+     * @return LoggerInterface
      */
     protected function createCustomDriver(array $config)
     {
@@ -253,7 +257,7 @@ class LogManager implements LoggerInterface
      * Create an aggregate log driver instance.
      *
      * @param  array  $config
-     * @return \Psr\Log\LoggerInterface
+     * @return LoggerInterface
      */
     protected function createStackDriver(array $config)
     {
@@ -284,7 +288,7 @@ class LogManager implements LoggerInterface
      * Create an instance of the single file log driver.
      *
      * @param  array  $config
-     * @return \Psr\Log\LoggerInterface
+     * @return LoggerInterface
      */
     protected function createSingleDriver(array $config)
     {
@@ -302,7 +306,7 @@ class LogManager implements LoggerInterface
      * Create an instance of the daily file log driver.
      *
      * @param  array  $config
-     * @return \Psr\Log\LoggerInterface
+     * @return LoggerInterface
      */
     protected function createDailyDriver(array $config)
     {
@@ -318,7 +322,7 @@ class LogManager implements LoggerInterface
      * Create an instance of the Slack log driver.
      *
      * @param  array  $config
-     * @return \Psr\Log\LoggerInterface
+     * @return LoggerInterface
      */
     protected function createSlackDriver(array $config)
     {
@@ -342,7 +346,7 @@ class LogManager implements LoggerInterface
      * Create an instance of the syslog log driver.
      *
      * @param  array  $config
-     * @return \Psr\Log\LoggerInterface
+     * @return LoggerInterface
      */
     protected function createSyslogDriver(array $config)
     {
@@ -358,7 +362,7 @@ class LogManager implements LoggerInterface
      * Create an instance of the "error log" log driver.
      *
      * @param  array  $config
-     * @return \Psr\Log\LoggerInterface
+     * @return LoggerInterface
      */
     protected function createErrorlogDriver(array $config)
     {
@@ -373,10 +377,10 @@ class LogManager implements LoggerInterface
      * Create an instance of any handler available in Monolog.
      *
      * @param  array  $config
-     * @return \Psr\Log\LoggerInterface
+     * @return LoggerInterface
      *
-     * @throws \InvalidArgumentException
-     * @throws \Illuminate\Contracts\Container\BindingResolutionException
+     * @throws InvalidArgumentException
+     * @throws BindingResolutionException
      */
     protected function createMonologDriver(array $config)
     {
@@ -435,9 +439,9 @@ class LogManager implements LoggerInterface
     /**
      * Prepare the handler for usage by Monolog.
      *
-     * @param  \Monolog\Handler\HandlerInterface  $handler
+     * @param HandlerInterface $handler
      * @param  array  $config
-     * @return \Monolog\Handler\HandlerInterface
+     * @return HandlerInterface
      */
     protected function prepareHandler(HandlerInterface $handler, array $config = [])
     {
@@ -467,7 +471,7 @@ class LogManager implements LoggerInterface
     /**
      * Get a Monolog formatter instance.
      *
-     * @return \Monolog\Formatter\FormatterInterface
+     * @return FormatterInterface
      */
     protected function formatter()
     {
@@ -575,7 +579,7 @@ class LogManager implements LoggerInterface
      * Register a custom driver creator Closure.
      *
      * @param  string  $driver
-     * @param  \Closure  $callback
+     * @param Closure $callback
      * @return $this
      */
     public function extend($driver, Closure $callback)
@@ -630,7 +634,7 @@ class LogManager implements LoggerInterface
     /**
      * System is unusable.
      *
-     * @param  string|\Stringable  $message
+     * @param  string|Stringable  $message
      * @param  array  $context
      * @return void
      */
@@ -645,7 +649,7 @@ class LogManager implements LoggerInterface
      * Example: Entire website down, database unavailable, etc. This should
      * trigger the SMS alerts and wake you up.
      *
-     * @param  string|\Stringable  $message
+     * @param  string|Stringable  $message
      * @param  array  $context
      * @return void
      */
@@ -659,7 +663,7 @@ class LogManager implements LoggerInterface
      *
      * Example: Application component unavailable, unexpected exception.
      *
-     * @param  string|\Stringable  $message
+     * @param  string|Stringable  $message
      * @param  array  $context
      * @return void
      */
@@ -672,7 +676,7 @@ class LogManager implements LoggerInterface
      * Runtime errors that do not require immediate action but should typically
      * be logged and monitored.
      *
-     * @param  string|\Stringable  $message
+     * @param  string|Stringable  $message
      * @param  array  $context
      * @return void
      */
@@ -687,7 +691,7 @@ class LogManager implements LoggerInterface
      * Example: Use of deprecated APIs, poor use of an API, undesirable things
      * that are not necessarily wrong.
      *
-     * @param  string|\Stringable  $message
+     * @param  string|Stringable  $message
      * @param  array  $context
      * @return void
      */
@@ -699,7 +703,7 @@ class LogManager implements LoggerInterface
     /**
      * Normal but significant events.
      *
-     * @param  string|\Stringable  $message
+     * @param  string|Stringable  $message
      * @param  array  $context
      * @return void
      */
@@ -713,7 +717,7 @@ class LogManager implements LoggerInterface
      *
      * Example: User logs in, SQL logs.
      *
-     * @param  string|\Stringable  $message
+     * @param  string|Stringable  $message
      * @param  array  $context
      * @return void
      */
@@ -725,7 +729,7 @@ class LogManager implements LoggerInterface
     /**
      * Detailed debug information.
      *
-     * @param  string|\Stringable  $message
+     * @param  string|Stringable  $message
      * @param  array  $context
      * @return void
      */
@@ -738,7 +742,7 @@ class LogManager implements LoggerInterface
      * Logs with an arbitrary level.
      *
      * @param  mixed  $level
-     * @param  string|\Stringable  $message
+     * @param  string|Stringable  $message
      * @param  array  $context
      * @return void
      */

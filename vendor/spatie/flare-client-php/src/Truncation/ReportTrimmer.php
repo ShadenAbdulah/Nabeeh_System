@@ -6,7 +6,7 @@ class ReportTrimmer
 {
     protected static int $maxPayloadSize = 524288;
 
-    /** @var array<int, class-string<\Spatie\FlareClient\Truncation\TruncationStrategy>> */
+    /** @var array<int, class-string<TruncationStrategy>> */
     protected array $strategies = [
         TrimStringsStrategy::class,
         TrimStackFrameArgumentsStrategy::class,

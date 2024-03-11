@@ -8,6 +8,7 @@ use Doctrine\DBAL\Schema\View;
 use Illuminate\Database\ConnectionInterface;
 use Illuminate\Database\ConnectionResolverInterface;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
 use Symfony\Component\Console\Attribute\AsCommand;
 
 #[AsCommand(name: 'db:show')]
@@ -33,7 +34,7 @@ class ShowCommand extends DatabaseInspectionCommand
     /**
      * Execute the console command.
      *
-     * @param  \Illuminate\Database\ConnectionResolverInterface  $connections
+     * @param ConnectionResolverInterface $connections
      * @return int
      */
     public function handle(ConnectionResolverInterface $connections)
@@ -70,9 +71,9 @@ class ShowCommand extends DatabaseInspectionCommand
     /**
      * Get information regarding the tables within the database.
      *
-     * @param  \Illuminate\Database\ConnectionInterface  $connection
-     * @param  \Doctrine\DBAL\Schema\AbstractSchemaManager  $schema
-     * @return \Illuminate\Support\Collection
+     * @param ConnectionInterface $connection
+     * @param AbstractSchemaManager $schema
+     * @return Collection
      */
     protected function tables(ConnectionInterface $connection, AbstractSchemaManager $schema)
     {
@@ -88,9 +89,9 @@ class ShowCommand extends DatabaseInspectionCommand
     /**
      * Get information regarding the views within the database.
      *
-     * @param  \Illuminate\Database\ConnectionInterface  $connection
-     * @param  \Doctrine\DBAL\Schema\AbstractSchemaManager  $schema
-     * @return \Illuminate\Support\Collection
+     * @param ConnectionInterface $connection
+     * @param AbstractSchemaManager $schema
+     * @return Collection
      */
     protected function collectViews(ConnectionInterface $connection, AbstractSchemaManager $schema)
     {

@@ -3,6 +3,8 @@
 namespace Faker\ORM\CakePHP;
 
 use Cake\ORM\TableRegistry;
+use Exception;
+use RuntimeException;
 
 class EntityPopulator
 {
@@ -109,7 +111,7 @@ class EntityPopulator
                 }
 
                 if (empty($foreignKeys)) {
-                    throw new \Exception(sprintf('%s belongsTo %s, which seems empty at this point.', $this->getTable($this->class)->table(), $assoc->table()));
+                    throw new Exception(sprintf('%s belongsTo %s, which seems empty at this point.', $this->getTable($this->class)->table(), $assoc->table()));
                 }
 
                 $foreignKey = $foreignKeys[array_rand($foreignKeys)];
@@ -143,7 +145,7 @@ class EntityPopulator
         }
 
         if (!$entity = $table->save($entity, $options)) {
-            throw new \RuntimeException("Failed saving $class record");
+            throw new RuntimeException("Failed saving $class record");
         }
 
         $pk = $table->primaryKey();

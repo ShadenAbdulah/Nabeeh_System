@@ -5,6 +5,8 @@ use Aws\CommandInterface;
 use Aws\CommandPool;
 use Aws\Exception\AwsException;
 use Aws\ResultInterface;
+use InvalidArgumentException;
+use RuntimeException;
 
 /**
  * The WriteRequestBatch is an object that is capable of efficiently sending
@@ -51,7 +53,7 @@ class WriteRequestBatch
      *       BatchWriteItem operation, otherwise errors are ignored. It should
      *       accept an \Aws\Exception\AwsException as its argument.
      *
-     * @throws \InvalidArgumentException if the batch size is not between 2 and 25.
+     * @throws InvalidArgumentException if the batch size is not between 2 and 25.
      */
     public function __construct(DynamoDbClient $client, array $config = [])
     {
@@ -67,15 +69,15 @@ class WriteRequestBatch
 
         // Ensure the batch size is valid
         if ($config['batch_size'] > 25 || $config['batch_size'] < 2) {
-            throw new \InvalidArgumentException('"batch_size" must be between 2 and 25.');
+            throw new InvalidArgumentException('"batch_size" must be between 2 and 25.');
         }
 
         // Ensure the callbacks are valid
         if ($config['before'] && !is_callable($config['before'])) {
-            throw new \InvalidArgumentException('"before" must be callable.');
+            throw new InvalidArgumentException('"before" must be callable.');
         }
         if ($config['error'] && !is_callable($config['error'])) {
-            throw new \InvalidArgumentException('"error" must be callable.');
+            throw new InvalidArgumentException('"error" must be callable.');
         }
 
         // If autoflush is enabled, set the threshold
@@ -252,13 +254,13 @@ class WriteRequestBatch
      * @param string|null $table The table name.
      *
      * @return string
-     * @throws \RuntimeException if there was no table specified.
+     * @throws RuntimeException if there was no table specified.
      */
     private function determineTable($table)
     {
         $table = $table ?: $this->config['table'];
         if (!$table) {
-            throw new \RuntimeException('There was no table specified.');
+            throw new RuntimeException('There was no table specified.');
         }
 
         return $table;

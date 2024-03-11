@@ -2,6 +2,7 @@
 
 namespace Laravel\Fortify\Http\Responses;
 
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Validation\ValidationException;
 use Laravel\Fortify\Contracts\LockoutResponse as LockoutResponseContract;
@@ -13,14 +14,14 @@ class LockoutResponse implements LockoutResponseContract
     /**
      * The login rate limiter instance.
      *
-     * @var \Laravel\Fortify\LoginRateLimiter
+     * @var LoginRateLimiter
      */
     protected $limiter;
 
     /**
      * Create a new response instance.
      *
-     * @param  \Laravel\Fortify\LoginRateLimiter  $limiter
+     * @param LoginRateLimiter $limiter
      * @return void
      */
     public function __construct(LoginRateLimiter $limiter)
@@ -31,7 +32,7 @@ class LockoutResponse implements LockoutResponseContract
     /**
      * Create an HTTP response that represents the object.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  Request  $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function toResponse($request)

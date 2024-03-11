@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace GuzzleHttp\Psr7;
 
+use InvalidArgumentException;
 use Psr\Http\Message\MessageInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
+use RuntimeException;
 
 final class Message
 {
@@ -29,7 +31,7 @@ final class Message
                 .$message->getStatusCode().' '
                 .$message->getReasonPhrase();
         } else {
-            throw new \InvalidArgumentException('Unknown message type');
+            throw new InvalidArgumentException('Unknown message type');
         }
 
         foreach ($message->getHeaders() as $name => $values) {
@@ -92,7 +94,7 @@ final class Message
      *
      * @param MessageInterface $message Message to rewind
      *
-     * @throws \RuntimeException
+     * @throws RuntimeException
      */
     public static function rewindBody(MessageInterface $message): void
     {
@@ -115,7 +117,7 @@ final class Message
     public static function parseMessage(string $message): array
     {
         if (!$message) {
-            throw new \InvalidArgumentException('Invalid message');
+            throw new InvalidArgumentException('Invalid message');
         }
 
         $message = ltrim($message, "\r\n");
@@ -123,7 +125,7 @@ final class Message
         $messageParts = preg_split("/\r?\n\r?\n/", $message, 2);
 
         if ($messageParts === false || count($messageParts) !== 2) {
-            throw new \InvalidArgumentException('Invalid message: Missing header delimiter');
+            throw new InvalidArgumentException('Invalid message: Missing header delimiter');
         }
 
         [$rawHeaders, $body] = $messageParts;
@@ -131,7 +133,7 @@ final class Message
         $headerParts = preg_split("/\r?\n/", $rawHeaders, 2);
 
         if ($headerParts === false || count($headerParts) !== 2) {
-            throw new \InvalidArgumentException('Invalid message: Missing status line');
+            throw new InvalidArgumentException('Invalid message: Missing status line');
         }
 
         [$startLine, $rawHeaders] = $headerParts;
@@ -148,10 +150,10 @@ final class Message
         if ($count !== substr_count($rawHeaders, "\n")) {
             // Folding is deprecated, see https://datatracker.ietf.org/doc/html/rfc7230#section-3.2.4
             if (preg_match(Rfc7230::HEADER_FOLD_REGEX, $rawHeaders)) {
-                throw new \InvalidArgumentException('Invalid header syntax: Obsolete line folding');
+                throw new InvalidArgumentException('Invalid header syntax: Obsolete line folding');
             }
 
-            throw new \InvalidArgumentException('Invalid header syntax');
+            throw new InvalidArgumentException('Invalid header syntax');
         }
 
         $headers = [];
@@ -203,7 +205,7 @@ final class Message
         $data = self::parseMessage($message);
         $matches = [];
         if (!preg_match('/^[\S]+\s+([a-zA-Z]+:\/\/|\/).*/', $data['start-line'], $matches)) {
-            throw new \InvalidArgumentException('Invalid request string');
+            throw new InvalidArgumentException('Invalid request string');
         }
         $parts = explode(' ', $data['start-line'], 3);
         $version = isset($parts[2]) ? explode('/', $parts[2])[1] : '1.1';
@@ -231,7 +233,7 @@ final class Message
         // the space between status-code and reason-phrase is required. But
         // browsers accept responses without space and reason as well.
         if (!preg_match('/^HTTP\/.* [0-9]{3}( .*|$)/', $data['start-line'])) {
-            throw new \InvalidArgumentException('Invalid response string: '.$data['start-line']);
+            throw new InvalidArgumentException('Invalid response string: '.$data['start-line']);
         }
         $parts = explode(' ', $data['start-line'], 3);
 

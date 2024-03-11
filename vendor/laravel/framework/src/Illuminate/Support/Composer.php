@@ -14,7 +14,7 @@ class Composer
     /**
      * The filesystem instance.
      *
-     * @var \Illuminate\Filesystem\Filesystem
+     * @var Filesystem
      */
     protected $files;
 
@@ -28,7 +28,7 @@ class Composer
     /**
      * Create a new Composer manager instance.
      *
-     * @param  \Illuminate\Filesystem\Filesystem  $files
+     * @param Filesystem $files
      * @param  string|null  $workingPath
      * @return void
      */
@@ -59,7 +59,7 @@ class Composer
      *
      * @param  array<int, string>  $packages
      * @param  bool  $dev
-     * @param  \Closure|\Symfony\Component\Console\Output\OutputInterface|null  $output
+     * @param Closure|OutputInterface|null  $output
      * @param  string|null  $composerBinary
      * @return bool
      */
@@ -88,7 +88,7 @@ class Composer
      *
      * @param  array<int, string>  $packages
      * @param  bool  $dev
-     * @param  \Closure|\Symfony\Component\Console\Output\OutputInterface|null  $output
+     * @param Closure|OutputInterface|null  $output
      * @param  string|null  $composerBinary
      * @return bool
      */
@@ -212,7 +212,7 @@ class Composer
      *
      * @param  array  $command
      * @param  array  $env
-     * @return \Symfony\Component\Process\Process
+     * @return Process
      */
     protected function getProcess(array $command, array $env = [])
     {

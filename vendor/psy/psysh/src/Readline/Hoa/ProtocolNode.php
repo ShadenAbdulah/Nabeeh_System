@@ -36,10 +36,22 @@
 
 namespace Psy\Readline\Hoa;
 
+use ArrayAccess;
+use ArrayIterator;
+use IteratorAggregate;
+use ReturnTypeWillChange;
+use function array_key_exists;
+use function explode;
+use function str_repeat;
+use function strpos;
+use function strrpos;
+use function substr;
+use function trim;
+
 /**
  * Abstract class for all `hoa://`'s nodes.
  */
-class ProtocolNode implements \ArrayAccess, \IteratorAggregate
+class ProtocolNode implements ArrayAccess, IteratorAggregate
 {
     /**
      * Node's name.
@@ -82,7 +94,7 @@ class ProtocolNode implements \ArrayAccess, \IteratorAggregate
     /**
      * Add a node.
      */
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function offsetSet($name, $node)
     {
         if (!($node instanceof self)) {
@@ -117,13 +129,13 @@ class ProtocolNode implements \ArrayAccess, \IteratorAggregate
      */
     public function offsetExists($name): bool
     {
-        return true === \array_key_exists($name, $this->_children);
+        return true === array_key_exists($name, $this->_children);
     }
 
     /**
      * Remove a node.
      */
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function offsetUnset($name)
     {
         unset($this->_children[$name]);
@@ -135,8 +147,8 @@ class ProtocolNode implements \ArrayAccess, \IteratorAggregate
      */
     protected function _resolve(string $path, &$accumulator, string $id = null)
     {
-        if (\substr($path, 0, 6) === 'hoa://') {
-            $path = \substr($path, 6);
+        if (substr($path, 0, 6) === 'hoa://') {
+            $path = substr($path, 6);
         }
 
         if (empty($path)) {
@@ -145,21 +157,21 @@ class ProtocolNode implements \ArrayAccess, \IteratorAggregate
 
         if (null === $accumulator) {
             $accumulator = [];
-            $posId = \strpos($path, '#');
+            $posId = strpos($path, '#');
 
             if (false !== $posId) {
-                $id = \substr($path, $posId + 1);
-                $path = \substr($path, 0, $posId);
+                $id = substr($path, $posId + 1);
+                $path = substr($path, 0, $posId);
             } else {
                 $id = null;
             }
         }
 
-        $path = \trim($path, '/');
-        $pos = \strpos($path, '/');
+        $path = trim($path, '/');
+        $pos = strpos($path, '/');
 
         if (false !== $pos) {
-            $next = \substr($path, 0, $pos);
+            $next = substr($path, 0, $pos);
         } else {
             $next = $path;
         }
@@ -180,7 +192,7 @@ class ProtocolNode implements \ArrayAccess, \IteratorAggregate
             $tnext = $this[$next];
             $this->_resolveChoice($tnext->reach(), $accumulator);
 
-            return $tnext->_resolve(\substr($path, $pos + 1), $accumulator, $id);
+            return $tnext->_resolve(substr($path, $pos + 1), $accumulator, $id);
         }
 
         $this->_resolveChoice($this->reach($path), $accumulator);
@@ -198,14 +210,14 @@ class ProtocolNode implements \ArrayAccess, \IteratorAggregate
         }
 
         if (empty($accumulator)) {
-            $accumulator = \explode(';', $reach);
+            $accumulator = explode(';', $reach);
 
             return;
         }
 
-        if (false === \strpos($reach, ';')) {
-            if (false !== $pos = \strrpos($reach, "\r")) {
-                $reach = \substr($reach, $pos + 1);
+        if (false === strpos($reach, ';')) {
+            if (false !== $pos = strrpos($reach, "\r")) {
+                $reach = substr($reach, $pos + 1);
 
                 foreach ($accumulator as &$entry) {
                     $entry = null;
@@ -219,13 +231,13 @@ class ProtocolNode implements \ArrayAccess, \IteratorAggregate
             return;
         }
 
-        $choices = \explode(';', $reach);
+        $choices = explode(';', $reach);
         $ref = $accumulator;
         $accumulator = [];
 
         foreach ($choices as $choice) {
-            if (false !== $pos = \strrpos($choice, "\r")) {
-                $choice = \substr($choice, $pos + 1);
+            if (false !== $pos = strrpos($choice, "\r")) {
+                $choice = substr($choice, $pos + 1);
 
                 foreach ($ref as $entry) {
                     $accumulator[] = $choice;
@@ -290,9 +302,9 @@ class ProtocolNode implements \ArrayAccess, \IteratorAggregate
     /**
      * Get an iterator.
      */
-    public function getIterator(): \ArrayIterator
+    public function getIterator(): ArrayIterator
     {
-        return new \ArrayIterator($this->_children);
+        return new ArrayIterator($this->_children);
     }
 
     /**
@@ -310,7 +322,7 @@ class ProtocolNode implements \ArrayAccess, \IteratorAggregate
     {
         static $i = 0;
 
-        $out = \str_repeat('  ', $i).$this->getName()."\n";
+        $out = str_repeat('  ', $i).$this->getName()."\n";
 
         foreach ($this as $node) {
             ++$i;

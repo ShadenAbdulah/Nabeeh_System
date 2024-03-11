@@ -11,6 +11,10 @@
 
 namespace Symfony\Component\String\Inflector;
 
+use function in_array;
+use function is_array;
+use function strlen;
+
 final class EnglishInflector implements InflectorInterface
 {
     /**
@@ -402,10 +406,10 @@ final class EnglishInflector implements InflectorInterface
     {
         $pluralRev = strrev($plural);
         $lowerPluralRev = strtolower($pluralRev);
-        $pluralLength = \strlen($lowerPluralRev);
+        $pluralLength = strlen($lowerPluralRev);
 
         // Check if the word is one which is not inflected, return early if so
-        if (\in_array($lowerPluralRev, self::UNINFLECTED, true)) {
+        if (in_array($lowerPluralRev, self::UNINFLECTED, true)) {
             return [$plural];
         }
 
@@ -450,7 +454,7 @@ final class EnglishInflector implements InflectorInterface
                     // the singular suffix too
                     $firstUpper = ctype_upper($pluralRev[$j - 1]);
 
-                    if (\is_array($newSuffix)) {
+                    if (is_array($newSuffix)) {
                         $singulars = [];
 
                         foreach ($newSuffix as $newSuffixEntry) {
@@ -478,10 +482,10 @@ final class EnglishInflector implements InflectorInterface
     {
         $singularRev = strrev($singular);
         $lowerSingularRev = strtolower($singularRev);
-        $singularLength = \strlen($lowerSingularRev);
+        $singularLength = strlen($lowerSingularRev);
 
         // Check if the word is one which is not inflected, return early if so
-        if (\in_array($lowerSingularRev, self::UNINFLECTED, true)) {
+        if (in_array($lowerSingularRev, self::UNINFLECTED, true)) {
             return [$singular];
         }
 
@@ -527,7 +531,7 @@ final class EnglishInflector implements InflectorInterface
                     // the singular suffix too
                     $firstUpper = ctype_upper($singularRev[$j - 1]);
 
-                    if (\is_array($newSuffix)) {
+                    if (is_array($newSuffix)) {
                         $plurals = [];
 
                         foreach ($newSuffix as $newSuffixEntry) {

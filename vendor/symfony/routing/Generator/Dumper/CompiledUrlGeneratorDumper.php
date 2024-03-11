@@ -14,6 +14,7 @@ namespace Symfony\Component\Routing\Generator\Dumper;
 use Symfony\Component\Routing\Exception\RouteCircularReferenceException;
 use Symfony\Component\Routing\Exception\RouteNotFoundException;
 use Symfony\Component\Routing\Matcher\Dumper\CompiledUrlMatcherDumper;
+use function array_slice;
 
 /**
  * CompiledUrlGeneratorDumper creates a PHP array to be used with CompiledUrlGenerator.
@@ -56,7 +57,7 @@ class CompiledUrlGeneratorDumper extends GeneratorDumper
                 if (false !== $searchKey = array_search($currentId, $visited)) {
                     $visited[] = $currentId;
 
-                    throw new RouteCircularReferenceException($currentId, \array_slice($visited, $searchKey));
+                    throw new RouteCircularReferenceException($currentId, array_slice($visited, $searchKey));
                 }
 
                 if ($alias->isDeprecated()) {

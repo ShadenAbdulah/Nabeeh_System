@@ -9,6 +9,7 @@ use Aws\Exception\AwsException;
 use Aws\Exception\UnresolvedEndpointException;
 use Aws\LruArrayCache;
 use Aws\Middleware;
+use Exception;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\UriInterface;
 
@@ -114,7 +115,7 @@ class EndpointDiscoveryMiddleware
                             $cmd,
                             $identifiers
                         );
-                    } catch (\Exception $e) {
+                    } catch (Exception $e) {
                         // Use cached endpoint, expired or active, if any remain
                         $endpoint = $endpointList->getEndpoint();
 
@@ -160,7 +161,7 @@ class EndpointDiscoveryMiddleware
                             $g
                         );
                     }
-                    
+
                     return $value;
                 };
 
@@ -268,7 +269,7 @@ class EndpointDiscoveryMiddleware
     private function handleDiscoveryException(
         $isRequired,
         $originalUri,
-        \Exception $e,
+        Exception $e,
         CommandInterface $cmd,
         RequestInterface $request
     ) {

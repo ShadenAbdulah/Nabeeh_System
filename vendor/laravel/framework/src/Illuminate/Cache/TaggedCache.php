@@ -2,6 +2,7 @@
 
 namespace Illuminate\Cache;
 
+use Illuminate\Cache\Events\CacheEvent;
 use Illuminate\Contracts\Cache\Store;
 
 class TaggedCache extends Repository
@@ -13,15 +14,15 @@ class TaggedCache extends Repository
     /**
      * The tag set instance.
      *
-     * @var \Illuminate\Cache\TagSet
+     * @var TagSet
      */
     protected $tags;
 
     /**
      * Create a new tagged cache instance.
      *
-     * @param  \Illuminate\Contracts\Cache\Store  $store
-     * @param  \Illuminate\Cache\TagSet  $tags
+     * @param Store $store
+     * @param TagSet $tags
      * @return void
      */
     public function __construct(Store $store, TagSet $tags)
@@ -105,7 +106,7 @@ class TaggedCache extends Repository
     /**
      * Fire an event for this cache instance.
      *
-     * @param  \Illuminate\Cache\Events\CacheEvent  $event
+     * @param  CacheEvent  $event
      * @return void
      */
     protected function event($event)
@@ -116,7 +117,7 @@ class TaggedCache extends Repository
     /**
      * Get the tag set instance.
      *
-     * @return \Illuminate\Cache\TagSet
+     * @return TagSet
      */
     public function getTags()
     {

@@ -7,13 +7,14 @@ use DateTimeInterface;
 use Exception;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Date;
+use Throwable;
 
 class DynamoDbFailedJobProvider implements FailedJobProviderInterface
 {
     /**
      * The DynamoDB client instance.
      *
-     * @var \Aws\DynamoDb\DynamoDbClient
+     * @var DynamoDbClient
      */
     protected $dynamo;
 
@@ -34,7 +35,7 @@ class DynamoDbFailedJobProvider implements FailedJobProviderInterface
     /**
      * Create a new DynamoDb failed job provider.
      *
-     * @param  \Aws\DynamoDb\DynamoDbClient  $dynamo
+     * @param DynamoDbClient $dynamo
      * @param  string  $applicationName
      * @param  string  $table
      * @return void
@@ -52,7 +53,7 @@ class DynamoDbFailedJobProvider implements FailedJobProviderInterface
      * @param  string  $connection
      * @param  string  $queue
      * @param  string  $payload
-     * @param  \Throwable  $exception
+     * @param  Throwable  $exception
      * @return string|int|null
      */
     public function log($connection, $queue, $payload, $exception)
@@ -182,7 +183,7 @@ class DynamoDbFailedJobProvider implements FailedJobProviderInterface
      * @param  int|null  $hours
      * @return void
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function flush($hours = null)
     {

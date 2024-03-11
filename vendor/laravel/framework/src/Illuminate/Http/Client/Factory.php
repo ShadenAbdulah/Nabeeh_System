@@ -9,12 +9,13 @@ use GuzzleHttp\Promise\PromiseInterface;
 use GuzzleHttp\Psr7\Response as Psr7Response;
 use GuzzleHttp\TransferStats;
 use Illuminate\Contracts\Events\Dispatcher;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Illuminate\Support\Traits\Macroable;
 use PHPUnit\Framework\Assert as PHPUnit;
 
 /**
- * @mixin \Illuminate\Http\Client\PendingRequest
+ * @mixin PendingRequest
  */
 class Factory
 {
@@ -25,7 +26,7 @@ class Factory
     /**
      * The event dispatcher implementation.
      *
-     * @var \Illuminate\Contracts\Events\Dispatcher|null
+     * @var Dispatcher|null
      */
     protected $dispatcher;
 
@@ -46,7 +47,7 @@ class Factory
     /**
      * The stub callables that will handle requests.
      *
-     * @var \Illuminate\Support\Collection
+     * @var Collection
      */
     protected $stubCallbacks;
 
@@ -81,7 +82,7 @@ class Factory
     /**
      * Create a new factory instance.
      *
-     * @param  \Illuminate\Contracts\Events\Dispatcher|null  $dispatcher
+     * @param Dispatcher|null  $dispatcher
      * @return void
      */
     public function __construct(Dispatcher $dispatcher = null)
@@ -149,7 +150,7 @@ class Factory
      * @param  array|string|null  $body
      * @param  int  $status
      * @param  array  $headers
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return PromiseInterface
      */
     public static function response($body = null, $status = 200, $headers = [])
     {
@@ -168,7 +169,7 @@ class Factory
      * Get an invokable object that returns a sequence of responses in order for use during stubbing.
      *
      * @param  array  $responses
-     * @return \Illuminate\Http\Client\ResponseSequence
+     * @return ResponseSequence
      */
     public function sequence(array $responses = [])
     {
@@ -225,7 +226,7 @@ class Factory
      * Register a response sequence for the given URL pattern.
      *
      * @param  string  $url
-     * @return \Illuminate\Http\Client\ResponseSequence
+     * @return ResponseSequence
      */
     public function fakeSequence($url = '*')
     {
@@ -238,7 +239,7 @@ class Factory
      * Stub the given URL using the given callback.
      *
      * @param  string  $url
-     * @param  \Illuminate\Http\Client\Response|\GuzzleHttp\Promise\PromiseInterface|callable  $callback
+     * @param Response|PromiseInterface|callable  $callback
      * @return $this
      */
     public function stubUrl($url, $callback)
@@ -292,8 +293,8 @@ class Factory
     /**
      * Record a request response pair.
      *
-     * @param  \Illuminate\Http\Client\Request  $request
-     * @param  \Illuminate\Http\Client\Response  $response
+     * @param Request $request
+     * @param Response $response
      * @return void
      */
     public function recordRequestResponsePair($request, $response)
@@ -396,7 +397,7 @@ class Factory
      * Get a collection of the request / response pairs matching the given truth test.
      *
      * @param  callable  $callback
-     * @return \Illuminate\Support\Collection
+     * @return Collection
      */
     public function recorded($callback = null)
     {
@@ -416,7 +417,7 @@ class Factory
     /**
      * Create a new pending request instance for this factory.
      *
-     * @return \Illuminate\Http\Client\PendingRequest
+     * @return PendingRequest
      */
     protected function newPendingRequest()
     {
@@ -426,7 +427,7 @@ class Factory
     /**
      * Get the current event dispatcher implementation.
      *
-     * @return \Illuminate\Contracts\Events\Dispatcher|null
+     * @return Dispatcher|null
      */
     public function getDispatcher()
     {

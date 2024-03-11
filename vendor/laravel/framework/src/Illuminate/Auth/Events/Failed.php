@@ -2,6 +2,8 @@
 
 namespace Illuminate\Auth\Events;
 
+use Illuminate\Contracts\Auth\Authenticatable;
+
 class Failed
 {
     /**
@@ -14,7 +16,7 @@ class Failed
     /**
      * The user the attempter was trying to authenticate as.
      *
-     * @var \Illuminate\Contracts\Auth\Authenticatable|null
+     * @var Authenticatable|null
      */
     public $user;
 
@@ -29,7 +31,7 @@ class Failed
      * Create a new event instance.
      *
      * @param  string  $guard
-     * @param  \Illuminate\Contracts\Auth\Authenticatable|null  $user
+     * @param  Authenticatable|null  $user
      * @param  array  $credentials
      * @return void
      */

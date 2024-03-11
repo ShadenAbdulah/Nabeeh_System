@@ -11,6 +11,7 @@
 
 namespace Symfony\Component\HttpKernel\Controller;
 
+use LogicException;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -35,7 +36,7 @@ interface ControllerResolverInterface
      * @return callable|false A PHP callable representing the Controller,
      *                        or false if this resolver is not able to determine the controller
      *
-     * @throws \LogicException If a controller was found based on the request but it is not callable
+     * @throws LogicException If a controller was found based on the request but it is not callable
      */
     public function getController(Request $request): callable|false;
 }

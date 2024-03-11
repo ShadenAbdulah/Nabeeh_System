@@ -2,13 +2,14 @@
 
 namespace Faker\Guesser;
 
+use Faker\Generator;
 use Faker\Provider\Base;
 
 class Name
 {
     protected $generator;
 
-    public function __construct(\Faker\Generator $generator)
+    public function __construct(Generator $generator)
     {
         $this->generator = $generator;
     }

@@ -2,6 +2,7 @@
 
 namespace Illuminate\View\Concerns;
 
+use Closure;
 use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
@@ -47,7 +48,7 @@ trait ManagesComponents
     /**
      * Start a component rendering process.
      *
-     * @param  \Illuminate\Contracts\View\View|\Illuminate\Contracts\Support\Htmlable|\Closure|string  $view
+     * @param View|Htmlable|Closure|string  $view
      * @param  array  $data
      * @return void
      */

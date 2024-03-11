@@ -2,14 +2,17 @@
 
 namespace Illuminate\Queue\Capsule;
 
+use DateInterval;
+use DateTimeInterface;
 use Illuminate\Container\Container;
+use Illuminate\Contracts\Queue\Queue;
 use Illuminate\Queue\QueueManager;
 use Illuminate\Queue\QueueServiceProvider;
 use Illuminate\Support\Traits\CapsuleManagerTrait;
 
 /**
- * @mixin \Illuminate\Queue\QueueManager
- * @mixin \Illuminate\Contracts\Queue\Queue
+ * @mixin QueueManager
+ * @mixin Queue
  */
 class Manager
 {
@@ -18,14 +21,14 @@ class Manager
     /**
      * The queue manager instance.
      *
-     * @var \Illuminate\Queue\QueueManager
+     * @var QueueManager
      */
     protected $manager;
 
     /**
      * Create a new queue capsule manager.
      *
-     * @param  \Illuminate\Container\Container|null  $container
+     * @param Container|null  $container
      * @return void
      */
     public function __construct(Container $container = null)
@@ -78,7 +81,7 @@ class Manager
      * Get a connection instance from the global manager.
      *
      * @param  string|null  $connection
-     * @return \Illuminate\Contracts\Queue\Queue
+     * @return Queue
      */
     public static function connection($connection = null)
     {
@@ -116,7 +119,7 @@ class Manager
     /**
      * Push a new job onto the queue after (n) seconds.
      *
-     * @param  \DateTimeInterface|\DateInterval|int  $delay
+     * @param  DateTimeInterface|DateInterval|int  $delay
      * @param  string  $job
      * @param  mixed  $data
      * @param  string|null  $queue
@@ -132,7 +135,7 @@ class Manager
      * Get a registered connection instance.
      *
      * @param  string|null  $name
-     * @return \Illuminate\Contracts\Queue\Queue
+     * @return Queue
      */
     public function getConnection($name = null)
     {
@@ -154,7 +157,7 @@ class Manager
     /**
      * Get the queue manager instance.
      *
-     * @return \Illuminate\Queue\QueueManager
+     * @return QueueManager
      */
     public function getQueueManager()
     {

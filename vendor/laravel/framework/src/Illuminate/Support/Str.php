@@ -3,6 +3,8 @@
 namespace Illuminate\Support;
 
 use Closure;
+use Countable;
+use DateTimeInterface;
 use Illuminate\Support\Traits\Macroable;
 use JsonException;
 use League\CommonMark\Environment\Environment;
@@ -14,6 +16,7 @@ use Ramsey\Uuid\Codec\TimestampFirstCombCodec;
 use Ramsey\Uuid\Generator\CombGenerator;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidFactory;
+use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\Uid\Ulid;
 use Throwable;
 use Traversable;
@@ -69,7 +72,7 @@ class Str
      * Get a new stringable object from the given string.
      *
      * @param  string  $string
-     * @return \Illuminate\Support\Stringable
+     * @return Stringable
      */
     public static function of($string)
     {
@@ -748,7 +751,7 @@ class Str
      *
      * @param  string  $pattern
      * @param  string  $subject
-     * @return \Illuminate\Support\Collection
+     * @return Collection
      */
     public static function matchAll($pattern, $subject)
     {
@@ -849,7 +852,7 @@ class Str
      * Get the plural form of an English word.
      *
      * @param  string  $value
-     * @param  int|array|\Countable  $count
+     * @param  int|array|Countable  $count
      * @return string
      */
     public static function plural($value, $count = 2)
@@ -861,7 +864,7 @@ class Str
      * Pluralize the last word of an English, studly caps case string.
      *
      * @param  string  $value
-     * @param  int|array|\Countable  $count
+     * @param  int|array|Countable  $count
      * @return string
      */
     public static function pluralStudly($value, $count = 2)
@@ -1189,7 +1192,7 @@ class Str
      * Replace the patterns matching the given regular expression.
      *
      * @param  array|string  $pattern
-     * @param  \Closure|string  $replace
+     * @param Closure|string  $replace
      * @param  array|string  $subject
      * @param  int  $limit
      * @return string|string[]|null
@@ -1624,7 +1627,7 @@ class Str
     /**
      * Generate a UUID (version 4).
      *
-     * @return \Ramsey\Uuid\UuidInterface
+     * @return UuidInterface
      */
     public static function uuid()
     {
@@ -1636,7 +1639,7 @@ class Str
     /**
      * Generate a time-ordered UUID.
      *
-     * @return \Ramsey\Uuid\UuidInterface
+     * @return UuidInterface
      */
     public static function orderedUuid()
     {
@@ -1706,8 +1709,8 @@ class Str
     /**
      * Always return the same UUID when generating new UUIDs.
      *
-     * @param  \Closure|null  $callback
-     * @return \Ramsey\Uuid\UuidInterface
+     * @param Closure|null  $callback
+     * @return UuidInterface
      */
     public static function freezeUuids(Closure $callback = null)
     {
@@ -1739,8 +1742,8 @@ class Str
     /**
      * Generate a ULID.
      *
-     * @param  \DateTimeInterface|null  $time
-     * @return \Symfony\Component\Uid\Ulid
+     * @param  DateTimeInterface|null  $time
+     * @return Ulid
      */
     public static function ulid($time = null)
     {

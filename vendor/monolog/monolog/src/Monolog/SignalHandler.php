@@ -14,6 +14,7 @@ namespace Monolog;
 use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
 use ReflectionExtension;
+use function count;
 
 /**
  * Monolog POSIX signal handler
@@ -26,7 +27,7 @@ class SignalHandler
 
     /** @var array<int, callable|string|int> SIG_DFL, SIG_IGN or previous callable */
     private array $previousSignalHandler = [];
-    /** @var array<int, \Psr\Log\LogLevel::*> */
+    /** @var array<int, LogLevel::*> */
     private array $signalLevelMap = [];
     /** @var array<int, bool> */
     private array $signalRestartSyscalls = [];
@@ -76,7 +77,7 @@ class SignalHandler
         /** @var array<int, string> $signals */
         static $signals = [];
 
-        if (\count($signals) === 0 && extension_loaded('pcntl')) {
+        if (count($signals) === 0 && extension_loaded('pcntl')) {
             $pcntl = new ReflectionExtension('pcntl');
             foreach ($pcntl->getConstants() as $name => $value) {
                 if (substr($name, 0, 3) === 'SIG' && $name[3] !== '_' && is_int($value)) {

@@ -11,13 +11,15 @@
 
 namespace Symfony\Component\HttpKernel\Exception;
 
+use Throwable;
+
 /**
  * @author Fabien Potencier <fabien@symfony.com>
  * @author Christophe Coevoet <stof@notk.org>
  */
 class AccessDeniedHttpException extends HttpException
 {
-    public function __construct(string $message = '', ?\Throwable $previous = null, int $code = 0, array $headers = [])
+    public function __construct(string $message = '', ?Throwable $previous = null, int $code = 0, array $headers = [])
     {
         parent::__construct(403, $message, $previous, $headers, $code);
     }

@@ -3,6 +3,7 @@
 namespace Illuminate\Support;
 
 use Closure;
+use Illuminate\Contracts\Config\Repository;
 use Illuminate\Contracts\Container\Container;
 use InvalidArgumentException;
 
@@ -11,14 +12,14 @@ abstract class Manager
     /**
      * The container instance.
      *
-     * @var \Illuminate\Contracts\Container\Container
+     * @var Container
      */
     protected $container;
 
     /**
      * The configuration repository instance.
      *
-     * @var \Illuminate\Contracts\Config\Repository
+     * @var Repository
      */
     protected $config;
 
@@ -39,7 +40,7 @@ abstract class Manager
     /**
      * Create a new manager instance.
      *
-     * @param  \Illuminate\Contracts\Container\Container  $container
+     * @param Container $container
      * @return void
      */
     public function __construct(Container $container)
@@ -61,7 +62,7 @@ abstract class Manager
      * @param  string|null  $driver
      * @return mixed
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function driver($driver = null)
     {
@@ -89,7 +90,7 @@ abstract class Manager
      * @param  string  $driver
      * @return mixed
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     protected function createDriver($driver)
     {
@@ -124,7 +125,7 @@ abstract class Manager
      * Register a custom driver creator Closure.
      *
      * @param  string  $driver
-     * @param  \Closure  $callback
+     * @param Closure $callback
      * @return $this
      */
     public function extend($driver, Closure $callback)
@@ -147,7 +148,7 @@ abstract class Manager
     /**
      * Get the container instance used by the manager.
      *
-     * @return \Illuminate\Contracts\Container\Container
+     * @return Container
      */
     public function getContainer()
     {
@@ -157,7 +158,7 @@ abstract class Manager
     /**
      * Set the container instance used by the manager.
      *
-     * @param  \Illuminate\Contracts\Container\Container  $container
+     * @param Container $container
      * @return $this
      */
     public function setContainer(Container $container)

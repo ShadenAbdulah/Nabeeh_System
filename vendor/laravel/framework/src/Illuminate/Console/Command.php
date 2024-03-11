@@ -4,6 +4,7 @@ namespace Illuminate\Console;
 
 use Illuminate\Console\View\Components\Factory;
 use Illuminate\Contracts\Console\Isolatable;
+use Illuminate\Contracts\Container\Container;
 use Illuminate\Support\Traits\Macroable;
 use Symfony\Component\Console\Command\Command as SymfonyCommand;
 use Symfony\Component\Console\Input\InputInterface;
@@ -162,8 +163,8 @@ class Command extends SymfonyCommand
     /**
      * Run the console command.
      *
-     * @param  \Symfony\Component\Console\Input\InputInterface  $input
-     * @param  \Symfony\Component\Console\Output\OutputInterface  $output
+     * @param InputInterface $input
+     * @param OutputInterface $output
      * @return int
      */
     public function run(InputInterface $input, OutputInterface $output): int
@@ -188,8 +189,8 @@ class Command extends SymfonyCommand
     /**
      * Execute the console command.
      *
-     * @param  \Symfony\Component\Console\Input\InputInterface  $input
-     * @param  \Symfony\Component\Console\Output\OutputInterface  $output
+     * @param InputInterface $input
+     * @param OutputInterface $output
      * @return int
      */
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -219,7 +220,7 @@ class Command extends SymfonyCommand
     /**
      * Get a command isolation mutex instance for the command.
      *
-     * @return \Illuminate\Console\CommandMutex
+     * @return CommandMutex
      */
     protected function commandIsolationMutex()
     {
@@ -231,8 +232,8 @@ class Command extends SymfonyCommand
     /**
      * Resolve the console command instance for the given command.
      *
-     * @param  \Symfony\Component\Console\Command\Command|string  $command
-     * @return \Symfony\Component\Console\Command\Command
+     * @param SymfonyCommand|string  $command
+     * @return SymfonyCommand
      */
     protected function resolveCommand($command)
     {
@@ -286,7 +287,7 @@ class Command extends SymfonyCommand
     /**
      * Set the Laravel application instance.
      *
-     * @param  \Illuminate\Contracts\Container\Container  $laravel
+     * @param  Container  $laravel
      * @return void
      */
     public function setLaravel($laravel)

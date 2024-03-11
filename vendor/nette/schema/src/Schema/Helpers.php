@@ -9,8 +9,13 @@ declare(strict_types=1);
 
 namespace Nette\Schema;
 
+use Closure;
 use Nette;
 use Nette\Utils\Reflection;
+use ReflectionParameter;
+use ReflectionProperty;
+use Reflector;
+use stdClass;
 
 
 /**
@@ -55,12 +60,12 @@ final class Helpers
 	}
 
 
-	public static function getPropertyType(\ReflectionProperty|\ReflectionParameter $prop): ?string
+	public static function getPropertyType(ReflectionProperty|ReflectionParameter $prop): ?string
 	{
 		if ($type = Nette\Utils\Type::fromReflection($prop)) {
 			return (string) $type;
 		} elseif (
-			($prop instanceof \ReflectionProperty)
+			($prop instanceof ReflectionProperty)
 			&& ($type = preg_replace('#\s.*#', '', (string) self::parseAnnotation($prop, 'var')))
 		) {
 			$class = Reflection::getPropertyDeclaringClass($prop);
@@ -73,9 +78,9 @@ final class Helpers
 
 	/**
 	 * Returns an annotation value.
-	 * @param  \ReflectionProperty  $ref
+	 * @param  ReflectionProperty  $ref
 	 */
-	public static function parseAnnotation(\Reflector $ref, string $name): ?string
+	public static function parseAnnotation(Reflector $ref, string $name): ?string
 	{
 		if (!Reflection::areCommentsAvailable()) {
 			throw new Nette\InvalidStateException('You have to enable phpDoc comments in opcode cache.');
@@ -165,7 +170,7 @@ final class Helpers
 	}
 
 
-	public static function getCastStrategy(string $type): \Closure
+	public static function getCastStrategy(string $type): Closure
 	{
 		if (Nette\Utils\Reflection::isBuiltinType($type)) {
 			return static function ($value) use ($type) {
@@ -173,7 +178,7 @@ final class Helpers
 				return $value;
 			};
 		} elseif (method_exists($type, '__construct')) {
-			return static fn($value) => is_array($value) || $value instanceof \stdClass
+			return static fn($value) => is_array($value) || $value instanceof stdClass
 				? new $type(...(array) $value)
 				: new $type($value);
 		} else {

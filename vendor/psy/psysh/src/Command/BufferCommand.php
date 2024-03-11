@@ -13,9 +13,12 @@ namespace Psy\Command;
 
 use Psy\Exception\RuntimeException;
 use Psy\Output\ShellOutput;
+use Psy\Shell;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use function array_map;
+use function sprintf;
 
 /**
  * Interact with the current code buffer.
@@ -53,7 +56,7 @@ HELP
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $app = $this->getApplication();
-        if (!$app instanceof \Psy\Shell) {
+        if (!$app instanceof Shell) {
             throw new RuntimeException('Buffer command requires a \Psy\Shell application');
         }
 
@@ -78,10 +81,10 @@ HELP
      */
     protected function formatLines(array $lines, string $type = 'return'): array
     {
-        $template = \sprintf('<%s>%%s</%s>', $type, $type);
+        $template = sprintf('<%s>%%s</%s>', $type, $type);
 
-        return \array_map(function ($line) use ($template) {
-            return \sprintf($template, $line);
+        return array_map(function ($line) use ($template) {
+            return sprintf($template, $line);
         }, $lines);
     }
 }

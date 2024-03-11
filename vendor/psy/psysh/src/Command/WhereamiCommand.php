@@ -17,6 +17,22 @@ use Psy\Shell;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use function array_reverse;
+use function compact;
+use function debug_backtrace;
+use function end;
+use function file_get_contents;
+use function getcwd;
+use function in_array;
+use function max;
+use function preg_match;
+use function preg_match_all;
+use function preg_quote;
+use function preg_replace;
+use function rtrim;
+use function sprintf;
+use const DEBUG_BACKTRACE_IGNORE_ARGS;
+use const DIRECTORY_SEPARATOR;
 
 /**
  * Show the context of where you opened the debugger.
@@ -27,7 +43,7 @@ class WhereamiCommand extends Command
 
     public function __construct()
     {
-        $this->backtrace = \debug_backtrace(\DEBUG_BACKTRACE_IGNORE_ARGS);
+        $this->backtrace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
 
         parent::__construct();
     }
@@ -66,13 +82,13 @@ HELP
      */
     protected function trace(): array
     {
-        foreach (\array_reverse($this->backtrace) as $stackFrame) {
+        foreach (array_reverse($this->backtrace) as $stackFrame) {
             if ($this->isDebugCall($stackFrame)) {
                 return $stackFrame;
             }
         }
 
-        return \end($this->backtrace);
+        return end($this->backtrace);
     }
 
     private static function isDebugCall(array $stackFrame): bool
@@ -81,7 +97,7 @@ HELP
         $function = isset($stackFrame['function']) ? $stackFrame['function'] : null;
 
         return ($class === null && $function === 'Psy\\debug') ||
-            ($class === Shell::class && \in_array($function, ['__construct', 'debug']));
+            ($class === Shell::class && in_array($function, ['__construct', 'debug']));
     }
 
     /**
@@ -92,8 +108,8 @@ HELP
     protected function fileInfo(): array
     {
         $stackFrame = $this->trace();
-        if (\preg_match('/eval\(/', $stackFrame['file'])) {
-            \preg_match_all('/([^\(]+)\((\d+)/', $stackFrame['file'], $matches);
+        if (preg_match('/eval\(/', $stackFrame['file'])) {
+            preg_match_all('/([^\(]+)\((\d+)/', $stackFrame['file'], $matches);
             $file = $matches[1][0];
             $line = (int) $matches[2][0];
         } else {
@@ -101,7 +117,7 @@ HELP
             $line = $stackFrame['line'];
         }
 
-        return \compact('file', 'line');
+        return compact('file', 'line');
     }
 
     /**
@@ -114,9 +130,9 @@ HELP
         $info = $this->fileInfo();
         $num = $input->getOption('num');
         $lineNum = $info['line'];
-        $startLine = \max($lineNum - $num, 1);
+        $startLine = max($lineNum - $num, 1);
         $endLine = $lineNum + $num;
-        $code = \file_get_contents($info['file']);
+        $code = file_get_contents($info['file']);
 
         if ($input->getOption('file')) {
             $startLine = 1;
@@ -127,7 +143,7 @@ HELP
             $output->startPaging();
         }
 
-        $output->writeln(\sprintf('From <info>%s:%s</info>:', $this->replaceCwd($info['file']), $lineNum));
+        $output->writeln(sprintf('From <info>%s:%s</info>:', $this->replaceCwd($info['file']), $lineNum));
         $output->write(CodeFormatter::formatCode($code, $startLine, $endLine, $lineNum), false);
 
         if ($output instanceof ShellOutput) {
@@ -144,13 +160,13 @@ HELP
      */
     private function replaceCwd(string $file): string
     {
-        $cwd = \getcwd();
+        $cwd = getcwd();
         if ($cwd === false) {
             return $file;
         }
 
-        $cwd = \rtrim($cwd, \DIRECTORY_SEPARATOR).\DIRECTORY_SEPARATOR;
+        $cwd = rtrim($cwd, DIRECTORY_SEPARATOR). DIRECTORY_SEPARATOR;
 
-        return \preg_replace('/^'.\preg_quote($cwd, '/').'/', '', $file);
+        return preg_replace('/^'. preg_quote($cwd, '/').'/', '', $file);
     }
 }

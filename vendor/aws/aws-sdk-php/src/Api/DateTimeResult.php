@@ -6,12 +6,16 @@ use Aws\Api\Parser\Exception\ParserException;
 use DateTime;
 use DateTimeZone;
 use Exception;
+use JsonSerializable;
+use ReturnTypeWillChange;
+use function Aws\is_valid_epoch;
+use const PHP_VERSION_ID;
 
 /**
  * DateTime overrides that make DateTime work more seamlessly as a string,
  * with JSON documents, and with JMESPath.
  */
-class DateTimeResult extends \DateTime implements \JsonSerializable
+class DateTimeResult extends DateTime implements JsonSerializable
 {
     /**
      * Create a new DateTimeResult from a unix timestamp.
@@ -29,7 +33,7 @@ class DateTimeResult extends \DateTime implements \JsonSerializable
         }
 
         // PHP 5.5 does not support sub-second precision
-        if (\PHP_VERSION_ID < 56000) {
+        if (PHP_VERSION_ID < 56000) {
             return new self(gmdate('c', $unixTimestamp));
         }
 
@@ -92,7 +96,7 @@ class DateTimeResult extends \DateTime implements \JsonSerializable
                 } catch (Exception $exception) {
                     return self::fromISO8601($timestamp);
                 }
-            } else if (\Aws\is_valid_epoch($timestamp)) {
+            } else if (is_valid_epoch($timestamp)) {
                 return self::fromEpoch($timestamp);
             }
             return self::fromISO8601($timestamp);
@@ -116,7 +120,7 @@ class DateTimeResult extends \DateTime implements \JsonSerializable
      *
      * @return string
      */
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function jsonSerialize()
     {
         return (string) $this;

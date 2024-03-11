@@ -13,6 +13,7 @@ namespace Symfony\Component\Mailer;
 
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Psr\Log\LoggerInterface;
+use SensitiveParameter;
 use Symfony\Component\Mailer\Bridge\Amazon\Transport\SesTransportFactory;
 use Symfony\Component\Mailer\Bridge\Brevo\Transport\BrevoTransportFactory;
 use Symfony\Component\Mailer\Bridge\Google\Transport\GmailTransportFactory;
@@ -40,6 +41,8 @@ use Symfony\Component\Mailer\Transport\TransportFactoryInterface;
 use Symfony\Component\Mailer\Transport\TransportInterface;
 use Symfony\Component\Mailer\Transport\Transports;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
+use Traversable;
+use function strlen;
 
 /**
  * @author Fabien Potencier <fabien@symfony.com>
@@ -66,14 +69,14 @@ final class Transport
 
     private iterable $factories;
 
-    public static function fromDsn(#[\SensitiveParameter] string $dsn, ?EventDispatcherInterface $dispatcher = null, ?HttpClientInterface $client = null, ?LoggerInterface $logger = null): TransportInterface
+    public static function fromDsn(#[SensitiveParameter] string $dsn, ?EventDispatcherInterface $dispatcher = null, ?HttpClientInterface $client = null, ?LoggerInterface $logger = null): TransportInterface
     {
         $factory = new self(iterator_to_array(self::getDefaultFactories($dispatcher, $client, $logger)));
 
         return $factory->fromString($dsn);
     }
 
-    public static function fromDsns(#[\SensitiveParameter] array $dsns, ?EventDispatcherInterface $dispatcher = null, ?HttpClientInterface $client = null, ?LoggerInterface $logger = null): TransportInterface
+    public static function fromDsns(#[SensitiveParameter] array $dsns, ?EventDispatcherInterface $dispatcher = null, ?HttpClientInterface $client = null, ?LoggerInterface $logger = null): TransportInterface
     {
         $factory = new self(iterator_to_array(self::getDefaultFactories($dispatcher, $client, $logger)));
 
@@ -88,7 +91,7 @@ final class Transport
         $this->factories = $factories;
     }
 
-    public function fromStrings(#[\SensitiveParameter] array $dsns): Transports
+    public function fromStrings(#[SensitiveParameter] array $dsns): Transports
     {
         $transports = [];
         foreach ($dsns as $name => $dsn) {
@@ -98,17 +101,17 @@ final class Transport
         return new Transports($transports);
     }
 
-    public function fromString(#[\SensitiveParameter] string $dsn): TransportInterface
+    public function fromString(#[SensitiveParameter] string $dsn): TransportInterface
     {
         [$transport, $offset] = $this->parseDsn($dsn);
-        if ($offset !== \strlen($dsn)) {
+        if ($offset !== strlen($dsn)) {
             throw new InvalidArgumentException('The mailer DSN has some garbage at the end.');
         }
 
         return $transport;
     }
 
-    private function parseDsn(#[\SensitiveParameter] string $dsn, int $offset = 0): array
+    private function parseDsn(#[SensitiveParameter] string $dsn, int $offset = 0): array
     {
         static $keywords = [
             'failover' => FailoverTransport::class,
@@ -118,8 +121,8 @@ final class Transport
         while (true) {
             foreach ($keywords as $name => $class) {
                 $name .= '(';
-                if ($name === substr($dsn, $offset, \strlen($name))) {
-                    $offset += \strlen($name) - 1;
+                if ($name === substr($dsn, $offset, strlen($name))) {
+                    $offset += strlen($name) - 1;
                     preg_match('{\(([^()]|(?R))*\)}A', $dsn, $matches, 0, $offset);
                     if (!isset($matches[0])) {
                         continue;
@@ -130,7 +133,7 @@ final class Transport
                     while (true) {
                         [$arg, $offset] = $this->parseDsn($dsn, $offset);
                         $args[] = $arg;
-                        if (\strlen($dsn) === $offset) {
+                        if (strlen($dsn) === $offset) {
                             break;
                         }
                         ++$offset;
@@ -151,7 +154,7 @@ final class Transport
                 return [$this->fromDsnObject(Dsn::fromString(substr($dsn, $offset, $pos))), $offset + $pos];
             }
 
-            return [$this->fromDsnObject(Dsn::fromString(substr($dsn, $offset))), \strlen($dsn)];
+            return [$this->fromDsnObject(Dsn::fromString(substr($dsn, $offset))), strlen($dsn)];
         }
     }
 
@@ -167,9 +170,9 @@ final class Transport
     }
 
     /**
-     * @return \Traversable<int, TransportFactoryInterface>
+     * @return Traversable<int, TransportFactoryInterface>
      */
-    public static function getDefaultFactories(?EventDispatcherInterface $dispatcher = null, ?HttpClientInterface $client = null, ?LoggerInterface $logger = null): \Traversable
+    public static function getDefaultFactories(?EventDispatcherInterface $dispatcher = null, ?HttpClientInterface $client = null, ?LoggerInterface $logger = null): Traversable
     {
         foreach (self::FACTORY_CLASSES as $factoryClass) {
             if (class_exists($factoryClass)) {

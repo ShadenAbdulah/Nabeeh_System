@@ -4,24 +4,25 @@ namespace Illuminate\Redis\Connections;
 
 use Closure;
 use Illuminate\Contracts\Redis\Connection as ConnectionContract;
+use Predis\Client;
 use Predis\Command\Argument\ArrayableArgument;
 
 /**
- * @mixin \Predis\Client
+ * @mixin Client
  */
 class PredisConnection extends Connection implements ConnectionContract
 {
     /**
      * The Predis client.
      *
-     * @var \Predis\Client
+     * @var Client
      */
     protected $client;
 
     /**
      * Create a new Predis connection.
      *
-     * @param  \Predis\Client  $client
+     * @param  Client  $client
      * @return void
      */
     public function __construct($client)
@@ -33,7 +34,7 @@ class PredisConnection extends Connection implements ConnectionContract
      * Subscribe to a set of given channels for messages.
      *
      * @param  array|string  $channels
-     * @param  \Closure  $callback
+     * @param Closure $callback
      * @param  string  $method
      * @return void
      */

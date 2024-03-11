@@ -11,6 +11,8 @@
 
 namespace Symfony\Component\Routing\Exception;
 
+use Throwable;
+
 /**
  * The resource was found but the request method is not allowed.
  *
@@ -25,7 +27,7 @@ class MethodNotAllowedException extends \RuntimeException implements ExceptionIn
     /**
      * @param string[] $allowedMethods
      */
-    public function __construct(array $allowedMethods, string $message = '', int $code = 0, ?\Throwable $previous = null)
+    public function __construct(array $allowedMethods, string $message = '', int $code = 0, ?Throwable $previous = null)
     {
         $this->allowedMethods = array_map('strtoupper', $allowedMethods);
 

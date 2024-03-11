@@ -11,6 +11,8 @@
 
 namespace Symfony\Component\Console\Command;
 
+use Closure;
+use ReflectionMethod;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Completion\CompletionInput;
 use Symfony\Component\Console\Completion\CompletionSuggestions;
@@ -21,6 +23,8 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\ConsoleOutputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Stopwatch\Stopwatch;
+use function array_key_exists;
+use function is_callable;
 
 /**
  * @internal
@@ -62,11 +66,11 @@ final class TraceableCommand extends Command implements SignalableCommandInterfa
         parent::__construct($command->getName());
 
         // init below enables calling {@see parent::run()}
-        [$code, $processTitle, $ignoreValidationErrors] = \Closure::bind(function () {
+        [$code, $processTitle, $ignoreValidationErrors] = Closure::bind(function () {
             return [$this->code, $this->processTitle, $this->ignoreValidationErrors];
         }, $command, Command::class)();
 
-        if (\is_callable($code)) {
+        if (is_callable($code)) {
             $this->setCode($code);
         }
 
@@ -209,14 +213,14 @@ final class TraceableCommand extends Command implements SignalableCommandInterfa
         return $this->command->getNativeDefinition();
     }
 
-    public function addArgument(string $name, ?int $mode = null, string $description = '', mixed $default = null, array|\Closure $suggestedValues = []): static
+    public function addArgument(string $name, ?int $mode = null, string $description = '', mixed $default = null, array|Closure $suggestedValues = []): static
     {
         $this->command->addArgument($name, $mode, $description, $default, $suggestedValues);
 
         return $this;
     }
 
-    public function addOption(string $name, string|array|null $shortcut = null, ?int $mode = null, string $description = '', mixed $default = null, array|\Closure $suggestedValues = []): static
+    public function addOption(string $name, string|array|null $shortcut = null, ?int $mode = null, string $description = '', mixed $default = null, array|Closure $suggestedValues = []): static
     {
         $this->command->addOption($name, $shortcut, $mode, $description, $default, $suggestedValues);
 
@@ -313,7 +317,7 @@ final class TraceableCommand extends Command implements SignalableCommandInterfa
 
     protected function interact(InputInterface $input, OutputInterface $output): void
     {
-        if (!$this->isInteractive = Command::class !== (new \ReflectionMethod($this->command, 'interact'))->getDeclaringClass()->getName()) {
+        if (!$this->isInteractive = Command::class !== (new ReflectionMethod($this->command, 'interact'))->getDeclaringClass()->getName()) {
             return;
         }
 
@@ -338,7 +342,7 @@ final class TraceableCommand extends Command implements SignalableCommandInterfa
     private function extractInteractiveInputs(array $arguments, array $options): void
     {
         foreach ($arguments as $argName => $argValue) {
-            if (\array_key_exists($argName, $this->arguments) && $this->arguments[$argName] === $argValue) {
+            if (array_key_exists($argName, $this->arguments) && $this->arguments[$argName] === $argValue) {
                 continue;
             }
 
@@ -346,7 +350,7 @@ final class TraceableCommand extends Command implements SignalableCommandInterfa
         }
 
         foreach ($options as $optName => $optValue) {
-            if (\array_key_exists($optName, $this->options) && $this->options[$optName] === $optValue) {
+            if (array_key_exists($optName, $this->options) && $this->options[$optName] === $optValue) {
                 continue;
             }
 

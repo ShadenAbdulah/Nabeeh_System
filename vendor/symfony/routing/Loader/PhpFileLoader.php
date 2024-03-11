@@ -11,10 +11,16 @@
 
 namespace Symfony\Component\Routing\Loader;
 
+use Closure;
 use Symfony\Component\Config\Loader\FileLoader;
 use Symfony\Component\Config\Resource\FileResource;
 use Symfony\Component\Routing\Loader\Configurator\RoutingConfigurator;
 use Symfony\Component\Routing\RouteCollection;
+use function dirname;
+use function is_callable;
+use function is_object;
+use function is_string;
+use const PATHINFO_EXTENSION;
 
 /**
  * PhpFileLoader loads routes from a PHP file.
@@ -33,17 +39,17 @@ class PhpFileLoader extends FileLoader
     public function load(mixed $file, ?string $type = null): RouteCollection
     {
         $path = $this->locator->locate($file);
-        $this->setCurrentDir(\dirname($path));
+        $this->setCurrentDir(dirname($path));
 
         // the closure forbids access to the private scope in the included file
         $loader = $this;
-        $load = \Closure::bind(static function ($file) use ($loader) {
+        $load = Closure::bind(static function ($file) use ($loader) {
             return include $file;
         }, null, ProtectedPhpFileLoader::class);
 
         $result = $load($path);
 
-        if (\is_object($result) && \is_callable($result)) {
+        if (is_object($result) && is_callable($result)) {
             $collection = $this->callConfigurator($result, $path, $file);
         } else {
             $collection = $result;
@@ -56,7 +62,7 @@ class PhpFileLoader extends FileLoader
 
     public function supports(mixed $resource, ?string $type = null): bool
     {
-        return \is_string($resource) && 'php' === pathinfo($resource, \PATHINFO_EXTENSION) && (!$type || 'php' === $type);
+        return is_string($resource) && 'php' === pathinfo($resource, PATHINFO_EXTENSION) && (!$type || 'php' === $type);
     }
 
     protected function callConfigurator(callable $result, string $path, string $file): RouteCollection

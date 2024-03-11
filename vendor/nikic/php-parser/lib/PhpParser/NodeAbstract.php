@@ -2,7 +2,9 @@
 
 namespace PhpParser;
 
-abstract class NodeAbstract implements Node, \JsonSerializable {
+use JsonSerializable;
+
+abstract class NodeAbstract implements Node, JsonSerializable {
     /** @var array<string, mixed> Attributes */
     protected array $attributes;
 

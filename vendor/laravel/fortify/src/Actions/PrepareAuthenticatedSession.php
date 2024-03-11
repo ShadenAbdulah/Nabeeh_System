@@ -2,6 +2,7 @@
 
 namespace Laravel\Fortify\Actions;
 
+use Illuminate\Http\Request;
 use Laravel\Fortify\LoginRateLimiter;
 
 class PrepareAuthenticatedSession
@@ -9,14 +10,14 @@ class PrepareAuthenticatedSession
     /**
      * The login rate limiter instance.
      *
-     * @var \Laravel\Fortify\LoginRateLimiter
+     * @var LoginRateLimiter
      */
     protected $limiter;
 
     /**
      * Create a new class instance.
      *
-     * @param  \Laravel\Fortify\LoginRateLimiter  $limiter
+     * @param LoginRateLimiter $limiter
      * @return void
      */
     public function __construct(LoginRateLimiter $limiter)
@@ -27,7 +28,7 @@ class PrepareAuthenticatedSession
     /**
      * Handle the incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  Request  $request
      * @param  callable  $next
      * @return mixed
      */

@@ -16,6 +16,7 @@ use Carbon\Exceptions\InvalidTimeZoneException;
 use DateTimeInterface;
 use DateTimeZone;
 use Throwable;
+use function is_string;
 
 class CarbonTimeZone extends DateTimeZone
 {
@@ -39,7 +40,7 @@ class CarbonTimeZone extends DateTimeZone
             return date_default_timezone_get();
         }
 
-        if (\is_string($timezone)) {
+        if (is_string($timezone)) {
             $timezone = preg_replace('/^\s*([+-]\d+)(\d{2})\s*$/', '$1:$2', $timezone);
         }
 

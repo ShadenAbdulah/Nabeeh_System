@@ -11,7 +11,11 @@
 
 namespace Symfony\Component\ErrorHandler\Error;
 
-class FatalError extends \Error
+use Error;
+use ReflectionProperty;
+use function function_exists;
+
+class FatalError extends Error
 {
     private array $error;
 
@@ -31,7 +35,7 @@ class FatalError extends \Error
                 }
             }
         } elseif (null !== $traceOffset) {
-            if (\function_exists('xdebug_get_function_stack') && $trace = @xdebug_get_function_stack()) {
+            if (function_exists('xdebug_get_function_stack') && $trace = @xdebug_get_function_stack()) {
                 if (0 < $traceOffset) {
                     array_splice($trace, -$traceOffset);
                 }
@@ -70,7 +74,7 @@ class FatalError extends \Error
             'trace' => $trace,
         ] as $property => $value) {
             if (null !== $value) {
-                $refl = new \ReflectionProperty(\Error::class, $property);
+                $refl = new ReflectionProperty(Error::class, $property);
                 $refl->setValue($this, $value);
             }
         }

@@ -11,6 +11,8 @@
 
 namespace Symfony\Component\Console\Helper;
 
+use function count;
+
 /**
  * Helps outputting debug information when running an external program from a command.
  *
@@ -29,7 +31,7 @@ class DebugFormatterHelper extends Helper
      */
     public function start(string $id, string $message, string $prefix = 'RUN'): string
     {
-        $this->started[$id] = ['border' => ++$this->count % \count(self::COLORS)];
+        $this->started[$id] = ['border' => ++$this->count % count(self::COLORS)];
 
         return sprintf("%s<bg=blue;fg=white> %s </> <fg=blue>%s</>\n", $this->getBorder($id), $prefix, $message);
     }

@@ -11,8 +11,13 @@
 
 namespace Symfony\Component\Console\Question;
 
+use Closure;
 use Symfony\Component\Console\Exception\InvalidArgumentException;
 use Symfony\Component\Console\Exception\LogicException;
+use Traversable;
+use function count;
+use function func_num_args;
+use function is_array;
 
 /**
  * Represents a Question.
@@ -25,10 +30,10 @@ class Question
     private ?int $attempts = null;
     private bool $hidden = false;
     private bool $hiddenFallback = true;
-    private ?\Closure $autocompleterCallback = null;
-    private ?\Closure $validator = null;
+    private ?Closure $autocompleterCallback = null;
+    private ?Closure $validator = null;
     private string|int|bool|null|float $default;
-    private ?\Closure $normalizer = null;
+    private ?Closure $normalizer = null;
     private bool $trimmable = true;
     private bool $multiline = false;
 
@@ -143,11 +148,11 @@ class Question
      */
     public function setAutocompleterValues(?iterable $values): static
     {
-        if (\is_array($values)) {
+        if (is_array($values)) {
             $values = $this->isAssoc($values) ? array_merge(array_keys($values), array_values($values)) : array_values($values);
 
             $callback = static fn () => $values;
-        } elseif ($values instanceof \Traversable) {
+        } elseif ($values instanceof Traversable) {
             $callback = static function () use ($values) {
                 static $valueCache;
 
@@ -177,7 +182,7 @@ class Question
      */
     public function setAutocompleterCallback(?callable $callback = null): static
     {
-        if (1 > \func_num_args()) {
+        if (1 > func_num_args()) {
             trigger_deprecation('symfony/console', '6.2', 'Calling "%s()" without any arguments is deprecated, pass null explicitly instead.', __METHOD__);
         }
         if ($this->hidden && null !== $callback) {
@@ -196,7 +201,7 @@ class Question
      */
     public function setValidator(?callable $validator = null): static
     {
-        if (1 > \func_num_args()) {
+        if (1 > func_num_args()) {
             trigger_deprecation('symfony/console', '6.2', 'Calling "%s()" without any arguments is deprecated, pass null explicitly instead.', __METHOD__);
         }
         $this->validator = null === $validator ? null : $validator(...);
@@ -271,7 +276,7 @@ class Question
      */
     protected function isAssoc(array $array)
     {
-        return (bool) \count(array_filter(array_keys($array), 'is_string'));
+        return (bool) count(array_filter(array_keys($array), 'is_string'));
     }
 
     public function isTrimmable(): bool

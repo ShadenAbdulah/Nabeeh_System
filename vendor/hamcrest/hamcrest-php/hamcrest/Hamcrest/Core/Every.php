@@ -44,7 +44,7 @@ class Every extends TypeSafeDiagnosingMatcher
      * @param Matcher $itemMatcher
      *   A matcher to apply to every element in an array.
      *
-     * @return \Hamcrest\Core\Every
+     * @return Every
      *   Evaluates to TRUE for a collection in which every item matches $itemMatcher
      *
      * @factory

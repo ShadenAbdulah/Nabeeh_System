@@ -36,6 +36,11 @@
 
 namespace Psy\Readline\Hoa;
 
+use const LOCK_EX;
+use const LOCK_NB;
+use const LOCK_SH;
+use const LOCK_UN;
+
 /**
  * Interface \Hoa\Stream\IStream\Lockable.
  *
@@ -50,28 +55,28 @@ interface StreamLockable extends IStream
      *
      * @const int
      */
-    const LOCK_SHARED = \LOCK_SH;
+    const LOCK_SHARED = LOCK_SH;
 
     /**
      * Acquire an exclusive lock (writer).
      *
      * @const int
      */
-    const LOCK_EXCLUSIVE = \LOCK_EX;
+    const LOCK_EXCLUSIVE = LOCK_EX;
 
     /**
      * Release a lock (shared or exclusive).
      *
      * @const int
      */
-    const LOCK_RELEASE = \LOCK_UN;
+    const LOCK_RELEASE = LOCK_UN;
 
     /**
      * If we do not want $this->lock() to block while locking.
      *
      * @const int
      */
-    const LOCK_NO_BLOCK = \LOCK_NB;
+    const LOCK_NO_BLOCK = LOCK_NB;
 
     /**
      * Portable advisory locking.

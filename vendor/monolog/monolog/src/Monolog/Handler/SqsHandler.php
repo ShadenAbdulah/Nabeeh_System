@@ -12,6 +12,7 @@
 namespace Monolog\Handler;
 
 use Aws\Sqs\SqsClient;
+use InvalidArgumentException;
 use Monolog\Level;
 use Monolog\Utils;
 use Monolog\LogRecord;
@@ -45,7 +46,7 @@ class SqsHandler extends AbstractProcessingHandler
     protected function write(LogRecord $record): void
     {
         if (!isset($record->formatted) || 'string' !== gettype($record->formatted)) {
-            throw new \InvalidArgumentException('SqsHandler accepts only formatted records as a string' . Utils::getRecordMessageForException($record));
+            throw new InvalidArgumentException('SqsHandler accepts only formatted records as a string' . Utils::getRecordMessageForException($record));
         }
 
         $messageBody = $record->formatted;

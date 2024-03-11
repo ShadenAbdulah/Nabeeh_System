@@ -9,7 +9,7 @@ interface SerializesCastableAttributes
     /**
      * Serialize the attribute when converting the model to an array.
      *
-     * @param  \Illuminate\Database\Eloquent\Model  $model
+     * @param Model $model
      * @param  string  $key
      * @param  mixed  $value
      * @param  array  $attributes

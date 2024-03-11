@@ -6,28 +6,29 @@ use Closure;
 use Fruitcake\Cors\CorsService;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class HandleCors
 {
     /**
      * The container instance.
      *
-     * @var \Illuminate\Contracts\Container\Container
+     * @var Container
      */
     protected $container;
 
     /**
      * The CORS service instance.
      *
-     * @var \Fruitcake\Cors\CorsService
+     * @var CorsService
      */
     protected $cors;
 
     /**
      * Create a new middleware instance.
      *
-     * @param  \Illuminate\Contracts\Container\Container  $container
-     * @param  \Fruitcake\Cors\CorsService  $cors
+     * @param Container $container
+     * @param CorsService $cors
      * @return void
      */
     public function __construct(Container $container, CorsService $cors)
@@ -39,9 +40,9 @@ class HandleCors
     /**
      * Handle the incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param Closure $next
+     * @return Response
      */
     public function handle($request, Closure $next)
     {
@@ -71,7 +72,7 @@ class HandleCors
     /**
      * Get the path from the configuration to determine if the CORS service should run.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param Request $request
      * @return bool
      */
     protected function hasMatchingPath(Request $request): bool

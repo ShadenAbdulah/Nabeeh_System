@@ -10,12 +10,14 @@
 
 namespace Mockery\CountValidator;
 
+use Mockery\Expectation;
+
 abstract class CountValidatorAbstract
 {
     /**
      * Expectation for which this validator is assigned
      *
-     * @var \Mockery\Expectation
+     * @var Expectation
      */
     protected $_expectation = null;
 
@@ -29,10 +31,10 @@ abstract class CountValidatorAbstract
     /**
      * Set Expectation object and upper call limit
      *
-     * @param \Mockery\Expectation $expectation
+     * @param Expectation $expectation
      * @param int $limit
      */
-    public function __construct(\Mockery\Expectation $expectation, $limit)
+    public function __construct(Expectation $expectation, $limit)
     {
         $this->_expectation = $expectation;
         $this->_limit = $limit;

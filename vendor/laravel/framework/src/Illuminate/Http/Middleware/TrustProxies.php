@@ -4,6 +4,7 @@ namespace Illuminate\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class TrustProxies
 {
@@ -24,11 +25,11 @@ class TrustProxies
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
+     * @param Request $request
+     * @param Closure $next
      * @return mixed
      *
-     * @throws \Symfony\Component\HttpKernel\Exception\HttpException
+     * @throws HttpException
      */
     public function handle(Request $request, Closure $next)
     {
@@ -42,7 +43,7 @@ class TrustProxies
     /**
      * Sets the trusted proxies on the request.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param Request $request
      * @return void
      */
     protected function setTrustedProxyIpAddresses(Request $request)
@@ -65,7 +66,7 @@ class TrustProxies
     /**
      * Specify the IP addresses to trust explicitly.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param Request $request
      * @param  array  $trustedIps
      * @return void
      */
@@ -77,7 +78,7 @@ class TrustProxies
     /**
      * Set the trusted proxy to be the IP address calling this servers.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param Request $request
      * @return void
      */
     protected function setTrustedProxyIpAddressesToTheCallingIp(Request $request)

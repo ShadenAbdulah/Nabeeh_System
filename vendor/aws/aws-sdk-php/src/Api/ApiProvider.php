@@ -2,6 +2,9 @@
 namespace Aws\Api;
 
 use Aws\Exception\UnresolvedApiException;
+use InvalidArgumentException;
+use function Aws\load_compiled_json;
+use function Aws\manifest;
 
 /**
  * API providers.
@@ -94,7 +97,7 @@ class ApiProvider
      */
     public static function defaultProvider()
     {
-        return new self(__DIR__ . '/../data', \Aws\manifest());
+        return new self(__DIR__ . '/../data', manifest());
     }
 
     /**
@@ -137,7 +140,7 @@ class ApiProvider
      * @param string $dir Directory containing service models.
      *
      * @return self
-     * @throws \InvalidArgumentException if the provided `$dir` is invalid.
+     * @throws InvalidArgumentException if the provided `$dir` is invalid.
      */
     public static function filesystem($dir)
     {
@@ -195,8 +198,8 @@ class ApiProvider
         $path = "{$this->modelsDir}/{$service}/{$version}/{$type}.json";
 
         try {
-            return \Aws\load_compiled_json($path);
-        } catch (\InvalidArgumentException $e) {
+            return load_compiled_json($path);
+        } catch (InvalidArgumentException $e) {
             return null;
         }
     }
@@ -210,7 +213,7 @@ class ApiProvider
         $this->manifest = $manifest;
         $this->modelsDir = rtrim($modelsDir, '/');
         if (!is_dir($this->modelsDir)) {
-            throw new \InvalidArgumentException(
+            throw new InvalidArgumentException(
                 "The specified models directory, {$modelsDir}, was not found."
             );
         }

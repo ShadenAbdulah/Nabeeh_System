@@ -37,7 +37,7 @@ class UndefinedLivewirePropertySolutionProvider implements HasSolutionsForThrowa
     }
 
     /**
-     * @param \Throwable $throwable
+     * @param Throwable $throwable
      *
      * @return array<string, string|null>
      */

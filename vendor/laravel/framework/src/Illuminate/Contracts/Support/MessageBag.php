@@ -25,7 +25,7 @@ interface MessageBag extends Arrayable, Countable
     /**
      * Merge a new array of messages into the bag.
      *
-     * @param  \Illuminate\Contracts\Support\MessageProvider|array  $messages
+     * @param MessageProvider|array  $messages
      * @return $this
      */
     public function merge($messages);

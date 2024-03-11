@@ -3,20 +3,21 @@
 namespace Illuminate\Routing;
 
 use Illuminate\Contracts\Routing\ResponseFactory;
+use Symfony\Component\HttpFoundation\Response;
 
 class ViewController extends Controller
 {
     /**
      * The response factory implementation.
      *
-     * @var \Illuminate\Contracts\Routing\ResponseFactory
+     * @var ResponseFactory
      */
     protected $response;
 
     /**
      * Create a new controller instance.
      *
-     * @param  \Illuminate\Contracts\Routing\ResponseFactory  $response
+     * @param ResponseFactory $response
      * @return void
      */
     public function __construct(ResponseFactory $response)
@@ -51,7 +52,7 @@ class ViewController extends Controller
      *
      * @param  string  $method
      * @param  array  $parameters
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      */
     public function callAction($method, $parameters)
     {

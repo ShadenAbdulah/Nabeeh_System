@@ -17,7 +17,7 @@ class ChainedBatch implements ShouldQueue
     /**
      * The collection of batched jobs.
      *
-     * @var \Illuminate\Support\Collection
+     * @var Collection
      */
     public Collection $jobs;
 
@@ -38,7 +38,7 @@ class ChainedBatch implements ShouldQueue
     /**
      * Create a new chained batch instance.
      *
-     * @param  \Illuminate\Bus\PendingBatch  $batch
+     * @param PendingBatch $batch
      * @return void
      */
     public function __construct(PendingBatch $batch)
@@ -52,8 +52,8 @@ class ChainedBatch implements ShouldQueue
     /**
      * Prepare any nested batches within the given collection of jobs.
      *
-     * @param  \Illuminate\Support\Collection  $jobs
-     * @return \Illuminate\Support\Collection
+     * @param Collection $jobs
+     * @return Collection
      */
     public static function prepareNestedBatches(Collection $jobs): Collection
     {
@@ -80,7 +80,7 @@ class ChainedBatch implements ShouldQueue
     /**
      * Convert the chained batch instance into a pending batch.
      *
-     * @return \Illuminate\Bus\PendingBatch
+     * @return PendingBatch
      */
     public function toPendingBatch()
     {
@@ -111,8 +111,8 @@ class ChainedBatch implements ShouldQueue
     /**
      * Move the remainder of the chain to a "finally" batch callback.
      *
-     * @param  \Illuminate\Bus\PendingBatch  $batch
-     * @return \Illuminate\Bus\PendingBatch
+     * @param PendingBatch $batch
+     * @return PendingBatch
      */
     protected function attachRemainderOfChainToEndOfBatch(PendingBatch $batch)
     {

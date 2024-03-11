@@ -21,6 +21,10 @@ use League\CommonMark\Node\Inline\Text;
 use League\CommonMark\Parser\Inline\InlineParserInterface;
 use League\CommonMark\Parser\Inline\InlineParserMatch;
 use League\CommonMark\Parser\InlineParserContext;
+use function preg_match;
+use function preg_replace;
+use function strlen;
+use function substr;
 
 final class BacktickParser implements InlineParserInterface
 {
@@ -43,17 +47,17 @@ final class BacktickParser implements InlineParserInterface
                 continue;
             }
 
-            $code = $cursor->getSubstring($currentPosition, $cursor->getPosition() - $currentPosition - \strlen($ticks));
+            $code = $cursor->getSubstring($currentPosition, $cursor->getPosition() - $currentPosition - strlen($ticks));
 
-            $c = \preg_replace('/\n/m', ' ', $code) ?? '';
+            $c = preg_replace('/\n/m', ' ', $code) ?? '';
 
             if (
                 $c !== '' &&
                 $c[0] === ' ' &&
-                \substr($c, -1, 1) === ' ' &&
-                \preg_match('/[^ ]/', $c)
+                substr($c, -1, 1) === ' ' &&
+                preg_match('/[^ ]/', $c)
             ) {
-                $c = \substr($c, 1, -1);
+                $c = substr($c, 1, -1);
             }
 
             $inlineContext->getContainer()->appendChild(new Code($c));

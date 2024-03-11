@@ -14,7 +14,7 @@ class RateLimitedWithRedis extends RateLimited
     /**
      * The Redis factory implementation.
      *
-     * @var \Illuminate\Contracts\Redis\Factory
+     * @var Redis
      */
     protected $redis;
 

@@ -1,6 +1,10 @@
 <?php
 namespace Aws;
 
+use ArrayIterator;
+use ReturnTypeWillChange;
+use Traversable;
+
 /**
  * Trait implementing ToArrayInterface, \ArrayAccess, \Countable, and
  * \IteratorAggregate
@@ -11,12 +15,12 @@ trait HasDataTrait
     private $data = [];
 
     /**
-     * @return \Traversable
+     * @return Traversable
      */
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function getIterator()
     {
-        return new \ArrayIterator($this->data);
+        return new ArrayIterator($this->data);
     }
 
     /**
@@ -27,7 +31,7 @@ trait HasDataTrait
      *
      * @return mixed|null
      */
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function & offsetGet($offset)
     {
         if (isset($this->data[$offset])) {
@@ -41,7 +45,7 @@ trait HasDataTrait
     /**
      * @return void
      */
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function offsetSet($offset, $value)
     {
         $this->data[$offset] = $value;
@@ -50,7 +54,7 @@ trait HasDataTrait
     /**
      * @return bool
      */
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function offsetExists($offset)
     {
         return isset($this->data[$offset]);
@@ -59,7 +63,7 @@ trait HasDataTrait
     /**
      * @return void
      */
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function offsetUnset($offset)
     {
         unset($this->data[$offset]);
@@ -73,7 +77,7 @@ trait HasDataTrait
     /**
      * @return int
      */
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function count()
     {
         return count($this->data);

@@ -15,6 +15,7 @@ use Symfony\Component\CssSelector\Parser\Reader;
 use Symfony\Component\CssSelector\Parser\Token;
 use Symfony\Component\CssSelector\Parser\Tokenizer\TokenizerPatterns;
 use Symfony\Component\CssSelector\Parser\TokenStream;
+use function strlen;
 
 /**
  * CSS selector comment handler.
@@ -44,7 +45,7 @@ class NumberHandler implements HandlerInterface
         }
 
         $stream->push(new Token(Token::TYPE_NUMBER, $match[0], $reader->getPosition()));
-        $reader->moveForward(\strlen($match[0]));
+        $reader->moveForward(strlen($match[0]));
 
         return true;
     }

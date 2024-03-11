@@ -11,6 +11,7 @@
 
 namespace Psy\Command;
 
+use InvalidArgumentException;
 use PhpParser\NodeTraverser;
 use PhpParser\PrettyPrinter\Standard as Printer;
 use Psy\Input\CodeArgument;
@@ -18,6 +19,7 @@ use Psy\Readline\Readline;
 use Psy\Sudo\SudoVisitor;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use function count;
 
 /**
  * Evaluate PHP code, bypassing visibility restrictions.
@@ -103,10 +105,10 @@ HELP
         // special case for !!
         if ($code === '!!') {
             $history = $this->readline->listHistory();
-            if (\count($history) < 2) {
-                throw new \InvalidArgumentException('No previous command to replay');
+            if (count($history) < 2) {
+                throw new InvalidArgumentException('No previous command to replay');
             }
-            $code = $history[\count($history) - 2];
+            $code = $history[count($history) - 2];
         }
 
         $nodes = $this->traverser->traverse($this->parser->parse($code));

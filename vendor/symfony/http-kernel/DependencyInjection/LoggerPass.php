@@ -17,6 +17,8 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpKernel\Log\Logger;
+use function in_array;
+use const PHP_SAPI;
 
 /**
  * Registers the default logger if necessary.
@@ -39,7 +41,7 @@ class LoggerPass implements CompilerPassInterface
         if ($debug = $container->getParameter('kernel.debug')) {
             $debug = $container->hasParameter('kernel.runtime_mode.web')
                 ? $container->getParameter('kernel.runtime_mode.web')
-                : !\in_array(\PHP_SAPI, ['cli', 'phpdbg', 'embed'], true);
+                : !in_array(PHP_SAPI, ['cli', 'phpdbg', 'embed'], true);
         }
 
         $container->register('logger', Logger::class)

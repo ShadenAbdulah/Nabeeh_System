@@ -2,6 +2,9 @@
 
 namespace Aws\Configuration;
 
+use function Aws\boolean_value;
+use function Aws\parse_ini_section_with_subsections;
+
 class ConfigurationResolver
 {
     const ENV_PROFILE = 'AWS_PROFILE';
@@ -193,7 +196,7 @@ class ConfigurationResolver
     private static function convertType($value, $type)
     {
         if ($type === 'bool'
-            && !is_null($convertedValue = \Aws\boolean_value($value))
+            && !is_null($convertedValue = boolean_value($value))
         ) {
             return $convertedValue;
         }
@@ -232,7 +235,7 @@ class ConfigurationResolver
             return null;
         }
 
-        $services_section = \Aws\parse_ini_section_with_subsections(
+        $services_section = parse_ini_section_with_subsections(
             $filename,
             "services {$data[$profile]['services']}"
         );

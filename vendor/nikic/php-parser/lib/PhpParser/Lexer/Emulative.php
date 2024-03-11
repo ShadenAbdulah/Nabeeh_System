@@ -20,6 +20,10 @@ use PhpParser\Lexer\TokenEmulator\ReverseEmulator;
 use PhpParser\Lexer\TokenEmulator\TokenEmulator;
 use PhpParser\PhpVersion;
 use PhpParser\Token;
+use function count;
+use function strlen;
+use function substr_count;
+use const PHP_INT_MAX;
 
 class Emulative extends Lexer {
     /** @var array{int, string, string}[] Patches used to reverse changes introduced in the code */
@@ -123,7 +127,7 @@ class Emulative extends Lexer {
      * @return list<Token>
      */
     private function fixupTokens(array $tokens): array {
-        if (\count($this->patches) === 0) {
+        if (count($this->patches) === 0) {
             return $tokens;
         }
 
@@ -134,15 +138,15 @@ class Emulative extends Lexer {
         // We use a manual loop over the tokens, because we modify the array on the fly
         $posDelta = 0;
         $lineDelta = 0;
-        for ($i = 0, $c = \count($tokens); $i < $c; $i++) {
+        for ($i = 0, $c = count($tokens); $i < $c; $i++) {
             $token = $tokens[$i];
             $pos = $token->pos;
             $token->pos += $posDelta;
             $token->line += $lineDelta;
             $localPosDelta = 0;
-            $len = \strlen($token->text);
+            $len = strlen($token->text);
             while ($patchPos >= $pos && $patchPos < $pos + $len) {
-                $patchTextLen = \strlen($patchText);
+                $patchTextLen = strlen($patchText);
                 if ($patchType === 'remove') {
                     if ($patchPos === $pos && $patchTextLen === $len) {
                         // Remove token entirely
@@ -156,14 +160,14 @@ class Emulative extends Lexer {
                         );
                         $localPosDelta -= $patchTextLen;
                     }
-                    $lineDelta -= \substr_count($patchText, "\n");
+                    $lineDelta -= substr_count($patchText, "\n");
                 } elseif ($patchType === 'add') {
                     // Insert into the token string
                     $token->text = substr_replace(
                         $token->text, $patchText, $patchPos - $pos + $localPosDelta, 0
                     );
                     $localPosDelta += $patchTextLen;
-                    $lineDelta += \substr_count($patchText, "\n");
+                    $lineDelta += substr_count($patchText, "\n");
                 } elseif ($patchType === 'replace') {
                     // Replace inside the token string
                     $token->text = substr_replace(
@@ -175,9 +179,9 @@ class Emulative extends Lexer {
 
                 // Fetch the next patch
                 $patchIdx++;
-                if ($patchIdx >= \count($this->patches)) {
+                if ($patchIdx >= count($this->patches)) {
                     // No more patches. However, we still need to adjust position.
-                    $patchPos = \PHP_INT_MAX;
+                    $patchPos = PHP_INT_MAX;
                     break;
                 }
 

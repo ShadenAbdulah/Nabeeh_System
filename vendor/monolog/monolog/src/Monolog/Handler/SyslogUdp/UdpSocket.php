@@ -12,6 +12,7 @@
 namespace Monolog\Handler\SyslogUdp;
 
 use Monolog\Utils;
+use RuntimeException;
 use Socket;
 
 class UdpSocket
@@ -60,7 +61,7 @@ class UdpSocket
             return $this->socket = $socket;
         }
 
-        throw new \RuntimeException('The UdpSocket to '.$this->ip.':'.$this->port.' could not be opened via socket_create');
+        throw new RuntimeException('The UdpSocket to '.$this->ip.':'.$this->port.' could not be opened via socket_create');
     }
 
     protected function send(string $chunk): void

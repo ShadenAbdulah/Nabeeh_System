@@ -16,6 +16,7 @@ use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\StringInput;
 use Symfony\Component\Console\Output\BufferedOutput;
+use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Process\PhpExecutableFinder;
 
 class Application extends SymfonyApplication implements ApplicationContract
@@ -23,21 +24,21 @@ class Application extends SymfonyApplication implements ApplicationContract
     /**
      * The Laravel application instance.
      *
-     * @var \Illuminate\Contracts\Container\Container
+     * @var Container
      */
     protected $laravel;
 
     /**
      * The event dispatcher instance.
      *
-     * @var \Illuminate\Contracts\Events\Dispatcher
+     * @var Dispatcher
      */
     protected $events;
 
     /**
      * The output from the previous command.
      *
-     * @var \Symfony\Component\Console\Output\BufferedOutput
+     * @var BufferedOutput
      */
     protected $lastOutput;
 
@@ -58,8 +59,8 @@ class Application extends SymfonyApplication implements ApplicationContract
     /**
      * Create a new Artisan console application.
      *
-     * @param  \Illuminate\Contracts\Container\Container  $laravel
-     * @param  \Illuminate\Contracts\Events\Dispatcher  $events
+     * @param Container $laravel
+     * @param Dispatcher $events
      * @param  string  $version
      * @return void
      */
@@ -111,7 +112,7 @@ class Application extends SymfonyApplication implements ApplicationContract
     /**
      * Register a console "starting" bootstrapper.
      *
-     * @param  \Closure  $callback
+     * @param Closure $callback
      * @return void
      */
     public static function starting(Closure $callback)
@@ -146,10 +147,10 @@ class Application extends SymfonyApplication implements ApplicationContract
      *
      * @param  string  $command
      * @param  array  $parameters
-     * @param  \Symfony\Component\Console\Output\OutputInterface|null  $outputBuffer
+     * @param  OutputInterface|null  $outputBuffer
      * @return int
      *
-     * @throws \Symfony\Component\Console\Exception\CommandNotFoundException
+     * @throws CommandNotFoundException
      */
     public function call($command, array $parameters = [], $outputBuffer = null)
     {
@@ -205,8 +206,8 @@ class Application extends SymfonyApplication implements ApplicationContract
     /**
      * Add a command to the console.
      *
-     * @param  \Symfony\Component\Console\Command\Command  $command
-     * @return \Symfony\Component\Console\Command\Command
+     * @param SymfonyCommand $command
+     * @return SymfonyCommand
      */
     public function add(SymfonyCommand $command)
     {
@@ -220,8 +221,8 @@ class Application extends SymfonyApplication implements ApplicationContract
     /**
      * Add the command to the parent instance.
      *
-     * @param  \Symfony\Component\Console\Command\Command  $command
-     * @return \Symfony\Component\Console\Command\Command
+     * @param SymfonyCommand $command
+     * @return SymfonyCommand
      */
     protected function addToParent(SymfonyCommand $command)
     {
@@ -231,8 +232,8 @@ class Application extends SymfonyApplication implements ApplicationContract
     /**
      * Add a command, resolving through the application.
      *
-     * @param  \Illuminate\Console\Command|string  $command
-     * @return \Symfony\Component\Console\Command\Command|null
+     * @param Command|string  $command
+     * @return SymfonyCommand|null
      */
     public function resolve($command)
     {
@@ -283,7 +284,7 @@ class Application extends SymfonyApplication implements ApplicationContract
      *
      * This is used to add the --env option to every available command.
      *
-     * @return \Symfony\Component\Console\Input\InputDefinition
+     * @return InputDefinition
      */
     protected function getDefaultInputDefinition(): InputDefinition
     {
@@ -295,7 +296,7 @@ class Application extends SymfonyApplication implements ApplicationContract
     /**
      * Get the global environment option for the definition.
      *
-     * @return \Symfony\Component\Console\Input\InputOption
+     * @return InputOption
      */
     protected function getEnvironmentOption()
     {

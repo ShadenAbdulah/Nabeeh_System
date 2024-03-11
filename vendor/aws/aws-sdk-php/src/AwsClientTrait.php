@@ -1,7 +1,9 @@
 <?php
 namespace Aws;
 
+use ArrayIterator;
 use Aws\Api\Service;
+use UnexpectedValueException;
 
 /**
  * A trait providing generic functionality for interacting with Amazon Web
@@ -21,7 +23,7 @@ trait AwsClientTrait
     {
         $config = $this->getApi()->getPaginatorConfig($name);
         if (!$config['result_key']) {
-            throw new \UnexpectedValueException(sprintf(
+            throw new UnexpectedValueException(sprintf(
                 'There are no resources to iterate for the %s operation of %s',
                 $name, $this->getApi()['serviceFullName']
             ));
@@ -37,7 +39,7 @@ trait AwsClientTrait
 
         $result = $this->execute($this->getCommand($name, $args))->search($key);
 
-        return new \ArrayIterator((array) $result);
+        return new ArrayIterator((array) $result);
     }
 
     public function waitUntil($name, array $args = [])

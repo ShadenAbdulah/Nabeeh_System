@@ -21,6 +21,8 @@ use League\CommonMark\Parser\Inline\InlineParserInterface;
 use League\CommonMark\Parser\Inline\InlineParserMatch;
 use League\CommonMark\Parser\InlineParserContext;
 use League\CommonMark\Util\RegexHelper;
+use function in_array;
+use function preg_match;
 
 final class QuoteParser implements InlineParserInterface
 {
@@ -69,11 +71,11 @@ final class QuoteParser implements InlineParserInterface
 
     private function getNormalizedQuoteCharacter(string $character): string
     {
-        if (\in_array($character, self::DOUBLE_QUOTES, true)) {
+        if (in_array($character, self::DOUBLE_QUOTES, true)) {
             return Quote::DOUBLE_QUOTE;
         }
 
-        if (\in_array($character, self::SINGLE_QUOTES, true)) {
+        if (in_array($character, self::SINGLE_QUOTES, true)) {
             return Quote::SINGLE_QUOTE;
         }
 
@@ -85,10 +87,10 @@ final class QuoteParser implements InlineParserInterface
      */
     private function determineFlanking(string $charBefore, string $charAfter): array
     {
-        $afterIsWhitespace   = \preg_match('/\pZ|\s/u', $charAfter);
-        $afterIsPunctuation  = \preg_match(RegexHelper::REGEX_PUNCTUATION, $charAfter);
-        $beforeIsWhitespace  = \preg_match('/\pZ|\s/u', $charBefore);
-        $beforeIsPunctuation = \preg_match(RegexHelper::REGEX_PUNCTUATION, $charBefore);
+        $afterIsWhitespace   = preg_match('/\pZ|\s/u', $charAfter);
+        $afterIsPunctuation  = preg_match(RegexHelper::REGEX_PUNCTUATION, $charAfter);
+        $beforeIsWhitespace  = preg_match('/\pZ|\s/u', $charBefore);
+        $beforeIsPunctuation = preg_match(RegexHelper::REGEX_PUNCTUATION, $charBefore);
 
         $leftFlanking = ! $afterIsWhitespace &&
             ! ($afterIsPunctuation &&

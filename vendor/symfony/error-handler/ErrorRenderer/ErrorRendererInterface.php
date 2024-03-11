@@ -12,6 +12,7 @@
 namespace Symfony\Component\ErrorHandler\ErrorRenderer;
 
 use Symfony\Component\ErrorHandler\Exception\FlattenException;
+use Throwable;
 
 /**
  * Formats an exception to be used as response content.
@@ -33,5 +34,5 @@ interface ErrorRendererInterface
     /**
      * Renders a Throwable as a FlattenException.
      */
-    public function render(\Throwable $exception): FlattenException;
+    public function render(Throwable $exception): FlattenException;
 }

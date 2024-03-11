@@ -165,8 +165,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
     ])->replace([
-        BaseTranslationServiceProvider::class
-        => JsonTranslationServiceProvider::class,
+        BaseTranslationServiceProvider::class => JsonTranslationServiceProvider::class,
     ])->toArray(),
 
     /*

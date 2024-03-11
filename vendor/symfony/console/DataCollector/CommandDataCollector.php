@@ -11,6 +11,8 @@
 
 namespace Symfony\Component\Console\DataCollector;
 
+use ReflectionClass;
+use ReflectionMethod;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Debug\CliRequest;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -19,6 +21,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\DataCollector\DataCollector;
 use Symfony\Component\VarDumper\Cloner\Data;
+use Throwable;
 
 /**
  * @internal
@@ -27,7 +30,7 @@ use Symfony\Component\VarDumper\Cloner\Data;
  */
 final class CommandDataCollector extends DataCollector
 {
-    public function collect(Request $request, Response $response, ?\Throwable $exception = null): void
+    public function collect(Request $request, Response $response, ?Throwable $exception = null): void
     {
         if (!$request instanceof CliRequest) {
             return;
@@ -96,7 +99,7 @@ final class CommandDataCollector extends DataCollector
     public function getCommand(): array
     {
         $class = $this->data['command']->getType();
-        $r = new \ReflectionMethod($class, 'execute');
+        $r = new ReflectionMethod($class, 'execute');
 
         if (Command::class !== $r->getDeclaringClass()) {
             return [
@@ -106,7 +109,7 @@ final class CommandDataCollector extends DataCollector
             ];
         }
 
-        $r = new \ReflectionClass($class);
+        $r = new ReflectionClass($class);
 
         return [
             'class' => $class,

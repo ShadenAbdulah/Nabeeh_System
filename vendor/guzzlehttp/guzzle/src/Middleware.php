@@ -2,13 +2,17 @@
 
 namespace GuzzleHttp;
 
+use ArrayAccess;
 use GuzzleHttp\Cookie\CookieJarInterface;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Promise as P;
 use GuzzleHttp\Promise\PromiseInterface;
+use InvalidArgumentException;
+use LogicException;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Log\LoggerInterface;
+use function is_array;
 
 /**
  * Functions used to create and wrap handlers with handler middleware.
@@ -30,7 +34,7 @@ final class Middleware
                 if (empty($options['cookies'])) {
                     return $handler($request, $options);
                 } elseif (!($options['cookies'] instanceof CookieJarInterface)) {
-                    throw new \InvalidArgumentException('cookies must be an instance of GuzzleHttp\Cookie\CookieJarInterface');
+                    throw new InvalidArgumentException('cookies must be an instance of GuzzleHttp\Cookie\CookieJarInterface');
                 }
                 $cookieJar = $options['cookies'];
                 $request = $cookieJar->withCookieHeader($request);
@@ -79,16 +83,16 @@ final class Middleware
     /**
      * Middleware that pushes history data to an ArrayAccess container.
      *
-     * @param array|\ArrayAccess<int, array> $container Container to hold the history (by reference).
+     * @param array|ArrayAccess<int, array> $container Container to hold the history (by reference).
      *
      * @return callable(callable): callable Returns a function that accepts the next handler.
      *
-     * @throws \InvalidArgumentException if container is not an array or ArrayAccess.
+     * @throws InvalidArgumentException if container is not an array or ArrayAccess.
      */
     public static function history(&$container): callable
     {
-        if (!\is_array($container) && !$container instanceof \ArrayAccess) {
-            throw new \InvalidArgumentException('history container must be an array or object implementing ArrayAccess');
+        if (!is_array($container) && !$container instanceof ArrayAccess) {
+            throw new InvalidArgumentException('history container must be an array or object implementing ArrayAccess');
         }
 
         return static function (callable $handler) use (&$container): callable {
@@ -199,7 +203,7 @@ final class Middleware
     {
         // To be compatible with Guzzle 7.1.x we need to allow users to pass a MessageFormatter
         if (!$formatter instanceof MessageFormatter && !$formatter instanceof MessageFormatterInterface) {
-            throw new \LogicException(sprintf('Argument 2 to %s::log() must be of type %s', self::class, MessageFormatterInterface::class));
+            throw new LogicException(sprintf('Argument 2 to %s::log() must be of type %s', self::class, MessageFormatterInterface::class));
         }
 
         return static function (callable $handler) use ($logger, $formatter, $logLevel): callable {

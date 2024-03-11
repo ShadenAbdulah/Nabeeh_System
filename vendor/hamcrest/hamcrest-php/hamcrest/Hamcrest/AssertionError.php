@@ -5,6 +5,8 @@ namespace Hamcrest;
  Copyright (c) 2009 hamcrest.org
  */
 
-class AssertionError extends \RuntimeException
+use RuntimeException;
+
+class AssertionError extends RuntimeException
 {
 }

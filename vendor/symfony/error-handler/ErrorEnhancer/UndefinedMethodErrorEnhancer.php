@@ -13,13 +13,15 @@ namespace Symfony\Component\ErrorHandler\ErrorEnhancer;
 
 use Symfony\Component\ErrorHandler\Error\FatalError;
 use Symfony\Component\ErrorHandler\Error\UndefinedMethodError;
+use Throwable;
+use function strlen;
 
 /**
  * @author Grégoire Pineau <lyrixx@lyrixx.info>
  */
 class UndefinedMethodErrorEnhancer implements ErrorEnhancerInterface
 {
-    public function enhance(\Throwable $error): ?\Throwable
+    public function enhance(Throwable $error): ?Throwable
     {
         if ($error instanceof FatalError) {
             return null;
@@ -44,7 +46,7 @@ class UndefinedMethodErrorEnhancer implements ErrorEnhancerInterface
         $candidates = [];
         foreach ($methods as $definedMethodName) {
             $lev = levenshtein($methodName, $definedMethodName);
-            if ($lev <= \strlen($methodName) / 3 || str_contains($definedMethodName, $methodName)) {
+            if ($lev <= strlen($methodName) / 3 || str_contains($definedMethodName, $methodName)) {
                 $candidates[] = $definedMethodName;
             }
         }

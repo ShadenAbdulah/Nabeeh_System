@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Faker\Core;
 
 use Faker\Extension;
+use InvalidArgumentException;
 
 /**
  * @experimental This class is experimental and does not fall under our BC promise
@@ -71,7 +72,7 @@ final class Number implements Extension\NumberExtension
         $max = 10 ** $nbDigits - 1;
 
         if ($max > mt_getrandmax()) {
-            throw new \InvalidArgumentException('randomNumber() can only generate numbers up to mt_getrandmax()');
+            throw new InvalidArgumentException('randomNumber() can only generate numbers up to mt_getrandmax()');
         }
 
         if ($strict) {

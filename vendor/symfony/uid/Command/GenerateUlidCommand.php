@@ -11,6 +11,8 @@
 
 namespace Symfony\Component\Uid\Command;
 
+use DateTimeImmutable;
+use Exception;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Completion\CompletionInput;
@@ -21,6 +23,7 @@ use Symfony\Component\Console\Output\ConsoleOutputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Uid\Factory\UlidFactory;
+use function in_array;
 
 #[AsCommand(name: 'ulid:generate', description: 'Generate a ULID')]
 class GenerateUlidCommand extends Command
@@ -69,8 +72,8 @@ EOF
 
         if (null !== $time = $input->getOption('time')) {
             try {
-                $time = new \DateTimeImmutable($time);
-            } catch (\Exception $e) {
+                $time = new DateTimeImmutable($time);
+            } catch (Exception $e) {
                 $io->error(sprintf('Invalid timestamp "%s": %s', $time, str_replace('DateTimeImmutable::__construct(): ', '', $e->getMessage())));
 
                 return 1;
@@ -79,7 +82,7 @@ EOF
 
         $formatOption = $input->getOption('format');
 
-        if (\in_array($formatOption, $this->getAvailableFormatOptions())) {
+        if (in_array($formatOption, $this->getAvailableFormatOptions())) {
             $format = 'to'.ucfirst($formatOption);
         } else {
             $io->error(sprintf('Invalid format "%s", supported formats are "%s".', $formatOption, implode('", "', $this->getAvailableFormatOptions())));
@@ -92,7 +95,7 @@ EOF
             for ($i = 0; $i < $count; ++$i) {
                 $output->writeln($this->factory->create($time)->$format());
             }
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $io->error($e->getMessage());
 
             return 1;

@@ -2,6 +2,8 @@
 
 namespace Illuminate\Contracts\Routing;
 
+use InvalidArgumentException;
+
 interface UrlGenerator
 {
     /**
@@ -55,7 +57,7 @@ interface UrlGenerator
      * @param  bool  $absolute
      * @return string
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function route($name, $parameters = [], $absolute = true);
 

@@ -1,6 +1,8 @@
 <?php
 namespace Aws\Crypto;
 
+use RuntimeException;
+
 abstract class MaterialsProvider implements MaterialsProviderInterface
 {
     private static $supportedKeySizes = [
@@ -30,7 +32,7 @@ abstract class MaterialsProvider implements MaterialsProviderInterface
      *
      * @return MaterialsProvider
      *
-     * @throws \RuntimeException Thrown when there is an empty or improperly
+     * @throws RuntimeException Thrown when there is an empty or improperly
      *                           formed materials description in the envelope.
      *
      * @internal

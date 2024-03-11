@@ -2,6 +2,10 @@
 
 namespace Illuminate\Mail;
 
+use BadMethodCallException;
+use Closure;
+use DateInterval;
+use DateTimeInterface;
 use Illuminate\Config\Repository as ConfigRepository;
 use Illuminate\Container\Container;
 use Illuminate\Contracts\Filesystem\Factory as FilesystemFactory;
@@ -22,6 +26,7 @@ use Illuminate\Support\Traits\Macroable;
 use Illuminate\Testing\Constraints\SeeInOrder;
 use PHPUnit\Framework\Assert as PHPUnit;
 use ReflectionClass;
+use ReflectionException;
 use ReflectionProperty;
 use Symfony\Component\Mailer\Header\MetadataHeader;
 use Symfony\Component\Mailer\Header\TagHeader;
@@ -190,8 +195,8 @@ class Mailable implements MailableContract, Renderable
     /**
      * Send the message using the given mailer.
      *
-     * @param  \Illuminate\Contracts\Mail\Factory|\Illuminate\Contracts\Mail\Mailer  $mailer
-     * @return \Illuminate\Mail\SentMessage|null
+     * @param MailFactory|\Illuminate\Contracts\Mail\Mailer  $mailer
+     * @return SentMessage|null
      */
     public function send($mailer)
     {
@@ -217,7 +222,7 @@ class Mailable implements MailableContract, Renderable
     /**
      * Queue the message for sending.
      *
-     * @param  \Illuminate\Contracts\Queue\Factory  $queue
+     * @param Queue $queue
      * @return mixed
      */
     public function queue(Queue $queue)
@@ -238,8 +243,8 @@ class Mailable implements MailableContract, Renderable
     /**
      * Deliver the queued message after (n) seconds.
      *
-     * @param  \DateTimeInterface|\DateInterval|int  $delay
-     * @param  \Illuminate\Contracts\Queue\Factory  $queue
+     * @param  DateTimeInterface|DateInterval|int  $delay
+     * @param Queue $queue
      * @return mixed
      */
     public function later($delay, Queue $queue)
@@ -272,7 +277,7 @@ class Mailable implements MailableContract, Renderable
      *
      * @return string
      *
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     public function render()
     {
@@ -290,7 +295,7 @@ class Mailable implements MailableContract, Renderable
      *
      * @return array|string
      *
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     protected function buildView()
     {
@@ -319,7 +324,7 @@ class Mailable implements MailableContract, Renderable
      *
      * @return array
      *
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     protected function buildMarkdownView()
     {
@@ -336,7 +341,7 @@ class Mailable implements MailableContract, Renderable
      *
      * @return array
      *
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     public function buildViewData()
     {
@@ -359,7 +364,7 @@ class Mailable implements MailableContract, Renderable
      * Build the HTML view for a Markdown message.
      *
      * @param  array  $viewData
-     * @return \Closure
+     * @return Closure
      */
     protected function buildMarkdownHtml($viewData)
     {
@@ -373,7 +378,7 @@ class Mailable implements MailableContract, Renderable
      * Build the text view for a Markdown message.
      *
      * @param  array  $viewData
-     * @return \Closure
+     * @return Closure
      */
     protected function buildMarkdownText($viewData)
     {
@@ -394,7 +399,7 @@ class Mailable implements MailableContract, Renderable
     /**
      * Resolves a Markdown instance with the mail's theme.
      *
-     * @return \Illuminate\Mail\Markdown
+     * @return Markdown
      */
     protected function markdownRenderer()
     {
@@ -408,7 +413,7 @@ class Mailable implements MailableContract, Renderable
     /**
      * Add the sender to the message.
      *
-     * @param  \Illuminate\Mail\Message  $message
+     * @param Message $message
      * @return $this
      */
     protected function buildFrom($message)
@@ -423,7 +428,7 @@ class Mailable implements MailableContract, Renderable
     /**
      * Add all of the recipients to the message.
      *
-     * @param  \Illuminate\Mail\Message  $message
+     * @param Message $message
      * @return $this
      */
     protected function buildRecipients($message)
@@ -440,7 +445,7 @@ class Mailable implements MailableContract, Renderable
     /**
      * Set the subject for the message.
      *
-     * @param  \Illuminate\Mail\Message  $message
+     * @param Message $message
      * @return $this
      */
     protected function buildSubject($message)
@@ -457,7 +462,7 @@ class Mailable implements MailableContract, Renderable
     /**
      * Add all of the attachments to the message.
      *
-     * @param  \Illuminate\Mail\Message  $message
+     * @param Message $message
      * @return $this
      */
     protected function buildAttachments($message)
@@ -480,7 +485,7 @@ class Mailable implements MailableContract, Renderable
     /**
      * Add all of the disk attachments to the message.
      *
-     * @param  \Illuminate\Mail\Message  $message
+     * @param Message $message
      * @return void
      */
     protected function buildDiskAttachments($message)
@@ -501,7 +506,7 @@ class Mailable implements MailableContract, Renderable
     /**
      * Add all defined tags to the message.
      *
-     * @param  \Illuminate\Mail\Message  $message
+     * @param Message $message
      * @return $this
      */
     protected function buildTags($message)
@@ -518,7 +523,7 @@ class Mailable implements MailableContract, Renderable
     /**
      * Add all defined metadata to the message.
      *
-     * @param  \Illuminate\Mail\Message  $message
+     * @param Message $message
      * @return $this
      */
     protected function buildMetadata($message)
@@ -535,7 +540,7 @@ class Mailable implements MailableContract, Renderable
     /**
      * Run the callbacks for the message.
      *
-     * @param  \Illuminate\Mail\Message  $message
+     * @param Message $message
      * @return $this
      */
     protected function runCallbacks($message)
@@ -938,7 +943,7 @@ class Mailable implements MailableContract, Renderable
     /**
      * Attach a file to the message.
      *
-     * @param  string|\Illuminate\Contracts\Mail\Attachable|\Illuminate\Mail\Attachment  $file
+     * @param  string|Attachable|Attachment $file
      * @param  array  $options
      * @return $this
      */
@@ -982,7 +987,7 @@ class Mailable implements MailableContract, Renderable
     /**
      * Determine if the mailable has the given attachment.
      *
-     * @param  string|\Illuminate\Contracts\Mail\Attachable|\Illuminate\Mail\Attachment  $file
+     * @param  string|Attachable|Attachment $file
      * @param  array  $options
      * @return bool
      */
@@ -1022,7 +1027,7 @@ class Mailable implements MailableContract, Renderable
     /**
      * Determine if the mailable has the given envelope attachment.
      *
-     * @param  \Illuminate\Mail\Attachment  $attachment
+     * @param Attachment $attachment
      * @param  array  $options
      * @return bool
      */
@@ -1468,7 +1473,7 @@ class Mailable implements MailableContract, Renderable
     /**
      * Assert the mailable has the given attachment.
      *
-     * @param  string|\Illuminate\Contracts\Mail\Attachable|\Illuminate\Mail\Attachment  $file
+     * @param  string|Attachable|Attachment $file
      * @param  array  $options
      * @return $this
      */
@@ -1587,7 +1592,7 @@ class Mailable implements MailableContract, Renderable
      *
      * @return array
      *
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     protected function renderForAssertions()
     {
@@ -1804,7 +1809,7 @@ class Mailable implements MailableContract, Renderable
      * @param  array  $parameters
      * @return $this
      *
-     * @throws \BadMethodCallException
+     * @throws BadMethodCallException
      */
     public function __call($method, $parameters)
     {

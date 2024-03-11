@@ -38,14 +38,14 @@ class ListenCommand extends Command
     /**
      * The queue listener instance.
      *
-     * @var \Illuminate\Queue\Listener
+     * @var Listener
      */
     protected $listener;
 
     /**
      * Create a new queue listen command.
      *
-     * @param  \Illuminate\Queue\Listener  $listener
+     * @param Listener $listener
      * @return void
      */
     public function __construct(Listener $listener)
@@ -94,7 +94,7 @@ class ListenCommand extends Command
     /**
      * Get the listener options for the command.
      *
-     * @return \Illuminate\Queue\ListenerOptions
+     * @return ListenerOptions
      */
     protected function gatherOptions()
     {
@@ -118,7 +118,7 @@ class ListenCommand extends Command
     /**
      * Set the options on the queue listener.
      *
-     * @param  \Illuminate\Queue\Listener  $listener
+     * @param Listener $listener
      * @return void
      */
     protected function setOutputHandler(Listener $listener)

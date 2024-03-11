@@ -24,6 +24,7 @@ use Aws\Endpoint\UseFipsEndpoint\ConfigurationProvider as UseFipsConfigProvider;
 use Aws\EndpointDiscovery\ConfigurationInterface;
 use Aws\EndpointDiscovery\ConfigurationProvider;
 use Aws\EndpointV2\EndpointDefinitionProvider;
+use Aws\EndpointV2\EndpointProviderV2;
 use Aws\Exception\AwsException;
 use Aws\Exception\InvalidRegionException;
 use Aws\Retry\ConfigurationInterface as RetryConfigInterface;
@@ -32,6 +33,7 @@ use Aws\Signature\SignatureProvider;
 use Aws\Token\Token;
 use Aws\Token\TokenInterface;
 use Aws\Token\TokenProvider;
+use Closure;
 use GuzzleHttp\Promise\PromiseInterface;
 use InvalidArgumentException as IAE;
 use Psr\Http\Message\RequestInterface;
@@ -246,10 +248,10 @@ class ClientResolver
         ],
         'csm' => [
             'type'     => 'value',
-            'valid'    => [\Aws\ClientSideMonitoring\ConfigurationInterface::class, 'callable', 'array', 'bool'],
+            'valid'    => [ClientSideMonitoring\ConfigurationInterface::class, 'callable', 'array', 'bool'],
             'doc'      => 'CSM options for the client. Provides a callable wrapping a promise, a boolean "false", an instance of ConfigurationInterface, or an associative array of "enabled", "host", "port", and "client_id".',
             'fn'       => [__CLASS__, '_apply_csm'],
-            'default'  => [\Aws\ClientSideMonitoring\ConfigurationProvider::class, 'defaultProvider']
+            'default'  => [ClientSideMonitoring\ConfigurationProvider::class, 'defaultProvider']
         ],
         'http' => [
             'type'    => 'value',
@@ -341,7 +343,7 @@ class ClientResolver
      * @param HandlerList $list Handler list to augment.
      *
      * @return array Returns the array of provided options.
-     * @throws \InvalidArgumentException
+     * @throws IAE
      * @see Aws\AwsClient::__construct for a list of available options.
      */
     public function resolve(array $args, HandlerList $list)
@@ -355,7 +357,7 @@ class ClientResolver
                     if (is_callable($a['default'])
                         && (
                             is_array($a['default'])
-                            || $a['default'] instanceof \Closure
+                            || $a['default'] instanceof Closure
                         )
                     ) {
                         $args[$key] = $a['default']($args);
@@ -438,7 +440,7 @@ class ClientResolver
      *
      * @param string $name     Name of the value being validated.
      * @param mixed  $provided The provided value.
-     * @throws \InvalidArgumentException
+     * @throws IAE
      */
     private function invalidType($name, $provided)
     {
@@ -454,7 +456,7 @@ class ClientResolver
      * Throws an exception for missing required arguments.
      *
      * @param array $args Passed in arguments.
-     * @throws \InvalidArgumentException
+     * @throws IAE
      */
     private function throwRequired(array $args)
     {
@@ -660,9 +662,9 @@ class ClientResolver
         if ($value === false) {
             $value = new Configuration(
                 false,
-                \Aws\ClientSideMonitoring\ConfigurationProvider::DEFAULT_HOST,
-                \Aws\ClientSideMonitoring\ConfigurationProvider::DEFAULT_PORT,
-                \Aws\ClientSideMonitoring\ConfigurationProvider::DEFAULT_CLIENT_ID
+                ClientSideMonitoring\ConfigurationProvider::DEFAULT_HOST,
+                ClientSideMonitoring\ConfigurationProvider::DEFAULT_PORT,
+                ClientSideMonitoring\ConfigurationProvider::DEFAULT_CLIENT_ID
             );
             $args['csm'] = $value;
         }
@@ -715,7 +717,7 @@ class ClientResolver
     public static function _apply_endpoint_provider($value, array &$args)
     {
         if (!isset($args['endpoint'])) {
-            if ($value instanceof \Aws\EndpointV2\EndpointProviderV2) {
+            if ($value instanceof EndpointProviderV2) {
                 $options = self::getEndpointProviderOptions($args);
                 $value = PartitionEndpointProvider::defaultProvider($options)
                     ->getPartition($args['region'], $args['service']);
@@ -742,7 +744,7 @@ class ClientResolver
                 );
             }
 
-            $args['region'] = \Aws\strip_fips_pseudo_regions($args['region']);
+            $args['region'] = strip_fips_pseudo_regions($args['region']);
 
             // Invoke the endpoint provider and throw if it does not resolve.
             $result = EndpointProvider::resolve($value, [
@@ -947,7 +949,7 @@ class ClientResolver
 
         //Add endpoint discovery if set
         if (isset($args['endpoint_discovery'])) {
-            if (($args['endpoint_discovery'] instanceof \Aws\EndpointDiscovery\Configuration
+            if (($args['endpoint_discovery'] instanceof EndpointDiscovery\Configuration
                 && $args['endpoint_discovery']->isEnabled())
             ) {
                 $userAgent []= 'cfg/endpoint-discovery';
@@ -961,7 +963,7 @@ class ClientResolver
 
         //Add retry mode if set
         if (isset($args['retries'])) {
-            if ($args['retries'] instanceof \Aws\Retry\Configuration) {
+            if ($args['retries'] instanceof Retry\Configuration) {
                 $userAgent []= 'cfg/retry-mode#' . $args["retries"]->getMode();
             } elseif (is_array($args['retries'])
                 && isset($args["retries"]["mode"])
@@ -1052,7 +1054,7 @@ class ClientResolver
                 $service->getServiceName(),
                 $service->getApiVersion()
             );
-            return new \Aws\EndpointV2\EndpointProviderV2(
+            return new EndpointProviderV2(
                 $ruleset,
                 EndpointDefinitionProvider::getPartitions()
             );
@@ -1158,7 +1160,7 @@ class ClientResolver
             return '';
         }
 
-        $serviceIdentifier = \Aws\manifest($args['service'])['serviceIdentifier'];
+        $serviceIdentifier = manifest($args['service'])['serviceIdentifier'];
         $value =  ConfigurationResolver::resolve(
             'endpoint_url_' . $serviceIdentifier,
             '',
@@ -1187,7 +1189,7 @@ class ClientResolver
 
         return $value;
     }
-  
+
     public static function _apply_region($value, array &$args)
     {
         if (empty($value)) {
@@ -1287,7 +1289,7 @@ EOT;
         if (is_null($service)) {
             return false;
         }
-        $services = \Aws\manifest();
+        $services = manifest();
         return isset($services[$service]);
     }
 

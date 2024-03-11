@@ -70,7 +70,7 @@ class EncryptionServiceProvider extends ServiceProvider
      * @param  array  $config
      * @return string
      *
-     * @throws \Illuminate\Encryption\MissingAppKeyException
+     * @throws MissingAppKeyException
      */
     protected function key(array $config)
     {

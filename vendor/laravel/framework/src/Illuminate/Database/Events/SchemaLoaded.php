@@ -2,12 +2,14 @@
 
 namespace Illuminate\Database\Events;
 
+use Illuminate\Database\Connection;
+
 class SchemaLoaded
 {
     /**
      * The database connection instance.
      *
-     * @var \Illuminate\Database\Connection
+     * @var Connection
      */
     public $connection;
 
@@ -28,7 +30,7 @@ class SchemaLoaded
     /**
      * Create a new event instance.
      *
-     * @param  \Illuminate\Database\Connection  $connection
+     * @param  Connection  $connection
      * @param  string  $path
      * @return void
      */

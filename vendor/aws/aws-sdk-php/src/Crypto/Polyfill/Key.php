@@ -1,6 +1,12 @@
 <?php
 namespace Aws\Crypto\Polyfill;
 
+use SodiumException;
+use function is_callable;
+use function mb_strlen;
+use function sodium_memzero;
+use function strlen;
+
 /**
  * Class Key
  *
@@ -16,7 +22,7 @@ class Key
     private $internalString;
 
     /**
-     * Hide contents of 
+     * Hide contents of
      *
      * @return array
      */
@@ -48,8 +54,8 @@ class Key
     {
         if (extension_loaded('sodium') && function_exists('sodium_memzero')) {
             try {
-                \sodium_memzero($this->internalString);
-            } catch (\SodiumException $ex) {
+                sodium_memzero($this->internalString);
+            } catch (SodiumException $ex) {
                 // This is a best effort, but does not provide the same guarantees as sodium_memzero():
                 $this->internalString ^= $this->internalString;
             }
@@ -69,9 +75,9 @@ class Key
      */
     public function length()
     {
-        if (\is_callable('\\mb_strlen')) {
-            return (int) \mb_strlen($this->internalString, '8bit');
+        if (is_callable('\\mb_strlen')) {
+            return (int) mb_strlen($this->internalString, '8bit');
         }
-        return (int) \strlen($this->internalString);
+        return (int) strlen($this->internalString);
     }
 }

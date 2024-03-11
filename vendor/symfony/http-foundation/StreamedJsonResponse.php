@@ -11,6 +11,12 @@
 
 namespace Symfony\Component\HttpFoundation;
 
+use JsonSerializable;
+use function is_array;
+use function is_object;
+use const JSON_NUMERIC_CHECK;
+use const JSON_THROW_ON_ERROR;
+
 /**
  * StreamedJsonResponse represents a streamed HTTP response for JSON.
  *
@@ -67,21 +73,21 @@ class StreamedJsonResponse extends StreamedResponse
 
     private function stream(): void
     {
-        $jsonEncodingOptions = \JSON_THROW_ON_ERROR | $this->encodingOptions;
-        $keyEncodingOptions = $jsonEncodingOptions & ~\JSON_NUMERIC_CHECK;
+        $jsonEncodingOptions = JSON_THROW_ON_ERROR | $this->encodingOptions;
+        $keyEncodingOptions = $jsonEncodingOptions & ~JSON_NUMERIC_CHECK;
 
         $this->streamData($this->data, $jsonEncodingOptions, $keyEncodingOptions);
     }
 
     private function streamData(mixed $data, int $jsonEncodingOptions, int $keyEncodingOptions): void
     {
-        if (\is_array($data)) {
+        if (is_array($data)) {
             $this->streamArray($data, $jsonEncodingOptions, $keyEncodingOptions);
 
             return;
         }
 
-        if (is_iterable($data) && !$data instanceof \JsonSerializable) {
+        if (is_iterable($data) && !$data instanceof JsonSerializable) {
             $this->streamIterable($data, $jsonEncodingOptions, $keyEncodingOptions);
 
             return;
@@ -102,7 +108,7 @@ class StreamedJsonResponse extends StreamedResponse
             }
 
             // generators should be used but for better DX all kind of Traversable and objects are supported
-            if (\is_object($item)) {
+            if (is_object($item)) {
                 $generators[] = $item;
                 $item = self::PLACEHOLDER;
             } elseif (self::PLACEHOLDER === $item) {

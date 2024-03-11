@@ -4,6 +4,7 @@ namespace Illuminate\Support\Testing\Fakes;
 
 use Closure;
 use Illuminate\Foundation\Bus\PendingChain;
+use Illuminate\Foundation\Bus\PendingDispatch;
 use Illuminate\Queue\CallQueuedClosure;
 
 class PendingChainFake extends PendingChain
@@ -11,14 +12,14 @@ class PendingChainFake extends PendingChain
     /**
      * The fake bus instance.
      *
-     * @var \Illuminate\Support\Testing\Fakes\BusFake
+     * @var BusFake
      */
     protected $bus;
 
     /**
      * Create a new pending chain instance.
      *
-     * @param  \Illuminate\Support\Testing\Fakes\BusFake  $bus
+     * @param BusFake $bus
      * @param  mixed  $job
      * @param  array  $chain
      * @return void
@@ -33,7 +34,7 @@ class PendingChainFake extends PendingChain
     /**
      * Dispatch the job with the given arguments.
      *
-     * @return \Illuminate\Foundation\Bus\PendingDispatch
+     * @return PendingDispatch
      */
     public function dispatch()
     {

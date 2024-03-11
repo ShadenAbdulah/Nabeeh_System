@@ -12,6 +12,7 @@
 namespace Symfony\Component\Console\Helper;
 
 use Symfony\Component\Console\Formatter\OutputFormatter;
+use function is_array;
 
 /**
  * The Formatter class provides helpers to format messages.
@@ -33,7 +34,7 @@ class FormatterHelper extends Helper
      */
     public function formatBlock(string|array $messages, string $style, bool $large = false): string
     {
-        if (!\is_array($messages)) {
+        if (!is_array($messages)) {
             $messages = [$messages];
         }
 

@@ -16,6 +16,9 @@ use PhpParser\Node\Scalar\LNumber;
 use PhpParser\Node\Stmt\Declare_;
 use PhpParser\Node\Stmt\DeclareDeclare;
 use Psy\Exception\FatalErrorException;
+use function array_unshift;
+use function reset;
+use const E_ERROR;
 
 /**
  * Provide implicit strict types declarations for for subsequent execution.
@@ -63,7 +66,7 @@ class StrictTypesPass extends CodeCleanerPass
                     if ($declare->key->toString() === 'strict_types') {
                         $value = $declare->value;
                         if (!$value instanceof LNumber || ($value->value !== 0 && $value->value !== 1)) {
-                            throw new FatalErrorException(self::EXCEPTION_MESSAGE, 0, \E_ERROR, null, $node->getStartLine());
+                            throw new FatalErrorException(self::EXCEPTION_MESSAGE, 0, E_ERROR, null, $node->getStartLine());
                         }
 
                         $this->strictTypes = $value->value === 1;
@@ -73,10 +76,10 @@ class StrictTypesPass extends CodeCleanerPass
         }
 
         if ($prependStrictTypes) {
-            $first = \reset($nodes);
+            $first = reset($nodes);
             if (!$first instanceof Declare_) {
                 $declare = new Declare_([new DeclareDeclare('strict_types', new LNumber(1))]);
-                \array_unshift($nodes, $declare);
+                array_unshift($nodes, $declare);
             }
         }
 

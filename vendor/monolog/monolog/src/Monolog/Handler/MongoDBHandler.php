@@ -11,6 +11,7 @@
 
 namespace Monolog\Handler;
 
+use MongoDB\Collection;
 use MongoDB\Driver\BulkWrite;
 use MongoDB\Driver\Manager;
 use MongoDB\Client;
@@ -34,7 +35,7 @@ use Monolog\LogRecord;
  */
 class MongoDBHandler extends AbstractProcessingHandler
 {
-    private \MongoDB\Collection $collection;
+    private Collection $collection;
 
     private Client|Manager $manager;
 

@@ -7,6 +7,7 @@ namespace AWS\CRT\Auth;
 
 use AWS\CRT\NativeResource as NativeResource;
 use AWS\CRT\Options as Options;
+use InvalidArgumentException;
 
 /**
  * Represents a set of AWS credentials
@@ -47,10 +48,10 @@ final class AwsCredentials extends NativeResource {
         $this->expiration_timepoint_seconds = $options->expiration_timepoint_seconds->asInt();
 
         if (strlen($this->access_key_id) == 0) {
-            throw new \InvalidArgumentException("access_key_id must be provided");
+            throw new InvalidArgumentException("access_key_id must be provided");
         }
         if (strlen($this->secret_access_key) == 0) {
-            throw new \InvalidArgumentException("secret_access_key must be provided");
+            throw new InvalidArgumentException("secret_access_key must be provided");
         }
 
         $creds_options = self::$crt->aws_credentials_options_new();

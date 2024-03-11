@@ -12,7 +12,20 @@
 namespace Psy\Formatter;
 
 use Psy\Util\Docblock;
+use Reflector;
 use Symfony\Component\Console\Formatter\OutputFormatter;
+use function array_keys;
+use function array_map;
+use function explode;
+use function implode;
+use function in_array;
+use function preg_replace;
+use function rtrim;
+use function sprintf;
+use function str_replace;
+use function strlen;
+use function trim;
+use function vsprintf;
 
 /**
  * A pretty-printer for docblocks.
@@ -27,11 +40,11 @@ class DocblockFormatter implements ReflectorFormatter
     /**
      * Format a docblock.
      *
-     * @param \Reflector $reflector
+     * @param Reflector $reflector
      *
      * @return string Formatted docblock
      */
-    public static function format(\Reflector $reflector): string
+    public static function format(Reflector $reflector): string
     {
         $docblock = new Docblock($reflector);
         $chunks = [];
@@ -45,20 +58,20 @@ class DocblockFormatter implements ReflectorFormatter
         if (!empty($docblock->tags)) {
             foreach ($docblock::$vectors as $name => $vector) {
                 if (isset($docblock->tags[$name])) {
-                    $chunks[] = \sprintf('<comment>%s:</comment>', self::inflect($name));
+                    $chunks[] = sprintf('<comment>%s:</comment>', self::inflect($name));
                     $chunks[] = self::formatVector($vector, $docblock->tags[$name]);
                     $chunks[] = '';
                 }
             }
 
-            $tags = self::formatTags(\array_keys($docblock::$vectors), $docblock->tags);
+            $tags = self::formatTags(array_keys($docblock::$vectors), $docblock->tags);
             if (!empty($tags)) {
                 $chunks[] = $tags;
                 $chunks[] = '';
             }
         }
 
-        return \rtrim(\implode("\n", $chunks));
+        return rtrim(implode("\n", $chunks));
     }
 
     /**
@@ -76,7 +89,7 @@ class DocblockFormatter implements ReflectorFormatter
             $max = 0;
             foreach ($lines as $line) {
                 $chunk = $line[$type];
-                $cur = empty($chunk) ? 0 : \strlen($chunk) + 1;
+                $cur = empty($chunk) ? 0 : strlen($chunk) + 1;
                 if ($cur > $max) {
                     $max = $cur;
                 }
@@ -84,10 +97,10 @@ class DocblockFormatter implements ReflectorFormatter
 
             $template[] = self::getVectorParamTemplate($type, $max);
         }
-        $template = \implode(' ', $template);
+        $template = implode(' ', $template);
 
-        return \implode("\n", \array_map(function ($line) use ($template) {
-            $escaped = \array_map(function ($l) {
+        return implode("\n", array_map(function ($line) use ($template) {
+            $escaped = array_map(function ($l) {
                 if ($l === null) {
                     return '';
                 }
@@ -95,7 +108,7 @@ class DocblockFormatter implements ReflectorFormatter
                 return OutputFormatter::escape($l);
             }, $line);
 
-            return \rtrim(\vsprintf($template, $escaped));
+            return rtrim(vsprintf($template, $escaped));
         }, $lines));
     }
 
@@ -112,18 +125,18 @@ class DocblockFormatter implements ReflectorFormatter
         $chunks = [];
 
         foreach ($tags as $name => $values) {
-            if (\in_array($name, $skip)) {
+            if (in_array($name, $skip)) {
                 continue;
             }
 
             foreach ($values as $value) {
-                $chunks[] = \sprintf('<comment>%s%s</comment> %s', self::inflect($name), empty($value) ? '' : ':', OutputFormatter::escape($value));
+                $chunks[] = sprintf('<comment>%s%s</comment> %s', self::inflect($name), empty($value) ? '' : ':', OutputFormatter::escape($value));
             }
 
             $chunks[] = '';
         }
 
-        return \implode("\n", $chunks);
+        return implode("\n", $chunks);
     }
 
     /**
@@ -135,10 +148,10 @@ class DocblockFormatter implements ReflectorFormatter
     private static function getVectorParamTemplate(string $type, int $max): string
     {
         if (!isset(self::$vectorParamTemplates[$type])) {
-            return \sprintf('%%-%ds', $max);
+            return sprintf('%%-%ds', $max);
         }
 
-        return \sprintf('<%s>%%-%ds</%s>', self::$vectorParamTemplates[$type], $max, self::$vectorParamTemplates[$type]);
+        return sprintf('<%s>%%-%ds</%s>', self::$vectorParamTemplates[$type], $max, self::$vectorParamTemplates[$type]);
     }
 
     /**
@@ -149,7 +162,7 @@ class DocblockFormatter implements ReflectorFormatter
      */
     private static function indent(string $text, string $indent = '  '): string
     {
-        return $indent.\str_replace("\n", "\n".$indent, $text);
+        return $indent. str_replace("\n", "\n".$indent, $text);
     }
 
     /**
@@ -159,8 +172,8 @@ class DocblockFormatter implements ReflectorFormatter
      */
     private static function inflect(string $text): string
     {
-        $words = \trim(\preg_replace('/[\s_-]+/', ' ', \preg_replace('/([a-z])([A-Z])/', '$1 $2', $text)));
+        $words = trim(preg_replace('/[\s_-]+/', ' ', preg_replace('/([a-z])([A-Z])/', '$1 $2', $text)));
 
-        return \implode(' ', \array_map('ucfirst', \explode(' ', $words)));
+        return implode(' ', array_map('ucfirst', explode(' ', $words)));
     }
 }

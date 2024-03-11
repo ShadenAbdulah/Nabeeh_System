@@ -12,6 +12,7 @@
 namespace Symfony\Component\Translation\Dumper;
 
 use Symfony\Component\Translation\MessageCatalogue;
+use function count;
 
 /**
  * PoFileDumper generates a gettext formatted string representation of a message catalogue.
@@ -50,7 +51,7 @@ class PoFileDumper extends FileDumper
 
             $sourceRules = $this->getStandardRules($source);
             $targetRules = $this->getStandardRules($target);
-            if (2 == \count($sourceRules) && [] !== $targetRules) {
+            if (2 == count($sourceRules) && [] !== $targetRules) {
                 $output .= sprintf('msgid "%s"'."\n", $this->escape($sourceRules[0]));
                 $output .= sprintf('msgid_plural "%s"'."\n", $this->escape($sourceRules[1]));
                 foreach ($targetRules as $i => $targetRule) {

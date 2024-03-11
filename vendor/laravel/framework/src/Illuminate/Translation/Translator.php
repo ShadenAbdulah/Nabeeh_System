@@ -3,6 +3,7 @@
 namespace Illuminate\Translation;
 
 use Closure;
+use Countable;
 use Illuminate\Contracts\Translation\Loader;
 use Illuminate\Contracts\Translation\Translator as TranslatorContract;
 use Illuminate\Support\Arr;
@@ -19,7 +20,7 @@ class Translator extends NamespacedItemResolver implements TranslatorContract
     /**
      * The loader implementation.
      *
-     * @var \Illuminate\Contracts\Translation\Loader
+     * @var Loader
      */
     protected $loader;
 
@@ -47,7 +48,7 @@ class Translator extends NamespacedItemResolver implements TranslatorContract
     /**
      * The message selector.
      *
-     * @var \Illuminate\Translation\MessageSelector
+     * @var MessageSelector
      */
     protected $selector;
 
@@ -82,7 +83,7 @@ class Translator extends NamespacedItemResolver implements TranslatorContract
     /**
      * Create a new translator instance.
      *
-     * @param  \Illuminate\Contracts\Translation\Loader  $loader
+     * @param Loader $loader
      * @param  string  $locale
      * @return void
      */
@@ -183,7 +184,7 @@ class Translator extends NamespacedItemResolver implements TranslatorContract
      * Get a translation according to an integer value.
      *
      * @param  string  $key
-     * @param  \Countable|int|float|array  $number
+     * @param  Countable|int|float|array  $number
      * @param  array  $replace
      * @param  string|null  $locale
      * @return string
@@ -435,7 +436,7 @@ class Translator extends NamespacedItemResolver implements TranslatorContract
     /**
      * Get the message selector instance.
      *
-     * @return \Illuminate\Translation\MessageSelector
+     * @return MessageSelector
      */
     public function getSelector()
     {
@@ -449,7 +450,7 @@ class Translator extends NamespacedItemResolver implements TranslatorContract
     /**
      * Set the message selector instance.
      *
-     * @param  \Illuminate\Translation\MessageSelector  $selector
+     * @param MessageSelector $selector
      * @return void
      */
     public function setSelector(MessageSelector $selector)
@@ -460,7 +461,7 @@ class Translator extends NamespacedItemResolver implements TranslatorContract
     /**
      * Get the language line loader implementation.
      *
-     * @return \Illuminate\Contracts\Translation\Loader
+     * @return Loader
      */
     public function getLoader()
     {
@@ -493,7 +494,7 @@ class Translator extends NamespacedItemResolver implements TranslatorContract
      * @param  string  $locale
      * @return void
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function setLocale($locale)
     {

@@ -3,6 +3,8 @@
 namespace Illuminate\Foundation\Exceptions\Whoops;
 
 use Illuminate\Contracts\Foundation\ExceptionRenderer;
+use Throwable;
+use Whoops\Handler\Handler;
 use Whoops\Run as Whoops;
 
 use function tap;
@@ -12,7 +14,7 @@ class WhoopsExceptionRenderer implements ExceptionRenderer
     /**
      * Renders the given exception as HTML.
      *
-     * @param  \Throwable  $throwable
+     * @param  Throwable  $throwable
      * @return string
      */
     public function render($throwable)
@@ -29,7 +31,7 @@ class WhoopsExceptionRenderer implements ExceptionRenderer
     /**
      * Get the Whoops handler for the application.
      *
-     * @return \Whoops\Handler\Handler
+     * @return Handler
      */
     protected function whoopsHandler()
     {

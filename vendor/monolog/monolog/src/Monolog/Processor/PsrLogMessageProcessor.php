@@ -11,8 +11,12 @@
 
 namespace Monolog\Processor;
 
+use BackedEnum;
+use DateTimeInterface;
+use Monolog\DateTimeImmutable;
 use Monolog\Utils;
 use Monolog\LogRecord;
+use UnitEnum;
 
 /**
  * Processes a record's message according to PSR-3 rules
@@ -59,16 +63,16 @@ class PsrLogMessageProcessor implements ProcessorInterface
 
             if (null === $val || is_scalar($val) || (is_object($val) && method_exists($val, "__toString"))) {
                 $replacements[$placeholder] = $val;
-            } elseif ($val instanceof \DateTimeInterface) {
-                if (null === $this->dateFormat && $val instanceof \Monolog\DateTimeImmutable) {
+            } elseif ($val instanceof DateTimeInterface) {
+                if (null === $this->dateFormat && $val instanceof DateTimeImmutable) {
                     // handle monolog dates using __toString if no specific dateFormat was asked for
                     // so that it follows the useMicroseconds flag
                     $replacements[$placeholder] = (string) $val;
                 } else {
                     $replacements[$placeholder] = $val->format($this->dateFormat ?? static::SIMPLE_DATE);
                 }
-            } elseif ($val instanceof \UnitEnum) {
-                $replacements[$placeholder] = $val instanceof \BackedEnum ? $val->value : $val->name;
+            } elseif ($val instanceof UnitEnum) {
+                $replacements[$placeholder] = $val instanceof BackedEnum ? $val->value : $val->name;
             } elseif (is_object($val)) {
                 $replacements[$placeholder] = '[object '.Utils::getClass($val).']';
             } elseif (is_array($val)) {

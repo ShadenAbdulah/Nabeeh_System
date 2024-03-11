@@ -10,6 +10,14 @@ declare(strict_types=1);
 namespace Nette\Utils;
 
 use Nette;
+use ReflectionFunction;
+use ReflectionFunctionAbstract;
+use ReflectionIntersectionType;
+use ReflectionNamedType;
+use ReflectionParameter;
+use ReflectionProperty;
+use ReflectionType;
+use ReflectionUnionType;
 
 
 /**
@@ -28,10 +36,10 @@ final class Type
 	 * If the subject has no type, it returns null.
 	 */
 	public static function fromReflection(
-		\ReflectionFunctionAbstract|\ReflectionParameter|\ReflectionProperty $reflection,
+		ReflectionFunctionAbstract|ReflectionParameter|ReflectionProperty $reflection,
 	): ?self
 	{
-		$type = $reflection instanceof \ReflectionFunctionAbstract
+		$type = $reflection instanceof ReflectionFunctionAbstract
 			? $reflection->getReturnType() ?? (PHP_VERSION_ID >= 80100 && $reflection instanceof \ReflectionMethod ? $reflection->getTentativeReturnType() : null)
 			: $reflection->getType();
 
@@ -39,18 +47,18 @@ final class Type
 	}
 
 
-	private static function fromReflectionType(\ReflectionType $type, $of, bool $asObject): self|string
+	private static function fromReflectionType(ReflectionType $type, $of, bool $asObject): self|string
 	{
-		if ($type instanceof \ReflectionNamedType) {
+		if ($type instanceof ReflectionNamedType) {
 			$name = self::resolve($type->getName(), $of);
 			return $asObject
 				? new self($type->allowsNull() && $name !== 'mixed' ? [$name, 'null'] : [$name])
 				: $name;
 
-		} elseif ($type instanceof \ReflectionUnionType || $type instanceof \ReflectionIntersectionType) {
+		} elseif ($type instanceof ReflectionUnionType || $type instanceof ReflectionIntersectionType) {
 			return new self(
 				array_map(fn($t) => self::fromReflectionType($t, $of, asObject: false), $type->getTypes()),
-				$type instanceof \ReflectionUnionType ? '|' : '&',
+				$type instanceof ReflectionUnionType ? '|' : '&',
 			);
 
 		} else {
@@ -88,12 +96,12 @@ final class Type
 	 * Resolves 'self', 'static' and 'parent' to the actual class name.
 	 */
 	public static function resolve(
-		string $type,
-		\ReflectionFunctionAbstract|\ReflectionParameter|\ReflectionProperty $of,
+		string                                                             $type,
+		ReflectionFunctionAbstract|ReflectionParameter|ReflectionProperty $of,
 	): string
 	{
 		$lower = strtolower($type);
-		if ($of instanceof \ReflectionFunction) {
+		if ($of instanceof ReflectionFunction) {
 			return $type;
 		} elseif ($lower === 'self') {
 			return $of->getDeclaringClass()->name;

@@ -39,7 +39,7 @@ trait DelegatesToResource
      * @param  string|null  $field
      * @return void
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function resolveRouteBinding($value, $field = null)
     {
@@ -54,7 +54,7 @@ trait DelegatesToResource
      * @param  string|null  $field
      * @return void
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function resolveChildRouteBinding($childType, $value, $field = null)
     {

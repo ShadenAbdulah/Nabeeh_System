@@ -11,7 +11,11 @@
 
 namespace Symfony\Component\HttpFoundation\Session\Storage;
 
+use InvalidArgumentException;
+use LogicException;
+use RuntimeException;
 use Symfony\Component\HttpFoundation\Session\SessionBagInterface;
+use function func_num_args;
 
 /**
  * MockArraySessionStorage mocks the session for unit tests.
@@ -114,7 +118,7 @@ class MockArraySessionStorage implements SessionStorageInterface
     public function setId(string $id)
     {
         if ($this->started) {
-            throw new \LogicException('Cannot set session ID after the session has started.');
+            throw new LogicException('Cannot set session ID after the session has started.');
         }
 
         $this->id = $id;
@@ -139,7 +143,7 @@ class MockArraySessionStorage implements SessionStorageInterface
     public function save()
     {
         if (!$this->started || $this->closed) {
-            throw new \RuntimeException('Trying to save a session that was not started yet or was already closed.');
+            throw new RuntimeException('Trying to save a session that was not started yet or was already closed.');
         }
         // nothing to do since we don't persist the session data
         $this->closed = false;
@@ -174,7 +178,7 @@ class MockArraySessionStorage implements SessionStorageInterface
     public function getBag(string $name): SessionBagInterface
     {
         if (!isset($this->bags[$name])) {
-            throw new \InvalidArgumentException(sprintf('The SessionBagInterface "%s" is not registered.', $name));
+            throw new InvalidArgumentException(sprintf('The SessionBagInterface "%s" is not registered.', $name));
         }
 
         if (!$this->started) {
@@ -194,7 +198,7 @@ class MockArraySessionStorage implements SessionStorageInterface
      */
     public function setMetadataBag(?MetadataBag $bag = null)
     {
-        if (1 > \func_num_args()) {
+        if (1 > func_num_args()) {
             trigger_deprecation('symfony/http-foundation', '6.2', 'Calling "%s()" without any arguments is deprecated, pass null explicitly instead.', __METHOD__);
         }
         $this->metadataBag = $bag ?? new MetadataBag();

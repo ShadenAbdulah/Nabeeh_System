@@ -6,6 +6,7 @@ use Ably\AblyRest;
 use Ably\Exceptions\AblyException;
 use Ably\Models\Message as AblyMessage;
 use Illuminate\Broadcasting\BroadcastException;
+use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
@@ -18,14 +19,14 @@ class AblyBroadcaster extends Broadcaster
     /**
      * The AblyRest SDK instance.
      *
-     * @var \Ably\AblyRest
+     * @var AblyRest
      */
     protected $ably;
 
     /**
      * Create a new broadcaster instance.
      *
-     * @param  \Ably\AblyRest  $ably
+     * @param AblyRest $ably
      * @return void
      */
     public function __construct(AblyRest $ably)
@@ -36,10 +37,10 @@ class AblyBroadcaster extends Broadcaster
     /**
      * Authenticate the incoming request for a given channel.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  Request  $request
      * @return mixed
      *
-     * @throws \Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException
+     * @throws AccessDeniedHttpException
      */
     public function auth($request)
     {
@@ -59,7 +60,7 @@ class AblyBroadcaster extends Broadcaster
     /**
      * Return the valid authentication response.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  Request  $request
      * @param  mixed  $result
      * @return mixed
      */
@@ -121,7 +122,7 @@ class AblyBroadcaster extends Broadcaster
      * @param  array  $payload
      * @return void
      *
-     * @throws \Illuminate\Broadcasting\BroadcastException
+     * @throws BroadcastException
      */
     public function broadcast(array $channels, $event, array $payload = [])
     {
@@ -143,7 +144,7 @@ class AblyBroadcaster extends Broadcaster
      *
      * @param  string  $event
      * @param  array  $payload
-     * @return \Ably\Models\Message
+     * @return AblyMessage
      */
     protected function buildAblyMessage($event, array $payload = [])
     {
@@ -226,7 +227,7 @@ class AblyBroadcaster extends Broadcaster
     /**
      * Get the underlying Ably SDK instance.
      *
-     * @return \Ably\AblyRest
+     * @return AblyRest
      */
     public function getAbly()
     {
@@ -236,7 +237,7 @@ class AblyBroadcaster extends Broadcaster
     /**
      * Set the underlying Ably SDK instance.
      *
-     * @param  \Ably\AblyRest  $ably
+     * @param AblyRest $ably
      * @return void
      */
     public function setAbly($ably)

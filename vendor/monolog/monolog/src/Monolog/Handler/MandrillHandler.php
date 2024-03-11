@@ -11,6 +11,8 @@
 
 namespace Monolog\Handler;
 
+use DateTimeImmutable;
+use InvalidArgumentException;
 use Monolog\Level;
 use Swift;
 use Swift_Message;
@@ -31,7 +33,7 @@ class MandrillHandler extends MailHandler
      * @param string                 $apiKey  A valid Mandrill API key
      * @param callable|Swift_Message $message An example message for real messages, only the body will be replaced
      *
-     * @throws \InvalidArgumentException if not a Swift Message is set
+     * @throws InvalidArgumentException if not a Swift Message is set
      */
     public function __construct(string $apiKey, callable|Swift_Message $message, int|string|Level $level = Level::Error, bool $bubble = true)
     {
@@ -41,7 +43,7 @@ class MandrillHandler extends MailHandler
             $message = $message();
         }
         if (!$message instanceof Swift_Message) {
-            throw new \InvalidArgumentException('You must provide either a Swift_Message instance or a callable returning it');
+            throw new InvalidArgumentException('You must provide either a Swift_Message instance or a callable returning it');
         }
         $this->message = $message;
         $this->apiKey = $apiKey;
@@ -61,7 +63,7 @@ class MandrillHandler extends MailHandler
         $message->setBody($content, $mime);
         /** @phpstan-ignore-next-line */
         if (version_compare(Swift::VERSION, '6.0.0', '>=')) {
-            $message->setDate(new \DateTimeImmutable());
+            $message->setDate(new DateTimeImmutable());
         } else {
             /** @phpstan-ignore-next-line */
             $message->setDate(time());

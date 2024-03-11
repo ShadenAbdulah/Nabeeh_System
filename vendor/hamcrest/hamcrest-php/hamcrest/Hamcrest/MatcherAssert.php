@@ -5,6 +5,8 @@ namespace Hamcrest;
  Copyright (c) 2009 hamcrest.org
  */
 
+use InvalidArgumentException;
+
 class MatcherAssert
 {
 
@@ -65,7 +67,7 @@ class MatcherAssert
                 break;
 
             default:
-                throw new \InvalidArgumentException('assertThat() requires one to three arguments');
+                throw new InvalidArgumentException('assertThat() requires one to three arguments');
         }
     }
 
@@ -96,7 +98,7 @@ class MatcherAssert
      *
      * @param string $identifier added to the message upon failure
      * @param mixed $actual value to compare against <code>$matcher</code>
-     * @param \Hamcrest\Matcher $matcher applied to <code>$actual</code>
+     * @param Matcher $matcher applied to <code>$actual</code>
      * @throws AssertionError
      */
     private static function doAssert($identifier, $actual, Matcher $matcher)

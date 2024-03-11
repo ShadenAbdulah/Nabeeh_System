@@ -11,7 +11,7 @@ class MaintenanceModeBypassCookie
      * Create a new maintenance mode bypass cookie.
      *
      * @param  string  $key
-     * @return \Symfony\Component\HttpFoundation\Cookie
+     * @return Cookie
      */
     public static function create(string $key)
     {

@@ -65,7 +65,7 @@ class IsArrayContainingKey extends TypeSafeMatcher
      *
      * @param mixed $key as a {@link Hamcrest\Matcher} or a value.
      *
-     * @return \Hamcrest\Arrays\IsArrayContainingKey
+     * @return IsArrayContainingKey
      * @factory hasKey
      */
     public static function hasKeyInArray($key)

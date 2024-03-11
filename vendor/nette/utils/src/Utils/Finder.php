@@ -9,7 +9,13 @@ declare(strict_types=1);
 
 namespace Nette\Utils;
 
+use Closure;
+use DateTimeInterface;
+use FilesystemIterator;
+use Generator;
+use IteratorAggregate;
 use Nette;
+use UnexpectedValueException;
 
 
 /**
@@ -20,9 +26,9 @@ use Nette;
  *     ->from('.')
  *     ->exclude('temp');
  *
- * @implements \IteratorAggregate<string, FileInfo>
+ * @implements IteratorAggregate<string, FileInfo>
  */
-class Finder implements \IteratorAggregate
+class Finder implements IteratorAggregate
 {
 	use Nette\SmartObject;
 
@@ -32,10 +38,10 @@ class Finder implements \IteratorAggregate
 	/** @var string[] */
 	private array $in = [];
 
-	/** @var \Closure[] */
+	/** @var Closure[] */
 	private array $filters = [];
 
-	/** @var \Closure[] */
+	/** @var Closure[] */
 	private array $descentFilters = [];
 
 	/** @var array<string|self> */
@@ -239,7 +245,7 @@ class Finder implements \IteratorAggregate
 	 */
 	public function filter(callable $callback): static
 	{
-		$this->filters[] = \Closure::fromCallable($callback);
+		$this->filters[] = Closure::fromCallable($callback);
 		return $this;
 	}
 
@@ -250,7 +256,7 @@ class Finder implements \IteratorAggregate
 	 */
 	public function descentFilter(callable $callback): static
 	{
-		$this->descentFilters[] = \Closure::fromCallable($callback);
+		$this->descentFilters[] = Closure::fromCallable($callback);
 		return $this;
 	}
 
@@ -288,7 +294,7 @@ class Finder implements \IteratorAggregate
 	/**
 	 * Restricts the search by modified time. $operator accepts "[operator] [date]" example: >1978-01-23
 	 */
-	public function date(string $operator, string|int|\DateTimeInterface|null $date = null): static
+	public function date(string $operator, string|int|DateTimeInterface|null $date = null): static
 	{
 		if (func_num_args() === 1) { // in $operator is predicate
 			if (!preg_match('#^(?:([=<>!]=?|<>)\s*)?(.+)$#Di', $operator, $matches)) {
@@ -317,8 +323,8 @@ class Finder implements \IteratorAggregate
 	}
 
 
-	/** @return \Generator<string, FileInfo> */
-	public function getIterator(): \Generator
+	/** @return Generator<string, FileInfo> */
+	public function getIterator(): Generator
 	{
 		$plan = $this->buildPlan();
 		foreach ($plan as $dir => $searches) {
@@ -339,9 +345,9 @@ class Finder implements \IteratorAggregate
 	/**
 	 * @param  array<object{pattern: string, mode: string, recursive: bool}>  $searches
 	 * @param  string[]  $subdirs
-	 * @return \Generator<string, FileInfo>
+	 * @return Generator<string, FileInfo>
 	 */
-	private function traverseDir(string $dir, array $searches, array $subdirs = []): \Generator
+	private function traverseDir(string $dir, array $searches, array $subdirs = []): Generator
 	{
 		if ($this->maxDepth >= 0 && count($subdirs) > $this->maxDepth) {
 			return;
@@ -350,8 +356,8 @@ class Finder implements \IteratorAggregate
 		}
 
 		try {
-			$pathNames = new \FilesystemIterator($dir, \FilesystemIterator::FOLLOW_SYMLINKS | \FilesystemIterator::SKIP_DOTS | \FilesystemIterator::CURRENT_AS_PATHNAME | \FilesystemIterator::UNIX_PATHS);
-		} catch (\UnexpectedValueException $e) {
+			$pathNames = new FilesystemIterator($dir, FilesystemIterator::FOLLOW_SYMLINKS | FilesystemIterator::SKIP_DOTS | FilesystemIterator::CURRENT_AS_PATHNAME | FilesystemIterator::UNIX_PATHS);
+		} catch (UnexpectedValueException $e) {
 			if ($this->ignoreUnreadableDirs) {
 				return;
 			} else {
@@ -401,7 +407,7 @@ class Finder implements \IteratorAggregate
 	}
 
 
-	private function convertToFiles(iterable $pathNames, string $relativePath, bool $absolute): \Generator
+	private function convertToFiles(iterable $pathNames, string $relativePath, bool $absolute): Generator
 	{
 		foreach ($pathNames as $pathName) {
 			if (!$absolute) {

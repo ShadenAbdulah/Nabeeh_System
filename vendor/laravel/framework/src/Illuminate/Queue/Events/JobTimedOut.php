@@ -2,6 +2,8 @@
 
 namespace Illuminate\Queue\Events;
 
+use Illuminate\Contracts\Queue\Job;
+
 class JobTimedOut
 {
     /**
@@ -14,7 +16,7 @@ class JobTimedOut
     /**
      * The job instance.
      *
-     * @var \Illuminate\Contracts\Queue\Job
+     * @var Job
      */
     public $job;
 
@@ -22,7 +24,7 @@ class JobTimedOut
      * Create a new event instance.
      *
      * @param  string  $connectionName
-     * @param  \Illuminate\Contracts\Queue\Job  $job
+     * @param  Job  $job
      * @return void
      */
     public function __construct($connectionName, $job)

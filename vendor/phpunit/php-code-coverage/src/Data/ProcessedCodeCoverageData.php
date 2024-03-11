@@ -9,6 +9,7 @@
  */
 namespace SebastianBergmann\CodeCoverage\Data;
 
+use SebastianBergmann\CodeCoverage\Driver\XdebugDriver;
 use function array_key_exists;
 use function array_keys;
 use function array_merge;
@@ -21,7 +22,7 @@ use SebastianBergmann\CodeCoverage\Driver\Driver;
 /**
  * @internal This class is not covered by the backward compatibility promise for phpunit/php-code-coverage
  *
- * @psalm-import-type XdebugFunctionCoverageType from \SebastianBergmann\CodeCoverage\Driver\XdebugDriver
+ * @psalm-import-type XdebugFunctionCoverageType from XdebugDriver
  *
  * @psalm-type TestIdType = string
  */

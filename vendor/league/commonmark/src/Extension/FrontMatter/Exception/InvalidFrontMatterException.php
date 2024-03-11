@@ -14,10 +14,12 @@ declare(strict_types=1);
 namespace League\CommonMark\Extension\FrontMatter\Exception;
 
 use League\CommonMark\Exception\CommonMarkException;
+use RuntimeException;
+use Throwable;
 
-class InvalidFrontMatterException extends \RuntimeException implements CommonMarkException
+class InvalidFrontMatterException extends RuntimeException implements CommonMarkException
 {
-    public static function wrap(\Throwable $t): self
+    public static function wrap(Throwable $t): self
     {
         return new InvalidFrontMatterException('Failed to parse front matter: ' . $t->getMessage(), 0, $t);
     }

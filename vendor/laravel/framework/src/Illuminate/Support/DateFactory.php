@@ -4,25 +4,27 @@ namespace Illuminate\Support;
 
 use Carbon\Factory;
 use InvalidArgumentException;
+use RuntimeException;
+use Symfony\Component\Translation\TranslatorInterface;
 
 /**
  * @see https://carbon.nesbot.com/docs/
  * @see https://github.com/briannesbitt/Carbon/blob/master/src/Carbon/Factory.php
  *
- * @method \Illuminate\Support\Carbon create($year = 0, $month = 1, $day = 1, $hour = 0, $minute = 0, $second = 0, $tz = null)
- * @method \Illuminate\Support\Carbon createFromDate($year = null, $month = null, $day = null, $tz = null)
- * @method \Illuminate\Support\Carbon|false createFromFormat($format, $time, $tz = null)
- * @method \Illuminate\Support\Carbon createFromTime($hour = 0, $minute = 0, $second = 0, $tz = null)
- * @method \Illuminate\Support\Carbon createFromTimeString($time, $tz = null)
- * @method \Illuminate\Support\Carbon createFromTimestamp($timestamp, $tz = null)
- * @method \Illuminate\Support\Carbon createFromTimestampMs($timestamp, $tz = null)
- * @method \Illuminate\Support\Carbon createFromTimestampUTC($timestamp)
- * @method \Illuminate\Support\Carbon createMidnightDate($year = null, $month = null, $day = null, $tz = null)
- * @method \Illuminate\Support\Carbon|false createSafe($year = null, $month = null, $day = null, $hour = null, $minute = null, $second = null, $tz = null)
+ * @method Carbon create($year = 0, $month = 1, $day = 1, $hour = 0, $minute = 0, $second = 0, $tz = null)
+ * @method Carbon createFromDate($year = null, $month = null, $day = null, $tz = null)
+ * @method Carbon|false createFromFormat($format, $time, $tz = null)
+ * @method Carbon createFromTime($hour = 0, $minute = 0, $second = 0, $tz = null)
+ * @method Carbon createFromTimeString($time, $tz = null)
+ * @method Carbon createFromTimestamp($timestamp, $tz = null)
+ * @method Carbon createFromTimestampMs($timestamp, $tz = null)
+ * @method Carbon createFromTimestampUTC($timestamp)
+ * @method Carbon createMidnightDate($year = null, $month = null, $day = null, $tz = null)
+ * @method Carbon|false createSafe($year = null, $month = null, $day = null, $hour = null, $minute = null, $second = null, $tz = null)
  * @method void disableHumanDiffOption($humanDiffOption)
  * @method void enableHumanDiffOption($humanDiffOption)
  * @method mixed executeWithLocale($locale, $func)
- * @method \Illuminate\Support\Carbon fromSerialized($value)
+ * @method Carbon fromSerialized($value)
  * @method array getAvailableLocales()
  * @method array getDays()
  * @method int getHumanDiffOptions()
@@ -30,8 +32,8 @@ use InvalidArgumentException;
  * @method array getLastErrors()
  * @method string getLocale()
  * @method int getMidDayAt()
- * @method \Illuminate\Support\Carbon|null getTestNow()
- * @method \Symfony\Component\Translation\TranslatorInterface getTranslator()
+ * @method Carbon|null getTestNow()
+ * @method TranslatorInterface getTranslator()
  * @method int getWeekEndsAt()
  * @method int getWeekStartsAt()
  * @method array getWeekendDays()
@@ -39,7 +41,7 @@ use InvalidArgumentException;
  * @method bool hasMacro($name)
  * @method bool hasRelativeKeywords($time)
  * @method bool hasTestNow()
- * @method \Illuminate\Support\Carbon instance($date)
+ * @method Carbon instance($date)
  * @method bool isImmutable()
  * @method bool isModifiableUnit($unit)
  * @method bool isMutable()
@@ -50,12 +52,12 @@ use InvalidArgumentException;
  * @method bool localeHasPeriodSyntax($locale)
  * @method bool localeHasShortUnits($locale)
  * @method void macro($name, $macro)
- * @method \Illuminate\Support\Carbon|null make($var)
- * @method \Illuminate\Support\Carbon maxValue()
- * @method \Illuminate\Support\Carbon minValue()
+ * @method Carbon|null make($var)
+ * @method Carbon maxValue()
+ * @method Carbon minValue()
  * @method void mixin($mixin)
- * @method \Illuminate\Support\Carbon now($tz = null)
- * @method \Illuminate\Support\Carbon parse($time = null, $tz = null)
+ * @method Carbon now($tz = null)
+ * @method Carbon parse($time = null, $tz = null)
  * @method string pluralUnit(string $unit)
  * @method void resetMonthsOverflow()
  * @method void resetToStringFormat()
@@ -66,7 +68,7 @@ use InvalidArgumentException;
  * @method void setMidDayAt($hour)
  * @method void setTestNow($testNow = null)
  * @method void setToStringFormat($format)
- * @method void setTranslator(\Symfony\Component\Translation\TranslatorInterface $translator)
+ * @method void setTranslator(TranslatorInterface $translator)
  * @method void setUtf8($utf8)
  * @method void setWeekEndsAt($day)
  * @method void setWeekStartsAt($day)
@@ -74,12 +76,12 @@ use InvalidArgumentException;
  * @method bool shouldOverflowMonths()
  * @method bool shouldOverflowYears()
  * @method string singularUnit(string $unit)
- * @method \Illuminate\Support\Carbon today($tz = null)
- * @method \Illuminate\Support\Carbon tomorrow($tz = null)
+ * @method Carbon today($tz = null)
+ * @method Carbon tomorrow($tz = null)
  * @method void useMonthsOverflow($monthsOverflow = true)
  * @method void useStrictMode($strictModeEnabled = true)
  * @method void useYearsOverflow($yearsOverflow = true)
- * @method \Illuminate\Support\Carbon yesterday($tz = null)
+ * @method Carbon yesterday($tz = null)
  */
 class DateFactory
 {
@@ -117,7 +119,7 @@ class DateFactory
      * @param  mixed  $handler
      * @return mixed
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public static function use($handler)
     {
@@ -193,7 +195,7 @@ class DateFactory
      * @param  array  $parameters
      * @return mixed
      *
-     * @throws \RuntimeException
+     * @throws RuntimeException
      */
     public function __call($method, $parameters)
     {

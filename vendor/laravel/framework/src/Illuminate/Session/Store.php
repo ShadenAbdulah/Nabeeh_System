@@ -4,6 +4,7 @@ namespace Illuminate\Session;
 
 use Closure;
 use Illuminate\Contracts\Session\Session;
+use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\MessageBag;
 use Illuminate\Support\Str;
@@ -40,7 +41,7 @@ class Store implements Session
     /**
      * The session handler implementation.
      *
-     * @var \SessionHandlerInterface
+     * @var SessionHandlerInterface
      */
     protected $handler;
 
@@ -62,7 +63,7 @@ class Store implements Session
      * Create a new session instance.
      *
      * @param  string  $name
-     * @param  \SessionHandlerInterface  $handler
+     * @param SessionHandlerInterface $handler
      * @param  string|null  $id
      * @param  string  $serialization
      * @return void
@@ -377,7 +378,7 @@ class Store implements Session
      * Get an item from the session, or store the default value.
      *
      * @param  string  $key
-     * @param  \Closure  $callback
+     * @param Closure $callback
      * @return mixed
      */
     public function remember($key, Closure $callback)
@@ -739,7 +740,7 @@ class Store implements Session
     /**
      * Get the underlying session handler implementation.
      *
-     * @return \SessionHandlerInterface
+     * @return SessionHandlerInterface
      */
     public function getHandler()
     {
@@ -749,8 +750,8 @@ class Store implements Session
     /**
      * Set the underlying session handler implementation.
      *
-     * @param  \SessionHandlerInterface  $handler
-     * @return \SessionHandlerInterface
+     * @param SessionHandlerInterface $handler
+     * @return SessionHandlerInterface
      */
     public function setHandler(SessionHandlerInterface $handler)
     {
@@ -770,7 +771,7 @@ class Store implements Session
     /**
      * Set the request on the handler instance.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  Request  $request
      * @return void
      */
     public function setRequestOnHandler($request)

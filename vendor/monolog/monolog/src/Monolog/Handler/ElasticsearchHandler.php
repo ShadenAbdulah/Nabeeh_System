@@ -154,7 +154,7 @@ class ElasticsearchHandler extends AbstractProcessingHandler
      * Use Elasticsearch bulk API to send list of documents
      *
      * @param  array<array<mixed>> $records Records + _index/_type keys
-     * @throws \RuntimeException
+     * @throws RuntimeException
      */
     protected function bulkSend(array $records): void
     {

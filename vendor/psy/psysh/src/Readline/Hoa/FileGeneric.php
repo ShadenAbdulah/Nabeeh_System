@@ -36,6 +36,46 @@
 
 namespace Psy\Readline\Hoa;
 
+use function basename;
+use function chgrp;
+use function chmod;
+use function chown;
+use function clearstatcache;
+use function copy;
+use function defined;
+use function dirname;
+use function file_exists;
+use function fileatime;
+use function filectime;
+use function filegroup;
+use function fileinode;
+use function filemtime;
+use function fileowner;
+use function fileperms;
+use function filesize;
+use function filetype;
+use function fstat;
+use function is_dir;
+use function is_executable;
+use function is_file;
+use function is_link;
+use function is_readable;
+use function is_writable;
+use function mb_strtolower;
+use function mb_strtoupper;
+use function pathinfo;
+use function realpath;
+use function rename;
+use function strrpos;
+use function strstr;
+use function substr;
+use function time;
+use function touch;
+use function umask;
+use function unlink;
+use const PATHINFO_EXTENSION;
+use const PATHINFO_FILENAME;
+
 /**
  * Class \Hoa\File\Generic.
  *
@@ -53,7 +93,7 @@ abstract class FileGeneric extends Stream implements StreamPathable, StreamStata
      */
     public function getBasename(): string
     {
-        return \basename($this->getStreamName());
+        return basename($this->getStreamName());
     }
 
     /**
@@ -61,7 +101,7 @@ abstract class FileGeneric extends Stream implements StreamPathable, StreamStata
      */
     public function getDirname(): string
     {
-        return \dirname($this->getStreamName());
+        return dirname($this->getStreamName());
     }
 
     /**
@@ -73,7 +113,7 @@ abstract class FileGeneric extends Stream implements StreamPathable, StreamStata
             return false;
         }
 
-        return \filesize($this->getStreamName());
+        return filesize($this->getStreamName());
     }
 
     /**
@@ -81,7 +121,7 @@ abstract class FileGeneric extends Stream implements StreamPathable, StreamStata
      */
     public function getStatistic(): array
     {
-        return \fstat($this->getStream());
+        return fstat($this->getStream());
     }
 
     /**
@@ -89,7 +129,7 @@ abstract class FileGeneric extends Stream implements StreamPathable, StreamStata
      */
     public function getATime(): int
     {
-        return \fileatime($this->getStreamName());
+        return fileatime($this->getStreamName());
     }
 
     /**
@@ -97,7 +137,7 @@ abstract class FileGeneric extends Stream implements StreamPathable, StreamStata
      */
     public function getCTime(): int
     {
-        return \filectime($this->getStreamName());
+        return filectime($this->getStreamName());
     }
 
     /**
@@ -105,7 +145,7 @@ abstract class FileGeneric extends Stream implements StreamPathable, StreamStata
      */
     public function getMTime(): int
     {
-        return \filemtime($this->getStreamName());
+        return filemtime($this->getStreamName());
     }
 
     /**
@@ -113,7 +153,7 @@ abstract class FileGeneric extends Stream implements StreamPathable, StreamStata
      */
     public function getGroup(): int
     {
-        return \filegroup($this->getStreamName());
+        return filegroup($this->getStreamName());
     }
 
     /**
@@ -121,7 +161,7 @@ abstract class FileGeneric extends Stream implements StreamPathable, StreamStata
      */
     public function getOwner(): int
     {
-        return \fileowner($this->getStreamName());
+        return fileowner($this->getStreamName());
     }
 
     /**
@@ -129,7 +169,7 @@ abstract class FileGeneric extends Stream implements StreamPathable, StreamStata
      */
     public function getPermissions(): int
     {
-        return \fileperms($this->getStreamName());
+        return fileperms($this->getStreamName());
     }
 
     /**
@@ -191,7 +231,7 @@ abstract class FileGeneric extends Stream implements StreamPathable, StreamStata
      */
     public function isReadable(): bool
     {
-        return \is_readable($this->getStreamName());
+        return is_readable($this->getStreamName());
     }
 
     /**
@@ -199,7 +239,7 @@ abstract class FileGeneric extends Stream implements StreamPathable, StreamStata
      */
     public function isWritable(): bool
     {
-        return \is_writable($this->getStreamName());
+        return is_writable($this->getStreamName());
     }
 
     /**
@@ -207,7 +247,7 @@ abstract class FileGeneric extends Stream implements StreamPathable, StreamStata
      */
     public function isExecutable(): bool
     {
-        return \is_executable($this->getStreamName());
+        return is_executable($this->getStreamName());
     }
 
     /**
@@ -215,7 +255,7 @@ abstract class FileGeneric extends Stream implements StreamPathable, StreamStata
      */
     public function clearStatisticCache()
     {
-        \clearstatcache(true, $this->getStreamName());
+        clearstatcache(true, $this->getStreamName());
     }
 
     /**
@@ -223,7 +263,7 @@ abstract class FileGeneric extends Stream implements StreamPathable, StreamStata
      */
     public static function clearAllStatisticCaches()
     {
-        \clearstatcache();
+        clearstatcache();
     }
 
     /**
@@ -232,14 +272,14 @@ abstract class FileGeneric extends Stream implements StreamPathable, StreamStata
     public function touch(int $time = null, int $atime = null): bool
     {
         if (null === $time) {
-            $time = \time();
+            $time = time();
         }
 
         if (null === $atime) {
             $atime = $time;
         }
 
-        return \touch($this->getStreamName(), $time, $atime);
+        return touch($this->getStreamName(), $time, $atime);
     }
 
     /**
@@ -251,15 +291,15 @@ abstract class FileGeneric extends Stream implements StreamPathable, StreamStata
         $from = $this->getStreamName();
 
         if ($force === StreamTouchable::DO_NOT_OVERWRITE &&
-            true === \file_exists($to)) {
+            true === file_exists($to)) {
             return true;
         }
 
         if (null === $this->getStreamContext()) {
-            return @\copy($from, $to);
+            return @copy($from, $to);
         }
 
-        return @\copy($from, $to, $this->getStreamContext()->getContext());
+        return @copy($from, $to, $this->getStreamContext()->getContext());
     }
 
     /**
@@ -273,22 +313,22 @@ abstract class FileGeneric extends Stream implements StreamPathable, StreamStata
         $from = $this->getStreamName();
 
         if ($force === StreamTouchable::DO_NOT_OVERWRITE &&
-            true === \file_exists($name)) {
+            true === file_exists($name)) {
             return false;
         }
 
         if (StreamTouchable::MAKE_DIRECTORY === $mkdir) {
             FileDirectory::create(
-                \dirname($name),
+                dirname($name),
                 FileDirectory::MODE_CREATE_RECURSIVE
             );
         }
 
         if (null === $this->getStreamContext()) {
-            return @\rename($from, $name);
+            return @rename($from, $name);
         }
 
-        return @\rename($from, $name, $this->getStreamContext()->getContext());
+        return @rename($from, $name, $this->getStreamContext()->getContext());
     }
 
     /**
@@ -297,10 +337,10 @@ abstract class FileGeneric extends Stream implements StreamPathable, StreamStata
     public function delete(): bool
     {
         if (null === $this->getStreamContext()) {
-            return @\unlink($this->getStreamName());
+            return @unlink($this->getStreamName());
         }
 
-        return @\unlink(
+        return @unlink(
             $this->getStreamName(),
             $this->getStreamContext()->getContext()
         );
@@ -311,7 +351,7 @@ abstract class FileGeneric extends Stream implements StreamPathable, StreamStata
      */
     public function changeGroup($group): bool
     {
-        return \chgrp($this->getStreamName(), $group);
+        return chgrp($this->getStreamName(), $group);
     }
 
     /**
@@ -319,7 +359,7 @@ abstract class FileGeneric extends Stream implements StreamPathable, StreamStata
      */
     public function changeMode(int $mode): bool
     {
-        return \chmod($this->getStreamName(), $mode);
+        return chmod($this->getStreamName(), $mode);
     }
 
     /**
@@ -327,7 +367,7 @@ abstract class FileGeneric extends Stream implements StreamPathable, StreamStata
      */
     public function changeOwner($user): bool
     {
-        return \chown($this->getStreamName(), $user);
+        return chown($this->getStreamName(), $user);
     }
 
     /**
@@ -336,10 +376,10 @@ abstract class FileGeneric extends Stream implements StreamPathable, StreamStata
     public static function umask(int $umask = null): int
     {
         if (null === $umask) {
-            return \umask();
+            return umask();
         }
 
-        return \umask($umask);
+        return umask($umask);
     }
 
     /**
@@ -347,7 +387,7 @@ abstract class FileGeneric extends Stream implements StreamPathable, StreamStata
      */
     public function isFile(): bool
     {
-        return \is_file($this->getStreamName());
+        return is_file($this->getStreamName());
     }
 
     /**
@@ -355,7 +395,7 @@ abstract class FileGeneric extends Stream implements StreamPathable, StreamStata
      */
     public function isLink(): bool
     {
-        return \is_link($this->getStreamName());
+        return is_link($this->getStreamName());
     }
 
     /**
@@ -363,7 +403,7 @@ abstract class FileGeneric extends Stream implements StreamPathable, StreamStata
      */
     public function isDirectory(): bool
     {
-        return \is_dir($this->getStreamName());
+        return is_dir($this->getStreamName());
     }
 
     /**
@@ -371,7 +411,7 @@ abstract class FileGeneric extends Stream implements StreamPathable, StreamStata
      */
     public function isSocket(): bool
     {
-        return \filetype($this->getStreamName()) === 'socket';
+        return filetype($this->getStreamName()) === 'socket';
     }
 
     /**
@@ -379,7 +419,7 @@ abstract class FileGeneric extends Stream implements StreamPathable, StreamStata
      */
     public function isFIFOPipe(): bool
     {
-        return \filetype($this->getStreamName()) === 'fifo';
+        return filetype($this->getStreamName()) === 'fifo';
     }
 
     /**
@@ -387,7 +427,7 @@ abstract class FileGeneric extends Stream implements StreamPathable, StreamStata
      */
     public function isCharacterSpecial(): bool
     {
-        return \filetype($this->getStreamName()) === 'char';
+        return filetype($this->getStreamName()) === 'char';
     }
 
     /**
@@ -395,7 +435,7 @@ abstract class FileGeneric extends Stream implements StreamPathable, StreamStata
      */
     public function isBlockSpecial(): bool
     {
-        return \filetype($this->getStreamName()) === 'block';
+        return filetype($this->getStreamName()) === 'block';
     }
 
     /**
@@ -403,7 +443,7 @@ abstract class FileGeneric extends Stream implements StreamPathable, StreamStata
      */
     public function isUnknown(): bool
     {
-        return \filetype($this->getStreamName()) === 'unknown';
+        return filetype($this->getStreamName()) === 'unknown';
     }
 
     /**
@@ -430,7 +470,7 @@ abstract class FileGeneric extends Stream implements StreamPathable, StreamStata
      */
     public function getINode(): int
     {
-        return \fileinode($this->getStreamName());
+        return fileinode($this->getStreamName());
     }
 
     /**
@@ -439,8 +479,8 @@ abstract class FileGeneric extends Stream implements StreamPathable, StreamStata
     public static function isCaseSensitive(): bool
     {
         return !(
-            \file_exists(\mb_strtolower(__FILE__)) &&
-            \file_exists(\mb_strtoupper(__FILE__))
+            file_exists(mb_strtolower(__FILE__)) &&
+            file_exists(mb_strtoupper(__FILE__))
         );
     }
 
@@ -449,7 +489,7 @@ abstract class FileGeneric extends Stream implements StreamPathable, StreamStata
      */
     public function getRealPath(): string
     {
-        if (false === $out = \realpath($this->getStreamName())) {
+        if (false === $out = realpath($this->getStreamName())) {
             return $this->getStreamName();
         }
 
@@ -461,9 +501,9 @@ abstract class FileGeneric extends Stream implements StreamPathable, StreamStata
      */
     public function getExtension(): string
     {
-        return \pathinfo(
+        return pathinfo(
             $this->getStreamName(),
-            \PATHINFO_EXTENSION
+            PATHINFO_EXTENSION
         );
     }
 
@@ -472,14 +512,14 @@ abstract class FileGeneric extends Stream implements StreamPathable, StreamStata
      */
     public function getFilename(): string
     {
-        $file = \basename($this->getStreamName());
+        $file = basename($this->getStreamName());
 
-        if (\defined('PATHINFO_FILENAME')) {
-            return \pathinfo($file, \PATHINFO_FILENAME);
+        if (defined('PATHINFO_FILENAME')) {
+            return pathinfo($file, PATHINFO_FILENAME);
         }
 
-        if (\strstr($file, '.')) {
-            return \substr($file, 0, \strrpos($file, '.'));
+        if (strstr($file, '.')) {
+            return substr($file, 0, strrpos($file, '.'));
         }
 
         return $file;

@@ -2,10 +2,13 @@
 
 namespace Faker\Core;
 
+use DateInterval;
+use DateTimeZone;
 use Faker\Extension\DateTimeExtension;
 use Faker\Extension\GeneratorAwareExtension;
 use Faker\Extension\GeneratorAwareExtensionTrait;
 use Faker\Extension\Helper;
+use InvalidArgumentException;
 
 /**
  * @experimental This class is experimental and does not fall under our BC promise
@@ -69,7 +72,7 @@ final class DateTime implements DateTimeExtension, GeneratorAwareExtension
     {
         $timezone = $this->resolveTimezone($timezone);
 
-        return $dateTime->setTimezone(new \DateTimeZone($timezone));
+        return $dateTime->setTimezone(new DateTimeZone($timezone));
     }
 
     public function dateTime($until = 'now', string $timezone = null): \DateTime
@@ -96,7 +99,7 @@ final class DateTime implements DateTimeExtension, GeneratorAwareExtension
         $end = $this->getTimestamp($until);
 
         if ($start > $end) {
-            throw new \InvalidArgumentException('"$from" must be anterior to "$until".');
+            throw new InvalidArgumentException('"$from" must be anterior to "$until".');
         }
 
         $timestamp = $this->generator->numberBetween($start, $end);
@@ -109,7 +112,7 @@ final class DateTime implements DateTimeExtension, GeneratorAwareExtension
 
     public function dateTimeInInterval($from = '-30 years', string $interval = '+5 days', string $timezone = null): \DateTime
     {
-        $intervalObject = \DateInterval::createFromDateString($interval);
+        $intervalObject = DateInterval::createFromDateString($interval);
         $datetime = $from instanceof \DateTime ? $from : new \DateTime($from);
 
         $other = (clone $datetime)->add($intervalObject);
@@ -207,9 +210,9 @@ final class DateTime implements DateTimeExtension, GeneratorAwareExtension
     public function timezone(string $countryCode = null): string
     {
         if ($countryCode) {
-            $timezones = \DateTimeZone::listIdentifiers(\DateTimeZone::PER_COUNTRY, $countryCode);
+            $timezones = DateTimeZone::listIdentifiers(DateTimeZone::PER_COUNTRY, $countryCode);
         } else {
-            $timezones = \DateTimeZone::listIdentifiers();
+            $timezones = DateTimeZone::listIdentifiers();
         }
 
         return Helper::randomElement($timezones);

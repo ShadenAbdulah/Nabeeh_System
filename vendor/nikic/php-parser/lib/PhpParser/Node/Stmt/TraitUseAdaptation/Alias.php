@@ -3,6 +3,7 @@
 namespace PhpParser\Node\Stmt\TraitUseAdaptation;
 
 use PhpParser\Node;
+use function is_string;
 
 class Alias extends Node\Stmt\TraitUseAdaptation {
     /** @var null|int New modifier */
@@ -22,9 +23,9 @@ class Alias extends Node\Stmt\TraitUseAdaptation {
     public function __construct(?Node\Name $trait, $method, ?int $newModifier, $newName, array $attributes = []) {
         $this->attributes = $attributes;
         $this->trait = $trait;
-        $this->method = \is_string($method) ? new Node\Identifier($method) : $method;
+        $this->method = is_string($method) ? new Node\Identifier($method) : $method;
         $this->newModifier = $newModifier;
-        $this->newName = \is_string($newName) ? new Node\Identifier($newName) : $newName;
+        $this->newName = is_string($newName) ? new Node\Identifier($newName) : $newName;
     }
 
     public function getSubNodeNames(): array {

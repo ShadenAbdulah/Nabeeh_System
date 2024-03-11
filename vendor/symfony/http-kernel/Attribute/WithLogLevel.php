@@ -11,12 +11,15 @@
 
 namespace Symfony\Component\HttpKernel\Attribute;
 
+use Attribute;
+use InvalidArgumentException;
 use Psr\Log\LogLevel;
+use function defined;
 
 /**
  * @author Dejan Angelov <angelovdejan@protonmail.com>
  */
-#[\Attribute(\Attribute::TARGET_CLASS)]
+#[Attribute(Attribute::TARGET_CLASS)]
 final class WithLogLevel
 {
     /**
@@ -24,8 +27,8 @@ final class WithLogLevel
      */
     public function __construct(public readonly string $level)
     {
-        if (!\defined('Psr\Log\LogLevel::'.strtoupper($this->level))) {
-            throw new \InvalidArgumentException(sprintf('Invalid log level "%s".', $this->level));
+        if (!defined('Psr\Log\LogLevel::'.strtoupper($this->level))) {
+            throw new InvalidArgumentException(sprintf('Invalid log level "%s".', $this->level));
         }
     }
 }

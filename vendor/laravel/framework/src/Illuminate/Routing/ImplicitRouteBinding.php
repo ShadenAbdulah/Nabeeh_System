@@ -2,7 +2,9 @@
 
 namespace Illuminate\Routing;
 
+use Illuminate\Container\Container;
 use Illuminate\Contracts\Routing\UrlRoutable;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Routing\Exceptions\BackedEnumCaseNotFoundException;
@@ -14,12 +16,12 @@ class ImplicitRouteBinding
     /**
      * Resolve the implicit route bindings for the given route.
      *
-     * @param  \Illuminate\Container\Container  $container
-     * @param  \Illuminate\Routing\Route  $route
+     * @param  Container  $container
+     * @param Route $route
      * @return void
      *
-     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException<\Illuminate\Database\Eloquent\Model>
-     * @throws \Illuminate\Routing\Exceptions\BackedEnumCaseNotFoundException
+     * @throws ModelNotFoundException<Model>
+     * @throws BackedEnumCaseNotFoundException
      */
     public static function resolveForRoute($container, $route)
     {
@@ -69,11 +71,11 @@ class ImplicitRouteBinding
     /**
      * Resolve the Backed Enums route bindings for the route.
      *
-     * @param  \Illuminate\Routing\Route  $route
+     * @param Route $route
      * @param  array  $parameters
-     * @return \Illuminate\Routing\Route
+     * @return Route
      *
-     * @throws \Illuminate\Routing\Exceptions\BackedEnumCaseNotFoundException
+     * @throws BackedEnumCaseNotFoundException
      */
     protected static function resolveBackedEnumsForRoute($route, $parameters)
     {

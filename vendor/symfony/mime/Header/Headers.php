@@ -11,8 +11,12 @@
 
 namespace Symfony\Component\Mime\Header;
 
+use DateTimeInterface;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\Mime\Exception\LogicException;
+use function count;
+use function in_array;
+use function is_array;
 
 /**
  * A collection of headers.
@@ -111,7 +115,7 @@ final class Headers
     /**
      * @return $this
      */
-    public function addDateHeader(string $name, \DateTimeInterface $dateTime): static
+    public function addDateHeader(string $name, DateTimeInterface $dateTime): static
     {
         return $this->add(new DateHeader($name, $dateTime));
     }
@@ -138,7 +142,7 @@ final class Headers
     public function addHeader(string $name, mixed $argument, array $more = []): static
     {
         $headerClass = self::HEADER_CLASS_MAP[strtolower($name)] ?? UnstructuredHeader::class;
-        if (\is_array($headerClass)) {
+        if (is_array($headerClass)) {
             $headerClass = $headerClass[0];
         }
         $parts = explode('\\', $headerClass);
@@ -147,7 +151,7 @@ final class Headers
             $method = 'addTextHeader';
         } elseif ('addIdentificationHeader' === $method) {
             $method = 'addIdHeader';
-        } elseif ('addMailboxListHeader' === $method && !\is_array($argument)) {
+        } elseif ('addMailboxListHeader' === $method && !is_array($argument)) {
             $argument = [$argument];
         }
 
@@ -169,7 +173,7 @@ final class Headers
         $header->setMaxLineLength($this->lineLength);
         $name = strtolower($header->getName());
 
-        if (\in_array($name, self::UNIQUE_HEADERS, true) && isset($this->headers[$name]) && \count($this->headers[$name]) > 0) {
+        if (in_array($name, self::UNIQUE_HEADERS, true) && isset($this->headers[$name]) && count($this->headers[$name]) > 0) {
             throw new LogicException(sprintf('Impossible to set header "%s" as it\'s already defined and must be unique.', $header->getName()));
         }
 
@@ -217,7 +221,7 @@ final class Headers
 
     public static function isUniqueHeader(string $name): bool
     {
-        return \in_array(strtolower($name), self::UNIQUE_HEADERS, true);
+        return in_array(strtolower($name), self::UNIQUE_HEADERS, true);
     }
 
     /**
@@ -227,7 +231,7 @@ final class Headers
     {
         $name = strtolower($header->getName());
         $headerClasses = self::HEADER_CLASS_MAP[$name] ?? [];
-        if (!\is_array($headerClasses)) {
+        if (!is_array($headerClasses)) {
             $headerClasses = [$headerClasses];
         }
 

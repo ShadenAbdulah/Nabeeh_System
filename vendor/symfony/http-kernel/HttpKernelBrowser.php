@@ -11,6 +11,8 @@
 
 namespace Symfony\Component\HttpKernel;
 
+use ReflectionClass;
+use RuntimeException;
 use Symfony\Component\BrowserKit\AbstractBrowser;
 use Symfony\Component\BrowserKit\CookieJar;
 use Symfony\Component\BrowserKit\History;
@@ -19,6 +21,9 @@ use Symfony\Component\BrowserKit\Response as DomResponse;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use function dirname;
+use function is_array;
+use const UPLOAD_ERR_INI_SIZE;
 
 /**
  * Simulates a browser and makes requests to an HttpKernel instance.
@@ -86,8 +91,8 @@ class HttpKernelBrowser extends AbstractBrowser
         $requires = '';
         foreach (get_declared_classes() as $class) {
             if (str_starts_with($class, 'ComposerAutoloaderInit')) {
-                $r = new \ReflectionClass($class);
-                $file = \dirname($r->getFileName(), 2).'/autoload.php';
+                $r = new ReflectionClass($class);
+                $file = dirname($r->getFileName(), 2).'/autoload.php';
                 if (file_exists($file)) {
                     $requires .= 'require_once '.var_export($file, true).";\n";
                 }
@@ -95,7 +100,7 @@ class HttpKernelBrowser extends AbstractBrowser
         }
 
         if (!$requires) {
-            throw new \RuntimeException('Composer autoloader not found.');
+            throw new RuntimeException('Composer autoloader not found.');
         }
 
         $code = <<<EOF
@@ -157,7 +162,7 @@ EOF;
     {
         $filtered = [];
         foreach ($files as $key => $value) {
-            if (\is_array($value)) {
+            if (is_array($value)) {
                 $filtered[$key] = $this->filterFiles($value);
             } elseif ($value instanceof UploadedFile) {
                 if ($value->isValid() && $value->getSize() > UploadedFile::getMaxFilesize()) {
@@ -165,7 +170,7 @@ EOF;
                         '',
                         $value->getClientOriginalName(),
                         $value->getClientMimeType(),
-                        \UPLOAD_ERR_INI_SIZE,
+                        UPLOAD_ERR_INI_SIZE,
                         true
                     );
                 } else {

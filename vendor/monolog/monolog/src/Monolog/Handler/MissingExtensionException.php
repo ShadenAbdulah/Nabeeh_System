@@ -11,11 +11,13 @@
 
 namespace Monolog\Handler;
 
+use Exception;
+
 /**
  * Exception can be thrown if an extension for a handler is missing
  *
  * @author Christian Bergau <cbergau86@gmail.com>
  */
-class MissingExtensionException extends \Exception
+class MissingExtensionException extends Exception
 {
 }

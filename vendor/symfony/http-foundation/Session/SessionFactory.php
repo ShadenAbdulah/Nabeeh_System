@@ -11,6 +11,7 @@
 
 namespace Symfony\Component\HttpFoundation\Session;
 
+use Closure;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\Storage\SessionStorageFactoryInterface;
 
@@ -24,7 +25,7 @@ class SessionFactory implements SessionFactoryInterface
 {
     private RequestStack $requestStack;
     private SessionStorageFactoryInterface $storageFactory;
-    private ?\Closure $usageReporter;
+    private ?Closure $usageReporter;
 
     public function __construct(RequestStack $requestStack, SessionStorageFactoryInterface $storageFactory, ?callable $usageReporter = null)
     {

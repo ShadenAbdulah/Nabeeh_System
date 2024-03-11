@@ -4,6 +4,23 @@ declare(strict_types=1);
 
 namespace GuzzleHttp\UriTemplate;
 
+use RuntimeException;
+use function array_keys;
+use function count;
+use function explode;
+use function http_build_query;
+use function implode;
+use function is_array;
+use function preg_last_error_msg;
+use function preg_replace_callback;
+use function rawurlencode;
+use function sprintf;
+use function str_replace;
+use function strpos;
+use function substr;
+use function trim;
+use const PHP_QUERY_RFC3986;
+
 /**
  * Expands URI templates. Userland implementation of PECL uri_template.
  *
@@ -76,23 +93,23 @@ final class UriTemplate
     /**
      * @param array<string,mixed> $variables Variables to use in the template expansion
      *
-     * @throws \RuntimeException
+     * @throws RuntimeException
      */
     public static function expand(string $template, array $variables): string
     {
-        if (false === \strpos($template, '{')) {
+        if (false === strpos($template, '{')) {
             return $template;
         }
 
         /** @var string|null */
-        $result = \preg_replace_callback(
+        $result = preg_replace_callback(
             '/\{([^\}]+)\}/',
             self::expandMatchCallback($variables),
             $template
         );
 
         if (null === $result) {
-            throw new \RuntimeException(\sprintf('Unable to process template: %s', \preg_last_error_msg()));
+            throw new RuntimeException(sprintf('Unable to process template: %s', preg_last_error_msg()));
         }
 
         return $result;
@@ -136,20 +153,20 @@ final class UriTemplate
             $actuallyUseQuery = $useQuery;
             $expanded = '';
 
-            if (\is_array($variable)) {
+            if (is_array($variable)) {
                 $isAssoc = self::isAssoc($variable);
                 $kvp = [];
                 /** @var mixed $var */
                 foreach ($variable as $key => $var) {
                     if ($isAssoc) {
-                        $key = \rawurlencode((string) $key);
-                        $isNestedArray = \is_array($var);
+                        $key = rawurlencode((string) $key);
+                        $isNestedArray = is_array($var);
                     } else {
                         $isNestedArray = false;
                     }
 
                     if (!$isNestedArray) {
-                        $var = \rawurlencode((string) $var);
+                        $var = rawurlencode((string) $var);
                         if ($parsed['operator'] === '+' || $parsed['operator'] === '#') {
                             $var = self::decodeReserved($var);
                         }
@@ -159,12 +176,12 @@ final class UriTemplate
                         if ($isAssoc) {
                             if ($isNestedArray) {
                                 // Nested arrays must allow for deeply nested structures.
-                                $var = \http_build_query([$key => $var], '', '&', \PHP_QUERY_RFC3986);
+                                $var = http_build_query([$key => $var], '', '&', PHP_QUERY_RFC3986);
                             } else {
-                                $var = \sprintf('%s=%s', (string) $key, (string) $var);
+                                $var = sprintf('%s=%s', (string) $key, (string) $var);
                             }
                         } elseif ($key > 0 && $actuallyUseQuery) {
-                            $var = \sprintf('%s=%s', $value['value'], (string) $var);
+                            $var = sprintf('%s=%s', $value['value'], (string) $var);
                         }
                     }
 
@@ -172,10 +189,10 @@ final class UriTemplate
                     $kvp[$key] = $var;
                 }
 
-                if (0 === \count($variable)) {
+                if (0 === count($variable)) {
                     $actuallyUseQuery = false;
                 } elseif ($value['modifier'] === '*') {
-                    $expanded = \implode($joiner, $kvp);
+                    $expanded = implode($joiner, $kvp);
                     if ($isAssoc) {
                         // Don't prepend the value name when using the explode
                         // modifier with an associative array.
@@ -188,17 +205,17 @@ final class UriTemplate
                         // a comma separated list of keys followed by their
                         // respective values.
                         foreach ($kvp as $k => &$v) {
-                            $v = \sprintf('%s,%s', $k, $v);
+                            $v = sprintf('%s,%s', $k, $v);
                         }
                     }
-                    $expanded = \implode(',', $kvp);
+                    $expanded = implode(',', $kvp);
                 }
             } else {
                 $allUndefined = false;
                 if ($value['modifier'] === ':' && isset($value['position'])) {
-                    $variable = \substr((string) $variable, 0, $value['position']);
+                    $variable = substr((string) $variable, 0, $value['position']);
                 }
-                $expanded = \rawurlencode((string) $variable);
+                $expanded = rawurlencode((string) $variable);
                 if ($parsed['operator'] === '+' || $parsed['operator'] === '#') {
                     $expanded = self::decodeReserved($expanded);
                 }
@@ -208,14 +225,14 @@ final class UriTemplate
                 if ($expanded === '' && $joiner !== '&') {
                     $expanded = $value['value'];
                 } else {
-                    $expanded = \sprintf('%s=%s', $value['value'], $expanded);
+                    $expanded = sprintf('%s=%s', $value['value'], $expanded);
                 }
             }
 
             $replacements[] = $expanded;
         }
 
-        $ret = \implode($joiner, $replacements);
+        $ret = implode($joiner, $replacements);
 
         if ('' === $ret) {
             // Spec section 3.2.4 and 3.2.5
@@ -224,7 +241,7 @@ final class UriTemplate
             }
         } else {
             if ('' !== $prefix) {
-                return \sprintf('%s%s', $prefix, $ret);
+                return sprintf('%s%s', $prefix, $ret);
             }
         }
 
@@ -245,22 +262,22 @@ final class UriTemplate
         if (isset(self::$operatorHash[$expression[0]])) {
             $result['operator'] = $expression[0];
             /** @var string */
-            $expression = \substr($expression, 1);
+            $expression = substr($expression, 1);
         } else {
             $result['operator'] = '';
         }
 
         $result['values'] = [];
-        foreach (\explode(',', $expression) as $value) {
-            $value = \trim($value);
+        foreach (explode(',', $expression) as $value) {
+            $value = trim($value);
             $varspec = [];
-            if ($colonPos = \strpos($value, ':')) {
-                $varspec['value'] = (string) \substr($value, 0, $colonPos);
+            if ($colonPos = strpos($value, ':')) {
+                $varspec['value'] = (string) substr($value, 0, $colonPos);
                 $varspec['modifier'] = ':';
-                $varspec['position'] = (int) \substr($value, $colonPos + 1);
-            } elseif (\substr($value, -1) === '*') {
+                $varspec['position'] = (int) substr($value, $colonPos + 1);
+            } elseif (substr($value, -1) === '*') {
                 $varspec['modifier'] = '*';
-                $varspec['value'] = (string) \substr($value, 0, -1);
+                $varspec['value'] = (string) substr($value, 0, -1);
             } else {
                 $varspec['value'] = $value;
                 $varspec['modifier'] = '';
@@ -281,7 +298,7 @@ final class UriTemplate
      */
     private static function isAssoc(array $array): bool
     {
-        return $array && \array_keys($array)[0] !== 0;
+        return $array && array_keys($array)[0] !== 0;
     }
 
     /**
@@ -290,6 +307,6 @@ final class UriTemplate
      */
     private static function decodeReserved(string $string): string
     {
-        return \str_replace(self::$delimsPct, self::$delims, $string);
+        return str_replace(self::$delimsPct, self::$delims, $string);
     }
 }

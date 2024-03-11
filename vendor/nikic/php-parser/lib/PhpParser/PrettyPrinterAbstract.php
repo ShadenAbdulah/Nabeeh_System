@@ -2,6 +2,8 @@
 
 namespace PhpParser;
 
+use Exception;
+use LogicException;
 use PhpParser\Internal\DiffElem;
 use PhpParser\Internal\Differ;
 use PhpParser\Internal\PrintableNewAnonClassNode;
@@ -17,6 +19,26 @@ use PhpParser\Node\Param;
 use PhpParser\Node\Scalar;
 use PhpParser\Node\Stmt;
 use PhpParser\Node\UnionType;
+use function assert;
+use function count;
+use function get_class;
+use function str_repeat;
+use function strlen;
+use const T_AS;
+use const T_BREAK;
+use const T_CLASS;
+use const T_CONST;
+use const T_CONTINUE;
+use const T_DOUBLE_ARROW;
+use const T_EXTENDS;
+use const T_FN;
+use const T_FUNCTION;
+use const T_NAMESPACE;
+use const T_NEW;
+use const T_RETURN;
+use const T_VARIABLE;
+use const T_WHITESPACE;
+use const T_YIELD;
 
 abstract class PrettyPrinterAbstract implements PrettyPrinter {
     protected const FIXUP_PREC_LEFT = 0; // LHS operand affected by precedence
@@ -182,7 +204,7 @@ abstract class PrettyPrinterAbstract implements PrettyPrinter {
 
         $this->newline = $options['newline'] ?? "\n";
         if ($this->newline !== "\n" && $this->newline != "\r\n") {
-            throw new \LogicException('Option "newline" must be one of "\n" or "\r\n"');
+            throw new LogicException('Option "newline" must be one of "\n" or "\r\n"');
         }
 
         $this->shortArraySyntax =
@@ -207,7 +229,7 @@ abstract class PrettyPrinterAbstract implements PrettyPrinter {
      */
     protected function setIndentLevel(int $level): void {
         $this->indentLevel = $level;
-        $this->nl = $this->newline . \str_repeat(' ', $level);
+        $this->nl = $this->newline . str_repeat(' ', $level);
     }
 
     /**
@@ -584,12 +606,12 @@ abstract class PrettyPrinterAbstract implements PrettyPrinter {
             return $this->pFallback($node, $precedence, $lhsPrecedence);
         }
 
-        $class = \get_class($node);
-        \assert($class === \get_class($origNode));
+        $class = get_class($node);
+        assert($class === get_class($origNode));
 
         $startPos = $origNode->getStartTokenPos();
         $endPos = $origNode->getEndTokenPos();
-        \assert($startPos >= 0 && $endPos >= 0);
+        assert($startPos >= 0 && $endPos >= 0);
 
         $fallbackNode = $node;
         if ($node instanceof Expr\New_ && $node->class instanceof Stmt\Class_) {
@@ -657,7 +679,7 @@ abstract class PrettyPrinterAbstract implements PrettyPrinter {
             if ($origSubNode !== null) {
                 $subStartPos = $origSubNode->getStartTokenPos();
                 $subEndPos = $origSubNode->getEndTokenPos();
-                \assert($subStartPos >= 0 && $subEndPos >= 0);
+                assert($subStartPos >= 0 && $subEndPos >= 0);
             } else {
                 if ($subNode === null) {
                     // Both null, nothing to do
@@ -769,10 +791,10 @@ abstract class PrettyPrinterAbstract implements PrettyPrinter {
             $insertNewline = true;
         }
 
-        if ($isStmtList && \count($origNodes) === 1 && \count($nodes) !== 1) {
+        if ($isStmtList && count($origNodes) === 1 && count($nodes) !== 1) {
             $startPos = $origNodes[0]->getStartTokenPos();
             $endPos = $origNodes[0]->getEndTokenPos();
-            \assert($startPos >= 0 && $endPos >= 0);
+            assert($startPos >= 0 && $endPos >= 0);
             if (!$this->origTokens->haveBraces($startPos, $endPos)) {
                 // This was a single statement without braces, but either additional statements
                 // have been added, or the single statement has been removed. This requires the
@@ -808,7 +830,7 @@ abstract class PrettyPrinterAbstract implements PrettyPrinter {
 
                 $itemStartPos = $origArrItem->getStartTokenPos();
                 $itemEndPos = $origArrItem->getEndTokenPos();
-                \assert($itemStartPos >= 0 && $itemEndPos >= 0 && $itemStartPos >= $pos);
+                assert($itemStartPos >= 0 && $itemEndPos >= 0 && $itemStartPos >= $pos);
 
                 $origIndentLevel = $this->indentLevel;
                 $lastElemIndentLevel = $this->origTokens->getIndentationBefore($itemStartPos) + $indentAdjustment;
@@ -817,7 +839,7 @@ abstract class PrettyPrinterAbstract implements PrettyPrinter {
                 $comments = $arrItem->getComments();
                 $origComments = $origArrItem->getComments();
                 $commentStartPos = $origComments ? $origComments[0]->getStartTokenPos() : $itemStartPos;
-                \assert($commentStartPos >= 0);
+                assert($commentStartPos >= 0);
 
                 if ($commentStartPos < $pos) {
                     // Comments may be assigned to multiple nodes if they start at the same position.
@@ -921,7 +943,7 @@ abstract class PrettyPrinterAbstract implements PrettyPrinter {
 
                 $itemStartPos = $origArrItem->getStartTokenPos();
                 $itemEndPos = $origArrItem->getEndTokenPos();
-                \assert($itemStartPos >= 0 && $itemEndPos >= 0);
+                assert($itemStartPos >= 0 && $itemEndPos >= 0);
 
                 // Consider comments part of the node.
                 $origComments = $origArrItem->getComments();
@@ -946,7 +968,7 @@ abstract class PrettyPrinterAbstract implements PrettyPrinter {
                 $pos = $itemEndPos + 1;
                 continue;
             } else {
-                throw new \Exception("Shouldn't happen");
+                throw new Exception("Shouldn't happen");
             }
 
             if (null !== $fixup && $arrItem->getAttribute('origNode') !== $origArrItem) {
@@ -1075,7 +1097,7 @@ abstract class PrettyPrinterAbstract implements PrettyPrinter {
                 }
                 break;
             default:
-                throw new \Exception('Cannot happen');
+                throw new Exception('Cannot happen');
         }
 
         // Nothing special to do
@@ -1099,7 +1121,7 @@ abstract class PrettyPrinterAbstract implements PrettyPrinter {
         }
 
         if (!$this->labelCharMap[$append[0]]
-                || !$this->labelCharMap[$str[\strlen($str) - 1]]) {
+                || !$this->labelCharMap[$str[strlen($str) - 1]]) {
             $str .= $append;
         } else {
             $str .= " " . $append;
@@ -1211,7 +1233,7 @@ abstract class PrettyPrinterAbstract implements PrettyPrinter {
      * @return bool Whether multiline formatting is used
      */
     protected function isMultiline(array $nodes): bool {
-        if (\count($nodes) < 2) {
+        if (count($nodes) < 2) {
             return false;
         }
 
@@ -1377,10 +1399,10 @@ abstract class PrettyPrinterAbstract implements PrettyPrinter {
             return;
         }
 
-        $stripBoth = ['left' => \T_WHITESPACE, 'right' => \T_WHITESPACE];
-        $stripLeft = ['left' => \T_WHITESPACE];
-        $stripRight = ['right' => \T_WHITESPACE];
-        $stripDoubleArrow = ['right' => \T_DOUBLE_ARROW];
+        $stripBoth = ['left' => T_WHITESPACE, 'right' => T_WHITESPACE];
+        $stripLeft = ['left' => T_WHITESPACE];
+        $stripRight = ['right' => T_WHITESPACE];
+        $stripDoubleArrow = ['right' => T_DOUBLE_ARROW];
         $stripColon = ['left' => ':'];
         $stripEquals = ['left' => '='];
         $this->removalMap = [
@@ -1398,10 +1420,10 @@ abstract class PrettyPrinterAbstract implements PrettyPrinter {
             'Stmt_Catch->var' => $stripLeft,
             'Stmt_ClassConst->type' => $stripRight,
             'Stmt_ClassMethod->returnType' => $stripColon,
-            'Stmt_Class->extends' => ['left' => \T_EXTENDS],
+            'Stmt_Class->extends' => ['left' => T_EXTENDS],
             'Stmt_Enum->scalarType' => $stripColon,
             'Stmt_EnumCase->expr' => $stripEquals,
-            'Expr_PrintableNewAnonClass->extends' => ['left' => \T_EXTENDS],
+            'Expr_PrintableNewAnonClass->extends' => ['left' => T_EXTENDS],
             'Stmt_Continue->num' => $stripBoth,
             'Stmt_Foreach->keyVar' => $stripDoubleArrow,
             'Stmt_Function->returnType' => $stripColon,
@@ -1433,26 +1455,26 @@ abstract class PrettyPrinterAbstract implements PrettyPrinter {
             'Expr_ArrowFunction->returnType' => [')', false, ': ', null],
             'Expr_Closure->returnType' => [')', false, ': ', null],
             'Expr_Ternary->if' => ['?', false, ' ', ' '],
-            'Expr_Yield->key' => [\T_YIELD, false, null, ' => '],
-            'Expr_Yield->value' => [\T_YIELD, false, ' ', null],
+            'Expr_Yield->key' => [T_YIELD, false, null, ' => '],
+            'Expr_Yield->value' => [T_YIELD, false, ' ', null],
             'Param->type' => [null, false, null, ' '],
             'Param->default' => [null, false, ' = ', null],
-            'Stmt_Break->num' => [\T_BREAK, false, ' ', null],
+            'Stmt_Break->num' => [T_BREAK, false, ' ', null],
             'Stmt_Catch->var' => [null, false, ' ', null],
             'Stmt_ClassMethod->returnType' => [')', false, ': ', null],
-            'Stmt_ClassConst->type' => [\T_CONST, false, ' ', null],
+            'Stmt_ClassConst->type' => [T_CONST, false, ' ', null],
             'Stmt_Class->extends' => [null, false, ' extends ', null],
             'Stmt_Enum->scalarType' => [null, false, ' : ', null],
             'Stmt_EnumCase->expr' => [null, false, ' = ', null],
             'Expr_PrintableNewAnonClass->extends' => [null, false, ' extends ', null],
-            'Stmt_Continue->num' => [\T_CONTINUE, false, ' ', null],
-            'Stmt_Foreach->keyVar' => [\T_AS, false, null, ' => '],
+            'Stmt_Continue->num' => [T_CONTINUE, false, ' ', null],
+            'Stmt_Foreach->keyVar' => [T_AS, false, null, ' => '],
             'Stmt_Function->returnType' => [')', false, ': ', null],
             'Stmt_If->else' => [null, false, ' ', null],
-            'Stmt_Namespace->name' => [\T_NAMESPACE, false, ' ', null],
-            'Stmt_Property->type' => [\T_VARIABLE, true, null, ' '],
+            'Stmt_Namespace->name' => [T_NAMESPACE, false, ' ', null],
+            'Stmt_Property->type' => [T_VARIABLE, true, null, ' '],
             'PropertyItem->default' => [null, false, ' = ', null],
-            'Stmt_Return->expr' => [\T_RETURN, false, ' ', null],
+            'Stmt_Return->expr' => [T_RETURN, false, ' ', null],
             'Stmt_StaticVar->default' => [null, false, ' = ', null],
             //'Stmt_TraitUseAdaptation_Alias->newName' => [T_AS, false, ' ', null], // TODO
             'Stmt_TryCatch->finally' => [null, false, ' ', null],
@@ -1597,7 +1619,7 @@ abstract class PrettyPrinterAbstract implements PrettyPrinter {
             Stmt\Trait_::class . '->attrGroups' => [null, '', "\n"],
             Expr\ArrowFunction::class . '->attrGroups' => [null, '', ' '],
             Expr\Closure::class . '->attrGroups' => [null, '', ' '],
-            PrintableNewAnonClassNode::class . '->attrGroups' => [\T_NEW, ' ', ''],
+            PrintableNewAnonClassNode::class . '->attrGroups' => [T_NEW, ' ', ''],
 
             /* These cannot be empty to start with:
              * Expr_Isset->vars
@@ -1635,14 +1657,14 @@ abstract class PrettyPrinterAbstract implements PrettyPrinter {
         }
 
         $this->modifierChangeMap = [
-            Stmt\ClassConst::class . '->flags' => ['pModifiers', \T_CONST],
-            Stmt\ClassMethod::class . '->flags' => ['pModifiers', \T_FUNCTION],
-            Stmt\Class_::class . '->flags' => ['pModifiers', \T_CLASS],
-            Stmt\Property::class . '->flags' => ['pModifiers', \T_VARIABLE],
-            PrintableNewAnonClassNode::class . '->flags' => ['pModifiers', \T_CLASS],
-            Param::class . '->flags' => ['pModifiers', \T_VARIABLE],
-            Expr\Closure::class . '->static' => ['pStatic', \T_FUNCTION],
-            Expr\ArrowFunction::class . '->static' => ['pStatic', \T_FN],
+            Stmt\ClassConst::class . '->flags' => ['pModifiers', T_CONST],
+            Stmt\ClassMethod::class . '->flags' => ['pModifiers', T_FUNCTION],
+            Stmt\Class_::class . '->flags' => ['pModifiers', T_CLASS],
+            Stmt\Property::class . '->flags' => ['pModifiers', T_VARIABLE],
+            PrintableNewAnonClassNode::class . '->flags' => ['pModifiers', T_CLASS],
+            Param::class . '->flags' => ['pModifiers', T_VARIABLE],
+            Expr\Closure::class . '->static' => ['pStatic', T_FUNCTION],
+            Expr\ArrowFunction::class . '->static' => ['pStatic', T_FN],
             //Stmt\TraitUseAdaptation\Alias::class . '->newModifier' => 0, // TODO
         ];
 

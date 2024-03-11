@@ -11,6 +11,9 @@
 
 namespace Symfony\Component\Mime;
 
+use InvalidArgumentException;
+use LogicException;
+
 /**
  * Guesses the MIME type of a file.
  *
@@ -26,8 +29,8 @@ interface MimeTypeGuesserInterface
     /**
      * Guesses the MIME type of the file with the given path.
      *
-     * @throws \LogicException           If the guesser is not supported
-     * @throws \InvalidArgumentException If the file does not exist or is not readable
+     * @throws LogicException           If the guesser is not supported
+     * @throws InvalidArgumentException If the file does not exist or is not readable
      */
     public function guessMimeType(string $path): ?string;
 }

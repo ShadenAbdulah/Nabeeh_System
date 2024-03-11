@@ -36,6 +36,19 @@
 
 namespace Psy\Readline\Hoa;
 
+use function base64_encode;
+use function ctype_digit;
+use function defined;
+use function explode;
+use function function_exists;
+use function ltrim;
+use function pcntl_signal;
+use function preg_match;
+use function str_replace;
+use function stream_select;
+use function trim;
+use const SIGWINCH;
+
 /**
  * Allow to manipulate the window.
  *
@@ -82,7 +95,7 @@ class ConsoleWindow implements EventSource
      */
     public static function setSize(int $x, int $y)
     {
-        if (\defined('PHP_WINDOWS_VERSION_PLATFORM')) {
+        if (defined('PHP_WINDOWS_VERSION_PLATFORM')) {
             return;
         }
 
@@ -96,15 +109,15 @@ class ConsoleWindow implements EventSource
      */
     public static function getSize(): array
     {
-        if (\defined('PHP_WINDOWS_VERSION_PLATFORM')) {
-            $modecon = \explode("\n", \ltrim(ConsoleProcessus::execute('mode con')));
+        if (defined('PHP_WINDOWS_VERSION_PLATFORM')) {
+            $modecon = explode("\n", ltrim(ConsoleProcessus::execute('mode con')));
 
-            $_y = \trim($modecon[2]);
-            \preg_match('#[^:]+:\s*([0-9]+)#', $_y, $matches);
+            $_y = trim($modecon[2]);
+            preg_match('#[^:]+:\s*([0-9]+)#', $_y, $matches);
             $y = (int) $matches[1];
 
-            $_x = \trim($modecon[3]);
-            \preg_match('#[^:]+:\s*([0-9]+)#', $_x, $matches);
+            $_x = trim($modecon[3]);
+            preg_match('#[^:]+:\s*([0-9]+)#', $_x, $matches);
             $x = (int) $matches[1];
 
             return [
@@ -123,7 +136,7 @@ class ConsoleWindow implements EventSource
         $tput = ConsoleProcessus::execute($command, false);
 
         if (!empty($tput)) {
-            list($x, $y) = \explode("\n", $tput);
+            list($x, $y) = explode("\n", $tput);
 
             return [
                 'x' => (int) $x,
@@ -156,7 +169,7 @@ class ConsoleWindow implements EventSource
                     break 2;
 
                 default:
-                    if (false === \ctype_digit($char)) {
+                    if (false === ctype_digit($char)) {
                         break 2;
                     }
 
@@ -182,7 +195,7 @@ class ConsoleWindow implements EventSource
      */
     public static function moveTo(int $x, int $y)
     {
-        if (\defined('PHP_WINDOWS_VERSION_PLATFORM')) {
+        if (defined('PHP_WINDOWS_VERSION_PLATFORM')) {
             return;
         }
 
@@ -197,7 +210,7 @@ class ConsoleWindow implements EventSource
      */
     public static function getPosition(): array
     {
-        if (\defined('PHP_WINDOWS_VERSION_PLATFORM')) {
+        if (defined('PHP_WINDOWS_VERSION_PLATFORM')) {
             return ['x' => 0, 'y' => 0];
         }
 
@@ -245,16 +258,16 @@ class ConsoleWindow implements EventSource
      */
     public static function scroll(string $directions, int $repeat = 1)
     {
-        if (\defined('PHP_WINDOWS_VERSION_PLATFORM')) {
+        if (defined('PHP_WINDOWS_VERSION_PLATFORM')) {
             return;
         }
 
         if (1 > $repeat) {
             return;
         } elseif (1 === $repeat) {
-            $handle = \explode(' ', $directions);
+            $handle = explode(' ', $directions);
         } else {
-            $handle = \explode(' ', $directions, 1);
+            $handle = explode(' ', $directions, 1);
         }
 
         $tput = Console::getTput();
@@ -282,7 +295,7 @@ class ConsoleWindow implements EventSource
 
         if (0 < $count['up']) {
             $output->writeAll(
-                \str_replace(
+                str_replace(
                     '%p1%d',
                     $count['up'] * $repeat,
                     $tput->get('parm_index')
@@ -292,7 +305,7 @@ class ConsoleWindow implements EventSource
 
         if (0 < $count['down']) {
             $output->writeAll(
-                \str_replace(
+                str_replace(
                     '%p1%d',
                     $count['down'] * $repeat,
                     $tput->get('parm_rindex')
@@ -308,7 +321,7 @@ class ConsoleWindow implements EventSource
      */
     public static function minimize()
     {
-        if (\defined('PHP_WINDOWS_VERSION_PLATFORM')) {
+        if (defined('PHP_WINDOWS_VERSION_PLATFORM')) {
             return;
         }
 
@@ -323,7 +336,7 @@ class ConsoleWindow implements EventSource
      */
     public static function restore()
     {
-        if (\defined('PHP_WINDOWS_VERSION_PLATFORM')) {
+        if (defined('PHP_WINDOWS_VERSION_PLATFORM')) {
             return;
         }
 
@@ -337,7 +350,7 @@ class ConsoleWindow implements EventSource
      */
     public static function raise()
     {
-        if (\defined('PHP_WINDOWS_VERSION_PLATFORM')) {
+        if (defined('PHP_WINDOWS_VERSION_PLATFORM')) {
             return;
         }
 
@@ -351,7 +364,7 @@ class ConsoleWindow implements EventSource
      */
     public static function lower()
     {
-        if (\defined('PHP_WINDOWS_VERSION_PLATFORM')) {
+        if (defined('PHP_WINDOWS_VERSION_PLATFORM')) {
             return;
         }
 
@@ -365,7 +378,7 @@ class ConsoleWindow implements EventSource
      */
     public static function setTitle(string $title)
     {
-        if (\defined('PHP_WINDOWS_VERSION_PLATFORM')) {
+        if (defined('PHP_WINDOWS_VERSION_PLATFORM')) {
             return;
         }
 
@@ -380,7 +393,7 @@ class ConsoleWindow implements EventSource
      */
     public static function getTitle()
     {
-        if (\defined('PHP_WINDOWS_VERSION_PLATFORM')) {
+        if (defined('PHP_WINDOWS_VERSION_PLATFORM')) {
             return null;
         }
 
@@ -393,7 +406,7 @@ class ConsoleWindow implements EventSource
         $except = [];
         $out = null;
 
-        if (0 === \stream_select($read, $write, $except, 0, 50000)) {
+        if (0 === stream_select($read, $write, $except, 0, 50000)) {
             return $out;
         }
 
@@ -424,7 +437,7 @@ class ConsoleWindow implements EventSource
      */
     public static function getLabel()
     {
-        if (\defined('PHP_WINDOWS_VERSION_PLATFORM')) {
+        if (defined('PHP_WINDOWS_VERSION_PLATFORM')) {
             return null;
         }
 
@@ -437,7 +450,7 @@ class ConsoleWindow implements EventSource
         $except = [];
         $out = null;
 
-        if (0 === \stream_select($read, $write, $except, 0, 50000)) {
+        if (0 === stream_select($read, $write, $except, 0, 50000)) {
             return $out;
         }
 
@@ -468,7 +481,7 @@ class ConsoleWindow implements EventSource
      */
     public static function refresh()
     {
-        if (\defined('PHP_WINDOWS_VERSION_PLATFORM')) {
+        if (defined('PHP_WINDOWS_VERSION_PLATFORM')) {
             return;
         }
 
@@ -483,11 +496,11 @@ class ConsoleWindow implements EventSource
      */
     public static function copy(string $data)
     {
-        if (\defined('PHP_WINDOWS_VERSION_PLATFORM')) {
+        if (defined('PHP_WINDOWS_VERSION_PLATFORM')) {
             return;
         }
 
-        $out = "\033]52;;".\base64_encode($data)."\033\\";
+        $out = "\033]52;;". base64_encode($data)."\033\\";
         $output = Console::getOutput();
         $considerMultiplexer = $output->considerMultiplexer(true);
 
@@ -506,10 +519,10 @@ Console::advancedInteraction();
 /*
  * Event.
  */
-if (\function_exists('pcntl_signal')) {
+if (function_exists('pcntl_signal')) {
     ConsoleWindow::getInstance();
-    \pcntl_signal(
-        \SIGWINCH,
+    pcntl_signal(
+        SIGWINCH,
         function () {
             static $_window = null;
 

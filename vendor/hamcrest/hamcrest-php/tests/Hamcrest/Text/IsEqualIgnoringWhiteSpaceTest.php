@@ -1,14 +1,16 @@
 <?php
 namespace Hamcrest\Text;
 
-class IsEqualIgnoringWhiteSpaceTest extends \Hamcrest\AbstractMatcherTest
+use Hamcrest\AbstractMatcherTest;
+
+class IsEqualIgnoringWhiteSpaceTest extends AbstractMatcherTest
 {
 
     private $_matcher;
 
     protected function setUp()
     {
-        $this->_matcher = \Hamcrest\Text\IsEqualIgnoringWhiteSpace::equalToIgnoringWhiteSpace(
+        $this->_matcher = IsEqualIgnoringWhiteSpace::equalToIgnoringWhiteSpace(
             "Hello World   how\n are we? "
         );
     }

@@ -26,7 +26,7 @@ class Response extends SymfonyResponse
      * @param  array  $headers
      * @return void
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function __construct($content = '', $status = 200, array $headers = [])
     {
@@ -43,7 +43,7 @@ class Response extends SymfonyResponse
      * @param  mixed  $content
      * @return $this
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function setContent(mixed $content): static
     {

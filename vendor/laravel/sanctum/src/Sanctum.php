@@ -2,6 +2,7 @@
 
 namespace Laravel\Sanctum;
 
+use Illuminate\Contracts\Auth\Authenticatable;
 use Mockery;
 
 class Sanctum
@@ -49,10 +50,10 @@ class Sanctum
     /**
      * Set the current user for the application with the given abilities.
      *
-     * @param  \Illuminate\Contracts\Auth\Authenticatable|\Laravel\Sanctum\HasApiTokens  $user
+     * @param  Authenticatable|HasApiTokens $user
      * @param  array  $abilities
      * @param  string  $guard
-     * @return \Illuminate\Contracts\Auth\Authenticatable
+     * @return Authenticatable
      */
     public static function actingAs($user, $abilities = [], $guard = 'sanctum')
     {

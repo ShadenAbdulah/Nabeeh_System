@@ -4,6 +4,9 @@ namespace Faker\ORM\Doctrine;
 
 use Doctrine\Common\Persistence\Mapping\ClassMetadata;
 use Doctrine\Common\Persistence\ObjectManager;
+use Faker\Generator;
+use Faker\Guesser\Name;
+use InvalidArgumentException;
 
 require_once 'backward-compatibility.php';
 
@@ -77,10 +80,10 @@ class EntityPopulator
     /**
      * @return array
      */
-    public function guessColumnFormatters(\Faker\Generator $generator)
+    public function guessColumnFormatters(Generator $generator)
     {
         $formatters = [];
-        $nameGuesser = new \Faker\Guesser\Name($generator);
+        $nameGuesser = new Name($generator);
         $columnTypeGuesser = new ColumnTypeGuesser($generator);
 
         foreach ($this->class->getFieldNames() as $fieldName) {
@@ -200,8 +203,8 @@ class EntityPopulator
                 // Add some extended debugging information to any errors thrown by the formatter
                 try {
                     $value = is_callable($format) ? $format($insertedEntities, $obj) : $format;
-                } catch (\InvalidArgumentException $ex) {
-                    throw new \InvalidArgumentException(sprintf(
+                } catch (InvalidArgumentException $ex) {
+                    throw new InvalidArgumentException(sprintf(
                         'Failed to generate a value for %s::%s: %s',
                         get_class($obj),
                         $field,

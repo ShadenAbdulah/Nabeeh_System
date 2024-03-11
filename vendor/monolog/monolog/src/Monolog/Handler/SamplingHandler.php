@@ -14,6 +14,9 @@ namespace Monolog\Handler;
 use Closure;
 use Monolog\Formatter\FormatterInterface;
 use Monolog\LogRecord;
+use RuntimeException;
+use UnexpectedValueException;
+use function count;
 
 /**
  * Sampling handler
@@ -63,7 +66,7 @@ class SamplingHandler extends AbstractHandler implements ProcessableHandlerInter
     public function handle(LogRecord $record): bool
     {
         if ($this->isHandling($record) && mt_rand(1, $this->factor) === 1) {
-            if (\count($this->processors) > 0) {
+            if (count($this->processors) > 0) {
                 $record = $this->processRecord($record);
             }
 
@@ -83,7 +86,7 @@ class SamplingHandler extends AbstractHandler implements ProcessableHandlerInter
         if (!$this->handler instanceof HandlerInterface) {
             $handler = ($this->handler)($record, $this);
             if (!$handler instanceof HandlerInterface) {
-                throw new \RuntimeException("The factory Closure should return a HandlerInterface");
+                throw new RuntimeException("The factory Closure should return a HandlerInterface");
             }
             $this->handler = $handler;
         }
@@ -103,7 +106,7 @@ class SamplingHandler extends AbstractHandler implements ProcessableHandlerInter
             return $this;
         }
 
-        throw new \UnexpectedValueException('The nested handler of type '.get_class($handler).' does not support formatters.');
+        throw new UnexpectedValueException('The nested handler of type '.get_class($handler).' does not support formatters.');
     }
 
     /**
@@ -116,6 +119,6 @@ class SamplingHandler extends AbstractHandler implements ProcessableHandlerInter
             return $handler->getFormatter();
         }
 
-        throw new \UnexpectedValueException('The nested handler of type '.get_class($handler).' does not support formatters.');
+        throw new UnexpectedValueException('The nested handler of type '.get_class($handler).' does not support formatters.');
     }
 }

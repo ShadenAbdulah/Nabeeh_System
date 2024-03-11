@@ -4,6 +4,7 @@ namespace Illuminate\Support;
 
 use Closure;
 use Illuminate\Console\Application as Artisan;
+use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Foundation\CachesConfiguration;
 use Illuminate\Contracts\Foundation\CachesRoutes;
 use Illuminate\Contracts\Support\DeferrableProvider;
@@ -15,7 +16,7 @@ abstract class ServiceProvider
     /**
      * The application instance.
      *
-     * @var \Illuminate\Contracts\Foundation\Application
+     * @var Application
      */
     protected $app;
 
@@ -50,7 +51,7 @@ abstract class ServiceProvider
     /**
      * Create a new service provider instance.
      *
-     * @param  \Illuminate\Contracts\Foundation\Application  $app
+     * @param  Application  $app
      * @return void
      */
     public function __construct($app)
@@ -71,7 +72,7 @@ abstract class ServiceProvider
     /**
      * Register a booting callback to be run before the "boot" method is called.
      *
-     * @param  \Closure  $callback
+     * @param Closure $callback
      * @return void
      */
     public function booting(Closure $callback)
@@ -82,7 +83,7 @@ abstract class ServiceProvider
     /**
      * Register a booted callback to be run after the "boot" method is called.
      *
-     * @param  \Closure  $callback
+     * @param Closure $callback
      * @return void
      */
     public function booted(Closure $callback)
@@ -438,7 +439,7 @@ abstract class ServiceProvider
     /**
      * Get the default providers for a Laravel application.
      *
-     * @return \Illuminate\Support\DefaultProviders
+     * @return DefaultProviders
      */
     public static function defaultProviders()
     {

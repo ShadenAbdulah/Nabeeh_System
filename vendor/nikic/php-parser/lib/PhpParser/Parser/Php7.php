@@ -9,6 +9,8 @@ use PhpParser\Node\Expr;
 use PhpParser\Node\Name;
 use PhpParser\Node\Scalar;
 use PhpParser\Node\Stmt;
+use PhpParser\ParserAbstract;
+use function is_string;
 
 /* This is an automatically GENERATED file, which should not be manually edited.
  * Instead edit one of the following:
@@ -16,7 +18,7 @@ use PhpParser\Node\Stmt;
  *  * the skeleton file grammar/parser.template
  *  * the preprocessing script grammar/rebuildParsers.php
  */
-class Php7 extends \PhpParser\ParserAbstract
+class Php7 extends ParserAbstract
 {
     public const YYERRTOK = 256;
     public const T_THROW = 257;
@@ -1142,14 +1144,14 @@ class Php7 extends \PhpParser\ParserAbstract
                  $self->semValue = $self->handleNamespaces($self->semStack[$stackPos-(1-1)]);
             },
             2 => static function ($self, $stackPos) {
-                 if ($self->semStack[$stackPos-(2-2)] !== null) { $self->semStack[$stackPos-(2-1)][] = $self->semStack[$stackPos-(2-2)]; } $self->semValue = $self->semStack[$stackPos-(2-1)];;
+                 if ($self->semStack[$stackPos-(2-2)] !== null) { $self->semStack[$stackPos-(2-1)][] = $self->semStack[$stackPos-(2-2)]; } $self->semValue = $self->semStack[$stackPos-(2-1)];
             },
             3 => static function ($self, $stackPos) {
                  $self->semValue = array();
             },
             4 => static function ($self, $stackPos) {
-                 $nop = $self->maybeCreateZeroLengthNop($self->tokenPos);;
-            if ($nop !== null) { $self->semStack[$stackPos-(1-1)][] = $nop; } $self->semValue = $self->semStack[$stackPos-(1-1)];
+                 $nop = $self->maybeCreateZeroLengthNop($self->tokenPos);
+                if ($nop !== null) { $self->semStack[$stackPos-(1-1)][] = $nop; } $self->semValue = $self->semStack[$stackPos-(1-1)];
             },
             5 => null,
             6 => null,
@@ -1412,14 +1414,14 @@ class Php7 extends \PhpParser\ParserAbstract
                  $self->semValue = new Node\Const_(new Node\Identifier($self->semStack[$stackPos-(3-1)], $self->getAttributes($self->tokenStartStack[$stackPos-(3-1)],  $self->tokenEndStack[$stackPos-(3-1)])), $self->semStack[$stackPos-(3-3)], $self->getAttributes($self->tokenStartStack[$stackPos-(3-1)], $self->tokenEndStack[$stackPos]));
             },
             151 => static function ($self, $stackPos) {
-                 if ($self->semStack[$stackPos-(2-2)] !== null) { $self->semStack[$stackPos-(2-1)][] = $self->semStack[$stackPos-(2-2)]; } $self->semValue = $self->semStack[$stackPos-(2-1)];;
+                 if ($self->semStack[$stackPos-(2-2)] !== null) { $self->semStack[$stackPos-(2-1)][] = $self->semStack[$stackPos-(2-2)]; } $self->semValue = $self->semStack[$stackPos-(2-1)];
             },
             152 => static function ($self, $stackPos) {
                  $self->semValue = array();
             },
             153 => static function ($self, $stackPos) {
-                 $nop = $self->maybeCreateZeroLengthNop($self->tokenPos);;
-            if ($nop !== null) { $self->semStack[$stackPos-(1-1)][] = $nop; } $self->semValue = $self->semStack[$stackPos-(1-1)];
+                 $nop = $self->maybeCreateZeroLengthNop($self->tokenPos);
+                if ($nop !== null) { $self->semStack[$stackPos-(1-1)][] = $nop; } $self->semValue = $self->semStack[$stackPos-(1-1)];
             },
             154 => null,
             155 => null,
@@ -1507,7 +1509,7 @@ class Php7 extends \PhpParser\ParserAbstract
                  $self->semValue = $self->maybeCreateNop($self->tokenStartStack[$stackPos-(1-1)], $self->tokenEndStack[$stackPos]);
             },
             184 => static function ($self, $stackPos) {
-                 if ($self->semStack[$stackPos-(1-1)] instanceof Stmt\Block) { $self->semValue = $self->semStack[$stackPos-(1-1)]->stmts; } else if ($self->semStack[$stackPos-(1-1)] === null) { $self->semValue = []; } else { $self->semValue = [$self->semStack[$stackPos-(1-1)]]; };
+                 if ($self->semStack[$stackPos-(1-1)] instanceof Stmt\Block) { $self->semValue = $self->semStack[$stackPos-(1-1)]->stmts; } else if ($self->semStack[$stackPos-(1-1)] === null) { $self->semValue = []; } else { $self->semValue = [$self->semStack[$stackPos-(1-1)]]; }
             },
             185 => static function ($self, $stackPos) {
                  $self->semValue = array();
@@ -1653,7 +1655,7 @@ class Php7 extends \PhpParser\ParserAbstract
                  $self->semValue = $self->semStack[$stackPos-(4-2)];
             },
             236 => static function ($self, $stackPos) {
-                 if ($self->semStack[$stackPos-(1-1)] instanceof Stmt\Block) { $self->semValue = $self->semStack[$stackPos-(1-1)]->stmts; } else if ($self->semStack[$stackPos-(1-1)] === null) { $self->semValue = []; } else { $self->semValue = [$self->semStack[$stackPos-(1-1)]]; };
+                 if ($self->semStack[$stackPos-(1-1)] instanceof Stmt\Block) { $self->semValue = $self->semStack[$stackPos-(1-1)]->stmts; } else if ($self->semStack[$stackPos-(1-1)] === null) { $self->semValue = []; } else { $self->semValue = [$self->semStack[$stackPos-(1-1)]]; }
             },
             237 => static function ($self, $stackPos) {
                  $self->semValue = null;
@@ -1941,8 +1943,8 @@ class Php7 extends \PhpParser\ParserAbstract
                  $self->semValue = array();
             },
             342 => static function ($self, $stackPos) {
-                 $nop = $self->maybeCreateZeroLengthNop($self->tokenPos);;
-            if ($nop !== null) { $self->semStack[$stackPos-(1-1)][] = $nop; } $self->semValue = $self->semStack[$stackPos-(1-1)];
+                 $nop = $self->maybeCreateZeroLengthNop($self->tokenPos);
+                if ($nop !== null) { $self->semStack[$stackPos-(1-1)][] = $nop; } $self->semValue = $self->semStack[$stackPos-(1-1)];
             },
             343 => static function ($self, $stackPos) {
                  $self->semValue = new Stmt\Property($self->semStack[$stackPos-(5-2)], $self->semStack[$stackPos-(5-4)], $self->getAttributes($self->tokenStartStack[$stackPos-(5-1)], $self->tokenEndStack[$stackPos]), $self->semStack[$stackPos-(5-3)], $self->semStack[$stackPos-(5-1)]);
@@ -2427,10 +2429,11 @@ class Php7 extends \PhpParser\ParserAbstract
                  $self->semValue = array();
             },
             512 => static function ($self, $stackPos) {
-                 $self->semValue = array($self->semStack[$stackPos-(1-1)]); foreach ($self->semValue as $s) { if ($s instanceof Node\InterpolatedStringPart) { $s->value = Node\Scalar\String_::parseEscapeSequences($s->value, '`', $self->phpVersion->supportsUnicodeEscapes()); } };
+                 $self->semValue = array($self->semStack[$stackPos-(1-1)]); foreach ($self->semValue as $s) { if ($s instanceof Node\InterpolatedStringPart) { $s->value = Node\Scalar\String_::parseEscapeSequences($s->value, '`', $self->phpVersion->supportsUnicodeEscapes()); } }
             },
             513 => static function ($self, $stackPos) {
-                 foreach ($self->semStack[$stackPos-(1-1)] as $s) { if ($s instanceof Node\InterpolatedStringPart) { $s->value = Node\Scalar\String_::parseEscapeSequences($s->value, '`', $self->phpVersion->supportsUnicodeEscapes()); } }; $self->semValue = $self->semStack[$stackPos-(1-1)];
+                 foreach ($self->semStack[$stackPos-(1-1)] as $s) { if ($s instanceof Node\InterpolatedStringPart) { $s->value = Node\Scalar\String_::parseEscapeSequences($s->value, '`', $self->phpVersion->supportsUnicodeEscapes()); } }
+                $self->semValue = $self->semStack[$stackPos-(1-1)];
             },
             514 => static function ($self, $stackPos) {
                  $self->semValue = array();
@@ -2489,7 +2492,8 @@ class Php7 extends \PhpParser\ParserAbstract
             },
             532 => static function ($self, $stackPos) {
                  $attrs = $self->getAttributes($self->tokenStartStack[$stackPos-(3-1)], $self->tokenEndStack[$stackPos]); $attrs['kind'] = Scalar\String_::KIND_DOUBLE_QUOTED;
-            foreach ($self->semStack[$stackPos-(3-2)] as $s) { if ($s instanceof Node\InterpolatedStringPart) { $s->value = Node\Scalar\String_::parseEscapeSequences($s->value, '"', $self->phpVersion->supportsUnicodeEscapes()); } }; $self->semValue = new Scalar\InterpolatedString($self->semStack[$stackPos-(3-2)], $attrs);
+            foreach ($self->semStack[$stackPos-(3-2)] as $s) { if ($s instanceof Node\InterpolatedStringPart) { $s->value = Node\Scalar\String_::parseEscapeSequences($s->value, '"', $self->phpVersion->supportsUnicodeEscapes()); } }
+                $self->semValue = new Scalar\InterpolatedString($self->semStack[$stackPos-(3-2)], $attrs);
             },
             533 => static function ($self, $stackPos) {
                  $self->semValue = $self->parseLNumber($self->semStack[$stackPos-(1-1)], $self->getAttributes($self->tokenStartStack[$stackPos-(1-1)], $self->tokenEndStack[$stackPos]), $self->phpVersion->allowsInvalidOctals());
@@ -2563,7 +2567,7 @@ class Php7 extends \PhpParser\ParserAbstract
                  $self->semValue = new Expr\Variable(new Expr\Error($self->getAttributes($self->tokenStartStack[$stackPos-(2-1)], $self->tokenEndStack[$stackPos])), $self->getAttributes($self->tokenStartStack[$stackPos-(2-1)], $self->tokenEndStack[$stackPos])); $self->errorState = 2;
             },
             568 => static function ($self, $stackPos) {
-                 $var = $self->semStack[$stackPos-(1-1)]->name; $self->semValue = \is_string($var) ? new Node\VarLikeIdentifier($var, $self->getAttributes($self->tokenStartStack[$stackPos-(1-1)], $self->tokenEndStack[$stackPos])) : $var;
+                 $var = $self->semStack[$stackPos-(1-1)]->name; $self->semValue = is_string($var) ? new Node\VarLikeIdentifier($var, $self->getAttributes($self->tokenStartStack[$stackPos-(1-1)], $self->tokenEndStack[$stackPos])) : $var;
             },
             569 => static function ($self, $stackPos) {
                  $self->semValue = new Expr\StaticPropertyFetch($self->semStack[$stackPos-(3-1)], $self->semStack[$stackPos-(3-3)], $self->getAttributes($self->tokenStartStack[$stackPos-(3-1)], $self->tokenEndStack[$stackPos]));

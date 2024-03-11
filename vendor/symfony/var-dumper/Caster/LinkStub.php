@@ -11,6 +11,14 @@
 
 namespace Symfony\Component\VarDumper\Caster;
 
+use ReflectionClass;
+use function array_slice;
+use function count;
+use function dirname;
+use function is_string;
+use function strlen;
+use const DIRECTORY_SEPARATOR;
+
 /**
  * Represents a file or a URL.
  *
@@ -27,7 +35,7 @@ class LinkStub extends ConstStub
     {
         $this->value = $label;
 
-        if (!\is_string($href ??= $label)) {
+        if (!is_string($href ??= $label)) {
             return;
         }
         if (str_starts_with($href, 'file://')) {
@@ -50,11 +58,11 @@ class LinkStub extends ConstStub
             return;
         }
         if ($composerRoot = $this->getComposerRoot($href, $this->inVendor)) {
-            $this->attr['ellipsis'] = \strlen($href) - \strlen($composerRoot) + 1;
+            $this->attr['ellipsis'] = strlen($href) - strlen($composerRoot) + 1;
             $this->attr['ellipsis-type'] = 'path';
-            $this->attr['ellipsis-tail'] = 1 + ($this->inVendor ? 2 + \strlen(implode('', \array_slice(explode(\DIRECTORY_SEPARATOR, substr($href, 1 - $this->attr['ellipsis'])), 0, 2))) : 0);
-        } elseif (3 < \count($ellipsis = explode(\DIRECTORY_SEPARATOR, $href))) {
-            $this->attr['ellipsis'] = 2 + \strlen(implode('', \array_slice($ellipsis, -2)));
+            $this->attr['ellipsis-tail'] = 1 + ($this->inVendor ? 2 + strlen(implode('', array_slice(explode(DIRECTORY_SEPARATOR, substr($href, 1 - $this->attr['ellipsis'])), 0, 2))) : 0);
+        } elseif (3 < count($ellipsis = explode(DIRECTORY_SEPARATOR, $href))) {
+            $this->attr['ellipsis'] = 2 + strlen(implode('', array_slice($ellipsis, -2)));
             $this->attr['ellipsis-type'] = 'path';
             $this->attr['ellipsis-tail'] = 1;
         }
@@ -67,17 +75,17 @@ class LinkStub extends ConstStub
 
             foreach (get_declared_classes() as $class) {
                 if ('C' === $class[0] && str_starts_with($class, 'ComposerAutoloaderInit')) {
-                    $r = new \ReflectionClass($class);
-                    $v = \dirname($r->getFileName(), 2);
+                    $r = new ReflectionClass($class);
+                    $v = dirname($r->getFileName(), 2);
                     if (is_file($v.'/composer/installed.json')) {
-                        self::$vendorRoots[] = $v.\DIRECTORY_SEPARATOR;
+                        self::$vendorRoots[] = $v. DIRECTORY_SEPARATOR;
                     }
                 }
             }
         }
         $inVendor = false;
 
-        if (isset(self::$composerRoots[$dir = \dirname($file)])) {
+        if (isset(self::$composerRoots[$dir = dirname($file)])) {
             return self::$composerRoots[$dir];
         }
 
@@ -93,13 +101,13 @@ class LinkStub extends ConstStub
                 // open_basedir restriction in effect
                 break;
             }
-            if ($parent === \dirname($parent)) {
+            if ($parent === dirname($parent)) {
                 return self::$composerRoots[$dir] = false;
             }
 
-            $parent = \dirname($parent);
+            $parent = dirname($parent);
         }
 
-        return self::$composerRoots[$dir] = $parent.\DIRECTORY_SEPARATOR;
+        return self::$composerRoots[$dir] = $parent. DIRECTORY_SEPARATOR;
     }
 }

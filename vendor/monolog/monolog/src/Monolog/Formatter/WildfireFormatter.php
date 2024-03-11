@@ -11,8 +11,11 @@
 
 namespace Monolog\Formatter;
 
+use BadMethodCallException;
+use DateTimeInterface;
 use Monolog\Level;
 use Monolog\LogRecord;
+use RuntimeException;
 
 /**
  * Serializes a log message according to Wildfire's header requirements
@@ -26,7 +29,7 @@ class WildfireFormatter extends NormalizerFormatter
     /**
      * @param string|null $dateFormat The format of the timestamp: one supported by DateTime::format
      *
-     * @throws \RuntimeException If the function json_encode does not exist
+     * @throws RuntimeException If the function json_encode does not exist
      */
     public function __construct(?string $dateFormat = null)
     {
@@ -120,7 +123,7 @@ class WildfireFormatter extends NormalizerFormatter
      */
     public function formatBatch(array $records)
     {
-        throw new \BadMethodCallException('Batch formatting does not make sense for the WildfireFormatter');
+        throw new BadMethodCallException('Batch formatting does not make sense for the WildfireFormatter');
     }
 
     /**
@@ -130,7 +133,7 @@ class WildfireFormatter extends NormalizerFormatter
      */
     protected function normalize(mixed $data, int $depth = 0): mixed
     {
-        if (is_object($data) && !$data instanceof \DateTimeInterface) {
+        if (is_object($data) && !$data instanceof DateTimeInterface) {
             return $data;
         }
 

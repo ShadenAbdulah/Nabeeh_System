@@ -18,6 +18,8 @@ use Symfony\Component\CssSelector\Parser\Token;
 use Symfony\Component\CssSelector\Parser\Tokenizer\TokenizerEscaping;
 use Symfony\Component\CssSelector\Parser\Tokenizer\TokenizerPatterns;
 use Symfony\Component\CssSelector\Parser\TokenStream;
+use function in_array;
+use function strlen;
 
 /**
  * CSS selector comment handler.
@@ -44,7 +46,7 @@ class StringHandler implements HandlerInterface
     {
         $quote = $reader->getSubstring(1);
 
-        if (!\in_array($quote, ["'", '"'])) {
+        if (!in_array($quote, ["'", '"'])) {
             return false;
         }
 
@@ -56,18 +58,18 @@ class StringHandler implements HandlerInterface
         }
 
         // check unclosed strings
-        if (\strlen($match[0]) === $reader->getRemainingLength()) {
+        if (strlen($match[0]) === $reader->getRemainingLength()) {
             throw SyntaxErrorException::unclosedString($reader->getPosition() - 1);
         }
 
         // check quotes pairs validity
-        if ($quote !== $reader->getSubstring(1, \strlen($match[0]))) {
+        if ($quote !== $reader->getSubstring(1, strlen($match[0]))) {
             throw SyntaxErrorException::unclosedString($reader->getPosition() - 1);
         }
 
         $string = $this->escaping->escapeUnicodeAndNewLine($match[0]);
         $stream->push(new Token(Token::TYPE_STRING, $string, $reader->getPosition()));
-        $reader->moveForward(\strlen($match[0]) + 1);
+        $reader->moveForward(strlen($match[0]) + 1);
 
         return true;
     }

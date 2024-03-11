@@ -9,14 +9,14 @@ class RequestSending
     /**
      * The request instance.
      *
-     * @var \Illuminate\Http\Client\Request
+     * @var Request
      */
     public $request;
 
     /**
      * Create a new event instance.
      *
-     * @param  \Illuminate\Http\Client\Request  $request
+     * @param Request $request
      * @return void
      */
     public function __construct(Request $request)

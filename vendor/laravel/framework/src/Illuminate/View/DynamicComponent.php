@@ -4,6 +4,7 @@ namespace Illuminate\View;
 
 use Illuminate\Container\Container;
 use Illuminate\Support\Str;
+use Illuminate\View\Compilers\BladeTagCompiler;
 use Illuminate\View\Compilers\ComponentTagCompiler;
 
 class DynamicComponent extends Component
@@ -18,7 +19,7 @@ class DynamicComponent extends Component
     /**
      * The component tag compiler instance.
      *
-     * @var \Illuminate\View\Compilers\BladeTagCompiler
+     * @var BladeTagCompiler
      */
     protected static $compiler;
 
@@ -155,7 +156,7 @@ EOF;
     /**
      * Get an instance of the Blade tag compiler.
      *
-     * @return \Illuminate\View\Compilers\ComponentTagCompiler
+     * @return ComponentTagCompiler
      */
     protected function compiler()
     {

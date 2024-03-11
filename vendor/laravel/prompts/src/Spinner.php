@@ -4,6 +4,7 @@ namespace Laravel\Prompts;
 
 use Closure;
 use RuntimeException;
+use Throwable;
 
 class Spinner extends Prompt
 {
@@ -40,7 +41,7 @@ class Spinner extends Prompt
      *
      * @template TReturn of mixed
      *
-     * @param  \Closure(): TReturn  $callback
+     * @param Closure(): TReturn $callback
      * @return TReturn
      */
     public function spin(Closure $callback): mixed
@@ -76,7 +77,7 @@ class Spinner extends Prompt
 
                 return $result;
             }
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             $this->resetTerminal($originalAsync);
 
             throw $e;
@@ -99,7 +100,7 @@ class Spinner extends Prompt
      *
      * @template TReturn of mixed
      *
-     * @param  \Closure(): TReturn  $callback
+     * @param Closure(): TReturn $callback
      * @return TReturn
      */
     protected function renderStatically(Closure $callback): mixed
@@ -121,7 +122,7 @@ class Spinner extends Prompt
     /**
      * Disable prompting for input.
      *
-     * @throws \RuntimeException
+     * @throws RuntimeException
      */
     public function prompt(): never
     {

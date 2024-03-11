@@ -13,7 +13,7 @@ class RateLimiter
     /**
      * The cache store implementation.
      *
-     * @var \Illuminate\Contracts\Cache\Repository
+     * @var Cache
      */
     protected $cache;
 
@@ -27,7 +27,7 @@ class RateLimiter
     /**
      * Create a new rate limiter instance.
      *
-     * @param  \Illuminate\Contracts\Cache\Repository  $cache
+     * @param Cache $cache
      * @return void
      */
     public function __construct(Cache $cache)
@@ -39,7 +39,7 @@ class RateLimiter
      * Register a named limiter configuration.
      *
      * @param  string  $name
-     * @param  \Closure  $callback
+     * @param Closure $callback
      * @return $this
      */
     public function for(string $name, Closure $callback)
@@ -53,7 +53,7 @@ class RateLimiter
      * Get the given named rate limiter.
      *
      * @param  string  $name
-     * @return \Closure|null
+     * @return Closure|null
      */
     public function limiter(string $name)
     {
@@ -65,7 +65,7 @@ class RateLimiter
      *
      * @param  string  $key
      * @param  int  $maxAttempts
-     * @param  \Closure  $callback
+     * @param Closure $callback
      * @param  int  $decaySeconds
      * @return mixed
      */

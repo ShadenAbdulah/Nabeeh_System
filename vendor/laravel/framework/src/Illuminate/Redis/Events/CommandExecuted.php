@@ -2,6 +2,8 @@
 
 namespace Illuminate\Redis\Events;
 
+use Illuminate\Redis\Connections\Connection;
+
 class CommandExecuted
 {
     /**
@@ -28,7 +30,7 @@ class CommandExecuted
     /**
      * The Redis connection instance.
      *
-     * @var \Illuminate\Redis\Connections\Connection
+     * @var Connection
      */
     public $connection;
 
@@ -45,7 +47,7 @@ class CommandExecuted
      * @param  string  $command
      * @param  array  $parameters
      * @param  float|null  $time
-     * @param  \Illuminate\Redis\Connections\Connection  $connection
+     * @param  Connection  $connection
      * @return void
      */
     public function __construct($command, $parameters, $time, $connection)

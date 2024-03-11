@@ -11,6 +11,7 @@
 
 namespace Symfony\Component\HttpKernel\Controller\ArgumentResolver;
 
+use LogicException;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -31,6 +32,8 @@ use Symfony\Component\Validator\ConstraintViolationList;
 use Symfony\Component\Validator\Exception\ValidationFailedException;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use function count;
+use function in_array;
 
 /**
  * @author Konstantin Myakshin <molodchick@gmail.com>
@@ -73,7 +76,7 @@ class RequestPayloadValueResolver implements ValueResolverInterface, EventSubscr
         }
 
         if ($argument->isVariadic()) {
-            throw new \LogicException(sprintf('Mapping variadic argument "$%s" is not supported.', $argument->getName()));
+            throw new LogicException(sprintf('Mapping variadic argument "$%s" is not supported.', $argument->getName()));
         }
 
         $attribute->metadata = $argument;
@@ -98,7 +101,7 @@ class RequestPayloadValueResolver implements ValueResolverInterface, EventSubscr
             $request = $event->getRequest();
 
             if (!$type = $argument->metadata->getType()) {
-                throw new \LogicException(sprintf('Could not resolve the "$%s" controller argument: argument should be typed.', $argument->metadata->getName()));
+                throw new LogicException(sprintf('Could not resolve the "$%s" controller argument: argument should be typed.', $argument->metadata->getName()));
             }
 
             if ($this->validator) {
@@ -123,11 +126,11 @@ class RequestPayloadValueResolver implements ValueResolverInterface, EventSubscr
                     $payload = $e->getData();
                 }
 
-                if (null !== $payload && !\count($violations)) {
+                if (null !== $payload && !count($violations)) {
                     $violations->addAll($this->validator->validate($payload, null, $argument->validationGroups ?? null));
                 }
 
-                if (\count($violations)) {
+                if (count($violations)) {
                     throw new HttpException($validationFailedCode, implode("\n", array_map(static fn ($e) => $e->getMessage(), iterator_to_array($violations))), new ValidationFailedException($payload, $violations));
                 }
             } else {
@@ -174,7 +177,7 @@ class RequestPayloadValueResolver implements ValueResolverInterface, EventSubscr
             throw new HttpException(Response::HTTP_UNSUPPORTED_MEDIA_TYPE, 'Unsupported format.');
         }
 
-        if ($attribute->acceptFormat && !\in_array($format, (array) $attribute->acceptFormat, true)) {
+        if ($attribute->acceptFormat && !in_array($format, (array) $attribute->acceptFormat, true)) {
             throw new HttpException(Response::HTTP_UNSUPPORTED_MEDIA_TYPE, sprintf('Unsupported format, expects "%s", but "%s" given.', implode('", "', (array) $attribute->acceptFormat), $format));
         }
 

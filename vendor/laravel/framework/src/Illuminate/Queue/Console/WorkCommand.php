@@ -54,14 +54,14 @@ class WorkCommand extends Command
     /**
      * The queue worker instance.
      *
-     * @var \Illuminate\Queue\Worker
+     * @var Worker
      */
     protected $worker;
 
     /**
      * The cache store implementation.
      *
-     * @var \Illuminate\Contracts\Cache\Repository
+     * @var Cache
      */
     protected $cache;
 
@@ -75,8 +75,8 @@ class WorkCommand extends Command
     /**
      * Create a new queue work command.
      *
-     * @param  \Illuminate\Queue\Worker  $worker
-     * @param  \Illuminate\Contracts\Cache\Repository  $cache
+     * @param Worker $worker
+     * @param Cache $cache
      * @return void
      */
     public function __construct(Worker $worker, Cache $cache)
@@ -142,7 +142,7 @@ class WorkCommand extends Command
     /**
      * Gather all of the queue worker options as a single object.
      *
-     * @return \Illuminate\Queue\WorkerOptions
+     * @return WorkerOptions
      */
     protected function gatherWorkerOptions()
     {
@@ -190,7 +190,7 @@ class WorkCommand extends Command
     /**
      * Write the status output for the queue worker.
      *
-     * @param  \Illuminate\Contracts\Queue\Job  $job
+     * @param Job $job
      * @param  string  $status
      * @return void
      */
@@ -236,7 +236,7 @@ class WorkCommand extends Command
     /**
      * Get the current date / time.
      *
-     * @return \Illuminate\Support\Carbon
+     * @return Carbon
      */
     protected function now()
     {
@@ -268,7 +268,7 @@ class WorkCommand extends Command
     /**
      * Store a failed job event.
      *
-     * @param  \Illuminate\Queue\Events\JobFailed  $event
+     * @param JobFailed $event
      * @return void
      */
     protected function logFailedJob(JobFailed $event)

@@ -10,7 +10,7 @@ trait InteractsWithFlashData
      * Retrieve an old input item.
      *
      * @param  string|null  $key
-     * @param  \Illuminate\Database\Eloquent\Model|string|array|null  $default
+     * @param Model|string|array|null  $default
      * @return string|array|null
      */
     public function old($key = null, $default = null)

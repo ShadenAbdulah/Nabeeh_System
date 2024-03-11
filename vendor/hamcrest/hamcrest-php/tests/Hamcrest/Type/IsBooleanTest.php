@@ -1,12 +1,14 @@
 <?php
 namespace Hamcrest\Type;
 
-class IsBooleanTest extends \Hamcrest\AbstractMatcherTest
+use Hamcrest\AbstractMatcherTest;
+
+class IsBooleanTest extends AbstractMatcherTest
 {
 
     protected function createMatcher()
     {
-        return \Hamcrest\Type\IsBoolean::booleanValue();
+        return IsBoolean::booleanValue();
     }
 
     public function testEvaluatesToTrueIfArgumentMatchesType()

@@ -36,6 +36,12 @@
 
 namespace Psy\Readline\Hoa;
 
+use function str_replace;
+use function strlen;
+use function strpos;
+use function substr;
+use function var_export;
+
 /**
  * Class \Hoa\Console\Output.
  *
@@ -81,17 +87,17 @@ class ConsoleOutput implements StreamOut
             throw new ConsoleException('Length must be greater than 0, given %d.', 0, $length);
         }
 
-        $out = \substr($string, 0, $length);
+        $out = substr($string, 0, $length);
 
         if (true === $this->isMultiplexerConsidered()) {
             if (true === Console::isTmuxRunning()) {
                 $out =
                     "\033Ptmux;".
-                    \str_replace("\033", "\033\033", $out).
+                    str_replace("\033", "\033\033", $out).
                     "\033\\";
             }
 
-            $length = \strlen($out);
+            $length = strlen($out);
         }
 
         if (null === $this->_output) {
@@ -108,7 +114,7 @@ class ConsoleOutput implements StreamOut
     {
         $string = (string) $string;
 
-        return $this->write($string, \strlen($string));
+        return $this->write($string, strlen($string));
     }
 
     /**
@@ -134,7 +140,7 @@ class ConsoleOutput implements StreamOut
     {
         $integer = (string) (int) $integer;
 
-        return $this->write($integer, \strlen($integer));
+        return $this->write($integer, strlen($integer));
     }
 
     /**
@@ -144,7 +150,7 @@ class ConsoleOutput implements StreamOut
     {
         $float = (string) (float) $float;
 
-        return $this->write($float, \strlen($float));
+        return $this->write($float, strlen($float));
     }
 
     /**
@@ -152,9 +158,9 @@ class ConsoleOutput implements StreamOut
      */
     public function writeArray(array $array)
     {
-        $array = \var_export($array, true);
+        $array = var_export($array, true);
 
-        return $this->write($array, \strlen($array));
+        return $this->write($array, strlen($array));
     }
 
     /**
@@ -162,13 +168,13 @@ class ConsoleOutput implements StreamOut
      */
     public function writeLine(string $line)
     {
-        if (false === $n = \strpos($line, "\n")) {
-            return $this->write($line."\n", \strlen($line) + 1);
+        if (false === $n = strpos($line, "\n")) {
+            return $this->write($line."\n", strlen($line) + 1);
         }
 
         ++$n;
 
-        return $this->write(\substr($line, 0, $n), $n);
+        return $this->write(substr($line, 0, $n), $n);
     }
 
     /**
@@ -176,7 +182,7 @@ class ConsoleOutput implements StreamOut
      */
     public function writeAll(string $string)
     {
-        return $this->write($string ?? '', \strlen($string ?? ''));
+        return $this->write($string ?? '', strlen($string ?? ''));
     }
 
     /**

@@ -11,16 +11,19 @@ namespace Nette\Iterators;
 
 
 
+use IteratorIterator;
+use Traversable;
+
 /**
  * Applies the callback to the elements of the inner iterator.
  */
-class Mapper extends \IteratorIterator
+class Mapper extends IteratorIterator
 {
 	/** @var callable */
 	private $callback;
 
 
-	public function __construct(\Traversable $iterator, callable $callback)
+	public function __construct(Traversable $iterator, callable $callback)
 	{
 		parent::__construct($iterator);
 		$this->callback = $callback;

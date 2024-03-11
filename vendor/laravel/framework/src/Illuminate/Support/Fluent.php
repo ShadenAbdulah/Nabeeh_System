@@ -3,6 +3,7 @@
 namespace Illuminate\Support;
 
 use ArrayAccess;
+use Closure;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\Support\Jsonable;
 use JsonSerializable;
@@ -11,8 +12,8 @@ use JsonSerializable;
  * @template TKey of array-key
  * @template TValue
  *
- * @implements \Illuminate\Contracts\Support\Arrayable<TKey, TValue>
- * @implements \ArrayAccess<TKey, TValue>
+ * @implements Arrayable<TKey, TValue>
+ * @implements ArrayAccess<TKey, TValue>
  */
 class Fluent implements Arrayable, ArrayAccess, Jsonable, JsonSerializable
 {
@@ -42,7 +43,7 @@ class Fluent implements Arrayable, ArrayAccess, Jsonable, JsonSerializable
      * @template TGetDefault
      *
      * @param  TKey  $key
-     * @param  TGetDefault|(\Closure(): TGetDefault)  $default
+     * @param  TGetDefault|(Closure(): TGetDefault)  $default
      * @return TValue|TGetDefault
      */
     public function get($key, $default = null)
