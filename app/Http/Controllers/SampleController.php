@@ -34,7 +34,7 @@ class SampleController extends Controller
                 'supervisor_name' => 'required',
             ]);
 
-        $attr['name'] = ($request->input('name')) ? $request->input('name') : null;
+        $attr['name'] = $request->input('name');
 
         $sample = Sample::create($attr);
 
