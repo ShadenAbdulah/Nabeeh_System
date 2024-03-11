@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Sample;
 use App\Models\Test;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Redirect;
 
@@ -20,28 +19,18 @@ class SampleController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        return view('object.create');
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
+        app()->setLocale('ar');
         $attr =
             request()->validate([
-                'name' => 'required',
-                'age' => 'required',
+                'age' => 'required|integer',
                 'gender' => 'required',
-                'type' => 'required',
-                'another_disorder' => 'required_if:type,ADHD',
-                'another_disorder_name' => 'required_if:another_disorder,yes',
-                'supervisor_name' => 'required',
             ]);
+
+        $attr['name'] = $request->input('name');
 
         $sample = Sample::create($attr);
 
@@ -52,6 +41,14 @@ class SampleController extends Controller
         }
 
         return Redirect::route('object.train', ['test' => Test::first(), 'sample' => $sample]);
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        return view('object.create');
     }
 
     /**
