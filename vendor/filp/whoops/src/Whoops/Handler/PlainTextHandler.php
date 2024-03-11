@@ -10,7 +10,6 @@ namespace Whoops\Handler;
 
 use InvalidArgumentException;
 use Psr\Log\LoggerInterface;
-use Throwable;
 use Whoops\Exception\Frame;
 
 /**
@@ -23,7 +22,7 @@ class PlainTextHandler extends Handler
     const VAR_DUMP_PREFIX = '   | ';
 
     /**
-     * @var LoggerInterface
+     * @var \Psr\Log\LoggerInterface
      */
     protected $logger;
 
@@ -59,8 +58,8 @@ class PlainTextHandler extends Handler
 
     /**
      * Constructor.
-     * @param  LoggerInterface|null $logger
-     *@throws InvalidArgumentException     If argument is not null or a LoggerInterface
+     * @throws InvalidArgumentException     If argument is not null or a LoggerInterface
+     * @param  \Psr\Log\LoggerInterface|null $logger
      */
     public function __construct($logger = null)
     {
@@ -69,8 +68,8 @@ class PlainTextHandler extends Handler
 
     /**
      * Set the output logger interface.
-     * @param  LoggerInterface|null $logger
-     *@throws InvalidArgumentException     If argument is not null or a LoggerInterface
+     * @throws InvalidArgumentException     If argument is not null or a LoggerInterface
+     * @param  \Psr\Log\LoggerInterface|null $logger
      */
     public function setLogger($logger = null)
     {
@@ -87,7 +86,7 @@ class PlainTextHandler extends Handler
     }
 
     /**
-     * @return LoggerInterface|null
+     * @return \Psr\Log\LoggerInterface|null
      */
     public function getLogger()
     {
@@ -227,7 +226,7 @@ class PlainTextHandler extends Handler
 
     /**
      * Get the frame args var_dump.
-     * @param Frame $frame [description]
+     * @param  \Whoops\Exception\Frame $frame [description]
      * @param  integer                 $line  [description]
      * @return string
      */
@@ -316,7 +315,7 @@ class PlainTextHandler extends Handler
 
     /**
      * Get the exception as plain text.
-     * @param Throwable $exception
+     * @param \Throwable $exception
      * @return string
      */
     private function getExceptionOutput($exception)

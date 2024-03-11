@@ -11,7 +11,6 @@
 
 namespace Psy\CodeCleaner;
 
-use Phar;
 use PhpParser\Node;
 use PhpParser\Node\Arg;
 use PhpParser\Node\Expr\Include_;
@@ -20,19 +19,6 @@ use PhpParser\Node\Name\FullyQualified as FullyQualifiedName;
 use PhpParser\Node\Scalar\LNumber;
 use Psy\Exception\ErrorException;
 use Psy\Exception\FatalErrorException;
-use function error_reporting;
-use function explode;
-use function get_include_path;
-use function in_array;
-use function is_file;
-use function preg_split;
-use function sprintf;
-use function stream_resolve_include_path;
-use function strpos;
-use const DIRECTORY_SEPARATOR;
-use const E_ERROR;
-use const E_WARNING;
-use const PATH_SEPARATOR;
 
 /**
  * Add runtime validation for `require` and `require_once` calls.
@@ -97,17 +83,17 @@ class RequirePass extends CodeCleanerPass
             // @todo Shell::handleError would be better here, because we could
             // fake the file and line number, but we can't call it statically.
             // So we're duplicating some of the logics here.
-            if (E_WARNING & error_reporting()) {
-                ErrorException::throwException(E_WARNING, 'Filename cannot be empty', null, $startLine);
+            if (\E_WARNING & \error_reporting()) {
+                ErrorException::throwException(\E_WARNING, 'Filename cannot be empty', null, $startLine);
             }
             // @todo trigger an error as fallback? this is pretty ugly…
             // trigger_error('Filename cannot be empty', E_USER_WARNING);
         }
 
-        $resolvedPath = stream_resolve_include_path($file);
+        $resolvedPath = \stream_resolve_include_path($file);
         if ($file === '' || !$resolvedPath) {
-            $msg = sprintf("Failed opening required '%s'", $file);
-            throw new FatalErrorException($msg, 0, E_ERROR, null, $startLine);
+            $msg = \sprintf("Failed opening required '%s'", $file);
+            throw new FatalErrorException($msg, 0, \E_ERROR, null, $startLine);
         }
 
         // Special case: if the path is not already relative or absolute, and it would resolve to
@@ -117,11 +103,11 @@ class RequirePass extends CodeCleanerPass
         // Note that this only works if the phar has `psysh` in the path. We might want to lift this
         // restriction and special case paths that would collide with any running phar?
         if ($resolvedPath !== $file && $file[0] !== '.') {
-            $runningPhar = Phar::running();
-            if (strpos($runningPhar, 'psysh') !== false && is_file($runningPhar. DIRECTORY_SEPARATOR.$file)) {
+            $runningPhar = \Phar::running();
+            if (\strpos($runningPhar, 'psysh') !== false && \is_file($runningPhar.\DIRECTORY_SEPARATOR.$file)) {
                 foreach (self::getIncludePath() as $prefix) {
-                    $resolvedPath = $prefix. DIRECTORY_SEPARATOR.$file;
-                    if (is_file($resolvedPath)) {
+                    $resolvedPath = $prefix.\DIRECTORY_SEPARATOR.$file;
+                    if (\is_file($resolvedPath)) {
                         return $resolvedPath;
                     }
                 }
@@ -133,15 +119,15 @@ class RequirePass extends CodeCleanerPass
 
     private function isRequireNode(Node $node): bool
     {
-        return $node instanceof Include_ && in_array($node->type, self::$requireTypes);
+        return $node instanceof Include_ && \in_array($node->type, self::$requireTypes);
     }
 
     private static function getIncludePath(): array
     {
-        if (PATH_SEPARATOR === ':') {
-            return preg_split('#:(?!//)#', get_include_path());
+        if (\PATH_SEPARATOR === ':') {
+            return \preg_split('#:(?!//)#', \get_include_path());
         }
 
-        return explode(PATH_SEPARATOR, get_include_path());
+        return \explode(\PATH_SEPARATOR, \get_include_path());
     }
 }

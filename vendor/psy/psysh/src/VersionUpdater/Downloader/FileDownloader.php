@@ -12,13 +12,6 @@
 namespace Psy\VersionUpdater\Downloader;
 
 use Psy\VersionUpdater\Downloader;
-use function file_exists;
-use function file_get_contents;
-use function file_put_contents;
-use function rename;
-use function sys_get_temp_dir;
-use function tempnam;
-use function unlink;
 
 class FileDownloader implements Downloader
 {
@@ -34,17 +27,17 @@ class FileDownloader implements Downloader
     /** {@inheritDoc} */
     public function download(string $url): bool
     {
-        $tempDir = $this->tempDir ?: sys_get_temp_dir();
-        $this->outputFile = tempnam($tempDir, 'psysh-archive-');
+        $tempDir = $this->tempDir ?: \sys_get_temp_dir();
+        $this->outputFile = \tempnam($tempDir, 'psysh-archive-');
         $targetName = $this->outputFile.'.tar.gz';
 
-        if (!rename($this->outputFile, $targetName)) {
+        if (!\rename($this->outputFile, $targetName)) {
             return false;
         }
 
         $this->outputFile = $targetName;
 
-        return (bool) file_put_contents($this->outputFile, file_get_contents($url));
+        return (bool) \file_put_contents($this->outputFile, \file_get_contents($url));
     }
 
     /** {@inheritDoc} */
@@ -56,8 +49,8 @@ class FileDownloader implements Downloader
     /** {@inheritDoc} */
     public function cleanup()
     {
-        if (file_exists($this->outputFile)) {
-            unlink($this->outputFile);
+        if (\file_exists($this->outputFile)) {
+            \unlink($this->outputFile);
         }
     }
 }

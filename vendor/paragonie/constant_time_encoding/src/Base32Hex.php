@@ -2,8 +2,6 @@
 declare(strict_types=1);
 namespace ParagonIE\ConstantTime;
 
-use function pack;
-
 /**
  *  Copyright (c) 2016 - 2022 Paragon Initiative Enterprises.
  *  Copyright (c) 2014 Steve "Sc00bz" Thomas (steve at tobtu dot com)
@@ -89,7 +87,7 @@ abstract class Base32Hex extends Base32
         // if ($src > 0x39) $src += 0x61 - 0x3a; // 39
         $src += ((0x39 - $src) >> 8) & 39;
 
-        return pack('C', $src);
+        return \pack('C', $src);
     }
 
     /**
@@ -108,6 +106,6 @@ abstract class Base32Hex extends Base32
         // if ($src > 0x39) $src += 0x41 - 0x3a; // 7
         $src += ((0x39 - $src) >> 8) & 7;
 
-        return pack('C', $src);
+        return \pack('C', $src);
     }
 }

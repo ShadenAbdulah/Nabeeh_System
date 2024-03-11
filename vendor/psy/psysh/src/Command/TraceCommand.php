@@ -11,14 +11,12 @@
 
 namespace Psy\Command;
 
-use Exception;
 use Psy\Formatter\TraceFormatter;
 use Psy\Input\FilterOptions;
 use Psy\Output\ShellOutput;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Throwable;
 
 /**
  * Show the current stack trace.
@@ -76,7 +74,7 @@ HELP
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->filter->bind($input);
-        $trace = $this->getBacktrace(new Exception(), $input->getOption('num'), $input->getOption('include-psy'));
+        $trace = $this->getBacktrace(new \Exception(), $input->getOption('num'), $input->getOption('include-psy'));
         $output->page($trace, ShellOutput::NUMBER_LINES);
 
         return 0;
@@ -88,13 +86,13 @@ HELP
      * Optionally limit the number of rows to include with $count, and exclude
      * Psy from the trace.
      *
-     * @param Throwable $e          The exception or error with a backtrace
+     * @param \Throwable $e          The exception or error with a backtrace
      * @param int        $count      (default: PHP_INT_MAX)
      * @param bool       $includePsy (default: true)
      *
      * @return array Formatted stacktrace lines
      */
-    protected function getBacktrace(Throwable $e, int $count = null, bool $includePsy = true): array
+    protected function getBacktrace(\Throwable $e, int $count = null, bool $includePsy = true): array
     {
         return TraceFormatter::formatTrace($e, $this->filter, $count, $includePsy);
     }

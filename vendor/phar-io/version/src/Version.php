@@ -9,9 +9,6 @@
  */
 namespace PharIo\Version;
 
-use function preg_match;
-use function sprintf;
-
 class Version {
     /** @var string */
     private $originalVersionString;
@@ -52,7 +49,7 @@ class Version {
     }
 
     public function getVersionString(): string {
-        $str = sprintf(
+        $str = \sprintf(
             '%d.%d.%d',
             $this->getMajor()->getValue() ?? 0,
             $this->getMinor()->getValue() ?? 0,
@@ -200,9 +197,9 @@ class Version {
             )?
         $/xi';
 
-        if (preg_match($regex, $version, $matches) !== 1) {
+        if (\preg_match($regex, $version, $matches) !== 1) {
             throw new InvalidVersionException(
-                sprintf("Version string '%s' does not follow SemVer semantics", $version)
+                \sprintf("Version string '%s' does not follow SemVer semantics", $version)
             );
         }
 

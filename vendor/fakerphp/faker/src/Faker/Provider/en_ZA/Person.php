@@ -2,7 +2,6 @@
 
 namespace Faker\Provider\en_ZA;
 
-use DateTime;
 use Faker\Calculator\Luhn;
 
 class Person extends \Faker\Provider\Person
@@ -141,7 +140,7 @@ class Person extends \Faker\Provider\Person
      *
      * @return string
      */
-    public function idNumber(DateTime $birthdate = null, $citizen = true, $gender = null)
+    public function idNumber(\DateTime $birthdate = null, $citizen = true, $gender = null)
     {
         if (!$birthdate) {
             $birthdate = $this->generator->dateTimeThisCentury();

@@ -11,39 +11,10 @@
 
 namespace Psy\Formatter;
 
-use InvalidArgumentException;
 use Psy\Reflection\ReflectionConstant;
 use Psy\Reflection\ReflectionLanguageConstruct;
 use Psy\Util\Json;
-use Reflection;
-use ReflectionClass;
-use ReflectionClassConstant;
-use ReflectionFunction;
-use ReflectionFunctionAbstract;
-use ReflectionIntersectionType;
-use ReflectionMethod;
-use ReflectionNamedType;
-use ReflectionProperty;
-use ReflectionType;
-use ReflectionUnionType;
-use Reflector;
 use Symfony\Component\Console\Formatter\OutputFormatter;
-use Throwable;
-use function array_map;
-use function end;
-use function explode;
-use function get_class;
-use function implode;
-use function is_array;
-use function is_bool;
-use function is_float;
-use function is_int;
-use function is_string;
-use function method_exists;
-use function sort;
-use function sprintf;
-use function trim;
-use function var_export;
 
 /**
  * An abstract representation of a function, class or property signature.
@@ -55,46 +26,46 @@ class SignatureFormatter implements ReflectorFormatter
      *
      * Defers to subclasses to do the actual formatting.
      *
-     * @param Reflector $reflector
+     * @param \Reflector $reflector
      *
      * @return string Formatted signature
      */
-    public static function format(Reflector $reflector): string
+    public static function format(\Reflector $reflector): string
     {
         switch (true) {
-            case $reflector instanceof ReflectionFunction:
+            case $reflector instanceof \ReflectionFunction:
             case $reflector instanceof ReflectionLanguageConstruct:
                 return self::formatFunction($reflector);
 
-            case $reflector instanceof ReflectionClass:
+            case $reflector instanceof \ReflectionClass:
                 // this case also covers \ReflectionObject
                 return self::formatClass($reflector);
 
-            case $reflector instanceof ReflectionClassConstant:
+            case $reflector instanceof \ReflectionClassConstant:
                 return self::formatClassConstant($reflector);
 
-            case $reflector instanceof ReflectionMethod:
+            case $reflector instanceof \ReflectionMethod:
                 return self::formatMethod($reflector);
 
-            case $reflector instanceof ReflectionProperty:
+            case $reflector instanceof \ReflectionProperty:
                 return self::formatProperty($reflector);
 
             case $reflector instanceof ReflectionConstant:
                 return self::formatConstant($reflector);
 
             default:
-                throw new InvalidArgumentException('Unexpected Reflector class: '. get_class($reflector));
+                throw new \InvalidArgumentException('Unexpected Reflector class: '.\get_class($reflector));
         }
     }
 
     /**
      * Print the signature name.
      *
-     * @param ReflectionClass|ReflectionClassConstant|ReflectionFunctionAbstract $reflector
+     * @param \ReflectionClass|\ReflectionClassConstant|\ReflectionFunctionAbstract $reflector
      *
      * @return string Formatted name
      */
-    public static function formatName(Reflector $reflector): string
+    public static function formatName(\Reflector $reflector): string
     {
         return $reflector->getName();
     }
@@ -102,25 +73,25 @@ class SignatureFormatter implements ReflectorFormatter
     /**
      * Print the method, property or class modifiers.
      *
-     * @param ReflectionMethod|ReflectionProperty|ReflectionClass $reflector
+     * @param \ReflectionMethod|\ReflectionProperty|\ReflectionClass $reflector
      *
      * @return string Formatted modifiers
      */
-    private static function formatModifiers(Reflector $reflector): string
+    private static function formatModifiers(\Reflector $reflector): string
     {
-        return implode(' ', array_map(function ($modifier) {
-            return sprintf('<keyword>%s</keyword>', $modifier);
-        }, Reflection::getModifierNames($reflector->getModifiers())));
+        return \implode(' ', \array_map(function ($modifier) {
+            return \sprintf('<keyword>%s</keyword>', $modifier);
+        }, \Reflection::getModifierNames($reflector->getModifiers())));
     }
 
     /**
      * Format a class signature.
      *
-     * @param ReflectionClass $reflector
+     * @param \ReflectionClass $reflector
      *
      * @return string Formatted signature
      */
-    private static function formatClass(ReflectionClass $reflector): string
+    private static function formatClass(\ReflectionClass $reflector): string
     {
         $chunks = [];
 
@@ -134,30 +105,30 @@ class SignatureFormatter implements ReflectorFormatter
             $chunks[] = $reflector->isInterface() ? 'interface' : 'class';
         }
 
-        $chunks[] = sprintf('<class>%s</class>', self::formatName($reflector));
+        $chunks[] = \sprintf('<class>%s</class>', self::formatName($reflector));
 
         if ($parent = $reflector->getParentClass()) {
             $chunks[] = 'extends';
-            $chunks[] = sprintf('<class>%s</class>', $parent->getName());
+            $chunks[] = \sprintf('<class>%s</class>', $parent->getName());
         }
 
         $interfaces = $reflector->getInterfaceNames();
         if (!empty($interfaces)) {
-            sort($interfaces);
+            \sort($interfaces);
 
             $chunks[] = $reflector->isInterface() ? 'extends' : 'implements';
-            $chunks[] = implode(', ', array_map(function ($name) {
-                return sprintf('<class>%s</class>', $name);
+            $chunks[] = \implode(', ', \array_map(function ($name) {
+                return \sprintf('<class>%s</class>', $name);
             }, $interfaces));
         }
 
-        return implode(' ', $chunks);
+        return \implode(' ', $chunks);
     }
 
     /**
      * Format a constant signature.
      *
-     * @param ReflectionClassConstant $reflector
+     * @param \ReflectionClassConstant $reflector
      *
      * @return string Formatted signature
      */
@@ -166,7 +137,7 @@ class SignatureFormatter implements ReflectorFormatter
         $value = $reflector->getValue();
         $style = self::getTypeStyle($value);
 
-        return sprintf(
+        return \sprintf(
             '<keyword>const</keyword> <const>%s</const> = <%s>%s</%s>',
             self::formatName($reflector),
             $style,
@@ -187,7 +158,7 @@ class SignatureFormatter implements ReflectorFormatter
         $value = $reflector->getValue();
         $style = self::getTypeStyle($value);
 
-        return sprintf(
+        return \sprintf(
             '<keyword>define</keyword>(<string>%s</string>, <%s>%s</%s>)',
             OutputFormatter::escape(Json::encode($reflector->getName())),
             $style,
@@ -203,11 +174,11 @@ class SignatureFormatter implements ReflectorFormatter
      */
     private static function getTypeStyle($value): string
     {
-        if (is_int($value) || is_float($value)) {
+        if (\is_int($value) || \is_float($value)) {
             return 'number';
-        } elseif (is_string($value)) {
+        } elseif (\is_string($value)) {
             return 'string';
-        } elseif (is_bool($value) || $value === null) {
+        } elseif (\is_bool($value) || $value === null) {
             return 'bool';
         } else {
             return 'strong'; // @codeCoverageIgnore
@@ -217,13 +188,13 @@ class SignatureFormatter implements ReflectorFormatter
     /**
      * Format a property signature.
      *
-     * @param ReflectionProperty $reflector
+     * @param \ReflectionProperty $reflector
      *
      * @return string Formatted signature
      */
-    private static function formatProperty(ReflectionProperty $reflector): string
+    private static function formatProperty(\ReflectionProperty $reflector): string
     {
-        return sprintf(
+        return \sprintf(
             '%s <strong>$%s</strong>',
             self::formatModifiers($reflector),
             $reflector->getName()
@@ -233,17 +204,17 @@ class SignatureFormatter implements ReflectorFormatter
     /**
      * Format a function signature.
      *
-     * @param ReflectionFunction $reflector
+     * @param \ReflectionFunction $reflector
      *
      * @return string Formatted signature
      */
-    private static function formatFunction(ReflectionFunctionAbstract $reflector): string
+    private static function formatFunction(\ReflectionFunctionAbstract $reflector): string
     {
-        return sprintf(
+        return \sprintf(
             '<keyword>function</keyword> %s<function>%s</function>(%s)%s',
             $reflector->returnsReference() ? '&' : '',
             self::formatName($reflector),
-            implode(', ', self::formatFunctionParams($reflector)),
+            \implode(', ', self::formatFunctionParams($reflector)),
             self::formatFunctionReturnType($reflector)
         );
     }
@@ -251,29 +222,29 @@ class SignatureFormatter implements ReflectorFormatter
     /**
      * Format a function signature's return type (if available).
      *
-     * @param ReflectionFunctionAbstract $reflector
+     * @param \ReflectionFunctionAbstract $reflector
      *
      * @return string Formatted return type
      */
-    private static function formatFunctionReturnType(ReflectionFunctionAbstract $reflector): string
+    private static function formatFunctionReturnType(\ReflectionFunctionAbstract $reflector): string
     {
-        if (!method_exists($reflector, 'hasReturnType') || !$reflector->hasReturnType()) {
+        if (!\method_exists($reflector, 'hasReturnType') || !$reflector->hasReturnType()) {
             return '';
         }
 
-        return sprintf(': %s', self::formatReflectionType($reflector->getReturnType(), true));
+        return \sprintf(': %s', self::formatReflectionType($reflector->getReturnType(), true));
     }
 
     /**
      * Format a method signature.
      *
-     * @param ReflectionMethod $reflector
+     * @param \ReflectionMethod $reflector
      *
      * @return string Formatted signature
      */
-    private static function formatMethod(ReflectionMethod $reflector): string
+    private static function formatMethod(\ReflectionMethod $reflector): string
     {
-        return sprintf(
+        return \sprintf(
             '%s %s',
             self::formatModifiers($reflector),
             self::formatFunction($reflector)
@@ -283,17 +254,17 @@ class SignatureFormatter implements ReflectorFormatter
     /**
      * Print the function params.
      *
-     * @param ReflectionFunctionAbstract $reflector
+     * @param \ReflectionFunctionAbstract $reflector
      *
      * @return array
      */
-    private static function formatFunctionParams(ReflectionFunctionAbstract $reflector): array
+    private static function formatFunctionParams(\ReflectionFunctionAbstract $reflector): array
     {
         $params = [];
         foreach ($reflector->getParameters() as $param) {
             $hint = '';
             try {
-                if (method_exists($param, 'getType')) {
+                if (\method_exists($param, 'getType')) {
                     // Only include the inquisitive nullable type iff param default value is not null.
                     $defaultIsNull = $param->isOptional() && $param->isDefaultValueAvailable() && $param->getDefaultValue() === null;
                     $hint = self::formatReflectionType($param->getType(), !$defaultIsNull);
@@ -301,10 +272,10 @@ class SignatureFormatter implements ReflectorFormatter
                     if ($param->isArray()) {
                         $hint = '<keyword>array</keyword>';
                     } elseif ($class = $param->getClass()) {
-                        $hint = sprintf('<class>%s</class>', $class->getName());
+                        $hint = \sprintf('<class>%s</class>', $class->getName());
                     }
                 }
-            } catch (Throwable $e) {
+            } catch (\Throwable $e) {
                 // sometimes we just don't know...
                 // bad class names, or autoloaded classes that haven't been loaded yet, or whathaveyou.
                 // come to think of it, the only time I've seen this is with the intl extension.
@@ -312,11 +283,11 @@ class SignatureFormatter implements ReflectorFormatter
                 // Hax: we'll try to extract it :P
 
                 // @codeCoverageIgnoreStart
-                $chunks = explode('$'.$param->getName(), (string) $param);
-                $chunks = explode(' ', trim($chunks[0]));
-                $guess = end($chunks);
+                $chunks = \explode('$'.$param->getName(), (string) $param);
+                $chunks = \explode(' ', \trim($chunks[0]));
+                $guess = \end($chunks);
 
-                $hint = sprintf('<urgent>%s</urgent>', OutputFormatter::escape($guess));
+                $hint = \sprintf('<urgent>%s</urgent>', OutputFormatter::escape($guess));
                 // @codeCoverageIgnoreEnd
             }
 
@@ -327,14 +298,14 @@ class SignatureFormatter implements ReflectorFormatter
                 } else {
                     $value = $param->getDefaultValue();
                     $typeStyle = self::getTypeStyle($value);
-                    $value = is_array($value) ? '[]' : ($value === null ? 'null' : var_export($value, true));
+                    $value = \is_array($value) ? '[]' : ($value === null ? 'null' : \var_export($value, true));
                 }
-                $default = sprintf(' = <%s>%s</%s>', $typeStyle, OutputFormatter::escape($value), $typeStyle);
+                $default = \sprintf(' = <%s>%s</%s>', $typeStyle, OutputFormatter::escape($value), $typeStyle);
             } else {
                 $default = '';
             }
 
-            $params[] = sprintf(
+            $params[] = \sprintf(
                 '%s%s%s<strong>$%s</strong>%s',
                 $param->isPassedByReference() ? '&' : '',
                 $hint,
@@ -350,17 +321,17 @@ class SignatureFormatter implements ReflectorFormatter
     /**
      * Print function param or return type(s).
      *
-     * @param ReflectionType $type
+     * @param \ReflectionType $type
      */
-    private static function formatReflectionType(?ReflectionType $type, bool $indicateNullable): string
+    private static function formatReflectionType(?\ReflectionType $type, bool $indicateNullable): string
     {
         if ($type === null) {
             return '';
         }
 
-        if ($type instanceof ReflectionUnionType) {
+        if ($type instanceof \ReflectionUnionType) {
             $delimeter = '|';
-        } elseif ($type instanceof ReflectionIntersectionType) {
+        } elseif ($type instanceof \ReflectionIntersectionType) {
             $delimeter = '&';
         } else {
             return self::formatReflectionNamedType($type, $indicateNullable);
@@ -371,17 +342,17 @@ class SignatureFormatter implements ReflectorFormatter
             $formattedTypes[] = self::formatReflectionNamedType($namedType, $indicateNullable);
         }
 
-        return implode($delimeter, $formattedTypes);
+        return \implode($delimeter, $formattedTypes);
     }
 
     /**
      * Print a single named type.
      */
-    private static function formatReflectionNamedType(ReflectionNamedType $type, bool $indicateNullable): string
+    private static function formatReflectionNamedType(\ReflectionNamedType $type, bool $indicateNullable): string
     {
         $typeStyle = $type->isBuiltin() ? 'keyword' : 'class';
         $nullable = $indicateNullable && $type->allowsNull() ? '?' : '';
 
-        return sprintf('<%s>%s%s</%s>', $typeStyle, $nullable, OutputFormatter::escape($type->getName()), $typeStyle);
+        return \sprintf('<%s>%s%s</%s>', $typeStyle, $nullable, OutputFormatter::escape($type->getName()), $typeStyle);
     }
 }

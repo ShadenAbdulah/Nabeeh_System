@@ -12,7 +12,6 @@
 namespace Monolog;
 
 use DateTimeZone;
-use JsonSerializable;
 
 /**
  * Overrides default json encoding of date time objects
@@ -20,7 +19,7 @@ use JsonSerializable;
  * @author Menno Holtkamp
  * @author Jordi Boggiano <j.boggiano@seld.be>
  */
-class DateTimeImmutable extends \DateTimeImmutable implements JsonSerializable
+class DateTimeImmutable extends \DateTimeImmutable implements \JsonSerializable
 {
     private bool $useMicroseconds;
 

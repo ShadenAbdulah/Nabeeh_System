@@ -4,15 +4,14 @@ namespace Laravel\Fortify\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use Symfony\Component\HttpFoundation\Response;
 
 class TwoFactorQrCodeController extends Controller
 {
     /**
      * Get the SVG element for the user's two factor authentication QR code.
      *
-     * @param Request $request
-     * @return Response
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function show(Request $request)
     {

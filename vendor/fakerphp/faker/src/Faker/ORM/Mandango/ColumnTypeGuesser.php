@@ -2,7 +2,6 @@
 
 namespace Faker\ORM\Mandango;
 
-use Closure;
 use Faker\Generator;
 
 class ColumnTypeGuesser
@@ -18,7 +17,7 @@ class ColumnTypeGuesser
     }
 
     /**
-     * @return Closure|null
+     * @return \Closure|null
      */
     public function guessFormat($field)
     {

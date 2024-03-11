@@ -5,8 +5,6 @@ namespace Hamcrest;
  Copyright (c) 2009 hamcrest.org
  */
 use Hamcrest\Internal\SelfDescribingValue;
-use Iterator;
-use IteratorAggregate;
 
 /**
  * A {@link Hamcrest\Description} that is stored as a string.
@@ -42,7 +40,7 @@ abstract class BaseDescription implements Description
             $this->append('<');
             $this->append($value ? 'true' : 'false');
             $this->append('>');
-        } elseif (is_array($value) || $value instanceof Iterator || $value instanceof IteratorAggregate) {
+        } elseif (is_array($value) || $value instanceof \Iterator || $value instanceof \IteratorAggregate) {
             $this->appendValueList('[', ', ', ']', $value);
         } elseif (is_object($value) && !method_exists($value, '__toString')) {
             $this->append('<');

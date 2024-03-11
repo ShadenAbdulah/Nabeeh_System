@@ -2,8 +2,6 @@
 
 namespace Faker\Calculator;
 
-use Faker\Provider\tr_TR\Person;
-
 /**
  * @deprecated moved to tr_TR\Person, use {@link \Faker\Provider\tr_TR\Person}.
  * @see \Faker\Provider\tr_TR\Person
@@ -25,7 +23,7 @@ class TCNo
      */
     public static function checksum($identityPrefix)
     {
-        return Person::tcNoChecksum($identityPrefix);
+        return \Faker\Provider\tr_TR\Person::tcNoChecksum($identityPrefix);
     }
 
     /**
@@ -40,6 +38,6 @@ class TCNo
      */
     public static function isValid($tcNo)
     {
-        return Person::tcNoIsValid($tcNo);
+        return \Faker\Provider\tr_TR\Person::tcNoIsValid($tcNo);
     }
 }

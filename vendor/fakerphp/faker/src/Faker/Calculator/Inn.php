@@ -2,8 +2,6 @@
 
 namespace Faker\Calculator;
 
-use Faker\Provider\ru_RU\Company;
-
 /**
  * @deprecated moved to ru_RU\Company, use {@link \Faker\Provider\ru_RU\Company}.
  * @see \Faker\Provider\ru_RU\Company
@@ -24,7 +22,7 @@ class Inn
      */
     public static function checksum($inn)
     {
-        return Company::inn10Checksum($inn);
+        return \Faker\Provider\ru_RU\Company::inn10Checksum($inn);
     }
 
     /**
@@ -39,6 +37,6 @@ class Inn
      */
     public static function isValid($inn)
     {
-        return Company::inn10IsValid($inn);
+        return \Faker\Provider\ru_RU\Company::inn10IsValid($inn);
     }
 }

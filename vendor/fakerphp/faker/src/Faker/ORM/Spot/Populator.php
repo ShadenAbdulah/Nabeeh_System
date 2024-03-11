@@ -2,8 +2,6 @@
 
 namespace Faker\ORM\Spot;
 
-use Faker\Generator;
-use InvalidArgumentException;
 use Spot\Locator;
 
 /**
@@ -19,7 +17,7 @@ class Populator
     /**
      * Populator constructor.
      */
-    public function __construct(Generator $generator, Locator $locator = null)
+    public function __construct(\Faker\Generator $generator, Locator $locator = null)
     {
         $this->generator = $generator;
         $this->locator = $locator;
@@ -44,7 +42,7 @@ class Populator
         $mapper = $this->locator->mapper($entityName);
 
         if (null === $mapper) {
-            throw new InvalidArgumentException('No mapper can be found for entity ' . $entityName);
+            throw new \InvalidArgumentException('No mapper can be found for entity ' . $entityName);
         }
         $entity = new EntityPopulator($mapper, $this->locator, $useExistingData);
 
@@ -73,7 +71,7 @@ class Populator
         }
 
         if (null === $locator) {
-            throw new InvalidArgumentException('No entity manager passed to Spot Populator.');
+            throw new \InvalidArgumentException('No entity manager passed to Spot Populator.');
         }
 
         $insertedEntities = [];

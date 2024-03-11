@@ -6,7 +6,6 @@ namespace Hamcrest\Arrays;
  */
 
 use Hamcrest\Description;
-use Hamcrest\Matcher;
 
 class MatchingOnce
 {
@@ -54,7 +53,7 @@ class MatchingOnce
 
     private function _isMatched($item)
     {
-            /** @var $matcher Matcher */
+            /** @var $matcher \Hamcrest\Matcher */
         foreach ($this->_elementMatchers as $i => $matcher) {
             if ($matcher->matches($item)) {
                 unset($this->_elementMatchers[$i]);

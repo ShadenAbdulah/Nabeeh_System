@@ -3,7 +3,6 @@
 namespace Laravel\Fortify\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Laravel\Fortify\Actions\GenerateNewRecoveryCodes;
 use Laravel\Fortify\Contracts\RecoveryCodesGeneratedResponse;
@@ -13,8 +12,8 @@ class RecoveryCodeController extends Controller
     /**
      * Get the two factor authentication recovery codes for authenticated user.
      *
-     * @param Request $request
-     * @return Response
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
     {
@@ -31,9 +30,9 @@ class RecoveryCodeController extends Controller
     /**
      * Generate a fresh set of two factor authentication recovery codes.
      *
-     * @param Request $request
-     * @param GenerateNewRecoveryCodes $generate
-     * @return RecoveryCodesGeneratedResponse
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Laravel\Fortify\Actions\GenerateNewRecoveryCodes  $generate
+     * @return \Laravel\Fortify\Contracts\RecoveryCodesGeneratedResponse
      */
     public function store(Request $request, GenerateNewRecoveryCodes $generate)
     {

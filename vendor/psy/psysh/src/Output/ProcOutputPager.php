@@ -11,16 +11,7 @@
 
 namespace Psy\Output;
 
-use RuntimeException;
 use Symfony\Component\Console\Output\StreamOutput;
-use function fclose;
-use function fflush;
-use function fopen;
-use function fwrite;
-use function is_resource;
-use function proc_close;
-use function proc_open;
-use const PHP_EOL;
 
 /**
  * ProcOutputPager class.
@@ -55,20 +46,20 @@ class ProcOutputPager extends StreamOutput implements OutputPager
      * @param string $message A message to write to the output
      * @param bool   $newline Whether to add a newline or not
      *
-     * @throws RuntimeException When unable to write output (should never happen)
+     * @throws \RuntimeException When unable to write output (should never happen)
      */
     public function doWrite($message, $newline): void
     {
         $pipe = $this->getPipe();
-        if (false === @fwrite($pipe, $message.($newline ? PHP_EOL : ''))) {
+        if (false === @\fwrite($pipe, $message.($newline ? \PHP_EOL : ''))) {
             // @codeCoverageIgnoreStart
             // should never happen
             $this->close();
-            throw new RuntimeException('Unable to write output');
+            throw new \RuntimeException('Unable to write output');
             // @codeCoverageIgnoreEnd
         }
 
-        fflush($pipe);
+        \fflush($pipe);
     }
 
     /**
@@ -77,13 +68,13 @@ class ProcOutputPager extends StreamOutput implements OutputPager
     public function close()
     {
         if (isset($this->pipe)) {
-            fclose($this->pipe);
+            \fclose($this->pipe);
         }
 
         if (isset($this->proc)) {
-            $exit = proc_close($this->proc);
+            $exit = \proc_close($this->proc);
             if ($exit !== 0) {
-                throw new RuntimeException('Error closing output stream');
+                throw new \RuntimeException('Error closing output stream');
             }
         }
 
@@ -99,11 +90,11 @@ class ProcOutputPager extends StreamOutput implements OutputPager
     private function getPipe()
     {
         if (!isset($this->pipe) || !isset($this->proc)) {
-            $desc = [['pipe', 'r'], $this->stream, fopen('php://stderr', 'w')];
-            $this->proc = proc_open($this->cmd, $desc, $pipes);
+            $desc = [['pipe', 'r'], $this->stream, \fopen('php://stderr', 'w')];
+            $this->proc = \proc_open($this->cmd, $desc, $pipes);
 
-            if (!is_resource($this->proc)) {
-                throw new RuntimeException('Error opening output stream');
+            if (!\is_resource($this->proc)) {
+                throw new \RuntimeException('Error opening output stream');
             }
 
             $this->pipe = $pipes[0];

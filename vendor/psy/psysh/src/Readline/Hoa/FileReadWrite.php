@@ -36,23 +36,6 @@
 
 namespace Psy\Readline\Hoa;
 
-use function feof;
-use function fgetc;
-use function fgets;
-use function file_exists;
-use function fread;
-use function fscanf;
-use function ftruncate;
-use function fwrite;
-use function implode;
-use function in_array;
-use function preg_match;
-use function stream_get_contents;
-use function strlen;
-use function strpos;
-use function substr;
-use function var_export;
-
 /**
  * Class \Hoa\File\ReadWrite.
  *
@@ -86,14 +69,14 @@ class FileReadWrite extends File implements StreamIn, StreamOut
             parent::MODE_CREATE_READ_WRITE,
         ];
 
-        if (!in_array($this->getMode(), $createModes)) {
-            throw new FileException('Open mode are not supported; given %d. Only %s are supported.', 0, [$this->getMode(), implode(', ', $createModes)]);
+        if (!\in_array($this->getMode(), $createModes)) {
+            throw new FileException('Open mode are not supported; given %d. Only %s are supported.', 0, [$this->getMode(), \implode(', ', $createModes)]);
         }
 
-        preg_match('#^(\w+)://#', $streamName, $match);
+        \preg_match('#^(\w+)://#', $streamName, $match);
 
         if (((isset($match[1]) && $match[1] === 'file') || !isset($match[1])) &&
-            !file_exists($streamName) &&
+            !\file_exists($streamName) &&
             parent::MODE_READ_WRITE === $this->getMode()) {
             throw new FileDoesNotExistException('File %s does not exist.', 1, $streamName);
         }
@@ -108,7 +91,7 @@ class FileReadWrite extends File implements StreamIn, StreamOut
      */
     public function eof(): bool
     {
-        return feof($this->getStream());
+        return \feof($this->getStream());
     }
 
     /**
@@ -120,7 +103,7 @@ class FileReadWrite extends File implements StreamIn, StreamOut
             throw new FileException('Length must be greater than 0, given %d.', 2, $length);
         }
 
-        return fread($this->getStream(), $length);
+        return \fread($this->getStream(), $length);
     }
 
     /**
@@ -136,7 +119,7 @@ class FileReadWrite extends File implements StreamIn, StreamOut
      */
     public function readCharacter()
     {
-        return fgetc($this->getStream());
+        return \fgetc($this->getStream());
     }
 
     /**
@@ -177,7 +160,7 @@ class FileReadWrite extends File implements StreamIn, StreamOut
      */
     public function readLine()
     {
-        return fgets($this->getStream());
+        return \fgets($this->getStream());
     }
 
     /**
@@ -185,7 +168,7 @@ class FileReadWrite extends File implements StreamIn, StreamOut
      */
     public function readAll(int $offset = 0)
     {
-        return stream_get_contents($this->getStream(), -1, $offset);
+        return \stream_get_contents($this->getStream(), -1, $offset);
     }
 
     /**
@@ -193,7 +176,7 @@ class FileReadWrite extends File implements StreamIn, StreamOut
      */
     public function scanf(string $format): array
     {
-        return fscanf($this->getStream(), $format);
+        return \fscanf($this->getStream(), $format);
     }
 
     /**
@@ -205,7 +188,7 @@ class FileReadWrite extends File implements StreamIn, StreamOut
             throw new FileException('Length must be greater than 0, given %d.', 3, $length);
         }
 
-        return fwrite($this->getStream(), $string, $length);
+        return \fwrite($this->getStream(), $string, $length);
     }
 
     /**
@@ -215,7 +198,7 @@ class FileReadWrite extends File implements StreamIn, StreamOut
     {
         $string = (string) $string;
 
-        return $this->write($string, strlen($string));
+        return $this->write($string, \strlen($string));
     }
 
     /**
@@ -241,7 +224,7 @@ class FileReadWrite extends File implements StreamIn, StreamOut
     {
         $integer = (string) (int) $integer;
 
-        return $this->write($integer, strlen($integer));
+        return $this->write($integer, \strlen($integer));
     }
 
     /**
@@ -251,7 +234,7 @@ class FileReadWrite extends File implements StreamIn, StreamOut
     {
         $float = (string) (float) $float;
 
-        return $this->write($float, strlen($float));
+        return $this->write($float, \strlen($float));
     }
 
     /**
@@ -259,9 +242,9 @@ class FileReadWrite extends File implements StreamIn, StreamOut
      */
     public function writeArray(array $array)
     {
-        $array = var_export($array, true);
+        $array = \var_export($array, true);
 
-        return $this->write($array, strlen($array));
+        return $this->write($array, \strlen($array));
     }
 
     /**
@@ -269,13 +252,13 @@ class FileReadWrite extends File implements StreamIn, StreamOut
      */
     public function writeLine(string $line)
     {
-        if (false === $n = strpos($line, "\n")) {
-            return $this->write($line."\n", strlen($line) + 1);
+        if (false === $n = \strpos($line, "\n")) {
+            return $this->write($line."\n", \strlen($line) + 1);
         }
 
         ++$n;
 
-        return $this->write(substr($line, 0, $n), $n);
+        return $this->write(\substr($line, 0, $n), $n);
     }
 
     /**
@@ -283,7 +266,7 @@ class FileReadWrite extends File implements StreamIn, StreamOut
      */
     public function writeAll(string $string)
     {
-        return $this->write($string, strlen($string));
+        return $this->write($string, \strlen($string));
     }
 
     /**
@@ -291,6 +274,6 @@ class FileReadWrite extends File implements StreamIn, StreamOut
      */
     public function truncate(int $size): bool
     {
-        return ftruncate($this->getStream(), $size);
+        return \ftruncate($this->getStream(), $size);
     }
 }

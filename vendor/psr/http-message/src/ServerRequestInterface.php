@@ -2,8 +2,6 @@
 
 namespace Psr\Http\Message;
 
-use InvalidArgumentException;
-
 /**
  * Representation of an incoming, server-side HTTP request.
  *
@@ -147,7 +145,7 @@ interface ServerRequestInterface extends RequestInterface
      *
      * @param array $uploadedFiles An array tree of UploadedFileInterface instances.
      * @return static
-     * @throws InvalidArgumentException if an invalid structure is provided.
+     * @throws \InvalidArgumentException if an invalid structure is provided.
      */
     public function withUploadedFiles(array $uploadedFiles): ServerRequestInterface;
 
@@ -193,7 +191,7 @@ interface ServerRequestInterface extends RequestInterface
      * @param null|array|object $data The deserialized body data. This will
      *     typically be in an array or object.
      * @return static
-     * @throws InvalidArgumentException if an unsupported argument type is
+     * @throws \InvalidArgumentException if an unsupported argument type is
      *     provided.
      */
     public function withParsedBody($data): ServerRequestInterface;

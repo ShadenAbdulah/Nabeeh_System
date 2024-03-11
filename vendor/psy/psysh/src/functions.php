@@ -11,46 +11,16 @@
 
 namespace Psy;
 
-use Closure;
-use DateTime;
-use InvalidArgumentException;
-use PDO;
 use Psy\ExecutionLoop\ProcessForker;
 use Psy\VersionUpdater\GitHubChecker;
 use Psy\VersionUpdater\Installer;
 use Psy\VersionUpdater\SelfUpdate;
-use ReflectionException;
-use RuntimeException;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputOption;
-use Throwable;
-use function array_map;
-use function array_merge;
-use function basename;
-use function compact;
-use function defined;
-use function function_exists;
-use function fwrite;
-use function get_class;
-use function getenv;
-use function is_string;
-use function preg_quote;
-use function preg_replace;
-use function readline_info;
-use function reset;
-use function rtrim;
-use function str_replace;
-use function version_compare;
-use const PHP_EOL;
-use const PHP_OS;
-use const PHP_SAPI;
-use const PHP_VERSION;
-use const PHP_VERSION_ID;
-use const STDERR;
 
-if (!function_exists('Psy\\sh')) {
+if (!\function_exists('Psy\\sh')) {
     /**
      * Command to return the eval-able code to startup PsySH.
      *
@@ -58,7 +28,7 @@ if (!function_exists('Psy\\sh')) {
      */
     function sh(): string
     {
-        if (version_compare(PHP_VERSION, '8.0', '<')) {
+        if (\version_compare(\PHP_VERSION, '8.0', '<')) {
             return '\extract(\Psy\debug(\get_defined_vars(), isset($this) ? $this : @\get_called_class()));';
         }
 
@@ -77,7 +47,7 @@ EOS;
     }
 }
 
-if (!function_exists('Psy\\debug')) {
+if (!\function_exists('Psy\\debug')) {
     /**
      * Invoke a Psy Shell from the current context.
      *
@@ -122,7 +92,7 @@ if (!function_exists('Psy\\debug')) {
      */
     function debug(array $vars = [], $bindTo = null): array
     {
-        echo PHP_EOL;
+        echo \PHP_EOL;
 
         $sh = new Shell();
         $sh->setScopeVariables($vars);
@@ -134,7 +104,7 @@ if (!function_exists('Psy\\debug')) {
             $sh->addInput('whereami -n2', true);
         }
 
-        if (is_string($bindTo)) {
+        if (\is_string($bindTo)) {
             $sh->setBoundClass($bindTo);
         } elseif ($bindTo !== null) {
             $sh->setBoundObject($bindTo);
@@ -146,7 +116,7 @@ if (!function_exists('Psy\\debug')) {
     }
 }
 
-if (!function_exists('Psy\\info')) {
+if (!\function_exists('Psy\\info')) {
     /**
      * Get a bunch of debugging info about the current PsySH environment and
      * configuration.
@@ -172,11 +142,11 @@ if (!function_exists('Psy\\info')) {
         };
 
         $homeDir = (new ConfigPaths())->homeDir();
-        if ($homeDir && $homeDir = rtrim($homeDir, '/')) {
-            $homePattern = '#^'. preg_quote($homeDir, '#').'/#';
+        if ($homeDir && $homeDir = \rtrim($homeDir, '/')) {
+            $homePattern = '#^'.\preg_quote($homeDir, '#').'/#';
             $prettyPath = function ($path) use ($homePattern) {
-                if (is_string($path)) {
-                    return preg_replace($homePattern, '~/', $path);
+                if (\is_string($path)) {
+                    return \preg_replace($homePattern, '~/', $path);
                 } else {
                     return $path;
                 }
@@ -185,8 +155,8 @@ if (!function_exists('Psy\\info')) {
 
         $config = $lastConfig ?: new Configuration();
         $configEnv = (isset($_SERVER['PSYSH_CONFIG']) && $_SERVER['PSYSH_CONFIG']) ? $_SERVER['PSYSH_CONFIG'] : false;
-        if ($configEnv === false && PHP_SAPI === 'cli-server') {
-            $configEnv = getenv('PSYSH_CONFIG');
+        if ($configEnv === false && \PHP_SAPI === 'cli-server') {
+            $configEnv = \getenv('PSYSH_CONFIG');
         }
 
         $shellInfo = [
@@ -194,8 +164,8 @@ if (!function_exists('Psy\\info')) {
         ];
 
         $core = [
-            'PHP version'         => PHP_VERSION,
-            'OS'                  => PHP_OS,
+            'PHP version'         => \PHP_VERSION,
+            'OS'                  => \PHP_OS,
             'default includes'    => $config->getDefaultIncludes(),
             'require semicolons'  => $config->requireSemicolons(),
             'strict types'        => $config->strictTypes(),
@@ -217,7 +187,7 @@ if (!function_exists('Psy\\info')) {
         try {
             $updateAvailable = !$checker->isLatest();
             $latest = $checker->getLatest();
-        } catch (Throwable $e) {
+        } catch (\Throwable $e) {
         }
 
         $updates = [
@@ -234,12 +204,12 @@ if (!function_exists('Psy\\info')) {
         ];
 
         if ($config->hasReadline()) {
-            $info = readline_info();
+            $info = \readline_info();
 
             $readline = [
                 'readline available' => true,
                 'readline enabled'   => $config->useReadline(),
-                'readline service'   => get_class($config->getReadline()),
+                'readline service'   => \get_class($config->getReadline()),
             ];
 
             if (isset($info['library_version'])) {
@@ -301,17 +271,17 @@ if (!function_exists('Psy\\info')) {
         try {
             if ($db = $config->getManualDb()) {
                 if ($q = $db->query('SELECT * FROM meta;')) {
-                    $q->setFetchMode(PDO::FETCH_KEY_PAIR);
+                    $q->setFetchMode(\PDO::FETCH_KEY_PAIR);
                     $meta = $q->fetchAll();
 
                     foreach ($meta as $key => $val) {
                         switch ($key) {
                             case 'built_at':
-                                $d = new DateTime('@'.$val);
-                                $val = $d->format(DateTime::RFC2822);
+                                $d = new \DateTime('@'.$val);
+                                $val = $d->format(\DateTime::RFC2822);
                                 break;
                         }
-                        $key = 'db '. str_replace('_', ' ', $key);
+                        $key = 'db '.\str_replace('_', ' ', $key);
                         $docs[$key] = $val;
                     }
                 } else {
@@ -334,7 +304,7 @@ if (!function_exists('Psy\\info')) {
         // Shenanigans, but totally justified.
         try {
             if ($shell = Sudo::fetchProperty($config, 'shell')) {
-                $shellClass = get_class($shell);
+                $shellClass = \get_class($shell);
                 if ($shellClass !== 'Psy\\Shell') {
                     $shellInfo = [
                         'PsySH version' => $shell::VERSION,
@@ -343,61 +313,61 @@ if (!function_exists('Psy\\info')) {
                 }
 
                 try {
-                    $core['loop listeners'] = array_map('get_class', Sudo::fetchProperty($shell, 'loopListeners'));
-                } catch (ReflectionException $e) {
+                    $core['loop listeners'] = \array_map('get_class', Sudo::fetchProperty($shell, 'loopListeners'));
+                } catch (\ReflectionException $e) {
                     // shrug
                 }
 
-                $core['commands'] = array_map('get_class', $shell->all());
+                $core['commands'] = \array_map('get_class', $shell->all());
 
                 try {
-                    $autocomplete['custom matchers'] = array_map('get_class', Sudo::fetchProperty($shell, 'matchers'));
-                } catch (ReflectionException $e) {
+                    $autocomplete['custom matchers'] = \array_map('get_class', Sudo::fetchProperty($shell, 'matchers'));
+                } catch (\ReflectionException $e) {
                     // shrug
                 }
             }
-        } catch (ReflectionException $e) {
+        } catch (\ReflectionException $e) {
             // shrug
         }
 
         // @todo Show Presenter / custom casters.
 
-        return array_merge($shellInfo, $core, compact('updates', 'pcntl', 'input', 'readline', 'output', 'history', 'docs', 'autocomplete'));
+        return \array_merge($shellInfo, $core, \compact('updates', 'pcntl', 'input', 'readline', 'output', 'history', 'docs', 'autocomplete'));
     }
 }
 
-if (!function_exists('Psy\\bin')) {
+if (!\function_exists('Psy\\bin')) {
     /**
      * `psysh` command line executable.
      *
-     * @return Closure
+     * @return \Closure
      */
-    function bin(): Closure
+    function bin(): \Closure
     {
         return function () {
             if (!isset($_SERVER['PSYSH_IGNORE_ENV']) || !$_SERVER['PSYSH_IGNORE_ENV']) {
-                if (defined('HHVM_VERSION_ID')) {
-                    fwrite(STDERR, 'PsySH v0.11 and higher does not support HHVM. Install an older version, or set the environment variable PSYSH_IGNORE_ENV=1 to override this restriction and proceed anyway.'. PHP_EOL);
+                if (\defined('HHVM_VERSION_ID')) {
+                    \fwrite(\STDERR, 'PsySH v0.11 and higher does not support HHVM. Install an older version, or set the environment variable PSYSH_IGNORE_ENV=1 to override this restriction and proceed anyway.'.\PHP_EOL);
                     exit(1);
                 }
 
-                if (PHP_VERSION_ID < 70400) {
-                    fwrite(STDERR, 'PHP 7.4.0 or higher is required. You can set the environment variable PSYSH_IGNORE_ENV=1 to override this restriction and proceed anyway.'. PHP_EOL);
+                if (\PHP_VERSION_ID < 70400) {
+                    \fwrite(\STDERR, 'PHP 7.4.0 or higher is required. You can set the environment variable PSYSH_IGNORE_ENV=1 to override this restriction and proceed anyway.'.\PHP_EOL);
                     exit(1);
                 }
 
-                if (PHP_VERSION_ID > 89999) {
-                    fwrite(STDERR, 'PHP 9 or higher is not supported. You can set the environment variable PSYSH_IGNORE_ENV=1 to override this restriction and proceed anyway.'. PHP_EOL);
+                if (\PHP_VERSION_ID > 89999) {
+                    \fwrite(\STDERR, 'PHP 9 or higher is not supported. You can set the environment variable PSYSH_IGNORE_ENV=1 to override this restriction and proceed anyway.'.\PHP_EOL);
                     exit(1);
                 }
 
-                if (!function_exists('json_encode')) {
-                    fwrite(STDERR, 'The JSON extension is required. Please install it. You can set the environment variable PSYSH_IGNORE_ENV=1 to override this restriction and proceed anyway.'. PHP_EOL);
+                if (!\function_exists('json_encode')) {
+                    \fwrite(\STDERR, 'The JSON extension is required. Please install it. You can set the environment variable PSYSH_IGNORE_ENV=1 to override this restriction and proceed anyway.'.\PHP_EOL);
                     exit(1);
                 }
 
-                if (!function_exists('token_get_all')) {
-                    fwrite(STDERR, 'The Tokenizer extension is required. Please install it. You can set the environment variable PSYSH_IGNORE_ENV=1 to override this restriction and proceed anyway.'. PHP_EOL);
+                if (!\function_exists('token_get_all')) {
+                    \fwrite(\STDERR, 'The Tokenizer extension is required. Please install it. You can set the environment variable PSYSH_IGNORE_ENV=1 to override this restriction and proceed anyway.'.\PHP_EOL);
                     exit(1);
                 }
             }
@@ -407,32 +377,32 @@ if (!function_exists('Psy\\bin')) {
 
             $input = new ArgvInput();
             try {
-                $input->bind(new InputDefinition(array_merge(Configuration::getInputOptions(), [
+                $input->bind(new InputDefinition(\array_merge(Configuration::getInputOptions(), [
                     new InputOption('help', 'h', InputOption::VALUE_NONE),
                     new InputOption('version', 'V', InputOption::VALUE_NONE),
                     new InputOption('self-update', 'u', InputOption::VALUE_NONE),
 
                     new InputArgument('include', InputArgument::IS_ARRAY),
                 ])));
-            } catch (RuntimeException $e) {
+            } catch (\RuntimeException $e) {
                 $usageException = $e;
             }
 
             try {
                 $config = Configuration::fromInput($input);
-            } catch (InvalidArgumentException $e) {
+            } catch (\InvalidArgumentException $e) {
                 $usageException = $e;
             }
 
             // Handle --help
             if (!isset($config) || $usageException !== null || $input->getOption('help')) {
                 if ($usageException !== null) {
-                    echo $usageException->getMessage(). PHP_EOL. PHP_EOL;
+                    echo $usageException->getMessage().\PHP_EOL.\PHP_EOL;
                 }
 
                 $version = Shell::getVersionHeader(false);
                 $argv = isset($_SERVER['argv']) ? $_SERVER['argv'] : [];
-                $name = $argv ? basename(reset($argv)) : 'psysh';
+                $name = $argv ? \basename(\reset($argv)) : 'psysh';
 
                 echo <<<EOL
 $version
@@ -471,14 +441,14 @@ EOL;
 
             // Handle --version
             if ($input->getOption('version')) {
-                echo Shell::getVersionHeader($config->useUnicode()). PHP_EOL;
+                echo Shell::getVersionHeader($config->useUnicode()).\PHP_EOL;
                 exit(0);
             }
 
             // Handle --self-update
             if ($input->getOption('self-update')) {
                 if (!$shellIsPhar) {
-                    fwrite(STDERR, 'The --self-update option can only be used with with a phar based install.'. PHP_EOL);
+                    \fwrite(\STDERR, 'The --self-update option can only be used with with a phar based install.'.\PHP_EOL);
                     exit(1);
                 }
                 $selfUpdate = new SelfUpdate(new GitHubChecker(), new Installer());
@@ -494,8 +464,8 @@ EOL;
             try {
                 // And go!
                 $shell->run();
-            } catch (Throwable $e) {
-                fwrite(STDERR, $e->getMessage(). PHP_EOL);
+            } catch (\Throwable $e) {
+                \fwrite(\STDERR, $e->getMessage().\PHP_EOL);
 
                 // @todo this triggers the "exited unexpectedly" logic in the
                 // ForkingLoop, so we can't exit(1) after starting the shell...

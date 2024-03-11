@@ -14,7 +14,7 @@ class ArrayArgumentReducer implements ReducedArgumentContract
     /** @var int */
     protected $maxArraySize = 25;
 
-    /** @var ReduceArgumentPayloadAction */
+    /** @var \Spatie\Backtrace\Arguments\ReduceArgumentPayloadAction */
     protected $reduceArgumentPayloadAction;
 
     public function __construct()

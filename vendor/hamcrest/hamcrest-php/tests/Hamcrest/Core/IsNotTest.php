@@ -1,14 +1,12 @@
 <?php
 namespace Hamcrest\Core;
 
-use Hamcrest\AbstractMatcherTest;
-
-class IsNotTest extends AbstractMatcherTest
+class IsNotTest extends \Hamcrest\AbstractMatcherTest
 {
 
     protected function createMatcher()
     {
-        return IsNot::not('something');
+        return \Hamcrest\Core\IsNot::not('something');
     }
 
     public function testEvaluatesToTheTheLogicalNegationOfAnotherMatcher()

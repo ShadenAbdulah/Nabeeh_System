@@ -13,7 +13,6 @@ namespace Mockery\Generator\StringManipulation\Pass;
 use Mockery\Generator\Method;
 use Mockery\Generator\Parameter;
 use Mockery\Generator\MockConfiguration;
-use const PHP_VERSION_ID;
 
 class MethodDefinitionPass implements Pass
 {
@@ -58,7 +57,7 @@ class MethodDefinitionPass implements Pass
 
         $methodParams = array();
         $params = $method->getParameters();
-        $isPhp81 = PHP_VERSION_ID >= 80100;
+        $isPhp81 = \PHP_VERSION_ID >= 80100;
         foreach ($params as $param) {
             $paramDef = $this->renderTypeHint($param);
             $paramDef .= $param->isPassedByReference() ? '&' : '';

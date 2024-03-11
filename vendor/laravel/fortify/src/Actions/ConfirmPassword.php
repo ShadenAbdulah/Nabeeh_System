@@ -10,7 +10,7 @@ class ConfirmPassword
     /**
      * Confirm that the given password is valid for the given user.
      *
-     * @param StatefulGuard $guard
+     * @param  \Illuminate\Contracts\Auth\StatefulGuard  $guard
      * @param  mixed  $user
      * @param  string|null  $password
      * @return bool

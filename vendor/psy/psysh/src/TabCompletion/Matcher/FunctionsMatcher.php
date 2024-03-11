@@ -11,11 +11,6 @@
 
 namespace Psy\TabCompletion\Matcher;
 
-use function array_filter;
-use function array_merge;
-use function array_pop;
-use function get_defined_functions;
-
 /**
  * A function name tab completion Matcher.
  *
@@ -32,10 +27,10 @@ class FunctionsMatcher extends AbstractMatcher
     {
         $func = $this->getInput($tokens);
 
-        $functions = get_defined_functions();
-        $allFunctions = array_merge($functions['user'], $functions['internal']);
+        $functions = \get_defined_functions();
+        $allFunctions = \array_merge($functions['user'], $functions['internal']);
 
-        return array_filter($allFunctions, function ($function) use ($func) {
+        return \array_filter($allFunctions, function ($function) use ($func) {
             return AbstractMatcher::startsWith($func, $function);
         });
     }
@@ -45,8 +40,8 @@ class FunctionsMatcher extends AbstractMatcher
      */
     public function hasMatched(array $tokens): bool
     {
-        $token = array_pop($tokens);
-        $prevToken = array_pop($tokens);
+        $token = \array_pop($tokens);
+        $prevToken = \array_pop($tokens);
 
         switch (true) {
             case self::tokenIs($prevToken, self::T_NEW):

@@ -22,7 +22,7 @@ class ExitPass extends CodeCleanerPass
     /**
      * Converts exit calls to BreakExceptions.
      *
-     * @param Node $node
+     * @param \PhpParser\Node $node
      *
      * @return int|Node|Node[]|null Replacement node (or special return value)
      */

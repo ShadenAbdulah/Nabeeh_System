@@ -16,14 +16,14 @@ class TwoFactorAuthenticatedSessionController extends Controller
     /**
      * The guard implementation.
      *
-     * @var StatefulGuard
+     * @var \Illuminate\Contracts\Auth\StatefulGuard
      */
     protected $guard;
 
     /**
      * Create a new controller instance.
      *
-     * @param StatefulGuard $guard
+     * @param  \Illuminate\Contracts\Auth\StatefulGuard  $guard
      * @return void
      */
     public function __construct(StatefulGuard $guard)
@@ -34,8 +34,8 @@ class TwoFactorAuthenticatedSessionController extends Controller
     /**
      * Show the two factor authentication challenge view.
      *
-     * @param TwoFactorLoginRequest $request
-     * @return TwoFactorChallengeViewResponse
+     * @param  \Laravel\Fortify\Http\Requests\TwoFactorLoginRequest  $request
+     * @return \Laravel\Fortify\Contracts\TwoFactorChallengeViewResponse
      */
     public function create(TwoFactorLoginRequest $request): TwoFactorChallengeViewResponse
     {
@@ -49,7 +49,7 @@ class TwoFactorAuthenticatedSessionController extends Controller
     /**
      * Attempt to authenticate a new session using the two factor authentication code.
      *
-     * @param TwoFactorLoginRequest $request
+     * @param  \Laravel\Fortify\Http\Requests\TwoFactorLoginRequest  $request
      * @return mixed
      */
     public function store(TwoFactorLoginRequest $request)

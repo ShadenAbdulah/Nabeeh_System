@@ -14,7 +14,6 @@ namespace Monolog\Handler;
 use Monolog\Formatter\FormatterInterface;
 use Monolog\Formatter\HtmlFormatter;
 use Monolog\LogRecord;
-use function count;
 
 /**
  * Base class for all mail handlers
@@ -39,7 +38,7 @@ abstract class MailHandler extends AbstractProcessingHandler
             $messages[] = $message;
         }
 
-        if (count($messages) > 0) {
+        if (\count($messages) > 0) {
             $this->send((string) $this->getFormatter()->formatBatch($messages), $messages);
         }
     }

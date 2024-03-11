@@ -14,9 +14,9 @@ class TwoFactorAuthenticationController extends Controller
     /**
      * Enable two factor authentication for the user.
      *
-     * @param Request $request
-     * @param EnableTwoFactorAuthentication $enable
-     * @return TwoFactorEnabledResponse
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Laravel\Fortify\Actions\EnableTwoFactorAuthentication  $enable
+     * @return \Laravel\Fortify\Contracts\TwoFactorEnabledResponse
      */
     public function store(Request $request, EnableTwoFactorAuthentication $enable)
     {
@@ -28,9 +28,9 @@ class TwoFactorAuthenticationController extends Controller
     /**
      * Disable two factor authentication for the user.
      *
-     * @param Request $request
-     * @param DisableTwoFactorAuthentication $disable
-     * @return TwoFactorDisabledResponse
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Laravel\Fortify\Actions\DisableTwoFactorAuthentication  $disable
+     * @return \Laravel\Fortify\Contracts\TwoFactorDisabledResponse
      */
     public function destroy(Request $request, DisableTwoFactorAuthentication $disable)
     {

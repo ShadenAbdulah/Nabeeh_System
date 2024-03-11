@@ -8,25 +8,13 @@ use Brick\Math\Exception\DivisionByZeroException;
 use Brick\Math\Exception\MathException;
 use Brick\Math\Exception\NumberFormatException;
 use Brick\Math\Exception\RoundingNecessaryException;
-use InvalidArgumentException;
-use JsonSerializable;
-use Serializable;
-use function is_float;
-use function is_int;
-use function ltrim;
-use function preg_match;
-use function setlocale;
-use function sprintf;
-use function str_repeat;
-use function strlen;
-use function substr;
 
 /**
  * Common interface for arbitrary-precision rational numbers.
  *
  * @psalm-immutable
  */
-abstract class BigNumber implements Serializable, JsonSerializable
+abstract class BigNumber implements \Serializable, \JsonSerializable
 {
     /**
      * The regular expression used to parse integer, decimal and rational numbers.
@@ -71,20 +59,20 @@ abstract class BigNumber implements Serializable, JsonSerializable
             return $value;
         }
 
-        if (is_int($value)) {
+        if (\is_int($value)) {
             return new BigInteger((string) $value);
         }
 
-        $value = is_float($value) ? self::floatToString($value) : $value;
+        $value = \is_float($value) ? self::floatToString($value) : $value;
 
         $throw = static function() use ($value) : void {
-            throw new NumberFormatException(sprintf(
+            throw new NumberFormatException(\sprintf(
                 'The given value "%s" does not represent a valid number.',
                 $value
             ));
         };
 
-        if (preg_match(self::PARSE_REGEXP, $value, $matches) !== 1) {
+        if (\preg_match(self::PARSE_REGEXP, $value, $matches) !== 1) {
             $throw();
         }
 
@@ -138,11 +126,11 @@ abstract class BigNumber implements Serializable, JsonSerializable
 
             $unscaledValue = self::cleanUp(($sign ?? ''). $integral . $fractional);
 
-            $scale = strlen($fractional) - $exponent;
+            $scale = \strlen($fractional) - $exponent;
 
             if ($scale < 0) {
                 if ($unscaledValue !== '0') {
-                    $unscaledValue .= str_repeat('0', - $scale);
+                    $unscaledValue .= \str_repeat('0', - $scale);
                 }
                 $scale = 0;
             }
@@ -165,12 +153,12 @@ abstract class BigNumber implements Serializable, JsonSerializable
      */
     private static function floatToString(float $float) : string
     {
-        $currentLocale = setlocale(LC_NUMERIC, '0');
-        setlocale(LC_NUMERIC, 'C');
+        $currentLocale = \setlocale(LC_NUMERIC, '0');
+        \setlocale(LC_NUMERIC, 'C');
 
         $result = (string) $float;
 
-        setlocale(LC_NUMERIC, $currentLocale);
+        \setlocale(LC_NUMERIC, $currentLocale);
 
         return $result;
     }
@@ -214,7 +202,7 @@ abstract class BigNumber implements Serializable, JsonSerializable
      * @param BigNumber|int|float|string ...$values The numbers to compare. All the numbers need to be convertible
      *                                              to an instance of the class this method is called on.
      *
-     * @throws InvalidArgumentException If no values are given.
+     * @throws \InvalidArgumentException If no values are given.
      * @throws MathException             If an argument is not valid.
      *
      * @psalm-suppress LessSpecificReturnStatement
@@ -234,7 +222,7 @@ abstract class BigNumber implements Serializable, JsonSerializable
         }
 
         if ($min === null) {
-            throw new InvalidArgumentException(__METHOD__ . '() expects at least one value.');
+            throw new \InvalidArgumentException(__METHOD__ . '() expects at least one value.');
         }
 
         return $min;
@@ -246,7 +234,7 @@ abstract class BigNumber implements Serializable, JsonSerializable
      * @param BigNumber|int|float|string ...$values The numbers to compare. All the numbers need to be convertible
      *                                              to an instance of the class this method is called on.
      *
-     * @throws InvalidArgumentException If no values are given.
+     * @throws \InvalidArgumentException If no values are given.
      * @throws MathException             If an argument is not valid.
      *
      * @psalm-suppress LessSpecificReturnStatement
@@ -266,7 +254,7 @@ abstract class BigNumber implements Serializable, JsonSerializable
         }
 
         if ($max === null) {
-            throw new InvalidArgumentException(__METHOD__ . '() expects at least one value.');
+            throw new \InvalidArgumentException(__METHOD__ . '() expects at least one value.');
         }
 
         return $max;
@@ -278,7 +266,7 @@ abstract class BigNumber implements Serializable, JsonSerializable
      * @param BigNumber|int|float|string ...$values The numbers to add. All the numbers need to be convertible
      *                                              to an instance of the class this method is called on.
      *
-     * @throws InvalidArgumentException If no values are given.
+     * @throws \InvalidArgumentException If no values are given.
      * @throws MathException             If an argument is not valid.
      *
      * @psalm-pure
@@ -295,7 +283,7 @@ abstract class BigNumber implements Serializable, JsonSerializable
         }
 
         if ($sum === null) {
-            throw new InvalidArgumentException(__METHOD__ . '() expects at least one value.');
+            throw new \InvalidArgumentException(__METHOD__ . '() expects at least one value.');
         }
 
         return $sum;
@@ -346,10 +334,10 @@ abstract class BigNumber implements Serializable, JsonSerializable
         $firstChar = $number[0];
 
         if ($firstChar === '+' || $firstChar === '-') {
-            $number = substr($number, 1);
+            $number = \substr($number, 1);
         }
 
-        $number = ltrim($number, '0');
+        $number = \ltrim($number, '0');
 
         if ($number === '') {
             return '0';

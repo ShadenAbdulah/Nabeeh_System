@@ -14,14 +14,13 @@ declare(strict_types=1);
 namespace GrahamCampbell\ResultType;
 
 use PhpOption\None;
-use PhpOption\Option;
 use PhpOption\Some;
 
 /**
  * @template T
  * @template E
  *
- * @extends Result<T,E>
+ * @extends \GrahamCampbell\ResultType\Result<T,E>
  */
 final class Error extends Result
 {
@@ -49,7 +48,7 @@ final class Error extends Result
      *
      * @param F $value
      *
-     * @return Result<T,F>
+     * @return \GrahamCampbell\ResultType\Result<T,F>
      */
     public static function create($value)
     {
@@ -59,7 +58,7 @@ final class Error extends Result
     /**
      * Get the success option value.
      *
-     * @return Option<T>
+     * @return \PhpOption\Option<T>
      */
     public function success()
     {
@@ -73,7 +72,7 @@ final class Error extends Result
      *
      * @param callable(T):S $f
      *
-     * @return Result<S,E>
+     * @return \GrahamCampbell\ResultType\Result<S,E>
      */
     public function map(callable $f)
     {
@@ -86,20 +85,20 @@ final class Error extends Result
      * @template S
      * @template F
      *
-     * @param callable(T):Result<S,F> $f
+     * @param callable(T):\GrahamCampbell\ResultType\Result<S,F> $f
      *
-     * @return Result<S,F>
+     * @return \GrahamCampbell\ResultType\Result<S,F>
      */
     public function flatMap(callable $f)
     {
-        /** @var Result<S,F> */
+        /** @var \GrahamCampbell\ResultType\Result<S,F> */
         return self::create($this->value);
     }
 
     /**
      * Get the error option value.
      *
-     * @return Option<E>
+     * @return \PhpOption\Option<E>
      */
     public function error()
     {
@@ -113,7 +112,7 @@ final class Error extends Result
      *
      * @param callable(E):F $f
      *
-     * @return Result<T,F>
+     * @return \GrahamCampbell\ResultType\Result<T,F>
      */
     public function mapError(callable $f)
     {

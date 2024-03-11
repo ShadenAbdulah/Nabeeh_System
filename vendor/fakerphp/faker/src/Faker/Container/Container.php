@@ -5,9 +5,6 @@ declare(strict_types=1);
 namespace Faker\Container;
 
 use Faker\Extension\Extension;
-use InvalidArgumentException;
-use RuntimeException;
-use Throwable;
 
 /**
  * A simple implementation of a container.
@@ -39,15 +36,15 @@ final class Container implements ContainerInterface
      *
      * @param string $id
      *
-     * @throws InvalidArgumentException
-     * @throws RuntimeException
+     * @throws \InvalidArgumentException
+     * @throws \RuntimeException
      * @throws ContainerException
      * @throws NotInContainerException
      */
     public function get($id): Extension
     {
         if (!is_string($id)) {
-            throw new InvalidArgumentException(sprintf(
+            throw new \InvalidArgumentException(sprintf(
                 'First argument of %s::get() must be string',
                 self::class,
             ));
@@ -69,7 +66,7 @@ final class Container implements ContainerInterface
         $service = $this->getService($id, $definition);
 
         if (!$service instanceof Extension) {
-            throw new RuntimeException(sprintf(
+            throw new \RuntimeException(sprintf(
                 'Service resolved for identifier "%s" does not implement the %s" interface.',
                 $id,
                 Extension::class,
@@ -91,7 +88,7 @@ final class Container implements ContainerInterface
         if (is_callable($definition)) {
             try {
                 return $definition();
-            } catch (Throwable $e) {
+            } catch (\Throwable $e) {
                 throw new ContainerException(
                     sprintf('Error while invoking callable for "%s"', $id),
                     0,
@@ -104,7 +101,7 @@ final class Container implements ContainerInterface
             if (class_exists($definition)) {
                 try {
                     return new $definition();
-                } catch (Throwable $e) {
+                } catch (\Throwable $e) {
                     throw new ContainerException(sprintf('Could not instantiate class "%s"', $id), 0, $e);
                 }
             }
@@ -126,12 +123,12 @@ final class Container implements ContainerInterface
      *
      * @param string $id
      *
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     public function has($id): bool
     {
         if (!is_string($id)) {
-            throw new InvalidArgumentException(sprintf(
+            throw new \InvalidArgumentException(sprintf(
                 'First argument of %s::get() must be string',
                 self::class,
             ));

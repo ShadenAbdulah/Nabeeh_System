@@ -1,14 +1,12 @@
 <?php
 namespace Hamcrest\Number;
 
-use Hamcrest\AbstractMatcherTest;
-
-class OrderingComparisonTest extends AbstractMatcherTest
+class OrderingComparisonTest extends \Hamcrest\AbstractMatcherTest
 {
 
     protected function createMatcher()
     {
-        return OrderingComparison::greaterThan(1);
+        return \Hamcrest\Number\OrderingComparison::greaterThan(1);
     }
 
     public function testComparesValuesForGreaterThan()

@@ -6,7 +6,6 @@ namespace Faker\Container;
 
 use Faker\Core;
 use Faker\Extension;
-use InvalidArgumentException;
 
 /**
  * @experimental This class is experimental and does not fall under our BC promise
@@ -21,12 +20,12 @@ final class ContainerBuilder
     /**
      * @param callable|object|string $definition
      *
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     public function add(string $id, $definition): self
     {
         if (!is_string($definition) && !is_callable($definition) && !is_object($definition)) {
-            throw new InvalidArgumentException(sprintf(
+            throw new \InvalidArgumentException(sprintf(
                 'First argument to "%s::add()" must be a string, callable or object.',
                 self::class,
             ));

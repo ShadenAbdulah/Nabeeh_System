@@ -36,17 +36,6 @@
 
 namespace Psy\Readline\Hoa;
 
-use Closure;
-use DirectoryIterator;
-use function basename;
-use function count;
-use function dirname;
-use function getcwd;
-use function is_dir;
-use function mb_strlen;
-use function mb_substr;
-use const DIRECTORY_SEPARATOR;
-
 /**
  * Class \Hoa\Console\Readline\Autocompleter\Path.
  *
@@ -74,7 +63,7 @@ class AutocompleterPath implements Autocompleter
      */
     public function __construct(
         string $root = null,
-        Closure $iteratorFactory = null
+        \Closure $iteratorFactory = null
     ) {
         if (null === $root) {
             $root = static::PWD;
@@ -98,14 +87,14 @@ class AutocompleterPath implements Autocompleter
         $root = $this->getRoot();
 
         if (static::PWD === $root) {
-            $root = getcwd();
+            $root = \getcwd();
         }
 
-        $path = $root. DIRECTORY_SEPARATOR.$prefix;
+        $path = $root.\DIRECTORY_SEPARATOR.$prefix;
 
-        if (!is_dir($path)) {
-            $path = dirname($path). DIRECTORY_SEPARATOR;
-            $prefix = basename($prefix);
+        if (!\is_dir($path)) {
+            $path = \dirname($path).\DIRECTORY_SEPARATOR;
+            $prefix = \basename($prefix);
         } else {
             $prefix = null;
         }
@@ -116,13 +105,13 @@ class AutocompleterPath implements Autocompleter
         try {
             $iterator = $iteratorFactory($path);
             $out = [];
-            $length = mb_strlen($prefix);
+            $length = \mb_strlen($prefix);
 
             foreach ($iterator as $fileinfo) {
                 $filename = $fileinfo->getFilename();
 
                 if (null === $prefix ||
-                    (mb_substr($filename, 0, $length) === $prefix)) {
+                    (\mb_substr($filename, 0, $length) === $prefix)) {
                     if ($fileinfo->isDir()) {
                         $out[] = $filename.'/';
                     } else {
@@ -134,7 +123,7 @@ class AutocompleterPath implements Autocompleter
             return null;
         }
 
-        $count = count($out);
+        $count = \count($out);
 
         if (1 === $count) {
             return $out[0];
@@ -177,7 +166,7 @@ class AutocompleterPath implements Autocompleter
     /**
      * Set iterator factory (a finder).
      */
-    public function setIteratorFactory(Closure $iteratorFactory)
+    public function setIteratorFactory(\Closure $iteratorFactory)
     {
         $old = $this->_iteratorFactory;
         $this->_iteratorFactory = $iteratorFactory;
@@ -199,7 +188,7 @@ class AutocompleterPath implements Autocompleter
     public static function getDefaultIteratorFactory()
     {
         return function ($path) {
-            return new DirectoryIterator($path);
+            return new \DirectoryIterator($path);
         };
     }
 }

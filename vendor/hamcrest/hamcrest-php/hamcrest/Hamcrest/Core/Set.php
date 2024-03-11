@@ -6,7 +6,6 @@ namespace Hamcrest\Core;
  */
 use Hamcrest\BaseMatcher;
 use Hamcrest\Description;
-use InvalidArgumentException;
 
 /**
  * Tests if a value (class, object, or array) has a named property.
@@ -45,7 +44,7 @@ class Set extends BaseMatcher
         } elseif (is_string($item)) {
             $result = isset($item::$$property);
         } else {
-            throw new InvalidArgumentException('Must pass an object, array, or class name');
+            throw new \InvalidArgumentException('Must pass an object, array, or class name');
         }
 
         return $this->_not ? !$result : $result;

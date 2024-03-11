@@ -13,8 +13,6 @@ namespace Psy\VersionUpdater\Downloader;
 
 use Psy\Exception\ErrorException;
 use Psy\VersionUpdater\Downloader;
-use function extension_loaded;
-use function ini_get;
 
 class Factory
 {
@@ -23,9 +21,9 @@ class Factory
      */
     public static function getDownloader(): Downloader
     {
-        if (extension_loaded('curl')) {
+        if (\extension_loaded('curl')) {
             return new CurlDownloader();
-        } elseif (ini_get('allow_url_fopen')) {
+        } elseif (\ini_get('allow_url_fopen')) {
             return new FileDownloader();
         }
         throw new ErrorException('No downloader available.');

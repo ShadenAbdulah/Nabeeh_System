@@ -2,9 +2,7 @@
 
 namespace PragmaRX\Google2FA;
 
-use PragmaRX\Google2FA\Exceptions\IncompatibleWithGoogleAuthenticatorException;
 use PragmaRX\Google2FA\Exceptions\InvalidAlgorithmException;
-use PragmaRX\Google2FA\Exceptions\InvalidCharactersException;
 use PragmaRX\Google2FA\Exceptions\SecretKeyTooShortException;
 use PragmaRX\Google2FA\Support\Base32;
 use PragmaRX\Google2FA\Support\Constants;
@@ -60,11 +58,11 @@ class Google2FA
      * @param int      $timestamp
      * @param int|null $oldTimestamp
      *
-     * @return bool|int
-     * @throws SecretKeyTooShortException
-     * @throws InvalidCharactersException
-     * @throws IncompatibleWithGoogleAuthenticatorException
+     * @throws \PragmaRX\Google2FA\Exceptions\SecretKeyTooShortException
+     * @throws \PragmaRX\Google2FA\Exceptions\InvalidCharactersException
+     * @throws \PragmaRX\Google2FA\Exceptions\IncompatibleWithGoogleAuthenticatorException
      *
+     * @return bool|int
      */
     public function findValidOTP(
         $secret,
@@ -114,11 +112,11 @@ class Google2FA
      * @param int    $length
      * @param string $prefix
      *
-     * @return string
-     *@throws InvalidCharactersException
-     * @throws SecretKeyTooShortException
+     * @throws \PragmaRX\Google2FA\Exceptions\IncompatibleWithGoogleAuthenticatorException
+     * @throws \PragmaRX\Google2FA\Exceptions\InvalidCharactersException
+     * @throws \PragmaRX\Google2FA\Exceptions\SecretKeyTooShortException
      *
-     * @throws IncompatibleWithGoogleAuthenticatorException
+     * @return string
      */
     public function generateSecretKey($length = 16, $prefix = '')
     {
@@ -130,11 +128,11 @@ class Google2FA
      *
      * @param string $secret
      *
-     * @return string
-     * @throws InvalidCharactersException
-     * @throws IncompatibleWithGoogleAuthenticatorException
+     * @throws \PragmaRX\Google2FA\Exceptions\SecretKeyTooShortException
+     * @throws \PragmaRX\Google2FA\Exceptions\InvalidCharactersException
+     * @throws \PragmaRX\Google2FA\Exceptions\IncompatibleWithGoogleAuthenticatorException
      *
-     * @throws SecretKeyTooShortException
+     * @return string
      */
     public function getCurrentOtp($secret)
     {
@@ -259,11 +257,11 @@ class Google2FA
      * @param string $secret  Secret key in binary form.
      * @param int    $counter Timestamp as returned by getTimestamp.
      *
-     * @return string
-     * @throws InvalidCharactersException
+     * @throws \PragmaRX\Google2FA\Exceptions\SecretKeyTooShortException
+     * @throws \PragmaRX\Google2FA\Exceptions\InvalidCharactersException
      * @throws Exceptions\IncompatibleWithGoogleAuthenticatorException
      *
-     * @throws SecretKeyTooShortException
+     * @return string
      */
     public function oathTotp($secret, $counter)
     {
@@ -338,9 +336,9 @@ class Google2FA
      *
      * @param mixed $algorithm
      *
-     * @throws InvalidAlgorithmException
+     * @throws \PragmaRX\Google2FA\Exceptions\InvalidAlgorithmException
      *
-     * @return Google2FA
+     * @return \PragmaRX\Google2FA\Google2FA
      */
     public function setAlgorithm($algorithm)
     {
@@ -404,11 +402,11 @@ class Google2FA
      * @param null|int $timestamp
      * @param null|int $oldTimestamp
      *
-     * @return bool|int
-     * @throws InvalidCharactersException
-     * @throws IncompatibleWithGoogleAuthenticatorException
+     * @throws \PragmaRX\Google2FA\Exceptions\SecretKeyTooShortException
+     * @throws \PragmaRX\Google2FA\Exceptions\InvalidCharactersException
+     * @throws \PragmaRX\Google2FA\Exceptions\IncompatibleWithGoogleAuthenticatorException
      *
-     * @throws SecretKeyTooShortException
+     * @return bool|int
      */
     public function verify(
         $key,
@@ -436,11 +434,11 @@ class Google2FA
      * @param null|int $timestamp
      * @param null|int $oldTimestamp
      *
-     * @return bool|int
-     * @throws InvalidCharactersException
-     * @throws IncompatibleWithGoogleAuthenticatorException
+     * @throws \PragmaRX\Google2FA\Exceptions\SecretKeyTooShortException
+     * @throws \PragmaRX\Google2FA\Exceptions\InvalidCharactersException
+     * @throws \PragmaRX\Google2FA\Exceptions\IncompatibleWithGoogleAuthenticatorException
      *
-     * @throws SecretKeyTooShortException
+     * @return bool|int
      */
     public function verifyKey(
         $secret,
@@ -473,11 +471,11 @@ class Google2FA
      * @param int|null $window
      * @param int|null $timestamp
      *
-     * @return bool|int
-     * @throws InvalidCharactersException
-     * @throws IncompatibleWithGoogleAuthenticatorException
+     * @throws \PragmaRX\Google2FA\Exceptions\SecretKeyTooShortException
+     * @throws \PragmaRX\Google2FA\Exceptions\InvalidCharactersException
+     * @throws \PragmaRX\Google2FA\Exceptions\IncompatibleWithGoogleAuthenticatorException
      *
-     * @throws SecretKeyTooShortException
+     * @return bool|int
      */
     public function verifyKeyNewer(
         $secret,

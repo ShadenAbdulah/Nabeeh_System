@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace GuzzleHttp\Psr7;
 
-use InvalidArgumentException;
 use Psr\Http\Message\StreamInterface;
 
 /**
@@ -30,7 +29,7 @@ final class StreamWrapper
      *
      * @return resource
      *
-     * @throws InvalidArgumentException if stream is not readable or writable
+     * @throws \InvalidArgumentException if stream is not readable or writable
      */
     public static function getResource(StreamInterface $stream)
     {
@@ -41,7 +40,7 @@ final class StreamWrapper
         } elseif ($stream->isWritable()) {
             $mode = 'w';
         } else {
-            throw new InvalidArgumentException('The stream must be readable, '
+            throw new \InvalidArgumentException('The stream must be readable, '
                 .'writable, or both.');
         }
 

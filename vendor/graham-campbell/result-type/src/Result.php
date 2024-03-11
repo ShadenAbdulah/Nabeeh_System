@@ -13,8 +13,6 @@ declare(strict_types=1);
 
 namespace GrahamCampbell\ResultType;
 
-use PhpOption\Option;
-
 /**
  * @template T
  * @template E
@@ -24,7 +22,7 @@ abstract class Result
     /**
      * Get the success option value.
      *
-     * @return Option<T>
+     * @return \PhpOption\Option<T>
      */
     abstract public function success();
 
@@ -35,7 +33,7 @@ abstract class Result
      *
      * @param callable(T):S $f
      *
-     * @return Result<S,E>
+     * @return \GrahamCampbell\ResultType\Result<S,E>
      */
     abstract public function map(callable $f);
 
@@ -45,16 +43,16 @@ abstract class Result
      * @template S
      * @template F
      *
-     * @param callable(T):Result<S,F> $f
+     * @param callable(T):\GrahamCampbell\ResultType\Result<S,F> $f
      *
-     * @return Result<S,F>
+     * @return \GrahamCampbell\ResultType\Result<S,F>
      */
     abstract public function flatMap(callable $f);
 
     /**
      * Get the error option value.
      *
-     * @return Option<E>
+     * @return \PhpOption\Option<E>
      */
     abstract public function error();
 
@@ -65,7 +63,7 @@ abstract class Result
      *
      * @param callable(E):F $f
      *
-     * @return Result<T,F>
+     * @return \GrahamCampbell\ResultType\Result<T,F>
      */
     abstract public function mapError(callable $f);
 }

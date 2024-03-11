@@ -13,7 +13,6 @@ namespace Monolog\Formatter;
 
 use Elastica\Document;
 use Monolog\LogRecord;
-use RuntimeException;
 
 /**
  * Format a log message into an Elastica Document
@@ -36,7 +35,7 @@ class ElasticaFormatter extends NormalizerFormatter
      * @param string  $index Elastic Search index name
      * @param ?string $type  Elastic Search document type, deprecated as of Elastica 7
      *
-     * @throws RuntimeException If the function json_encode does not exist
+     * @throws \RuntimeException If the function json_encode does not exist
      */
     public function __construct(string $index, ?string $type)
     {

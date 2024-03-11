@@ -11,19 +11,6 @@
 
 namespace Psy;
 
-use Closure;
-use Throwable;
-use function extract;
-use function get_class;
-use function get_defined_vars;
-use function is_object;
-use function ob_end_clean;
-use function ob_end_flush;
-use function ob_get_level;
-use function ob_start;
-use function restore_error_handler;
-use function set_error_handler;
-
 /**
  * The Psy Shell's execution scope.
  */
@@ -41,33 +28,33 @@ class ExecutionClosure
         $this->setClosure($__psysh__, function () use ($__psysh__) {
             try {
                 // Restore execution scope variables
-                extract($__psysh__->getScopeVariables(false));
+                \extract($__psysh__->getScopeVariables(false));
 
                 // Buffer stdout; we'll need it later
-                ob_start([$__psysh__, 'writeStdout'], 1);
+                \ob_start([$__psysh__, 'writeStdout'], 1);
 
                 // Convert all errors to exceptions
-                set_error_handler([$__psysh__, 'handleError']);
+                \set_error_handler([$__psysh__, 'handleError']);
 
                 // Evaluate the current code buffer
                 $_ = eval($__psysh__->onExecute($__psysh__->flushCode() ?: self::NOOP_INPUT));
-            } catch (Throwable $_e) {
+            } catch (\Throwable $_e) {
                 // Clean up on our way out.
-                if (ob_get_level() > 0) {
-                    ob_end_clean();
+                if (\ob_get_level() > 0) {
+                    \ob_end_clean();
                 }
 
                 throw $_e;
             } finally {
                 // Won't be needing this anymore
-                restore_error_handler();
+                \restore_error_handler();
             }
 
             // Flush stdout (write to shell output, plus save to magic variable)
-            ob_end_flush();
+            \ob_end_flush();
 
             // Save execution scope variables for next time
-            $__psysh__->setScopeVariables(get_defined_vars());
+            $__psysh__->setScopeVariables(\get_defined_vars());
 
             return $_;
         });
@@ -77,14 +64,14 @@ class ExecutionClosure
      * Set the closure instance.
      *
      * @param Shell    $shell
-     * @param Closure $closure
+     * @param \Closure $closure
      */
-    protected function setClosure(Shell $shell, Closure $closure)
+    protected function setClosure(Shell $shell, \Closure $closure)
     {
         $that = $shell->getBoundObject();
 
-        if (is_object($that)) {
-            $this->closure = $closure->bindTo($that, get_class($that));
+        if (\is_object($that)) {
+            $this->closure = $closure->bindTo($that, \get_class($that));
         } else {
             $this->closure = $closure->bindTo(null, $shell->getBoundClass());
         }

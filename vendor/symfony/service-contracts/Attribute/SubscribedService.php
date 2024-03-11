@@ -11,10 +11,8 @@
 
 namespace Symfony\Contracts\Service\Attribute;
 
-use Attribute;
 use Symfony\Contracts\Service\ServiceSubscriberInterface;
 use Symfony\Contracts\Service\ServiceSubscriberTrait;
-use function is_array;
 
 /**
  * For use as the return value for {@see ServiceSubscriberInterface}.
@@ -26,7 +24,7 @@ use function is_array;
  *
  * @author Kevin Bond <kevinbond@gmail.com>
  */
-#[Attribute(Attribute::TARGET_METHOD)]
+#[\Attribute(\Attribute::TARGET_METHOD)]
 final class SubscribedService
 {
     /** @var object[] */
@@ -44,6 +42,6 @@ final class SubscribedService
         public bool $nullable = false,
         array|object $attributes = [],
     ) {
-        $this->attributes = is_array($attributes) ? $attributes : [$attributes];
+        $this->attributes = \is_array($attributes) ? $attributes : [$attributes];
     }
 }

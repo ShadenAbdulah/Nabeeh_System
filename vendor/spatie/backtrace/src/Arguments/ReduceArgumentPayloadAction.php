@@ -6,7 +6,7 @@ use Spatie\Backtrace\Arguments\ReducedArgument\ReducedArgument;
 
 class ReduceArgumentPayloadAction
 {
-    /** @var ArgumentReducers */
+    /** @var \Spatie\Backtrace\Arguments\ArgumentReducers */
     protected $argumentReducers;
 
     public function __construct(

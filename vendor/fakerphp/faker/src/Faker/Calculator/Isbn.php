@@ -2,8 +2,6 @@
 
 namespace Faker\Calculator;
 
-use LengthException;
-
 /**
  * Utility class for validating ISBN-10
  */
@@ -21,7 +19,7 @@ class Isbn
      *
      * @param string $input ISBN without check-digit
      *
-     * @throws LengthException When wrong input length passed
+     * @throws \LengthException When wrong input length passed
      */
     public static function checksum(string $input): string
     {
@@ -30,7 +28,7 @@ class Isbn
         $length = 9;
 
         if (strlen($input) !== $length) {
-            throw new LengthException(sprintf('Input length should be equal to %d', $length));
+            throw new \LengthException(sprintf('Input length should be equal to %d', $length));
         }
 
         $digits = str_split($input);

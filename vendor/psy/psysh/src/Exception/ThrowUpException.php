@@ -11,12 +11,6 @@
 
 namespace Psy\Exception;
 
-use Throwable;
-use function get_class;
-use function sprintf;
-use function trigger_error;
-use const E_USER_DEPRECATED;
-
 /**
  * A throw-up exception, used for throwing an exception out of the Psy Shell.
  */
@@ -25,9 +19,9 @@ class ThrowUpException extends \Exception implements Exception
     /**
      * {@inheritdoc}
      */
-    public function __construct(Throwable $throwable)
+    public function __construct(\Throwable $throwable)
     {
-        $message = sprintf("Throwing %s with message '%s'", get_class($throwable), $throwable->getMessage());
+        $message = \sprintf("Throwing %s with message '%s'", \get_class($throwable), $throwable->getMessage());
         parent::__construct($message, $throwable->getCode(), $throwable);
     }
 
@@ -44,10 +38,10 @@ class ThrowUpException extends \Exception implements Exception
      *
      * @deprecated PsySH no longer wraps Throwables
      *
-     * @param Throwable $throwable
+     * @param \Throwable $throwable
      */
     public static function fromThrowable($throwable)
     {
-        @trigger_error('PsySH no longer wraps Throwables', E_USER_DEPRECATED);
+        @\trigger_error('PsySH no longer wraps Throwables', \E_USER_DEPRECATED);
     }
 }

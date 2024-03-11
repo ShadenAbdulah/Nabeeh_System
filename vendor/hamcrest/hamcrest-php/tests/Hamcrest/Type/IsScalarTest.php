@@ -1,15 +1,12 @@
 <?php
 namespace Hamcrest\Type;
 
-use Hamcrest\AbstractMatcherTest;
-use stdClass;
-
-class IsScalarTest extends AbstractMatcherTest
+class IsScalarTest extends \Hamcrest\AbstractMatcherTest
 {
 
     protected function createMatcher()
     {
-        return IsScalar::scalarValue();
+        return \Hamcrest\Type\IsScalar::scalarValue();
     }
 
     public function testEvaluatesToTrueIfArgumentMatchesType()
@@ -26,7 +23,7 @@ class IsScalarTest extends AbstractMatcherTest
         assertThat(array(), not(scalarValue()));
         assertThat(array(5), not(scalarValue()));
         assertThat(tmpfile(), not(scalarValue()));
-        assertThat(new stdClass(), not(scalarValue()));
+        assertThat(new \stdClass(), not(scalarValue()));
     }
 
     public function testHasAReadableDescription()

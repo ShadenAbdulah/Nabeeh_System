@@ -2,8 +2,6 @@
 
 namespace Faker\Provider;
 
-use InvalidArgumentException;
-
 class Lorem extends Base
 {
     protected static $wordList = [
@@ -183,7 +181,7 @@ class Lorem extends Base
     public static function text($maxNbChars = 200)
     {
         if ($maxNbChars < 5) {
-            throw new InvalidArgumentException('text() can only generate text of at least 5 characters');
+            throw new \InvalidArgumentException('text() can only generate text of at least 5 characters');
         }
 
         $type = 'paragraph';

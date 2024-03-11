@@ -13,10 +13,9 @@ declare(strict_types=1);
 
 namespace League\Config\Exception;
 
-use InvalidArgumentException;
 use Throwable;
 
-final class UnknownOptionException extends InvalidArgumentException implements ConfigurationExceptionInterface
+final class UnknownOptionException extends \InvalidArgumentException implements ConfigurationExceptionInterface
 {
     private string $path;
 

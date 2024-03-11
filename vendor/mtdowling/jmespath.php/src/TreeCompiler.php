@@ -1,8 +1,6 @@
 <?php
 namespace JmesPath;
 
-use RuntimeException;
-
 /**
  * Tree visitor used to compile JMESPath expressions into native PHP code.
  */
@@ -414,7 +412,7 @@ class TreeCompiler
     /** @internal */
     public function __call($method, $args)
     {
-        throw new RuntimeException(
+        throw new \RuntimeException(
             sprintf('Invalid node encountered: %s', json_encode($args[0]))
         );
     }

@@ -18,9 +18,6 @@
 
 namespace PhpOption;
 
-use Exception;
-use InvalidArgumentException;
-use RuntimeException;
 use Traversable;
 
 /**
@@ -58,7 +55,7 @@ final class LazyOption extends Option
     public function __construct($callback, array $arguments = [])
     {
         if (!is_callable($callback)) {
-            throw new InvalidArgumentException('Invalid callback given');
+            throw new \InvalidArgumentException('Invalid callback given');
         }
 
         $this->callback = $callback;
@@ -90,7 +87,7 @@ final class LazyOption extends Option
         return $this->option()->getOrCall($callable);
     }
 
-    public function getOrThrow(Exception $ex)
+    public function getOrThrow(\Exception $ex)
     {
         return $this->option()->getOrThrow($ex);
     }
@@ -169,7 +166,7 @@ final class LazyOption extends Option
             if ($option instanceof Option) {
                 $this->option = $option;
             } else {
-                throw new RuntimeException(sprintf('Expected instance of %s', Option::class));
+                throw new \RuntimeException(sprintf('Expected instance of %s', Option::class));
             }
         }
 

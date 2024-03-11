@@ -1,20 +1,17 @@
 <?php
 namespace Hamcrest\Type;
 
-use Hamcrest\AbstractMatcherTest;
-use stdClass;
-
-class IsObjectTest extends AbstractMatcherTest
+class IsObjectTest extends \Hamcrest\AbstractMatcherTest
 {
 
     protected function createMatcher()
     {
-        return IsObject::objectValue();
+        return \Hamcrest\Type\IsObject::objectValue();
     }
 
     public function testEvaluatesToTrueIfArgumentMatchesType()
     {
-        assertThat(new stdClass, objectValue());
+        assertThat(new \stdClass, objectValue());
     }
 
     public function testEvaluatesToFalseIfArgumentDoesntMatchType()

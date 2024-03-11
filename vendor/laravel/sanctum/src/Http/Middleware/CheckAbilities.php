@@ -2,10 +2,7 @@
 
 namespace Laravel\Sanctum\Http\Middleware;
 
-use Closure;
 use Illuminate\Auth\AuthenticationException;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Laravel\Sanctum\Exceptions\MissingAbilityException;
 
 class CheckAbilities
@@ -13,12 +10,12 @@ class CheckAbilities
     /**
      * Handle the incoming request.
      *
-     * @param  Request  $request
-     * @param  Closure  $next
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Closure  $next
      * @param  mixed  ...$abilities
-     * @return Response
+     * @return \Illuminate\Http\Response
      *
-     * @throws AuthenticationException|MissingAbilityException
+     * @throws \Illuminate\Auth\AuthenticationException|\Laravel\Sanctum\Exceptions\MissingAbilityException
      */
     public function handle($request, $next, ...$abilities)
     {

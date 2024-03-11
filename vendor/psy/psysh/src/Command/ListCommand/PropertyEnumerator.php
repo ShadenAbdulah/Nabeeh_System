@@ -11,17 +11,7 @@
 
 namespace Psy\Command\ListCommand;
 
-use ReflectionClass;
-use ReflectionProperty;
-use Reflector;
 use Symfony\Component\Console\Input\InputInterface;
-use Throwable;
-use function array_key_exists;
-use function is_object;
-use function ksort;
-use function method_exists;
-use const SORT_FLAG_CASE;
-use const SORT_NATURAL;
 
 /**
  * Property Enumerator class.
@@ -31,7 +21,7 @@ class PropertyEnumerator extends Enumerator
     /**
      * {@inheritdoc}
      */
-    protected function listItems(InputInterface $input, Reflector $reflector = null, $target = null): array
+    protected function listItems(InputInterface $input, \Reflector $reflector = null, $target = null): array
     {
         // only list properties when a Reflector is present.
 
@@ -40,7 +30,7 @@ class PropertyEnumerator extends Enumerator
         }
 
         // We can only list properties on actual class (or object) reflectors.
-        if (!$reflector instanceof ReflectionClass) {
+        if (!$reflector instanceof \ReflectionClass) {
             return [];
         }
 
@@ -67,12 +57,12 @@ class PropertyEnumerator extends Enumerator
      * Get defined properties for the given class or object Reflector.
      *
      * @param bool             $showAll   Include private and protected properties
-     * @param ReflectionClass $reflector
+     * @param \ReflectionClass $reflector
      * @param bool             $noInherit Exclude inherited properties
      *
      * @return array
      */
-    protected function getProperties(bool $showAll, ReflectionClass $reflector, bool $noInherit = false): array
+    protected function getProperties(bool $showAll, \ReflectionClass $reflector, bool $noInherit = false): array
     {
         $className = $reflector->getName();
 
@@ -87,7 +77,7 @@ class PropertyEnumerator extends Enumerator
             }
         }
 
-        ksort($properties, SORT_NATURAL | SORT_FLAG_CASE);
+        \ksort($properties, \SORT_NATURAL | \SORT_FLAG_CASE);
 
         return $properties;
     }
@@ -121,11 +111,11 @@ class PropertyEnumerator extends Enumerator
     /**
      * Get a label for the particular kind of "class" represented.
      *
-     * @param ReflectionClass $reflector
+     * @param \ReflectionClass $reflector
      */
-    protected function getKindLabel(ReflectionClass $reflector): string
+    protected function getKindLabel(\ReflectionClass $reflector): string
     {
-        if (method_exists($reflector, 'isTrait') && $reflector->isTrait()) {
+        if (\method_exists($reflector, 'isTrait') && $reflector->isTrait()) {
             return 'Trait Properties';
         } else {
             return 'Class Properties';
@@ -135,9 +125,9 @@ class PropertyEnumerator extends Enumerator
     /**
      * Get output style for the given property's visibility.
      *
-     * @param ReflectionProperty $property
+     * @param \ReflectionProperty $property
      */
-    private function getVisibilityStyle(ReflectionProperty $property): string
+    private function getVisibilityStyle(\ReflectionProperty $property): string
     {
         if ($property->isPublic()) {
             return self::IS_PUBLIC;
@@ -151,10 +141,10 @@ class PropertyEnumerator extends Enumerator
     /**
      * Present the $target's current value for a reflection property.
      *
-     * @param ReflectionProperty $property
+     * @param \ReflectionProperty $property
      * @param mixed               $target
      */
-    protected function presentValue(ReflectionProperty $property, $target): string
+    protected function presentValue(\ReflectionProperty $property, $target): string
     {
         if (!$target) {
             return '';
@@ -162,16 +152,16 @@ class PropertyEnumerator extends Enumerator
 
         // If $target is a class or trait (try to) get the default
         // value for the property.
-        if (!is_object($target)) {
+        if (!\is_object($target)) {
             try {
-                $refl = new ReflectionClass($target);
+                $refl = new \ReflectionClass($target);
                 $props = $refl->getDefaultProperties();
-                if (array_key_exists($property->name, $props)) {
+                if (\array_key_exists($property->name, $props)) {
                     $suffix = $property->isStatic() ? '' : ' <aside>(default)</aside>';
 
                     return $this->presentRef($props[$property->name]).$suffix;
                 }
-            } catch (Throwable $e) {
+            } catch (\Throwable $e) {
                 // Well, we gave it a shot.
             }
 

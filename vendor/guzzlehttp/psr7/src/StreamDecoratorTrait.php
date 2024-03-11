@@ -4,11 +4,7 @@ declare(strict_types=1);
 
 namespace GuzzleHttp\Psr7;
 
-use BadMethodCallException;
 use Psr\Http\Message\StreamInterface;
-use Throwable;
-use UnexpectedValueException;
-use const PHP_VERSION_ID;
 
 /**
  * Stream decorator trait
@@ -39,7 +35,7 @@ trait StreamDecoratorTrait
             return $this->stream;
         }
 
-        throw new UnexpectedValueException("$name not found on class");
+        throw new \UnexpectedValueException("$name not found on class");
     }
 
     public function __toString(): string
@@ -50,8 +46,8 @@ trait StreamDecoratorTrait
             }
 
             return $this->getContents();
-        } catch (Throwable $e) {
-            if (PHP_VERSION_ID >= 70400) {
+        } catch (\Throwable $e) {
+            if (\PHP_VERSION_ID >= 70400) {
                 throw $e;
             }
             trigger_error(sprintf('%s::__toString exception: %s', self::class, (string) $e), E_USER_ERROR);
@@ -151,10 +147,10 @@ trait StreamDecoratorTrait
     /**
      * Implement in subclasses to dynamically create streams when requested.
      *
-     * @throws BadMethodCallException
+     * @throws \BadMethodCallException
      */
     protected function createStream(): StreamInterface
     {
-        throw new BadMethodCallException('Not implemented');
+        throw new \BadMethodCallException('Not implemented');
     }
 }

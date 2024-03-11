@@ -11,15 +11,6 @@
 
 namespace Psy\TabCompletion\Matcher;
 
-use function array_pop;
-use function in_array;
-use function is_array;
-use function is_string;
-use function preg_match;
-use function sprintf;
-use function strpos;
-use function token_name;
-
 /**
  * Abstract tab completion Matcher.
  *
@@ -72,7 +63,7 @@ abstract class AbstractMatcher
     protected function getInput(array $tokens): string
     {
         $var = '';
-        $firstToken = array_pop($tokens);
+        $firstToken = \array_pop($tokens);
         if (self::tokenIs($firstToken, self::T_STRING)) {
             $var = $firstToken[1];
         }
@@ -90,7 +81,7 @@ abstract class AbstractMatcher
         $class = '';
         while (self::hasToken(
             [self::T_NS_SEPARATOR, self::T_STRING, self::T_NAME_QUALIFIED],
-            $token = array_pop($tokens)
+            $token = \array_pop($tokens)
         )) {
             if (self::needCompleteClass($token)) {
                 continue;
@@ -120,7 +111,7 @@ abstract class AbstractMatcher
      */
     public static function startsWith(string $prefix, string $word): bool
     {
-        return preg_match(sprintf('#^%s#', $prefix), $word);
+        return \preg_match(\sprintf('#^%s#', $prefix), $word);
     }
 
     /**
@@ -131,13 +122,13 @@ abstract class AbstractMatcher
      */
     public static function hasSyntax($token, string $syntax = self::VAR_SYNTAX): bool
     {
-        if (!is_array($token)) {
+        if (!\is_array($token)) {
             return false;
         }
 
-        $regexp = sprintf('#%s#', $syntax);
+        $regexp = \sprintf('#%s#', $syntax);
 
-        return (bool) preg_match($regexp, $token[1]);
+        return (bool) \preg_match($regexp, $token[1]);
     }
 
     /**
@@ -148,11 +139,11 @@ abstract class AbstractMatcher
      */
     public static function tokenIs($token, string $which): bool
     {
-        if (!is_array($token)) {
+        if (!\is_array($token)) {
             return false;
         }
 
-        return token_name($token[0]) === $which;
+        return \token_name($token[0]) === $which;
     }
 
     /**
@@ -162,16 +153,16 @@ abstract class AbstractMatcher
      */
     public static function isOperator($token): bool
     {
-        if (!is_string($token)) {
+        if (!\is_string($token)) {
             return false;
         }
 
-        return strpos(self::MISC_OPERATORS, $token) !== false;
+        return \strpos(self::MISC_OPERATORS, $token) !== false;
     }
 
     public static function needCompleteClass($token): bool
     {
-        return in_array($token[1], ['doc', 'ls', 'show']);
+        return \in_array($token[1], ['doc', 'ls', 'show']);
     }
 
     /**
@@ -182,10 +173,10 @@ abstract class AbstractMatcher
      */
     public static function hasToken(array $coll, $token): bool
     {
-        if (!is_array($token)) {
+        if (!\is_array($token)) {
             return false;
         }
 
-        return in_array(token_name($token[0]), $coll);
+        return \in_array(\token_name($token[0]), $coll);
     }
 }

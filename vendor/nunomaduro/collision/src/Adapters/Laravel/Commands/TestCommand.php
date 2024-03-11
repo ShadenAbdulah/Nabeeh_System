@@ -8,13 +8,11 @@ use Dotenv\Exception\InvalidPathException;
 use Dotenv\Parser\Parser;
 use Dotenv\Store\StoreBuilder;
 use Illuminate\Console\Command;
-use Illuminate\Foundation\Application;
 use Illuminate\Support\Env;
 use Illuminate\Support\Str;
 use NunoMaduro\Collision\Adapters\Laravel\Exceptions\RequirementsException;
 use NunoMaduro\Collision\Coverage;
 use ParaTest\Options;
-use ParaTest\ParaTestCommand;
 use PHPUnit\Runner\Version;
 use RuntimeException;
 use SebastianBergmann\Environment\Console;
@@ -79,7 +77,7 @@ class TestCommand extends Command
             throw new RequirementsException('Running Collision 7.x artisan test command requires at least PHPUnit 10.x.');
         }
 
-        $laravelVersion = Application::VERSION;
+        $laravelVersion = \Illuminate\Foundation\Application::VERSION;
 
         if ($laravelVersion[0].$laravelVersion[1] !== '10') { // @phpstan-ignore-line
             throw new RequirementsException('Running Collision 7.x artisan test command requires at least Laravel 10.x.');
@@ -395,6 +393,6 @@ class TestCommand extends Command
      */
     protected function isParallelDependenciesInstalled()
     {
-        return class_exists(ParaTestCommand::class);
+        return class_exists(\ParaTest\ParaTestCommand::class);
     }
 }

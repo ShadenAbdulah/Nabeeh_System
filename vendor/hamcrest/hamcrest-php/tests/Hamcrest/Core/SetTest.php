@@ -1,9 +1,7 @@
 <?php
 namespace Hamcrest\Core;
 
-use Hamcrest\AbstractMatcherTest;
-
-class SetTest extends AbstractMatcherTest
+class SetTest extends \Hamcrest\AbstractMatcherTest
 {
 
     public static $_classProperty;
@@ -17,7 +15,7 @@ class SetTest extends AbstractMatcherTest
 
     protected function createMatcher()
     {
-        return Set::set('property_name');
+        return \Hamcrest\Core\Set::set('property_name');
     }
 
     public function testEvaluatesToTrueIfArrayPropertyIsSet()

@@ -4,7 +4,6 @@ namespace Faker\Provider;
 
 use Faker\Calculator\Ean;
 use Faker\Calculator\Isbn;
-use LengthException;
 
 /**
  * @see http://en.wikipedia.org/wiki/EAN-13
@@ -41,7 +40,7 @@ class Barcode extends Base
      *
      * @param string $input ISBN without check-digit
      *
-     * @throws LengthException When wrong input length passed
+     * @throws \LengthException When wrong input length passed
      *
      * @return string
      */

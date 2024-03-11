@@ -22,9 +22,6 @@ use PhpParser\Node\Stmt\Return_;
 use PhpParser\NodeVisitorAbstract;
 use Psy\CodeCleaner\NoReturnValue;
 use Psy\Command\TimeitCommand;
-use function array_pop;
-use function array_unshift;
-use function count;
 
 /**
  * A node visitor for instrumenting code to be executed by the `timeit` command.
@@ -87,15 +84,15 @@ class TimeitVisitor extends NodeVisitorAbstract
     public function afterTraverse(array $nodes)
     {
         // prepend a `markStart` call
-        array_unshift($nodes, new Expression($this->getStartCall(), []));
+        \array_unshift($nodes, new Expression($this->getStartCall(), []));
 
         // append a `markEnd` call (wrapping the final node, if it's an expression)
-        $last = $nodes[count($nodes) - 1];
+        $last = $nodes[\count($nodes) - 1];
         if ($last instanceof Expr) {
-            array_pop($nodes);
+            \array_pop($nodes);
             $nodes[] = $this->getEndCall($last);
         } elseif ($last instanceof Expression) {
-            array_pop($nodes);
+            \array_pop($nodes);
             $nodes[] = new Expression($this->getEndCall($last->expr), $last->getAttributes());
         } elseif ($last instanceof Return_) {
             // nothing to do here, we're already ending with a return call
@@ -109,7 +106,7 @@ class TimeitVisitor extends NodeVisitorAbstract
     /**
      * Get PhpParser AST nodes for a `markStart` call.
      *
-     * @return StaticCall
+     * @return \PhpParser\Node\Expr\StaticCall
      */
     private function getStartCall(): StaticCall
     {

@@ -2,8 +2,6 @@
 
 namespace Faker\Provider\pl_PL;
 
-use Faker\Provider\DateTime;
-
 /**
  * Most popular first and last names published by Ministry of the Interior:
  *
@@ -151,7 +149,7 @@ class Person extends \Faker\Provider\Person
     public static function pesel($birthdate = null, $sex = null)
     {
         if ($birthdate === null) {
-            $birthdate = DateTime::dateTimeThisCentury();
+            $birthdate = \Faker\Provider\DateTime::dateTimeThisCentury();
         }
 
         $weights = [1, 3, 7, 9, 1, 3, 7, 9, 1, 3];

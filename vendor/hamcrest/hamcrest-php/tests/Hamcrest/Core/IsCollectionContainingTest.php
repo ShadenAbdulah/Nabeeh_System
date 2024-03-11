@@ -1,14 +1,12 @@
 <?php
 namespace Hamcrest\Core;
 
-use Hamcrest\AbstractMatcherTest;
-
-class IsCollectionContainingTest extends AbstractMatcherTest
+class IsCollectionContainingTest extends \Hamcrest\AbstractMatcherTest
 {
 
     protected function createMatcher()
     {
-        return IsCollectionContaining::hasItem(equalTo('irrelevant'));
+        return \Hamcrest\Core\IsCollectionContaining::hasItem(equalTo('irrelevant'));
     }
 
     public function testMatchesACollectionThatContainsAnElementMatchingTheGivenMatcher()

@@ -12,7 +12,6 @@
 namespace Monolog\Handler;
 
 use Monolog\LogRecord;
-use function count;
 
 /**
  * Base Handler class providing the Handler structure, including processors and formatters
@@ -36,7 +35,7 @@ abstract class AbstractProcessingHandler extends AbstractHandler implements Proc
             return false;
         }
 
-        if (count($this->processors) > 0) {
+        if (\count($this->processors) > 0) {
             $record = $this->processRecord($record);
         }
 

@@ -29,10 +29,6 @@ use Symfony\Component\Console\Formatter\OutputFormatter;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use function array_map;
-use function count;
-use function implode;
-use function sprintf;
 
 /**
  * List available local variables, object properties, etc.
@@ -181,13 +177,13 @@ HELP
      */
     protected function write(OutputInterface $output, array $result)
     {
-        if (count($result) === 0) {
+        if (\count($result) === 0) {
             return;
         }
 
         foreach ($result as $label => $items) {
-            $names = array_map([$this, 'formatItemName'], $items);
-            $output->writeln(sprintf('<strong>%s</strong>: %s', $label, implode(', ', $names)));
+            $names = \array_map([$this, 'formatItemName'], $items);
+            $output->writeln(\sprintf('<strong>%s</strong>: %s', $label, \implode(', ', $names)));
         }
     }
 
@@ -201,7 +197,7 @@ HELP
      */
     protected function writeLong(OutputInterface $output, array $result)
     {
-        if (count($result) === 0) {
+        if (\count($result) === 0) {
             return;
         }
 
@@ -209,7 +205,7 @@ HELP
 
         foreach ($result as $label => $items) {
             $output->writeln('');
-            $output->writeln(sprintf('<strong>%s:</strong>', $label));
+            $output->writeln(\sprintf('<strong>%s:</strong>', $label));
 
             $table->setRows([]);
             foreach ($items as $item) {
@@ -227,7 +223,7 @@ HELP
      */
     private function formatItemName(array $item): string
     {
-        return sprintf('<%s>%s</%s>', $item['style'], OutputFormatter::escape($item['name']), $item['style']);
+        return \sprintf('<%s>%s</%s>', $item['style'], OutputFormatter::escape($item['name']), $item['style']);
     }
 
     /**

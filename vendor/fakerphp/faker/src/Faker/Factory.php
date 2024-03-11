@@ -2,8 +2,6 @@
 
 namespace Faker;
 
-use InvalidArgumentException;
-
 class Factory
 {
     public const DEFAULT_LOCALE = 'en_US';
@@ -51,7 +49,7 @@ class Factory
             return $providerClass;
         }
 
-        throw new InvalidArgumentException(sprintf('Unable to find provider "%s" with locale "%s"', $provider, $locale));
+        throw new \InvalidArgumentException(sprintf('Unable to find provider "%s" with locale "%s"', $provider, $locale));
     }
 
     /**

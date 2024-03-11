@@ -36,13 +36,6 @@
 
 namespace Psy\Readline\Hoa;
 
-use function is_dir;
-use function mkdir;
-use function rmdir;
-use function strlen;
-use function substr;
-use const DIRECTORY_SEPARATOR;
-
 /**
  * Class \Hoa\File\Directory.
  *
@@ -87,7 +80,7 @@ class FileDirectory extends FileGeneric
      */
     protected function &_open(string $streamName, StreamContext $context = null)
     {
-        if (false === is_dir($streamName)) {
+        if (false === \is_dir($streamName)) {
             if ($this->getMode() === self::MODE_READ) {
                 throw new FileDoesNotExistException('Directory %s does not exist.', 0, $streamName);
             } else {
@@ -124,15 +117,15 @@ class FileDirectory extends FileGeneric
         }
 
         $from = $this->getStreamName();
-        $fromLength = strlen($from) + 1;
+        $fromLength = \strlen($from) + 1;
         $finder = new FileFinder();
         $finder->in($from);
 
         self::create($to, self::MODE_CREATE_RECURSIVE);
 
         foreach ($finder as $file) {
-            $relative = substr($file->getPathname(), $fromLength);
-            $_to = $to. DIRECTORY_SEPARATOR.$relative;
+            $relative = \substr($file->getPathname(), $fromLength);
+            $_to = $to.\DIRECTORY_SEPARATOR.$relative;
 
             if (true === $file->isDir()) {
                 self::create($_to, self::MODE_CREATE);
@@ -180,10 +173,10 @@ class FileDirectory extends FileGeneric
         }
 
         if (null === $this->getStreamContext()) {
-            return @rmdir($from);
+            return @\rmdir($from);
         }
 
-        return @rmdir($from, $this->getStreamContext()->getContext());
+        return @\rmdir($from, $this->getStreamContext()->getContext());
     }
 
     /**
@@ -194,7 +187,7 @@ class FileDirectory extends FileGeneric
         string $mode = self::MODE_CREATE_RECURSIVE,
         string $context = null
     ): bool {
-        if (true === is_dir($name)) {
+        if (true === \is_dir($name)) {
             return true;
         }
 
@@ -211,14 +204,14 @@ class FileDirectory extends FileGeneric
         }
 
         if (null === $context) {
-            return @mkdir(
+            return @\mkdir(
                 $name,
                 0755,
                 self::MODE_CREATE_RECURSIVE === $mode
             );
         }
 
-        return @mkdir(
+        return @\mkdir(
             $name,
             0755,
             self::MODE_CREATE_RECURSIVE === $mode,

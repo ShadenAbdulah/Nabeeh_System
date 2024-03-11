@@ -1,9 +1,7 @@
 <?php
 namespace Hamcrest\Core;
 
-use Hamcrest\AbstractMatcherTest;
-
-class CombinableMatcherTest extends AbstractMatcherTest
+class CombinableMatcherTest extends \Hamcrest\AbstractMatcherTest
 {
 
     private $_either_3_or_4;
@@ -11,13 +9,13 @@ class CombinableMatcherTest extends AbstractMatcherTest
 
     protected function setUp()
     {
-        $this->_either_3_or_4 = CombinableMatcher::either(equalTo(3))->orElse(equalTo(4));
-        $this->_not_3_and_not_4 = CombinableMatcher::both(not(equalTo(3)))->andAlso(not(equalTo(4)));
+        $this->_either_3_or_4 = \Hamcrest\Core\CombinableMatcher::either(equalTo(3))->orElse(equalTo(4));
+        $this->_not_3_and_not_4 = \Hamcrest\Core\CombinableMatcher::both(not(equalTo(3)))->andAlso(not(equalTo(4)));
     }
 
     protected function createMatcher()
     {
-        return CombinableMatcher::either(equalTo('irrelevant'))->orElse(equalTo('ignored'));
+        return \Hamcrest\Core\CombinableMatcher::either(equalTo('irrelevant'))->orElse(equalTo('ignored'));
     }
 
     public function testBothAcceptsAndRejects()

@@ -4,32 +4,6 @@ declare(strict_types=1);
 
 namespace voku\helper;
 
-use ReflectionClass;
-use Transliterator;
-use function array_keys;
-use function array_merge;
-use function array_merge_recursive;
-use function array_values;
-use function chr;
-use function count;
-use function extension_loaded;
-use function implode;
-use function is_file;
-use function preg_match;
-use function preg_match_all;
-use function preg_quote;
-use function preg_replace;
-use function sprintf;
-use function str_replace;
-use function strlen;
-use function strpos;
-use function strtolower;
-use function strtr;
-use function substr;
-use function transliterator_create;
-use function transliterator_transliterate;
-use function trim;
-
 /**
  * ## 🇷🇺 Русским гражданам
  * В Украине сейчас идет война. Силами РФ наносятся удары по гражданской инфраструктуре в [Харькове][1], [Киеве][2], [Чернигове][3], [Сумах][4], [Ирпене][5] и десятках других городов. Гибнут люди - и гражданское население, и военные, в том числе российские призывники, которых бросили воевать. Чтобы лишить собственный народ доступа к информации, правительство РФ запретило называть войну войной, закрыло независимые СМИ и принимает сейчас ряд диктаторских законов. Эти законы призваны заткнуть рот всем, кто против войны. За обычный призыв к миру сейчас можно получить несколько лет тюрьмы.
@@ -253,11 +227,11 @@ final class ASCII
             return $LANGUAGES;
         }
 
-        foreach ((new ReflectionClass(__CLASS__))->getConstants() as $constant => $lang) {
-            if (strpos($constant, 'EXTRA') !== false) {
-                $LANGUAGES[strtolower($constant)] = $lang;
+        foreach ((new \ReflectionClass(__CLASS__))->getConstants() as $constant => $lang) {
+            if (\strpos($constant, 'EXTRA') !== false) {
+                $LANGUAGES[\strtolower($constant)] = $lang;
             } else {
-                $LANGUAGES[strtolower(str_replace('_LANGUAGE_CODE', '', $constant))] = $lang;
+                $LANGUAGES[\strtolower(\str_replace('_LANGUAGE_CODE', '', $constant))] = $lang;
             }
         }
 
@@ -398,8 +372,8 @@ final class ASCII
 
                 if ($asOrigReplaceArray) {
                     $CHARS_ARRAY[$cacheKey][$language] = [
-                        'orig'    => array_keys($tmpArray),
-                        'replace' => array_values($tmpArray),
+                        'orig'    => \array_keys($tmpArray),
+                        'replace' => \array_values($tmpArray),
                     ];
                 } else {
                     $CHARS_ARRAY[$cacheKey][$language] = $tmpArray;
@@ -424,8 +398,8 @@ final class ASCII
 
                 if ($asOrigReplaceArray) {
                     $CHARS_ARRAY[$cacheKey][$language] = [
-                        'orig'    => array_keys($tmpArray),
-                        'replace' => array_values($tmpArray),
+                        'orig'    => \array_keys($tmpArray),
+                        'replace' => \array_values($tmpArray),
                     ];
                 } else {
                     $CHARS_ARRAY[$cacheKey][$language] = $tmpArray;
@@ -498,12 +472,12 @@ final class ASCII
         }
 
         /** @phpstan-ignore-next-line - ... error? */
-        $CHARS_ARRAY[$cacheKey] = array_merge([], ...$CHARS_ARRAY[$cacheKey]);
+        $CHARS_ARRAY[$cacheKey] = \array_merge([], ...$CHARS_ARRAY[$cacheKey]);
 
         if ($asOrigReplaceArray) {
             $CHARS_ARRAY[$cacheKey] = [
-                'orig'    => array_keys($CHARS_ARRAY[$cacheKey]),
-                'replace' => array_values($CHARS_ARRAY[$cacheKey]),
+                'orig'    => \array_keys($CHARS_ARRAY[$cacheKey]),
+                'replace' => \array_values($CHARS_ARRAY[$cacheKey]),
             ];
         }
 
@@ -551,7 +525,7 @@ final class ASCII
         | ( [\x80-\xBF] )                 # invalid byte in range 10000000 - 10111111
         | ( [\xC0-\xFF] )                 # invalid byte in range 11000000 - 11111111
         /x';
-        $str = (string) preg_replace($regex, '$1', $str);
+        $str = (string) \preg_replace($regex, '$1', $str);
 
         if ($normalize_whitespace) {
             $str = self::normalize_whitespace($str, $keep_non_breaking_space);
@@ -591,7 +565,7 @@ final class ASCII
             return true;
         }
 
-        return !preg_match('/' . self::$REGEX_ASCII . '/', $str);
+        return !\preg_match('/' . self::$REGEX_ASCII . '/', $str);
     }
 
     /**
@@ -626,12 +600,12 @@ final class ASCII
             $map = self::$ASCII_MAPS[self::EXTRA_MSWORD_CHARS_LANGUAGE_CODE] ?? [];
 
             $MSWORD_CACHE = [
-                'orig'    => array_keys($map),
-                'replace' => array_values($map),
+                'orig'    => \array_keys($map),
+                'replace' => \array_values($map),
             ];
         }
 
-        return str_replace($MSWORD_CACHE['orig'], $MSWORD_CACHE['replace'], $str);
+        return \str_replace($MSWORD_CACHE['orig'], $MSWORD_CACHE['replace'], $str);
     }
 
     /**
@@ -667,7 +641,7 @@ final class ASCII
         $cacheKey = (int) $keepNonBreakingSpace;
 
         if ($normalize_control_characters) {
-            $str = str_replace(
+            $str = \str_replace(
                 [
                     "\x0d\x0c",     // 'END OF LINE'
                     "\xe2\x80\xa8", // 'LINE SEPARATOR'
@@ -706,10 +680,10 @@ final class ASCII
                 $BIDI_UNICODE_CONTROLS_CACHE = self::$BIDI_UNI_CODE_CONTROLS_TABLE;
             }
 
-            $str = str_replace($BIDI_UNICODE_CONTROLS_CACHE, '', $str);
+            $str = \str_replace($BIDI_UNICODE_CONTROLS_CACHE, '', $str);
         }
 
-        return str_replace($WHITESPACE_CACHE[$cacheKey], ' ', $str);
+        return \str_replace($WHITESPACE_CACHE[$cacheKey], ' ', $str);
     }
 
     /**
@@ -754,7 +728,7 @@ final class ASCII
         }
 
         do {
-            $str = (string) preg_replace($non_displayables, $replacement, $str, -1, $count);
+            $str = (string) \preg_replace($non_displayables, $replacement, $str, -1, $count);
         } while ($count !== 0);
 
         return $str;
@@ -847,7 +821,7 @@ final class ASCII
             if ($langSpecific === []) {
                 $REPLACE_HELPER_CACHE[$cacheKey] = $langAll;
             } else {
-                $REPLACE_HELPER_CACHE[$cacheKey] = array_merge([], $langAll, $langSpecific);
+                $REPLACE_HELPER_CACHE[$cacheKey] = \array_merge([], $langAll, $langSpecific);
             }
         }
 
@@ -862,11 +836,11 @@ final class ASCII
                     $EXTRA_SYMBOLS_CACHE[$extrasDataKeyTmp] = $extrasDataKeyTmp;
                 }
             }
-            $EXTRA_SYMBOLS_CACHE = implode('', $EXTRA_SYMBOLS_CACHE);
+            $EXTRA_SYMBOLS_CACHE = \implode('', $EXTRA_SYMBOLS_CACHE);
         }
 
         $charDone = [];
-        if (preg_match_all('/' . self::$REGEX_ASCII . ($replace_extra_symbols ? '|[' . $EXTRA_SYMBOLS_CACHE . ']' : '') . '/u', $str, $matches)) {
+        if (\preg_match_all('/' . self::$REGEX_ASCII . ($replace_extra_symbols ? '|[' . $EXTRA_SYMBOLS_CACHE . ']' : '') . '/u', $str, $matches)) {
             if (!$replace_single_chars_only) {
                 if (self::$LANGUAGE_MAX_KEY === null) {
                     self::$LANGUAGE_MAX_KEY = self::getData('ascii_language_max_key');
@@ -888,13 +862,13 @@ final class ASCII
                             &&
                             isset($REPLACE_HELPER_CACHE[$cacheKey][$fiveChars])
                             &&
-                            strpos($str, $fiveChars) !== false
+                            \strpos($str, $fiveChars) !== false
                         ) {
                             // DEBUG
                             //\var_dump($str, $fiveChars, $REPLACE_HELPER_CACHE[$cacheKey][$fiveChars]);
 
                             $charDone[$fiveChars] = true;
-                            $str = str_replace($fiveChars, $REPLACE_HELPER_CACHE[$cacheKey][$fiveChars], $str);
+                            $str = \str_replace($fiveChars, $REPLACE_HELPER_CACHE[$cacheKey][$fiveChars], $str);
 
                             // DEBUG
                             //\var_dump($str, "\n");
@@ -916,13 +890,13 @@ final class ASCII
                             &&
                             isset($REPLACE_HELPER_CACHE[$cacheKey][$fourChars])
                             &&
-                            strpos($str, $fourChars) !== false
+                            \strpos($str, $fourChars) !== false
                         ) {
                             // DEBUG
                             //\var_dump($str, $fourChars, $REPLACE_HELPER_CACHE[$cacheKey][$fourChars]);
 
                             $charDone[$fourChars] = true;
-                            $str = str_replace($fourChars, $REPLACE_HELPER_CACHE[$cacheKey][$fourChars], $str);
+                            $str = \str_replace($fourChars, $REPLACE_HELPER_CACHE[$cacheKey][$fourChars], $str);
 
                             // DEBUG
                             //\var_dump($str, "\n");
@@ -943,13 +917,13 @@ final class ASCII
                         &&
                         isset($REPLACE_HELPER_CACHE[$cacheKey][$threeChars])
                         &&
-                        strpos($str, $threeChars) !== false
+                        \strpos($str, $threeChars) !== false
                     ) {
                         // DEBUG
                         //\var_dump($str, $threeChars, $REPLACE_HELPER_CACHE[$cacheKey][$threeChars]);
 
                         $charDone[$threeChars] = true;
-                        $str = str_replace($threeChars, $REPLACE_HELPER_CACHE[$cacheKey][$threeChars], $str);
+                        $str = \str_replace($threeChars, $REPLACE_HELPER_CACHE[$cacheKey][$threeChars], $str);
 
                         // DEBUG
                         //\var_dump($str, "\n");
@@ -969,13 +943,13 @@ final class ASCII
                         &&
                         isset($REPLACE_HELPER_CACHE[$cacheKey][$twoChars])
                         &&
-                        strpos($str, $twoChars) !== false
+                        \strpos($str, $twoChars) !== false
                     ) {
                         // DEBUG
                         //\var_dump($str, $twoChars, $REPLACE_HELPER_CACHE[$cacheKey][$twoChars]);
 
                         $charDone[$twoChars] = true;
-                        $str = str_replace($twoChars, $REPLACE_HELPER_CACHE[$cacheKey][$twoChars], $str);
+                        $str = \str_replace($twoChars, $REPLACE_HELPER_CACHE[$cacheKey][$twoChars], $str);
 
                         // DEBUG
                         //\var_dump($str, "\n");
@@ -989,13 +963,13 @@ final class ASCII
                     &&
                     isset($REPLACE_HELPER_CACHE[$cacheKey][$char])
                     &&
-                    strpos($str, $char) !== false
+                    \strpos($str, $char) !== false
                 ) {
                     // DEBUG
                     //\var_dump($str, $char, $REPLACE_HELPER_CACHE[$cacheKey][$char]);
 
                     $charDone[$char] = true;
-                    $str = str_replace($char, $REPLACE_HELPER_CACHE[$cacheKey][$char], $str);
+                    $str = \str_replace($char, $REPLACE_HELPER_CACHE[$cacheKey][$char], $str);
 
                     // DEBUG
                     //\var_dump($str, "\n");
@@ -1013,8 +987,8 @@ final class ASCII
         }
 
         if ($remove_unsupported_chars) {
-            $str = (string) str_replace(["\n\r", "\n", "\r", "\t"], ' ', $str);
-            $str = (string) preg_replace('/' . self::$REGEX_ASCII . '/', '', $str);
+            $str = (string) \str_replace(["\n\r", "\n", "\r", "\t"], ' ', $str);
+            $str = (string) \preg_replace('/' . self::$REGEX_ASCII . '/', '', $str);
         }
 
         return $str;
@@ -1046,9 +1020,9 @@ final class ASCII
             $str = self::to_transliterate($str, $fallback_char);
         }
 
-        $fallback_char_escaped = preg_quote($fallback_char, '/');
+        $fallback_char_escaped = \preg_quote($fallback_char, '/');
 
-        $str = (string) preg_replace(
+        $str = (string) \preg_replace(
             [
                 '/[^' . $fallback_char_escaped . '.\\-a-zA-Z\d\\s]/', // 1) remove un-needed chars
                 '/\s+/u',                                             // 2) convert spaces to $fallback_char
@@ -1062,7 +1036,7 @@ final class ASCII
             $str
         );
 
-        return trim($str, $fallback_char);
+        return \trim($str, $fallback_char);
     }
 
     /**
@@ -1104,7 +1078,7 @@ final class ASCII
         }
 
         foreach ($replacements as $from => $to) {
-            $str = str_replace($from, $to, $str);
+            $str = \str_replace($from, $to, $str);
         }
 
         $str = self::to_ascii(
@@ -1115,29 +1089,29 @@ final class ASCII
             $use_transliterate
         );
 
-        $str = str_replace('@', $separator, $str);
+        $str = \str_replace('@', $separator, $str);
 
-        $str = (string) preg_replace(
-            '/[^a-zA-Z\\d\\s\\-_' . preg_quote($separator, '/') . ']/',
+        $str = (string) \preg_replace(
+            '/[^a-zA-Z\\d\\s\\-_' . \preg_quote($separator, '/') . ']/',
             '',
             $str
         );
 
         if ($use_str_to_lower) {
-            $str = strtolower($str);
+            $str = \strtolower($str);
         }
 
-        $str = (string) preg_replace('/^[\'\\s]+|[\'\\s]+$/', '', $str);
-        $str = (string) preg_replace('/\\B([A-Z])/', '-\1', $str);
-        $str = (string) preg_replace('/[\\-_\\s]+/', $separator, $str);
+        $str = (string) \preg_replace('/^[\'\\s]+|[\'\\s]+$/', '', $str);
+        $str = (string) \preg_replace('/\\B([A-Z])/', '-\1', $str);
+        $str = (string) \preg_replace('/[\\-_\\s]+/', $separator, $str);
 
-        $l = strlen($separator);
-        if ($l && strpos($str, $separator) === 0) {
-            $str = (string) substr($str, $l);
+        $l = \strlen($separator);
+        if ($l && \strpos($str, $separator) === 0) {
+            $str = (string) \substr($str, $l);
         }
 
-        if (substr($str, -$l) === $separator) {
-            $str = (string) substr($str, 0, strlen($str) - $l);
+        if (\substr($str, -$l) === $separator) {
+            $str = (string) \substr($str, 0, \strlen($str) - $l);
         }
 
         return $str;
@@ -1183,7 +1157,7 @@ final class ASCII
         }
 
         if ($SUPPORT_INTL === null) {
-            $SUPPORT_INTL = extension_loaded('intl');
+            $SUPPORT_INTL = \extension_loaded('intl');
         }
 
         // check if we only have ASCII, first (better performance)
@@ -1210,12 +1184,12 @@ final class ASCII
         ) {
             if (!isset($TRANSLITERATOR)) {
                 // INFO: see "*-Latin" rules via "transliterator_list_ids()"
-                /** @var Transliterator */
-                $TRANSLITERATOR = transliterator_create('NFKC; [:Nonspacing Mark:] Remove; NFKC; Any-Latin; Latin-ASCII;');
+                /** @var \Transliterator */
+                $TRANSLITERATOR = \transliterator_create('NFKC; [:Nonspacing Mark:] Remove; NFKC; Any-Latin; Latin-ASCII;');
             }
 
             // INFO: https://unicode.org/cldr/utility/character.jsp
-            $str_tmp = transliterator_transliterate($TRANSLITERATOR, $str);
+            $str_tmp = \transliterator_transliterate($TRANSLITERATOR, $str);
 
             if ($str_tmp !== false) {
 
@@ -1236,7 +1210,7 @@ final class ASCII
             self::$ORD = self::getData('ascii_ord');
         }
 
-        preg_match_all('/.|[^\x00]$/us', $str, $array_tmp);
+        \preg_match_all('/.|[^\x00]$/us', $str, $array_tmp);
         $chars = $array_tmp[0];
         $ord = null;
         $str_tmp = '';
@@ -1305,7 +1279,7 @@ final class ASCII
 
             $bank = $ord >> 8;
             if (!isset($UTF8_TO_TRANSLIT[$bank])) {
-                $UTF8_TO_TRANSLIT[$bank] = self::getDataIfExists(sprintf('x%03x', $bank));
+                $UTF8_TO_TRANSLIT[$bank] = self::getDataIfExists(\sprintf('x%03x', $bank));
             }
 
             $new_char = $ord & 255;
@@ -1386,21 +1360,21 @@ final class ASCII
     {
         // find all utf-8 characters
         $matches = [];
-        if (!preg_match_all('/[\xC0-\xF7][\x80-\xBF]+/', $str, $matches)) {
+        if (!\preg_match_all('/[\xC0-\xF7][\x80-\xBF]+/', $str, $matches)) {
             return $str; // plain ascii string
         }
 
         // update the encoding map with the characters not already met
-        $mapCount = count($map);
+        $mapCount = \count($map);
         foreach ($matches[0] as $mbc) {
             if (!isset($map[$mbc])) {
-                $map[$mbc] = chr(128 + $mapCount);
+                $map[$mbc] = \chr(128 + $mapCount);
                 ++$mapCount;
             }
         }
 
         // finally, remap non-ascii characters
-        return strtr($str, $map);
+        return \strtr($str, $map);
     }
 
     /**
@@ -1426,18 +1400,18 @@ final class ASCII
         }
 
         if (
-            strpos($language, '_') === false
+            \strpos($language, '_') === false
             &&
-            strpos($language, '-') === false
+            \strpos($language, '-') === false
         ) {
-            return strtolower($language);
+            return \strtolower($language);
         }
 
-        $language = str_replace('-', '_', strtolower($language));
+        $language = \str_replace('-', '_', \strtolower($language));
 
         $regex = '/(?<first>[a-z]+)_\g{first}/';
 
-        return (string) preg_replace($regex, '$1', $language);
+        return (string) \preg_replace($regex, '$1', $language);
     }
 
     /**
@@ -1472,7 +1446,7 @@ final class ASCII
     {
         $file = __DIR__ . '/data/' . $file . '.php';
         /** @psalm-suppress ImpureFunctionCall */
-        if (is_file($file)) {
+        if (\is_file($file)) {
             /** @noinspection PhpIncludeInspection */
             /** @noinspection UsingInclusionReturnValueInspection */
             /** @psalm-suppress UnresolvableInclude */
@@ -1494,7 +1468,7 @@ final class ASCII
             self::prepareAsciiExtras();
 
             /** @psalm-suppress PossiblyNullArgument - we use the prepare* methods here, so we don't get NULL here */
-            self::$ASCII_MAPS_AND_EXTRAS = array_merge_recursive(
+            self::$ASCII_MAPS_AND_EXTRAS = \array_merge_recursive(
                 self::$ASCII_MAPS ?? [],
                 self::$ASCII_EXTRAS ?? []
             );

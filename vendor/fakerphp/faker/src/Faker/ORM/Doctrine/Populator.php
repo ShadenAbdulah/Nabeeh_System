@@ -4,7 +4,6 @@ namespace Faker\ORM\Doctrine;
 
 use Doctrine\Common\Persistence\ObjectManager;
 use Faker\Generator;
-use InvalidArgumentException;
 
 require_once 'backward-compatibility.php';
 
@@ -64,11 +63,11 @@ class Populator
      */
     public function addEntity($entity, $number, $customColumnFormatters = [], $customModifiers = [], $generateId = false)
     {
-        if (!$entity instanceof EntityPopulator) {
+        if (!$entity instanceof \Faker\ORM\Doctrine\EntityPopulator) {
             if (null === $this->manager) {
-                throw new InvalidArgumentException('No entity manager passed to Doctrine Populator.');
+                throw new \InvalidArgumentException('No entity manager passed to Doctrine Populator.');
             }
-            $entity = new EntityPopulator($this->manager->getClassMetadata($entity));
+            $entity = new \Faker\ORM\Doctrine\EntityPopulator($this->manager->getClassMetadata($entity));
         }
         $entity->setColumnFormatters($entity->guessColumnFormatters($this->generator));
 
@@ -100,7 +99,7 @@ class Populator
         }
 
         if (null === $entityManager) {
-            throw new InvalidArgumentException('No entity manager passed to Doctrine Populator.');
+            throw new \InvalidArgumentException('No entity manager passed to Doctrine Populator.');
         }
 
         $insertedEntities = [];

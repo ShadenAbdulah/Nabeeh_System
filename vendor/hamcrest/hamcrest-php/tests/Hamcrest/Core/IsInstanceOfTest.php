@@ -1,10 +1,7 @@
 <?php
 namespace Hamcrest\Core;
 
-use Hamcrest\AbstractMatcherTest;
-use stdClass;
-
-class IsInstanceOfTest extends AbstractMatcherTest
+class IsInstanceOfTest extends \Hamcrest\AbstractMatcherTest
 {
 
     private $_baseClassInstance;
@@ -12,13 +9,13 @@ class IsInstanceOfTest extends AbstractMatcherTest
 
     protected function setUp()
     {
-        $this->_baseClassInstance = new SampleBaseClass('good');
-        $this->_subClassInstance = new SampleSubClass('good');
+        $this->_baseClassInstance = new \Hamcrest\Core\SampleBaseClass('good');
+        $this->_subClassInstance = new \Hamcrest\Core\SampleSubClass('good');
     }
 
     protected function createMatcher()
     {
-        return IsInstanceOf::anInstanceOf('stdClass');
+        return \Hamcrest\Core\IsInstanceOf::anInstanceOf('stdClass');
     }
 
     public function testEvaluatesToTrueIfArgumentIsInstanceOfASpecificClass()
@@ -26,7 +23,7 @@ class IsInstanceOfTest extends AbstractMatcherTest
         assertThat($this->_baseClassInstance, anInstanceOf('Hamcrest\Core\SampleBaseClass'));
         assertThat($this->_subClassInstance, anInstanceOf('Hamcrest\Core\SampleSubClass'));
         assertThat(null, not(anInstanceOf('Hamcrest\Core\SampleBaseClass')));
-        assertThat(new stdClass(), not(anInstanceOf('Hamcrest\Core\SampleBaseClass')));
+        assertThat(new \stdClass(), not(anInstanceOf('Hamcrest\Core\SampleBaseClass')));
     }
 
     public function testEvaluatesToFalseIfArgumentIsNotAnObject()

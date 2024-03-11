@@ -2,19 +2,8 @@
 
 namespace GuzzleHttp\Cookie;
 
-use ArrayIterator;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
-use RuntimeException;
-use function array_filter;
-use function array_map;
-use function array_values;
-use function count;
-use function implode;
-use function strcasecmp;
-use function strpos;
-use function strrpos;
-use function substr;
 
 /**
  * Cookie jar that stores cookies as an array
@@ -99,7 +88,7 @@ class CookieJar implements CookieJarInterface
     public function getCookieByName(string $name): ?SetCookie
     {
         foreach ($this->cookies as $cookie) {
-            if ($cookie->getName() !== null && strcasecmp($cookie->getName(), $name) === 0) {
+            if ($cookie->getName() !== null && \strcasecmp($cookie->getName(), $name) === 0) {
                 return $cookie;
             }
         }
@@ -109,7 +98,7 @@ class CookieJar implements CookieJarInterface
 
     public function toArray(): array
     {
-        return array_map(static function (SetCookie $cookie): array {
+        return \array_map(static function (SetCookie $cookie): array {
             return $cookie->toArray();
         }, $this->getIterator()->getArrayCopy());
     }
@@ -121,14 +110,14 @@ class CookieJar implements CookieJarInterface
 
             return;
         } elseif (!$path) {
-            $this->cookies = array_filter(
+            $this->cookies = \array_filter(
                 $this->cookies,
                 static function (SetCookie $cookie) use ($domain): bool {
                     return !$cookie->matchesDomain($domain);
                 }
             );
         } elseif (!$name) {
-            $this->cookies = array_filter(
+            $this->cookies = \array_filter(
                 $this->cookies,
                 static function (SetCookie $cookie) use ($path, $domain): bool {
                     return !($cookie->matchesPath($path)
@@ -136,7 +125,7 @@ class CookieJar implements CookieJarInterface
                 }
             );
         } else {
-            $this->cookies = array_filter(
+            $this->cookies = \array_filter(
                 $this->cookies,
                 static function (SetCookie $cookie) use ($path, $domain, $name) {
                     return !($cookie->getName() == $name
@@ -149,7 +138,7 @@ class CookieJar implements CookieJarInterface
 
     public function clearSessionCookies(): void
     {
-        $this->cookies = array_filter(
+        $this->cookies = \array_filter(
             $this->cookies,
             static function (SetCookie $cookie): bool {
                 return !$cookie->getDiscard() && $cookie->getExpires();
@@ -170,7 +159,7 @@ class CookieJar implements CookieJarInterface
         $result = $cookie->validate();
         if ($result !== true) {
             if ($this->strictMode) {
-                throw new RuntimeException('Invalid cookie: '.$result);
+                throw new \RuntimeException('Invalid cookie: '.$result);
             }
             $this->removeCookieIfEmpty($cookie);
 
@@ -219,15 +208,15 @@ class CookieJar implements CookieJarInterface
 
     public function count(): int
     {
-        return count($this->cookies);
+        return \count($this->cookies);
     }
 
     /**
-     * @return ArrayIterator<int, SetCookie>
+     * @return \ArrayIterator<int, SetCookie>
      */
-    public function getIterator(): ArrayIterator
+    public function getIterator(): \ArrayIterator
     {
-        return new ArrayIterator(array_values($this->cookies));
+        return new \ArrayIterator(\array_values($this->cookies));
     }
 
     public function extractCookies(RequestInterface $request, ResponseInterface $response): void
@@ -238,7 +227,7 @@ class CookieJar implements CookieJarInterface
                 if (!$sc->getDomain()) {
                     $sc->setDomain($request->getUri()->getHost());
                 }
-                if (0 !== strpos($sc->getPath(), '/')) {
+                if (0 !== \strpos($sc->getPath(), '/')) {
                     $sc->setPath($this->getCookiePathFromRequest($request));
                 }
                 if (!$sc->matchesDomain($request->getUri()->getHost())) {
@@ -262,18 +251,18 @@ class CookieJar implements CookieJarInterface
         if ('' === $uriPath) {
             return '/';
         }
-        if (0 !== strpos($uriPath, '/')) {
+        if (0 !== \strpos($uriPath, '/')) {
             return '/';
         }
         if ('/' === $uriPath) {
             return '/';
         }
-        $lastSlashPos = strrpos($uriPath, '/');
+        $lastSlashPos = \strrpos($uriPath, '/');
         if (0 === $lastSlashPos || false === $lastSlashPos) {
             return '/';
         }
 
-        return substr($uriPath, 0, $lastSlashPos);
+        return \substr($uriPath, 0, $lastSlashPos);
     }
 
     public function withCookieHeader(RequestInterface $request): RequestInterface
@@ -296,7 +285,7 @@ class CookieJar implements CookieJarInterface
         }
 
         return $values
-            ? $request->withHeader('Cookie', implode('; ', $values))
+            ? $request->withHeader('Cookie', \implode('; ', $values))
             : $request;
     }
 

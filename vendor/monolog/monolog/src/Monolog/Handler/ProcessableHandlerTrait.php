@@ -11,11 +11,9 @@
 
 namespace Monolog\Handler;
 
-use LogicException;
 use Monolog\ResettableInterface;
 use Monolog\Processor\ProcessorInterface;
 use Monolog\LogRecord;
-use function count;
 
 /**
  * Helper trait for implementing ProcessableInterface
@@ -45,8 +43,8 @@ trait ProcessableHandlerTrait
      */
     public function popProcessor(): callable
     {
-        if (count($this->processors) === 0) {
-            throw new LogicException('You tried to pop from an empty processor stack.');
+        if (\count($this->processors) === 0) {
+            throw new \LogicException('You tried to pop from an empty processor stack.');
         }
 
         return array_shift($this->processors);

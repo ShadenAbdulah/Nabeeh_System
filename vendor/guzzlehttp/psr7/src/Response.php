@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace GuzzleHttp\Psr7;
 
-use InvalidArgumentException;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
 
@@ -149,14 +148,14 @@ class Response implements ResponseInterface
     private function assertStatusCodeIsInteger($statusCode): void
     {
         if (filter_var($statusCode, FILTER_VALIDATE_INT) === false) {
-            throw new InvalidArgumentException('Status code must be an integer value.');
+            throw new \InvalidArgumentException('Status code must be an integer value.');
         }
     }
 
     private function assertStatusCodeRange(int $statusCode): void
     {
         if ($statusCode < 100 || $statusCode >= 600) {
-            throw new InvalidArgumentException('Status code must be an integer value between 1xx and 5xx.');
+            throw new \InvalidArgumentException('Status code must be an integer value between 1xx and 5xx.');
         }
     }
 }

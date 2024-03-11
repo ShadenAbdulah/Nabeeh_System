@@ -2,9 +2,6 @@
 
 namespace Faker\Provider;
 
-use Exception;
-use Transliterator;
-
 class Internet extends Base
 {
     protected static $freeEmailDomain = ['gmail.com', 'yahoo.com', 'hotmail.com'];
@@ -124,7 +121,7 @@ class Internet extends Base
 
         // check if transliterate() didn't support the language and removed all letters
         if (trim($username, '._') === '') {
-            throw new Exception('userName failed with the selected locale. Try a different locale or activate the "intl" PHP extension.');
+            throw new \Exception('userName failed with the selected locale. Try a different locale or activate the "intl" PHP extension.');
         }
 
         // clean possible trailing dots from first/last names
@@ -169,7 +166,7 @@ class Internet extends Base
 
         // check if transliterate() didn't support the language and removed all letters
         if (trim($lastName, '._') === '') {
-            throw new Exception('domainWord failed with the selected locale. Try a different locale or activate the "intl" PHP extension.');
+            throw new \Exception('domainWord failed with the selected locale. Try a different locale or activate the "intl" PHP extension.');
         }
 
         // clean possible trailing dot from last name
@@ -281,7 +278,7 @@ class Internet extends Base
 
         $transId = 'Any-Latin; Latin-ASCII; NFD; [:Nonspacing Mark:] Remove; NFC;';
 
-        if (class_exists(Transliterator::class, false) && $transliterator = Transliterator::create($transId)) {
+        if (class_exists(\Transliterator::class, false) && $transliterator = \Transliterator::create($transId)) {
             $transString = $transliterator->transliterate($string);
         } else {
             $transString = static::toAscii($string);

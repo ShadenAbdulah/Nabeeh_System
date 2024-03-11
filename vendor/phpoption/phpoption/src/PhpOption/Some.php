@@ -19,8 +19,6 @@
 namespace PhpOption;
 
 use ArrayIterator;
-use Exception;
-use RuntimeException;
 
 /**
  * @template T
@@ -77,7 +75,7 @@ final class Some extends Option
         return $this->value;
     }
 
-    public function getOrThrow(Exception $ex)
+    public function getOrThrow(\Exception $ex)
     {
         return $this->value;
     }
@@ -109,7 +107,7 @@ final class Some extends Option
         /** @var mixed */
         $rs = $callable($this->value);
         if (!$rs instanceof Option) {
-            throw new RuntimeException('Callables passed to flatMap() must return an Option. Maybe you should use map() instead?');
+            throw new \RuntimeException('Callables passed to flatMap() must return an Option. Maybe you should use map() instead?');
         }
 
         return $rs;

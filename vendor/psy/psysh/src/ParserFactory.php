@@ -13,7 +13,6 @@ namespace Psy;
 
 use PhpParser\Parser;
 use PhpParser\ParserFactory as OriginalParserFactory;
-use function method_exists;
 
 /**
  * Parser factory to abstract over PHP Parser library versions.
@@ -27,7 +26,7 @@ class ParserFactory
     {
         $factory = new OriginalParserFactory();
 
-        if (!method_exists($factory, 'createForHostVersion')) {
+        if (!\method_exists($factory, 'createForHostVersion')) {
             return $factory->create(OriginalParserFactory::PREFER_PHP7);
         }
 

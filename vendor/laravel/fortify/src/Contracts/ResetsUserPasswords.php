@@ -2,10 +2,8 @@
 
 namespace Laravel\Fortify\Contracts;
 
-use Illuminate\Foundation\Auth\User;
-
 /**
- * @method void reset(User $user, array $input)
+ * @method void reset(\Illuminate\Foundation\Auth\User $user, array $input)
  */
 interface ResetsUserPasswords
 {

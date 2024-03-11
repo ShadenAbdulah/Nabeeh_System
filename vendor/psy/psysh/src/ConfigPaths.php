@@ -11,30 +11,6 @@
 
 namespace Psy;
 
-use function array_key_exists;
-use function array_map;
-use function array_merge;
-use function array_unshift;
-use function defined;
-use function dirname;
-use function explode;
-use function file_exists;
-use function in_array;
-use function is_dir;
-use function is_executable;
-use function is_file;
-use function is_writable;
-use function mkdir;
-use function sprintf;
-use function strtr;
-use function sys_get_temp_dir;
-use function touch;
-use function trigger_error;
-use const DIRECTORY_SEPARATOR;
-use const E_USER_NOTICE;
-use const PATH_SEPARATOR;
-use const PHP_SAPI;
-
 /**
  * A Psy Shell configuration path helper.
  */
@@ -59,7 +35,7 @@ class ConfigPaths
     {
         $this->overrideDirs($overrides);
 
-        $this->env = $env ?: (PHP_SAPI === 'cli-server' ? new SystemEnv() : new SuperglobalsEnv());
+        $this->env = $env ?: (\PHP_SAPI === 'cli-server' ? new SystemEnv() : new SuperglobalsEnv());
     }
 
     /**
@@ -72,15 +48,15 @@ class ConfigPaths
      */
     public function overrideDirs(array $overrides)
     {
-        if (array_key_exists('configDir', $overrides)) {
+        if (\array_key_exists('configDir', $overrides)) {
             $this->configDir = $overrides['configDir'] ?: null;
         }
 
-        if (array_key_exists('dataDir', $overrides)) {
+        if (\array_key_exists('dataDir', $overrides)) {
             $this->dataDir = $overrides['dataDir'] ?: null;
         }
 
-        if (array_key_exists('runtimeDir', $overrides)) {
+        if (\array_key_exists('runtimeDir', $overrides)) {
             $this->runtimeDir = $overrides['runtimeDir'] ?: null;
         }
     }
@@ -93,7 +69,7 @@ class ConfigPaths
     public function homeDir()
     {
         if ($homeDir = $this->getEnv('HOME') ?: $this->windowsHomeDir()) {
-            return strtr($homeDir, '\\', '/');
+            return \strtr($homeDir, '\\', '/');
         }
 
         return null;
@@ -101,7 +77,7 @@ class ConfigPaths
 
     private function windowsHomeDir()
     {
-        if (defined('PHP_WINDOWS_VERSION_MAJOR')) {
+        if (\defined('PHP_WINDOWS_VERSION_MAJOR')) {
             $homeDrive = $this->getEnv('HOMEDRIVE');
             $homePath = $this->getEnv('HOMEPATH');
             if ($homeDrive && $homePath) {
@@ -141,7 +117,7 @@ class ConfigPaths
 
         $configDirs = $this->getEnvArray('XDG_CONFIG_DIRS') ?: ['/etc/xdg'];
 
-        return $this->allDirNames(array_merge([$this->homeConfigDir()], $configDirs));
+        return $this->allDirNames(\array_merge([$this->homeConfigDir()], $configDirs));
     }
 
     /**
@@ -163,7 +139,7 @@ class ConfigPaths
         $configDirs = $this->allDirNames([$this->homeConfigDir()]);
 
         foreach ($configDirs as $configDir) {
-            if (@is_dir($configDir)) {
+            if (@\is_dir($configDir)) {
                 return $configDir;
             }
         }
@@ -204,7 +180,7 @@ class ConfigPaths
         $homeDataDir = $this->getEnv('XDG_DATA_HOME') ?: $this->homeDir().'/.local/share';
         $dataDirs = $this->getEnvArray('XDG_DATA_DIRS') ?: ['/usr/local/share', '/usr/share'];
 
-        return $this->allDirNames(array_merge([$homeDataDir], $dataDirs));
+        return $this->allDirNames(\array_merge([$homeDataDir], $dataDirs));
     }
 
     /**
@@ -231,9 +207,9 @@ class ConfigPaths
         }
 
         // Fallback to a boring old folder in the system temp dir.
-        $runtimeDir = $this->getEnv('XDG_RUNTIME_DIR') ?: sys_get_temp_dir();
+        $runtimeDir = $this->getEnv('XDG_RUNTIME_DIR') ?: \sys_get_temp_dir();
 
-        return strtr($runtimeDir, '\\', '/').'/psysh';
+        return \strtr($runtimeDir, '\\', '/').'/psysh';
     }
 
     /**
@@ -261,8 +237,8 @@ class ConfigPaths
     public function which($command)
     {
         foreach ($this->pathDirs() as $path) {
-            $fullpath = $path. DIRECTORY_SEPARATOR.$command;
-            if (@is_file($fullpath) && @is_executable($fullpath)) {
+            $fullpath = $path.\DIRECTORY_SEPARATOR.$command;
+            if (@\is_file($fullpath) && @\is_executable($fullpath)) {
                 return $fullpath;
             }
         }
@@ -283,25 +259,25 @@ class ConfigPaths
      */
     private function allDirNames(array $baseDirs): array
     {
-        $dirs = array_map(function ($dir) {
-            return strtr($dir, '\\', '/').'/psysh';
+        $dirs = \array_map(function ($dir) {
+            return \strtr($dir, '\\', '/').'/psysh';
         }, $baseDirs);
 
         // Add ~/.psysh
         if ($home = $this->getEnv('HOME')) {
-            $dirs[] = strtr($home, '\\', '/').'/.psysh';
+            $dirs[] = \strtr($home, '\\', '/').'/.psysh';
         }
 
         // Add some Windows specific ones :)
-        if (defined('PHP_WINDOWS_VERSION_MAJOR')) {
+        if (\defined('PHP_WINDOWS_VERSION_MAJOR')) {
             if ($appData = $this->getEnv('APPDATA')) {
                 // AppData gets preference
-                array_unshift($dirs, strtr($appData, '\\', '/').'/PsySH');
+                \array_unshift($dirs, \strtr($appData, '\\', '/').'/PsySH');
             }
 
             if ($windowsHomeDir = $this->windowsHomeDir()) {
-                $dir = strtr($windowsHomeDir, '\\', '/').'/.psysh';
-                if (!in_array($dir, $dirs)) {
+                $dir = \strtr($windowsHomeDir, '\\', '/').'/.psysh';
+                if (!\in_array($dir, $dirs)) {
                     $dirs[] = $dir;
                 }
             }
@@ -322,7 +298,7 @@ class ConfigPaths
         foreach ($dirNames as $dir) {
             foreach ($fileNames as $name) {
                 $file = $dir.'/'.$name;
-                if (@is_file($file)) {
+                if (@\is_file($file)) {
                     $files[] = $file;
                 }
             }
@@ -342,13 +318,13 @@ class ConfigPaths
      */
     public static function ensureDir(string $dir): bool
     {
-        if (!is_dir($dir)) {
+        if (!\is_dir($dir)) {
             // Just try making it and see if it works
-            @mkdir($dir, 0700, true);
+            @\mkdir($dir, 0700, true);
         }
 
-        if (!is_dir($dir) || !is_writable($dir)) {
-            trigger_error(sprintf('Writing to directory %s is not allowed.', $dir), E_USER_NOTICE);
+        if (!\is_dir($dir) || !\is_writable($dir)) {
+            \trigger_error(\sprintf('Writing to directory %s is not allowed.', $dir), \E_USER_NOTICE);
 
             return false;
         }
@@ -367,21 +343,21 @@ class ConfigPaths
      */
     public static function touchFileWithMkdir(string $file)
     {
-        if (file_exists($file)) {
-            if (is_writable($file)) {
+        if (\file_exists($file)) {
+            if (\is_writable($file)) {
                 return $file;
             }
 
-            trigger_error(sprintf('Writing to %s is not allowed.', $file), E_USER_NOTICE);
+            \trigger_error(\sprintf('Writing to %s is not allowed.', $file), \E_USER_NOTICE);
 
             return false;
         }
 
-        if (!self::ensureDir(dirname($file))) {
+        if (!self::ensureDir(\dirname($file))) {
             return false;
         }
 
-        touch($file);
+        \touch($file);
 
         return $file;
     }
@@ -394,7 +370,7 @@ class ConfigPaths
     private function getEnvArray($key)
     {
         if ($value = $this->getEnv($key)) {
-            return explode(PATH_SEPARATOR, $value);
+            return \explode(\PATH_SEPARATOR, $value);
         }
 
         return null;

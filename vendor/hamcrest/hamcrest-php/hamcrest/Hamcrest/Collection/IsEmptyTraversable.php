@@ -6,7 +6,6 @@ namespace Hamcrest\Collection;
  */
 use Hamcrest\BaseMatcher;
 use Hamcrest\Description;
-use Traversable;
 
 /**
  * Matches if traversable is empty or non-empty.
@@ -26,7 +25,7 @@ class IsEmptyTraversable extends BaseMatcher
 
     public function matches($item)
     {
-        if (!$item instanceof Traversable) {
+        if (!$item instanceof \Traversable) {
             return false;
         }
 

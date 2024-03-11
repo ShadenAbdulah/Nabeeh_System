@@ -2,9 +2,7 @@
 
 namespace Laravel\SerializableClosure\Support;
 
-use AllowDynamicProperties;
-
-#[AllowDynamicProperties]
+#[\AllowDynamicProperties]
 class ClosureStream
 {
     /**

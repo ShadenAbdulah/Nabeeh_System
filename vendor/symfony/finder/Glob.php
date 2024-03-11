@@ -11,8 +11,6 @@
 
 namespace Symfony\Component\Finder;
 
-use function strlen;
-
 /**
  * Glob matches globbing patterns against text.
  *
@@ -46,7 +44,7 @@ class Glob
         $escaping = false;
         $inCurlies = 0;
         $regex = '';
-        $sizeGlob = strlen($glob);
+        $sizeGlob = \strlen($glob);
         for ($i = 0; $i < $sizeGlob; ++$i) {
             $car = $glob[$i];
             if ($firstByte && $strictLeadingDot && '.' !== $car) {

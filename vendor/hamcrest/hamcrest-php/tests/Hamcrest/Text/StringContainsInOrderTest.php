@@ -1,16 +1,14 @@
 <?php
 namespace Hamcrest\Text;
 
-use Hamcrest\AbstractMatcherTest;
-
-class StringContainsInOrderTest extends AbstractMatcherTest
+class StringContainsInOrderTest extends \Hamcrest\AbstractMatcherTest
 {
 
     private $_m;
 
     protected function setUp()
     {
-        $this->_m = StringContainsInOrder::stringContainsInOrder(array('a', 'b', 'c'));
+        $this->_m = \Hamcrest\Text\StringContainsInOrder::stringContainsInOrder(array('a', 'b', 'c'));
     }
 
     protected function createMatcher()

@@ -1,15 +1,12 @@
 <?php
 namespace Hamcrest\Collection;
 
-use ArrayObject;
-use Hamcrest\AbstractMatcherTest;
-
-class IsTraversableWithSizeTest extends AbstractMatcherTest
+class IsTraversableWithSizeTest extends \Hamcrest\AbstractMatcherTest
 {
 
     protected function createMatcher()
     {
-        return IsTraversableWithSize::traversableWithSize(
+        return \Hamcrest\Collection\IsTraversableWithSize::traversableWithSize(
             equalTo(2)
         );
     }
@@ -18,7 +15,7 @@ class IsTraversableWithSizeTest extends AbstractMatcherTest
     {
         $this->assertMatches(
             traversableWithSize(equalTo(3)),
-            new ArrayObject(array(1, 2, 3)),
+            new \ArrayObject(array(1, 2, 3)),
             'correct size'
         );
     }
@@ -27,7 +24,7 @@ class IsTraversableWithSizeTest extends AbstractMatcherTest
     {
         $this->assertDoesNotMatch(
             traversableWithSize(equalTo(2)),
-            new ArrayObject(array(1, 2, 3)),
+            new \ArrayObject(array(1, 2, 3)),
             'incorrect size'
         );
     }
@@ -45,7 +42,7 @@ class IsTraversableWithSizeTest extends AbstractMatcherTest
     {
         $this->assertMatches(
             traversableWithSize(3),
-            new ArrayObject(array(1, 2, 3)),
+            new \ArrayObject(array(1, 2, 3)),
             'correct size'
         );
     }

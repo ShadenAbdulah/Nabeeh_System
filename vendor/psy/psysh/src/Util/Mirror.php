@@ -11,38 +11,9 @@
 
 namespace Psy\Util;
 
-use InvalidArgumentException;
 use Psy\Exception\RuntimeException;
 use Psy\Reflection\ReflectionConstant;
 use Psy\Reflection\ReflectionNamespace;
-use ReflectionClass;
-use ReflectionClassConstant;
-use ReflectionFunction;
-use ReflectionObject;
-use Reflector;
-use function array_keys;
-use function array_merge;
-use function array_pop;
-use function class_exists;
-use function defined;
-use function explode;
-use function function_exists;
-use function get_class;
-use function get_declared_classes;
-use function get_declared_interfaces;
-use function get_declared_traits;
-use function get_defined_constants;
-use function get_defined_functions;
-use function implode;
-use function in_array;
-use function interface_exists;
-use function is_object;
-use function is_string;
-use function preg_replace;
-use function sort;
-use function sprintf;
-use function strtolower;
-use function trait_exists;
 
 /**
  * A utility class for getting Reflectors.
@@ -62,21 +33,21 @@ class Mirror
      *
      *    $filter = Mirror::CONSTANT | Mirror::STATIC_PROPERTY
      *
-     * @throws RuntimeException when a $member specified but not present on $value
-     * @throws InvalidArgumentException       if $value is something other than an object or class/function name
+     * @throws \Psy\Exception\RuntimeException when a $member specified but not present on $value
+     * @throws \InvalidArgumentException       if $value is something other than an object or class/function name
      *
      * @param mixed  $value  Class or function name, or variable instance
      * @param string $member Optional: property, constant or method name (default: null)
      * @param int    $filter (default: CONSTANT | METHOD | PROPERTY | STATIC_PROPERTY)
      *
-     * @return Reflector
+     * @return \Reflector
      */
-    public static function get($value, string $member = null, int $filter = 15): Reflector
+    public static function get($value, string $member = null, int $filter = 15): \Reflector
     {
-        if ($member === null && is_string($value)) {
-            if (function_exists($value)) {
-                return new ReflectionFunction($value);
-            } elseif (defined($value) || ReflectionConstant::isMagicConstant($value)) {
+        if ($member === null && \is_string($value)) {
+            if (\function_exists($value)) {
+                return new \ReflectionFunction($value);
+            } elseif (\defined($value) || ReflectionConstant::isMagicConstant($value)) {
                 return new ReflectionConstant($value);
             }
         }
@@ -86,7 +57,7 @@ class Mirror
         if ($member === null) {
             return $class;
         } elseif ($filter & self::CONSTANT && $class->hasConstant($member)) {
-            return new ReflectionClassConstant($value, $member);
+            return new \ReflectionClassConstant($value, $member);
         } elseif ($filter & self::METHOD && $class->hasMethod($member)) {
             return $class->getMethod($member);
         } elseif ($filter & self::PROPERTY && $class->hasProperty($member)) {
@@ -94,39 +65,39 @@ class Mirror
         } elseif ($filter & self::STATIC_PROPERTY && $class->hasProperty($member) && $class->getProperty($member)->isStatic()) {
             return $class->getProperty($member);
         } else {
-            throw new RuntimeException(sprintf('Unknown member %s on class %s', $member, is_object($value) ? get_class($value) : $value));
+            throw new RuntimeException(\sprintf('Unknown member %s on class %s', $member, \is_object($value) ? \get_class($value) : $value));
         }
     }
 
     /**
      * Get a ReflectionClass (or ReflectionObject, or ReflectionNamespace) if possible.
      *
-     * @throws InvalidArgumentException if $value is not a namespace or class name or instance
+     * @throws \InvalidArgumentException if $value is not a namespace or class name or instance
      *
      * @param mixed $value
      *
-     * @return ReflectionClass|ReflectionNamespace
+     * @return \ReflectionClass|ReflectionNamespace
      */
     private static function getClass($value)
     {
-        if (is_object($value)) {
-            return new ReflectionObject($value);
+        if (\is_object($value)) {
+            return new \ReflectionObject($value);
         }
 
-        if (!is_string($value)) {
-            throw new InvalidArgumentException('Mirror expects an object or class');
+        if (!\is_string($value)) {
+            throw new \InvalidArgumentException('Mirror expects an object or class');
         }
 
-        if (class_exists($value) || interface_exists($value) || trait_exists($value)) {
-            return new ReflectionClass($value);
+        if (\class_exists($value) || \interface_exists($value) || \trait_exists($value)) {
+            return new \ReflectionClass($value);
         }
 
-        $namespace = preg_replace('/(^\\\\|\\\\$)/', '', $value);
+        $namespace = \preg_replace('/(^\\\\|\\\\$)/', '', $value);
         if (self::namespaceExists($namespace)) {
             return new ReflectionNamespace($namespace);
         }
 
-        throw new InvalidArgumentException('Unknown namespace, class or function: '.$value);
+        throw new \InvalidArgumentException('Unknown namespace, class or function: '.$value);
     }
 
     /**
@@ -134,7 +105,7 @@ class Mirror
      */
     private static function namespaceExists(string $value): bool
     {
-        return in_array(strtolower($value), self::getDeclaredNamespaces());
+        return \in_array(\strtolower($value), self::getDeclaredNamespaces());
     }
 
     /**
@@ -145,33 +116,33 @@ class Mirror
      */
     private static function getDeclaredNamespaces(): array
     {
-        $functions = get_defined_functions();
+        $functions = \get_defined_functions();
 
-        $allNames = array_merge(
+        $allNames = \array_merge(
             $functions['internal'],
             $functions['user'],
-            get_declared_classes(),
-            get_declared_interfaces(),
-            get_declared_traits(),
-            array_keys(get_defined_constants())
+            \get_declared_classes(),
+            \get_declared_interfaces(),
+            \get_declared_traits(),
+            \array_keys(\get_defined_constants())
         );
 
         $namespaces = [];
         foreach ($allNames as $name) {
-            $chunks = explode('\\', strtolower($name));
+            $chunks = \explode('\\', \strtolower($name));
 
             // the last one is the function or class or whatever...
-            array_pop($chunks);
+            \array_pop($chunks);
 
             while (!empty($chunks)) {
-                $namespaces[implode('\\', $chunks)] = true;
-                array_pop($chunks);
+                $namespaces[\implode('\\', $chunks)] = true;
+                \array_pop($chunks);
             }
         }
 
-        $namespaceNames = array_keys($namespaces);
+        $namespaceNames = \array_keys($namespaces);
 
-        sort($namespaceNames);
+        \sort($namespaceNames);
 
         return $namespaceNames;
     }

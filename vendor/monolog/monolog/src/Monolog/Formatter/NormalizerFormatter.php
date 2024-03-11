@@ -11,16 +11,10 @@
 
 namespace Monolog\Formatter;
 
-use ArrayObject;
-use DateTimeInterface;
-use JsonSerializable;
 use Monolog\DateTimeImmutable;
 use Monolog\Utils;
-use RuntimeException;
-use SoapFault;
 use Throwable;
 use Monolog\LogRecord;
-use function get_class;
 
 /**
  * Normalizes incoming records to remove objects/resources so it's easier to dump to various targets
@@ -39,13 +33,13 @@ class NormalizerFormatter implements FormatterInterface
 
     /**
      * @param string|null $dateFormat The format of the timestamp: one supported by DateTime::format
-     * @throws RuntimeException If the function json_encode does not exist
+     * @throws \RuntimeException If the function json_encode does not exist
      */
     public function __construct(?string $dateFormat = null)
     {
         $this->dateFormat = null === $dateFormat ? static::SIMPLE_DATE : $dateFormat;
         if (!function_exists('json_encode')) {
-            throw new RuntimeException('PHP\'s json extension is required to use Monolog\'s NormalizerFormatter');
+            throw new \RuntimeException('PHP\'s json extension is required to use Monolog\'s NormalizerFormatter');
         }
     }
 
@@ -200,7 +194,7 @@ class NormalizerFormatter implements FormatterInterface
             return $normalized;
         }
 
-        if ($data instanceof DateTimeInterface) {
+        if ($data instanceof \DateTimeInterface) {
             return $this->formatDate($data);
         }
 
@@ -209,11 +203,11 @@ class NormalizerFormatter implements FormatterInterface
                 return $this->normalizeException($data, $depth);
             }
 
-            if ($data instanceof JsonSerializable) {
+            if ($data instanceof \JsonSerializable) {
                 /** @var null|scalar|array<mixed[]|scalar|null> $value */
                 $value = $data->jsonSerialize();
-            } elseif (get_class($data) === '__PHP_Incomplete_Class') {
-                $accessor = new ArrayObject($data);
+            } elseif (\get_class($data) === '__PHP_Incomplete_Class') {
+                $accessor = new \ArrayObject($data);
                 $value = (string) $accessor['__PHP_Incomplete_Class_Name'];
             } elseif (method_exists($data, '__toString')) {
                 /** @var string $value */
@@ -243,7 +237,7 @@ class NormalizerFormatter implements FormatterInterface
             return ['Over ' . $this->maxNormalizeDepth . ' levels deep, aborting normalization'];
         }
 
-        if ($e instanceof JsonSerializable) {
+        if ($e instanceof \JsonSerializable) {
             return (array) $e->jsonSerialize();
         }
 
@@ -254,7 +248,7 @@ class NormalizerFormatter implements FormatterInterface
             'file' => $e->getFile().':'.$e->getLine(),
         ];
 
-        if ($e instanceof SoapFault) {
+        if ($e instanceof \SoapFault) {
             if (isset($e->faultcode)) {
                 $data['faultcode'] = $e->faultcode;
             }
@@ -279,7 +273,7 @@ class NormalizerFormatter implements FormatterInterface
             }
         }
 
-        if (($previous = $e->getPrevious()) instanceof Throwable) {
+        if (($previous = $e->getPrevious()) instanceof \Throwable) {
             $data['previous'] = $this->normalizeException($previous, $depth + 1);
         }
 
@@ -290,7 +284,7 @@ class NormalizerFormatter implements FormatterInterface
      * Return the JSON representation of a value
      *
      * @param  mixed             $data
-     * @throws RuntimeException if encoding fails and errors are not ignored
+     * @throws \RuntimeException if encoding fails and errors are not ignored
      * @return string            if encoding fails and ignoreErrors is true 'null' is returned
      */
     protected function toJson($data, bool $ignoreErrors = false): string
@@ -298,7 +292,7 @@ class NormalizerFormatter implements FormatterInterface
         return Utils::jsonEncode($data, $this->jsonEncodeOptions, $ignoreErrors);
     }
 
-    protected function formatDate(DateTimeInterface $date): string
+    protected function formatDate(\DateTimeInterface $date): string
     {
         // in case the date format isn't custom then we defer to the custom DateTimeImmutable
         // formatting logic, which will pick the right format based on whether useMicroseconds is on

@@ -2,8 +2,6 @@
 
 namespace Faker\Provider\nb_NO;
 
-use Faker\Provider\DateTime;
-
 class Person extends \Faker\Provider\Person
 {
     protected static $formats = [
@@ -297,7 +295,7 @@ class Person extends \Faker\Provider\Person
     public function personalIdentityNumber(\DateTime $birthdate = null, $gender = null)
     {
         if (!$birthdate) {
-            $birthdate = DateTime::dateTimeThisCentury();
+            $birthdate = \Faker\Provider\DateTime::dateTimeThisCentury();
         }
         $datePart = $birthdate->format('dmy');
 

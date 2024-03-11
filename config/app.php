@@ -168,11 +168,6 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-<<<<<<< HEAD
-    ])->replace([
-        BaseTranslationServiceProvider::class => JsonTranslationServiceProvider::class,
-=======
->>>>>>> parent of c8b1139b (update Ui)
     ])->toArray(),
 
     /*

@@ -1,14 +1,12 @@
 <?php
 namespace Hamcrest\Core;
 
-use Hamcrest\AbstractMatcherTest;
-
-class EveryTest extends AbstractMatcherTest
+class EveryTest extends \Hamcrest\AbstractMatcherTest
 {
 
     protected function createMatcher()
     {
-        return Every::everyItem(anything());
+        return \Hamcrest\Core\Every::everyItem(anything());
     }
 
     public function testIsTrueWhenEveryValueMatches()

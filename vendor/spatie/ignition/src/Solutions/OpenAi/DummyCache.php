@@ -2,7 +2,6 @@
 
 namespace Spatie\Ignition\Solutions\OpenAi;
 
-use DateInterval;
 use Psr\SimpleCache\CacheInterface;
 
 class DummyCache implements CacheInterface
@@ -12,7 +11,7 @@ class DummyCache implements CacheInterface
         return null;
     }
 
-    public function set(string $key, mixed $value, DateInterval|int|null $ttl = null): bool
+    public function set(string $key, mixed $value, \DateInterval|int|null $ttl = null): bool
     {
         return true;
     }
@@ -32,7 +31,7 @@ class DummyCache implements CacheInterface
         return [];
     }
 
-    public function setMultiple(iterable $values, DateInterval|int|null $ttl = null): bool
+    public function setMultiple(iterable $values, \DateInterval|int|null $ttl = null): bool
     {
         return true;
     }

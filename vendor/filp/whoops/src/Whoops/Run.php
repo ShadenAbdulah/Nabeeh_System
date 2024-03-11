@@ -530,8 +530,8 @@ final class Run implements RunInterface
     public function addFrameFilter($filterCallback)
     {
         if (!is_callable($filterCallback)) {
-            throw new InvalidArgumentException(sprintf(
-                "A frame filter must be of type callable, %s type given.",
+            throw new \InvalidArgumentException(sprintf(
+                "A frame filter must be of type callable, %s type given.", 
                 gettype($filterCallback)
             ));
         }

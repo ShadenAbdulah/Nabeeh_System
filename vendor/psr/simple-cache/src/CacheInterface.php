@@ -2,8 +2,6 @@
 
 namespace Psr\SimpleCache;
 
-use DateInterval;
-
 interface CacheInterface
 {
     /**
@@ -14,7 +12,7 @@ interface CacheInterface
      *
      * @return mixed The value of the item from the cache, or $default in case of cache miss.
      *
-     * @throws InvalidArgumentException
+     * @throws \Psr\SimpleCache\InvalidArgumentException
      *   MUST be thrown if the $key string is not a legal value.
      */
     public function get(string $key, mixed $default = null): mixed;
@@ -24,16 +22,16 @@ interface CacheInterface
      *
      * @param string                 $key   The key of the item to store.
      * @param mixed                  $value The value of the item to store, must be serializable.
-     * @param null|int|DateInterval $ttl   Optional. The TTL value of this item. If no value is sent and
+     * @param null|int|\DateInterval $ttl   Optional. The TTL value of this item. If no value is sent and
      *                                      the driver supports TTL then the library may set a default value
      *                                      for it or let the driver take care of that.
      *
      * @return bool True on success and false on failure.
      *
-     * @throws InvalidArgumentException
+     * @throws \Psr\SimpleCache\InvalidArgumentException
      *   MUST be thrown if the $key string is not a legal value.
      */
-    public function set(string $key, mixed $value, null|int|DateInterval $ttl = null): bool;
+    public function set(string $key, mixed $value, null|int|\DateInterval $ttl = null): bool;
 
     /**
      * Delete an item from the cache by its unique key.
@@ -42,7 +40,7 @@ interface CacheInterface
      *
      * @return bool True if the item was successfully removed. False if there was an error.
      *
-     * @throws InvalidArgumentException
+     * @throws \Psr\SimpleCache\InvalidArgumentException
      *   MUST be thrown if the $key string is not a legal value.
      */
     public function delete(string $key): bool;
@@ -62,7 +60,7 @@ interface CacheInterface
      *
      * @return iterable<string, mixed> A list of key => value pairs. Cache keys that do not exist or are stale will have $default as value.
      *
-     * @throws InvalidArgumentException
+     * @throws \Psr\SimpleCache\InvalidArgumentException
      *   MUST be thrown if $keys is neither an array nor a Traversable,
      *   or if any of the $keys are not a legal value.
      */
@@ -72,17 +70,17 @@ interface CacheInterface
      * Persists a set of key => value pairs in the cache, with an optional TTL.
      *
      * @param iterable               $values A list of key => value pairs for a multiple-set operation.
-     * @param null|int|DateInterval $ttl    Optional. The TTL value of this item. If no value is sent and
+     * @param null|int|\DateInterval $ttl    Optional. The TTL value of this item. If no value is sent and
      *                                       the driver supports TTL then the library may set a default value
      *                                       for it or let the driver take care of that.
      *
      * @return bool True on success and false on failure.
      *
-     * @throws InvalidArgumentException
+     * @throws \Psr\SimpleCache\InvalidArgumentException
      *   MUST be thrown if $values is neither an array nor a Traversable,
      *   or if any of the $values are not a legal value.
      */
-    public function setMultiple(iterable $values, null|int|DateInterval $ttl = null): bool;
+    public function setMultiple(iterable $values, null|int|\DateInterval $ttl = null): bool;
 
     /**
      * Deletes multiple cache items in a single operation.
@@ -91,7 +89,7 @@ interface CacheInterface
      *
      * @return bool True if the items were successfully removed. False if there was an error.
      *
-     * @throws InvalidArgumentException
+     * @throws \Psr\SimpleCache\InvalidArgumentException
      *   MUST be thrown if $keys is neither an array nor a Traversable,
      *   or if any of the $keys are not a legal value.
      */
@@ -109,7 +107,7 @@ interface CacheInterface
      *
      * @return bool
      *
-     * @throws InvalidArgumentException
+     * @throws \Psr\SimpleCache\InvalidArgumentException
      *   MUST be thrown if the $key string is not a legal value.
      */
     public function has(string $key): bool;

@@ -6,7 +6,6 @@ namespace NunoMaduro\Collision\Adapters\Laravel;
 
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Contracts\Debug\ExceptionHandler as ExceptionHandlerContract;
-use Illuminate\Foundation\Exceptions\ReportableHandler;
 use NunoMaduro\Collision\Provider;
 use Symfony\Component\Console\Exception\ExceptionInterface as SymfonyConsoleExceptionInterface;
 use Throwable;
@@ -19,14 +18,14 @@ final class ExceptionHandler implements ExceptionHandlerContract
     /**
      * Holds an instance of the application exception handler.
      *
-     * @var ExceptionHandlerContract
+     * @var \Illuminate\Contracts\Debug\ExceptionHandler
      */
     protected $appExceptionHandler;
 
     /**
      * Holds an instance of the container.
      *
-     * @var Container
+     * @var \Illuminate\Contracts\Container\Container
      */
     protected $container;
 
@@ -89,7 +88,7 @@ final class ExceptionHandler implements ExceptionHandlerContract
     /**
      * Register a reportable callback.
      *
-     * @return ReportableHandler
+     * @return \Illuminate\Foundation\Exceptions\ReportableHandler
      */
     public function reportable(callable $reportUsing)
     {

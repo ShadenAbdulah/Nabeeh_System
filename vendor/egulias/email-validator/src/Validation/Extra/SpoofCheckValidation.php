@@ -2,8 +2,7 @@
 
 namespace Egulias\EmailValidator\Validation\Extra;
 
-use LogicException;
-use Spoofchecker;
+use \Spoofchecker;
 use Egulias\EmailValidator\EmailLexer;
 use Egulias\EmailValidator\Result\SpoofEmail;
 use Egulias\EmailValidator\Result\InvalidEmail;
@@ -19,7 +18,7 @@ class SpoofCheckValidation implements EmailValidation
     public function __construct()
     {
         if (!extension_loaded('intl')) {
-            throw new LogicException(sprintf('The %s class requires the Intl extension.', __CLASS__));
+            throw new \LogicException(sprintf('The %s class requires the Intl extension.', __CLASS__));
         }
     }
 

@@ -1,6 +1,4 @@
-<?php /** @var OpenAiPromptViewModel $viewModel */
-
-use Spatie\Ignition\Solutions\OpenAi\OpenAiPromptViewModel; ?>
+<?php /** @var \Spatie\Ignition\Solutions\OpenAi\OpenAiPromptViewModel $viewModel */ ?>
 
 You are a very skilled PHP programmer.
 

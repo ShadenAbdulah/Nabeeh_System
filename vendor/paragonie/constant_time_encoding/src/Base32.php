@@ -5,9 +5,6 @@ namespace ParagonIE\ConstantTime;
 use InvalidArgumentException;
 use RangeException;
 use TypeError;
-use function pack;
-use function rtrim;
-use function unpack;
 
 /**
  *  Copyright (c) 2016 - 2022 Paragon Initiative Enterprises.
@@ -167,7 +164,7 @@ abstract class Base32 implements EncoderInterface
         // if ($src > 25) $ret -= 72;
         $diff -= ((25 - $src) >> 8) & 73;
 
-        return pack('C', $src + $diff);
+        return \pack('C', $src + $diff);
     }
 
     /**
@@ -186,7 +183,7 @@ abstract class Base32 implements EncoderInterface
         // if ($src > 25) $ret -= 40;
         $diff -= ((25 - $src) >> 8) & 41;
 
-        return pack('C', $src + $diff);
+        return \pack('C', $src + $diff);
     }
 
     /**
@@ -258,7 +255,7 @@ abstract class Base32 implements EncoderInterface
                 );
             }
         } else {
-            $src = rtrim($src, '=');
+            $src = \rtrim($src, '=');
             $srcLen = Binary::safeStrlen($src);
         }
 
@@ -267,7 +264,7 @@ abstract class Base32 implements EncoderInterface
         // Main loop (no padding):
         for ($i = 0; $i + 8 <= $srcLen; $i += 8) {
             /** @var array<int, int> $chunk */
-            $chunk = unpack('C*', Binary::safeSubstr($src, $i, 8));
+            $chunk = \unpack('C*', Binary::safeSubstr($src, $i, 8));
             /** @var int $c0 */
             $c0 = static::$method($chunk[1]);
             /** @var int $c1 */
@@ -285,7 +282,7 @@ abstract class Base32 implements EncoderInterface
             /** @var int $c7 */
             $c7 = static::$method($chunk[8]);
 
-            $dest .= pack(
+            $dest .= \pack(
                 'CCCCC',
                 (($c0 << 3) | ($c1 >> 2)             ) & 0xff,
                 (($c1 << 6) | ($c2 << 1) | ($c3 >> 4)) & 0xff,
@@ -298,7 +295,7 @@ abstract class Base32 implements EncoderInterface
         // The last chunk, which may have padding:
         if ($i < $srcLen) {
             /** @var array<int, int> $chunk */
-            $chunk = unpack('C*', Binary::safeSubstr($src, $i, $srcLen - $i));
+            $chunk = \unpack('C*', Binary::safeSubstr($src, $i, $srcLen - $i));
             /** @var int $c0 */
             $c0 = static::$method($chunk[1]);
 
@@ -316,7 +313,7 @@ abstract class Base32 implements EncoderInterface
                 /** @var int $c6 */
                 $c6 = static::$method($chunk[7]);
 
-                $dest .= pack(
+                $dest .= \pack(
                     'CCCC',
                     (($c0 << 3) | ($c1 >> 2)             ) & 0xff,
                     (($c1 << 6) | ($c2 << 1) | ($c3 >> 4)) & 0xff,
@@ -339,7 +336,7 @@ abstract class Base32 implements EncoderInterface
                 /** @var int $c5 */
                 $c5 = static::$method($chunk[6]);
 
-                $dest .= pack(
+                $dest .= \pack(
                     'CCCC',
                     (($c0 << 3) | ($c1 >> 2)             ) & 0xff,
                     (($c1 << 6) | ($c2 << 1) | ($c3 >> 4)) & 0xff,
@@ -357,7 +354,7 @@ abstract class Base32 implements EncoderInterface
                 /** @var int $c4 */
                 $c4 = static::$method($chunk[5]);
 
-                $dest .= pack(
+                $dest .= \pack(
                     'CCC',
                     (($c0 << 3) | ($c1 >> 2)             ) & 0xff,
                     (($c1 << 6) | ($c2 << 1) | ($c3 >> 4)) & 0xff,
@@ -375,7 +372,7 @@ abstract class Base32 implements EncoderInterface
                 /** @var int $c3 */
                 $c3 = static::$method($chunk[4]);
 
-                $dest .= pack(
+                $dest .= \pack(
                     'CC',
                     (($c0 << 3) | ($c1 >> 2)             ) & 0xff,
                     (($c1 << 6) | ($c2 << 1) | ($c3 >> 4)) & 0xff
@@ -390,7 +387,7 @@ abstract class Base32 implements EncoderInterface
                 /** @var int $c2 */
                 $c2 = static::$method($chunk[3]);
 
-                $dest .= pack(
+                $dest .= \pack(
                     'CC',
                     (($c0 << 3) | ($c1 >> 2)             ) & 0xff,
                     (($c1 << 6) | ($c2 << 1)             ) & 0xff
@@ -403,7 +400,7 @@ abstract class Base32 implements EncoderInterface
                 /** @var int $c1 */
                 $c1 = static::$method($chunk[2]);
 
-                $dest .= pack(
+                $dest .= \pack(
                     'C',
                     (($c0 << 3) | ($c1 >> 2)             ) & 0xff
                 );
@@ -412,7 +409,7 @@ abstract class Base32 implements EncoderInterface
                     $err |= ($c1 << 6) & 0xff;
                 }
             } else {
-                $dest .= pack(
+                $dest .= \pack(
                     'C',
                     (($c0 << 3)                          ) & 0xff
                 );
@@ -443,14 +440,14 @@ abstract class Base32 implements EncoderInterface
         $method = $upper
             ? 'encode5BitsUpper'
             : 'encode5Bits';
-
+        
         $dest = '';
         $srcLen = Binary::safeStrlen($src);
 
         // Main loop (no padding):
         for ($i = 0; $i + 5 <= $srcLen; $i += 5) {
             /** @var array<int, int> $chunk */
-            $chunk = unpack('C*', Binary::safeSubstr($src, $i, 5));
+            $chunk = \unpack('C*', Binary::safeSubstr($src, $i, 5));
             $b0 = $chunk[1];
             $b1 = $chunk[2];
             $b2 = $chunk[3];
@@ -469,7 +466,7 @@ abstract class Base32 implements EncoderInterface
         // The last chunk, which may have padding:
         if ($i < $srcLen) {
             /** @var array<int, int> $chunk */
-            $chunk = unpack('C*', Binary::safeSubstr($src, $i, $srcLen - $i));
+            $chunk = \unpack('C*', Binary::safeSubstr($src, $i, $srcLen - $i));
             $b0 = $chunk[1];
             if ($i + 3 < $srcLen) {
                 $b1 = $chunk[2];

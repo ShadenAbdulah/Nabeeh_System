@@ -12,9 +12,9 @@ use Throwable;
 class ErrorPageViewModel
 {
     /**
-     * @param Throwable|null $throwable
-     * @param IgnitionConfig $ignitionConfig
-     * @param Report $report
+     * @param \Throwable|null $throwable
+     * @param \Spatie\Ignition\Config\IgnitionConfig $ignitionConfig
+     * @param \Spatie\FlareClient\Report $report
      * @param array<int, Solution> $solutions
      * @param string|null $solutionTransformerClass
      */

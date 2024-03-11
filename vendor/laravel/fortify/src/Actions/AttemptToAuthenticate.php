@@ -4,7 +4,6 @@ namespace Laravel\Fortify\Actions;
 
 use Illuminate\Auth\Events\Failed;
 use Illuminate\Contracts\Auth\StatefulGuard;
-use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 use Laravel\Fortify\Fortify;
 use Laravel\Fortify\LoginRateLimiter;
@@ -14,22 +13,22 @@ class AttemptToAuthenticate
     /**
      * The guard implementation.
      *
-     * @var StatefulGuard
+     * @var \Illuminate\Contracts\Auth\StatefulGuard
      */
     protected $guard;
 
     /**
      * The login rate limiter instance.
      *
-     * @var LoginRateLimiter
+     * @var \Laravel\Fortify\LoginRateLimiter
      */
     protected $limiter;
 
     /**
      * Create a new controller instance.
      *
-     * @param StatefulGuard $guard
-     * @param LoginRateLimiter $limiter
+     * @param  \Illuminate\Contracts\Auth\StatefulGuard  $guard
+     * @param  \Laravel\Fortify\LoginRateLimiter  $limiter
      * @return void
      */
     public function __construct(StatefulGuard $guard, LoginRateLimiter $limiter)
@@ -41,7 +40,7 @@ class AttemptToAuthenticate
     /**
      * Handle the incoming request.
      *
-     * @param  Request  $request
+     * @param  \Illuminate\Http\Request  $request
      * @param  callable  $next
      * @return mixed
      */
@@ -64,7 +63,7 @@ class AttemptToAuthenticate
     /**
      * Attempt to authenticate using a custom callback.
      *
-     * @param  Request  $request
+     * @param  \Illuminate\Http\Request  $request
      * @param  callable  $next
      * @return mixed
      */
@@ -86,10 +85,10 @@ class AttemptToAuthenticate
     /**
      * Throw a failed authentication validation exception.
      *
-     * @param  Request  $request
+     * @param  \Illuminate\Http\Request  $request
      * @return void
      *
-     * @throws ValidationException
+     * @throws \Illuminate\Validation\ValidationException
      */
     protected function throwFailedAuthenticationException($request)
     {
@@ -103,7 +102,7 @@ class AttemptToAuthenticate
     /**
      * Fire the failed authentication attempt event with the given arguments.
      *
-     * @param  Request  $request
+     * @param  \Illuminate\Http\Request  $request
      * @return void
      */
     protected function fireFailedEvent($request)

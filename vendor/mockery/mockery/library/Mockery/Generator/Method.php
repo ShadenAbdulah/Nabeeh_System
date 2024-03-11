@@ -11,15 +11,13 @@
 namespace Mockery\Generator;
 
 use Mockery\Reflector;
-use ReflectionMethod;
-use ReflectionParameter;
 
 class Method
 {
-    /** @var ReflectionMethod */
+    /** @var \ReflectionMethod */
     private $method;
 
-    public function __construct(ReflectionMethod $method)
+    public function __construct(\ReflectionMethod $method)
     {
         $this->method = $method;
     }
@@ -34,7 +32,7 @@ class Method
      */
     public function getParameters()
     {
-        return array_map(function (ReflectionParameter $parameter) {
+        return array_map(function (\ReflectionParameter $parameter) {
             return new Parameter($parameter);
         }, $this->method->getParameters());
     }

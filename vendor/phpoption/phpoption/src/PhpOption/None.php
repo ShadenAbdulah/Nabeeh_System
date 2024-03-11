@@ -19,8 +19,6 @@
 namespace PhpOption;
 
 use EmptyIterator;
-use Exception;
-use RuntimeException;
 
 /**
  * @extends Option<mixed>
@@ -44,7 +42,7 @@ final class None extends Option
 
     public function get()
     {
-        throw new RuntimeException('None has no value.');
+        throw new \RuntimeException('None has no value.');
     }
 
     public function getOrCall($callable)
@@ -57,7 +55,7 @@ final class None extends Option
         return $default;
     }
 
-    public function getOrThrow(Exception $ex)
+    public function getOrThrow(\Exception $ex)
     {
         throw $ex;
     }

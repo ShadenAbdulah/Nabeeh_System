@@ -1,14 +1,12 @@
 <?php
 namespace Hamcrest\Core;
 
-use Hamcrest\AbstractMatcherTest;
-
-class AllOfTest extends AbstractMatcherTest
+class AllOfTest extends \Hamcrest\AbstractMatcherTest
 {
 
     protected function createMatcher()
     {
-        return AllOf::allOf('irrelevant');
+        return \Hamcrest\Core\AllOf::allOf('irrelevant');
     }
 
     public function testEvaluatesToTheLogicalConjunctionOfTwoOtherMatchers()
@@ -29,14 +27,14 @@ class AllOfTest extends AbstractMatcherTest
     public function testSupportsMixedTypes()
     {
         $all = allOf(
-            equalTo(new SampleBaseClass('good')),
-            equalTo(new SampleBaseClass('good')),
-            equalTo(new SampleSubClass('ugly'))
+            equalTo(new \Hamcrest\Core\SampleBaseClass('good')),
+            equalTo(new \Hamcrest\Core\SampleBaseClass('good')),
+            equalTo(new \Hamcrest\Core\SampleSubClass('ugly'))
         );
 
         $negated = not($all);
 
-        assertThat(new SampleSubClass('good'), $negated);
+        assertThat(new \Hamcrest\Core\SampleSubClass('good'), $negated);
     }
 
     public function testHasAReadableDescription()

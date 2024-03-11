@@ -16,7 +16,7 @@ final class IgnitionSolutionsRepository implements SolutionsRepository
     /**
      * Holds an instance of ignition solutions provider repository.
      *
-     * @var SolutionProviderRepository
+     * @var \Spatie\Ignition\Contracts\SolutionProviderRepository
      */
     protected $solutionProviderRepository;
 

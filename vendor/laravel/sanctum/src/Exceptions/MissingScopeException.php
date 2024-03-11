@@ -7,7 +7,7 @@ use Illuminate\Support\Arr;
 
 /**
  * @deprecated
- * @see MissingAbilityException
+ * @see \Laravel\Sanctum\Exceptions\MissingAbilityException
  */
 class MissingScopeException extends AuthorizationException
 {

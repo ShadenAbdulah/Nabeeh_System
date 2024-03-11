@@ -17,8 +17,6 @@ use Monolog\Utils;
 use Monolog\LogRecord;
 use Monolog\Level;
 
-use RuntimeException;
-use UnexpectedValueException;
 use function count;
 use function headers_list;
 use function stripos;
@@ -175,7 +173,7 @@ class BrowserConsoleHandler extends AbstractProcessingHandler
             $context = self::dump('Context', $record->context);
             $extra = self::dump('Extra', $record->extra);
 
-            if (count($context) === 0 && count($extra) === 0) {
+            if (\count($context) === 0 && \count($extra) === 0) {
                 $script[] = self::call_array(self::getConsoleMethodForLevel($record->level), self::handleStyles($record->formatted));
             } else {
                 $script = array_merge(
@@ -246,7 +244,7 @@ class BrowserConsoleHandler extends AbstractProcessingHandler
         if (null === $style) {
             $pcreErrorCode = preg_last_error();
 
-            throw new RuntimeException('Failed to run preg_replace_callback: ' . $pcreErrorCode . ' / ' . Utils::pcreLastErrorMessage($pcreErrorCode));
+            throw new \RuntimeException('Failed to run preg_replace_callback: ' . $pcreErrorCode . ' / ' . Utils::pcreLastErrorMessage($pcreErrorCode));
         }
 
         return $style;
@@ -260,7 +258,7 @@ class BrowserConsoleHandler extends AbstractProcessingHandler
     {
         $script = [];
         $dict = array_filter($dict);
-        if (count($dict) === 0) {
+        if (\count($dict) === 0) {
             return $script;
         }
         $script[] = self::call('log', self::quote('%c%s'), self::quote('font-weight: bold'), self::quote($title));
@@ -287,7 +285,7 @@ class BrowserConsoleHandler extends AbstractProcessingHandler
     {
         $method = array_shift($args);
         if (!is_string($method)) {
-            throw new UnexpectedValueException('Expected the first arg to be a string, got: '.var_export($method, true));
+            throw new \UnexpectedValueException('Expected the first arg to be a string, got: '.var_export($method, true));
         }
 
         return self::call_array($method, $args);

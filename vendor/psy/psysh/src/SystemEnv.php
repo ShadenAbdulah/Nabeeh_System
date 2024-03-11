@@ -11,8 +11,6 @@
 
 namespace Psy;
 
-use function getenv;
-
 /**
  * Environment variables implementation via getenv().
  */
@@ -29,7 +27,7 @@ class SystemEnv implements EnvInterface
             return $_SERVER[$key];
         }
 
-        $result = getenv($key);
+        $result = \getenv($key);
 
         return $result === false ? null : $result;
     }

@@ -11,8 +11,6 @@
 
 namespace Psy\Exception;
 
-use Throwable;
-
 /**
  * A RuntimeException for Psy.
  */
@@ -25,9 +23,9 @@ class RuntimeException extends \RuntimeException implements Exception
      *
      * @param string          $message  (default: "")
      * @param int             $code     (default: 0)
-     * @param Throwable|null $previous (default: null)
+     * @param \Throwable|null $previous (default: null)
      */
-    public function __construct(string $message = '', int $code = 0, Throwable $previous = null)
+    public function __construct(string $message = '', int $code = 0, \Throwable $previous = null)
     {
         $this->rawMessage = $message;
         parent::__construct($message, $code, $previous);

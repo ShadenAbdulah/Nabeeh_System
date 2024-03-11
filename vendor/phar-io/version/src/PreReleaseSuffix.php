@@ -1,10 +1,6 @@
 <?php declare(strict_types = 1);
 namespace PharIo\Version;
 
-use function preg_match;
-use function sprintf;
-use function strtolower;
-
 class PreReleaseSuffix {
     private const valueScoreMap = [
         'dev'   => 0,
@@ -62,7 +58,7 @@ class PreReleaseSuffix {
     }
 
     private function mapValueToScore(string $value): int {
-        $value = strtolower($value);
+        $value = \strtolower($value);
 
         return self::valueScoreMap[$value];
     }
@@ -70,8 +66,8 @@ class PreReleaseSuffix {
     private function parseValue(string $value): void {
         $regex = '/-?((dev|beta|b|rc|alpha|a|patch|p|pl)\.?(\d*)).*$/i';
 
-        if (preg_match($regex, $value, $matches) !== 1) {
-            throw new InvalidPreReleaseSuffixException(sprintf('Invalid label %s', $value));
+        if (\preg_match($regex, $value, $matches) !== 1) {
+            throw new InvalidPreReleaseSuffixException(\sprintf('Invalid label %s', $value));
         }
 
         $this->full  = $matches[1];

@@ -2,9 +2,6 @@
 
 namespace Faker\Provider;
 
-use InvalidArgumentException;
-use OverflowException;
-
 abstract class Text extends Base
 {
     protected static $baseText = '';
@@ -57,23 +54,23 @@ abstract class Text extends Base
     public function realTextBetween($minNbChars = 160, $maxNbChars = 200, $indexSize = 2)
     {
         if ($minNbChars < 1) {
-            throw new InvalidArgumentException('minNbChars must be at least 1');
+            throw new \InvalidArgumentException('minNbChars must be at least 1');
         }
 
         if ($maxNbChars < 10) {
-            throw new InvalidArgumentException('maxNbChars must be at least 10');
+            throw new \InvalidArgumentException('maxNbChars must be at least 10');
         }
 
         if ($indexSize < 1) {
-            throw new InvalidArgumentException('indexSize must be at least 1');
+            throw new \InvalidArgumentException('indexSize must be at least 1');
         }
 
         if ($indexSize > 5) {
-            throw new InvalidArgumentException('indexSize must be at most 5');
+            throw new \InvalidArgumentException('indexSize must be at most 5');
         }
 
         if ($minNbChars >= $maxNbChars) {
-            throw new InvalidArgumentException('minNbChars must be smaller than maxNbChars');
+            throw new \InvalidArgumentException('minNbChars must be smaller than maxNbChars');
         }
 
         $words = $this->getConsecutiveWords($indexSize);
@@ -83,7 +80,7 @@ abstract class Text extends Base
             ++$iterations;
 
             if ($iterations >= 100) {
-                throw new OverflowException(sprintf('Maximum retries of %d reached without finding a valid real text', $iterations));
+                throw new \OverflowException(sprintf('Maximum retries of %d reached without finding a valid real text', $iterations));
             }
 
             $result = $this->generateText($maxNbChars, $words);

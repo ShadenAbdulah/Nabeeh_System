@@ -1,9 +1,7 @@
 <?php
 namespace Hamcrest\Text;
 
-use Hamcrest\AbstractMatcherTest;
-
-class StringEndsWithTest extends AbstractMatcherTest
+class StringEndsWithTest extends \Hamcrest\AbstractMatcherTest
 {
 
     const EXCERPT = 'EXCERPT';
@@ -12,7 +10,7 @@ class StringEndsWithTest extends AbstractMatcherTest
 
     protected function setUp()
     {
-        $this->_stringEndsWith = StringEndsWith::endsWith(self::EXCERPT);
+        $this->_stringEndsWith = \Hamcrest\Text\StringEndsWith::endsWith(self::EXCERPT);
     }
 
     protected function createMatcher()

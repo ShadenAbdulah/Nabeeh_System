@@ -4,16 +4,10 @@ namespace Hamcrest\Xml;
 /*
  Copyright (c) 2009 hamcrest.org
  */
-
-use DOMDocument;
-use DOMNode;
-use DOMNodeList;
-use DOMXPath;
 use Hamcrest\Core\IsEqual;
 use Hamcrest\Description;
 use Hamcrest\DiagnosingMatcher;
 use Hamcrest\Matcher;
-use InvalidArgumentException;
 
 /**
  * Matches if XPath applied to XML/HTML/XHTML document either
@@ -47,7 +41,7 @@ class HasXPath extends DiagnosingMatcher
     /**
      * Matches if the XPath matches against the DOM node and the matcher.
      *
-     * @param string|DOMNode $actual
+     * @param string|\DOMNode $actual
      * @param Description $mismatchDescription
      * @return bool
      */
@@ -55,13 +49,13 @@ class HasXPath extends DiagnosingMatcher
     {
         if (is_string($actual)) {
             $actual = $this->createDocument($actual);
-        } elseif (!$actual instanceof DOMNode) {
+        } elseif (!$actual instanceof \DOMNode) {
             $mismatchDescription->appendText('was ')->appendValue($actual);
 
             return false;
         }
         $result = $this->evaluate($actual);
-        if ($result instanceof DOMNodeList) {
+        if ($result instanceof \DOMNodeList) {
             return $this->matchesContent($result, $mismatchDescription);
         } else {
             return $this->matchesExpression($result, $mismatchDescription);
@@ -73,19 +67,19 @@ class HasXPath extends DiagnosingMatcher
      * XML or HTML string.
      *
      * @param string $text
-     * @return DOMDocument built from <code>$text</code>
-     * @throws InvalidArgumentException if the document is not valid
+     * @return \DOMDocument built from <code>$text</code>
+     * @throws \InvalidArgumentException if the document is not valid
      */
     protected function createDocument($text)
     {
-        $document = new DOMDocument();
+        $document = new \DOMDocument();
         if (preg_match('/^\s*<\?xml/', $text)) {
             if (!@$document->loadXML($text)) {
-                throw new InvalidArgumentException('Must pass a valid XML document');
+                throw new \InvalidArgumentException('Must pass a valid XML document');
             }
         } else {
             if (!@$document->loadHTML($text)) {
-                throw new InvalidArgumentException('Must pass a valid HTML or XHTML document');
+                throw new \InvalidArgumentException('Must pass a valid HTML or XHTML document');
             }
         }
 
@@ -96,17 +90,17 @@ class HasXPath extends DiagnosingMatcher
      * Applies the configured XPath to the DOM node and returns either
      * the result if it's an expression or the node list if it's a query.
      *
-     * @param DOMNode $node context from which to issue query
+     * @param \DOMNode $node context from which to issue query
      * @return mixed result of expression or DOMNodeList from query
      */
-    protected function evaluate(DOMNode $node)
+    protected function evaluate(\DOMNode $node)
     {
-        if ($node instanceof DOMDocument) {
-            $xpathDocument = new DOMXPath($node);
+        if ($node instanceof \DOMDocument) {
+            $xpathDocument = new \DOMXPath($node);
 
             return $xpathDocument->evaluate($this->_xpath);
         } else {
-            $xpathDocument = new DOMXPath($node->ownerDocument);
+            $xpathDocument = new \DOMXPath($node->ownerDocument);
 
             return $xpathDocument->evaluate($this->_xpath, $node);
         }
@@ -116,11 +110,11 @@ class HasXPath extends DiagnosingMatcher
      * Matches if the list of nodes is not empty and the content of at least
      * one node matches the configured matcher, if supplied.
      *
-     * @param DOMNodeList $nodes selected by the XPath query
+     * @param \DOMNodeList $nodes selected by the XPath query
      * @param Description $mismatchDescription
      * @return bool
      */
-    protected function matchesContent(DOMNodeList $nodes, Description $mismatchDescription)
+    protected function matchesContent(\DOMNodeList $nodes, Description $mismatchDescription)
     {
         if ($nodes->length == 0) {
             $mismatchDescription->appendText('XPath returned no results');

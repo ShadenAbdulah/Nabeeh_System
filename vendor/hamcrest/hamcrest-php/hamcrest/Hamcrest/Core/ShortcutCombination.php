@@ -7,14 +7,13 @@ namespace Hamcrest\Core;
 
 use Hamcrest\BaseMatcher;
 use Hamcrest\Description;
-use Hamcrest\Matcher;
 use Hamcrest\Util;
 
 abstract class ShortcutCombination extends BaseMatcher
 {
 
     /**
-     * @var array<Matcher>
+     * @var array<\Hamcrest\Matcher>
      */
     private $_matchers;
 
@@ -27,7 +26,7 @@ abstract class ShortcutCombination extends BaseMatcher
 
     protected function matchesWithShortcut($item, $shortcut)
     {
-        /** @var $matcher Matcher */
+        /** @var $matcher \Hamcrest\Matcher */
         foreach ($this->_matchers as $matcher) {
             if ($matcher->matches($item) == $shortcut) {
                 return $shortcut;

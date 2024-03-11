@@ -21,9 +21,6 @@ use PhpParser\Node\Stmt\If_;
 use PhpParser\Node\Stmt\Namespace_;
 use PhpParser\Node\Stmt\Return_;
 use PhpParser\Node\Stmt\Switch_;
-use function array_slice;
-use function count;
-use function end;
 
 /**
  * Add an implicit "return" to the last statement, provided it can be returned.
@@ -52,7 +49,7 @@ class ImplicitReturnPass extends CodeCleanerPass
             return [new Return_(NoReturnValue::create())];
         }
 
-        $last = end($nodes);
+        $last = \end($nodes);
 
         // Special case a few types of statements to add an implicit return
         // value (even though they technically don't have any return value)
@@ -71,21 +68,21 @@ class ImplicitReturnPass extends CodeCleanerPass
         } elseif ($last instanceof Switch_) {
             foreach ($last->cases as $case) {
                 // only add an implicit return to cases which end in break
-                $caseLast = end($case->stmts);
+                $caseLast = \end($case->stmts);
                 if ($caseLast instanceof Break_) {
-                    $case->stmts = $this->addImplicitReturn(array_slice($case->stmts, 0, -1));
+                    $case->stmts = $this->addImplicitReturn(\array_slice($case->stmts, 0, -1));
                     $case->stmts[] = $caseLast;
                 }
             }
         } elseif ($last instanceof Expr && !($last instanceof Exit_)) {
             // @codeCoverageIgnoreStart
-            $nodes[count($nodes) - 1] = new Return_($last, [
+            $nodes[\count($nodes) - 1] = new Return_($last, [
                 'startLine' => $last->getStartLine(),
                 'endLine'   => $last->getEndLine(),
             ]);
             // @codeCoverageIgnoreEnd
         } elseif ($last instanceof Expression && !($last->expr instanceof Exit_)) {
-            $nodes[count($nodes) - 1] = new Return_($last->expr, [
+            $nodes[\count($nodes) - 1] = new Return_($last->expr, [
                 'startLine' => $last->getStartLine(),
                 'endLine'   => $last->getEndLine(),
             ]);

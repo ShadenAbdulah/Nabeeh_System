@@ -11,19 +11,16 @@
 namespace Mockery\Generator;
 
 use Mockery\Reflector;
-use ReflectionClass;
-use ReflectionParameter;
-use function class_exists;
 
 class Parameter
 {
     /** @var int */
     private static $parameterCounter = 0;
 
-    /** @var ReflectionParameter */
+    /** @var \ReflectionParameter */
     private $rfp;
 
-    public function __construct(ReflectionParameter $rfp)
+    public function __construct(\ReflectionParameter $rfp)
     {
         $this->rfp = $rfp;
     }
@@ -38,7 +35,7 @@ class Parameter
      *
      * This will be null if there was no type, or it was a scalar or a union.
      *
-     * @return ReflectionClass|null
+     * @return \ReflectionClass|null
      *
      * @deprecated since 1.3.3 and will be removed in 2.0.
      */
@@ -46,7 +43,7 @@ class Parameter
     {
         $typeHint = Reflector::getTypeHint($this->rfp, true);
 
-        return class_exists($typeHint) ? DefinedTargetClass::factory($typeHint, false) : null;
+        return \class_exists($typeHint) ? DefinedTargetClass::factory($typeHint, false) : null;
     }
 
     /**

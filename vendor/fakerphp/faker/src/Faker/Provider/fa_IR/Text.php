@@ -2,8 +2,6 @@
 
 namespace Faker\Provider\fa_IR;
 
-use InvalidArgumentException;
-
 class Text extends \Faker\Provider\Text
 {
     /**
@@ -14,22 +12,22 @@ class Text extends \Faker\Provider\Text
      * @param int $maxNbChars
      * @param int $indexSize
      *
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      *
      * @return string
      */
     public function realText($maxNbChars = 200, $indexSize = 2)
     {
         if ($maxNbChars < 10) {
-            throw new InvalidArgumentException('maxNbChars must be at least 10');
+            throw new \InvalidArgumentException('maxNbChars must be at least 10');
         }
 
         if ($indexSize < 1) {
-            throw new InvalidArgumentException('indexSize must be at least 1');
+            throw new \InvalidArgumentException('indexSize must be at least 1');
         }
 
         if ($indexSize > 5) {
-            throw new InvalidArgumentException('indexSize must be at most 5');
+            throw new \InvalidArgumentException('indexSize must be at most 5');
         }
 
         $words = $this->getConsecutiveWords($indexSize);

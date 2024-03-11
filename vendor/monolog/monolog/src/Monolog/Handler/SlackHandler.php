@@ -16,7 +16,6 @@ use Monolog\Level;
 use Monolog\Utils;
 use Monolog\Handler\Slack\SlackRecord;
 use Monolog\LogRecord;
-use function count;
 
 /**
  * Sends notifications through Slack API
@@ -130,7 +129,7 @@ class SlackHandler extends SocketHandler
         $dataArray = $this->slackRecord->getSlackData($record);
         $dataArray['token'] = $this->token;
 
-        if (isset($dataArray['attachments']) && is_array($dataArray['attachments']) && count($dataArray['attachments']) > 0) {
+        if (isset($dataArray['attachments']) && is_array($dataArray['attachments']) && \count($dataArray['attachments']) > 0) {
             $dataArray['attachments'] = Utils::jsonEncode($dataArray['attachments']);
         }
 

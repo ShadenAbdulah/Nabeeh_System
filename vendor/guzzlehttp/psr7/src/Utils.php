@@ -4,15 +4,10 @@ declare(strict_types=1);
 
 namespace GuzzleHttp\Psr7;
 
-use InvalidArgumentException;
-use Iterator;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\StreamInterface;
 use Psr\Http\Message\UriInterface;
-use RuntimeException;
-use Throwable;
-use function stream_get_meta_data;
 
 final class Utils
 {
@@ -47,7 +42,7 @@ final class Utils
      * @param int             $maxLen Maximum number of bytes to read. Pass -1
      *                                to read the entire stream.
      *
-     * @throws RuntimeException on error.
+     * @throws \RuntimeException on error.
      */
     public static function copyToStream(StreamInterface $source, StreamInterface $dest, int $maxLen = -1): void
     {
@@ -81,7 +76,7 @@ final class Utils
      * @param int             $maxLen Maximum number of bytes to read. Pass -1
      *                                to read the entire stream.
      *
-     * @throws RuntimeException on error.
+     * @throws \RuntimeException on error.
      */
     public static function copyToString(StreamInterface $stream, int $maxLen = -1): string
     {
@@ -122,7 +117,7 @@ final class Utils
      * @param string          $algo      Hash algorithm (e.g. md5, crc32, etc)
      * @param bool            $rawOutput Whether or not to use raw output
      *
-     * @throws RuntimeException on error.
+     * @throws \RuntimeException on error.
      */
     public static function hash(StreamInterface $stream, string $algo, bool $rawOutput = false): string
     {
@@ -284,10 +279,10 @@ final class Utils
      *   number of requested bytes are available. Any additional bytes will be
      *   buffered and used in subsequent reads.
      *
-     * @param resource|string|int|float|bool|StreamInterface|callable|Iterator|null $resource Entity body data
+     * @param resource|string|int|float|bool|StreamInterface|callable|\Iterator|null $resource Entity body data
      * @param array{size?: int, metadata?: array}                                    $options  Additional options
      *
-     * @throws InvalidArgumentException if the $resource arg is not valid.
+     * @throws \InvalidArgumentException if the $resource arg is not valid.
      */
     public static function streamFor($resource = '', array $options = []): StreamInterface
     {
@@ -309,7 +304,7 @@ final class Utils
                  */
 
                 /** @var resource $resource */
-                if ((stream_get_meta_data($resource)['uri'] ?? '') === 'php://input') {
+                if ((\stream_get_meta_data($resource)['uri'] ?? '') === 'php://input') {
                     $stream = self::tryFopen('php://temp', 'w+');
                     stream_copy_to_stream($resource, $stream);
                     fseek($stream, 0);
@@ -321,7 +316,7 @@ final class Utils
                 /** @var object $resource */
                 if ($resource instanceof StreamInterface) {
                     return $resource;
-                } elseif ($resource instanceof Iterator) {
+                } elseif ($resource instanceof \Iterator) {
                     return new PumpStream(function () use ($resource) {
                         if (!$resource->valid()) {
                             return false;
@@ -343,7 +338,7 @@ final class Utils
             return new PumpStream($resource, $options);
         }
 
-        throw new InvalidArgumentException('Invalid resource type: '.gettype($resource));
+        throw new \InvalidArgumentException('Invalid resource type: '.gettype($resource));
     }
 
     /**
@@ -357,13 +352,13 @@ final class Utils
      *
      * @return resource
      *
-     * @throws RuntimeException if the file cannot be opened
+     * @throws \RuntimeException if the file cannot be opened
      */
     public static function tryFopen(string $filename, string $mode)
     {
         $ex = null;
         set_error_handler(static function (int $errno, string $errstr) use ($filename, $mode, &$ex): bool {
-            $ex = new RuntimeException(sprintf(
+            $ex = new \RuntimeException(sprintf(
                 'Unable to open "%s" using mode "%s": %s',
                 $filename,
                 $mode,
@@ -376,8 +371,8 @@ final class Utils
         try {
             /** @var resource $handle */
             $handle = fopen($filename, $mode);
-        } catch (Throwable $e) {
-            $ex = new RuntimeException(sprintf(
+        } catch (\Throwable $e) {
+            $ex = new \RuntimeException(sprintf(
                 'Unable to open "%s" using mode "%s": %s',
                 $filename,
                 $mode,
@@ -388,7 +383,7 @@ final class Utils
         restore_error_handler();
 
         if ($ex) {
-            /** @var $ex RuntimeException */
+            /** @var $ex \RuntimeException */
             throw $ex;
         }
 
@@ -404,13 +399,13 @@ final class Utils
      *
      * @param resource $stream
      *
-     * @throws RuntimeException if the stream cannot be read
+     * @throws \RuntimeException if the stream cannot be read
      */
     public static function tryGetContents($stream): string
     {
         $ex = null;
         set_error_handler(static function (int $errno, string $errstr) use (&$ex): bool {
-            $ex = new RuntimeException(sprintf(
+            $ex = new \RuntimeException(sprintf(
                 'Unable to read stream contents: %s',
                 $errstr
             ));
@@ -423,10 +418,10 @@ final class Utils
             $contents = stream_get_contents($stream);
 
             if ($contents === false) {
-                $ex = new RuntimeException('Unable to read stream contents');
+                $ex = new \RuntimeException('Unable to read stream contents');
             }
-        } catch (Throwable $e) {
-            $ex = new RuntimeException(sprintf(
+        } catch (\Throwable $e) {
+            $ex = new \RuntimeException(sprintf(
                 'Unable to read stream contents: %s',
                 $e->getMessage()
             ), 0, $e);
@@ -435,7 +430,7 @@ final class Utils
         restore_error_handler();
 
         if ($ex) {
-            /** @var $ex RuntimeException */
+            /** @var $ex \RuntimeException */
             throw $ex;
         }
 
@@ -451,7 +446,7 @@ final class Utils
      *
      * @param string|UriInterface $uri
      *
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     public static function uriFor($uri): UriInterface
     {
@@ -463,6 +458,6 @@ final class Utils
             return new Uri($uri);
         }
 
-        throw new InvalidArgumentException('URI must be a string or UriInterface');
+        throw new \InvalidArgumentException('URI must be a string or UriInterface');
     }
 }

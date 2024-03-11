@@ -2,11 +2,7 @@
 
 namespace Faker;
 
-use Closure;
-use DateTime;
 use Faker\Container\ContainerInterface;
-use InvalidArgumentException;
-use OverflowException;
 
 /**
  * @property string $citySuffix
@@ -185,13 +181,13 @@ use OverflowException;
  *
  * @method int unixTime($max = 'now')
  *
- * @property DateTime $dateTime
+ * @property \DateTime $dateTime
  *
- * @method DateTime dateTime($max = 'now', $timezone = null)
+ * @method \DateTime dateTime($max = 'now', $timezone = null)
  *
- * @property DateTime $dateTimeAD
+ * @property \DateTime $dateTimeAD
  *
- * @method DateTime dateTimeAD($max = 'now', $timezone = null)
+ * @method \DateTime dateTimeAD($max = 'now', $timezone = null)
  *
  * @property string $iso8601
  *
@@ -205,29 +201,29 @@ use OverflowException;
  *
  * @method string time($format = 'H:i:s', $max = 'now')
  *
- * @property DateTime $dateTimeBetween
+ * @property \DateTime $dateTimeBetween
  *
- * @method DateTime dateTimeBetween($startDate = '-30 years', $endDate = 'now', $timezone = null)
+ * @method \DateTime dateTimeBetween($startDate = '-30 years', $endDate = 'now', $timezone = null)
  *
- * @property DateTime $dateTimeInInterval
+ * @property \DateTime $dateTimeInInterval
  *
- * @method DateTime dateTimeInInterval($date = '-30 years', $interval = '+5 days', $timezone = null)
+ * @method \DateTime dateTimeInInterval($date = '-30 years', $interval = '+5 days', $timezone = null)
  *
- * @property DateTime $dateTimeThisCentury
+ * @property \DateTime $dateTimeThisCentury
  *
- * @method DateTime dateTimeThisCentury($max = 'now', $timezone = null)
+ * @method \DateTime dateTimeThisCentury($max = 'now', $timezone = null)
  *
- * @property DateTime $dateTimeThisDecade
+ * @property \DateTime $dateTimeThisDecade
  *
- * @method DateTime dateTimeThisDecade($max = 'now', $timezone = null)
+ * @method \DateTime dateTimeThisDecade($max = 'now', $timezone = null)
  *
- * @property DateTime $dateTimeThisYear
+ * @property \DateTime $dateTimeThisYear
  *
- * @method DateTime dateTimeThisYear($max = 'now', $timezone = null)
+ * @method \DateTime dateTimeThisYear($max = 'now', $timezone = null)
  *
- * @property DateTime $dateTimeThisMonth
+ * @property \DateTime $dateTimeThisMonth
  *
- * @method DateTime dateTimeThisMonth($max = 'now', $timezone = null)
+ * @method \DateTime dateTimeThisMonth($max = 'now', $timezone = null)
  *
  * @property string $amPm
  *
@@ -429,9 +425,9 @@ use OverflowException;
  *
  * @method string creditCardNumber($type = null, $formatted = false, $separator = '-')
  *
- * @property DateTime $creditCardExpirationDate
+ * @property \DateTime $creditCardExpirationDate
  *
- * @method DateTime creditCardExpirationDate($valid = true)
+ * @method \DateTime creditCardExpirationDate($valid = true)
  *
  * @property string $creditCardExpirationDateString
  *
@@ -626,7 +622,7 @@ class Generator
      * @param int  $maxRetries Maximum number of retries to find a unique value,
      *                         After which an OverflowException is thrown.
      *
-     * @throws OverflowException When no unique value can be found by iterating $maxRetries times
+     * @throws \OverflowException When no unique value can be found by iterating $maxRetries times
      *
      * @return self A proxy class returning only non-existing values
      */
@@ -673,15 +669,15 @@ class Generator
      * print_r($values); // [0, 4, 8, 4, 2, 6, 0, 8, 8, 6]
      * </code>
      *
-     * @param ?Closure $validator  A function returning true for valid values
+     * @param ?\Closure $validator  A function returning true for valid values
      * @param int       $maxRetries Maximum number of retries to find a valid value,
      *                              After which an OverflowException is thrown.
      *
-     * @return self A proxy class returning only valid values
-     *@throws OverflowException When no valid value can be found by iterating $maxRetries times
+     * @throws \OverflowException When no valid value can be found by iterating $maxRetries times
      *
+     * @return self A proxy class returning only valid values
      */
-    public function valid(?Closure $validator = null, int $maxRetries = 10000)
+    public function valid(?\Closure $validator = null, int $maxRetries = 10000)
     {
         return new ValidGenerator($this, $validator, $maxRetries);
     }
@@ -744,7 +740,7 @@ class Generator
             }
         }
 
-        throw new InvalidArgumentException(sprintf('Unknown format "%s"', $format));
+        throw new \InvalidArgumentException(sprintf('Unknown format "%s"', $format));
     }
 
     /**

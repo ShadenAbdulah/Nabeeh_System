@@ -15,10 +15,6 @@ use Psy\Exception\ErrorException;
 use Psy\Shell;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use function sprintf;
-use function strpos;
-use function substr;
-use const PHP_EOL;
 
 /**
  * Self update command.
@@ -83,14 +79,14 @@ class SelfUpdate
     private function getAssetUrl(string $latestVersion): string
     {
         $versionPostfix = '';
-        if (strpos(Shell::VERSION, '+')) {
-            $versionPostfix = '-'. substr(Shell::VERSION, strpos(Shell::VERSION, '+') + 1);
+        if (\strpos(Shell::VERSION, '+')) {
+            $versionPostfix = '-'.\substr(Shell::VERSION, \strpos(Shell::VERSION, '+') + 1);
         }
-        $downloadFilename = sprintf('psysh-%s%s.tar.gz', $latestVersion, $versionPostfix);
+        $downloadFilename = \sprintf('psysh-%s%s.tar.gz', $latestVersion, $versionPostfix);
 
         // check if latest release data contains an asset matching the filename?
 
-        return sprintf('%s/%s/%s', self::URL_PREFIX, $latestVersion, $downloadFilename);
+        return \sprintf('%s/%s/%s', self::URL_PREFIX, $latestVersion, $downloadFilename);
     }
 
     /**
@@ -137,7 +133,7 @@ class SelfUpdate
             $downloaded = $downloader->download($downloadUrl);
         } catch (ErrorException $e) {
             $output->write(' <error>Failed.</error>');
-            $output->writeln(sprintf('<error>%s</error>', $e->getMessage()));
+            $output->writeln(\sprintf('<error>%s</error>', $e->getMessage()));
 
             return self::FAILURE;
         }
@@ -148,7 +144,7 @@ class SelfUpdate
 
             return self::FAILURE;
         } else {
-            $output->write(' <info>OK</info>'. PHP_EOL);
+            $output->write(' <info>OK</info>'.\PHP_EOL);
         }
 
         $downloadedFile = $downloader->getFilename();

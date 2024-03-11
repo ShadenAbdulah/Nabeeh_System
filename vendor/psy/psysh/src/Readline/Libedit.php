@@ -12,20 +12,6 @@
 namespace Psy\Readline;
 
 use Psy\Util\Str;
-use function array_filter;
-use function array_map;
-use function array_shift;
-use function array_values;
-use function explode;
-use function file_get_contents;
-use function function_exists;
-use function is_file;
-use function is_writable;
-use function sprintf;
-use function strpos;
-use function substr;
-use function trigger_error;
-use const E_USER_NOTICE;
 
 /**
  * A Libedit-based Readline implementation.
@@ -46,7 +32,7 @@ class Libedit extends GNUReadline
      */
     public static function isSupported(): bool
     {
-        return function_exists('readline') && !function_exists('readline_list_history');
+        return \function_exists('readline') && !\function_exists('readline_list_history');
     }
 
     /**
@@ -62,23 +48,23 @@ class Libedit extends GNUReadline
      */
     public function listHistory(): array
     {
-        $history = file_get_contents($this->historyFile);
+        $history = \file_get_contents($this->historyFile);
         if (!$history) {
             return [];
         }
 
         // libedit doesn't seem to support non-unix line separators.
-        $history = explode("\n", $history);
+        $history = \explode("\n", $history);
 
         // remove history signature if it exists
         if ($history[0] === '_HiStOrY_V2_') {
-            array_shift($history);
+            \array_shift($history);
         }
 
         // decode the line
-        $history = array_map([$this, 'parseHistoryLine'], $history);
+        $history = \array_map([$this, 'parseHistoryLine'], $history);
         // filter empty lines & comments
-        return array_values(array_filter($history));
+        return \array_values(\array_filter($history));
     }
 
     /**
@@ -93,10 +79,10 @@ class Libedit extends GNUReadline
         //
         // See https://github.com/bobthecow/psysh/issues/552
         if ($res === false && !$this->hasWarnedOwnership) {
-            if (is_file($this->historyFile) && is_writable($this->historyFile)) {
+            if (\is_file($this->historyFile) && \is_writable($this->historyFile)) {
                 $this->hasWarnedOwnership = true;
-                $msg = sprintf('Error writing history file, check file ownership: %s', $this->historyFile);
-                trigger_error($msg, E_USER_NOTICE);
+                $msg = \sprintf('Error writing history file, check file ownership: %s', $this->historyFile);
+                \trigger_error($msg, \E_USER_NOTICE);
             }
         }
 
@@ -121,8 +107,8 @@ class Libedit extends GNUReadline
         }
         // if "\0" is found in an entry, then
         // everything from it until the end of line is a comment.
-        if (($pos = strpos($line, "\0")) !== false) {
-            $line = substr($line, 0, $pos);
+        if (($pos = \strpos($line, "\0")) !== false) {
+            $line = \substr($line, 0, $pos);
         }
 
         return ($line !== '') ? Str::unvis($line) : null;

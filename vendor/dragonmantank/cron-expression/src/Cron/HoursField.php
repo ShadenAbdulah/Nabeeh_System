@@ -4,10 +4,8 @@ declare(strict_types=1);
 
 namespace Cron;
 
-use DateInterval;
 use DateTimeInterface;
 use DateTimeZone;
-use function count;
 
 /**
  * Hours field.  Allows: * , / -.
@@ -131,9 +129,9 @@ class HoursField extends AbstractField
         // if DST will be changed between the hours.
         if (null === $parts || '*' === $parts) {
             if ($invert) {
-                $date = $date->sub(new DateInterval('PT1H'));
+                $date = $date->sub(new \DateInterval('PT1H'));
             } else {
-                $date = $date->add(new DateInterval('PT1H'));
+                $date = $date->add(new \DateInterval('PT1H'));
             }
 
             $date = $this->setTimeHour($date, $invert, $originalTimestamp);
@@ -147,8 +145,8 @@ class HoursField extends AbstractField
         }
 
         $current_hour = (int) $date->format('H');
-        $position = $invert ? count($hours) - 1 : 0;
-        $countHours = count($hours);
+        $position = $invert ? \count($hours) - 1 : 0;
+        $countHours = \count($hours);
         if ($countHours > 1) {
             for ($i = 0; $i < $countHours - 1; ++$i) {
                 if ((!$invert && $current_hour >= $hours[$i] && $current_hour < $hours[$i + 1]) ||

@@ -2,10 +2,8 @@
 
 namespace Faker\ORM\Propel2;
 
-use Faker\Generator;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ServiceContainer\ServiceContainerInterface;
-use RuntimeException;
 
 /**
  * Service class for populating a database using the Propel ORM.
@@ -17,7 +15,7 @@ class Populator
     protected $entities = [];
     protected $quantities = [];
 
-    public function __construct(Generator $generator)
+    public function __construct(\Faker\Generator $generator)
     {
         $this->generator = $generator;
     }
@@ -30,8 +28,8 @@ class Populator
      */
     public function addEntity($entity, $number, $customColumnFormatters = [], $customModifiers = [])
     {
-        if (!$entity instanceof EntityPopulator) {
-            $entity = new EntityPopulator($entity);
+        if (!$entity instanceof \Faker\ORM\Propel2\EntityPopulator) {
+            $entity = new \Faker\ORM\Propel2\EntityPopulator($entity);
         }
         $entity->setColumnFormatters($entity->guessColumnFormatters($this->generator));
 
@@ -85,7 +83,7 @@ class Populator
         $class = key($this->entities);
 
         if (!$class) {
-            throw new RuntimeException('No class found from entities. Did you add entities to the Populator ?');
+            throw new \RuntimeException('No class found from entities. Did you add entities to the Populator ?');
         }
 
         $peer = $class::TABLE_MAP;

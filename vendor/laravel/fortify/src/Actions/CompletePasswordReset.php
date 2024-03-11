@@ -11,7 +11,7 @@ class CompletePasswordReset
     /**
      * Complete the password reset process for the given user.
      *
-     * @param StatefulGuard $guard
+     * @param  \Illuminate\Contracts\Auth\StatefulGuard  $guard
      * @param  mixed  $user
      * @return void
      */

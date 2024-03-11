@@ -2,9 +2,7 @@
 
 namespace Laravel\SerializableClosure\Serializers;
 
-use Closure;
 use Laravel\SerializableClosure\Contracts\Serializable;
-use Laravel\SerializableClosure\Contracts\Signer;
 use Laravel\SerializableClosure\Exceptions\InvalidSignatureException;
 use Laravel\SerializableClosure\Exceptions\MissingSecretKeyException;
 
@@ -13,21 +11,21 @@ class Signed implements Serializable
     /**
      * The signer that will sign and verify the closure's signature.
      *
-     * @var Signer|null
+     * @var \Laravel\SerializableClosure\Contracts\Signer|null
      */
     public static $signer;
 
     /**
      * The closure to be serialized/unserialized.
      *
-     * @var Closure
+     * @var \Closure
      */
     protected $closure;
 
     /**
      * Creates a new serializable closure instance.
      *
-     * @param  Closure  $closure
+     * @param  \Closure  $closure
      * @return void
      */
     public function __construct($closure)
@@ -48,7 +46,7 @@ class Signed implements Serializable
     /**
      * Gets the closure.
      *
-     * @return Closure
+     * @return \Closure
      */
     public function getClosure()
     {
@@ -77,7 +75,7 @@ class Signed implements Serializable
      * @param  array  $signature
      * @return void
      *
-     * @throws InvalidSignatureException
+     * @throws \Laravel\SerializableClosure\Exceptions\InvalidSignatureException
      */
     public function __unserialize($signature)
     {
@@ -85,7 +83,7 @@ class Signed implements Serializable
             throw new InvalidSignatureException();
         }
 
-        /** @var Serializable $serializable */
+        /** @var \Laravel\SerializableClosure\Contracts\Serializable $serializable */
         $serializable = unserialize($signature['serializable']);
 
         $this->closure = $serializable->getClosure();

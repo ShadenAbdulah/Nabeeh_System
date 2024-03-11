@@ -9,7 +9,5 @@
  */
 namespace PharIo\Version;
 
-use RuntimeException;
-
-final class UnsupportedVersionConstraintException extends RuntimeException implements Exception {
+final class UnsupportedVersionConstraintException extends \RuntimeException implements Exception {
 }

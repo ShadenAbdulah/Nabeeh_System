@@ -17,14 +17,14 @@ class RegisteredUserController extends Controller
     /**
      * The guard implementation.
      *
-     * @var StatefulGuard
+     * @var \Illuminate\Contracts\Auth\StatefulGuard
      */
     protected $guard;
 
     /**
      * Create a new controller instance.
      *
-     * @param StatefulGuard $guard
+     * @param  \Illuminate\Contracts\Auth\StatefulGuard  $guard
      * @return void
      */
     public function __construct(StatefulGuard $guard)
@@ -35,8 +35,8 @@ class RegisteredUserController extends Controller
     /**
      * Show the registration view.
      *
-     * @param Request $request
-     * @return RegisterViewResponse
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Laravel\Fortify\Contracts\RegisterViewResponse
      */
     public function create(Request $request): RegisterViewResponse
     {
@@ -46,9 +46,9 @@ class RegisteredUserController extends Controller
     /**
      * Create a new registered user.
      *
-     * @param Request $request
-     * @param CreatesNewUsers $creator
-     * @return RegisterResponse
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Laravel\Fortify\Contracts\CreatesNewUsers  $creator
+     * @return \Laravel\Fortify\Contracts\RegisterResponse
      */
     public function store(Request $request,
                           CreatesNewUsers $creator): RegisterResponse

@@ -11,8 +11,6 @@
 
 namespace Fruitcake\Cors\Exceptions;
 
-use RuntimeException;
-
-class InvalidOptionException extends RuntimeException
+class InvalidOptionException extends \RuntimeException
 {
 }

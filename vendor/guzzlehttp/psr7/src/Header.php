@@ -4,12 +4,6 @@ declare(strict_types=1);
 
 namespace GuzzleHttp\Psr7;
 
-use TypeError;
-use function is_array;
-use function is_string;
-use function strlen;
-use function trim;
-
 final class Header
 {
     /**
@@ -82,20 +76,20 @@ final class Header
      */
     public static function splitList($values): array
     {
-        if (!is_array($values)) {
+        if (!\is_array($values)) {
             $values = [$values];
         }
 
         $result = [];
         foreach ($values as $value) {
-            if (!is_string($value)) {
-                throw new TypeError('$header must either be a string or an array containing strings.');
+            if (!\is_string($value)) {
+                throw new \TypeError('$header must either be a string or an array containing strings.');
             }
 
             $v = '';
             $isQuoted = false;
             $isEscaped = false;
-            for ($i = 0, $max = strlen($value); $i < $max; ++$i) {
+            for ($i = 0, $max = \strlen($value); $i < $max; ++$i) {
                 if ($isEscaped) {
                     $v .= $value[$i];
                     $isEscaped = false;
@@ -104,7 +98,7 @@ final class Header
                 }
 
                 if (!$isQuoted && $value[$i] === ',') {
-                    $v = trim($v);
+                    $v = \trim($v);
                     if ($v !== '') {
                         $result[] = $v;
                     }
@@ -129,7 +123,7 @@ final class Header
                 $v .= $value[$i];
             }
 
-            $v = trim($v);
+            $v = \trim($v);
             if ($v !== '') {
                 $result[] = $v;
             }

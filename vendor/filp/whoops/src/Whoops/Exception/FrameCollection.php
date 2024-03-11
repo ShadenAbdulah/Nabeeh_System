@@ -9,7 +9,6 @@ namespace Whoops\Exception;
 use ArrayAccess;
 use ArrayIterator;
 use Countable;
-use Exception;
 use IteratorAggregate;
 use ReturnTypeWillChange;
 use Serializable;
@@ -121,7 +120,7 @@ class FrameCollection implements ArrayAccess, IteratorAggregate, Serializable, C
     #[ReturnTypeWillChange]
     public function offsetSet($offset, $value)
     {
-        throw new Exception(__CLASS__ . ' is read only');
+        throw new \Exception(__CLASS__ . ' is read only');
     }
 
     /**
@@ -131,7 +130,7 @@ class FrameCollection implements ArrayAccess, IteratorAggregate, Serializable, C
     #[ReturnTypeWillChange]
     public function offsetUnset($offset)
     {
-        throw new Exception(__CLASS__ . ' is read only');
+        throw new \Exception(__CLASS__ . ' is read only');
     }
 
     /**

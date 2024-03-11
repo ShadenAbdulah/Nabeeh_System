@@ -86,7 +86,7 @@ class ReduceArgumentsAction
         }
     }
 
-    /** @return null|Array<ProvidedArgument> */
+    /** @return null|Array<\Spatie\Backtrace\Arguments\ProvidedArgument> */
     protected function getParameters(
         ?string $class,
         ?string $method

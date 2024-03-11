@@ -10,8 +10,6 @@
 
 namespace Mockery\Generator;
 
-use InvalidArgumentException;
-
 class MockDefinition
 {
     protected $config;
@@ -20,7 +18,7 @@ class MockDefinition
     public function __construct(MockConfiguration $config, $code)
     {
         if (!$config->getName()) {
-            throw new InvalidArgumentException("MockConfiguration must contain a name");
+            throw new \InvalidArgumentException("MockConfiguration must contain a name");
         }
         $this->config = $config;
         $this->code = $code;

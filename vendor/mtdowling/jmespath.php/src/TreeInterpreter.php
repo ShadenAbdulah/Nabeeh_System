@@ -1,10 +1,6 @@
 <?php
 namespace JmesPath;
 
-use ArrayAccess;
-use RuntimeException;
-use stdClass;
-
 /**
  * Tree visitor used to evaluates JMESPath AST expressions.
  */
@@ -49,9 +45,9 @@ class TreeInterpreter
         switch ($node['type']) {
 
             case 'field':
-                if (is_array($value) || $value instanceof ArrayAccess) {
+                if (is_array($value) || $value instanceof \ArrayAccess) {
                     return isset($value[$node['value']]) ? $value[$node['value']] : null;
-                } elseif ($value instanceof stdClass) {
+                } elseif ($value instanceof \stdClass) {
                     return isset($value->{$node['value']}) ? $value->{$node['value']} : null;
                 }
                 return null;
@@ -85,7 +81,7 @@ class TreeInterpreter
                         }
                         break;
                     default:
-                        if (!is_array($left) || !($left instanceof stdClass)) {
+                        if (!is_array($left) || !($left instanceof \stdClass)) {
                             return null;
                         }
                 }
@@ -215,7 +211,7 @@ class TreeInterpreter
                 };
 
             default:
-                throw new RuntimeException("Unknown node type: {$node['type']}");
+                throw new \RuntimeException("Unknown node type: {$node['type']}");
         }
     }
 
@@ -233,7 +229,7 @@ class TreeInterpreter
             case '>=': return $left >= $right;
             case '<': return $left < $right;
             case '<=': return $left <= $right;
-            default: throw new RuntimeException("Invalid comparison: $cmp");
+            default: throw new \RuntimeException("Invalid comparison: $cmp");
         }
     }
 }

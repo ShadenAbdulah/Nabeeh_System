@@ -7,7 +7,6 @@ use Egulias\EmailValidator\MessageIDParser;
 use Egulias\EmailValidator\Result\InvalidEmail;
 use Egulias\EmailValidator\Result\Reason\ExceptionFound;
 use Egulias\EmailValidator\Warning\Warning;
-use Exception;
 
 class MessageIDValidation implements EmailValidation
 {
@@ -33,7 +32,7 @@ class MessageIDValidation implements EmailValidation
                 $this->error = $result;
                 return false;
             }
-        } catch (Exception $invalid) {
+        } catch (\Exception $invalid) {
             $this->error = new InvalidEmail(new ExceptionFound($invalid), '');
             return false;
         }

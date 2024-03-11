@@ -11,14 +11,14 @@ class ConfirmTwoFactorAuthentication
     /**
      * The two factor authentication provider.
      *
-     * @var TwoFactorAuthenticationProvider
+     * @var \Laravel\Fortify\Contracts\TwoFactorAuthenticationProvider
      */
     protected $provider;
 
     /**
      * Create a new action instance.
      *
-     * @param TwoFactorAuthenticationProvider $provider
+     * @param  \Laravel\Fortify\Contracts\TwoFactorAuthenticationProvider  $provider
      * @return void
      */
     public function __construct(TwoFactorAuthenticationProvider $provider)

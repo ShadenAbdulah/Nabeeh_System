@@ -36,19 +36,6 @@
 
 namespace Psy\Readline\Hoa;
 
-use function class_exists;
-use function dirname;
-use function explode;
-use function file_exists;
-use function implode;
-use function rtrim;
-use function strpos;
-use function strrpos;
-use function strtolower;
-use function substr;
-use const DIRECTORY_SEPARATOR;
-use const PHP_SAPI;
-
 /**
  * The `hoa://Library/` node.
  */
@@ -59,8 +46,8 @@ class ProtocolNodeLibrary extends ProtocolNode
      */
     public function reach(string $queue = null)
     {
-        $withComposer = class_exists('Composer\Autoload\ClassLoader', false) ||
-            ('cli' === PHP_SAPI && file_exists(__DIR__. DIRECTORY_SEPARATOR.'..'. DIRECTORY_SEPARATOR.'..'. DIRECTORY_SEPARATOR.'..'. DIRECTORY_SEPARATOR.'..'. DIRECTORY_SEPARATOR.'autoload.php'));
+        $withComposer = \class_exists('Composer\Autoload\ClassLoader', false) ||
+            ('cli' === \PHP_SAPI && \file_exists(__DIR__.\DIRECTORY_SEPARATOR.'..'.\DIRECTORY_SEPARATOR.'..'.\DIRECTORY_SEPARATOR.'..'.\DIRECTORY_SEPARATOR.'..'.\DIRECTORY_SEPARATOR.'autoload.php'));
 
         if ($withComposer) {
             return parent::reach($queue);
@@ -69,34 +56,34 @@ class ProtocolNodeLibrary extends ProtocolNode
         if (!empty($queue)) {
             $head = $queue;
 
-            if (false !== $pos = strpos($queue, '/')) {
-                $head = substr($head, 0, $pos);
-                $queue = DIRECTORY_SEPARATOR. substr($queue, $pos + 1);
+            if (false !== $pos = \strpos($queue, '/')) {
+                $head = \substr($head, 0, $pos);
+                $queue = \DIRECTORY_SEPARATOR.\substr($queue, $pos + 1);
             } else {
                 $queue = null;
             }
 
             $out = [];
 
-            foreach (explode(';', $this->_reach) as $part) {
-                $out[] = "\r".$part. strtolower($head).$queue;
+            foreach (\explode(';', $this->_reach) as $part) {
+                $out[] = "\r".$part.\strtolower($head).$queue;
             }
 
-            $out[] = "\r". dirname(__DIR__, 5).$queue;
+            $out[] = "\r".\dirname(__DIR__, 5).$queue;
 
-            return implode(';', $out);
+            return \implode(';', $out);
         }
 
         $out = [];
 
-        foreach (explode(';', $this->_reach) as $part) {
-            $pos = strrpos(rtrim($part, DIRECTORY_SEPARATOR), DIRECTORY_SEPARATOR) + 1;
-            $head = substr($part, 0, $pos);
-            $tail = substr($part, $pos);
-            $out[] = $head. strtolower($tail);
+        foreach (\explode(';', $this->_reach) as $part) {
+            $pos = \strrpos(\rtrim($part, \DIRECTORY_SEPARATOR), \DIRECTORY_SEPARATOR) + 1;
+            $head = \substr($part, 0, $pos);
+            $tail = \substr($part, $pos);
+            $out[] = $head.\strtolower($tail);
         }
 
-        $this->_reach = implode(';', $out);
+        $this->_reach = \implode(';', $out);
 
         return parent::reach($queue);
     }

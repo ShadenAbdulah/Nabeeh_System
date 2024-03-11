@@ -36,44 +36,6 @@
 
 namespace Psy\Readline\Hoa;
 
-use function array_search;
-use function basename;
-use function cli_get_process_title;
-use function cli_set_process_title;
-use function dirname;
-use function escapeshellarg;
-use function escapeshellcmd;
-use function explode;
-use function fclose;
-use function feof;
-use function fgetc;
-use function file_exists;
-use function fread;
-use function fscanf;
-use function ftell;
-use function ftruncate;
-use function fwrite;
-use function getcwd;
-use function in_array;
-use function is_int;
-use function is_resource;
-use function proc_close;
-use function proc_get_status;
-use function proc_open;
-use function proc_terminate;
-use function rtrim;
-use function shell_exec;
-use function stream_get_contents;
-use function stream_get_line;
-use function stream_get_meta_data;
-use function stream_select;
-use function stream_set_blocking;
-use function strlen;
-use function strpos;
-use function substr;
-use function var_export;
-use const DIRECTORY_SEPARATOR;
-
 /**
  * Manipulate a processus as a stream.
  */
@@ -307,7 +269,7 @@ class ConsoleProcessus extends Stream implements StreamIn, StreamOut, StreamPath
             }
         }
 
-        $this->setCwd($cwd ?: getcwd());
+        $this->setCwd($cwd ?: \getcwd());
 
         if (null !== $environment) {
             $this->setEnvironment($environment);
@@ -325,7 +287,7 @@ class ConsoleProcessus extends Stream implements StreamIn, StreamOut, StreamPath
      */
     protected function &_open(string $streamName, StreamContext $context = null)
     {
-        $out = @proc_open(
+        $out = @\proc_open(
             $streamName,
             $this->_descriptors,
             $this->_pipes,
@@ -346,10 +308,10 @@ class ConsoleProcessus extends Stream implements StreamIn, StreamOut, StreamPath
     protected function _close(): bool
     {
         foreach ($this->_pipes as $pipe) {
-            @fclose($pipe);
+            @\fclose($pipe);
         }
 
-        return (bool) @proc_close($this->getStream());
+        return (bool) @\proc_close($this->getStream());
     }
 
     /**
@@ -379,14 +341,14 @@ class ConsoleProcessus extends Stream implements StreamIn, StreamOut, StreamPath
         foreach ($this->_pipes as $p => $pipe) {
             switch ($this->_descriptors[$p][1]) {
                 case 'r':
-                    stream_set_blocking($pipe, false);
+                    \stream_set_blocking($pipe, false);
                     $_write[] = $pipe;
 
                     break;
 
                 case 'w':
                 case 'a':
-                    stream_set_blocking($pipe, true);
+                    \stream_set_blocking($pipe, true);
                     $_read[] = $pipe;
 
                     break;
@@ -395,19 +357,19 @@ class ConsoleProcessus extends Stream implements StreamIn, StreamOut, StreamPath
 
         while (true) {
             foreach ($_read as $i => $r) {
-                if (false === is_resource($r)) {
+                if (false === \is_resource($r)) {
                     unset($_read[$i]);
                 }
             }
 
             foreach ($_write as $i => $w) {
-                if (false === is_resource($w)) {
+                if (false === \is_resource($w)) {
                     unset($_write[$i]);
                 }
             }
 
             foreach ($_except as $i => $e) {
-                if (false === is_resource($e)) {
+                if (false === \is_resource($e)) {
                     unset($_except[$i]);
                 }
             }
@@ -419,7 +381,7 @@ class ConsoleProcessus extends Stream implements StreamIn, StreamOut, StreamPath
             $read = $_read;
             $write = $_write;
             $except = $_except;
-            $select = stream_select($read, $write, $except, $this->getTimeout());
+            $select = \stream_select($read, $write, $except, $this->getTimeout());
 
             if (0 === $select) {
                 $this->getListener()->fire('timeout', new EventBucket());
@@ -428,7 +390,7 @@ class ConsoleProcessus extends Stream implements StreamIn, StreamOut, StreamPath
             }
 
             foreach ($read as $i => $_r) {
-                $pipe = array_search($_r, $this->_pipes);
+                $pipe = \array_search($_r, $this->_pipes);
                 $line = $this->readLine($pipe);
 
                 if (false === $line) {
@@ -443,8 +405,8 @@ class ConsoleProcessus extends Stream implements StreamIn, StreamOut, StreamPath
                     );
                 }
 
-                if (true === feof($_r) || in_array(false, $result, true)) {
-                    fclose($_r);
+                if (true === \feof($_r) || \in_array(false, $result, true)) {
+                    \fclose($_r);
                     unset($_read[$i]);
 
                     break;
@@ -455,12 +417,12 @@ class ConsoleProcessus extends Stream implements StreamIn, StreamOut, StreamPath
                 $result = $this->getListener()->fire(
                     'input',
                     new EventBucket([
-                        'pipe' => array_search($_w, $this->_pipes),
+                        'pipe' => \array_search($_w, $this->_pipes),
                     ])
                 );
 
-                if (true === feof($_w) || in_array(false, $result, true)) {
-                    fclose($_w);
+                if (true === \feof($_w) || \in_array(false, $result, true)) {
+                    \fclose($_w);
                     unset($_write[$j]);
                 }
             }
@@ -494,7 +456,7 @@ class ConsoleProcessus extends Stream implements StreamIn, StreamOut, StreamPath
     {
         if (!isset($this->_seekable[$pipe])) {
             $_pipe = $this->getPipe($pipe);
-            $data = stream_get_meta_data($_pipe);
+            $data = \stream_get_meta_data($_pipe);
             $this->_seekable[$pipe] = $data['seekable'];
         }
 
@@ -506,7 +468,7 @@ class ConsoleProcessus extends Stream implements StreamIn, StreamOut, StreamPath
      */
     public function eof(int $pipe = 1): bool
     {
-        return feof($this->getPipe($pipe));
+        return \feof($this->getPipe($pipe));
     }
 
     /**
@@ -518,7 +480,7 @@ class ConsoleProcessus extends Stream implements StreamIn, StreamOut, StreamPath
             throw new ConsoleException('Length must be greater than 0, given %d.', 3, $length);
         }
 
-        return fread($this->getPipe($pipe), $length);
+        return \fread($this->getPipe($pipe), $length);
     }
 
     /**
@@ -534,7 +496,7 @@ class ConsoleProcessus extends Stream implements StreamIn, StreamOut, StreamPath
      */
     public function readCharacter(int $pipe = 1)
     {
-        return fgetc($this->getPipe($pipe));
+        return \fgetc($this->getPipe($pipe));
     }
 
     /**
@@ -575,7 +537,7 @@ class ConsoleProcessus extends Stream implements StreamIn, StreamOut, StreamPath
      */
     public function readLine(int $pipe = 1)
     {
-        return stream_get_line($this->getPipe($pipe), 1 << 15, "\n");
+        return \stream_get_line($this->getPipe($pipe), 1 << 15, "\n");
     }
 
     /**
@@ -586,12 +548,12 @@ class ConsoleProcessus extends Stream implements StreamIn, StreamOut, StreamPath
         $_pipe = $this->getPipe($pipe);
 
         if (true === $this->isPipeSeekable($pipe)) {
-            $offset += ftell($_pipe);
+            $offset += \ftell($_pipe);
         } else {
             $offset = -1;
         }
 
-        return stream_get_contents($_pipe, -1, $offset);
+        return \stream_get_contents($_pipe, -1, $offset);
     }
 
     /**
@@ -599,7 +561,7 @@ class ConsoleProcessus extends Stream implements StreamIn, StreamOut, StreamPath
      */
     public function scanf(string $format, int $pipe = 1): array
     {
-        return fscanf($this->getPipe($pipe), $format);
+        return \fscanf($this->getPipe($pipe), $format);
     }
 
     /**
@@ -611,7 +573,7 @@ class ConsoleProcessus extends Stream implements StreamIn, StreamOut, StreamPath
             throw new ConsoleException('Length must be greater than 0, given %d.', 4, $length);
         }
 
-        return fwrite($this->getPipe($pipe), $string, $length);
+        return \fwrite($this->getPipe($pipe), $string, $length);
     }
 
     /**
@@ -621,7 +583,7 @@ class ConsoleProcessus extends Stream implements StreamIn, StreamOut, StreamPath
     {
         $string = (string) $string;
 
-        return $this->write($string, strlen($string), $pipe);
+        return $this->write($string, \strlen($string), $pipe);
     }
 
     /**
@@ -647,7 +609,7 @@ class ConsoleProcessus extends Stream implements StreamIn, StreamOut, StreamPath
     {
         $integer = (string) (int) $integer;
 
-        return $this->write($integer, strlen($integer), $pipe);
+        return $this->write($integer, \strlen($integer), $pipe);
     }
 
     /**
@@ -657,7 +619,7 @@ class ConsoleProcessus extends Stream implements StreamIn, StreamOut, StreamPath
     {
         $float = (string) (float) $float;
 
-        return $this->write($float, strlen($float), $pipe);
+        return $this->write($float, \strlen($float), $pipe);
     }
 
     /**
@@ -665,9 +627,9 @@ class ConsoleProcessus extends Stream implements StreamIn, StreamOut, StreamPath
      */
     public function writeArray(array $array, int $pipe = 0)
     {
-        $array = var_export($array, true);
+        $array = \var_export($array, true);
 
-        return $this->write($array, strlen($array), $pipe);
+        return $this->write($array, \strlen($array), $pipe);
     }
 
     /**
@@ -675,13 +637,13 @@ class ConsoleProcessus extends Stream implements StreamIn, StreamOut, StreamPath
      */
     public function writeLine(string $line, int $pipe = 0)
     {
-        if (false === $n = strpos($line, "\n")) {
-            return $this->write($line."\n", strlen($line) + 1, $pipe);
+        if (false === $n = \strpos($line, "\n")) {
+            return $this->write($line."\n", \strlen($line) + 1, $pipe);
         }
 
         ++$n;
 
-        return $this->write(substr($line, 0, $n), $n, $pipe);
+        return $this->write(\substr($line, 0, $n), $n, $pipe);
     }
 
     /**
@@ -689,7 +651,7 @@ class ConsoleProcessus extends Stream implements StreamIn, StreamOut, StreamPath
      */
     public function writeAll(string $string, int $pipe = 0)
     {
-        return $this->write($string, strlen($string), $pipe);
+        return $this->write($string, \strlen($string), $pipe);
     }
 
     /**
@@ -697,7 +659,7 @@ class ConsoleProcessus extends Stream implements StreamIn, StreamOut, StreamPath
      */
     public function truncate(int $size, int $pipe = 0): bool
     {
-        return ftruncate($this->getPipe($pipe), $size);
+        return \ftruncate($this->getPipe($pipe), $size);
     }
 
     /**
@@ -705,7 +667,7 @@ class ConsoleProcessus extends Stream implements StreamIn, StreamOut, StreamPath
      */
     public function getBasename(): string
     {
-        return basename($this->getCommand());
+        return \basename($this->getCommand());
     }
 
     /**
@@ -713,7 +675,7 @@ class ConsoleProcessus extends Stream implements StreamIn, StreamOut, StreamPath
      */
     public function getDirname(): string
     {
-        return dirname($this->getCommand());
+        return \dirname($this->getCommand());
     }
 
     /**
@@ -721,7 +683,7 @@ class ConsoleProcessus extends Stream implements StreamIn, StreamOut, StreamPath
      */
     public function getStatus(): array
     {
-        return proc_get_status($this->getStream());
+        return \proc_get_status($this->getStream());
     }
 
     /**
@@ -752,7 +714,7 @@ class ConsoleProcessus extends Stream implements StreamIn, StreamOut, StreamPath
      */
     public function terminate(int $signal = self::SIGTERM): bool
     {
-        return proc_terminate($this->getStream(), $signal);
+        return \proc_terminate($this->getStream(), $signal);
     }
 
     /**
@@ -761,7 +723,7 @@ class ConsoleProcessus extends Stream implements StreamIn, StreamOut, StreamPath
     protected function setCommand(string $command)
     {
         $old = $this->_command;
-        $this->_command = escapeshellcmd($command);
+        $this->_command = \escapeshellcmd($command);
 
         return $old;
     }
@@ -780,7 +742,7 @@ class ConsoleProcessus extends Stream implements StreamIn, StreamOut, StreamPath
     protected function setOptions(array $options): array
     {
         foreach ($options as &$option) {
-            $option = escapeshellarg($option);
+            $option = \escapeshellarg($option);
         }
 
         $old = $this->_options;
@@ -805,7 +767,7 @@ class ConsoleProcessus extends Stream implements StreamIn, StreamOut, StreamPath
         $out = $this->getCommand();
 
         foreach ($this->getOptions() as $key => $value) {
-            if (!is_int($key)) {
+            if (!\is_int($key)) {
                 $out .= ' '.$key.'='.$value;
             } else {
                 $out .= ' '.$value;
@@ -877,7 +839,7 @@ class ConsoleProcessus extends Stream implements StreamIn, StreamOut, StreamPath
      */
     public static function setTitle(string $title)
     {
-        cli_set_process_title($title);
+        \cli_set_process_title($title);
     }
 
     /**
@@ -885,7 +847,7 @@ class ConsoleProcessus extends Stream implements StreamIn, StreamOut, StreamPath
      */
     public static function getTitle()
     {
-        return cli_get_process_title();
+        return \cli_get_process_title();
     }
 
     /**
@@ -906,8 +868,8 @@ class ConsoleProcessus extends Stream implements StreamIn, StreamOut, StreamPath
             return null;
         }
 
-        foreach (explode($separator, $path) as $directory) {
-            if (true === file_exists($out = $directory. DIRECTORY_SEPARATOR.$binary)) {
+        foreach (\explode($separator, $path) as $directory) {
+            if (true === \file_exists($out = $directory.\DIRECTORY_SEPARATOR.$binary)) {
                 return $out;
             }
         }
@@ -922,9 +884,9 @@ class ConsoleProcessus extends Stream implements StreamIn, StreamOut, StreamPath
     public static function execute(string $commandLine, bool $escape = true): string
     {
         if (true === $escape) {
-            $commandLine = escapeshellcmd($commandLine);
+            $commandLine = \escapeshellcmd($commandLine);
         }
 
-        return rtrim(shell_exec($commandLine) ?? '');
+        return \rtrim(\shell_exec($commandLine) ?? '');
     }
 }

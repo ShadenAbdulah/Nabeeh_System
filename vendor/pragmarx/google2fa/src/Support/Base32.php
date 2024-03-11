@@ -2,7 +2,6 @@
 
 namespace PragmaRX\Google2FA\Support;
 
-use Exception;
 use ParagonIE\ConstantTime\Base32 as ParagonieBase32;
 use PragmaRX\Google2FA\Exceptions\IncompatibleWithGoogleAuthenticatorException;
 use PragmaRX\Google2FA\Exceptions\InvalidCharactersException;
@@ -33,12 +32,12 @@ trait Base32
      * @param int    $length
      * @param string $prefix
      *
-     * @return string
-     *@throws InvalidCharactersException
-     * @throws SecretKeyTooShortException
-     * @throws IncompatibleWithGoogleAuthenticatorException
+     * @throws \Exception
+     * @throws \PragmaRX\Google2FA\Exceptions\InvalidCharactersException
+     * @throws \PragmaRX\Google2FA\Exceptions\SecretKeyTooShortException
+     * @throws \PragmaRX\Google2FA\Exceptions\IncompatibleWithGoogleAuthenticatorException
      *
-     * @throws Exception
+     * @return string
      */
     public function generateBase32RandomKey($length = 16, $prefix = '')
     {
@@ -56,11 +55,11 @@ trait Base32
      *
      * @param string $b32
      *
-     * @return string
-     *@throws SecretKeyTooShortException
-     * @throws IncompatibleWithGoogleAuthenticatorException
+     * @throws \PragmaRX\Google2FA\Exceptions\InvalidCharactersException
+     * @throws \PragmaRX\Google2FA\Exceptions\SecretKeyTooShortException
+     * @throws \PragmaRX\Google2FA\Exceptions\IncompatibleWithGoogleAuthenticatorException
      *
-     * @throws InvalidCharactersException
+     * @return string
      */
     public function base32Decode($b32)
     {
@@ -89,7 +88,7 @@ trait Base32
      * @param string $string
      * @param int    $length
      *
-     * @throws Exception
+     * @throws \Exception
      *
      * @return string
      */
@@ -126,7 +125,7 @@ trait Base32
      * @param int $from
      * @param int $to
      *
-     * @throws Exception
+     * @throws \Exception
      *
      * @return int
      */
@@ -140,9 +139,9 @@ trait Base32
      *
      * @param string $b32
      *
-     * @throws InvalidCharactersException
-     * @throws SecretKeyTooShortException
-     * @throws IncompatibleWithGoogleAuthenticatorException
+     * @throws \PragmaRX\Google2FA\Exceptions\InvalidCharactersException
+     * @throws \PragmaRX\Google2FA\Exceptions\SecretKeyTooShortException
+     * @throws \PragmaRX\Google2FA\Exceptions\IncompatibleWithGoogleAuthenticatorException
      */
     protected function validateSecret($b32)
     {
@@ -175,7 +174,7 @@ trait Base32
      *
      * @param string $b32
      *
-     * @throws InvalidCharactersException
+     * @throws \PragmaRX\Google2FA\Exceptions\InvalidCharactersException
      */
     protected function checkForValidCharacters($b32)
     {
@@ -192,7 +191,7 @@ trait Base32
      *
      * @param string $b32
      *
-     * @throws SecretKeyTooShortException
+     * @throws \PragmaRX\Google2FA\Exceptions\SecretKeyTooShortException
      */
     protected function checkIsBigEnough($b32)
     {

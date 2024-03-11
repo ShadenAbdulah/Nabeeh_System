@@ -11,14 +11,7 @@
 
 namespace Psy\Command\ListCommand;
 
-use ReflectionClass;
-use ReflectionMethod;
-use Reflector;
 use Symfony\Component\Console\Input\InputInterface;
-use function ksort;
-use function method_exists;
-use const SORT_FLAG_CASE;
-use const SORT_NATURAL;
 
 /**
  * Method Enumerator class.
@@ -28,7 +21,7 @@ class MethodEnumerator extends Enumerator
     /**
      * {@inheritdoc}
      */
-    protected function listItems(InputInterface $input, Reflector $reflector = null, $target = null): array
+    protected function listItems(InputInterface $input, \Reflector $reflector = null, $target = null): array
     {
         // only list methods when a Reflector is present.
         if ($reflector === null) {
@@ -36,7 +29,7 @@ class MethodEnumerator extends Enumerator
         }
 
         // We can only list methods on actual class (or object) reflectors.
-        if (!$reflector instanceof ReflectionClass) {
+        if (!$reflector instanceof \ReflectionClass) {
             return [];
         }
 
@@ -63,12 +56,12 @@ class MethodEnumerator extends Enumerator
      * Get defined methods for the given class or object Reflector.
      *
      * @param bool             $showAll   Include private and protected methods
-     * @param ReflectionClass $reflector
+     * @param \ReflectionClass $reflector
      * @param bool             $noInherit Exclude inherited methods
      *
      * @return array
      */
-    protected function getMethods(bool $showAll, ReflectionClass $reflector, bool $noInherit = false): array
+    protected function getMethods(bool $showAll, \ReflectionClass $reflector, bool $noInherit = false): array
     {
         $className = $reflector->getName();
 
@@ -85,7 +78,7 @@ class MethodEnumerator extends Enumerator
             }
         }
 
-        ksort($methods, SORT_NATURAL | SORT_FLAG_CASE);
+        \ksort($methods, \SORT_NATURAL | \SORT_FLAG_CASE);
 
         return $methods;
     }
@@ -118,13 +111,13 @@ class MethodEnumerator extends Enumerator
     /**
      * Get a label for the particular kind of "class" represented.
      *
-     * @param ReflectionClass $reflector
+     * @param \ReflectionClass $reflector
      */
-    protected function getKindLabel(ReflectionClass $reflector): string
+    protected function getKindLabel(\ReflectionClass $reflector): string
     {
         if ($reflector->isInterface()) {
             return 'Interface Methods';
-        } elseif (method_exists($reflector, 'isTrait') && $reflector->isTrait()) {
+        } elseif (\method_exists($reflector, 'isTrait') && $reflector->isTrait()) {
             return 'Trait Methods';
         } else {
             return 'Class Methods';
@@ -134,9 +127,9 @@ class MethodEnumerator extends Enumerator
     /**
      * Get output style for the given method's visibility.
      *
-     * @param ReflectionMethod $method
+     * @param \ReflectionMethod $method
      */
-    private function getVisibilityStyle(ReflectionMethod $method): string
+    private function getVisibilityStyle(\ReflectionMethod $method): string
     {
         if ($method->isPublic()) {
             return self::IS_PUBLIC;

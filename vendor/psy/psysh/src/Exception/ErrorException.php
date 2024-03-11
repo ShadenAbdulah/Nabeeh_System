@@ -11,22 +11,6 @@
 
 namespace Psy\Exception;
 
-use Error;
-use Throwable;
-use function preg_match;
-use function sprintf;
-use function trigger_error;
-use const E_COMPILE_WARNING;
-use const E_CORE_WARNING;
-use const E_DEPRECATED;
-use const E_NOTICE;
-use const E_RECOVERABLE_ERROR;
-use const E_STRICT;
-use const E_USER_DEPRECATED;
-use const E_USER_NOTICE;
-use const E_USER_WARNING;
-use const E_WARNING;
-
 /**
  * A custom error Exception for Psy with a formatted $message.
  */
@@ -42,39 +26,39 @@ class ErrorException extends \ErrorException implements Exception
      * @param int             $severity (default: 1)
      * @param string|null     $filename (default: null)
      * @param int|null        $lineno   (default: null)
-     * @param Throwable|null $previous (default: null)
+     * @param \Throwable|null $previous (default: null)
      */
-    public function __construct($message = '', $code = 0, $severity = 1, $filename = null, $lineno = null, Throwable $previous = null)
+    public function __construct($message = '', $code = 0, $severity = 1, $filename = null, $lineno = null, \Throwable $previous = null)
     {
         $this->rawMessage = $message;
 
-        if (!empty($filename) && preg_match('{Psy[/\\\\]ExecutionLoop}', $filename)) {
+        if (!empty($filename) && \preg_match('{Psy[/\\\\]ExecutionLoop}', $filename)) {
             $filename = '';
         }
 
         switch ($severity) {
-            case E_STRICT:
+            case \E_STRICT:
                 $type = 'Strict error';
                 break;
 
-            case E_NOTICE:
-            case E_USER_NOTICE:
+            case \E_NOTICE:
+            case \E_USER_NOTICE:
                 $type = 'Notice';
                 break;
 
-            case E_WARNING:
-            case E_CORE_WARNING:
-            case E_COMPILE_WARNING:
-            case E_USER_WARNING:
+            case \E_WARNING:
+            case \E_CORE_WARNING:
+            case \E_COMPILE_WARNING:
+            case \E_USER_WARNING:
                 $type = 'Warning';
                 break;
 
-            case E_DEPRECATED:
-            case E_USER_DEPRECATED:
+            case \E_DEPRECATED:
+            case \E_USER_DEPRECATED:
                 $type = 'Deprecated';
                 break;
 
-            case E_RECOVERABLE_ERROR:
+            case \E_RECOVERABLE_ERROR:
                 $type = 'Recoverable fatal error';
                 break;
 
@@ -83,7 +67,7 @@ class ErrorException extends \ErrorException implements Exception
                 break;
         }
 
-        $message = sprintf('PHP %s:  %s%s on line %d', $type, $message, $filename ? ' in '.$filename : '', $lineno);
+        $message = \sprintf('PHP %s:  %s%s on line %d', $type, $message, $filename ? ' in '.$filename : '', $lineno);
         parent::__construct($message, $code, $severity, $filename, $lineno, $previous);
     }
 
@@ -119,10 +103,10 @@ class ErrorException extends \ErrorException implements Exception
      *
      * @deprecated PsySH no longer wraps Errors
      *
-     * @param Error $e
+     * @param \Error $e
      */
-    public static function fromError(Error $e)
+    public static function fromError(\Error $e)
     {
-        @trigger_error('PsySH no longer wraps Errors', E_USER_DEPRECATED);
+        @\trigger_error('PsySH no longer wraps Errors', \E_USER_DEPRECATED);
     }
 }

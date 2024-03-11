@@ -2,34 +2,29 @@
 
 namespace Laravel\Sanctum\Http\Middleware;
 
-use Closure;
-use Illuminate\Auth\AuthenticationException;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
-use Laravel\Sanctum\Exceptions\MissingAbilityException;
 use Laravel\Sanctum\Exceptions\MissingScopeException;
 
 /**
  * @deprecated
- * @see CheckForAnyAbility
+ * @see \Laravel\Sanctum\Http\Middleware\CheckForAnyAbility
  */
 class CheckForAnyScope
 {
     /**
      * Handle the incoming request.
      *
-     * @param  Request  $request
-     * @param  Closure  $next
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Closure  $next
      * @param  mixed  ...$scopes
-     * @return Response
+     * @return \Illuminate\Http\Response
      *
-     * @throws AuthenticationException|MissingScopeException
+     * @throws \Illuminate\Auth\AuthenticationException|\Laravel\Sanctum\Exceptions\MissingScopeException
      */
     public function handle($request, $next, ...$scopes)
     {
         try {
             return (new CheckForAnyAbility())->handle($request, $next, ...$scopes);
-        } catch (MissingAbilityException $e) {
+        } catch (\Laravel\Sanctum\Exceptions\MissingAbilityException $e) {
             throw new MissingScopeException($e->abilities());
         }
     }

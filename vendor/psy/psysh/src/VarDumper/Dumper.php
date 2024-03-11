@@ -14,13 +14,6 @@ namespace Psy\VarDumper;
 use Symfony\Component\Console\Formatter\OutputFormatter;
 use Symfony\Component\VarDumper\Cloner\Cursor;
 use Symfony\Component\VarDumper\Dumper\CliDumper;
-use function ord;
-use function preg_match;
-use function preg_split;
-use function sprintf;
-use function strtr;
-use const PREG_SPLIT_DELIM_CAPTURE;
-use const PREG_SPLIT_NO_EMPTY;
 
 /**
  * A PsySH-specialized CliDumper.
@@ -74,19 +67,19 @@ class Dumper extends CliDumper
     protected function style($style, $value, $attr = []): string
     {
         if ('ref' === $style) {
-            $value = strtr($value, '@', '#');
+            $value = \strtr($value, '@', '#');
         }
 
         $styled = '';
         $cchr = $this->styles['cchr'];
 
-        $chunks = preg_split(self::CONTROL_CHARS, $value, -1, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE);
+        $chunks = \preg_split(self::CONTROL_CHARS, $value, -1, \PREG_SPLIT_NO_EMPTY | \PREG_SPLIT_DELIM_CAPTURE);
         foreach ($chunks as $chunk) {
-            if (preg_match(self::ONLY_CONTROL_CHARS, $chunk)) {
+            if (\preg_match(self::ONLY_CONTROL_CHARS, $chunk)) {
                 $chars = '';
                 $i = 0;
                 do {
-                    $chars .= isset(self::CONTROL_CHARS_MAP[$chunk[$i]]) ? self::CONTROL_CHARS_MAP[$chunk[$i]] : sprintf('\x%02X', ord($chunk[$i]));
+                    $chars .= isset(self::CONTROL_CHARS_MAP[$chunk[$i]]) ? self::CONTROL_CHARS_MAP[$chunk[$i]] : \sprintf('\x%02X', \ord($chunk[$i]));
                 } while (isset($chunk[++$i]));
 
                 $chars = $this->formatter->escape($chars);

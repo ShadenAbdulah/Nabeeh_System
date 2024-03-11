@@ -6,7 +6,6 @@ namespace Dotenv\Repository\Adapter;
 
 use PhpOption\Option;
 use PhpOption\Some;
-use function is_scalar;
 
 final class ServerConstAdapter implements AdapterInterface
 {
@@ -23,11 +22,11 @@ final class ServerConstAdapter implements AdapterInterface
     /**
      * Create a new instance of the adapter, if it is available.
      *
-     * @return Option<AdapterInterface>
+     * @return \PhpOption\Option<\Dotenv\Repository\Adapter\AdapterInterface>
      */
     public static function create()
     {
-        /** @var Option<AdapterInterface> */
+        /** @var \PhpOption\Option<AdapterInterface> */
         return Some::create(new self());
     }
 
@@ -36,14 +35,14 @@ final class ServerConstAdapter implements AdapterInterface
      *
      * @param non-empty-string $name
      *
-     * @return Option<string>
+     * @return \PhpOption\Option<string>
      */
     public function read(string $name)
     {
-        /** @var Option<string> */
+        /** @var \PhpOption\Option<string> */
         return Option::fromArraysValue($_SERVER, $name)
             ->filter(static function ($value) {
-                return is_scalar($value);
+                return \is_scalar($value);
             })
             ->map(static function ($value) {
                 if ($value === false) {

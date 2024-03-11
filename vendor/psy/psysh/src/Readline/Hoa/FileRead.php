@@ -36,17 +36,6 @@
 
 namespace Psy\Readline\Hoa;
 
-use function feof;
-use function fgetc;
-use function fgets;
-use function file_exists;
-use function fread;
-use function fscanf;
-use function implode;
-use function in_array;
-use function preg_match;
-use function stream_get_contents;
-
 /**
  * Class \Hoa\File\Read.
  *
@@ -77,14 +66,14 @@ class FileRead extends File implements StreamIn
             parent::MODE_READ,
         ];
 
-        if (!in_array($this->getMode(), $createModes)) {
-            throw new FileException('Open mode are not supported; given %d. Only %s are supported.', 0, [$this->getMode(), implode(', ', $createModes)]);
+        if (!\in_array($this->getMode(), $createModes)) {
+            throw new FileException('Open mode are not supported; given %d. Only %s are supported.', 0, [$this->getMode(), \implode(', ', $createModes)]);
         }
 
-        preg_match('#^(\w+)://#', $streamName, $match);
+        \preg_match('#^(\w+)://#', $streamName, $match);
 
         if (((isset($match[1]) && $match[1] === 'file') || !isset($match[1])) &&
-            !file_exists($streamName)) {
+            !\file_exists($streamName)) {
             throw new FileDoesNotExistException('File %s does not exist.', 1, $streamName);
         }
 
@@ -98,7 +87,7 @@ class FileRead extends File implements StreamIn
      */
     public function eof(): bool
     {
-        return feof($this->getStream());
+        return \feof($this->getStream());
     }
 
     /**
@@ -110,7 +99,7 @@ class FileRead extends File implements StreamIn
             throw new FileException('Length must be greater than 0, given %d.', 2, $length);
         }
 
-        return fread($this->getStream(), $length);
+        return \fread($this->getStream(), $length);
     }
 
     /**
@@ -126,7 +115,7 @@ class FileRead extends File implements StreamIn
      */
     public function readCharacter()
     {
-        return fgetc($this->getStream());
+        return \fgetc($this->getStream());
     }
 
     /**
@@ -167,7 +156,7 @@ class FileRead extends File implements StreamIn
      */
     public function readLine()
     {
-        return fgets($this->getStream());
+        return \fgets($this->getStream());
     }
 
     /**
@@ -175,7 +164,7 @@ class FileRead extends File implements StreamIn
      */
     public function readAll(int $offset = 0)
     {
-        return stream_get_contents($this->getStream(), -1, $offset);
+        return \stream_get_contents($this->getStream(), -1, $offset);
     }
 
     /**
@@ -183,6 +172,6 @@ class FileRead extends File implements StreamIn
      */
     public function scanf(string $format): array
     {
-        return fscanf($this->getStream(), $format);
+        return \fscanf($this->getStream(), $format);
     }
 }

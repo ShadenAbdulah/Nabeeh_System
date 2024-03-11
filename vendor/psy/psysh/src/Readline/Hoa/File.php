@@ -36,21 +36,6 @@
 
 namespace Psy\Readline\Hoa;
 
-use function basename;
-use function ctype_digit;
-use function dirname;
-use function fclose;
-use function fflush;
-use function file_exists;
-use function flock;
-use function fopen;
-use function fseek;
-use function ftell;
-use function is_dir;
-use function rewind;
-use function substr;
-use function touch;
-
 /**
  * Class \Hoa\File.
  *
@@ -142,7 +127,7 @@ abstract class File extends FileGeneric implements StreamBufferable, StreamLocka
                 break;
 
             default:
-                if (true === ctype_digit($streamName)) {
+                if (true === \ctype_digit($streamName)) {
                     $streamName = 'php://fd/'.$streamName;
                 }
         }
@@ -157,20 +142,20 @@ abstract class File extends FileGeneric implements StreamBufferable, StreamLocka
      */
     protected function &_open(string $streamName, StreamContext $context = null)
     {
-        if (substr($streamName, 0, 4) === 'file' &&
-            false === is_dir(dirname($streamName))) {
-            throw new FileException('Directory %s does not exist. Could not open file %s.', 1, [dirname($streamName), basename($streamName)]);
+        if (\substr($streamName, 0, 4) === 'file' &&
+            false === \is_dir(\dirname($streamName))) {
+            throw new FileException('Directory %s does not exist. Could not open file %s.', 1, [\dirname($streamName), \basename($streamName)]);
         }
 
         if (null === $context) {
-            if (false === $out = @fopen($streamName, $this->getMode(), true)) {
+            if (false === $out = @\fopen($streamName, $this->getMode(), true)) {
                 throw new FileException('Failed to open stream %s.', 2, $streamName);
             }
 
             return $out;
         }
 
-        $out = @fopen(
+        $out = @\fopen(
             $streamName,
             $this->getMode(),
             true,
@@ -189,7 +174,7 @@ abstract class File extends FileGeneric implements StreamBufferable, StreamLocka
      */
     protected function _close(): bool
     {
-        return @fclose($this->getStream());
+        return @\fclose($this->getStream());
     }
 
     /**
@@ -210,7 +195,7 @@ abstract class File extends FileGeneric implements StreamBufferable, StreamLocka
      */
     public function flush(): bool
     {
-        return fflush($this->getStream());
+        return \fflush($this->getStream());
     }
 
     /**
@@ -242,7 +227,7 @@ abstract class File extends FileGeneric implements StreamBufferable, StreamLocka
      */
     public function lock(int $operation): bool
     {
-        return flock($this->getStream(), $operation);
+        return \flock($this->getStream(), $operation);
     }
 
     /**
@@ -250,7 +235,7 @@ abstract class File extends FileGeneric implements StreamBufferable, StreamLocka
      */
     public function rewind(): bool
     {
-        return rewind($this->getStream());
+        return \rewind($this->getStream());
     }
 
     /**
@@ -258,7 +243,7 @@ abstract class File extends FileGeneric implements StreamBufferable, StreamLocka
      */
     public function seek(int $offset, int $whence = StreamPointable::SEEK_SET): int
     {
-        return fseek($this->getStream(), $offset, $whence);
+        return \fseek($this->getStream(), $offset, $whence);
     }
 
     /**
@@ -272,7 +257,7 @@ abstract class File extends FileGeneric implements StreamBufferable, StreamLocka
             return 0;
         }
 
-        return ftell($stream);
+        return \ftell($stream);
     }
 
     /**
@@ -280,10 +265,10 @@ abstract class File extends FileGeneric implements StreamBufferable, StreamLocka
      */
     public static function create(string $name)
     {
-        if (file_exists($name)) {
+        if (\file_exists($name)) {
             return true;
         }
 
-        return touch($name);
+        return \touch($name);
     }
 }

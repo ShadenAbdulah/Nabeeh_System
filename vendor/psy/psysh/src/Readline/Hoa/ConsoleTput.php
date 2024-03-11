@@ -36,16 +36,6 @@
 
 namespace Psy\Readline\Hoa;
 
-use function dechex;
-use function defined;
-use function explode;
-use function file_exists;
-use function file_get_contents;
-use function ord;
-use function strlen;
-use function substr;
-use const DIRECTORY_SEPARATOR;
-
 /**
  * Class \Hoa\Console\Tput.
  *
@@ -598,29 +588,29 @@ class ConsoleTput
      */
     protected function parse(string $terminfo): array
     {
-        if (!file_exists($terminfo)) {
+        if (!\file_exists($terminfo)) {
             throw new ConsoleException('Terminfo file %s does not exist.', 0, $terminfo);
         }
 
-        $data = file_get_contents($terminfo);
-        $length = strlen($data);
+        $data = \file_get_contents($terminfo);
+        $length = \strlen($data);
         $out = ['file' => $terminfo];
 
         $headers = [
             'data_size'         => $length,
             'header_size'       => 12,
-            'magic_number'      => (ord($data[1]) << 8) | ord($data[0]),
-            'names_size'        => (ord($data[3]) << 8) | ord($data[2]),
-            'bool_count'        => (ord($data[5]) << 8) | ord($data[4]),
-            'number_count'      => (ord($data[7]) << 8) | ord($data[6]),
-            'string_count'      => (ord($data[9]) << 8) | ord($data[8]),
-            'string_table_size' => (ord($data[11]) << 8) | ord($data[10]),
+            'magic_number'      => (\ord($data[1]) << 8) | \ord($data[0]),
+            'names_size'        => (\ord($data[3]) << 8) | \ord($data[2]),
+            'bool_count'        => (\ord($data[5]) << 8) | \ord($data[4]),
+            'number_count'      => (\ord($data[7]) << 8) | \ord($data[6]),
+            'string_count'      => (\ord($data[9]) << 8) | \ord($data[8]),
+            'string_table_size' => (\ord($data[11]) << 8) | \ord($data[10]),
         ];
         $out['headers'] = $headers;
 
         // Names.
         $i = $headers['header_size'];
-        $nameAndDescription = explode('|', substr($data, $i, $headers['names_size'] - 1));
+        $nameAndDescription = \explode('|', \substr($data, $i, $headers['names_size'] - 1));
         $out['name'] = $nameAndDescription[0];
         $out['description'] = $nameAndDescription[1];
 
@@ -634,7 +624,7 @@ class ConsoleTput
             $i < $max;
             ++$e, ++$i
         ) {
-            $booleans[$booleanNames[$e]] = 1 === ord($data[$i]);
+            $booleans[$booleanNames[$e]] = 1 === \ord($data[$i]);
         }
 
         $out['booleans'] = $booleans;
@@ -653,8 +643,8 @@ class ConsoleTput
             ++$e, $i += 2
         ) {
             $name = $numberNames[$e];
-            $data_i0 = ord($data[$i]);
-            $data_i1 = ord($data[$i + 1]);
+            $data_i0 = \ord($data[$i]);
+            $data_i1 = \ord($data[$i + 1]);
 
             if ($data_i1 === 255 && $data_i0 === 255) {
                 $numbers[$name] = -1;
@@ -676,8 +666,8 @@ class ConsoleTput
             ++$e, $i += 2
         ) {
             $name = $stringNames[$e];
-            $data_i0 = ord($data[$i]);
-            $data_i1 = ord($data[$i + 1]);
+            $data_i0 = \ord($data[$i]);
+            $data_i1 = \ord($data[$i + 1]);
 
             if ($data_i1 === 255 && $data_i0 === 255) {
                 continue;
@@ -693,11 +683,11 @@ class ConsoleTput
             $b = $ii + $a;
             $c = $b;
 
-            while ($c < $length && ord($data[$c])) {
+            while ($c < $length && \ord($data[$c])) {
                 $c++;
             }
 
-            $value = substr($data, $b, $c - $b);
+            $value = \substr($data, $b, $c - $b);
             $strings[$name] = false !== $value ? $value : null;
         }
 
@@ -758,7 +748,7 @@ class ConsoleTput
         return
             isset($_SERVER['TERM']) && !empty($_SERVER['TERM'])
                 ? $_SERVER['TERM']
-                : (defined('PHP_WINDOWS_VERSION_PLATFORM') ? 'windows-ansi' : 'xterm');
+                : (\defined('PHP_WINDOWS_VERSION_PLATFORM') ? 'windows-ansi' : 'xterm');
     }
 
     /**
@@ -773,11 +763,11 @@ class ConsoleTput
         }
 
         if (isset($_SERVER['HOME'])) {
-            $paths[] = $_SERVER['HOME']. DIRECTORY_SEPARATOR.'.terminfo';
+            $paths[] = $_SERVER['HOME'].\DIRECTORY_SEPARATOR.'.terminfo';
         }
 
         if (isset($_SERVER['TERMINFO_DIRS'])) {
-            foreach (explode(':', $_SERVER['TERMINFO_DIRS']) as $path) {
+            foreach (\explode(':', $_SERVER['TERMINFO_DIRS']) as $path) {
                 $paths[] = $path;
             }
         }
@@ -793,13 +783,13 @@ class ConsoleTput
         $paths[] = 'hoa://Library/Terminfo';
 
         $term = $term ?: static::getTerm();
-        $fileHexa = dechex(ord($term[0])). DIRECTORY_SEPARATOR.$term;
-        $fileAlpha = $term[0]. DIRECTORY_SEPARATOR.$term;
+        $fileHexa = \dechex(\ord($term[0])).\DIRECTORY_SEPARATOR.$term;
+        $fileAlpha = $term[0].\DIRECTORY_SEPARATOR.$term;
         $pathname = null;
 
         foreach ($paths as $path) {
-            if (file_exists($_ = $path. DIRECTORY_SEPARATOR.$fileHexa) ||
-                file_exists($_ = $path. DIRECTORY_SEPARATOR.$fileAlpha)) {
+            if (\file_exists($_ = $path.\DIRECTORY_SEPARATOR.$fileHexa) ||
+                \file_exists($_ = $path.\DIRECTORY_SEPARATOR.$fileAlpha)) {
                 $pathname = $_;
 
                 break;

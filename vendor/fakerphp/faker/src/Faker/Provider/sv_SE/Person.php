@@ -3,7 +3,6 @@
 namespace Faker\Provider\sv_SE;
 
 use Faker\Calculator\Luhn;
-use Faker\Provider\DateTime;
 
 class Person extends \Faker\Provider\Person
 {
@@ -129,7 +128,7 @@ class Person extends \Faker\Provider\Person
     public function personalIdentityNumber(\DateTime $birthdate = null, $gender = null)
     {
         if (!$birthdate) {
-            $birthdate = DateTime::dateTimeThisCentury();
+            $birthdate = \Faker\Provider\DateTime::dateTimeThisCentury();
         }
         $datePart = $birthdate->format('ymd');
         $randomDigits = $this->getBirthNumber($gender);

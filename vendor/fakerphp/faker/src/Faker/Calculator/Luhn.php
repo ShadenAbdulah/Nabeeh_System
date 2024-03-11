@@ -2,8 +2,6 @@
 
 namespace Faker\Calculator;
 
-use InvalidArgumentException;
-
 /**
  * Utility class for generating and validating Luhn numbers.
  *
@@ -66,7 +64,7 @@ class Luhn
     public static function generateLuhnNumber(string $partialValue)
     {
         if (!preg_match('/^\d+$/', $partialValue)) {
-            throw new InvalidArgumentException('Argument should be an integer.');
+            throw new \InvalidArgumentException('Argument should be an integer.');
         }
 
         return $partialValue . Luhn::computeCheckDigit($partialValue);

@@ -11,11 +11,9 @@
 
 namespace Psy\Command;
 
-use PhpParser\Error;
 use PhpParser\Parser;
 use Psy\Exception\ParseErrorException;
 use Psy\ParserFactory;
-use function strpos;
 
 /**
  * Class CodeArgumentParser.
@@ -44,15 +42,15 @@ class CodeArgumentParser
 
         try {
             return $this->parser->parse($code);
-        } catch (Error $e) {
-            if (strpos($e->getMessage(), 'unexpected EOF') === false) {
+        } catch (\PhpParser\Error $e) {
+            if (\strpos($e->getMessage(), 'unexpected EOF') === false) {
                 throw ParseErrorException::fromParseError($e);
             }
 
             // If we got an unexpected EOF, let's try it again with a semicolon.
             try {
                 return $this->parser->parse($code.';');
-            } catch (Error $_e) {
+            } catch (\PhpParser\Error $_e) {
                 // Throw the original error, not the semicolon one.
                 throw ParseErrorException::fromParseError($e);
             }

@@ -1,14 +1,12 @@
 <?php
 namespace Hamcrest\Core;
 
-use Hamcrest\AbstractMatcherTest;
-
-class IsNullTest extends AbstractMatcherTest
+class IsNullTest extends \Hamcrest\AbstractMatcherTest
 {
 
     protected function createMatcher()
     {
-        return IsNull::nullValue();
+        return \Hamcrest\Core\IsNull::nullValue();
     }
 
     public function testEvaluatesToTrueIfArgumentIsNull()

@@ -11,10 +11,6 @@
 
 namespace Symfony\Component\Finder\Iterator;
 
-use FilterIterator;
-use Iterator;
-use const PHP_VERSION_ID;
-
 /**
  * MultiplePcreFilterIterator filters files using patterns (regexps, globs or strings).
  *
@@ -23,19 +19,19 @@ use const PHP_VERSION_ID;
  * @template-covariant TKey
  * @template-covariant TValue
  *
- * @extends FilterIterator<TKey, TValue>
+ * @extends \FilterIterator<TKey, TValue>
  */
-abstract class MultiplePcreFilterIterator extends FilterIterator
+abstract class MultiplePcreFilterIterator extends \FilterIterator
 {
     protected $matchRegexps = [];
     protected $noMatchRegexps = [];
 
     /**
-     * @param Iterator<TKey, TValue> $iterator        The Iterator to filter
+     * @param \Iterator<TKey, TValue> $iterator        The Iterator to filter
      * @param string[]                $matchPatterns   An array of patterns that need to match
      * @param string[]                $noMatchPatterns An array of patterns that need to not match
      */
-    public function __construct(Iterator $iterator, array $matchPatterns, array $noMatchPatterns)
+    public function __construct(\Iterator $iterator, array $matchPatterns, array $noMatchPatterns)
     {
         foreach ($matchPatterns as $pattern) {
             $this->matchRegexps[] = $this->toRegex($pattern);
@@ -86,7 +82,7 @@ abstract class MultiplePcreFilterIterator extends FilterIterator
     {
         $availableModifiers = 'imsxuADU';
 
-        if (PHP_VERSION_ID >= 80200) {
+        if (\PHP_VERSION_ID >= 80200) {
             $availableModifiers .= 'n';
         }
 

@@ -1,14 +1,12 @@
 <?php
 namespace Hamcrest\Core;
 
-use Hamcrest\AbstractMatcherTest;
-
-class IsTest extends AbstractMatcherTest
+class IsTest extends \Hamcrest\AbstractMatcherTest
 {
 
     protected function createMatcher()
     {
-        return Is::is('something');
+        return \Hamcrest\Core\Is::is('something');
     }
 
     public function testJustMatchesTheSameWayTheUnderylingMatcherDoes()

@@ -12,8 +12,6 @@
 namespace Monolog;
 
 use ArrayAccess;
-use InvalidArgumentException;
-use LogicException;
 
 /**
  * Monolog log record
@@ -45,7 +43,7 @@ class LogRecord implements ArrayAccess
     {
         if ($offset === 'extra') {
             if (!is_array($value)) {
-                throw new InvalidArgumentException('extra must be an array');
+                throw new \InvalidArgumentException('extra must be an array');
             }
 
             $this->extra = $value;
@@ -59,7 +57,7 @@ class LogRecord implements ArrayAccess
             return;
         }
 
-        throw new LogicException('Unsupported operation: setting '.$offset);
+        throw new \LogicException('Unsupported operation: setting '.$offset);
     }
 
     public function offsetExists(mixed $offset): bool
@@ -73,7 +71,7 @@ class LogRecord implements ArrayAccess
 
     public function offsetUnset(mixed $offset): void
     {
-        throw new LogicException('Unsupported operation');
+        throw new \LogicException('Unsupported operation');
     }
 
     public function &offsetGet(mixed $offset): mixed

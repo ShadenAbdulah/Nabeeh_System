@@ -2,10 +2,6 @@
 
 namespace Faker\ORM\Propel;
 
-use Faker\Generator;
-use Propel;
-use RuntimeException;
-
 /**
  * Service class for populating a database using the Propel ORM.
  * A Populator can populate several tables using ActiveRecord classes.
@@ -16,7 +12,7 @@ class Populator
     protected $entities = [];
     protected $quantities = [];
 
-    public function __construct(Generator $generator)
+    public function __construct(\Faker\Generator $generator)
     {
         $this->generator = $generator;
     }
@@ -29,8 +25,8 @@ class Populator
      */
     public function addEntity($entity, $number, $customColumnFormatters = [], $customModifiers = [])
     {
-        if (!$entity instanceof EntityPopulator) {
-            $entity = new EntityPopulator($entity);
+        if (!$entity instanceof \Faker\ORM\Propel\EntityPopulator) {
+            $entity = new \Faker\ORM\Propel\EntityPopulator($entity);
         }
         $entity->setColumnFormatters($entity->guessColumnFormatters($this->generator));
 
@@ -59,8 +55,8 @@ class Populator
         if (null === $con) {
             $con = $this->getConnection();
         }
-        $isInstancePoolingEnabled = Propel::isInstancePoolingEnabled();
-        Propel::disableInstancePooling();
+        $isInstancePoolingEnabled = \Propel::isInstancePoolingEnabled();
+        \Propel::disableInstancePooling();
         $insertedEntities = [];
         $con->beginTransaction();
 
@@ -72,7 +68,7 @@ class Populator
         $con->commit();
 
         if ($isInstancePoolingEnabled) {
-            Propel::enableInstancePooling();
+            \Propel::enableInstancePooling();
         }
 
         return $insertedEntities;
@@ -84,11 +80,11 @@ class Populator
         $class = key($this->entities);
 
         if (!$class) {
-            throw new RuntimeException('No class found from entities. Did you add entities to the Populator ?');
+            throw new \RuntimeException('No class found from entities. Did you add entities to the Populator ?');
         }
 
         $peer = $class::PEER;
 
-        return Propel::getConnection($peer::DATABASE_NAME, Propel::CONNECTION_WRITE);
+        return \Propel::getConnection($peer::DATABASE_NAME, \Propel::CONNECTION_WRITE);
     }
 }

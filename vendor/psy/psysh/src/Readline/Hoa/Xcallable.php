@@ -36,20 +36,6 @@
 
 namespace Psy\Readline\Hoa;
 
-use Closure;
-use function explode;
-use function function_exists;
-use function get_class;
-use function gettype;
-use function is_array;
-use function is_object;
-use function is_string;
-use function method_exists;
-use function spl_object_hash;
-use function strlen;
-use function strpos;
-use function ucfirst;
-
 /**
  * Build a callable object, i.e. `function`, `class::method`, `object->method` or
  * closure. They all have the same behaviour. This callable is an extension of
@@ -98,20 +84,20 @@ class Xcallable
      */
     public function __construct($call, $able = '')
     {
-        if ($call instanceof Closure) {
+        if ($call instanceof \Closure) {
             $this->_callback = $call;
 
             return;
         }
 
-        if (!is_string($able)) {
+        if (!\is_string($able)) {
             throw new Exception('Bad callback form; the able part must be a string.', 0);
         }
 
         if ('' === $able) {
-            if (is_string($call)) {
-                if (false === strpos($call, '::')) {
-                    if (!function_exists($call)) {
+            if (\is_string($call)) {
+                if (false === \strpos($call, '::')) {
+                    if (!\function_exists($call)) {
                         throw new Exception('Bad callback form; function %s does not exist.', 1, $call);
                     }
 
@@ -120,16 +106,16 @@ class Xcallable
                     return;
                 }
 
-                list($call, $able) = explode('::', $call);
-            } elseif (is_object($call)) {
+                list($call, $able) = \explode('::', $call);
+            } elseif (\is_object($call)) {
                 if ($call instanceof StreamOut) {
                     $able = null;
-                } elseif (method_exists($call, '__invoke')) {
+                } elseif (\method_exists($call, '__invoke')) {
                     $able = '__invoke';
                 } else {
                     throw new Exception('Bad callback form; an object but without a known '.'method.', 2);
                 }
-            } elseif (is_array($call) && isset($call[0])) {
+            } elseif (\is_array($call) && isset($call[0])) {
                 if (!isset($call[1])) {
                     $this->__construct($call[0]);
                     return;
@@ -172,15 +158,15 @@ class Xcallable
         // If method is undetermined, we find it (we understand event bucket and
         // stream).
         if (null !== $head &&
-            is_array($callback) &&
+            \is_array($callback) &&
             null === $callback[1]) {
             if ($head instanceof EventBucket) {
                 $head = $head->getData();
             }
 
-            switch ($type = gettype($head)) {
+            switch ($type = \gettype($head)) {
                 case 'string':
-                    if (1 === strlen($head)) {
+                    if (1 === \strlen($head)) {
                         $method = 'writeCharacter';
                     } else {
                         $method = 'writeString';
@@ -191,7 +177,7 @@ class Xcallable
                 case 'boolean':
                 case 'integer':
                 case 'array':
-                    $method = 'write'. ucfirst($type);
+                    $method = 'write'.\ucfirst($type);
 
                     break;
 
@@ -228,16 +214,16 @@ class Xcallable
 
         $_ = &$this->_callback;
 
-        if (is_string($_)) {
+        if (\is_string($_)) {
             return $this->_hash = 'function#'.$_;
         }
 
-        if (is_array($_)) {
+        if (\is_array($_)) {
             return
                 $this->_hash =
-                    (is_object($_[0])
-                        ? 'object('. spl_object_hash($_[0]).')'.
-                          '#'. get_class($_[0])
+                    (\is_object($_[0])
+                        ? 'object('.\spl_object_hash($_[0]).')'.
+                          '#'.\get_class($_[0])
                         : 'class#'.$_[0]).
                     '::'.
                     (null !== $_[1]
@@ -245,7 +231,7 @@ class Xcallable
                         : '???');
         }
 
-        return $this->_hash = 'closure('. spl_object_hash($_).')';
+        return $this->_hash = 'closure('.\spl_object_hash($_).')';
     }
 
     /**

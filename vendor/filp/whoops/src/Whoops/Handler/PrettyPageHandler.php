@@ -6,19 +6,12 @@
 
 namespace Whoops\Handler;
 
-use ArrayAccess;
-use Closure;
-use ErrorException;
-use Exception;
 use InvalidArgumentException;
 use RuntimeException;
 use Symfony\Component\VarDumper\Cloner\AbstractCloner;
 use Symfony\Component\VarDumper\Cloner\VarCloner;
-use Traversable;
 use UnexpectedValueException;
 use Whoops\Exception\Formatter;
-use Whoops\Exception\FrameCollection;
-use Whoops\Inspector\InspectorInterface;
 use Whoops\Util\Misc;
 use Whoops\Util\TemplateHelper;
 
@@ -185,7 +178,7 @@ class PrettyPageHandler extends Handler
     /**
      * @return int|null
      *
-     * @throws Exception
+     * @throws \Exception
      */
     public function handle()
     {
@@ -196,7 +189,7 @@ class PrettyPageHandler extends Handler
                 // Help users who have been relying on an internal test value
                 // fix their code to the proper method
                 if (isset($_ENV['whoops-test'])) {
-                    throw new Exception(
+                    throw new \Exception(
                         'Use handleUnconditionally instead of whoops-test'
                         .' environment variable'
                     );
@@ -289,7 +282,7 @@ class PrettyPageHandler extends Handler
         // Add extra entries list of data tables:
         // @todo: Consolidate addDataTable and addDataTableCallback
         $extraTables = array_map(function ($table) use ($inspector) {
-            return $table instanceof Closure ? $table($inspector) : $table;
+            return $table instanceof \Closure ? $table($inspector) : $table;
         }, $this->getDataTables());
         $vars["tables"] = array_merge($extraTables, $vars["tables"]);
 
@@ -308,7 +301,7 @@ class PrettyPageHandler extends Handler
     /**
      * Get the stack trace frames of the exception currently being handled.
      *
-     * @return FrameCollection
+     * @return \Whoops\Exception\FrameCollection
      */
     protected function getExceptionFrames()
     {
@@ -338,7 +331,7 @@ class PrettyPageHandler extends Handler
         $exception = $this->getException();
 
         $code = $exception->getCode();
-        if ($exception instanceof ErrorException) {
+        if ($exception instanceof \ErrorException) {
             // ErrorExceptions wrap the php-error types within the 'severity' property
             $code = Misc::translateErrorCode($exception->getSeverity());
         }
@@ -390,13 +383,13 @@ class PrettyPageHandler extends Handler
             throw new InvalidArgumentException('Expecting callback argument to be callable');
         }
 
-        $this->extraTables[$label] = function (InspectorInterface $inspector = null) use ($callback) {
+        $this->extraTables[$label] = function (\Whoops\Inspector\InspectorInterface $inspector = null) use ($callback) {
             try {
                 $result = call_user_func($callback, $inspector);
 
                 // Only return the result if it can be iterated over by foreach().
-                return is_array($result) || $result instanceof Traversable ? $result : [];
-            } catch (Exception $e) {
+                return is_array($result) || $result instanceof \Traversable ? $result : [];
+            } catch (\Exception $e) {
                 // Don't allow failure to break the rendering of the original exception.
                 return [];
             }
@@ -817,7 +810,7 @@ class PrettyPageHandler extends Handler
      * Non-string values will be replaced with a fixed asterisk count.
      * We intentionally dont rely on $GLOBALS as it depends on the 'auto_globals_jit' php.ini setting.
      *
-     * @param array|ArrayAccess  $superGlobal     One of the superglobal arrays
+     * @param array|\ArrayAccess  $superGlobal     One of the superglobal arrays
      * @param string $superGlobalName The name of the superglobal array, e.g. '_GET'
      *
      * @return array $values without sensitive data

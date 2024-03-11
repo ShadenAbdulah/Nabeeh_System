@@ -10,7 +10,6 @@ use Egulias\EmailValidator\Result\Reason\NoDNSRecord as ReasonNoDNSRecord;
 use Egulias\EmailValidator\Result\Reason\UnableToGetDNSRecord;
 use Egulias\EmailValidator\Warning\NoDNSMXRecord;
 use Egulias\EmailValidator\Warning\Warning;
-use LogicException;
 
 class DNSCheckValidation implements EmailValidation
 {
@@ -18,7 +17,7 @@ class DNSCheckValidation implements EmailValidation
     /**
      * Reserved Top Level DNS Names (https://tools.ietf.org/html/rfc2606#section-2),
      * mDNS and private DNS Namespaces (https://tools.ietf.org/html/rfc6762#appendix-G)
-     *
+     * 
      * @var string[]
      */
     public const RESERVED_DNS_TOP_LEVEL_NAMES = [
@@ -63,7 +62,7 @@ class DNSCheckValidation implements EmailValidation
     public function __construct(?DNSGetRecordWrapper $dnsGetRecord = null)
     {
         if (!function_exists('idn_to_ascii')) {
-            throw new LogicException(sprintf('The %s class requires the Intl extension.', __CLASS__));
+            throw new \LogicException(sprintf('The %s class requires the Intl extension.', __CLASS__));
         }
 
         if ($dnsGetRecord == null) {

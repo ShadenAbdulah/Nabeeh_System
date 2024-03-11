@@ -1,12 +1,10 @@
 <?php
 namespace JmesPath;
 
-use InvalidArgumentException;
-
 /**
  * Syntax errors raise this exception that gives context
  */
-class SyntaxErrorException extends InvalidArgumentException
+class SyntaxErrorException extends \InvalidArgumentException
 {
     /**
      * @param string $expectedTypesOrMessage Expected array of tokens or message

@@ -13,11 +13,9 @@ declare(strict_types=1);
 
 namespace Dflydev\DotAccessData\Exception;
 
-use RuntimeException;
-
 /**
  * Base runtime exception type thrown by this library
  */
-class DataException extends RuntimeException
+class DataException extends \RuntimeException
 {
 }

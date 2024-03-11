@@ -12,18 +12,7 @@
 namespace Psy\Command\ListCommand;
 
 use Psy\Reflection\ReflectionNamespace;
-use ReflectionClass;
-use Reflector;
 use Symfony\Component\Console\Input\InputInterface;
-use function array_filter;
-use function array_map;
-use function array_merge;
-use function get_declared_classes;
-use function get_declared_interfaces;
-use function get_declared_traits;
-use function natcasesort;
-use function strpos;
-use function strtolower;
 
 /**
  * Class Enumerator class.
@@ -33,7 +22,7 @@ class ClassEnumerator extends Enumerator
     /**
      * {@inheritdoc}
      */
-    protected function listItems(InputInterface $input, Reflector $reflector = null, $target = null): array
+    protected function listItems(InputInterface $input, \Reflector $reflector = null, $target = null): array
     {
         // if we have a reflector, ensure that it's a namespace reflector
         if (($target !== null || $reflector !== null) && !$reflector instanceof ReflectionNamespace) {
@@ -42,25 +31,25 @@ class ClassEnumerator extends Enumerator
 
         $internal = $input->getOption('internal');
         $user = $input->getOption('user');
-        $prefix = $reflector === null ? null : strtolower($reflector->getName()).'\\';
+        $prefix = $reflector === null ? null : \strtolower($reflector->getName()).'\\';
 
         $ret = [];
 
         // only list classes, interfaces and traits if we are specifically asked
 
         if ($input->getOption('classes')) {
-            $ret = array_merge($ret, $this->filterClasses('Classes', get_declared_classes(), $internal, $user, $prefix));
+            $ret = \array_merge($ret, $this->filterClasses('Classes', \get_declared_classes(), $internal, $user, $prefix));
         }
 
         if ($input->getOption('interfaces')) {
-            $ret = array_merge($ret, $this->filterClasses('Interfaces', get_declared_interfaces(), $internal, $user, $prefix));
+            $ret = \array_merge($ret, $this->filterClasses('Interfaces', \get_declared_interfaces(), $internal, $user, $prefix));
         }
 
         if ($input->getOption('traits')) {
-            $ret = array_merge($ret, $this->filterClasses('Traits', get_declared_traits(), $internal, $user, $prefix));
+            $ret = \array_merge($ret, $this->filterClasses('Traits', \get_declared_traits(), $internal, $user, $prefix));
         }
 
-        return array_map([$this, 'prepareClasses'], array_filter($ret));
+        return \array_map([$this, 'prepareClasses'], \array_filter($ret));
     }
 
     /**
@@ -82,32 +71,32 @@ class ClassEnumerator extends Enumerator
         $ret = [];
 
         if ($internal) {
-            $ret['Internal '.$key] = array_filter($classes, function ($class) use ($prefix) {
-                if ($prefix !== null && strpos(strtolower($class), $prefix) !== 0) {
+            $ret['Internal '.$key] = \array_filter($classes, function ($class) use ($prefix) {
+                if ($prefix !== null && \strpos(\strtolower($class), $prefix) !== 0) {
                     return false;
                 }
 
-                $refl = new ReflectionClass($class);
+                $refl = new \ReflectionClass($class);
 
                 return $refl->isInternal();
             });
         }
 
         if ($user) {
-            $ret['User '.$key] = array_filter($classes, function ($class) use ($prefix) {
-                if ($prefix !== null && strpos(strtolower($class), $prefix) !== 0) {
+            $ret['User '.$key] = \array_filter($classes, function ($class) use ($prefix) {
+                if ($prefix !== null && \strpos(\strtolower($class), $prefix) !== 0) {
                     return false;
                 }
 
-                $refl = new ReflectionClass($class);
+                $refl = new \ReflectionClass($class);
 
                 return !$refl->isInternal();
             });
         }
 
         if (!$user && !$internal) {
-            $ret[$key] = array_filter($classes, function ($class) use ($prefix) {
-                return $prefix === null || strpos(strtolower($class), $prefix) === 0;
+            $ret[$key] = \array_filter($classes, function ($class) use ($prefix) {
+                return $prefix === null || \strpos(\strtolower($class), $prefix) === 0;
             });
         }
 
@@ -123,7 +112,7 @@ class ClassEnumerator extends Enumerator
      */
     protected function prepareClasses(array $classes): array
     {
-        natcasesort($classes);
+        \natcasesort($classes);
 
         // My kingdom for a generator.
         $ret = [];

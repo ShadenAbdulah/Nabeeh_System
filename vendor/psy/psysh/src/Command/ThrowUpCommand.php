@@ -11,8 +11,6 @@
 
 namespace Psy\Command;
 
-use Exception;
-use InvalidArgumentException;
 use PhpParser\Node\Arg;
 use PhpParser\Node\Expr\New_;
 use PhpParser\Node\Expr\Throw_;
@@ -25,7 +23,6 @@ use Psy\Exception\ThrowUpException;
 use Psy\Input\CodeArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use function count;
 
 /**
  * Throw an exception or error out of the Psy Shell.
@@ -77,7 +74,7 @@ HELP
      *
      * @return int 0 if everything went fine, or an exit code
      *
-     * @throws InvalidArgumentException if there is no exception to throw
+     * @throws \InvalidArgumentException if there is no exception to throw
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
@@ -96,7 +93,7 @@ HELP
      *
      * If no argument was given, this falls back to `$_e`
      *
-     * @throws InvalidArgumentException if there is no exception to throw
+     * @throws \InvalidArgumentException if there is no exception to throw
      *
      * @param string $code
      *
@@ -110,8 +107,8 @@ HELP
         }
 
         $nodes = $this->parser->parse($code);
-        if (count($nodes) !== 1) {
-            throw new InvalidArgumentException('No idea how to throw this');
+        if (\count($nodes) !== 1) {
+            throw new \InvalidArgumentException('No idea how to throw this');
         }
 
         $node = $nodes[0];
@@ -121,7 +118,7 @@ HELP
 
         // Allow throwing via a string, e.g. `throw-up "SUP"`
         if ($expr instanceof String_) {
-            return [new New_(new FullyQualifiedName(Exception::class), $args)];
+            return [new New_(new FullyQualifiedName(\Exception::class), $args)];
         }
 
         return $args;

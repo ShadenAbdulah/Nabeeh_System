@@ -3,7 +3,6 @@
 namespace Laravel\Sanctum;
 
 use Illuminate\Contracts\Auth\Factory as AuthFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Laravel\Sanctum\Events\TokenAuthenticated;
@@ -13,7 +12,7 @@ class Guard
     /**
      * The authentication factory implementation.
      *
-     * @var AuthFactory
+     * @var \Illuminate\Contracts\Auth\Factory
      */
     protected $auth;
 
@@ -34,7 +33,7 @@ class Guard
     /**
      * Create a new guard instance.
      *
-     * @param AuthFactory $auth
+     * @param  \Illuminate\Contracts\Auth\Factory  $auth
      * @param  int  $expiration
      * @param  string  $provider
      * @return void
@@ -49,7 +48,7 @@ class Guard
     /**
      * Retrieve the authenticated user for the incoming request.
      *
-     * @param Request $request
+     * @param  \Illuminate\Http\Request  $request
      * @return mixed
      */
     public function __invoke(Request $request)
@@ -109,7 +108,7 @@ class Guard
     /**
      * Get the token from the request.
      *
-     * @param Request $request
+     * @param  \Illuminate\Http\Request  $request
      * @return string|null
      */
     protected function getTokenFromRequest(Request $request)
@@ -171,7 +170,7 @@ class Guard
     /**
      * Determine if the tokenable model matches the provider's model type.
      *
-     * @param  Model  $tokenable
+     * @param  \Illuminate\Database\Eloquent\Model  $tokenable
      * @return bool
      */
     protected function hasValidProvider($tokenable)

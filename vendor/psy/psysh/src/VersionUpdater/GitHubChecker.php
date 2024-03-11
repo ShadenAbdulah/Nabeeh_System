@@ -11,15 +11,7 @@
 
 namespace Psy\VersionUpdater;
 
-use InvalidArgumentException;
 use Psy\Shell;
-use function file_get_contents;
-use function json_decode;
-use function preg_replace;
-use function restore_error_handler;
-use function set_error_handler;
-use function stream_context_create;
-use function version_compare;
 
 class GitHubChecker implements Checker
 {
@@ -31,9 +23,9 @@ class GitHubChecker implements Checker
     {
         // version_compare doesn't handle semver completely;
         // strip pre-release and build metadata before comparing
-        $version = preg_replace('/[+-]\w+/', '', Shell::VERSION);
+        $version = \preg_replace('/[+-]\w+/', '', Shell::VERSION);
 
-        return version_compare($version, $this->getLatest(), '>=');
+        return \version_compare($version, $this->getLatest(), '>=');
     }
 
     public function getLatest(): string
@@ -60,7 +52,7 @@ class GitHubChecker implements Checker
     {
         $contents = $this->fetchLatestRelease();
         if (!$contents || !isset($contents->tag_name)) {
-            throw new InvalidArgumentException('Unable to check for updates');
+            throw new \InvalidArgumentException('Unable to check for updates');
         }
         $this->setLatest($contents->tag_name);
 
@@ -74,22 +66,22 @@ class GitHubChecker implements Checker
      */
     public function fetchLatestRelease()
     {
-        $context = stream_context_create([
+        $context = \stream_context_create([
             'http' => [
                 'user_agent' => 'PsySH/'.Shell::VERSION,
                 'timeout'    => 1.0,
             ],
         ]);
 
-        set_error_handler(function () {
+        \set_error_handler(function () {
             // Just ignore all errors with this. The checker will throw an exception
             // if it doesn't work :)
         });
 
-        $result = @file_get_contents(self::URL, false, $context);
+        $result = @\file_get_contents(self::URL, false, $context);
 
-        restore_error_handler();
+        \restore_error_handler();
 
-        return json_decode($result);
+        return \json_decode($result);
     }
 }

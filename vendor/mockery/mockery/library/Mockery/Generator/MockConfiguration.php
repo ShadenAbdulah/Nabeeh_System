@@ -10,8 +10,6 @@
 
 namespace Mockery\Generator;
 
-use Mockery\Exception;
-
 /**
  * This class describes the configuration of mocks and hides away some of the
  * reflection implementation
@@ -321,7 +319,7 @@ class MockConfiguration
             $dtc = DefinedTargetClass::factory($this->targetClassName, $alias);
 
             if ($this->getTargetObject() == false && $dtc->isFinal()) {
-                throw new Exception(
+                throw new \Mockery\Exception(
                     'The class ' . $this->targetClassName . ' is marked final and its methods'
                     . ' cannot be replaced. Classes marked final can be passed in'
                     . ' to \Mockery::mock() as instantiated objects to create a'

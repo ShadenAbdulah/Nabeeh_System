@@ -36,9 +36,6 @@
 
 namespace Psy\Readline\Hoa;
 
-use ArrayObject;
-use function preg_match;
-
 /**
  * Class \Hoa\Console\Readline\Autocompleter\Aggregate.
  *
@@ -68,7 +65,7 @@ class AutocompleterAggregate implements Autocompleter
     public function complete(&$prefix)
     {
         foreach ($this->getAutocompleters() as $autocompleter) {
-            $preg = preg_match(
+            $preg = \preg_match(
                 '#('.$autocompleter->getWordDefinition().')$#u',
                 $prefix,
                 $match
@@ -98,7 +95,7 @@ class AutocompleterAggregate implements Autocompleter
     protected function setAutocompleters(array $autocompleters)
     {
         $old = $this->_autocompleters;
-        $this->_autocompleters = new ArrayObject($autocompleters);
+        $this->_autocompleters = new \ArrayObject($autocompleters);
 
         return $old;
     }

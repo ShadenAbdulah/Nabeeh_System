@@ -5,8 +5,6 @@ namespace Hamcrest;
  Copyright (c) 2012 hamcrest.org
  */
 
-use InvalidArgumentException;
-
 /**
  * Contains utility methods for handling Hamcrest matchers.
  *
@@ -23,7 +21,7 @@ class Util
      * Wraps the item with an IsEqual matcher if it isn't a matcher already.
      *
      * @param mixed $item matcher or any value
-     * @return Matcher
+     * @return \Hamcrest\Matcher
      */
     public static function wrapValueWithIsEqual($item)
     {
@@ -37,13 +35,13 @@ class Util
      * Throws an exception if any item in $matchers is not a Hamcrest\Matcher.
      *
      * @param array $matchers expected to contain only matchers
-     * @throws InvalidArgumentException if any item is not a matcher
+     * @throws \InvalidArgumentException if any item is not a matcher
      */
     public static function checkAllAreMatchers(array $matchers)
     {
         foreach ($matchers as $m) {
             if (!($m instanceof Matcher)) {
-                throw new InvalidArgumentException(
+                throw new \InvalidArgumentException(
                     'Each argument or element must be a Hamcrest matcher'
                 );
             }

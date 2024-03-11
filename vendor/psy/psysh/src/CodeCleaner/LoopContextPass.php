@@ -22,8 +22,6 @@ use PhpParser\Node\Stmt\Foreach_;
 use PhpParser\Node\Stmt\Switch_;
 use PhpParser\Node\Stmt\While_;
 use Psy\Exception\FatalErrorException;
-use function sprintf;
-use const E_ERROR;
 
 /**
  * The loop context pass handles invalid `break` and `continue` statements.
@@ -68,24 +66,24 @@ class LoopContextPass extends CodeCleanerPass
                 $operator = $node instanceof Break_ ? 'break' : 'continue';
 
                 if ($this->loopDepth === 0) {
-                    $msg = sprintf("'%s' not in the 'loop' or 'switch' context", $operator);
-                    throw new FatalErrorException($msg, 0, E_ERROR, null, $node->getStartLine());
+                    $msg = \sprintf("'%s' not in the 'loop' or 'switch' context", $operator);
+                    throw new FatalErrorException($msg, 0, \E_ERROR, null, $node->getStartLine());
                 }
 
                 if ($node->num instanceof LNumber || $node->num instanceof DNumber) {
                     $num = $node->num->value;
                     if ($node->num instanceof DNumber || $num < 1) {
-                        $msg = sprintf("'%s' operator accepts only positive numbers", $operator);
-                        throw new FatalErrorException($msg, 0, E_ERROR, null, $node->getStartLine());
+                        $msg = \sprintf("'%s' operator accepts only positive numbers", $operator);
+                        throw new FatalErrorException($msg, 0, \E_ERROR, null, $node->getStartLine());
                     }
 
                     if ($num > $this->loopDepth) {
-                        $msg = sprintf("Cannot '%s' %d levels", $operator, $num);
-                        throw new FatalErrorException($msg, 0, E_ERROR, null, $node->getStartLine());
+                        $msg = \sprintf("Cannot '%s' %d levels", $operator, $num);
+                        throw new FatalErrorException($msg, 0, \E_ERROR, null, $node->getStartLine());
                     }
                 } elseif ($node->num) {
-                    $msg = sprintf("'%s' operator with non-constant operand is no longer supported", $operator);
-                    throw new FatalErrorException($msg, 0, E_ERROR, null, $node->getStartLine());
+                    $msg = \sprintf("'%s' operator with non-constant operand is no longer supported", $operator);
+                    throw new FatalErrorException($msg, 0, \E_ERROR, null, $node->getStartLine());
                 }
                 break;
         }

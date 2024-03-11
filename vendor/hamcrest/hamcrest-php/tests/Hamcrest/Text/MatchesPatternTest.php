@@ -1,9 +1,7 @@
 <?php
 namespace Hamcrest\Text;
 
-use Hamcrest\AbstractMatcherTest;
-
-class MatchesPatternTest extends AbstractMatcherTest
+class MatchesPatternTest extends \Hamcrest\AbstractMatcherTest
 {
 
     protected function createMatcher()

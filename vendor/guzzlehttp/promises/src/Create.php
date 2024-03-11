@@ -4,10 +4,6 @@ declare(strict_types=1);
 
 namespace GuzzleHttp\Promise;
 
-use ArrayIterator;
-use Iterator;
-use Throwable;
-
 final class Create
 {
     /**
@@ -54,9 +50,9 @@ final class Create
      *
      * @param mixed $reason
      */
-    public static function exceptionFor($reason): Throwable
+    public static function exceptionFor($reason): \Throwable
     {
-        if ($reason instanceof Throwable) {
+        if ($reason instanceof \Throwable) {
             return $reason;
         }
 
@@ -68,16 +64,16 @@ final class Create
      *
      * @param mixed $value
      */
-    public static function iterFor($value): Iterator
+    public static function iterFor($value): \Iterator
     {
-        if ($value instanceof Iterator) {
+        if ($value instanceof \Iterator) {
             return $value;
         }
 
         if (is_array($value)) {
-            return new ArrayIterator($value);
+            return new \ArrayIterator($value);
         }
 
-        return new ArrayIterator([$value]);
+        return new \ArrayIterator([$value]);
     }
 }

@@ -258,7 +258,7 @@ class Ignition
      * @param array<int, mixed> $context
      *
      * @return void
-     * @throws ErrorException
+     * @throws \ErrorException
      */
     public function renderError(
         int $level,

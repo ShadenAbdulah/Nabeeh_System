@@ -1,21 +1,18 @@
 <?php
 namespace Hamcrest\Core;
 
-use Hamcrest\AbstractMatcherTest;
-use stdClass;
-
-class IsIdenticalTest extends AbstractMatcherTest
+class IsIdenticalTest extends \Hamcrest\AbstractMatcherTest
 {
 
     protected function createMatcher()
     {
-        return IsIdentical::identicalTo('irrelevant');
+        return \Hamcrest\Core\IsIdentical::identicalTo('irrelevant');
     }
 
     public function testEvaluatesToTrueIfArgumentIsReferenceToASpecifiedObject()
     {
-        $o1 = new stdClass();
-        $o2 = new stdClass();
+        $o1 = new \stdClass();
+        $o2 = new \stdClass();
 
         assertThat($o1, identicalTo($o1));
         assertThat($o2, not(identicalTo($o1)));

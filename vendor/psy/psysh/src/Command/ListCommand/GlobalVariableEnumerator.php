@@ -11,10 +11,7 @@
 
 namespace Psy\Command\ListCommand;
 
-use Reflector;
 use Symfony\Component\Console\Input\InputInterface;
-use function array_keys;
-use function natcasesort;
 
 /**
  * Global Variable Enumerator class.
@@ -24,7 +21,7 @@ class GlobalVariableEnumerator extends Enumerator
     /**
      * {@inheritdoc}
      */
-    protected function listItems(InputInterface $input, Reflector $reflector = null, $target = null): array
+    protected function listItems(InputInterface $input, \Reflector $reflector = null, $target = null): array
     {
         // only list globals when no Reflector is present.
         if ($reflector !== null || $target !== null) {
@@ -56,8 +53,8 @@ class GlobalVariableEnumerator extends Enumerator
     {
         global $GLOBALS;
 
-        $names = array_keys($GLOBALS);
-        natcasesort($names);
+        $names = \array_keys($GLOBALS);
+        \natcasesort($names);
 
         $ret = [];
         foreach ($names as $name) {

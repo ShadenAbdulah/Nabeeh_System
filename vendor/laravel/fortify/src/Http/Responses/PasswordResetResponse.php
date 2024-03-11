@@ -3,10 +3,8 @@
 namespace Laravel\Fortify\Http\Responses;
 
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Laravel\Fortify\Contracts\PasswordResetResponse as PasswordResetResponseContract;
 use Laravel\Fortify\Fortify;
-use Symfony\Component\HttpFoundation\Response;
 
 class PasswordResetResponse implements PasswordResetResponseContract
 {
@@ -31,8 +29,8 @@ class PasswordResetResponse implements PasswordResetResponseContract
     /**
      * Create an HTTP response that represents the object.
      *
-     * @param  Request  $request
-     * @return Response
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function toResponse($request)
     {

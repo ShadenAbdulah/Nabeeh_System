@@ -16,8 +16,6 @@ use PhpParser\Node\FunctionLike;
 use PhpParser\Node\Stmt\Goto_;
 use PhpParser\Node\Stmt\Label;
 use Psy\Exception\FatalErrorException;
-use function strtolower;
-use const E_ERROR;
 
 /**
  * CodeCleanerPass for label context.
@@ -70,14 +68,14 @@ class LabelContextPass extends CodeCleanerPass
         }
 
         if ($node instanceof Goto_) {
-            $this->labelGotos[strtolower($node->name)] = $node->getStartLine();
+            $this->labelGotos[\strtolower($node->name)] = $node->getStartLine();
         } elseif ($node instanceof Label) {
-            $this->labelDeclarations[strtolower($node->name)] = $node->getStartLine();
+            $this->labelDeclarations[\strtolower($node->name)] = $node->getStartLine();
         }
     }
 
     /**
-     * @param Node $node
+     * @param \PhpParser\Node $node
      *
      * @return int|Node|Node[]|null Replacement node (or special return value)
      */
@@ -96,7 +94,7 @@ class LabelContextPass extends CodeCleanerPass
         foreach ($this->labelGotos as $name => $line) {
             if (!isset($this->labelDeclarations[$name])) {
                 $msg = "'goto' to undefined label '{$name}'";
-                throw new FatalErrorException($msg, 0, E_ERROR, null, $line);
+                throw new FatalErrorException($msg, 0, \E_ERROR, null, $line);
             }
         }
     }

@@ -72,7 +72,7 @@ class BadMethodCallSolutionProvider implements HasSolutionsForThrowable
      * @param class-string $class
      * @param string $invalidMethodName
      *
-     * @return ReflectionMethod|null
+     * @return \ReflectionMethod|null
      */
     protected function findPossibleMethod(string $class, string $invalidMethodName): ?ReflectionMethod
     {
@@ -87,7 +87,7 @@ class BadMethodCallSolutionProvider implements HasSolutionsForThrowable
     /**
      * @param class-string $class
      *
-     * @return Collection<int, ReflectionMethod>
+     * @return \Illuminate\Support\Collection<int, ReflectionMethod>
      */
     protected function getAvailableMethods(string $class): Collection
     {

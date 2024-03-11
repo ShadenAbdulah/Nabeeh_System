@@ -15,8 +15,6 @@ use Monolog\Level;
 use Monolog\ResettableInterface;
 use Monolog\Formatter\FormatterInterface;
 use Monolog\LogRecord;
-use UnexpectedValueException;
-use function count;
 
 /**
  * Buffers all records until closing the handler and then pass them as batch.
@@ -80,7 +78,7 @@ class BufferHandler extends AbstractHandler implements ProcessableHandlerInterfa
             }
         }
 
-        if (count($this->processors) > 0) {
+        if (\count($this->processors) > 0) {
             $record = $this->processRecord($record);
         }
 
@@ -150,7 +148,7 @@ class BufferHandler extends AbstractHandler implements ProcessableHandlerInterfa
             return $this;
         }
 
-        throw new UnexpectedValueException('The nested handler of type '.get_class($this->handler).' does not support formatters.');
+        throw new \UnexpectedValueException('The nested handler of type '.get_class($this->handler).' does not support formatters.');
     }
 
     /**
@@ -162,6 +160,6 @@ class BufferHandler extends AbstractHandler implements ProcessableHandlerInterfa
             return $this->handler->getFormatter();
         }
 
-        throw new UnexpectedValueException('The nested handler of type '.get_class($this->handler).' does not support formatters.');
+        throw new \UnexpectedValueException('The nested handler of type '.get_class($this->handler).' does not support formatters.');
     }
 }

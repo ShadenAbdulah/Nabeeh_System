@@ -11,26 +11,15 @@
 
 namespace Psy\Command;
 
-use Generator;
 use Psy\Formatter\DocblockFormatter;
 use Psy\Formatter\SignatureFormatter;
 use Psy\Input\CodeArgument;
 use Psy\Output\ShellOutput;
 use Psy\Reflection\ReflectionConstant;
 use Psy\Reflection\ReflectionLanguageConstruct;
-use ReflectionClass;
-use ReflectionClassConstant;
-use ReflectionFunction;
-use ReflectionMethod;
-use ReflectionObject;
-use ReflectionProperty;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use function get_class;
-use function in_array;
-use function sprintf;
-use function stripos;
 
 /**
  * Read the documentation for an object, class, constant, method or property.
@@ -91,7 +80,7 @@ HELP
         }
 
         // Maybe include the declaring class
-        if ($reflector instanceof ReflectionMethod || $reflector instanceof ReflectionProperty) {
+        if ($reflector instanceof \ReflectionMethod || $reflector instanceof \ReflectionProperty) {
             $output->writeln(SignatureFormatter::format($reflector->getDeclaringClass()));
         }
 
@@ -107,7 +96,7 @@ HELP
         }
 
         // Implicit --all if the original docblock has an {@inheritdoc} tag.
-        if ($input->getOption('all') || stripos($doc, self::INHERIT_DOC_TAG) !== false) {
+        if ($input->getOption('all') || \stripos($doc, self::INHERIT_DOC_TAG) !== false) {
             $parent = $reflector;
             foreach ($this->getParentReflectors($reflector) as $parent) {
                 $output->writeln('');
@@ -115,7 +104,7 @@ HELP
                 $output->writeln('');
 
                 // Maybe include the declaring class
-                if ($parent instanceof ReflectionMethod || $parent instanceof ReflectionProperty) {
+                if ($parent instanceof \ReflectionMethod || $parent instanceof \ReflectionProperty) {
                     $output->writeln(SignatureFormatter::format($parent->getDeclaringClass()));
                 }
 
@@ -140,22 +129,22 @@ HELP
 
     private function getManualDoc($reflector)
     {
-        switch (get_class($reflector)) {
-            case ReflectionClass::class:
-            case ReflectionObject::class:
-            case ReflectionFunction::class:
+        switch (\get_class($reflector)) {
+            case \ReflectionClass::class:
+            case \ReflectionObject::class:
+            case \ReflectionFunction::class:
                 $id = $reflector->name;
                 break;
 
-            case ReflectionMethod::class:
+            case \ReflectionMethod::class:
                 $id = $reflector->class.'::'.$reflector->name;
                 break;
 
-            case ReflectionProperty::class:
+            case \ReflectionProperty::class:
                 $id = $reflector->class.'::$'.$reflector->name;
                 break;
 
-            case ReflectionClassConstant::class:
+            case \ReflectionClassConstant::class:
                 // @todo this is going to collide with ReflectionMethod ids
                 // someday... start running the query by id + type if the DB
                 // supports it.
@@ -181,24 +170,24 @@ HELP
      * yield Reflectors for the same-named method or property on all traits and
      * parent classes.
      *
-     * @return Generator a whole bunch of \Reflector instances
+     * @return \Generator a whole bunch of \Reflector instances
      */
-    private function getParentReflectors($reflector): Generator
+    private function getParentReflectors($reflector): \Generator
     {
         $seenClasses = [];
 
-        switch (get_class($reflector)) {
-            case ReflectionClass::class:
-            case ReflectionObject::class:
+        switch (\get_class($reflector)) {
+            case \ReflectionClass::class:
+            case \ReflectionObject::class:
                 foreach ($reflector->getTraits() as $trait) {
-                    if (!in_array($trait->getName(), $seenClasses)) {
+                    if (!\in_array($trait->getName(), $seenClasses)) {
                         $seenClasses[] = $trait->getName();
                         yield $trait;
                     }
                 }
 
                 foreach ($reflector->getInterfaces() as $interface) {
-                    if (!in_array($interface->getName(), $seenClasses)) {
+                    if (!\in_array($interface->getName(), $seenClasses)) {
                         $seenClasses[] = $interface->getName();
                         yield $interface;
                     }
@@ -208,14 +197,14 @@ HELP
                     yield $reflector;
 
                     foreach ($reflector->getTraits() as $trait) {
-                        if (!in_array($trait->getName(), $seenClasses)) {
+                        if (!\in_array($trait->getName(), $seenClasses)) {
                             $seenClasses[] = $trait->getName();
                             yield $trait;
                         }
                     }
 
                     foreach ($reflector->getInterfaces() as $interface) {
-                        if (!in_array($interface->getName(), $seenClasses)) {
+                        if (!\in_array($interface->getName(), $seenClasses)) {
                             $seenClasses[] = $interface->getName();
                             yield $interface;
                         }
@@ -224,11 +213,11 @@ HELP
 
                 return;
 
-            case ReflectionMethod::class:
+            case \ReflectionMethod::class:
                 foreach ($this->getParentReflectors($reflector->getDeclaringClass()) as $parent) {
                     if ($parent->hasMethod($reflector->getName())) {
                         $parentMethod = $parent->getMethod($reflector->getName());
-                        if (!in_array($parentMethod->getDeclaringClass()->getName(), $seenClasses)) {
+                        if (!\in_array($parentMethod->getDeclaringClass()->getName(), $seenClasses)) {
                             $seenClasses[] = $parentMethod->getDeclaringClass()->getName();
                             yield $parentMethod;
                         }
@@ -237,11 +226,11 @@ HELP
 
                 return;
 
-            case ReflectionProperty::class:
+            case \ReflectionProperty::class:
                 foreach ($this->getParentReflectors($reflector->getDeclaringClass()) as $parent) {
                     if ($parent->hasProperty($reflector->getName())) {
                         $parentProperty = $parent->getProperty($reflector->getName());
-                        if (!in_array($parentProperty->getDeclaringClass()->getName(), $seenClasses)) {
+                        if (!\in_array($parentProperty->getDeclaringClass()->getName(), $seenClasses)) {
                             $seenClasses[] = $parentProperty->getDeclaringClass()->getName();
                             yield $parentProperty;
                         }
@@ -254,7 +243,7 @@ HELP
     private function getManualDocById($id)
     {
         if ($db = $this->getApplication()->getManualDb()) {
-            $result = $db->query(sprintf('SELECT doc FROM php_manual WHERE id = %s', $db->quote($id)));
+            $result = $db->query(\sprintf('SELECT doc FROM php_manual WHERE id = %s', $db->quote($id)));
             if ($result !== false) {
                 return $result->fetchColumn(0);
             }

@@ -2,7 +2,6 @@
 
 namespace Faker\ORM\Mandango;
 
-use Faker\Generator;
 use Mandango\Mandango;
 
 /**
@@ -16,7 +15,7 @@ class Populator
     protected $entities = [];
     protected $quantities = [];
 
-    public function __construct(Generator $generator, Mandango $mandango)
+    public function __construct(\Faker\Generator $generator, Mandango $mandango)
     {
         $this->generator = $generator;
         $this->mandango = $mandango;
@@ -30,8 +29,8 @@ class Populator
      */
     public function addEntity($entity, $number, $customColumnFormatters = [])
     {
-        if (!$entity instanceof EntityPopulator) {
-            $entity = new EntityPopulator($entity);
+        if (!$entity instanceof \Faker\ORM\Mandango\EntityPopulator) {
+            $entity = new \Faker\ORM\Mandango\EntityPopulator($entity);
         }
         $entity->setColumnFormatters($entity->guessColumnFormatters($this->generator, $this->mandango));
 

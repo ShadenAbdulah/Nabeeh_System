@@ -41,7 +41,7 @@ class IsSame extends BaseMatcher
      *   The predicate evaluates to true only when the argument is
      *   this object.
      *
-     * @return IsSame
+     * @return \Hamcrest\Core\IsSame
      * @factory
      */
     public static function sameInstance($object)

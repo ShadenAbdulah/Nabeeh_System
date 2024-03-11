@@ -36,16 +36,12 @@
 
 namespace Psy\Readline\Hoa;
 
-use FilesystemIterator;
-use ReturnTypeWillChange;
-use SplFileInfo;
-
 /**
  * Class \Hoa\Iterator\FileSystem.
  *
  * Extending the SPL FileSystemIterator class.
  */
-class IteratorFileSystem extends FilesystemIterator
+class IteratorFileSystem extends \FilesystemIterator
 {
     /**
      * SplFileInfo classname.
@@ -74,13 +70,13 @@ class IteratorFileSystem extends FilesystemIterator
      * Current.
      * Please, see \FileSystemIterator::current() method.
      */
-    #[ReturnTypeWillChange]
+    #[\ReturnTypeWillChange]
     public function current()
     {
         $out = parent::current();
 
         if (null !== $this->_splFileInfoClass &&
-            $out instanceof SplFileInfo) {
+            $out instanceof \SplFileInfo) {
             $out->setInfoClass($this->_splFileInfoClass);
             $out = $out->getFileInfo();
         }

@@ -15,7 +15,6 @@ use Psy\Formatter\SignatureFormatter;
 use Psy\Input\FilterOptions;
 use Psy\Util\Mirror;
 use Psy\VarDumper\Presenter;
-use Reflector;
 use Symfony\Component\Console\Input\InputInterface;
 
 /**
@@ -50,12 +49,12 @@ abstract class Enumerator
      * Return a list of categorized things with the given input options and target.
      *
      * @param InputInterface  $input
-     * @param Reflector|null $reflector
+     * @param \Reflector|null $reflector
      * @param mixed           $target
      *
      * @return array
      */
-    public function enumerate(InputInterface $input, Reflector $reflector = null, $target = null): array
+    public function enumerate(InputInterface $input, \Reflector $reflector = null, $target = null): array
     {
         $this->filter->bind($input);
 
@@ -78,12 +77,12 @@ abstract class Enumerator
      *     ]
      *
      * @param InputInterface  $input
-     * @param Reflector|null $reflector
+     * @param \Reflector|null $reflector
      * @param mixed           $target
      *
      * @return array
      */
-    abstract protected function listItems(InputInterface $input, Reflector $reflector = null, $target = null): array;
+    abstract protected function listItems(InputInterface $input, \Reflector $reflector = null, $target = null): array;
 
     protected function showItem($name)
     {
@@ -98,7 +97,7 @@ abstract class Enumerator
     protected function presentSignature($target)
     {
         // This might get weird if the signature is actually for a reflector. Hrm.
-        if (!$target instanceof Reflector) {
+        if (!$target instanceof \Reflector) {
             $target = Mirror::get($target);
         }
 

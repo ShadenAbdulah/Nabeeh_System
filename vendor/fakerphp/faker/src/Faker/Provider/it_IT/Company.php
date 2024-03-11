@@ -85,8 +85,8 @@ class Company extends \Faker\Provider\Company
      *
      * @return string
      *
-     * @deprecated use {@link Company::vat} instead
-     * @see Company::vat
+     * @deprecated use {@link \Faker\Provider\it_IT\Company::vat()} instead
+     * @see \Faker\Provider\it_IT\Company::vat()
      */
     public static function vatId()
     {

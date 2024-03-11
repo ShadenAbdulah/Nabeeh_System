@@ -14,9 +14,9 @@ class ProfileInformationController extends Controller
     /**
      * Update the user's profile information.
      *
-     * @param Request $request
-     * @param UpdatesUserProfileInformation $updater
-     * @return ProfileInformationUpdatedResponse
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Laravel\Fortify\Contracts\UpdatesUserProfileInformation  $updater
+     * @return \Laravel\Fortify\Contracts\ProfileInformationUpdatedResponse
      */
     public function update(Request $request,
                            UpdatesUserProfileInformation $updater)

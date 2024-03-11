@@ -11,11 +11,7 @@
 
 namespace Symfony\Contracts\Translation;
 
-use Locale;
 use Symfony\Component\Translation\Exception\InvalidArgumentException;
-use function count;
-use function strlen;
-use const INF;
 
 /**
  * A trait to help implement TranslatorInterface and LocaleAwareInterface.
@@ -36,7 +32,7 @@ trait TranslatorTrait
 
     public function getLocale(): string
     {
-        return $this->locale ?: (class_exists(Locale::class) ? Locale::getDefault() : 'en');
+        return $this->locale ?: (class_exists(\Locale::class) ? \Locale::getDefault() : 'en');
     }
 
     public function trans(?string $id, array $parameters = [], string $domain = null, string $locale = null): string
@@ -90,8 +86,8 @@ EOF;
                         }
                     }
                 } else {
-                    $leftNumber = '-Inf' === $matches['left'] ? -INF : (float) $matches['left'];
-                    $rightNumber = is_numeric($matches['right']) ? (float) $matches['right'] : INF;
+                    $leftNumber = '-Inf' === $matches['left'] ? -\INF : (float) $matches['left'];
+                    $rightNumber = is_numeric($matches['right']) ? (float) $matches['right'] : \INF;
 
                     if (('[' === $matches['left_delimiter'] ? $number >= $leftNumber : $number > $leftNumber)
                         && (']' === $matches['right_delimiter'] ? $number <= $rightNumber : $number < $rightNumber)
@@ -111,7 +107,7 @@ EOF;
         if (!isset($standardRules[$position])) {
             // when there's exactly one rule given, and that rule is a standard
             // rule, use this rule
-            if (1 === count($parts) && isset($standardRules[0])) {
+            if (1 === \count($parts) && isset($standardRules[0])) {
                 return strtr($standardRules[0], $parameters);
             }
 
@@ -138,7 +134,7 @@ EOF;
     {
         $number = abs($number);
 
-        return match ('pt_BR' !== $locale && 'en_US_POSIX' !== $locale && strlen($locale) > 3 ? substr($locale, 0, strrpos($locale, '_')) : $locale) {
+        return match ('pt_BR' !== $locale && 'en_US_POSIX' !== $locale && \strlen($locale) > 3 ? substr($locale, 0, strrpos($locale, '_')) : $locale) {
             'af',
             'bn',
             'bg',

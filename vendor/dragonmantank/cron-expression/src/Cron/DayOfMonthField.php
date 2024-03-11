@@ -4,11 +4,8 @@ declare(strict_types=1);
 
 namespace Cron;
 
-use DateInterval;
 use DateTime;
-use DateTimeImmutable;
 use DateTimeInterface;
-use RuntimeException;
 
 /**
  * Day of month field.  Allows: * , / - ? L W.
@@ -47,7 +44,7 @@ class DayOfMonthField extends AbstractField
      * @param int $currentMonth Current month
      * @param int $targetDay Target day of the month
      *
-     * @return DateTime|null Returns the nearest date
+     * @return \DateTime|null Returns the nearest date
      */
     private static function getNearestWeekday(int $currentYear, int $currentMonth, int $targetDay): ?DateTime
     {
@@ -110,7 +107,7 @@ class DayOfMonthField extends AbstractField
                 return $date->format('j') === $nearest->format('j');
             }
 
-            throw new RuntimeException('Unable to return nearest weekday');
+            throw new \RuntimeException('Unable to return nearest weekday');
         }
 
         return $this->isSatisfied((int) $date->format('d'), $value);
@@ -119,15 +116,15 @@ class DayOfMonthField extends AbstractField
     /**
      * @inheritDoc
      *
-     * @param DateTime|DateTimeImmutable $date
+     * @param \DateTime|\DateTimeImmutable $date
      */
     public function increment(DateTimeInterface &$date, $invert = false, $parts = null): FieldInterface
     {
         if (! $invert) {
-            $date = $date->add(new DateInterval('P1D'));
+            $date = $date->add(new \DateInterval('P1D'));
             $date = $date->setTime(0, 0);
         } else {
-            $date = $date->sub(new DateInterval('P1D'));
+            $date = $date->sub(new \DateInterval('P1D'));
             $date = $date->setTime(23, 59);
         }
 

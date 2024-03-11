@@ -1,14 +1,12 @@
 <?php
 namespace Hamcrest\Type;
 
-use Hamcrest\AbstractMatcherTest;
-
-class IsDoubleTest extends AbstractMatcherTest
+class IsDoubleTest extends \Hamcrest\AbstractMatcherTest
 {
 
     protected function createMatcher()
     {
-        return IsDouble::doubleValue();
+        return \Hamcrest\Type\IsDouble::doubleValue();
     }
 
     public function testEvaluatesToTrueIfArgumentMatchesType()

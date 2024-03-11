@@ -24,16 +24,6 @@ use Nette\Schema\Expect;
 use Nette\Schema\Processor;
 use Nette\Schema\Schema;
 use Nette\Schema\ValidationException as NetteValidationException;
-use stdClass;
-use function array_key_exists;
-use function is_array;
-use function sprintf;
-use function str_replace;
-use function strlen;
-use function strpos;
-use function substr;
-use function trigger_error;
-use const E_USER_DEPRECATED;
 
 final class Configuration implements ConfigurationBuilderInterface, ConfigurationInterface
 {
@@ -119,7 +109,7 @@ final class Configuration implements ConfigurationBuilderInterface, Configuratio
      */
     public function get(string $key)
     {
-        if (array_key_exists($key, $this->cache)) {
+        if (\array_key_exists($key, $this->cache)) {
             return $this->cache[$key];
         }
 
@@ -139,7 +129,7 @@ final class Configuration implements ConfigurationBuilderInterface, Configuratio
      */
     public function exists(string $key): bool
     {
-        if (array_key_exists($key, $this->cache)) {
+        if (\array_key_exists($key, $this->cache)) {
             return true;
         }
 
@@ -183,7 +173,7 @@ final class Configuration implements ConfigurationBuilderInterface, Configuratio
         }
 
         if (! isset($this->configSchemas[$topLevelKey])) {
-            throw new UnknownOptionException(sprintf('Missing config schema for "%s"', $topLevelKey), $topLevelKey);
+            throw new UnknownOptionException(\sprintf('Missing config schema for "%s"', $topLevelKey), $topLevelKey);
         }
 
         try {
@@ -215,17 +205,17 @@ final class Configuration implements ConfigurationBuilderInterface, Configuratio
      *
      * @return mixed
      *
-     * @phpstan-return ($data is stdClass ? array<string, mixed> : T)
+     * @phpstan-return ($data is \stdClass ? array<string, mixed> : T)
      *
      * @psalm-pure
      */
     private static function convertStdClassesToArrays($data)
     {
-        if ($data instanceof stdClass) {
+        if ($data instanceof \stdClass) {
             $data = (array) $data;
         }
 
-        if (is_array($data)) {
+        if (\is_array($data)) {
             foreach ($data as $k => $v) {
                 $data[$k] = self::convertStdClassesToArrays($v);
             }
@@ -240,7 +230,7 @@ final class Configuration implements ConfigurationBuilderInterface, Configuratio
     private function raiseAnyDeprecationNotices(array $warnings): void
     {
         foreach ($warnings as $warning) {
-            @trigger_error($warning, E_USER_DEPRECATED);
+            @\trigger_error($warning, \E_USER_DEPRECATED);
         }
     }
 
@@ -249,17 +239,17 @@ final class Configuration implements ConfigurationBuilderInterface, Configuratio
      */
     private static function getTopLevelKey(string $path): string
     {
-        if (strlen($path) === 0) {
+        if (\strlen($path) === 0) {
             throw new InvalidPathException('Path cannot be an empty string');
         }
 
-        $path = str_replace(['.', '/'], '.', $path);
+        $path = \str_replace(['.', '/'], '.', $path);
 
-        $firstDelimiter = strpos($path, '.');
+        $firstDelimiter = \strpos($path, '.');
         if ($firstDelimiter === false) {
             return $path;
         }
 
-        return substr($path, 0, $firstDelimiter);
+        return \substr($path, 0, $firstDelimiter);
     }
 }

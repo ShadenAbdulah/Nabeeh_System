@@ -4,8 +4,6 @@ namespace Egulias\EmailValidator;
 
 use Doctrine\Common\Lexer\AbstractLexer;
 use Doctrine\Common\Lexer\Token;
-use InvalidArgumentException;
-use UnexpectedValueException;
 
 /** @extends AbstractLexer<int, string> */
 class EmailLexer extends AbstractLexer
@@ -176,7 +174,7 @@ class EmailLexer extends AbstractLexer
 
     /**
      * @param int $type
-     * @throws UnexpectedValueException
+     * @throws \UnexpectedValueException
      * @return boolean
      *
      * @psalm-suppress InvalidScalarArgument
@@ -187,7 +185,7 @@ class EmailLexer extends AbstractLexer
         $search->skipUntil($type);
 
         if (!$search->lookahead) {
-            throw new UnexpectedValueException($type . ' not found');
+            throw new \UnexpectedValueException($type . ' not found');
         }
         return true;
     }
@@ -223,7 +221,7 @@ class EmailLexer extends AbstractLexer
      * Retrieve token type. Also processes the token value if necessary.
      *
      * @param string $value
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      * @return integer
      */
     protected function getType(&$value): int

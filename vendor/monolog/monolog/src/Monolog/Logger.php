@@ -14,7 +14,6 @@ namespace Monolog;
 use Closure;
 use DateTimeZone;
 use Fiber;
-use LogicException;
 use Monolog\Handler\HandlerInterface;
 use Monolog\Processor\ProcessorInterface;
 use Psr\Log\LoggerInterface;
@@ -23,9 +22,6 @@ use Psr\Log\LogLevel;
 use Throwable;
 use Stringable;
 use WeakMap;
-use function count;
-use function is_numeric;
-use function is_string;
 
 /**
  * Monolog log channel
@@ -182,7 +178,7 @@ class Logger implements LoggerInterface, ResettableInterface
         $this->setHandlers($handlers);
         $this->processors = $processors;
         $this->timezone = $timezone ?? new DateTimeZone(date_default_timezone_get());
-        $this->fiberLogDepth = new WeakMap();
+        $this->fiberLogDepth = new \WeakMap();
     }
 
     public function getName(): string
@@ -218,12 +214,12 @@ class Logger implements LoggerInterface, ResettableInterface
     /**
      * Pops a handler from the stack
      *
-     * @throws LogicException If empty handler stack
+     * @throws \LogicException If empty handler stack
      */
     public function popHandler(): HandlerInterface
     {
-        if (0 === count($this->handlers)) {
-            throw new LogicException('You tried to pop from an empty handler stack.');
+        if (0 === \count($this->handlers)) {
+            throw new \LogicException('You tried to pop from an empty handler stack.');
         }
 
         return array_shift($this->handlers);
@@ -272,12 +268,12 @@ class Logger implements LoggerInterface, ResettableInterface
      * Removes the processor on top of the stack and returns it.
      *
      * @phpstan-return ProcessorInterface|(callable(LogRecord): LogRecord)
-     * @throws LogicException If empty processor stack
+     * @throws \LogicException If empty processor stack
      */
     public function popProcessor(): callable
     {
-        if (0 === count($this->processors)) {
-            throw new LogicException('You tried to pop from an empty processor stack.');
+        if (0 === \count($this->processors)) {
+            throw new \LogicException('You tried to pop from an empty processor stack.');
         }
 
         return array_shift($this->processors);
@@ -459,12 +455,12 @@ class Logger implements LoggerInterface, ResettableInterface
      *
      * This still returns a string instead of a Level for BC, but new code should not rely on this method.
      *
-     * @throws InvalidArgumentException If level is not defined
+     * @throws \Psr\Log\InvalidArgumentException If level is not defined
      *
      * @phpstan-param  value-of<Level::VALUES>|Level $level
      * @phpstan-return value-of<Level::NAMES>
      *
-     * @deprecated Since 3.0, use {@see toMonologLevel} or {@see Level->getName()} instead
+     * @deprecated Since 3.0, use {@see toMonologLevel} or {@see \Monolog\Level->getName()} instead
      */
     public static function getLevelName(int|Level $level): string
     {
@@ -475,7 +471,7 @@ class Logger implements LoggerInterface, ResettableInterface
      * Converts PSR-3 levels to Monolog ones if necessary
      *
      * @param  int|string|Level|LogLevel::* $level Level number (monolog) or name (PSR-3)
-     * @throws InvalidArgumentException      If level is not defined
+     * @throws \Psr\Log\InvalidArgumentException      If level is not defined
      *
      * @phpstan-param value-of<Level::VALUES>|value-of<Level::NAMES>|Level|LogLevel::* $level
      */
@@ -485,8 +481,8 @@ class Logger implements LoggerInterface, ResettableInterface
             return $level;
         }
 
-        if (is_string($level)) {
-            if (is_numeric($level)) {
+        if (\is_string($level)) {
+            if (\is_numeric($level)) {
                 $levelEnum = Level::tryFrom((int) $level);
                 if ($levelEnum === null) {
                     throw new InvalidArgumentException('Level "'.$level.'" is not defined, use one of: '.implode(', ', Level::NAMES + Level::VALUES));
@@ -566,7 +562,7 @@ class Logger implements LoggerInterface, ResettableInterface
      *
      * @phpstan-param Level|LogLevel::* $level
      */
-    public function log($level, string|Stringable $message, array $context = []): void
+    public function log($level, string|\Stringable $message, array $context = []): void
     {
         if (!$level instanceof Level) {
             if (!is_string($level) && !is_int($level)) {
@@ -591,7 +587,7 @@ class Logger implements LoggerInterface, ResettableInterface
      * @param string|Stringable $message The log message
      * @param mixed[]           $context The log context
      */
-    public function debug(string|Stringable $message, array $context = []): void
+    public function debug(string|\Stringable $message, array $context = []): void
     {
         $this->addRecord(Level::Debug, (string) $message, $context);
     }
@@ -604,7 +600,7 @@ class Logger implements LoggerInterface, ResettableInterface
      * @param string|Stringable $message The log message
      * @param mixed[]           $context The log context
      */
-    public function info(string|Stringable $message, array $context = []): void
+    public function info(string|\Stringable $message, array $context = []): void
     {
         $this->addRecord(Level::Info, (string) $message, $context);
     }
@@ -617,7 +613,7 @@ class Logger implements LoggerInterface, ResettableInterface
      * @param string|Stringable $message The log message
      * @param mixed[]           $context The log context
      */
-    public function notice(string|Stringable $message, array $context = []): void
+    public function notice(string|\Stringable $message, array $context = []): void
     {
         $this->addRecord(Level::Notice, (string) $message, $context);
     }
@@ -630,7 +626,7 @@ class Logger implements LoggerInterface, ResettableInterface
      * @param string|Stringable $message The log message
      * @param mixed[]           $context The log context
      */
-    public function warning(string|Stringable $message, array $context = []): void
+    public function warning(string|\Stringable $message, array $context = []): void
     {
         $this->addRecord(Level::Warning, (string) $message, $context);
     }
@@ -643,7 +639,7 @@ class Logger implements LoggerInterface, ResettableInterface
      * @param string|Stringable $message The log message
      * @param mixed[]           $context The log context
      */
-    public function error(string|Stringable $message, array $context = []): void
+    public function error(string|\Stringable $message, array $context = []): void
     {
         $this->addRecord(Level::Error, (string) $message, $context);
     }
@@ -656,7 +652,7 @@ class Logger implements LoggerInterface, ResettableInterface
      * @param string|Stringable $message The log message
      * @param mixed[]           $context The log context
      */
-    public function critical(string|Stringable $message, array $context = []): void
+    public function critical(string|\Stringable $message, array $context = []): void
     {
         $this->addRecord(Level::Critical, (string) $message, $context);
     }
@@ -669,7 +665,7 @@ class Logger implements LoggerInterface, ResettableInterface
      * @param string|Stringable $message The log message
      * @param mixed[]           $context The log context
      */
-    public function alert(string|Stringable $message, array $context = []): void
+    public function alert(string|\Stringable $message, array $context = []): void
     {
         $this->addRecord(Level::Alert, (string) $message, $context);
     }
@@ -682,7 +678,7 @@ class Logger implements LoggerInterface, ResettableInterface
      * @param string|Stringable $message The log message
      * @param mixed[]           $context The log context
      */
-    public function emergency(string|Stringable $message, array $context = []): void
+    public function emergency(string|\Stringable $message, array $context = []): void
     {
         $this->addRecord(Level::Emergency, (string) $message, $context);
     }
@@ -748,6 +744,6 @@ class Logger implements LoggerInterface, ResettableInterface
             }
         }
 
-        $this->fiberLogDepth = new WeakMap();
+        $this->fiberLogDepth = new \WeakMap();
     }
 }

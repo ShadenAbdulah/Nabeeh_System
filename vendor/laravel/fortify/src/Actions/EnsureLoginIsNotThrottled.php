@@ -3,7 +3,6 @@
 namespace Laravel\Fortify\Actions;
 
 use Illuminate\Auth\Events\Lockout;
-use Illuminate\Http\Request;
 use Laravel\Fortify\Contracts\LockoutResponse;
 use Laravel\Fortify\LoginRateLimiter;
 
@@ -12,14 +11,14 @@ class EnsureLoginIsNotThrottled
     /**
      * The login rate limiter instance.
      *
-     * @var LoginRateLimiter
+     * @var \Laravel\Fortify\LoginRateLimiter
      */
     protected $limiter;
 
     /**
      * Create a new class instance.
      *
-     * @param LoginRateLimiter $limiter
+     * @param  \Laravel\Fortify\LoginRateLimiter  $limiter
      * @return void
      */
     public function __construct(LoginRateLimiter $limiter)
@@ -30,7 +29,7 @@ class EnsureLoginIsNotThrottled
     /**
      * Handle the incoming request.
      *
-     * @param  Request  $request
+     * @param  \Illuminate\Http\Request  $request
      * @param  callable  $next
      * @return mixed
      */

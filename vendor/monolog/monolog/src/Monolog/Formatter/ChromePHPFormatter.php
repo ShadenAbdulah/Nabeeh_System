@@ -13,7 +13,6 @@ namespace Monolog\Formatter;
 
 use Monolog\Level;
 use Monolog\LogRecord;
-use function count;
 
 /**
  * Formats a log message according to the ChromePHP array format
@@ -54,10 +53,10 @@ class ChromePHPFormatter implements FormatterInterface
         }
 
         $message = ['message' => $record->message];
-        if (count($record->context) > 0) {
+        if (\count($record->context) > 0) {
             $message['context'] = $record->context;
         }
-        if (count($record->extra) > 0) {
+        if (\count($record->extra) > 0) {
             $message['extra'] = $record->extra;
         }
         if (count($message) === 1) {

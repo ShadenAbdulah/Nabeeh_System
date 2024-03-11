@@ -19,9 +19,7 @@
 namespace PhpOption;
 
 use ArrayAccess;
-use Exception;
 use IteratorAggregate;
-use RuntimeException;
 
 /**
  * @template T
@@ -196,7 +194,7 @@ abstract class Option implements IteratorAggregate
     /**
      * Returns the value if available, or throws an exception otherwise.
      *
-     * @throws RuntimeException If value is not available.
+     * @throws \RuntimeException If value is not available.
      *
      * @return T
      */
@@ -230,11 +228,11 @@ abstract class Option implements IteratorAggregate
     /**
      * Returns the value if available, or throws the passed exception.
      *
-     * @param Exception $ex
+     * @param \Exception $ex
      *
      * @return T
      */
-    abstract public function getOrThrow(Exception $ex);
+    abstract public function getOrThrow(\Exception $ex);
 
     /**
      * Returns true if no value is available, false otherwise.

@@ -11,9 +11,6 @@
 
 namespace Monolog\Handler;
 
-use ReflectionClass;
-use Throwable;
-
 /**
  * Base Handler class providing basic close() support as well as handleBatch
  *
@@ -42,7 +39,7 @@ abstract class Handler implements HandlerInterface
     {
         try {
             $this->close();
-        } catch (Throwable $e) {
+        } catch (\Throwable $e) {
             // do nothing
         }
     }
@@ -51,7 +48,7 @@ abstract class Handler implements HandlerInterface
     {
         $this->close();
 
-        $reflClass = new ReflectionClass($this);
+        $reflClass = new \ReflectionClass($this);
 
         $keys = [];
         foreach ($reflClass->getProperties() as $reflProp) {

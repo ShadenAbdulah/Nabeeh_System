@@ -1,14 +1,12 @@
 <?php
 namespace Hamcrest\Type;
 
-use Hamcrest\AbstractMatcherTest;
-
-class IsArrayTest extends AbstractMatcherTest
+class IsArrayTest extends \Hamcrest\AbstractMatcherTest
 {
 
     protected function createMatcher()
     {
-        return IsArray::arrayValue();
+        return \Hamcrest\Type\IsArray::arrayValue();
     }
 
     public function testEvaluatesToTrueIfArgumentMatchesType()

@@ -2,10 +2,6 @@
 
 namespace Faker\Provider;
 
-use DateInterval;
-use DateTimeZone;
-use InvalidArgumentException;
-
 class DateTime extends Base
 {
     protected static $century = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII', 'XIII', 'XIV', 'XV', 'XVI', 'XVII', 'XVIII', 'XIX', 'XX', 'XXI'];
@@ -153,7 +149,7 @@ class DateTime extends Base
         $endTimestamp = static::getMaxTimestamp($endDate);
 
         if ($startTimestamp > $endTimestamp) {
-            throw new InvalidArgumentException('Start date must be anterior to end date.');
+            throw new \InvalidArgumentException('Start date must be anterior to end date.');
         }
 
         $timestamp = self::numberBetween($startTimestamp, $endTimestamp);
@@ -182,7 +178,7 @@ class DateTime extends Base
      */
     public static function dateTimeInInterval($date = '-30 years', $interval = '+5 days', $timezone = null)
     {
-        $intervalObject = DateInterval::createFromDateString($interval);
+        $intervalObject = \DateInterval::createFromDateString($interval);
         $datetime = $date instanceof \DateTime ? $date : new \DateTime($date);
         $otherDatetime = clone $datetime;
         $otherDatetime->add($intervalObject);
@@ -341,9 +337,9 @@ class DateTime extends Base
     public static function timezone(string $countryCode = null)
     {
         if ($countryCode) {
-            $timezones = DateTimeZone::listIdentifiers(DateTimeZone::PER_COUNTRY, $countryCode);
+            $timezones = \DateTimeZone::listIdentifiers(\DateTimeZone::PER_COUNTRY, $countryCode);
         } else {
-            $timezones = DateTimeZone::listIdentifiers();
+            $timezones = \DateTimeZone::listIdentifiers();
         }
 
         return static::randomElement($timezones);
@@ -358,7 +354,7 @@ class DateTime extends Base
      */
     private static function setTimezone(\DateTime $dt, $timezone)
     {
-        return $dt->setTimezone(new DateTimeZone(static::resolveTimezone($timezone)));
+        return $dt->setTimezone(new \DateTimeZone(static::resolveTimezone($timezone)));
     }
 
     /**

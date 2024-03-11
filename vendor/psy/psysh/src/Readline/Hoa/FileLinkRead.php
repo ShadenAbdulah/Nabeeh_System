@@ -36,19 +36,6 @@
 
 namespace Psy\Readline\Hoa;
 
-use Hoa\File\Exception\FileDoesNotExist;
-use Hoa\Stream\Context;
-use function feof;
-use function fgetc;
-use function fgets;
-use function file_exists;
-use function fread;
-use function fscanf;
-use function implode;
-use function in_array;
-use function preg_match;
-use function stream_get_contents;
-
 /**
  * Class \Hoa\File\Link\Read.
  *
@@ -82,11 +69,11 @@ class FileLinkRead extends FileLink implements StreamIn
      * Open the stream and return the associated resource.
      *
      * @param string              $streamName Stream name (e.g. path or URL).
-     * @param Context $context    context
+     * @param \Hoa\Stream\Context $context    context
      *
      * @return resource
      *
-     * @throws FileDoesNotExist
+     * @throws \Hoa\File\Exception\FileDoesNotExist
      * @throws \Hoa\File\Exception
      */
     protected function &_open(string $streamName, StreamContext $context = null)
@@ -95,14 +82,14 @@ class FileLinkRead extends FileLink implements StreamIn
             parent::MODE_READ,
         ];
 
-        if (!in_array($this->getMode(), $createModes)) {
-            throw new FileException('Open mode are not supported; given %d. Only %s are supported.', 0, [$this->getMode(), implode(', ', $createModes)]);
+        if (!\in_array($this->getMode(), $createModes)) {
+            throw new FileException('Open mode are not supported; given %d. Only %s are supported.', 0, [$this->getMode(), \implode(', ', $createModes)]);
         }
 
-        preg_match('#^(\w+)://#', $streamName, $match);
+        \preg_match('#^(\w+)://#', $streamName, $match);
 
         if (((isset($match[1]) && $match[1] === 'file') || !isset($match[1])) &&
-            !file_exists($streamName)) {
+            !\file_exists($streamName)) {
             throw new FileDoesNotExistException('File %s does not exist.', 1, $streamName);
         }
 
@@ -118,7 +105,7 @@ class FileLinkRead extends FileLink implements StreamIn
      */
     public function eof(): bool
     {
-        return feof($this->getStream());
+        return \feof($this->getStream());
     }
 
     /**
@@ -136,7 +123,7 @@ class FileLinkRead extends FileLink implements StreamIn
             throw new FileException('Length must be greater than 0, given %d.', 2, $length);
         }
 
-        return fread($this->getStream(), $length);
+        return \fread($this->getStream(), $length);
     }
 
     /**
@@ -158,7 +145,7 @@ class FileLinkRead extends FileLink implements StreamIn
      */
     public function readCharacter()
     {
-        return fgetc($this->getStream());
+        return \fgetc($this->getStream());
     }
 
     /**
@@ -215,7 +202,7 @@ class FileLinkRead extends FileLink implements StreamIn
      */
     public function readLine()
     {
-        return fgets($this->getStream());
+        return \fgets($this->getStream());
     }
 
     /**
@@ -227,7 +214,7 @@ class FileLinkRead extends FileLink implements StreamIn
      */
     public function readAll(int $offset = 0)
     {
-        return stream_get_contents($this->getStream(), -1, $offset);
+        return \stream_get_contents($this->getStream(), -1, $offset);
     }
 
     /**
@@ -239,6 +226,6 @@ class FileLinkRead extends FileLink implements StreamIn
      */
     public function scanf(string $format): array
     {
-        return fscanf($this->getStream(), $format);
+        return \fscanf($this->getStream(), $format);
     }
 }
