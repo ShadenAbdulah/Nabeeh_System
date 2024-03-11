@@ -1,13 +1,8 @@
 <?php
 namespace Aws;
 
-use Aws\Api\Service;
-use Exception;
-use InvalidArgumentException;
-use Iterator;
 use Psr\Http\Message\UriInterface;
 use GuzzleHttp\Promise\PromiseInterface;
-use UnexpectedValueException;
 
 /**
  * Represents an AWS client.
@@ -24,7 +19,7 @@ interface AwsClientInterface
      * @param array  $arguments Arguments to pass to the getCommand method.
      *
      * @return ResultInterface
-     * @throws Exception
+     * @throws \Exception
      */
     public function __call($name, array $arguments);
 
@@ -43,7 +38,7 @@ interface AwsClientInterface
      * @param array  $args Arguments to pass to the command
      *
      * @return CommandInterface
-     * @throws InvalidArgumentException if no command can be found by name
+     * @throws \InvalidArgumentException if no command can be found by name
      */
     public function getCommand($name, array $args = []);
 
@@ -53,7 +48,7 @@ interface AwsClientInterface
      * @param CommandInterface $command Command to execute
      *
      * @return ResultInterface
-     * @throws Exception
+     * @throws \Exception
      */
     public function execute(CommandInterface $command);
 
@@ -62,7 +57,7 @@ interface AwsClientInterface
      *
      * @param CommandInterface $command Command to execute
      *
-     * @return PromiseInterface
+     * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function executeAsync(CommandInterface $command);
 
@@ -94,7 +89,7 @@ interface AwsClientInterface
     /**
      * Get the service description associated with the client.
      *
-     * @return Service
+     * @return \Aws\Api\Service
      */
     public function getApi();
 
@@ -123,8 +118,8 @@ interface AwsClientInterface
      * @param string $name Name of the iterator to retrieve.
      * @param array  $args Command arguments to use with each command.
      *
-     * @return Iterator
-     * @throws UnexpectedValueException if the iterator config is invalid.
+     * @return \Iterator
+     * @throws \UnexpectedValueException if the iterator config is invalid.
      */
     public function getIterator($name, array $args = []);
 
@@ -134,8 +129,8 @@ interface AwsClientInterface
      * @param string $name   Name of the operation used for iterator
      * @param array  $args   Command args to be used with each command
      *
-     * @return ResultPaginator
-     * @throws UnexpectedValueException if the iterator config is invalid.
+     * @return \Aws\ResultPaginator
+     * @throws \UnexpectedValueException if the iterator config is invalid.
      */
     public function getPaginator($name, array $args = []);
 
@@ -149,7 +144,7 @@ interface AwsClientInterface
      *                              can be provided in an associative array in
      *                              the @waiter key.
      * @return void
-     * @throws UnexpectedValueException if the waiter is invalid.
+     * @throws \UnexpectedValueException if the waiter is invalid.
      */
     public function waitUntil($name, array $args = []);
 
@@ -167,8 +162,8 @@ interface AwsClientInterface
      *                              by the waiter. Waiter configuration options
      *                              can be provided in an associative array in
      *                              the @waiter key.
-     * @return Waiter
-     * @throws UnexpectedValueException if the waiter is invalid.
+     * @return \Aws\Waiter
+     * @throws \UnexpectedValueException if the waiter is invalid.
      */
     public function getWaiter($name, array $args = []);
 }

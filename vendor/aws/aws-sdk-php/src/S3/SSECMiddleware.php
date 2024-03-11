@@ -3,7 +3,6 @@ namespace Aws\S3;
 
 use Aws\CommandInterface;
 use Psr\Http\Message\RequestInterface;
-use RuntimeException;
 
 /**
  * Simplifies the SSE-C process by encoding and hashing the key.
@@ -42,7 +41,7 @@ class SSECMiddleware
         if (($command['SSECustomerKey'] || $command['CopySourceSSECustomerKey'])
             && $this->endpointScheme !== 'https'
         ) {
-            throw new RuntimeException('You must configure your S3 client to '
+            throw new \RuntimeException('You must configure your S3 client to '
                 . 'use HTTPS in order to use the SSE-C features.');
         }
 

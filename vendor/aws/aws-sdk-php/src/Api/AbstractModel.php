@@ -1,14 +1,10 @@
 <?php
 namespace Aws\Api;
 
-use ArrayAccess;
-use InvalidArgumentException;
-use ReturnTypeWillChange;
-
 /**
  * Base class that is used by most API shapes
  */
-abstract class AbstractModel implements ArrayAccess
+abstract class AbstractModel implements \ArrayAccess
 {
     /** @var array */
     protected $definition;
@@ -40,7 +36,7 @@ abstract class AbstractModel implements ArrayAccess
     /**
      * @return mixed|null
      */
-    #[ReturnTypeWillChange]
+    #[\ReturnTypeWillChange]
     public function offsetGet($offset)
     {
         return isset($this->definition[$offset])
@@ -50,7 +46,7 @@ abstract class AbstractModel implements ArrayAccess
     /**
      * @return void
      */
-    #[ReturnTypeWillChange]
+    #[\ReturnTypeWillChange]
     public function offsetSet($offset, $value)
     {
         $this->definition[$offset] = $value;
@@ -59,7 +55,7 @@ abstract class AbstractModel implements ArrayAccess
     /**
      * @return bool
      */
-    #[ReturnTypeWillChange]
+    #[\ReturnTypeWillChange]
     public function offsetExists($offset)
     {
         return isset($this->definition[$offset]);
@@ -68,7 +64,7 @@ abstract class AbstractModel implements ArrayAccess
     /**
      * @return void
      */
-    #[ReturnTypeWillChange]
+    #[\ReturnTypeWillChange]
     public function offsetUnset($offset)
     {
         unset($this->definition[$offset]);
@@ -77,7 +73,7 @@ abstract class AbstractModel implements ArrayAccess
     protected function shapeAt($key)
     {
         if (!isset($this->definition[$key])) {
-            throw new InvalidArgumentException('Expected shape definition at '
+            throw new \InvalidArgumentException('Expected shape definition at '
                 . $key);
         }
 

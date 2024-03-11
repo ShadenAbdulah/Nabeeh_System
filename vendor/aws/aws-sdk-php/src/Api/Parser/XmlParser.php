@@ -7,19 +7,18 @@ use Aws\Api\MapShape;
 use Aws\Api\Parser\Exception\ParserException;
 use Aws\Api\Shape;
 use Aws\Api\StructureShape;
-use SimpleXMLElement;
 
 /**
  * @internal Implements standard XML parsing for REST-XML and Query protocols.
  */
 class XmlParser
 {
-    public function parse(StructureShape $shape, SimpleXMLElement $value)
+    public function parse(StructureShape $shape, \SimpleXMLElement $value)
     {
         return $this->dispatch($shape, $value);
     }
 
-    private function dispatch($shape, SimpleXMLElement $value)
+    private function dispatch($shape, \SimpleXMLElement $value)
     {
         static $methods = [
             'structure' => 'parse_structure',
@@ -43,7 +42,7 @@ class XmlParser
 
     private function parse_structure(
         StructureShape $shape,
-        SimpleXMLElement $value
+        \SimpleXMLElement $value
     ) {
         $target = [];
 
@@ -88,7 +87,7 @@ class XmlParser
         return $name;
     }
 
-    private function parse_list(ListShape $shape, SimpleXMLElement  $value)
+    private function parse_list(ListShape $shape, \SimpleXMLElement  $value)
     {
         $target = [];
         $member = $shape->getMember();
@@ -104,7 +103,7 @@ class XmlParser
         return $target;
     }
 
-    private function parse_map(MapShape $shape, SimpleXMLElement $value)
+    private function parse_map(MapShape $shape, \SimpleXMLElement $value)
     {
         $target = [];
 

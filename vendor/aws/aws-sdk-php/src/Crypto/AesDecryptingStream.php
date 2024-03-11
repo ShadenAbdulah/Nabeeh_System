@@ -2,7 +2,7 @@
 namespace Aws\Crypto;
 
 use GuzzleHttp\Psr7\StreamDecoratorTrait;
-use LogicException;
+use \LogicException;
 use Psr\Http\Message\StreamInterface;
 use Aws\Crypto\Cipher\CipherMethod;
 

@@ -1,8 +1,6 @@
 <?php
 namespace Aws\Api;
 
-use InvalidArgumentException;
-
 /**
  * Builds shape based on shape references.
  */
@@ -38,14 +36,14 @@ class ShapeMap
      * @param array $shapeRef Shape reference shape
      *
      * @return Shape
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     public function resolve(array $shapeRef)
     {
         $shape = $shapeRef['shape'];
 
         if (!isset($this->definitions[$shape])) {
-            throw new InvalidArgumentException('Shape not found: ' . $shape);
+            throw new \InvalidArgumentException('Shape not found: ' . $shape);
         }
 
         $isSimple = count($shapeRef) == 1;

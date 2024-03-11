@@ -7,7 +7,6 @@ use Aws\Api\Service;
 use Aws\Api\StructureShape;
 use Aws\CommandInterface;
 use Psr\Http\Message\ResponseInterface;
-use SimpleXMLElement;
 
 /**
  * Parses XML errors.
@@ -65,7 +64,7 @@ class XmlErrorParser extends AbstractErrorParser
         }
     }
 
-    private function parseBody(SimpleXMLElement $body, array &$data)
+    private function parseBody(\SimpleXMLElement $body, array &$data)
     {
         $data['parsed'] = $body;
         $prefix = $this->registerNamespacePrefix($body);
@@ -84,13 +83,13 @@ class XmlErrorParser extends AbstractErrorParser
         }
     }
 
-    protected function registerNamespacePrefix(SimpleXMLElement $element)
+    protected function registerNamespacePrefix(\SimpleXMLElement $element)
     {
         $namespaces = $element->getDocNamespaces();
         if (!isset($namespaces[''])) {
             return '';
-        }
-
+        } 
+        
         // Account for the default namespace being defined and PHP not
         // being able to handle it :(.
         $element->registerXPathNamespace('ns', $namespaces['']);

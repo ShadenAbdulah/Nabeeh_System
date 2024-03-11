@@ -1,9 +1,6 @@
 <?php
 namespace Aws\DynamoDb;
 
-use ReturnTypeWillChange;
-use SessionHandlerInterface;
-
 /**
  * Provides an interface for using Amazon DynamoDB as a session store by hooking
  * into PHP's session handler hooks. Once registered, You may use the native
@@ -21,7 +18,7 @@ use SessionHandlerInterface;
  * triggered randomly. You must run garbage collection manually or through other
  * automated means using a cron job or similar scheduling technique.
  */
-class SessionHandler implements SessionHandlerInterface
+class SessionHandler implements \SessionHandlerInterface
 {
     /** @var SessionConnectionInterface Session save logic.*/
     private $connection;
@@ -104,7 +101,7 @@ class SessionHandler implements SessionHandlerInterface
      *
      * @return bool Whether or not the operation succeeded.
      */
-     #[ReturnTypeWillChange]
+     #[\ReturnTypeWillChange]
     public function open($savePath, $sessionName)
     {
         $this->savePath = $savePath;
@@ -118,7 +115,7 @@ class SessionHandler implements SessionHandlerInterface
      *
      * @return bool Success
      */
-     #[ReturnTypeWillChange]
+     #[\ReturnTypeWillChange]
     public function close()
     {
         $id = session_id();
@@ -139,7 +136,7 @@ class SessionHandler implements SessionHandlerInterface
      *
      * @return string Session data.
      */
-     #[ReturnTypeWillChange]
+     #[\ReturnTypeWillChange]
     public function read($id)
     {
         $this->openSessionId = $id;
@@ -173,7 +170,7 @@ class SessionHandler implements SessionHandlerInterface
      *
      * @return bool Whether or not the operation succeeded.
      */
-     #[ReturnTypeWillChange]
+     #[\ReturnTypeWillChange]
     public function write($id, $data)
     {
         $changed = $id !== $this->openSessionId
@@ -194,7 +191,7 @@ class SessionHandler implements SessionHandlerInterface
      *
      * @return bool Whether or not the operation succeeded.
      */
-     #[ReturnTypeWillChange]
+     #[\ReturnTypeWillChange]
     public function destroy($id)
     {
         $this->openSessionId = $id;
@@ -214,7 +211,7 @@ class SessionHandler implements SessionHandlerInterface
      * @return bool Whether or not the operation succeeded.
      * @codeCoverageIgnore
      */
-     #[ReturnTypeWillChange]
+     #[\ReturnTypeWillChange]
     public function gc($maxLifetime)
     {
         // Garbage collection for a DynamoDB table must be triggered manually.

@@ -1,11 +1,6 @@
 <?php
 namespace Aws;
 
-use Countable;
-use InvalidArgumentException;
-use LogicException;
-use ReturnTypeWillChange;
-
 /**
  * Builds a single handler function from zero or more middleware functions and
  * a handler. The handler function is then used to send command objects and
@@ -34,7 +29,7 @@ use ReturnTypeWillChange;
  * middleware before or after another middleware by name. This also allows you
  * to remove a middleware by name (in addition to removing by instance).
  */
-class HandlerList implements Countable
+class HandlerList implements \Countable
 {
     const INIT = 'init';
     const VALIDATE = 'validate';
@@ -296,7 +291,7 @@ class HandlerList implements Countable
     public function resolve()
     {
         if (!($prev = $this->handler)) {
-            throw new LogicException('No handler has been specified');
+            throw new \LogicException('No handler has been specified');
         }
 
         if ($this->sorted === null) {
@@ -313,7 +308,7 @@ class HandlerList implements Countable
     /**
      * @return int
      */
-    #[ReturnTypeWillChange]
+    #[\ReturnTypeWillChange]
     public function count()
     {
         return count($this->steps[self::INIT])
@@ -334,7 +329,7 @@ class HandlerList implements Countable
     private function splice($findName, $withName, callable $middleware, $before)
     {
         if (!isset($this->named[$findName])) {
-            throw new InvalidArgumentException("$findName not found");
+            throw new \InvalidArgumentException("$findName not found");
         }
 
         $idx = $this->sorted = null;

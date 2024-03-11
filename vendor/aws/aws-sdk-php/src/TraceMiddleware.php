@@ -3,7 +3,6 @@ namespace Aws;
 
 use Aws\Api\Service;
 use Aws\Exception\AwsException;
-use Exception;
 use GuzzleHttp\Promise\RejectedPromise;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -201,7 +200,7 @@ class TraceMiddleware
 
     private function exceptionArray($e)
     {
-        if (!($e instanceof Exception)) {
+        if (!($e instanceof \Exception)) {
             return $e;
         }
 
@@ -262,7 +261,7 @@ class TraceMiddleware
             return (string) $value;
         }
 
-        if ($value instanceof Exception) {
+        if ($value instanceof \Exception) {
             $value = $this->exceptionArray($value);
         }
 

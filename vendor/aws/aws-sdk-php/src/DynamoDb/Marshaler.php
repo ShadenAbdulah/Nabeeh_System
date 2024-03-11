@@ -1,11 +1,7 @@
 <?php
 namespace Aws\DynamoDb;
 
-use InvalidArgumentException;
 use Psr\Http\Message\StreamInterface;
-use stdClass;
-use Traversable;
-use UnexpectedValueException;
 
 /**
  * Marshals and unmarshals JSON documents and PHP arrays into DynamoDB items.
@@ -94,13 +90,13 @@ class Marshaler
      * @param string $json A valid JSON document.
      *
      * @return array Item formatted for DynamoDB.
-     * @throws InvalidArgumentException if the JSON is invalid.
+     * @throws \InvalidArgumentException if the JSON is invalid.
      */
     public function marshalJson($json)
     {
         $data = json_decode($json);
-        if (!($data instanceof stdClass)) {
-            throw new InvalidArgumentException(
+        if (!($data instanceof \stdClass)) {
+            throw new \InvalidArgumentException(
                 'The JSON document must be valid and be an object at its root.'
             );
         }
@@ -114,7 +110,7 @@ class Marshaler
      * The result is an array formatted in the proper parameter structure
      * required by the DynamoDB API for items.
      *
-     * @param array|stdClass $item An associative array of data.
+     * @param array|\stdClass $item An associative array of data.
      *
      * @return array Item formatted for DynamoDB.
      */
@@ -132,7 +128,7 @@ class Marshaler
      * @param mixed $value A scalar, array, or `stdClass` value.
      *
      * @return array Attribute formatted for DynamoDB.
-     * @throws UnexpectedValueException if the value cannot be marshaled.
+     * @throws \UnexpectedValueException if the value cannot be marshaled.
      */
     public function marshalValue($value)
     {
@@ -184,11 +180,11 @@ class Marshaler
 
         // Handle list and map values.
         $dbType = 'L';
-        if ($value instanceof stdClass) {
+        if ($value instanceof \stdClass) {
             $type = 'array';
             $dbType = 'M';
         }
-        if ($type === 'array' || $value instanceof Traversable) {
+        if ($type === 'array' || $value instanceof \Traversable) {
             $data = [];
             $index = 0;
             foreach ($value as $k => $v) {
@@ -239,7 +235,7 @@ class Marshaler
      * @param array $data Item from a DynamoDB result.
      * @param bool  $mapAsObject Whether maps should be represented as stdClass.
      *
-     * @return array|stdClass
+     * @return array|\stdClass
      */
     public function unmarshalItem(array $data, $mapAsObject = false)
     {
@@ -255,7 +251,7 @@ class Marshaler
      * @param bool  $mapAsObject Whether maps should be represented as stdClass.
      *
      * @return mixed
-     * @throws UnexpectedValueException
+     * @throws \UnexpectedValueException
      */
     public function unmarshalValue(array $value, $mapAsObject = false)
     {
@@ -276,7 +272,7 @@ class Marshaler
                 return $value + 0;
             case 'M':
                 if ($mapAsObject) {
-                    $data = new stdClass;
+                    $data = new \stdClass;
                     foreach ($value as $k => $v) {
                         $data->$k = $this->unmarshalValue($v, $mapAsObject);
                     }
@@ -299,7 +295,7 @@ class Marshaler
                 return new SetValue($value);
         }
 
-        throw new UnexpectedValueException("Unexpected type: {$type}.");
+        throw new \UnexpectedValueException("Unexpected type: {$type}.");
     }
 
     /**
@@ -319,6 +315,6 @@ class Marshaler
             return ['NULL' => true];
         }
 
-        throw new UnexpectedValueException("Marshaling error: {$message}.");
+        throw new \UnexpectedValueException("Marshaling error: {$message}.");
     }
 }

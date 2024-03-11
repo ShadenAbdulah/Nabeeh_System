@@ -3,11 +3,9 @@ namespace Aws\S3\Exception;
 
 use Aws\CommandInterface;
 use Aws\Exception\AwsException;
-use Aws\Exception\MultipartUploadException;
 use Aws\Multipart\UploadState;
-use Exception;
 
-class S3MultipartUploadException extends MultipartUploadException
+class S3MultipartUploadException extends \Aws\Exception\MultipartUploadException
 {
     /** @var string Bucket of the transfer object */
     private $bucket;
@@ -18,7 +16,7 @@ class S3MultipartUploadException extends MultipartUploadException
 
     /**
      * @param UploadState      $state Upload state at time of the exception.
-     * @param Exception|array $prev  Exception being thrown. Could be an array of
+     * @param \Exception|array $prev  Exception being thrown. Could be an array of
      *                                AwsExceptions being thrown when uploading parts
      *                                for one object, or an instance of AwsException
      *                                for a specific Multipart error being thrown in

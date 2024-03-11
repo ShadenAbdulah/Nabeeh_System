@@ -5,9 +5,7 @@ use Aws\Exception\AwsException;
 use Aws\Exception\CredentialsException;
 use Aws\Result;
 use Aws\Sts\StsClient;
-use Exception;
 use GuzzleHttp\Promise;
-use InvalidArgumentException;
 
 /**
  * Credential provider that provides credentials via assuming a role with a web identity
@@ -47,22 +45,22 @@ class AssumeRoleWithWebIdentityCredentialProvider
      *  - SessionName: (optional) set by SDK if not provided
      *
      * @param array $config Configuration options
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     public function __construct(array $config = [])
     {
         if (!isset($config['RoleArn'])) {
-            throw new InvalidArgumentException(self::ERROR_MSG . "'RoleArn'.");
+            throw new \InvalidArgumentException(self::ERROR_MSG . "'RoleArn'.");
         }
         $this->arn = $config['RoleArn'];
 
         if (!isset($config['WebIdentityTokenFile'])) {
-            throw new InvalidArgumentException(self::ERROR_MSG . "'WebIdentityTokenFile'.");
+            throw new \InvalidArgumentException(self::ERROR_MSG . "'WebIdentityTokenFile'.");
         }
         $this->tokenFile = $config['WebIdentityTokenFile'];
 
         if (!preg_match("/^\w\:|^\/|^\\\/", $this->tokenFile)) {
-            throw new InvalidArgumentException("'WebIdentityTokenFile' must be an absolute path.");
+            throw new \InvalidArgumentException("'WebIdentityTokenFile' must be an absolute path.");
         }
 
         $this->retries = (int) getenv(self::ENV_RETRIES) ?: (isset($config['retries']) ? $config['retries'] : 3);
@@ -121,7 +119,7 @@ class AssumeRoleWithWebIdentityCredentialProvider
                         }
                         throw new CredentialsException("InvalidIdentityToken from file: {$this->tokenFile}");
                     }
-                } catch (Exception $exception) {
+                } catch (\Exception $exception) {
                     throw new CredentialsException(
                         "Error reading WebIdentityTokenFile from " . $this->tokenFile,
                         0,
@@ -153,7 +151,7 @@ class AssumeRoleWithWebIdentityCredentialProvider
                             $e
                         );
                     }
-                } catch (Exception $e) {
+                } catch (\Exception $e) {
                     throw new CredentialsException(
                         "Error retrieving web identity credentials: " . $e->getMessage()
                         . " (" . $e->getCode() . ")"

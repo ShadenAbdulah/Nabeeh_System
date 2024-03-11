@@ -2,7 +2,6 @@
 namespace Aws;
 
 use GuzzleHttp\Promise;
-use InvalidArgumentException;
 
 /**
  * A configuration provider is a function that returns a promise that is
@@ -65,7 +64,7 @@ abstract class AbstractConfigurationProvider
     {
         $links = func_get_args();
         if (empty($links)) {
-            throw new InvalidArgumentException('No providers in chain');
+            throw new \InvalidArgumentException('No providers in chain');
         }
 
         return function () use ($links) {

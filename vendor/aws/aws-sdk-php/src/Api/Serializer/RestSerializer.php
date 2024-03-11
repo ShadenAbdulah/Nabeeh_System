@@ -15,7 +15,6 @@ use GuzzleHttp\Psr7;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Uri;
 use GuzzleHttp\Psr7\UriResolver;
-use InvalidArgumentException;
 use Psr\Http\Message\RequestInterface;
 
 /**
@@ -155,7 +154,7 @@ abstract class RestSerializer
         if ($member['jsonvalue']) {
             $value = json_encode($value);
             if (empty($value) && JSON_ERROR_NONE !== json_last_error()) {
-                throw new InvalidArgumentException('Unable to encode the provided value'
+                throw new \InvalidArgumentException('Unable to encode the provided value'
                     . ' with \'json_encode\'. ' . json_last_error_msg());
             }
 

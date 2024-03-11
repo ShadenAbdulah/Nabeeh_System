@@ -4,8 +4,6 @@ namespace Aws\CloudSearchDomain;
 use Aws\AwsClient;
 use Aws\CommandInterface;
 use Aws\HandlerList;
-use Aws\Result;
-use GuzzleHttp\Promise\Promise;
 use GuzzleHttp\Psr7\Uri;
 use Psr\Http\Message\RequestInterface;
 use GuzzleHttp\Psr7;
@@ -13,12 +11,12 @@ use GuzzleHttp\Psr7;
 /**
  * This client is used to search and upload documents to an **Amazon CloudSearch** Domain.
  *
- * @method Result search(array $args = [])
- * @method Promise searchAsync(array $args = [])
- * @method Result suggest(array $args = [])
- * @method Promise suggestAsync(array $args = [])
- * @method Result uploadDocuments(array $args = [])
- * @method Promise uploadDocumentsAsync(array $args = [])
+ * @method \Aws\Result search(array $args = [])
+ * @method \GuzzleHttp\Promise\Promise searchAsync(array $args = [])
+ * @method \Aws\Result suggest(array $args = [])
+ * @method \GuzzleHttp\Promise\Promise suggestAsync(array $args = [])
+ * @method \Aws\Result uploadDocuments(array $args = [])
+ * @method \GuzzleHttp\Promise\Promise uploadDocumentsAsync(array $args = [])
  */
 class CloudSearchDomainClient extends AwsClient
 {

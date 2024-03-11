@@ -1,10 +1,6 @@
 <?php
 namespace Aws;
 
-use ArrayAccess;
-use Countable;
-use IteratorAggregate;
-
 /**
  * A command object encapsulates the input parameters used to control the
  * creation of a HTTP request and processing of a HTTP response.
@@ -12,7 +8,7 @@ use IteratorAggregate;
  * Using the toArray() method will return the input parameters of the command
  * as an associative array.
  */
-interface CommandInterface extends ArrayAccess, Countable, IteratorAggregate
+interface CommandInterface extends \ArrayAccess, \Countable, \IteratorAggregate
 {
     /**
      * Converts the command parameters to an array

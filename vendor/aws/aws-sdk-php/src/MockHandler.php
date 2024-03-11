@@ -2,21 +2,16 @@
 namespace Aws;
 
 use Aws\Exception\AwsException;
-use Countable;
 use GuzzleHttp\Promise;
 use GuzzleHttp\Promise\RejectedPromise;
-use InvalidArgumentException;
 use Psr\Http\Message\RequestInterface;
 use Exception;
-use ReturnTypeWillChange;
-use RuntimeException;
-use Throwable;
 
 /**
  * Returns promises that are rejected or fulfilled using a queue of
  * Aws\ResultInterface and Aws\Exception\AwsException objects.
  */
-class MockHandler implements Countable
+class MockHandler implements \Countable
 {
     private $queue;
     private $lastCommand;
@@ -60,7 +55,7 @@ class MockHandler implements Countable
             ) {
                 $this->queue[] = $value;
             } else {
-                throw new InvalidArgumentException('Expected an Aws\ResultInterface or Exception.');
+                throw new \InvalidArgumentException('Expected an Aws\ResultInterface or Exception.');
             }
         }
     }
@@ -71,10 +66,10 @@ class MockHandler implements Countable
     public function appendException()
     {
         foreach (func_get_args() as $value) {
-            if ($value instanceof Exception || $value instanceof Throwable) {
+            if ($value instanceof \Exception || $value instanceof \Throwable) {
                 $this->queue[] = $value;
             } else {
-                throw new InvalidArgumentException('Expected an \Exception or \Throwable.');
+                throw new \InvalidArgumentException('Expected an \Exception or \Throwable.');
             }
         }
     }
@@ -87,7 +82,7 @@ class MockHandler implements Countable
             $last = $this->lastCommand
                 ? ' The last command sent was ' . $this->lastCommand->getName() . '.'
                 : '';
-            throw new RuntimeException('Mock queue is empty. Trying to send a '
+            throw new \RuntimeException('Mock queue is empty. Trying to send a '
                 . $command->getName() . ' command failed.' . $last);
         }
 
@@ -100,7 +95,7 @@ class MockHandler implements Countable
             $result = $result($command, $request);
         }
 
-        if ($result instanceof Exception) {
+        if ($result instanceof \Exception) {
             $result = new RejectedPromise($result);
         } else {
             // Add an effective URI and statusCode if not present.
@@ -145,7 +140,7 @@ class MockHandler implements Countable
      *
      * @return int
      */
-    #[ReturnTypeWillChange]
+    #[\ReturnTypeWillChange]
     public function count()
     {
         return count($this->queue);

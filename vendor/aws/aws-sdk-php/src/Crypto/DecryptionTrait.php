@@ -3,9 +3,7 @@ namespace Aws\Crypto;
 
 use GuzzleHttp\Psr7;
 use GuzzleHttp\Psr7\LimitStream;
-use InvalidArgumentException;
 use Psr\Http\Message\StreamInterface;
-use RuntimeException;
 
 trait DecryptionTrait
 {
@@ -51,7 +49,7 @@ trait DecryptionTrait
      *
      * @return AesStreamInterface
      *
-     * @throws InvalidArgumentException Thrown when a value in $cipherOptions
+     * @throws \InvalidArgumentException Thrown when a value in $cipherOptions
      *                                   is not valid.
      *
      * @internal
@@ -99,7 +97,7 @@ trait DecryptionTrait
     ) {
         $cipherTextSize = $cipherText->getSize();
         if ($cipherTextSize == null || $cipherTextSize <= 0) {
-            throw new RuntimeException('Cannot decrypt a stream of unknown'
+            throw new \RuntimeException('Cannot decrypt a stream of unknown'
                 . ' size.');
         }
         return (string) new LimitStream(
@@ -115,7 +113,7 @@ trait DecryptionTrait
     ) {
         $cipherTextSize = $cipherText->getSize();
         if ($cipherTextSize == null || $cipherTextSize <= 0) {
-            throw new RuntimeException('Cannot decrypt a stream of unknown'
+            throw new \RuntimeException('Cannot decrypt a stream of unknown'
                 . ' size.');
         }
         return new LimitStream(

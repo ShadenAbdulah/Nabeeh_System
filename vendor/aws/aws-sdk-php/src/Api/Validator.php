@@ -2,7 +2,6 @@
 namespace Aws\Api;
 
 use Aws;
-use InvalidArgumentException;
 
 /**
  * Validates a schema against a hash of input.
@@ -46,7 +45,7 @@ class Validator
      * @param Shape  $shape Shape to validate
      * @param array  $input Input to validate
      *
-     * @throws InvalidArgumentException if the input is invalid.
+     * @throws \InvalidArgumentException if the input is invalid.
      */
     public function validate($name, Shape $shape, array $input)
     {
@@ -63,7 +62,7 @@ class Validator
             );
             $this->errors = [];
 
-            throw new InvalidArgumentException($message);
+            throw new \InvalidArgumentException($message);
         }
     }
 

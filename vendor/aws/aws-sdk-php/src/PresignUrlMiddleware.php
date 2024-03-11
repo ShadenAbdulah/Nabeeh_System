@@ -1,7 +1,6 @@
 <?php
 namespace Aws;
 
-use Aws\EndpointV2\EndpointProviderV2;
 use Aws\Signature\SignatureV4;
 use Aws\Endpoint\EndpointProvider;
 use GuzzleHttp\Psr7\Uri;
@@ -88,9 +87,9 @@ class PresignUrlMiddleware
         $newCmd['__skip' . $cmdName] = true;
 
         // Serialize a request for the operation.
-        $request = serialize($newCmd);
+        $request = \Aws\serialize($newCmd);
         // Create the new endpoint for the target endpoint.
-        if ($this->endpointProvider instanceof EndpointProviderV2) {
+        if ($this->endpointProvider instanceof \Aws\EndpointV2\EndpointProviderV2) {
             $providerArgs = array_merge(
                 $this->client->getEndpointProviderArgs(),
                 ['Region' => $cmd['SourceRegion']]

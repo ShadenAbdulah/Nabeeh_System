@@ -12,10 +12,7 @@ use AWS\CRT\Auth\StaticCredentialsProvider;
 use AWS\CRT\HTTP\Request;
 use Aws\Exception\CommonRuntimeException;
 use Aws\Exception\CouldNotCreateChecksumException;
-use DateTimeInterface;
-use Exception;
 use GuzzleHttp\Psr7;
-use InvalidArgumentException;
 use Psr\Http\Message\RequestInterface;
 
 /**
@@ -220,12 +217,12 @@ class SignatureV4 implements SignatureInterface
      * @param RequestInterface $request Request to clone
      *
      * @return RequestInterface
-     * @throws InvalidArgumentException if the method is not POST
+     * @throws \InvalidArgumentException if the method is not POST
      */
     public static function convertPostToGet(RequestInterface $request, $additionalQueryParams = "")
     {
         if ($request->getMethod() !== 'POST') {
-            throw new InvalidArgumentException('Expected a POST request but '
+            throw new \InvalidArgumentException('Expected a POST request but '
                 . 'received a ' . $request->getMethod() . ' request.');
         }
 
@@ -260,7 +257,7 @@ class SignatureV4 implements SignatureInterface
 
         try {
             return Psr7\Utils::hash($request->getBody(), 'sha256');
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw new CouldNotCreateChecksumException('sha256', $e);
         }
     }
@@ -366,7 +363,7 @@ class SignatureV4 implements SignatureInterface
 
     private function convertToTimestamp($dateValue, $relativeTimeBase = null)
     {
-        if ($dateValue instanceof DateTimeInterface) {
+        if ($dateValue instanceof \DateTimeInterface) {
             $timestamp = $dateValue->getTimestamp();
         } elseif (!is_numeric($dateValue)) {
             $timestamp = strtotime($dateValue,
@@ -385,7 +382,7 @@ class SignatureV4 implements SignatureInterface
 
         // Ensure that the duration of the signature is not longer than a week
         if ($duration > 604800) {
-            throw new InvalidArgumentException('The expiration date of a '
+            throw new \InvalidArgumentException('The expiration date of a '
                 . 'signature version 4 presigned URL must be less than one '
                 . 'week');
         }

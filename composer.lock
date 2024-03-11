@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6ac944825be55984b43376e2d55d40c6",
+    "content-hash": "12edeb7ce3a4f16e382a17fdb0209b84",
     "packages": [
         {
             "name": "archtechx/enums",
@@ -108,16 +108,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.300.14",
+            "version": "3.300.15",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "f1e0c37d8403d7097c2c808c184137e6517d54be"
+                "reference": "0cd194438b84588615121a93d0bc46bf55ca678b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/f1e0c37d8403d7097c2c808c184137e6517d54be",
-                "reference": "f1e0c37d8403d7097c2c808c184137e6517d54be",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/0cd194438b84588615121a93d0bc46bf55ca678b",
+                "reference": "0cd194438b84588615121a93d0bc46bf55ca678b",
                 "shasum": ""
             },
             "require": {
@@ -197,9 +197,9 @@
             "support": {
                 "forum": "https://forums.aws.amazon.com/forum.jspa?forumID=80",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.300.14"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.300.15"
             },
-            "time": "2024-03-08T19:05:39+00:00"
+            "time": "2024-03-11T18:33:13+00:00"
         },
         {
             "name": "bacon/bacon-qr-code",
@@ -7493,16 +7493,16 @@
         },
         {
             "name": "laravel-lang/http-statuses",
-            "version": "3.8.1",
+            "version": "3.8.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Laravel-Lang/http-statuses.git",
-                "reference": "28b90d88cc1e5efe69687e95da23c2016d9f78d7"
+                "reference": "b408ea74292df2e4fbec2be93858a3e697189b29"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Laravel-Lang/http-statuses/zipball/28b90d88cc1e5efe69687e95da23c2016d9f78d7",
-                "reference": "28b90d88cc1e5efe69687e95da23c2016d9f78d7",
+                "url": "https://api.github.com/repos/Laravel-Lang/http-statuses/zipball/b408ea74292df2e4fbec2be93858a3e697189b29",
+                "reference": "b408ea74292df2e4fbec2be93858a3e697189b29",
                 "shasum": ""
             },
             "require": {
@@ -7554,22 +7554,22 @@
             ],
             "support": {
                 "issues": "https://github.com/Laravel-Lang/http-statuses/issues",
-                "source": "https://github.com/Laravel-Lang/http-statuses/tree/3.8.1"
+                "source": "https://github.com/Laravel-Lang/http-statuses/tree/3.8.2"
             },
-            "time": "2024-02-11T08:58:31+00:00"
+            "time": "2024-03-11T01:33:17+00:00"
         },
         {
             "name": "laravel-lang/lang",
-            "version": "14.3.7",
+            "version": "14.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Laravel-Lang/lang.git",
-                "reference": "bd2410edc56ba1292d24d68525acec38f1e56e18"
+                "reference": "215f2b900b33876982c18f7e2924f898ac07fa7e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Laravel-Lang/lang/zipball/bd2410edc56ba1292d24d68525acec38f1e56e18",
-                "reference": "bd2410edc56ba1292d24d68525acec38f1e56e18",
+                "url": "https://api.github.com/repos/Laravel-Lang/lang/zipball/215f2b900b33876982c18f7e2924f898ac07fa7e",
+                "reference": "215f2b900b33876982c18f7e2924f898ac07fa7e",
                 "shasum": ""
             },
             "require": {
@@ -7616,7 +7616,7 @@
                 "issues": "https://github.com/Laravel-Lang/lang/issues",
                 "source": "https://github.com/Laravel-Lang/lang"
             },
-            "time": "2024-03-05T06:20:58+00:00"
+            "time": "2024-03-11T06:59:42+00:00"
         },
         {
             "name": "laravel-lang/publisher",

@@ -5,7 +5,6 @@ use Aws\Endpoint\PartitionEndpointProvider;
 use Aws\Endpoint\PartitionInterface;
 use Aws\EndpointV2\EndpointProviderV2;
 use Aws\EndpointV2\EndpointDefinitionProvider;
-use InvalidArgumentException;
 
 class MultiRegionClient implements AwsClientInterface
 {
@@ -79,7 +78,7 @@ class MultiRegionClient implements AwsClientInterface
                         }
 
                         if (!$value instanceof PartitionInterface) {
-                            throw new InvalidArgumentException('No valid partition'
+                            throw new \InvalidArgumentException('No valid partition'
                                 . ' was provided. Provide a concrete partition or'
                                 . ' the name of a partition (e.g., "aws," "aws-cn,"'
                                 . ' or "aws-us-gov").'
@@ -166,7 +165,7 @@ class MultiRegionClient implements AwsClientInterface
      * @param array  $args Arguments to pass to the command
      *
      * @return CommandInterface
-     * @throws InvalidArgumentException if no command can be found by name
+     * @throws \InvalidArgumentException if no command can be found by name
      */
     public function getCommand($name, array $args = [])
     {

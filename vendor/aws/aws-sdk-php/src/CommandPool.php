@@ -4,8 +4,6 @@ namespace Aws;
 use GuzzleHttp\Promise\PromiseInterface;
 use GuzzleHttp\Promise\PromisorInterface;
 use GuzzleHttp\Promise\EachPromise;
-use InvalidArgumentException;
-use Iterator;
 
 /**
  * Sends and iterator of commands concurrently using a capped pool size.
@@ -41,7 +39,7 @@ class CommandPool implements PromisorInterface
      *   the commands.
      *
      * @param AwsClientInterface $client   Client used to execute commands.
-     * @param array|Iterator    $commands Iterable that yields commands.
+     * @param array|\Iterator    $commands Iterable that yields commands.
      * @param array              $config   Associative array of options.
      */
     public function __construct(
@@ -57,7 +55,7 @@ class CommandPool implements PromisorInterface
         $mapFn = function ($commands) use ($client, $before, $config) {
             foreach ($commands as $key => $command) {
                 if (!($command instanceof CommandInterface)) {
-                    throw new InvalidArgumentException('Each value yielded by '
+                    throw new \InvalidArgumentException('Each value yielded by '
                         . 'the iterator must be an Aws\CommandInterface.');
                 }
                 if ($before) {
@@ -91,7 +89,7 @@ class CommandPool implements PromisorInterface
      * @param array              $config   Configuration options.
      *
      * @return array
-     * @see CommandPool::__construct for available configuration options.
+     * @see \Aws\CommandPool::__construct for available configuration options.
      */
     public static function batch(
         AwsClientInterface $client,
@@ -124,7 +122,7 @@ class CommandPool implements PromisorInterface
             return $config['before'];
         }
 
-        throw new InvalidArgumentException('before must be callable');
+        throw new \InvalidArgumentException('before must be callable');
     }
 
     /**

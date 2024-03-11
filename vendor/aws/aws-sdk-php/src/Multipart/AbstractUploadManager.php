@@ -8,14 +8,10 @@ use Aws\Exception\AwsException;
 use Aws\Exception\MultipartUploadException;
 use Aws\Result;
 use Aws\ResultInterface;
-use Exception;
-use Generator;
 use GuzzleHttp\Promise;
 use GuzzleHttp\Promise\PromiseInterface;
 use InvalidArgumentException as IAE;
-use LogicException;
 use Psr\Http\Message\RequestInterface;
-use Throwable;
 
 /**
  * Encapsulates the execution of a multipart upload to S3 or Glacier.
@@ -79,7 +75,7 @@ abstract class AbstractUploadManager implements Promise\PromisorInterface
      * Upload the source using multipart upload operations.
      *
      * @return Result The result of the CompleteMultipartUpload operation.
-     * @throws LogicException if the upload is already complete or aborted.
+     * @throws \LogicException if the upload is already complete or aborted.
      * @throws MultipartUploadException if an upload operation fails.
      */
     public function upload()
@@ -101,7 +97,7 @@ abstract class AbstractUploadManager implements Promise\PromisorInterface
         return $this->promise = Promise\Coroutine::of(function () {
             // Initiate the upload.
             if ($this->state->isCompleted()) {
-                throw new LogicException('This multipart upload has already '
+                throw new \LogicException('This multipart upload has already '
                     . 'been completed or aborted.'
                 );
             }
@@ -156,11 +152,11 @@ abstract class AbstractUploadManager implements Promise\PromisorInterface
     private function buildFailureCatch()
     {
         if (interface_exists("Throwable")) {
-            return function (Throwable $e) {
+            return function (\Throwable $e) {
                 return $this->transformException($e);
             };
         } else {
-            return function (Exception $e) {
+            return function (\Exception $e) {
                 return $this->transformException($e);
             };
         }
@@ -187,7 +183,7 @@ abstract class AbstractUploadManager implements Promise\PromisorInterface
      * Examines the provided partSize value and the source to determine the
      * best possible part size.
      *
-     * @throws IAE if the part size is invalid.
+     * @throws \InvalidArgumentException if the part size is invalid.
      *
      * @return int
      */
@@ -317,7 +313,7 @@ abstract class AbstractUploadManager implements Promise\PromisorInterface
      *
      * @param callable $resultHandler
      *
-     * @return Generator
+     * @return \Generator
      */
     abstract protected function getUploadCommands(callable $resultHandler);
 }

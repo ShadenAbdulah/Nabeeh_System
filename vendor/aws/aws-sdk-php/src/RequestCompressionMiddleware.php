@@ -2,7 +2,6 @@
 namespace Aws;
 
 use GuzzleHttp\Psr7;
-use InvalidArgumentException;
 use Psr\Http\Message\RequestInterface;
 
 /**
@@ -157,7 +156,7 @@ class RequestCompressionMiddleware
             return true;
         }
 
-        throw new InvalidArgumentException(
+        throw new \InvalidArgumentException(
             'The minimum request compression size must be a '
             . 'non-negative integer value between 0 and 10485760 bytes, inclusive.'
         );

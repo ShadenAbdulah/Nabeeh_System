@@ -1,8 +1,6 @@
 <?php
 namespace Aws\Api;
 
-use InvalidArgumentException;
-
 /**
  * Represents a structure shape and resolve member shape references.
  */
@@ -56,14 +54,14 @@ class StructureShape extends Shape
      * @param string $name Name of the member to retrieve
      *
      * @return Shape
-     * @throws InvalidArgumentException if the member is not found.
+     * @throws \InvalidArgumentException if the member is not found.
      */
     public function getMember($name)
     {
         $members = $this->getMembers();
 
         if (!isset($members[$name])) {
-            throw new InvalidArgumentException('Unknown member ' . $name);
+            throw new \InvalidArgumentException('Unknown member ' . $name);
         }
 
         return $members[$name];

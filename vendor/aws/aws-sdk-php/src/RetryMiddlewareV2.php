@@ -6,11 +6,9 @@ use Aws\Retry\ConfigurationInterface;
 use Aws\Retry\QuotaManager;
 use Aws\Retry\RateLimiter;
 use Aws\Retry\RetryHelperTrait;
-use Exception;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Promise;
 use Psr\Http\Message\RequestInterface;
-use Throwable;
 
 /**
  * Middleware that retries failures. V2 implementation that supports 'standard'
@@ -202,7 +200,7 @@ class RetryMiddlewareV2
                     $value->prependMonitoringEvent($event);
                 }
             }
-            if ($value instanceof Exception || $value instanceof Throwable) {
+            if ($value instanceof \Exception || $value instanceof \Throwable) {
                 if (!$decider($attempts, $cmd, $value)) {
                     return Promise\Create::rejectionFor(
                         $this->bindStatsToReturn($value, $requestStats)
@@ -289,7 +287,7 @@ class RetryMiddlewareV2
             }
         }
 
-        if ($result instanceof Exception || $result instanceof Throwable) {
+        if ($result instanceof \Exception || $result instanceof \Throwable) {
             $isError = true;
         } else {
             $isError = false;

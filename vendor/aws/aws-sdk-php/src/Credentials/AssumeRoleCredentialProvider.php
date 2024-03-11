@@ -5,8 +5,6 @@ use Aws\Exception\CredentialsException;
 use Aws\Result;
 use Aws\Sts\StsClient;
 use GuzzleHttp\Promise\PromiseInterface;
-use InvalidArgumentException;
-use RuntimeException;
 
 /**
  * Credential provider that provides credentials via assuming a role
@@ -28,16 +26,16 @@ class AssumeRoleCredentialProvider
      *  - assume_role_params: Parameters used to make assumeRole call
      *
      * @param array $config Configuration options
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     public function __construct(array $config = [])
     {
         if (!isset($config['assume_role_params'])) {
-            throw new InvalidArgumentException(self::ERROR_MSG . "'assume_role_params'.");
+            throw new \InvalidArgumentException(self::ERROR_MSG . "'assume_role_params'.");
         }
 
         if (!isset($config['client'])) {
-            throw new InvalidArgumentException(self::ERROR_MSG . "'client'.");
+            throw new \InvalidArgumentException(self::ERROR_MSG . "'client'.");
         }
 
         $this->client = $config['client'];
@@ -55,7 +53,7 @@ class AssumeRoleCredentialProvider
         return $client->assumeRoleAsync($this->assumeRoleParams)
             ->then(function (Result $result) {
                 return $this->client->createCredentials($result);
-            })->otherwise(function (RuntimeException $exception) {
+            })->otherwise(function (\RuntimeException $exception) {
                 throw new CredentialsException(
                     "Error in retrieving assume role credentials.",
                     0,

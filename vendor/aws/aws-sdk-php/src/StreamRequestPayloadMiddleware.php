@@ -3,7 +3,6 @@ namespace Aws;
 
 use Aws\Api\Service;
 use Aws\Exception\IncalculablePayloadException;
-use Closure;
 use Psr\Http\Message\RequestInterface;
 
 /**
@@ -18,7 +17,7 @@ class StreamRequestPayloadMiddleware
      * Create a middleware wrapper function
      *
      * @param Service $service
-     * @return Closure
+     * @return \Closure
      */
     public static function wrap(Service $service)
     {

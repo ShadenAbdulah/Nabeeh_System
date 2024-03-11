@@ -2,12 +2,11 @@
 
 namespace Aws\Api\Parser;
 
-use Iterator;
+use \Iterator;
 use Aws\Exception\EventStreamDataException;
 use Aws\Api\Parser\Exception\ParserException;
 use Aws\Api\StructureShape;
 use Psr\Http\Message\StreamInterface;
-use ReturnTypeWillChange;
 
 /**
  * @internal Implements a decoder for a binary encoded event stream that will
@@ -34,31 +33,31 @@ class EventParsingIterator implements Iterator
         $this->parser = $parser;
     }
 
-    #[ReturnTypeWillChange]
+    #[\ReturnTypeWillChange]
     public function current()
     {
         return $this->parseEvent($this->decodingIterator->current());
     }
 
-    #[ReturnTypeWillChange]
+    #[\ReturnTypeWillChange]
     public function key()
     {
         return $this->decodingIterator->key();
     }
 
-    #[ReturnTypeWillChange]
+    #[\ReturnTypeWillChange]
     public function next()
     {
         $this->decodingIterator->next();
     }
 
-    #[ReturnTypeWillChange]
+    #[\ReturnTypeWillChange]
     public function rewind()
     {
         $this->decodingIterator->rewind();
     }
 
-    #[ReturnTypeWillChange]
+    #[\ReturnTypeWillChange]
     public function valid()
     {
         return $this->decodingIterator->valid();

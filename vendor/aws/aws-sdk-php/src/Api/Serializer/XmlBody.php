@@ -14,7 +14,7 @@ use XMLWriter;
  */
 class XmlBody
 {
-    /** @var Service */
+    /** @var \Aws\Api\Service */
     private $api;
 
     /**
@@ -88,7 +88,7 @@ class XmlBody
         StructureShape $shape,
         $name,
         array $value,
-        XMLWriter $xml
+        \XMLWriter $xml
     ) {
         $this->startElement($shape, $name, $xml);
 

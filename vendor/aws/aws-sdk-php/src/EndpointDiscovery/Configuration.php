@@ -1,8 +1,6 @@
 <?php
 namespace Aws\EndpointDiscovery;
 
-use InvalidArgumentException;
-
 class Configuration implements ConfigurationInterface
 {
     private $cacheLimit;
@@ -12,7 +10,7 @@ class Configuration implements ConfigurationInterface
     {
         $this->cacheLimit = filter_var($cacheLimit, FILTER_VALIDATE_INT);
         if ($this->cacheLimit == false || $this->cacheLimit < 1) {
-            throw new InvalidArgumentException(
+            throw new \InvalidArgumentException(
                 "'cache_limit' value must be a positive integer."
             );
         }

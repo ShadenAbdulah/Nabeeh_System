@@ -2,7 +2,6 @@
 namespace Aws;
 
 use Aws\Api\Service;
-use InvalidArgumentException;
 
 /**
  * Validates the required input parameters of commands are non empty
@@ -31,7 +30,7 @@ class InputValidationMiddleware
         if (!is_array($mandatoryAttributeList) ||
             array_filter($mandatoryAttributeList, 'is_string') !== $mandatoryAttributeList
         ) {
-            throw new InvalidArgumentException(
+            throw new \InvalidArgumentException(
                 "The mandatory attribute list must be an array of strings"
             );
         }
@@ -62,7 +61,7 @@ class InputValidationMiddleware
                             $argument = is_string($cmd[$member]) ?  trim($cmd[$member]) : $cmd[$member];
                             if ($argument === '' || $argument === null) {
                                 $commandName = $cmd->getName();
-                                throw new InvalidArgumentException(
+                                throw new \InvalidArgumentException(
                                     "The {$commandName} operation requires non-empty parameter: {$member}"
                                 );
                             }

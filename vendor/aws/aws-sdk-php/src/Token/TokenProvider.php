@@ -9,8 +9,8 @@ use GuzzleHttp\Promise;
 
 /**
  * Token providers are functions that accept no arguments and return a
- * promise that is fulfilled with an {@see TokenInterface}
- * or rejected with an {@see TokenException}.
+ * promise that is fulfilled with an {@see \Aws\Token\TokenInterface}
+ * or rejected with an {@see \Aws\Exception\TokenException}.
  *
  * <code>
  * use Aws\Token\TokenProvider;

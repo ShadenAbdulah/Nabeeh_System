@@ -7,7 +7,6 @@ use GuzzleHttp\Psr7\StreamDecoratorTrait;
 use Psr\Http\Message\StreamInterface;
 use Aws\Crypto\Polyfill\AesGcm;
 use Aws\Crypto\Polyfill\Key;
-use function openssl_decrypt;
 
 /**
  * @internal Represents a stream of data to be gcm decrypted.
@@ -92,7 +91,7 @@ class AesGcmDecryptingStream implements AesStreamInterface
                 $this->keySize
             ));
         } else {
-            $result = openssl_decrypt(
+            $result = \openssl_decrypt(
                 (string)$this->cipherText,
                 $this->getOpenSslName(),
                 $this->key,

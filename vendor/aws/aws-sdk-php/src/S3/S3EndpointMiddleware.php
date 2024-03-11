@@ -10,8 +10,6 @@ use Aws\Endpoint\PartitionEndpointProvider;
 use GuzzleHttp\Exception\InvalidArgumentException;
 use GuzzleHttp\Psr7\Uri;
 use Psr\Http\Message\RequestInterface;
-use function Aws\is_fips_pseudo_region;
-use function Aws\strip_fips_pseudo_regions;
 
 /**
  * Used to update the URL used for S3 requests to support:
@@ -217,8 +215,8 @@ class S3EndpointMiddleware
             $dnsSuffix = $this->endpointProvider
                 ->getPartition($this->region, 's3')
                 ->getDnsSuffix();
-            $fips = is_fips_pseudo_region($this->region) ? "-fips" : "";
-            $region = strip_fips_pseudo_regions($this->region);
+            $fips = \Aws\is_fips_pseudo_region($this->region) ? "-fips" : "";
+            $region = \Aws\strip_fips_pseudo_regions($this->region);
             $host =
                 "{$command['RequestRoute']}.s3-object-lambda{$fips}.{$region}.{$dnsSuffix}";
 

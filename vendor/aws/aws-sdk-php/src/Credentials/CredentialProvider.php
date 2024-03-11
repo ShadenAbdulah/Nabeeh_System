@@ -6,14 +6,11 @@ use Aws\Api\DateTimeResult;
 use Aws\CacheInterface;
 use Aws\Exception\CredentialsException;
 use Aws\Sts\StsClient;
-use Exception;
 use GuzzleHttp\Promise;
-use InvalidArgumentException;
-
 /**
  * Credential providers are functions that accept no arguments and return a
- * promise that is fulfilled with an {@see CredentialsInterface}
- * or rejected with an {@see CredentialsException}.
+ * promise that is fulfilled with an {@see \Aws\Credentials\CredentialsInterface}
+ * or rejected with an {@see \Aws\Exception\CredentialsException}.
  *
  * <code>
  * use Aws\Credentials\CredentialProvider;
@@ -169,7 +166,7 @@ class CredentialProvider
     {
         $links = func_get_args();
         if (empty($links)) {
-            throw new InvalidArgumentException('No providers in chain');
+            throw new \InvalidArgumentException('No providers in chain');
         }
 
         return function ($previousCreds = null) use ($links) {
@@ -603,7 +600,7 @@ class CredentialProvider
             if (isset($processData['Expiration'])) {
                 try {
                     $expiration = new DateTimeResult($processData['Expiration']);
-                } catch (Exception $e) {
+                } catch (\Exception $e) {
                     return self::reject("credential_process returned invalid expiration");
                 }
                 $now = new DateTimeResult();
@@ -812,7 +809,7 @@ class CredentialProvider
         $credentialsResult = null;
         try {
             $credentialsResult = $credentialsPromise()->wait();
-        } catch (Exception $reason) {
+        } catch (\Exception $reason) {
             return self::reject(
                 "Unable to successfully retrieve credentials from the source specified in the"
                 . " credentials file: {$credentialSource}; failure message was: "
@@ -941,7 +938,7 @@ class CredentialProvider
         }
         try {
             $expiration = (new DateTimeResult($tokenData['expiresAt']))->getTimestamp();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return self::reject("Cached SSO credentials returned an invalid expiration");
         }
         $now = time();

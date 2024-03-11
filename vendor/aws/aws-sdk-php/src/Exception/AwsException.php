@@ -1,7 +1,6 @@
 <?php
 namespace Aws\Exception;
 
-use ArrayAccess;
 use Aws\Api\Shape;
 use Aws\CommandInterface;
 use Aws\HasDataTrait;
@@ -9,19 +8,17 @@ use Aws\HasMonitoringEventsTrait;
 use Aws\MonitoringEventsInterface;
 use Aws\ResponseContainerInterface;
 use Aws\ResultInterface;
-use Exception;
 use JmesPath\Env as JmesPath;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\RequestInterface;
-use RuntimeException;
 
 /**
  * Represents an AWS exception that is thrown when a command fails.
  */
-class AwsException extends RuntimeException implements
+class AwsException extends \RuntimeException implements
     MonitoringEventsInterface,
     ResponseContainerInterface,
-    ArrayAccess
+    \ArrayAccess
 {
     use HasDataTrait;
     use HasMonitoringEventsTrait;
@@ -45,13 +42,13 @@ class AwsException extends RuntimeException implements
      * @param string           $message Exception message
      * @param CommandInterface $command
      * @param array            $context Exception context
-     * @param Exception       $previous  Previous exception (if any)
+     * @param \Exception       $previous  Previous exception (if any)
      */
     public function __construct(
         $message,
         CommandInterface $command,
         array $context = [],
-        Exception $previous = null
+        \Exception $previous = null
     ) {
         $this->data = isset($context['body']) ? $context['body'] : [];
         $this->command = $command;

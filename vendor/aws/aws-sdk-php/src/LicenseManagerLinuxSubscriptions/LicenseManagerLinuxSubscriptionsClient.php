@@ -2,18 +2,16 @@
 namespace Aws\LicenseManagerLinuxSubscriptions;
 
 use Aws\AwsClient;
-use Aws\Result;
-use GuzzleHttp\Promise\Promise;
 
 /**
  * This client is used to interact with the **AWS License Manager Linux Subscriptions** service.
- * @method Result getServiceSettings(array $args = [])
- * @method Promise getServiceSettingsAsync(array $args = [])
- * @method Result listLinuxSubscriptionInstances(array $args = [])
- * @method Promise listLinuxSubscriptionInstancesAsync(array $args = [])
- * @method Result listLinuxSubscriptions(array $args = [])
- * @method Promise listLinuxSubscriptionsAsync(array $args = [])
- * @method Result updateServiceSettings(array $args = [])
- * @method Promise updateServiceSettingsAsync(array $args = [])
+ * @method \Aws\Result getServiceSettings(array $args = [])
+ * @method \GuzzleHttp\Promise\Promise getServiceSettingsAsync(array $args = [])
+ * @method \Aws\Result listLinuxSubscriptionInstances(array $args = [])
+ * @method \GuzzleHttp\Promise\Promise listLinuxSubscriptionInstancesAsync(array $args = [])
+ * @method \Aws\Result listLinuxSubscriptions(array $args = [])
+ * @method \GuzzleHttp\Promise\Promise listLinuxSubscriptionsAsync(array $args = [])
+ * @method \Aws\Result updateServiceSettings(array $args = [])
+ * @method \GuzzleHttp\Promise\Promise updateServiceSettingsAsync(array $args = [])
  */
 class LicenseManagerLinuxSubscriptionsClient extends AwsClient {}

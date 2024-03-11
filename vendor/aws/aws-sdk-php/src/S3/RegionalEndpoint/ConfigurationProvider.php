@@ -6,12 +6,11 @@ use Aws\CacheInterface;
 use Aws\ConfigurationProviderInterface;
 use Aws\S3\RegionalEndpoint\Exception\ConfigurationException;
 use GuzzleHttp\Promise;
-use InvalidArgumentException;
 
 /**
  * A configuration provider is a function that returns a promise that is
- * fulfilled with a {@see ConfigurationInterface}
- * or rejected with an {@see ConfigurationException}.
+ * fulfilled with a {@see \Aws\S3\RegionalEndpoint\ConfigurationInterface}
+ * or rejected with an {@see \Aws\S3\RegionalEndpoint\Exception\ConfigurationException}.
  *
  * <code>
  * use Aws\S3\RegionalEndpoint\ConfigurationProvider;
@@ -23,7 +22,7 @@ use InvalidArgumentException;
  * Configuration providers can be composed to create configuration using
  * conditional logic that can create different configurations in different
  * environments. You can compose multiple providers into a single provider using
- * {@see ConfigurationProvider::chain}. This function
+ * {@see \Aws\S3\RegionalEndpoint\ConfigurationProvider::chain}. This function
  * accepts providers as variadic arguments and returns a new function that will
  * invoke each provider until a successful configuration is returned.
  *
@@ -170,7 +169,7 @@ class ConfigurationProvider extends AbstractConfigurationProvider
      *
      * @param  mixed $config
      * @return ConfigurationInterface
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     public static function unwrap($config)
     {
@@ -190,7 +189,7 @@ class ConfigurationProvider extends AbstractConfigurationProvider
             return new Configuration($config['endpoints_type']);
         }
 
-        throw new InvalidArgumentException('Not a valid S3 regional endpoint '
+        throw new \InvalidArgumentException('Not a valid S3 regional endpoint '
             . 'configuration argument.');
     }
 }

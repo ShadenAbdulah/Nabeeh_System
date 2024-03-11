@@ -1,26 +1,21 @@
 <?php
-
 namespace Aws\Artifact;
 
 use Aws\AwsClient;
-use Aws\Result;
-use GuzzleHttp\Promise\Promise;
 
 /**
  * This client is used to interact with the **AWS Artifact** service.
- * @method Result getAccountSettings(array $args = [])
- * @method Promise getAccountSettingsAsync(array $args = [])
- * @method Result getReport(array $args = [])
- * @method Promise getReportAsync(array $args = [])
- * @method Result getReportMetadata(array $args = [])
- * @method Promise getReportMetadataAsync(array $args = [])
- * @method Result getTermForReport(array $args = [])
- * @method Promise getTermForReportAsync(array $args = [])
- * @method Result listReports(array $args = [])
- * @method Promise listReportsAsync(array $args = [])
- * @method Result putAccountSettings(array $args = [])
- * @method Promise putAccountSettingsAsync(array $args = [])
+ * @method \Aws\Result getAccountSettings(array $args = [])
+ * @method \GuzzleHttp\Promise\Promise getAccountSettingsAsync(array $args = [])
+ * @method \Aws\Result getReport(array $args = [])
+ * @method \GuzzleHttp\Promise\Promise getReportAsync(array $args = [])
+ * @method \Aws\Result getReportMetadata(array $args = [])
+ * @method \GuzzleHttp\Promise\Promise getReportMetadataAsync(array $args = [])
+ * @method \Aws\Result getTermForReport(array $args = [])
+ * @method \GuzzleHttp\Promise\Promise getTermForReportAsync(array $args = [])
+ * @method \Aws\Result listReports(array $args = [])
+ * @method \GuzzleHttp\Promise\Promise listReportsAsync(array $args = [])
+ * @method \Aws\Result putAccountSettings(array $args = [])
+ * @method \GuzzleHttp\Promise\Promise putAccountSettingsAsync(array $args = [])
  */
-class ArtifactClient extends AwsClient
-{
-}
+class ArtifactClient extends AwsClient {}

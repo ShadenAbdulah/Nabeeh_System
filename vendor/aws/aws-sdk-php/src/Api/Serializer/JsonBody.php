@@ -5,8 +5,6 @@ use Aws\Api\Service;
 use Aws\Api\Shape;
 use Aws\Api\TimestampShape;
 use Aws\Exception\InvalidJsonException;
-use InvalidArgumentException;
-use stdClass;
 
 /**
  * Formats the JSON body of a JSON-REST or JSON-RPC operation.
@@ -36,7 +34,7 @@ class JsonBody
 
         $jsonVersion = $service->getMetadata('jsonVersion');
         if (empty($jsonVersion)) {
-            throw new InvalidArgumentException('invalid json');
+            throw new \InvalidArgumentException('invalid json');
         } else {
             return 'application/x-amz-json-'
                 . @number_format($service->getMetadata('jsonVersion'), 1);
@@ -73,7 +71,7 @@ class JsonBody
                     }
                 }
                 if (empty($data)) {
-                    return new stdClass;
+                    return new \stdClass;
                 }
                 return $data;
 
@@ -86,7 +84,7 @@ class JsonBody
 
             case 'map':
                 if (empty($value)) {
-                    return new stdClass;
+                    return new \stdClass;
                 }
                 $values = $shape->getValue();
                 foreach ($value as $k => $v) {

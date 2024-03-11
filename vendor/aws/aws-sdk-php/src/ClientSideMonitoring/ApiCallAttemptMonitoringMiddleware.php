@@ -7,8 +7,6 @@ use Aws\Credentials\CredentialsInterface;
 use Aws\Exception\AwsException;
 use Aws\ResponseContainerInterface;
 use Aws\ResultInterface;
-use Exception;
-use InvalidArgumentException;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
@@ -102,7 +100,7 @@ class ApiCallAttemptMonitoringMiddleware extends AbstractMonitoringMiddleware
                 ),
             ];
         }
-        if ($klass instanceof Exception) {
+        if ($klass instanceof \Exception) {
             return [
                 'HttpStatusCode' => self::getExceptionHttpStatusCode($klass),
                 'SdkException' => substr(
@@ -121,7 +119,7 @@ class ApiCallAttemptMonitoringMiddleware extends AbstractMonitoringMiddleware
             ];
         }
 
-        throw new InvalidArgumentException('Parameter must be an instance of ResultInterface, AwsException or Exception.');
+        throw new \InvalidArgumentException('Parameter must be an instance of ResultInterface, AwsException or Exception.');
     }
 
     private static function getResultAttemptLatency(ResultInterface $result)
@@ -202,7 +200,7 @@ class ApiCallAttemptMonitoringMiddleware extends AbstractMonitoringMiddleware
         return null;
     }
 
-    private static function getExceptionHttpStatusCode(Exception $e) {
+    private static function getExceptionHttpStatusCode(\Exception $e) {
         if ($e instanceof ResponseContainerInterface) {
             $response = $e->getResponse();
             if ($response instanceof ResponseInterface) {
@@ -212,14 +210,14 @@ class ApiCallAttemptMonitoringMiddleware extends AbstractMonitoringMiddleware
         return null;
     }
 
-    private static function getExceptionCode(Exception $e) {
+    private static function getExceptionCode(\Exception $e) {
         if (!($e instanceof AwsException)) {
             return get_class($e);
         }
         return null;
     }
 
-    private static function getExceptionMessage(Exception $e) {
+    private static function getExceptionMessage(\Exception $e) {
         if (!($e instanceof AwsException)) {
             return $e->getMessage();
         }

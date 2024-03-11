@@ -1,16 +1,10 @@
 <?php
 namespace Aws\DynamoDb;
 
-use ArrayIterator;
-use Countable;
-use IteratorAggregate;
-use JsonSerializable;
-use ReturnTypeWillChange;
-
 /**
  * Special object to represent a DynamoDB set (SS/NS/BS) value.
  */
-class SetValue implements JsonSerializable, Countable, IteratorAggregate
+class SetValue implements \JsonSerializable, \Countable, \IteratorAggregate
 {
     /** @var array Values in the set as provided. */
     private $values;
@@ -36,19 +30,19 @@ class SetValue implements JsonSerializable, Countable, IteratorAggregate
     /**
      * @return int
      */
-    #[ReturnTypeWillChange]
+    #[\ReturnTypeWillChange]
     public function count()
     {
         return count($this->values);
     }
 
-    #[ReturnTypeWillChange]
+    #[\ReturnTypeWillChange]
     public function getIterator()
     {
-        return new ArrayIterator($this->values);
+        return new \ArrayIterator($this->values);
     }
 
-    #[ReturnTypeWillChange]
+    #[\ReturnTypeWillChange]
     public function jsonSerialize()
     {
         return $this->toArray();

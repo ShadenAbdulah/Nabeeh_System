@@ -6,8 +6,6 @@ use Aws\Arn\ArnInterface;
 use Aws\Arn\S3\OutpostsArnInterface;
 use Aws\Endpoint\PartitionEndpointProvider;
 use Aws\Exception\InvalidRegionException;
-use function Aws\is_fips_pseudo_region;
-use function Aws\strip_fips_pseudo_regions;
 
 /**
  * @internal
@@ -56,7 +54,7 @@ trait EndpointRegionHelperTrait
         $service,
         PartitionEndpointProvider $provider
     ) {
-        $arnRegion = strip_fips_pseudo_regions(strtolower($arnRegion));
+        $arnRegion = \Aws\strip_fips_pseudo_regions(strtolower($arnRegion));
         $clientRegion = strtolower($clientRegion);
         if ($arnRegion === $clientRegion) {
             return true;
@@ -78,7 +76,7 @@ trait EndpointRegionHelperTrait
             } else {
                 $region = $arn->getRegion();
             }
-            if (is_fips_pseudo_region($region)) {
+            if (\Aws\is_fips_pseudo_region($region)) {
                 throw new InvalidRegionException(
                     'Fips is currently not supported with S3 Outposts access'
                     . ' points. Please provide a non-fips region or do not supply an'

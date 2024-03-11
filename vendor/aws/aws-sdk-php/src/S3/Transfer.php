@@ -7,12 +7,7 @@ use Aws\Exception\AwsException;
 use GuzzleHttp\Promise;
 use GuzzleHttp\Promise\PromiseInterface;
 use GuzzleHttp\Promise\PromisorInterface;
-use InvalidArgumentException;
 use Iterator;
-use RuntimeException;
-use SplFileInfo;
-use UnexpectedValueException;
-use function Aws\map;
 
 /**
  * Transfers files from the local filesystem to S3 or from S3 to the local
@@ -93,20 +88,20 @@ class Transfer implements PromisorInterface
             $this->source = $source;
         } elseif ($source instanceof Iterator) {
             if (empty($options['base_dir'])) {
-                throw new InvalidArgumentException('You must provide the source'
+                throw new \InvalidArgumentException('You must provide the source'
                     . ' argument as a string or provide the "base_dir" option.');
             }
 
             $this->sourceMetadata = $this->prepareTarget($options['base_dir']);
             $this->source = $source;
         } else {
-            throw new InvalidArgumentException('source must be the path to a '
+            throw new \InvalidArgumentException('source must be the path to a '
                 . 'directory or an iterator that yields file names.');
         }
 
         // Validate schemes.
         if ($this->sourceMetadata['scheme'] === $this->destination['scheme']) {
-            throw new InvalidArgumentException("You cannot copy from"
+            throw new \InvalidArgumentException("You cannot copy from"
                 . " {$this->sourceMetadata['scheme']} to"
                 . " {$this->destination['scheme']}."
             );
@@ -120,14 +115,14 @@ class Transfer implements PromisorInterface
             ? $options['mup_threshold']
             : 16777216;
         if ($this->mupThreshold < MultipartUploader::PART_MIN_SIZE) {
-            throw new InvalidArgumentException('mup_threshold must be >= 5MB');
+            throw new \InvalidArgumentException('mup_threshold must be >= 5MB');
         }
 
         // Handle "before" callback option.
         if (isset($options['before'])) {
             $this->before = $options['before'];
             if (!is_callable($this->before)) {
-                throw new InvalidArgumentException('before must be a callable.');
+                throw new \InvalidArgumentException('before must be a callable.');
             }
         }
 
@@ -180,7 +175,7 @@ class Transfer implements PromisorInterface
         ];
 
         if ($target['scheme'] !== 's3' && $target['scheme'] !== 'file') {
-            throw new InvalidArgumentException('Scheme must be "s3" or "file".');
+            throw new \InvalidArgumentException('Scheme must be "s3" or "file".');
         }
 
         return $target;
@@ -279,7 +274,7 @@ class Transfer implements PromisorInterface
             // Create the directory if needed.
             $dir = dirname($sink);
             if (!is_dir($dir) && !mkdir($dir, 0777, true)) {
-                throw new RuntimeException("Could not create dir: {$dir}");
+                throw new \RuntimeException("Could not create dir: {$dir}");
             }
 
             // Create the command.
@@ -299,7 +294,7 @@ class Transfer implements PromisorInterface
     private function createUploadPromise()
     {
         // Map each file into a promise that performs the actual transfer.
-        $files = map($this->getUploadsIterator(), function ($file) {
+        $files = \Aws\map($this->getUploadsIterator(), function ($file) {
             return (filesize($file) >= $this->mupThreshold)
                 ? $this->uploadMultipart($file)
                 : $this->upload($file);
@@ -336,7 +331,7 @@ class Transfer implements PromisorInterface
             $files = $this->client
                 ->getPaginator('ListObjects', $listArgs)
                 ->search('Contents[].Key');
-            $files = map($files, function ($key) use ($listArgs) {
+            $files = Aws\map($files, function ($key) use ($listArgs) {
                 return "s3://{$listArgs['Bucket']}/$key";
             });
             return Aws\filter($files, function ($key) {
@@ -363,7 +358,7 @@ class Transfer implements PromisorInterface
     {
         $args = $this->s3Args;
         $args['Key'] = $this->createS3Key($filename);
-        $filename = $filename instanceof SplFileInfo ? $filename->getPathname() : $filename;
+        $filename = $filename instanceof \SplFileInfo ? $filename->getPathname() : $filename;
 
         return (new MultipartUploader($this->client, $filename, [
             'bucket'          => $args['Bucket'],
@@ -425,7 +420,7 @@ class Transfer implements PromisorInterface
                     $dest = "s3://{$command['Bucket']}/{$command['Key']}";
                     break;
                 default:
-                    throw new UnexpectedValueException(
+                    throw new \UnexpectedValueException(
                         "Transfer encountered an unexpected operation: {$operation}."
                     );
             }

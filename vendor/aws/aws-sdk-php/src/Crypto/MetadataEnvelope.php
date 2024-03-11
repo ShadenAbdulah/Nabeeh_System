@@ -2,12 +2,10 @@
 namespace Aws\Crypto;
 
 use Aws\HasDataTrait;
-use ArrayAccess;
-use IteratorAggregate;
-use InvalidArgumentException;
-use JsonSerializable;
-use ReflectionClass;
-use ReturnTypeWillChange;
+use \ArrayAccess;
+use \IteratorAggregate;
+use \InvalidArgumentException;
+use \JsonSerializable;
 
 /**
  * Stores encryption metadata for reading and writing.
@@ -31,7 +29,7 @@ class MetadataEnvelope implements ArrayAccess, IteratorAggregate, JsonSerializab
     public static function getConstantValues()
     {
         if (empty(self::$constants)) {
-            $reflection = new ReflectionClass(static::class);
+            $reflection = new \ReflectionClass(static::class);
             foreach (array_values($reflection->getConstants()) as $constant) {
                 self::$constants[$constant] = true;
             }
@@ -43,7 +41,7 @@ class MetadataEnvelope implements ArrayAccess, IteratorAggregate, JsonSerializab
     /**
      * @return void
      */
-    #[ReturnTypeWillChange]
+    #[\ReturnTypeWillChange]
     public function offsetSet($name, $value)
     {
         $constants = self::getConstantValues();
@@ -55,7 +53,7 @@ class MetadataEnvelope implements ArrayAccess, IteratorAggregate, JsonSerializab
         $this->data[$name] = $value;
     }
 
-    #[ReturnTypeWillChange]
+    #[\ReturnTypeWillChange]
     public function jsonSerialize()
     {
         return $this->data;

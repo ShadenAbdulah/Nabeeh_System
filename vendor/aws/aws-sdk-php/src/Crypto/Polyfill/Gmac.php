@@ -1,9 +1,6 @@
 <?php
 namespace Aws\Crypto\Polyfill;
 
-use function openssl_encrypt;
-use function str_repeat;
-
 /**
  * Class Gmac
  *
@@ -44,8 +41,8 @@ class Gmac
     {
         $this->buf = new ByteArray(16);
         $this->h = new ByteArray(
-            openssl_encrypt(
-                str_repeat("\0", 16),
+            \openssl_encrypt(
+                \str_repeat("\0", 16),
                 "aes-{$keySize}-ecb",
                 $aesKey->get(),
                 OPENSSL_RAW_DATA | OPENSSL_NO_PADDING
@@ -54,7 +51,7 @@ class Gmac
         $this->key = $aesKey;
         $this->x = new ByteArray(16);
         $this->hf = new ByteArray(
-            openssl_encrypt(
+            \openssl_encrypt(
                 $nonce,
                 "aes-{$keySize}-ecb",
                 $aesKey->get(),

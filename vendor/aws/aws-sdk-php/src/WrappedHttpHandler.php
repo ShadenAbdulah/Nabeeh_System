@@ -3,12 +3,9 @@ namespace Aws;
 
 use Aws\Api\Parser\Exception\ParserException;
 use Aws\Exception\AwsException;
-use Exception;
 use GuzzleHttp\Promise;
-use InvalidArgumentException;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
-use RuntimeException;
 
 /**
  * Converts an HTTP handler into a Command HTTP handler.
@@ -84,7 +81,7 @@ class WrappedHttpHandler
                 $stats = $transferStats;
             };
         } elseif (isset($options['http_stats_receiver'])) {
-            throw new InvalidArgumentException('Providing a custom HTTP stats'
+            throw new \InvalidArgumentException('Providing a custom HTTP stats'
                 . ' receiver to Aws\WrappedHttpHandler is not supported.');
         }
 
@@ -157,7 +154,7 @@ class WrappedHttpHandler
      * @param CommandInterface $command Command being sent.
      * @param array            $stats   Transfer statistics
      *
-     * @return Exception
+     * @return \Exception
      */
     private function parseError(
         array $err,
@@ -166,7 +163,7 @@ class WrappedHttpHandler
         array $stats
     ) {
         if (!isset($err['exception'])) {
-            throw new RuntimeException('The HTTP handler was rejected without an "exception" key value pair.');
+            throw new \RuntimeException('The HTTP handler was rejected without an "exception" key value pair.');
         }
 
         $serviceError = "AWS HTTP error: " . $err['exception']->getMessage();

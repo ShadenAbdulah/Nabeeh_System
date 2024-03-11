@@ -1,9 +1,6 @@
 <?php
 namespace Aws\CloudFront;
 
-use InvalidArgumentException;
-use RuntimeException;
-
 /**
  * @internal
  */
@@ -20,14 +17,14 @@ class Signer
      * @param $privateKey string Path to the private key used for signing
      * @param $passphrase string Passphrase to private key file, if one exists
      *
-     * @throws RuntimeException if the openssl extension is missing
-     * @throws InvalidArgumentException if the private key cannot be found.
+     * @throws \RuntimeException if the openssl extension is missing
+     * @throws \InvalidArgumentException if the private key cannot be found.
      */
     public function __construct($keyPairId, $privateKey, $passphrase = "")
     {
         if (!extension_loaded('openssl')) {
             //@codeCoverageIgnoreStart
-            throw new RuntimeException('The openssl extension is required to '
+            throw new \RuntimeException('The openssl extension is required to '
                 . 'sign CloudFront urls.');
             //@codeCoverageIgnoreEnd
         }
@@ -36,7 +33,7 @@ class Signer
 
         if (!$this->pkHandle = openssl_pkey_get_private($privateKey, $passphrase)) {
             if (!file_exists($privateKey)) {
-                throw new InvalidArgumentException("PK file not found: $privateKey");
+                throw new \InvalidArgumentException("PK file not found: $privateKey");
             }
 
             $this->pkHandle = openssl_pkey_get_private("file://$privateKey", $passphrase);
@@ -45,7 +42,7 @@ class Signer
                 while(($newMessage = openssl_error_string()) !== false){
                     $errorMessages[] = $newMessage;
                 }
-                throw new InvalidArgumentException(implode("\n",$errorMessages));
+                throw new \InvalidArgumentException(implode("\n",$errorMessages));
             }
         }
     }
@@ -73,9 +70,9 @@ class Signer
      *                                          policy.
      *
      * @return array The values needed to construct a signed URL or cookie
-     * @throws InvalidArgumentException  when not provided either a policy or a
+     * @throws \InvalidArgumentException  when not provided either a policy or a
      *                                    resource and a expires
-     * @throws RuntimeException when generated signature is empty
+     * @throws \RuntimeException when generated signature is empty
      *
      * @link http://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/private-content-signed-cookies.html
      */
@@ -90,7 +87,7 @@ class Signer
             $policy = $this->createCannedPolicy($resource, $expires);
             $signatureHash['Expires'] = $expires;
         } else {
-            throw new InvalidArgumentException('Either a policy or a resource'
+            throw new \InvalidArgumentException('Either a policy or a resource'
                 . ' and an expiration time must be provided.');
         }
 
@@ -117,19 +114,19 @@ class Signer
     private function sign($policy)
     {
         $signature = '';
-
+        
         if(!openssl_sign($policy, $signature, $this->pkHandle)) {
             $errorMessages = [];
             while(($newMessage = openssl_error_string()) !== false) {
                 $errorMessages[] = $newMessage;
             }
-
+            
             $exceptionMessage = "An error has occurred when signing the policy";
             if (count($errorMessages) > 0) {
                 $exceptionMessage = implode("\n", $errorMessages);
             }
 
-            throw new RuntimeException($exceptionMessage);
+            throw new \RuntimeException($exceptionMessage);
         }
 
         return $signature;

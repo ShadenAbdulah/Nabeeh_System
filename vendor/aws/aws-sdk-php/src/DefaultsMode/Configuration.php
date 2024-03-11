@@ -2,8 +2,6 @@
 namespace Aws\DefaultsMode;
 
 use Aws\DefaultsMode\Exception\ConfigurationException;
-use InvalidArgumentException;
-use function Aws\load_compiled_json;
 
 class Configuration implements ConfigurationInterface
 {
@@ -26,7 +24,7 @@ class Configuration implements ConfigurationInterface
     {
         $mode = strtolower($mode);
         if (!in_array($mode, $this->validModes)) {
-            throw new InvalidArgumentException("'{$mode}' is not a valid mode."
+            throw new \InvalidArgumentException("'{$mode}' is not a valid mode."
                 . " The mode has to be 'legacy', 'standard', 'cross-region', 'in-region',"
                 . " 'mobile', or 'auto'.");
         }
@@ -36,7 +34,7 @@ class Configuration implements ConfigurationInterface
             return;
         }
 
-        $data = load_compiled_json(
+        $data = \Aws\load_compiled_json(
             __DIR__ . '/../data/sdk-default-configuration.json'
         );
 

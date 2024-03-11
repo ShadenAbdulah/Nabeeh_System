@@ -3,12 +3,10 @@ namespace Aws;
 
 use Aws\Exception\AwsException;
 use Aws\Retry\RetryHelperTrait;
-use Exception;
 use GuzzleHttp\Exception\RequestException;
 use Psr\Http\Message\RequestInterface;
 use GuzzleHttp\Promise\PromiseInterface;
 use GuzzleHttp\Promise;
-use Throwable;
 
 /**
  * Middleware that retries failures. V1 implemention that supports 'legacy' mode.
@@ -249,7 +247,7 @@ class RetryMiddleware
                     $value->prependMonitoringEvent($event);
                 }
             }
-            if ($value instanceof Exception || $value instanceof Throwable) {
+            if ($value instanceof \Exception || $value instanceof \Throwable) {
                 if (!$decider($retries, $command, $request, null, $value)) {
                     return Promise\Create::rejectionFor(
                         $this->bindStatsToReturn($value, $requestStats)

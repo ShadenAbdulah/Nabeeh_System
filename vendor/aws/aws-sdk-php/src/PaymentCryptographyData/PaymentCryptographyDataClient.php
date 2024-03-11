@@ -2,32 +2,30 @@
 namespace Aws\PaymentCryptographyData;
 
 use Aws\AwsClient;
-use Aws\Result;
-use GuzzleHttp\Promise\Promise;
 
 /**
  * This client is used to interact with the **Payment Cryptography Data Plane** service.
- * @method Result decryptData(array $args = [])
- * @method Promise decryptDataAsync(array $args = [])
- * @method Result encryptData(array $args = [])
- * @method Promise encryptDataAsync(array $args = [])
- * @method Result generateCardValidationData(array $args = [])
- * @method Promise generateCardValidationDataAsync(array $args = [])
- * @method Result generateMac(array $args = [])
- * @method Promise generateMacAsync(array $args = [])
- * @method Result generatePinData(array $args = [])
- * @method Promise generatePinDataAsync(array $args = [])
- * @method Result reEncryptData(array $args = [])
- * @method Promise reEncryptDataAsync(array $args = [])
- * @method Result translatePinData(array $args = [])
- * @method Promise translatePinDataAsync(array $args = [])
- * @method Result verifyAuthRequestCryptogram(array $args = [])
- * @method Promise verifyAuthRequestCryptogramAsync(array $args = [])
- * @method Result verifyCardValidationData(array $args = [])
- * @method Promise verifyCardValidationDataAsync(array $args = [])
- * @method Result verifyMac(array $args = [])
- * @method Promise verifyMacAsync(array $args = [])
- * @method Result verifyPinData(array $args = [])
- * @method Promise verifyPinDataAsync(array $args = [])
+ * @method \Aws\Result decryptData(array $args = [])
+ * @method \GuzzleHttp\Promise\Promise decryptDataAsync(array $args = [])
+ * @method \Aws\Result encryptData(array $args = [])
+ * @method \GuzzleHttp\Promise\Promise encryptDataAsync(array $args = [])
+ * @method \Aws\Result generateCardValidationData(array $args = [])
+ * @method \GuzzleHttp\Promise\Promise generateCardValidationDataAsync(array $args = [])
+ * @method \Aws\Result generateMac(array $args = [])
+ * @method \GuzzleHttp\Promise\Promise generateMacAsync(array $args = [])
+ * @method \Aws\Result generatePinData(array $args = [])
+ * @method \GuzzleHttp\Promise\Promise generatePinDataAsync(array $args = [])
+ * @method \Aws\Result reEncryptData(array $args = [])
+ * @method \GuzzleHttp\Promise\Promise reEncryptDataAsync(array $args = [])
+ * @method \Aws\Result translatePinData(array $args = [])
+ * @method \GuzzleHttp\Promise\Promise translatePinDataAsync(array $args = [])
+ * @method \Aws\Result verifyAuthRequestCryptogram(array $args = [])
+ * @method \GuzzleHttp\Promise\Promise verifyAuthRequestCryptogramAsync(array $args = [])
+ * @method \Aws\Result verifyCardValidationData(array $args = [])
+ * @method \GuzzleHttp\Promise\Promise verifyCardValidationDataAsync(array $args = [])
+ * @method \Aws\Result verifyMac(array $args = [])
+ * @method \GuzzleHttp\Promise\Promise verifyMacAsync(array $args = [])
+ * @method \Aws\Result verifyPinData(array $args = [])
+ * @method \GuzzleHttp\Promise\Promise verifyPinDataAsync(array $args = [])
  */
 class PaymentCryptographyDataClient extends AwsClient {}

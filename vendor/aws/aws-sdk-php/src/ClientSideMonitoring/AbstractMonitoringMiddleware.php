@@ -7,12 +7,9 @@ use Aws\Exception\AwsException;
 use Aws\MonitoringEventsInterface;
 use Aws\ResponseContainerInterface;
 use Aws\ResultInterface;
-use Exception;
 use GuzzleHttp\Promise;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
-use Throwable;
-use function Aws\default_user_agent;
 
 /**
  * @internal
@@ -48,7 +45,7 @@ abstract class AbstractMonitoringMiddleware
         return null;
     }
 
-    protected static function getExceptionHeader(Exception $e, $headerName)
+    protected static function getExceptionHeader(\Exception $e, $headerName)
     {
         if ($e instanceof ResponseContainerInterface) {
             $response = $e->getResponse();
@@ -120,7 +117,7 @@ abstract class AbstractMonitoringMiddleware
                     $value->appendMonitoringEvent($eventData);
                 }
             }
-            if ($value instanceof Exception || $value instanceof Throwable) {
+            if ($value instanceof \Exception || $value instanceof \Throwable) {
                 return Promise\Create::rejectionFor($value);
             }
             return $value;
@@ -145,7 +142,7 @@ abstract class AbstractMonitoringMiddleware
             'Service' => $this->getService(),
             'Timestamp' => (int) floor(microtime(true) * 1000),
             'UserAgent' => substr(
-                $request->getHeaderLine('User-Agent') . ' ' . default_user_agent(),
+                $request->getHeaderLine('User-Agent') . ' ' . \Aws\default_user_agent(),
                 0,
                 256
             ),
@@ -210,7 +207,7 @@ abstract class AbstractMonitoringMiddleware
      * Returns $eventData array with information from the response, including
      * the calculation for attempt latency.
      *
-     * @param ResultInterface|Exception $result
+     * @param ResultInterface|\Exception $result
      * @param array $event
      * @return array
      */
@@ -298,7 +295,7 @@ abstract class AbstractMonitoringMiddleware
         if (!($this->options instanceof ConfigurationInterface)) {
             try {
                 $this->options = ConfigurationProvider::unwrap($this->options);
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 // Errors unwrapping CSM config defaults to disabling it
                 $this->options = new Configuration(
                     false,

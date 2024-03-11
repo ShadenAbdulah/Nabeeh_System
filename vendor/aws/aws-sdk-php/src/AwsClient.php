@@ -10,8 +10,6 @@ use Aws\EndpointV2\EndpointV2Middleware;
 use Aws\Exception\AwsException;
 use Aws\Signature\SignatureProvider;
 use GuzzleHttp\Psr7\Uri;
-use InvalidArgumentException;
-use RuntimeException;
 
 /**
  * Default AWS client implementation
@@ -208,7 +206,7 @@ class AwsClient implements AwsClientInterface
      *
      * @param array $args Client configuration arguments.
      *
-     * @throws InvalidArgumentException if any required options are missing or
+     * @throws \InvalidArgumentException if any required options are missing or
      *                                   the service is not supported.
      */
     public function __construct(array $args)
@@ -298,7 +296,7 @@ class AwsClient implements AwsClientInterface
         if (!isset($this->getApi()['operations'][$name])) {
             $name = ucfirst($name);
             if (!isset($this->getApi()['operations'][$name])) {
-                throw new InvalidArgumentException("Operation not found: $name");
+                throw new \InvalidArgumentException("Operation not found: $name");
             }
         }
 
@@ -340,7 +338,7 @@ class AwsClient implements AwsClientInterface
 
     public function __sleep()
     {
-        throw new RuntimeException('Instances of ' . static::class
+        throw new \RuntimeException('Instances of ' . static::class
             . ' cannot be serialized');
     }
 
@@ -491,7 +489,7 @@ class AwsClient implements AwsClientInterface
             if (is_null($file)) {
                 $file = __DIR__ . '/data/aliases.json';
             }
-            $aliases = load_compiled_json($file);
+            $aliases = \Aws\load_compiled_json($file);
             $serviceId = $this->api->getServiceId();
             $version = $this->getApi()->getApiVersion();
             if (!empty($aliases['operations'][$serviceId][$version])) {
@@ -655,7 +653,7 @@ class AwsClient implements AwsClientInterface
      */
     public static function applyDocFilters(array $api, array $docs)
     {
-        $aliases = load_compiled_json(__DIR__ . '/data/aliases.json');
+        $aliases = \Aws\load_compiled_json(__DIR__ . '/data/aliases.json');
         $serviceId = $api['metadata']['serviceId'];
         $version = $api['metadata']['apiVersion'];
 

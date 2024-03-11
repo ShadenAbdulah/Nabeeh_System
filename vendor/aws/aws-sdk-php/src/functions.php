@@ -1,14 +1,10 @@
 <?php
 namespace Aws;
 
-use Aws\Handler\GuzzleV5\GuzzleHandler;
-use Generator;
 use GuzzleHttp\Client;
-use InvalidArgumentException;
 use Psr\Http\Message\RequestInterface;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Promise\FulfilledPromise;
-use RuntimeException;
 
 //-----------------------------------------------------------------------------
 // Functional functions
@@ -32,7 +28,7 @@ function constantly($value)
  * @param mixed    $iterable Iterable sequence of data.
  * @param callable $pred Function that accepts a value and returns true/false
  *
- * @return Generator
+ * @return \Generator
  */
 function filter($iterable, callable $pred)
 {
@@ -49,7 +45,7 @@ function filter($iterable, callable $pred)
  * @param mixed    $iterable Iterable sequence of data.
  * @param callable $f        Map function to apply.
  *
- * @return Generator
+ * @return \Generator
  */
 function map($iterable, callable $f)
 {
@@ -66,7 +62,7 @@ function map($iterable, callable $f)
  * @param mixed    $iterable Iterable sequence of data.
  * @param callable $f        Map function to apply.
  *
- * @return Generator
+ * @return \Generator
  */
 function flatmap($iterable, callable $f)
 {
@@ -83,7 +79,7 @@ function flatmap($iterable, callable $f)
  * @param mixed    $iterable Iterable sequence of data.
  * @param int $size Size to make each partition (except possibly the last chunk)
  *
- * @return Generator
+ * @return \Generator
  */
 function partition($iterable, $size)
 {
@@ -161,7 +157,7 @@ function load_compiled_json($path)
     }
 
     if (!file_exists($path)) {
-        throw new InvalidArgumentException(
+        throw new \InvalidArgumentException(
             sprintf("File not found: %s", $path)
         );
     }
@@ -187,13 +183,13 @@ function clear_compiled_json()
  * @param string   $path Path to open (e.g., "s3://foo/bar").
  * @param resource $context Stream wrapper context.
  *
- * @return Generator Yields relative filename strings.
+ * @return \Generator Yields relative filename strings.
  */
 function dir_iterator($path, $context = null)
 {
     $dh = $context ? opendir($path, $context) : opendir($path);
     if (!$dh) {
-        throw new InvalidArgumentException('File not found: ' . $path);
+        throw new \InvalidArgumentException('File not found: ' . $path);
     }
     while (($file = readdir($dh)) !== false) {
         yield $file;
@@ -211,7 +207,7 @@ function dir_iterator($path, $context = null)
  * @param string   $path    Path to traverse (e.g., s3://bucket/key, /tmp)
  * @param resource $context Stream context options.
  *
- * @return Generator Yields absolute filenames.
+ * @return \Generator Yields absolute filenames.
  */
 function recursive_dir_iterator($path, $context = null)
 {
@@ -285,10 +281,10 @@ function default_http_handler()
 
     // If Guzzle 5 installed
     if ($version === 5) {
-        return new GuzzleHandler();
+        return new \Aws\Handler\GuzzleV5\GuzzleHandler();
     }
 
-    throw new RuntimeException('Unknown Guzzle version: ' . $version);
+    throw new \RuntimeException('Unknown Guzzle version: ' . $version);
 }
 
 /**
@@ -306,10 +302,10 @@ function default_user_agent()
 
     // If Guzzle 5 installed
     if ($version === 5) {
-        return Client::getDefaultUserAgent();
+        return \GuzzleHttp\Client::getDefaultUserAgent();
     }
 
-    throw new RuntimeException('Unknown Guzzle version: ' . $version);
+    throw new \RuntimeException('Unknown Guzzle version: ' . $version);
 }
 
 /**
@@ -317,7 +313,7 @@ function default_user_agent()
  *
  * @internal This function is internal and should not be used outside aws/aws-sdk-php.
  * @return int
- * @throws RuntimeException
+ * @throws \RuntimeException
  */
 function guzzle_major_version()
 {
@@ -338,7 +334,7 @@ function guzzle_major_version()
         return $cache = ClientInterface::MAJOR_VERSION;
     }
 
-    throw new RuntimeException('Unable to determine what Guzzle version is installed.');
+    throw new \RuntimeException('Unable to determine what Guzzle version is installed.');
 }
 
 /**
@@ -349,7 +345,7 @@ function guzzle_major_version()
  * @param CommandInterface $command Command to serialize.
  *
  * @return RequestInterface
- * @throws RuntimeException
+ * @throws \RuntimeException
  */
 function serialize(CommandInterface $command)
 {
@@ -366,7 +362,7 @@ function serialize(CommandInterface $command)
 
     call_user_func($handlerList->resolve(), $command)->wait();
     if (!$request instanceof RequestInterface) {
-        throw new RuntimeException(
+        throw new \RuntimeException(
             'Calling handler did not serialize request'
         );
     }
@@ -384,7 +380,7 @@ function serialize(CommandInterface $command)
  *                        service for which you are retrieving manifest data.
  *
  * @return array
- * @throws InvalidArgumentException if the service is not supported.
+ * @throws \InvalidArgumentException if the service is not supported.
  */
 function manifest($service = null)
 {
@@ -416,7 +412,7 @@ function manifest($service = null)
         return manifest($aliases[$service]);
     }
 
-    throw new InvalidArgumentException(
+    throw new \InvalidArgumentException(
         "The service \"{$service}\" is not provided by the AWS SDK for PHP."
     );
 }

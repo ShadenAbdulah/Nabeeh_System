@@ -9,12 +9,10 @@ use Aws\Crypto\EncryptionTrait;
 use Aws\Crypto\MetadataEnvelope;
 use Aws\Crypto\MaterialsProvider;
 use Aws\Crypto\Cipher\CipherBuilderTrait;
-use Aws\Result;
 use Aws\S3\S3Client;
 use GuzzleHttp\Promise;
 use GuzzleHttp\Promise\PromiseInterface;
 use GuzzleHttp\Psr7;
-use InvalidArgumentException;
 
 /**
  * Provides a wrapper for an S3Client that supplies functionality to encrypt
@@ -101,7 +99,7 @@ class S3EncryptionClient extends AbstractCryptoClient
      *
      * @return PromiseInterface
      *
-     * @throws InvalidArgumentException Thrown when arguments above are not
+     * @throws \InvalidArgumentException Thrown when arguments above are not
      *                                   passed or are passed incorrectly.
      */
     public function putObjectAsync(array $args)
@@ -193,10 +191,10 @@ class S3EncryptionClient extends AbstractCryptoClient
      *   instruction file if an using an InstructionFileMetadataHandler was
      *   determined.
      *
-     * @return Result PutObject call result with the details of uploading
+     * @return \Aws\Result PutObject call result with the details of uploading
      *                     the encrypted file.
      *
-     * @throws InvalidArgumentException Thrown when arguments above are not
+     * @throws \InvalidArgumentException Thrown when arguments above are not
      *                                   passed or are passed incorrectly.
      */
     public function putObject(array $args)
@@ -237,7 +235,7 @@ class S3EncryptionClient extends AbstractCryptoClient
      *
      * @return PromiseInterface
      *
-     * @throws InvalidArgumentException Thrown when required arguments are not
+     * @throws \InvalidArgumentException Thrown when required arguments are not
      *                                   passed or are passed incorrectly.
      */
     public function getObjectAsync(array $args)
@@ -328,11 +326,11 @@ class S3EncryptionClient extends AbstractCryptoClient
      *            passed directly to OpenSSL when using gcm. It is ignored when
      *            using cbc.
      *
-     * @return Result GetObject call result with the 'Body' field
+     * @return \Aws\Result GetObject call result with the 'Body' field
      *                     wrapped in a decryption stream with its metadata
      *                     information.
      *
-     * @throws InvalidArgumentException Thrown when arguments above are not
+     * @throws \InvalidArgumentException Thrown when arguments above are not
      *                                   passed or are passed incorrectly.
      */
     public function getObject(array $args)

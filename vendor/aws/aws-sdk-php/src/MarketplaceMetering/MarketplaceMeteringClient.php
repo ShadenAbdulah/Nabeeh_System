@@ -2,18 +2,16 @@
 namespace Aws\MarketplaceMetering;
 
 use Aws\AwsClient;
-use Aws\Result;
-use GuzzleHttp\Promise\Promise;
 
 /**
  * This client is used to interact with the **AWSMarketplace Metering** service.
- * @method Result batchMeterUsage(array $args = [])
- * @method Promise batchMeterUsageAsync(array $args = [])
- * @method Result meterUsage(array $args = [])
- * @method Promise meterUsageAsync(array $args = [])
- * @method Result registerUsage(array $args = [])
- * @method Promise registerUsageAsync(array $args = [])
- * @method Result resolveCustomer(array $args = [])
- * @method Promise resolveCustomerAsync(array $args = [])
+ * @method \Aws\Result batchMeterUsage(array $args = [])
+ * @method \GuzzleHttp\Promise\Promise batchMeterUsageAsync(array $args = [])
+ * @method \Aws\Result meterUsage(array $args = [])
+ * @method \GuzzleHttp\Promise\Promise meterUsageAsync(array $args = [])
+ * @method \Aws\Result registerUsage(array $args = [])
+ * @method \GuzzleHttp\Promise\Promise registerUsageAsync(array $args = [])
+ * @method \Aws\Result resolveCustomer(array $args = [])
+ * @method \GuzzleHttp\Promise\Promise resolveCustomerAsync(array $args = [])
  */
 class MarketplaceMeteringClient extends AwsClient {}

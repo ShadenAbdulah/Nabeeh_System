@@ -1,12 +1,10 @@
 <?php
 namespace Aws\Exception;
 
-use RuntimeException;
-
 /**
  * Represents an exception that was supplied via an EventStream.
  */
-class EventStreamDataException extends RuntimeException
+class EventStreamDataException extends \RuntimeException
 {
     private $errorCode;
     private $errorMessage;

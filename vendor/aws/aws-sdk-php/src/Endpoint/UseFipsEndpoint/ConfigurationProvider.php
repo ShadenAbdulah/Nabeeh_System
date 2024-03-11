@@ -9,7 +9,7 @@ use GuzzleHttp\Promise;
 
 /**
  * A configuration provider is a function that returns a promise that is
- * fulfilled with a {@see onfigurationInterface}
+ * fulfilled with a {@see \Aws\Endpoint\UseFipsEndpoint\onfigurationInterface}
  * or rejected with an {@see \Aws\Endpoint\UseFipsEndpoint\ConfigurationException}.
  *
  * <code>

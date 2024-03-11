@@ -5,9 +5,8 @@ use Aws\HasMonitoringEventsTrait;
 use Aws\MonitoringEventsInterface;
 use Aws\ResponseContainerInterface;
 use Psr\Http\Message\ResponseInterface;
-use RuntimeException;
 
-class ParserException extends RuntimeException implements
+class ParserException extends \RuntimeException implements
     MonitoringEventsInterface,
     ResponseContainerInterface
 {

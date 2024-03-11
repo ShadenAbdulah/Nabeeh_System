@@ -6,30 +6,26 @@ use Aws\CacheInterface;
 use Aws\Credentials\Credentials;
 use Aws\Result;
 use Aws\Sts\RegionalEndpoints\ConfigurationProvider;
-use Closure;
-use DateTimeInterface;
-use GuzzleHttp\Promise\Promise;
-use InvalidArgumentException;
 
 /**
  * This client is used to interact with the **AWS Security Token Service (AWS STS)**.
  *
- * @method Result assumeRole(array $args = [])
- * @method Promise assumeRoleAsync(array $args = [])
- * @method Result assumeRoleWithSAML(array $args = [])
- * @method Promise assumeRoleWithSAMLAsync(array $args = [])
- * @method Result assumeRoleWithWebIdentity(array $args = [])
- * @method Promise assumeRoleWithWebIdentityAsync(array $args = [])
- * @method Result decodeAuthorizationMessage(array $args = [])
- * @method Promise decodeAuthorizationMessageAsync(array $args = [])
- * @method Result getAccessKeyInfo(array $args = [])
- * @method Promise getAccessKeyInfoAsync(array $args = [])
- * @method Result getCallerIdentity(array $args = [])
- * @method Promise getCallerIdentityAsync(array $args = [])
- * @method Result getFederationToken(array $args = [])
- * @method Promise getFederationTokenAsync(array $args = [])
- * @method Result getSessionToken(array $args = [])
- * @method Promise getSessionTokenAsync(array $args = [])
+ * @method \Aws\Result assumeRole(array $args = [])
+ * @method \GuzzleHttp\Promise\Promise assumeRoleAsync(array $args = [])
+ * @method \Aws\Result assumeRoleWithSAML(array $args = [])
+ * @method \GuzzleHttp\Promise\Promise assumeRoleWithSAMLAsync(array $args = [])
+ * @method \Aws\Result assumeRoleWithWebIdentity(array $args = [])
+ * @method \GuzzleHttp\Promise\Promise assumeRoleWithWebIdentityAsync(array $args = [])
+ * @method \Aws\Result decodeAuthorizationMessage(array $args = [])
+ * @method \GuzzleHttp\Promise\Promise decodeAuthorizationMessageAsync(array $args = [])
+ * @method \Aws\Result getAccessKeyInfo(array $args = [])
+ * @method \GuzzleHttp\Promise\Promise getAccessKeyInfoAsync(array $args = [])
+ * @method \Aws\Result getCallerIdentity(array $args = [])
+ * @method \GuzzleHttp\Promise\Promise getCallerIdentityAsync(array $args = [])
+ * @method \Aws\Result getFederationToken(array $args = [])
+ * @method \GuzzleHttp\Promise\Promise getFederationTokenAsync(array $args = [])
+ * @method \Aws\Result getSessionToken(array $args = [])
+ * @method \GuzzleHttp\Promise\Promise getSessionTokenAsync(array $args = [])
  */
 class StsClient extends AwsClient
 {
@@ -38,7 +34,7 @@ class StsClient extends AwsClient
      * {@inheritdoc}
      *
      * In addition to the options available to
-     * {@see AwsClient::__construct}, StsClient accepts the following
+     * {@see \Aws\AwsClient::__construct}, StsClient accepts the following
      * options:
      *
      * - sts_regional_endpoints:
@@ -71,12 +67,12 @@ class StsClient extends AwsClient
      * @param Result $result Result of an STS operation
      *
      * @return Credentials
-     * @throws InvalidArgumentException if the result contains no credentials
+     * @throws \InvalidArgumentException if the result contains no credentials
      */
     public function createCredentials(Result $result)
     {
         if (!$result->hasKey('Credentials')) {
-            throw new InvalidArgumentException('Result contains no credentials');
+            throw new \InvalidArgumentException('Result contains no credentials');
         }
 
         $c = $result['Credentials'];
@@ -85,7 +81,7 @@ class StsClient extends AwsClient
             $c['AccessKeyId'],
             $c['SecretAccessKey'],
             isset($c['SessionToken']) ? $c['SessionToken'] : null,
-            isset($c['Expiration']) && $c['Expiration'] instanceof DateTimeInterface
+            isset($c['Expiration']) && $c['Expiration'] instanceof \DateTimeInterface
                 ? (int) $c['Expiration']->format('U')
                 : null
         );
@@ -99,7 +95,7 @@ class StsClient extends AwsClient
     private function addBuiltIns($args)
     {
         $key = 'AWS::STS::UseGlobalEndpoint';
-        $result = $args['sts_regional_endpoints'] instanceof Closure ?
+        $result = $args['sts_regional_endpoints'] instanceof \Closure ?
             $args['sts_regional_endpoints']()->wait() : $args['sts_regional_endpoints'];
 
         if (is_string($result)) {

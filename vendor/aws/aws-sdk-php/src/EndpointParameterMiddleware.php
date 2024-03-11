@@ -2,7 +2,6 @@
 namespace Aws;
 
 use Aws\Api\Service;
-use Closure;
 use Psr\Http\Message\RequestInterface;
 use Psr\Log\InvalidArgumentException;
 
@@ -26,7 +25,7 @@ class EndpointParameterMiddleware
      *
      * @param Service $service
      * @param array $args
-     * @return Closure
+     * @return \Closure
      */
     public static function wrap(Service $service)
     {
@@ -77,7 +76,7 @@ class EndpointParameterMiddleware
 
             $uri = $request->getUri();
             $host = $prefix . $uri->getHost();
-            if (!is_valid_hostname($host)) {
+            if (!\Aws\is_valid_hostname($host)) {
                 throw new \InvalidArgumentException(
                     "The supplied parameters result in an invalid hostname: '{$host}'."
                 );

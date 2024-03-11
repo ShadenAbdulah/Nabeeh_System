@@ -2,10 +2,7 @@
 namespace Aws\Api\Parser;
 
 use Aws\Api\Parser\Exception\ParserException;
-use Exception;
 use Psr\Http\Message\ResponseInterface;
-use RuntimeException;
-use SimpleXMLElement;
 
 trait PayloadParserTrait
 {
@@ -37,18 +34,18 @@ trait PayloadParserTrait
      *
      * @throws ParserException
      *
-     * @return SimpleXMLElement
+     * @return \SimpleXMLElement
      */
     protected function parseXml($xml, $response)
     {
         $priorSetting = libxml_use_internal_errors(true);
         try {
             libxml_clear_errors();
-            $xmlPayload = new SimpleXMLElement($xml);
+            $xmlPayload = new \SimpleXMLElement($xml);
             if ($error = libxml_get_last_error()) {
-                throw new RuntimeException($error->message);
+                throw new \RuntimeException($error->message);
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw new ParserException(
                 "Error parsing XML: {$e->getMessage()}",
                 0,

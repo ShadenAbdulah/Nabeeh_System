@@ -1,21 +1,14 @@
 <?php
 namespace Aws;
 
-use ArrayIterator;
-use Countable;
-use Exception;
-use InvalidArgumentException;
-use IteratorAggregate;
-use LogicException;
 use Psr\Http\Message\RequestInterface;
 use Aws\Exception\AwsException;
-use ReturnTypeWillChange;
 
 /**
  * Represents a history container that is required when using the history
  * middleware.
  */
-class History implements Countable, IteratorAggregate
+class History implements \Countable, \IteratorAggregate
 {
     private $maxEntries;
     private $entries = array();
@@ -31,28 +24,28 @@ class History implements Countable, IteratorAggregate
     /**
      * @return int
      */
-    #[ReturnTypeWillChange]
+    #[\ReturnTypeWillChange]
     public function count()
     {
         return count($this->entries);
     }
 
-    #[ReturnTypeWillChange]
+    #[\ReturnTypeWillChange]
     public function getIterator()
     {
-        return new ArrayIterator(array_values($this->entries));
+        return new \ArrayIterator(array_values($this->entries));
     }
 
     /**
      * Get the last finished command seen by the history container.
      *
      * @return CommandInterface
-     * @throws LogicException if no commands have been seen.
+     * @throws \LogicException if no commands have been seen.
      */
     public function getLastCommand()
     {
         if (!$this->entries) {
-            throw new LogicException('No commands received');
+            throw new \LogicException('No commands received');
         }
 
         return end($this->entries)['command'];
@@ -62,12 +55,12 @@ class History implements Countable, IteratorAggregate
      * Get the last finished request seen by the history container.
      *
      * @return RequestInterface
-     * @throws LogicException if no requests have been seen.
+     * @throws \LogicException if no requests have been seen.
      */
     public function getLastRequest()
     {
         if (!$this->entries) {
-            throw new LogicException('No requests received');
+            throw new \LogicException('No requests received');
         }
 
         return end($this->entries)['request'];
@@ -77,12 +70,12 @@ class History implements Countable, IteratorAggregate
      * Get the last received result or exception.
      *
      * @return ResultInterface|AwsException
-     * @throws LogicException if no return values have been received.
+     * @throws \LogicException if no return values have been received.
      */
     public function getLastReturn()
     {
         if (!$this->entries) {
-            throw new LogicException('No entries');
+            throw new \LogicException('No entries');
         }
 
         $last = end($this->entries);
@@ -95,7 +88,7 @@ class History implements Countable, IteratorAggregate
             return $last['exception'];
         }
 
-        throw new LogicException('No return value for last entry.');
+        throw new \LogicException('No return value for last entry.');
     }
 
     /**
@@ -128,16 +121,16 @@ class History implements Countable, IteratorAggregate
     public function finish($ticket, $result)
     {
         if (!isset($this->entries[$ticket])) {
-            throw new InvalidArgumentException('Invalid history ticket');
+            throw new \InvalidArgumentException('Invalid history ticket');
         }
 
         if (isset($this->entries[$ticket]['result'])
             || isset($this->entries[$ticket]['exception'])
         ) {
-            throw new LogicException('History entry is already finished');
+            throw new \LogicException('History entry is already finished');
         }
 
-        if ($result instanceof Exception) {
+        if ($result instanceof \Exception) {
             $this->entries[$ticket]['exception'] = $result;
         } else {
             $this->entries[$ticket]['result'] = $result;

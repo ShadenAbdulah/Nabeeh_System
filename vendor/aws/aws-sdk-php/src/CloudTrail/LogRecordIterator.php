@@ -1,11 +1,7 @@
 <?php
 namespace Aws\CloudTrail;
 
-use ArrayIterator;
 use Aws\S3\S3Client;
-use Iterator;
-use OuterIterator;
-use ReturnTypeWillChange;
 
 /**
  * The `Aws\CloudTrail\LogRecordIterator` provides an easy way to iterate over
@@ -21,12 +17,12 @@ use ReturnTypeWillChange;
  * A log record containing data about an AWS API call is yielded for each
  * iteration on this object.
  */
-class LogRecordIterator implements OuterIterator
+class LogRecordIterator implements \OuterIterator
 {
     /** @var LogFileReader */
     private $logFileReader;
 
-    /** @var Iterator */
+    /** @var \Iterator */
     private $logFileIterator;
 
     /** @var array */
@@ -87,7 +83,7 @@ class LogRecordIterator implements OuterIterator
         $s3ObjectKey
     ) {
         $logFileReader = new LogFileReader($s3Client);
-        $logFileIterator = new ArrayIterator([[
+        $logFileIterator = new \ArrayIterator([[
             'Bucket' => $s3BucketName,
             'Key'    => $s3ObjectKey,
         ]]);
@@ -97,11 +93,11 @@ class LogRecordIterator implements OuterIterator
 
     /**
      * @param LogFileReader $logFileReader
-     * @param Iterator     $logFileIterator
+     * @param \Iterator     $logFileIterator
      */
     public function __construct(
         LogFileReader $logFileReader,
-        Iterator $logFileIterator
+        \Iterator $logFileIterator
     ) {
         $this->logFileReader = $logFileReader;
         $this->logFileIterator = $logFileIterator;
@@ -114,13 +110,13 @@ class LogRecordIterator implements OuterIterator
      *
      * @return array|false
      */
-    #[ReturnTypeWillChange]
+    #[\ReturnTypeWillChange]
     public function current()
     {
         return $this->valid() ? $this->records[$this->recordIndex] : false;
     }
 
-    #[ReturnTypeWillChange]
+    #[\ReturnTypeWillChange]
     public function next()
     {
         $this->recordIndex++;
@@ -137,7 +133,7 @@ class LogRecordIterator implements OuterIterator
         }
     }
 
-    #[ReturnTypeWillChange]
+    #[\ReturnTypeWillChange]
     public function key()
     {
         if ($logFile = $this->logFileIterator->current()) {
@@ -147,20 +143,20 @@ class LogRecordIterator implements OuterIterator
         return null;
     }
 
-    #[ReturnTypeWillChange]
+    #[\ReturnTypeWillChange]
     public function valid()
     {
         return isset($this->records[$this->recordIndex]);
     }
 
-    #[ReturnTypeWillChange]
+    #[\ReturnTypeWillChange]
     public function rewind()
     {
         $this->logFileIterator->rewind();
         $this->loadRecordsFromCurrentLogFile();
     }
 
-    #[ReturnTypeWillChange]
+    #[\ReturnTypeWillChange]
     public function getInnerIterator()
     {
         return $this->logFileIterator;

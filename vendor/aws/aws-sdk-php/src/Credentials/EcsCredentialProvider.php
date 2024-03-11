@@ -6,7 +6,6 @@ use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Promise\PromiseInterface;
 use Psr\Http\Message\ResponseInterface;
-use function Aws\default_http_handler;
 
 /**
  * Credential provider that fetches container credentials with GET request.
@@ -45,7 +44,7 @@ class EcsCredentialProvider
         }
 
         $this->timeout = (float) $timeout;
-        $this->client = $config['client'] ?? default_http_handler();
+        $this->client = $config['client'] ?? \Aws\default_http_handler();
     }
 
     /**

@@ -2,25 +2,23 @@
 namespace Aws\IotDataPlane;
 
 use Aws\AwsClient;
-use Aws\Result;
-use GuzzleHttp\Promise\Promise;
 
 /**
  * This client is used to interact with the **AWS IoT Data Plane** service.
  *
- * @method Result deleteThingShadow(array $args = [])
- * @method Promise deleteThingShadowAsync(array $args = [])
- * @method Result getRetainedMessage(array $args = [])
- * @method Promise getRetainedMessageAsync(array $args = [])
- * @method Result getThingShadow(array $args = [])
- * @method Promise getThingShadowAsync(array $args = [])
- * @method Result listNamedShadowsForThing(array $args = [])
- * @method Promise listNamedShadowsForThingAsync(array $args = [])
- * @method Result listRetainedMessages(array $args = [])
- * @method Promise listRetainedMessagesAsync(array $args = [])
- * @method Result publish(array $args = [])
- * @method Promise publishAsync(array $args = [])
- * @method Result updateThingShadow(array $args = [])
- * @method Promise updateThingShadowAsync(array $args = [])
+ * @method \Aws\Result deleteThingShadow(array $args = [])
+ * @method \GuzzleHttp\Promise\Promise deleteThingShadowAsync(array $args = [])
+ * @method \Aws\Result getRetainedMessage(array $args = [])
+ * @method \GuzzleHttp\Promise\Promise getRetainedMessageAsync(array $args = [])
+ * @method \Aws\Result getThingShadow(array $args = [])
+ * @method \GuzzleHttp\Promise\Promise getThingShadowAsync(array $args = [])
+ * @method \Aws\Result listNamedShadowsForThing(array $args = [])
+ * @method \GuzzleHttp\Promise\Promise listNamedShadowsForThingAsync(array $args = [])
+ * @method \Aws\Result listRetainedMessages(array $args = [])
+ * @method \GuzzleHttp\Promise\Promise listRetainedMessagesAsync(array $args = [])
+ * @method \Aws\Result publish(array $args = [])
+ * @method \GuzzleHttp\Promise\Promise publishAsync(array $args = [])
+ * @method \Aws\Result updateThingShadow(array $args = [])
+ * @method \GuzzleHttp\Promise\Promise updateThingShadowAsync(array $args = [])
  */
 class IotDataPlaneClient extends AwsClient {}
