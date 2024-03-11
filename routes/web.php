@@ -1,20 +1,18 @@
 <?php
 
+use App\Http\Controllers\CsvController;
 use App\Http\Controllers\SampleController;
 use App\Models\Sample;
 use App\Models\Test;
-use App\Http\Controllers\CsvController;
 use Illuminate\Support\Facades\Route;
 
 // Login page
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('welcome');
 
 // Login page
-Route::get('/info', function () {
-    return view('info');
-});
+Route::get('/info', fn() => view('info'))->name('info');
 
 // Create and store new object
 Route::get('/object', [SampleController::class, 'create'])->name('object.create');
