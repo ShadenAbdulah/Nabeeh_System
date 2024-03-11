@@ -30,7 +30,7 @@ class SampleController extends Controller
                 'gender' => 'required',
             ]);
 
-        $attr['name'] = $request->input('name');
+        $attr['name'] = ($request->input('name')) ? $request->input('name') : null;
 
         $sample = Sample::create($attr);
 

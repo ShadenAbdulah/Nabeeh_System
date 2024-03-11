@@ -53,7 +53,7 @@
                             <input type="radio"
                                    id="female"
                                    name="gender"
-                                   value="أنثى"
+                                   value="female"
                             >
                             <label for="female"
                                    class="mr-1 ml-5">أنثــى</label></div>
@@ -61,7 +61,7 @@
                             <input type="radio"
                                    id="male"
                                    name="gender"
-                                   value="ذكر">
+                                   value="male">
                             <label for="male"
                                    class="mr-1">ذكــر</label>
                         </div>
