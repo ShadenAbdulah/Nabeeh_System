@@ -3,9 +3,7 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use App\Models\Sample;
 use App\Models\Test;
-use App\Models\User;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -28,7 +26,5 @@ class DatabaseSeeder extends Seeder
         Test::create(['type' => 'تنبأ ', 'title' => 'بنمط الخط الدوري', 'session_name' => 'PL_predict', 'content' => 'في الخطوة الرابعة من النمط الثاني،', 'dots' => 4]);
         Test::create(['type' => 'تتبع ', 'title' => 'نمط الخط الدوري', 'session_name' => 'PL_trace', 'content' => 'في الخطوة الخامسة من النمط الثاني،', 'dots' => 5]);
         Test::create(['type' => 'تنبأ ', 'title' => 'بنمط الخط الدوري', 'session_name' => 'PL_predict', 'content' => 'في الخطوة السادسة من النمط الثاني،', 'dots' => 6]);
-
-        Sample::factory(5)->create();
     }
 }
