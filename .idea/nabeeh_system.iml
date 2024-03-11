@@ -11,9 +11,7 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/archtechx/enums" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/dragon-code/contracts" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/dragon-code/support" />
-      <excludeFolder url="file://$MODULE_DIR$/vendor/laravel-lang/http-statuses" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/laravel-lang/json-fallback" />
-      <excludeFolder url="file://$MODULE_DIR$/vendor/laravel-lang/lang" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/laravel-lang/locale-list" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/laravel-lang/locales" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/laravel-lang/native-country-names" />

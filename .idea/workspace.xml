@@ -7149,8 +7149,6 @@
       <path value="$PROJECT_DIR$/resources/lang/vendor/symfony/console" />
       <path value="$PROJECT_DIR$/resources/lang/vendor/symfony/deprecation-contracts" />
       <path value="$PROJECT_DIR$/resources/lang/vendor/laravel-lang/status-generator" />
-      <path value="$PROJECT_DIR$/vendor/laravel-lang/lang" />
-      <path value="$PROJECT_DIR$/vendor/laravel-lang/http-statuses" />
       <path value="$PROJECT_DIR$/vendor/archtechx/enums" />
       <path value="$PROJECT_DIR$/vendor/symfony/polyfill-php81" />
       <path value="$PROJECT_DIR$/vendor/dragon-code/support" />
@@ -7250,7 +7248,7 @@
       <workItem from="1709865733818" duration="9153000" />
       <workItem from="1709967624023" duration="847000" />
       <workItem from="1709968486053" duration="15073000" />
-      <workItem from="1710109561992" duration="10338000" />
+      <workItem from="1710109561992" duration="11109000" />
     </task>
     <servers />
   </component>

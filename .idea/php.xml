@@ -237,8 +237,6 @@
       <path value="$PROJECT_DIR$/resources/lang/vendor/symfony/console" />
       <path value="$PROJECT_DIR$/resources/lang/vendor/symfony/deprecation-contracts" />
       <path value="$PROJECT_DIR$/resources/lang/vendor/laravel-lang/status-generator" />
-      <path value="$PROJECT_DIR$/vendor/laravel-lang/lang" />
-      <path value="$PROJECT_DIR$/vendor/laravel-lang/http-statuses" />
       <path value="$PROJECT_DIR$/vendor/archtechx/enums" />
       <path value="$PROJECT_DIR$/vendor/symfony/polyfill-php81" />
       <path value="$PROJECT_DIR$/vendor/dragon-code/support" />
