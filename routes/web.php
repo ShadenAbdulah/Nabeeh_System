@@ -14,6 +14,8 @@ Route::get('/', function () {
 // Login page
 Route::get('/info', fn() => view('info'))->name('info');
 
+Route::get('/result', fn() => view('result'))->name('result');
+
 // Create and store new object
 Route::get('/object', [SampleController::class, 'create'])->name('object.create');
 Route::post('/object', [SampleController::class, 'store'])->name('object.store');

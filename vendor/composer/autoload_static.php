@@ -7,18 +7,18 @@ namespace Composer\Autoload;
 class ComposerStaticInit3bca7bbab1e998a16672d2e8df1b6f91
 {
     public static $files = array (
-        '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
         '6e3fae29631ef280660b3cdad06f25a8' => __DIR__ . '/..' . '/symfony/deprecation-contracts/function.php',
+        '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
         'a4a119a56e50fbb293281d9a48007e0e' => __DIR__ . '/..' . '/symfony/polyfill-php80/bootstrap.php',
         '320cde22f66dd4f5d3fd621d3e88b98f' => __DIR__ . '/..' . '/symfony/polyfill-ctype/bootstrap.php',
-        'e69f7f6ee287b969198c3c9d6777bd38' => __DIR__ . '/..' . '/symfony/polyfill-intl-normalizer/bootstrap.php',
         '667aeda72477189d0494fecd327c3641' => __DIR__ . '/..' . '/symfony/var-dumper/Resources/functions/dump.php',
         '662a729f963d39afe703c9d9b7ab4a8c' => __DIR__ . '/..' . '/symfony/polyfill-php83/bootstrap.php',
+        '23c18046f52bef3eea034657bafda50f' => __DIR__ . '/..' . '/symfony/polyfill-php81/bootstrap.php',
+        'e69f7f6ee287b969198c3c9d6777bd38' => __DIR__ . '/..' . '/symfony/polyfill-intl-normalizer/bootstrap.php',
         '8825ede83f2f289127722d4e842cf7e8' => __DIR__ . '/..' . '/symfony/polyfill-intl-grapheme/bootstrap.php',
         '25072dd6e2470089de65ae7bf11d3109' => __DIR__ . '/..' . '/symfony/polyfill-php72/bootstrap.php',
         'b6b991a57620e2fb6b2f66f03fe9ddc2' => __DIR__ . '/..' . '/symfony/string/Resources/functions.php',
         'f598d06aa772fa33d905e87be6398fb1' => __DIR__ . '/..' . '/symfony/polyfill-intl-idn/bootstrap.php',
-        '23c18046f52bef3eea034657bafda50f' => __DIR__ . '/..' . '/symfony/polyfill-php81/bootstrap.php',
         '7b11c4dc42b3b3023073cb14e519683c' => __DIR__ . '/..' . '/ralouphie/getallheaders/src/getallheaders.php',
         '3bd81c9b8fcc150b69d8b63b4d2ccf23' => __DIR__ . '/..' . '/spatie/flare-client-php/src/helpers.php',
         '37a3dc5111fe8f707ab4c132ef1dbc62' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/functions_include.php',
@@ -138,12 +138,17 @@ class ComposerStaticInit3bca7bbab1e998a16672d2e8df1b6f91
             'Laravel\\Sail\\' => 13,
             'Laravel\\Prompts\\' => 16,
             'Laravel\\Fortify\\' => 16,
+            'LaravelLang\\Publisher\\' => 22,
             'LaravelLang\\NativeLocaleNames\\' => 30,
             'LaravelLang\\NativeCurrencyNames\\' => 32,
             'LaravelLang\\NativeCountryNames\\' => 31,
             'LaravelLang\\Locales\\' => 20,
             'LaravelLang\\LocaleList\\' => 23,
+            'LaravelLang\\Lang\\' => 17,
             'LaravelLang\\JsonFallback\\' => 25,
+            'LaravelLang\\HttpStatuses\\' => 25,
+            'LaravelLang\\Attributes\\' => 23,
+            'LaravelLang\\Actions\\' => 20,
         ),
         'J' => 
         array (
@@ -174,6 +179,7 @@ class ComposerStaticInit3bca7bbab1e998a16672d2e8df1b6f91
         'D' => 
         array (
             'DragonCode\\Support\\' => 19,
+            'DragonCode\\PrettyArray\\' => 23,
             'DragonCode\\Contracts\\' => 21,
             'Dotenv\\' => 7,
             'Doctrine\\Inflector\\' => 19,
@@ -187,6 +193,7 @@ class ComposerStaticInit3bca7bbab1e998a16672d2e8df1b6f91
         'C' => 
         array (
             'Cron\\' => 5,
+            'Composer\\Semver\\' => 16,
             'Carbon\\Doctrine\\' => 16,
             'Carbon\\' => 7,
         ),
@@ -477,6 +484,10 @@ class ComposerStaticInit3bca7bbab1e998a16672d2e8df1b6f91
         array (
             0 => __DIR__ . '/..' . '/laravel/fortify/src',
         ),
+        'LaravelLang\\Publisher\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/laravel-lang/publisher/src',
+        ),
         'LaravelLang\\NativeLocaleNames\\' => 
         array (
             0 => __DIR__ . '/..' . '/laravel-lang/native-locale-names/src',
@@ -497,9 +508,25 @@ class ComposerStaticInit3bca7bbab1e998a16672d2e8df1b6f91
         array (
             0 => __DIR__ . '/..' . '/laravel-lang/locale-list/src',
         ),
+        'LaravelLang\\Lang\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/laravel-lang/lang/src',
+        ),
         'LaravelLang\\JsonFallback\\' => 
         array (
             0 => __DIR__ . '/..' . '/laravel-lang/json-fallback/src',
+        ),
+        'LaravelLang\\HttpStatuses\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/laravel-lang/http-statuses/src',
+        ),
+        'LaravelLang\\Attributes\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/laravel-lang/attributes/src',
+        ),
+        'LaravelLang\\Actions\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/laravel-lang/actions/src',
         ),
         'JmesPath\\' => 
         array (
@@ -551,6 +578,10 @@ class ComposerStaticInit3bca7bbab1e998a16672d2e8df1b6f91
         array (
             0 => __DIR__ . '/..' . '/dragon-code/support/src',
         ),
+        'DragonCode\\PrettyArray\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/dragon-code/pretty-array/src',
+        ),
         'DragonCode\\Contracts\\' => 
         array (
             0 => __DIR__ . '/..' . '/dragon-code/contracts/src',
@@ -592,6 +623,10 @@ class ComposerStaticInit3bca7bbab1e998a16672d2e8df1b6f91
         'Cron\\' => 
         array (
             0 => __DIR__ . '/..' . '/dragonmantank/cron-expression/src/Cron',
+        ),
+        'Composer\\Semver\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/composer/semver/src',
         ),
         'Carbon\\Doctrine\\' => 
         array (
@@ -1914,6 +1949,18 @@ class ComposerStaticInit3bca7bbab1e998a16672d2e8df1b6f91
         'Carbon\\TranslatorImmutable' => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon/TranslatorImmutable.php',
         'Carbon\\TranslatorStrongTypeInterface' => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon/TranslatorStrongTypeInterface.php',
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
+        'Composer\\Semver\\Comparator' => __DIR__ . '/..' . '/composer/semver/src/Comparator.php',
+        'Composer\\Semver\\CompilingMatcher' => __DIR__ . '/..' . '/composer/semver/src/CompilingMatcher.php',
+        'Composer\\Semver\\Constraint\\Bound' => __DIR__ . '/..' . '/composer/semver/src/Constraint/Bound.php',
+        'Composer\\Semver\\Constraint\\Constraint' => __DIR__ . '/..' . '/composer/semver/src/Constraint/Constraint.php',
+        'Composer\\Semver\\Constraint\\ConstraintInterface' => __DIR__ . '/..' . '/composer/semver/src/Constraint/ConstraintInterface.php',
+        'Composer\\Semver\\Constraint\\MatchAllConstraint' => __DIR__ . '/..' . '/composer/semver/src/Constraint/MatchAllConstraint.php',
+        'Composer\\Semver\\Constraint\\MatchNoneConstraint' => __DIR__ . '/..' . '/composer/semver/src/Constraint/MatchNoneConstraint.php',
+        'Composer\\Semver\\Constraint\\MultiConstraint' => __DIR__ . '/..' . '/composer/semver/src/Constraint/MultiConstraint.php',
+        'Composer\\Semver\\Interval' => __DIR__ . '/..' . '/composer/semver/src/Interval.php',
+        'Composer\\Semver\\Intervals' => __DIR__ . '/..' . '/composer/semver/src/Intervals.php',
+        'Composer\\Semver\\Semver' => __DIR__ . '/..' . '/composer/semver/src/Semver.php',
+        'Composer\\Semver\\VersionParser' => __DIR__ . '/..' . '/composer/semver/src/VersionParser.php',
         'Cron\\AbstractField' => __DIR__ . '/..' . '/dragonmantank/cron-expression/src/Cron/AbstractField.php',
         'Cron\\CronExpression' => __DIR__ . '/..' . '/dragonmantank/cron-expression/src/Cron/CronExpression.php',
         'Cron\\DayOfMonthField' => __DIR__ . '/..' . '/dragonmantank/cron-expression/src/Cron/DayOfMonthField.php',
@@ -1934,8 +1981,6 @@ class ComposerStaticInit3bca7bbab1e998a16672d2e8df1b6f91
         'DASPRiD\\Enum\\Exception\\SerializeNotSupportedException' => __DIR__ . '/..' . '/dasprid/enum/src/Exception/SerializeNotSupportedException.php',
         'DASPRiD\\Enum\\Exception\\UnserializeNotSupportedException' => __DIR__ . '/..' . '/dasprid/enum/src/Exception/UnserializeNotSupportedException.php',
         'DASPRiD\\Enum\\NullValue' => __DIR__ . '/..' . '/dasprid/enum/src/NullValue.php',
-        'Database\\Factories\\SampleFactory' => __DIR__ . '/../..' . '/database/factories/SampleFactory.php',
-        'Database\\Factories\\UserFactory' => __DIR__ . '/../..' . '/database/factories/UserFactory.php',
         'Database\\Seeders\\DatabaseSeeder' => __DIR__ . '/../..' . '/database/seeders/DatabaseSeeder.php',
         'DateError' => __DIR__ . '/..' . '/symfony/polyfill-php83/Resources/stubs/DateError.php',
         'DateException' => __DIR__ . '/..' . '/symfony/polyfill-php83/Resources/stubs/DateException.php',
@@ -2111,6 +2156,14 @@ class ComposerStaticInit3bca7bbab1e998a16672d2e8df1b6f91
         'DragonCode\\Contracts\\Support\\Jsonable' => __DIR__ . '/..' . '/dragon-code/contracts/src/Support/Jsonable.php',
         'DragonCode\\Contracts\\Support\\Makeable' => __DIR__ . '/..' . '/dragon-code/contracts/src/Support/Makeable.php',
         'DragonCode\\Contracts\\Support\\Stringable' => __DIR__ . '/..' . '/dragon-code/contracts/src/Support/Stringable.php',
+        'DragonCode\\PrettyArray\\Concerns\\HasCases' => __DIR__ . '/..' . '/dragon-code/pretty-array/src/Concerns/HasCases.php',
+        'DragonCode\\PrettyArray\\Concerns\\HasCastable' => __DIR__ . '/..' . '/dragon-code/pretty-array/src/Concerns/HasCastable.php',
+        'DragonCode\\PrettyArray\\Exceptions\\UnknownCaseTypeException' => __DIR__ . '/..' . '/dragon-code/pretty-array/src/Exceptions/UnknownCaseTypeException.php',
+        'DragonCode\\PrettyArray\\Services\\File' => __DIR__ . '/..' . '/dragon-code/pretty-array/src/Services/File.php',
+        'DragonCode\\PrettyArray\\Services\\Formatter' => __DIR__ . '/..' . '/dragon-code/pretty-array/src/Services/Formatter.php',
+        'DragonCode\\PrettyArray\\Services\\Formatters\\Base' => __DIR__ . '/..' . '/dragon-code/pretty-array/src/Services/Formatters/Base.php',
+        'DragonCode\\PrettyArray\\Services\\Formatters\\Json' => __DIR__ . '/..' . '/dragon-code/pretty-array/src/Services/Formatters/Json.php',
+        'DragonCode\\PrettyArray\\Services\\Formatters\\Php' => __DIR__ . '/..' . '/dragon-code/pretty-array/src/Services/Formatters/Php.php',
         'DragonCode\\Support\\Application\\OS' => __DIR__ . '/..' . '/dragon-code/support/src/Application/OS.php',
         'DragonCode\\Support\\Application\\Version' => __DIR__ . '/..' . '/dragon-code/support/src/Application/Version.php',
         'DragonCode\\Support\\Callbacks\\Empties' => __DIR__ . '/..' . '/dragon-code/support/src/Callbacks/Empties.php',
@@ -4164,8 +4217,43 @@ class ComposerStaticInit3bca7bbab1e998a16672d2e8df1b6f91
         'JmesPath\\TreeCompiler' => __DIR__ . '/..' . '/mtdowling/jmespath.php/src/TreeCompiler.php',
         'JmesPath\\TreeInterpreter' => __DIR__ . '/..' . '/mtdowling/jmespath.php/src/TreeInterpreter.php',
         'JmesPath\\Utils' => __DIR__ . '/..' . '/mtdowling/jmespath.php/src/Utils.php',
+        'LaravelLang\\Actions\\Plugin' => __DIR__ . '/..' . '/laravel-lang/actions/src/Plugin.php',
+        'LaravelLang\\Actions\\Plugins\\Main' => __DIR__ . '/..' . '/laravel-lang/actions/src/Plugins/Main.php',
+        'LaravelLang\\Actions\\ServiceProvider' => __DIR__ . '/..' . '/laravel-lang/actions/src/ServiceProvider.php',
+        'LaravelLang\\Attributes\\Plugin' => __DIR__ . '/..' . '/laravel-lang/attributes/src/Plugin.php',
+        'LaravelLang\\Attributes\\Plugins\\Laravel' => __DIR__ . '/..' . '/laravel-lang/attributes/src/Plugins/Laravel.php',
+        'LaravelLang\\Attributes\\Plugins\\Lumen' => __DIR__ . '/..' . '/laravel-lang/attributes/src/Plugins/Lumen.php',
+        'LaravelLang\\Attributes\\ServiceProvider' => __DIR__ . '/..' . '/laravel-lang/attributes/src/ServiceProvider.php',
+        'LaravelLang\\HttpStatuses\\Plugin' => __DIR__ . '/..' . '/laravel-lang/http-statuses/src/Plugin.php',
+        'LaravelLang\\HttpStatuses\\Plugins\\Main' => __DIR__ . '/..' . '/laravel-lang/http-statuses/src/Plugins/Main.php',
+        'LaravelLang\\HttpStatuses\\ServiceProvider' => __DIR__ . '/..' . '/laravel-lang/http-statuses/src/ServiceProvider.php',
         'LaravelLang\\JsonFallback\\TranslationServiceProvider' => __DIR__ . '/..' . '/laravel-lang/json-fallback/src/TranslationServiceProvider.php',
         'LaravelLang\\JsonFallback\\Translator' => __DIR__ . '/..' . '/laravel-lang/json-fallback/src/Translator.php',
+        'LaravelLang\\Lang\\Plugin' => __DIR__ . '/..' . '/laravel-lang/lang/src/Plugin.php',
+        'LaravelLang\\Lang\\Plugins\\Breeze\\Master' => __DIR__ . '/..' . '/laravel-lang/lang/src/Plugins/Breeze/Master.php',
+        'LaravelLang\\Lang\\Plugins\\Breeze\\V1' => __DIR__ . '/..' . '/laravel-lang/lang/src/Plugins/Breeze/V1.php',
+        'LaravelLang\\Lang\\Plugins\\Cashier\\Stripe\\Master' => __DIR__ . '/..' . '/laravel-lang/lang/src/Plugins/Cashier/Stripe/Master.php',
+        'LaravelLang\\Lang\\Plugins\\Cashier\\Stripe\\V13' => __DIR__ . '/..' . '/laravel-lang/lang/src/Plugins/Cashier/Stripe/V13.php',
+        'LaravelLang\\Lang\\Plugins\\Cashier\\Stripe\\V14' => __DIR__ . '/..' . '/laravel-lang/lang/src/Plugins/Cashier/Stripe/V14.php',
+        'LaravelLang\\Lang\\Plugins\\Cashier\\Stripe\\V15' => __DIR__ . '/..' . '/laravel-lang/lang/src/Plugins/Cashier/Stripe/V15.php',
+        'LaravelLang\\Lang\\Plugins\\Fortify\\Master' => __DIR__ . '/..' . '/laravel-lang/lang/src/Plugins/Fortify/Master.php',
+        'LaravelLang\\Lang\\Plugins\\Fortify\\V1' => __DIR__ . '/..' . '/laravel-lang/lang/src/Plugins/Fortify/V1.php',
+        'LaravelLang\\Lang\\Plugins\\Jetstream\\Master' => __DIR__ . '/..' . '/laravel-lang/lang/src/Plugins/Jetstream/Master.php',
+        'LaravelLang\\Lang\\Plugins\\Jetstream\\V2' => __DIR__ . '/..' . '/laravel-lang/lang/src/Plugins/Jetstream/V2.php',
+        'LaravelLang\\Lang\\Plugins\\Jetstream\\V3' => __DIR__ . '/..' . '/laravel-lang/lang/src/Plugins/Jetstream/V3.php',
+        'LaravelLang\\Lang\\Plugins\\Jetstream\\V4' => __DIR__ . '/..' . '/laravel-lang/lang/src/Plugins/Jetstream/V4.php',
+        'LaravelLang\\Lang\\Plugins\\Laravel\\Master' => __DIR__ . '/..' . '/laravel-lang/lang/src/Plugins/Laravel/Master.php',
+        'LaravelLang\\Lang\\Plugins\\Laravel\\V10' => __DIR__ . '/..' . '/laravel-lang/lang/src/Plugins/Laravel/V10.php',
+        'LaravelLang\\Lang\\Plugins\\Lumen\\Master' => __DIR__ . '/..' . '/laravel-lang/lang/src/Plugins/Lumen/Master.php',
+        'LaravelLang\\Lang\\Plugins\\Lumen\\V10' => __DIR__ . '/..' . '/laravel-lang/lang/src/Plugins/Lumen/V10.php',
+        'LaravelLang\\Lang\\Plugins\\Nova\\DuskSuite\\Main' => __DIR__ . '/..' . '/laravel-lang/lang/src/Plugins/Nova/DuskSuite/Main.php',
+        'LaravelLang\\Lang\\Plugins\\Nova\\LogViewer\\Main' => __DIR__ . '/..' . '/laravel-lang/lang/src/Plugins/Nova/LogViewer/Main.php',
+        'LaravelLang\\Lang\\Plugins\\Nova\\V4' => __DIR__ . '/..' . '/laravel-lang/lang/src/Plugins/Nova/V4.php',
+        'LaravelLang\\Lang\\Plugins\\Spark\\Paddle' => __DIR__ . '/..' . '/laravel-lang/lang/src/Plugins/Spark/Paddle.php',
+        'LaravelLang\\Lang\\Plugins\\Spark\\Stripe' => __DIR__ . '/..' . '/laravel-lang/lang/src/Plugins/Spark/Stripe.php',
+        'LaravelLang\\Lang\\Plugins\\UI\\Master' => __DIR__ . '/..' . '/laravel-lang/lang/src/Plugins/UI/Master.php',
+        'LaravelLang\\Lang\\Plugins\\UI\\V4' => __DIR__ . '/..' . '/laravel-lang/lang/src/Plugins/UI/V4.php',
+        'LaravelLang\\Lang\\ServiceProvider' => __DIR__ . '/..' . '/laravel-lang/lang/src/ServiceProvider.php',
         'LaravelLang\\LocaleList\\Locale' => __DIR__ . '/..' . '/laravel-lang/locale-list/src/Locale.php',
         'LaravelLang\\Locales\\Concerns\\About' => __DIR__ . '/..' . '/laravel-lang/locales/src/Concerns/About.php',
         'LaravelLang\\Locales\\Concerns\\Aliases' => __DIR__ . '/..' . '/laravel-lang/locales/src/Concerns/Aliases.php',
@@ -4201,6 +4289,42 @@ class ComposerStaticInit3bca7bbab1e998a16672d2e8df1b6f91
         'LaravelLang\\NativeLocaleNames\\Helpers\\Path' => __DIR__ . '/..' . '/laravel-lang/native-locale-names/src/Helpers/Path.php',
         'LaravelLang\\NativeLocaleNames\\LocaleNames' => __DIR__ . '/..' . '/laravel-lang/native-locale-names/src/LocaleNames.php',
         'LaravelLang\\NativeLocaleNames\\Services\\Filesystem' => __DIR__ . '/..' . '/laravel-lang/native-locale-names/src/Services/Filesystem.php',
+        'LaravelLang\\Publisher\\Concerns\\About' => __DIR__ . '/..' . '/laravel-lang/publisher/src/Concerns/About.php',
+        'LaravelLang\\Publisher\\Concerns\\Decorator' => __DIR__ . '/..' . '/laravel-lang/publisher/src/Concerns/Decorator.php',
+        'LaravelLang\\Publisher\\Concerns\\Has' => __DIR__ . '/..' . '/laravel-lang/publisher/src/Concerns/Has.php',
+        'LaravelLang\\Publisher\\Concerns\\Output' => __DIR__ . '/..' . '/laravel-lang/publisher/src/Concerns/Output.php',
+        'LaravelLang\\Publisher\\Concerns\\Path' => __DIR__ . '/..' . '/laravel-lang/publisher/src/Concerns/Path.php',
+        'LaravelLang\\Publisher\\Console\\Add' => __DIR__ . '/..' . '/laravel-lang/publisher/src/Console/Add.php',
+        'LaravelLang\\Publisher\\Console\\Base' => __DIR__ . '/..' . '/laravel-lang/publisher/src/Console/Base.php',
+        'LaravelLang\\Publisher\\Console\\Remove' => __DIR__ . '/..' . '/laravel-lang/publisher/src/Console/Remove.php',
+        'LaravelLang\\Publisher\\Console\\Reset' => __DIR__ . '/..' . '/laravel-lang/publisher/src/Console/Reset.php',
+        'LaravelLang\\Publisher\\Console\\Update' => __DIR__ . '/..' . '/laravel-lang/publisher/src/Console/Update.php',
+        'LaravelLang\\Publisher\\Constants\\Types' => __DIR__ . '/..' . '/laravel-lang/publisher/src/Constants/Types.php',
+        'LaravelLang\\Publisher\\Contracts\\TextDecorator' => __DIR__ . '/..' . '/laravel-lang/publisher/src/Contracts/TextDecorator.php',
+        'LaravelLang\\Publisher\\Exceptions\\BaseException' => __DIR__ . '/..' . '/laravel-lang/publisher/src/Exceptions/BaseException.php',
+        'LaravelLang\\Publisher\\Exceptions\\ProtectedLocaleException' => __DIR__ . '/..' . '/laravel-lang/publisher/src/Exceptions/ProtectedLocaleException.php',
+        'LaravelLang\\Publisher\\Exceptions\\UnknownLocaleCodeException' => __DIR__ . '/..' . '/laravel-lang/publisher/src/Exceptions/UnknownLocaleCodeException.php',
+        'LaravelLang\\Publisher\\Exceptions\\UnknownPluginInstanceException' => __DIR__ . '/..' . '/laravel-lang/publisher/src/Exceptions/UnknownPluginInstanceException.php',
+        'LaravelLang\\Publisher\\Helpers\\Arr' => __DIR__ . '/..' . '/laravel-lang/publisher/src/Helpers/Arr.php',
+        'LaravelLang\\Publisher\\Helpers\\Config' => __DIR__ . '/..' . '/laravel-lang/publisher/src/Helpers/Config.php',
+        'LaravelLang\\Publisher\\Plugins\\Plugin' => __DIR__ . '/..' . '/laravel-lang/publisher/src/Plugins/Plugin.php',
+        'LaravelLang\\Publisher\\Plugins\\Provider' => __DIR__ . '/..' . '/laravel-lang/publisher/src/Plugins/Provider.php',
+        'LaravelLang\\Publisher\\Processors\\Add' => __DIR__ . '/..' . '/laravel-lang/publisher/src/Processors/Add.php',
+        'LaravelLang\\Publisher\\Processors\\Processor' => __DIR__ . '/..' . '/laravel-lang/publisher/src/Processors/Processor.php',
+        'LaravelLang\\Publisher\\Processors\\Remove' => __DIR__ . '/..' . '/laravel-lang/publisher/src/Processors/Remove.php',
+        'LaravelLang\\Publisher\\Processors\\Reset' => __DIR__ . '/..' . '/laravel-lang/publisher/src/Processors/Reset.php',
+        'LaravelLang\\Publisher\\Processors\\Update' => __DIR__ . '/..' . '/laravel-lang/publisher/src/Processors/Update.php',
+        'LaravelLang\\Publisher\\Resources\\Translation' => __DIR__ . '/..' . '/laravel-lang/publisher/src/Resources/Translation.php',
+        'LaravelLang\\Publisher\\ServiceProvider' => __DIR__ . '/..' . '/laravel-lang/publisher/src/ServiceProvider.php',
+        'LaravelLang\\Publisher\\Services\\Converters\\Extensions\\SmartPunctExtension' => __DIR__ . '/..' . '/laravel-lang/publisher/src/Services/Converters/Extensions/SmartPunctExtension.php',
+        'LaravelLang\\Publisher\\Services\\Converters\\Text\\BaseDecorator' => __DIR__ . '/..' . '/laravel-lang/publisher/src/Services/Converters/Text/BaseDecorator.php',
+        'LaravelLang\\Publisher\\Services\\Converters\\Text\\CommonDecorator' => __DIR__ . '/..' . '/laravel-lang/publisher/src/Services/Converters/Text/CommonDecorator.php',
+        'LaravelLang\\Publisher\\Services\\Converters\\Text\\SmartPunctuationDecorator' => __DIR__ . '/..' . '/laravel-lang/publisher/src/Services/Converters/Text/SmartPunctuationDecorator.php',
+        'LaravelLang\\Publisher\\Services\\Filesystem\\Base' => __DIR__ . '/..' . '/laravel-lang/publisher/src/Services/Filesystem/Base.php',
+        'LaravelLang\\Publisher\\Services\\Filesystem\\Json' => __DIR__ . '/..' . '/laravel-lang/publisher/src/Services/Filesystem/Json.php',
+        'LaravelLang\\Publisher\\Services\\Filesystem\\Manager' => __DIR__ . '/..' . '/laravel-lang/publisher/src/Services/Filesystem/Manager.php',
+        'LaravelLang\\Publisher\\Services\\Filesystem\\Php' => __DIR__ . '/..' . '/laravel-lang/publisher/src/Services/Filesystem/Php.php',
+        'LaravelLang\\Publisher\\Services\\Renderer\\ParagraphRenderer' => __DIR__ . '/..' . '/laravel-lang/publisher/src/Services/Renderer/ParagraphRenderer.php',
         'Laravel\\Fortify\\Actions\\AttemptToAuthenticate' => __DIR__ . '/..' . '/laravel/fortify/src/Actions/AttemptToAuthenticate.php',
         'Laravel\\Fortify\\Actions\\CanonicalizeUsername' => __DIR__ . '/..' . '/laravel/fortify/src/Actions/CanonicalizeUsername.php',
         'Laravel\\Fortify\\Actions\\CompletePasswordReset' => __DIR__ . '/..' . '/laravel/fortify/src/Actions/CompletePasswordReset.php',
