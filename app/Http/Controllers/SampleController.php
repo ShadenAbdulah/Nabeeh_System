@@ -38,7 +38,7 @@ class SampleController extends Controller
             Storage::disk('s3')->makeDirectory($userFolderPath);
         }
 
-        return route('object.train', ['test' => Test::first(), 'sample' => $sample]);
+        return redirect()->route('object.train', ['test' => Test::first(), 'sample' => $sample]);
     }
 
     /**
@@ -62,7 +62,6 @@ class SampleController extends Controller
      */
     public function edit(Sample $sample)
     {
-//        dd($sample);
         return view('layouts.train', ['test' => Test::first(), 'sample' => $sample]);
     }
 
