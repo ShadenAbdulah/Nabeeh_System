@@ -27,7 +27,7 @@
 <main class="mb-32">
     <img src="{{asset('images/welcome_BG.png')}}"
          alt="bg"
-         class="-z-50"
+         class="absolute -z-50"
         {{--         class="absolute -z-50 top-1/3 p-10 -left-20 mr-52 w-1/2"--}}
     >
 
