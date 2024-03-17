@@ -25,9 +25,12 @@
 
 <body class="font-[Tajawal] flex flex-col min-h-screen">
 <main class="container w-full mx-auto">
-    <img src="{{asset('images/Logo.svg')}}"
-         class="w-1/6 p-7 mx-auto">
-    
+    <a href="{{route('welcome')}}">
+        <img src="{{asset('images/Logo.svg')}}"
+             class="w-1/6 p-7 mx-auto"
+             alt="logo">
+    </a>
+
     @yield('content')
 </main>
 
