@@ -23,18 +23,14 @@
     <script defer src="https://cdn.jsdelivr.net/npm/fabric@5.2.4/dist/fabric.min.js"></script>
 </head>
 
-<body class="font-[Tajawal]">
-<main>
-    <img src="{{asset('images/welcome_BG.png')}}"
-         alt="bg"
-         class="absolute -z-50">
+<body class="font-[Tajawal] flex flex-col min-h-screen">
+<main class="container w-full mx-auto">
+    <img src="{{asset('images/Logo.svg')}}"
+         class="w-1/6 p-7 mx-auto">
 
-    <div class="container w-full mx-auto">
-        <img src="{{asset('images/Logo.svg')}}"
-             class="w-1/4 mx-auto">
-
-        <div class="w-1/2">
-            <p class="w-full right-0 my-20 text-xl font-normal text-justify">
+    <div class="relative w-full flex items-center my-28 justify-between">
+        <div class="w-1/2 space-y-28 justify-between h-full items-center">
+            <p class="text-xl font-normal text-justify">
                 <span class="font-bold text-5xl text-[#6D6AB1]">نَبيــه </span> هو أداة مساعدة أولية للتشخيص عن
                 اضطراب فرط الحركة وتشتت الانتباه
                 عن طريق تحليل خط اليد باستخدام
@@ -53,7 +49,7 @@
                     </x-primary-button>
                 </a>
 
-                <div class="flex gap-2 mx-auto my-6 w-fit">
+                <div class="flex gap-2 mx-auto mt-6 w-fit">
                     <svg class="w-6"
                          data-name="Layer 1"
                          id="Layer_1"
@@ -67,12 +63,15 @@
                 </div>
             </div>
         </div>
+        <img src="{{asset('images/logo_bg.png')}}"
+             alt="bg"
+             class="w-1/2 -z-50"/>
     </div>
 </main>
 
-<footer>
+<footer class="mt-auto">
     <hr>
-    <div class="text-base font-light grid grid-cols-3 my-2 container mx-auto">
+    <div class="text-base font-light grid grid-cols-3 my-2 container mx-auto items-center">
         <div class="text-start">سيــاسة الخصوصيــة</div>
         <div class="text-center">جميـع الحقوق محفوظــة © 2024</div>
         <div class="flex flex-row-reverse gap-8">
