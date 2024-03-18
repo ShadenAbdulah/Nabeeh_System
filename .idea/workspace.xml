@@ -8,9 +8,24 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="563aecd1-4cb7-4782-94b6-956d0343f605" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/node_modules/.vite/deps_temp_edcdd7ad/package.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/node_modules/.vite/deps_temp_f78dd1df/package.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/build/assets/app-ad7f4e15.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/css/app.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/.vite/deps_temp_a1e9f346/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/.vite/deps_temp_25c46d76/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/.vite/deps_temp_d6766289/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/.vite/deps_temp_90a374a2/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/.vite/deps_temp_df6f6476/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/.vite/deps_temp_ae2b14f9/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/build/assets/app-8e0942e5.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/build/assets/app-a3b5dc86.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/build/manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/public/build/manifest.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/components/head.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/components/head.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/layouts/app.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/app.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/layouts/train.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/train.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/result.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/result.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/welcome.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/welcome.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tailwind.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/tailwind.config.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -372,7 +387,8 @@
       <workItem from="1709968486053" duration="15073000" />
       <workItem from="1710109561992" duration="17035000" />
       <workItem from="1710224722137" duration="3550000" />
-      <workItem from="1710537741270" duration="11978000" />
+      <workItem from="1710537741270" duration="14823000" />
+      <workItem from="1710793744221" duration="6754000" />
     </task>
     <servers />
   </component>

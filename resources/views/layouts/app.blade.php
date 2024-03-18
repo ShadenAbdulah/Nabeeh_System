@@ -4,19 +4,20 @@
     <main class="container w-full mx-auto">
         <a href="{{route('welcome')}}">
             <img src="{{asset('images/Logo.svg')}}"
-                 class="w-1/6 p-7 mx-auto"
-                 alt="logo">
+                 class="mx-auto mt-10 tablet:w-1/6 phones:w-1/3"
+                 alt="logo"/>
         </a>
 
         @yield('content')
     </main>
 
     <footer class="mt-auto">
-        <hr>
-        <div class="text-base font-light grid grid-cols-3 my-2 container mx-auto items-center">
+        <hr class="phones:mb-2">
+        <div
+            class="text-base font-light tablet:grid tablet:grid-cols-3 phones:flex phones:flex-col-reverse phones:gap-y-5 phones:m-0 justify-between content-center my-2 container mx-auto items-center">
             <div class="text-start">سيــاسة الخصوصيــة</div>
             <div class="text-center">جميـع الحقوق محفوظــة © 2024</div>
-            <div class="flex flex-row-reverse gap-8">
+            <div class="flex flex-row-reverse gap-8 phones:justify-center">
                 <svg viewBox="0 0 48 48"
                      width="5%"
                      xmlns="http://www.w3.org/2000/svg"><title/>
