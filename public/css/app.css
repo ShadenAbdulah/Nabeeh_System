@@ -954,10 +954,6 @@ select {
   margin-right: 1.25rem;
 }
 
-.ms-1 {
-  margin-inline-start: 0.25rem;
-}
-
 .mt-1 {
   margin-top: 0.25rem;
 }
@@ -1030,16 +1026,8 @@ select {
   height: 0.5rem;
 }
 
-.h-4 {
-  height: 1rem;
-}
-
 .h-5 {
   height: 1.25rem;
-}
-
-.h-72 {
-  height: 18rem;
 }
 
 .h-8 {
@@ -1103,10 +1091,6 @@ select {
   width: 33.333333%;
 }
 
-.w-20 {
-  width: 5rem;
-}
-
 .w-3\/4 {
   width: 75%;
 }
@@ -1117,10 +1101,6 @@ select {
 
 .w-3\/6 {
   width: 50%;
-}
-
-.w-4 {
-  width: 1rem;
 }
 
 .w-48 {
@@ -1337,10 +1317,6 @@ select {
   border-width: 5px;
 }
 
-.border-b {
-  border-bottom-width: 1px;
-}
-
 .border-b-2 {
   border-bottom-width: 2px;
 }
@@ -1365,11 +1341,6 @@ select {
 .border-\[\#6E65E8\] {
   --tw-border-opacity: 1;
   border-color: rgb(110 101 232 / var(--tw-border-opacity));
-}
-
-.border-gray-100 {
-  --tw-border-opacity: 1;
-  border-color: rgb(243 244 246 / var(--tw-border-opacity));
 }
 
 .border-gray-200 {
@@ -1444,34 +1415,12 @@ select {
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
 }
 
-.bg-\[radial-gradient\(circle_at_bottom_left\2c _var\(--tw-gradient-stops\)\)\] {
-  background-image: radial-gradient(circle at bottom left, var(--tw-gradient-stops));
-}
-
-.from-\[\#6D6AB1\] {
-  --tw-gradient-from: #6D6AB1 var(--tw-gradient-from-position);
-  --tw-gradient-to: rgb(109 106 177 / 0) var(--tw-gradient-to-position);
-  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
-}
-
-.to-\[\#D5CABD\] {
-  --tw-gradient-to: #D5CABD var(--tw-gradient-to-position);
-}
-
-.fill-current {
-  fill: currentColor;
-}
-
 .fill-white {
   fill: #fff;
 }
 
 .p-10 {
   padding: 2.5rem;
-}
-
-.p-3 {
-  padding: 0.75rem;
 }
 
 .p-32 {
@@ -1653,10 +1602,6 @@ select {
   text-transform: uppercase;
 }
 
-.leading-4 {
-  line-height: 1rem;
-}
-
 .leading-5 {
   line-height: 1.25rem;
 }
@@ -1757,10 +1702,6 @@ select {
 
 .opacity-100 {
   opacity: 1;
-}
-
-.opacity-70 {
-  opacity: 0.7;
 }
 
 .opacity-75 {
@@ -2050,10 +1991,6 @@ canvas {
   .sm\:mx-auto {
     margin-left: auto;
     margin-right: auto;
-  }
-
-  .sm\:ms-6 {
-    margin-inline-start: 1.5rem;
   }
 
   .sm\:flex {
