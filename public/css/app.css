@@ -1038,6 +1038,10 @@ select {
   height: 1.25rem;
 }
 
+.h-72 {
+  height: 18rem;
+}
+
 .h-8 {
   height: 2rem;
 }
@@ -1191,10 +1195,6 @@ select {
 
 .grid-cols-1 {
   grid-template-columns: repeat(1, minmax(0, 1fr));
-}
-
-.grid-cols-3 {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
 .grid-rows-3 {
@@ -1444,6 +1444,20 @@ select {
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
 }
 
+.bg-\[radial-gradient\(circle_at_bottom_left\2c _var\(--tw-gradient-stops\)\)\] {
+  background-image: radial-gradient(circle at bottom left, var(--tw-gradient-stops));
+}
+
+.from-\[\#6D6AB1\] {
+  --tw-gradient-from: #6D6AB1 var(--tw-gradient-from-position);
+  --tw-gradient-to: rgb(109 106 177 / 0) var(--tw-gradient-to-position);
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+}
+
+.to-\[\#D5CABD\] {
+  --tw-gradient-to: #D5CABD var(--tw-gradient-to-position);
+}
+
 .fill-current {
   fill: currentColor;
 }
@@ -1474,10 +1488,6 @@ select {
 
 .p-6 {
   padding: 1.5rem;
-}
-
-.p-7 {
-  padding: 1.75rem;
 }
 
 .p-8 {
@@ -1747,6 +1757,10 @@ select {
 
 .opacity-100 {
   opacity: 1;
+}
+
+.opacity-70 {
+  opacity: 0.7;
 }
 
 .opacity-75 {
@@ -2137,6 +2151,10 @@ canvas {
   .phones\:my-16 {
     margin-top: 4rem;
     margin-bottom: 4rem;
+  }
+
+  .phones\:mb-2 {
+    margin-bottom: 0.5rem;
   }
 
   .phones\:block {

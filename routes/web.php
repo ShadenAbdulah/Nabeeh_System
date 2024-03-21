@@ -16,9 +16,8 @@ Route::get('/info', fn() => view('info'))->name('info');
 
 Route::get('/result', fn() => view('result'))->name('result');
 
-// Create and store new object
-Route::get('/object', [SampleController::class, 'create'])->name('object.create');
-Route::post('/object', [SampleController::class, 'store'])->name('object.store');
+// Create and store new user
+Route::post('/create', [SampleController::class, 'store'])->name('object.store');
 
 // Start train
 Route::get('/object/train/{sample}', [SampleController::class, 'edit'])->name('object.train');
@@ -30,3 +29,6 @@ Route::get('/{test}/{sample}', function (Test $test, Sample $sample) {
 
 // Append to CSV
 Route::post('/append-to-csv', [CsvController::class, 'appendToCsv']);
+
+// Append to S3
+Route::post('/append-to-s3', [CsvController::class, 'appendToS3']);

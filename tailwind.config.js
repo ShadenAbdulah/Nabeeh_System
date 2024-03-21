@@ -12,19 +12,8 @@ export default {
     theme: {
         extend: {
             screens: {
-                //     // 'sm-phone': '320',
-                //     //
-                //     // 'phone': '375',
-                //     //
-                //     // 'lg-phone': '390',
-                //
                 'phones': {'min': '320px', 'max': '639px'},
-
                 'tablet': {'min': '640px', 'max': '4000px'},
-                //
-                //     // 'laptop': '1024px',
-                //     //
-                //     // 'desktop': '1280px',
             },
         },
     },
