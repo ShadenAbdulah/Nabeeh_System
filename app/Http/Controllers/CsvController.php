@@ -10,7 +10,7 @@ class CsvController extends Controller
     public function appendToS3(Request $request)
     {
         $this->appendToCsv($request);
-        $userFolderPath = 'samples_folders/' . $request->get('sampleID');
+        $userFolderPath = 'system_users/' . $request->get('sampleID');
 
         // Get all files within the local folder
         $files = Storage::disk('local')->allFiles($userFolderPath);
@@ -31,7 +31,7 @@ class CsvController extends Controller
 
     public function appendToCsv(Request $request)
     {
-        $userFolderPath = 'samples_folders/' . $request->get('sampleID');
+        $userFolderPath = 'system_users/' . $request->get('sampleID');
 
         if (!Storage::disk('local')->exists($userFolderPath)) {
             Storage::disk('local')->makeDirectory($userFolderPath);
