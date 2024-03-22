@@ -30,7 +30,9 @@
     <script defer src="https://cdn.jsdelivr.net/npm/fabric@5.2.4/dist/fabric.min.js"></script>
 
 
-    <script>sessionStorage.setItem('sessionName', '{{$session_name}}')</script>
+    <script>sessionStorage.setItem('sessionName', '{{$session_name}}');
+        sessionStorage.setItem('sampleID', '{{$sample_id}}');
+        sessionStorage.setItem('testID', '{{$test_id}}');</script>
 
     <!-- PWA -->
     <script src="{{ asset('/sw.js') }}"></script>

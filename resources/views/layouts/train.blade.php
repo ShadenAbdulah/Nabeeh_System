@@ -1,4 +1,7 @@
-<x-head session_name="{{$sample->id.'/train'}}">
+<x-head
+    session_name="{{$sample->id.'/train'}}"
+    sample_id="{{$sample->id}}"
+    test_id="none">
 
     <body class="p-10 font-[Tajawal]" x-data="{ show: true}">
     <div class="w-1/3 mx-auto my-32 bg-[#D9D9D9]/30 px-7 py-3 grid justify-items-center gap-y-5 rounded-2xl"
