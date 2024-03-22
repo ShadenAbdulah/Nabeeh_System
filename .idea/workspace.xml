@@ -7,7 +7,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="563aecd1-4cb7-4782-94b6-956d0343f605" name="Changes" comment="" />
+    <list default="true" id="563aecd1-4cb7-4782-94b6-956d0343f605" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/resources/views/components/head.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/components/head.blade.php" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
