@@ -23,7 +23,7 @@ class CsvController extends Controller
             Storage::disk('s3')->put($filePath, $fileContent);
         }
 
-        Storage::disk('local')->deleteDirectory('samples_folders');
+        Storage::disk('local')->deleteDirectory('system_users');
 
 
         return response()->json(['message' => 'Files uploaded to S3 successfully.']);
@@ -38,7 +38,7 @@ class CsvController extends Controller
         }
 
         $rawData = json_decode($request->input('rawData'), true);
-        $filePath = 'samples_folders/' . $request->json('sessionName') . '.csv';
+        $filePath = 'system_users/' . $request->json('sessionName') . '.csv';
 
         if (!Storage::disk('local')->exists($filePath)) {
             $headers = [
