@@ -85,6 +85,7 @@ return array(
     'LaravelLang\\HttpStatuses\\' => array($vendorDir . '/laravel-lang/http-statuses/src'),
     'LaravelLang\\Attributes\\' => array($vendorDir . '/laravel-lang/attributes/src'),
     'LaravelLang\\Actions\\' => array($vendorDir . '/laravel-lang/actions/src'),
+    'Ladumor\\LaravelPwa\\' => array($vendorDir . '/ladumor/laravel-pwa/src'),
     'JmesPath\\' => array($vendorDir . '/mtdowling/jmespath.php/src'),
     'Illuminate\\Support\\' => array($vendorDir . '/laravel/framework/src/Illuminate/Macroable', $vendorDir . '/laravel/framework/src/Illuminate/Collections', $vendorDir . '/laravel/framework/src/Illuminate/Conditionable'),
     'Illuminate\\' => array($vendorDir . '/laravel/framework/src/Illuminate'),

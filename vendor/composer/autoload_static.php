@@ -149,6 +149,7 @@ class ComposerStaticInit3bca7bbab1e998a16672d2e8df1b6f91
             'LaravelLang\\HttpStatuses\\' => 25,
             'LaravelLang\\Attributes\\' => 23,
             'LaravelLang\\Actions\\' => 20,
+            'Ladumor\\LaravelPwa\\' => 19,
         ),
         'J' => 
         array (
@@ -527,6 +528,10 @@ class ComposerStaticInit3bca7bbab1e998a16672d2e8df1b6f91
         'LaravelLang\\Actions\\' => 
         array (
             0 => __DIR__ . '/..' . '/laravel-lang/actions/src',
+        ),
+        'Ladumor\\LaravelPwa\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/ladumor/laravel-pwa/src',
         ),
         'JmesPath\\' => 
         array (
@@ -4217,6 +4222,9 @@ class ComposerStaticInit3bca7bbab1e998a16672d2e8df1b6f91
         'JmesPath\\TreeCompiler' => __DIR__ . '/..' . '/mtdowling/jmespath.php/src/TreeCompiler.php',
         'JmesPath\\TreeInterpreter' => __DIR__ . '/..' . '/mtdowling/jmespath.php/src/TreeInterpreter.php',
         'JmesPath\\Utils' => __DIR__ . '/..' . '/mtdowling/jmespath.php/src/Utils.php',
+        'Ladumor\\LaravelPwa\\LaravelPwa' => __DIR__ . '/..' . '/ladumor/laravel-pwa/src/LaravelPwa.php',
+        'Ladumor\\LaravelPwa\\PWAServiceProvider' => __DIR__ . '/..' . '/ladumor/laravel-pwa/src/PWAServiceProvider.php',
+        'Ladumor\\LaravelPwa\\commands\\PublishPWA' => __DIR__ . '/..' . '/ladumor/laravel-pwa/src/commands/PublishPWA.php',
         'LaravelLang\\Actions\\Plugin' => __DIR__ . '/..' . '/laravel-lang/actions/src/Plugin.php',
         'LaravelLang\\Actions\\Plugins\\Main' => __DIR__ . '/..' . '/laravel-lang/actions/src/Plugins/Main.php',
         'LaravelLang\\Actions\\ServiceProvider' => __DIR__ . '/..' . '/laravel-lang/actions/src/ServiceProvider.php',
