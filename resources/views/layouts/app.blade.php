@@ -1,4 +1,4 @@
-<x-head session_name="none">
+<x-head session_name="none" sample_id="none" test_id="none">
 
     <body class="font-[Tajawal] flex flex-col min-h-screen">
     <main class="container w-full mx-auto">
