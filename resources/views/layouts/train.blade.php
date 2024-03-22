@@ -28,14 +28,12 @@
     <div x-show="!show">
         <img src="{{asset('images/train.png')}}" class="mt-10">
         <canvas id="canvas" class="w-full h-full absolute top-0 right-0"></canvas>
-        <form method="get" action="{{route('object.test', [$test, $sample])}}"
+        <form method="post" action="{{route('object.test', [$test, $sample])}}"
               id="submit_form"
               class="w-1/6 grid justify-items-end top-10 left-10 absolute"
-              x-data="{start: false, countdown: 320}"
-              x-show="!start"
+              x-data="{countdown: 320}"
               x-init="setInterval(() => {countdown--;
-          if(countdown<=150) start=true;
-          if(countdown===0) {countdown = 0; document.getElementById('submit_btn').click();}}, 1000);">
+          if(countdown===0) {document.getElementById('submit_btn').click();}}, 1000);">
             @method('get')
             @csrf
             <x-primary-button class="w-full" type="submit" id="submit_btn">

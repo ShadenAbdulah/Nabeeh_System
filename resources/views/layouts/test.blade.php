@@ -27,7 +27,7 @@
 
     <form
         id="test_form"
-        method="get"
+        method="post"
         action="{{($test->id+1 === 13)? route('result'): route('object.test', [$test->id+1, $sample])}}"
         x-show="!show"
         x-data="{ countdown: 30 }">
