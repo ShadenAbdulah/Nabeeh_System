@@ -22,7 +22,7 @@
     {{--    @vite(['resources/js/app.js', 'resources/css/app.css'])--}}
 
     {{--    <!-- Scripts -->--}}
-    <script src="{{asset('build/assets/app-fcb77802.js')}}" defer></script>
+    <script src="{{asset('build/assets/app-2a3232bf.js')}}" defer></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
     <script defer src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"></script>
