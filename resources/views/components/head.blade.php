@@ -1,4 +1,4 @@
-@props(['session_name'])
+@props(['session_name', 'sample_id', 'test_id'])
     <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
