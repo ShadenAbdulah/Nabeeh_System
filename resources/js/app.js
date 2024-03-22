@@ -182,6 +182,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 document.getElementById('submit_btn').addEventListener('click', function (event) {
     if (sessionStorage.getItem('testID') === '12') {
+        console.log('/append-to-s3')
         fetch('/append-to-s3', {
             method: 'POST',
             headers: {
@@ -202,6 +203,7 @@ document.getElementById('submit_btn').addEventListener('click', function (event)
                 console.error('Error:', error);
             });
     } else {
+        console.log('/append-to-csv')
         fetch('/append-to-csv', {
             method: 'POST',
             headers: {
