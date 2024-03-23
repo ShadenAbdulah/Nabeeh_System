@@ -28,9 +28,10 @@ class resultController extends Controller
     public function store(Request $request)
     {
 //        $filePath = 'storage/app/public/Pl_ADHD.csv';
+//        54.158.32.28
         $filePath = asset('Pl_ADHD.csv');
         $client = new Client();
-        $response = $client->request('POST', 'https://54.158.32.28/predict', [
+        $response = $client->request('POST', 'https://system.nabeehtech.com/predict', [
             'multipart' => [
                 [
                     'name' => 'file',
