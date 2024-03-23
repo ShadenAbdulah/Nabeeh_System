@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CsvController;
+use App\Http\Controllers\resultController;
 use App\Http\Controllers\SampleController;
 use App\Models\Sample;
 use App\Models\Test;
@@ -14,7 +15,9 @@ Route::get('/', function () {
 // Login page
 Route::get('/info', fn() => view('info'))->name('info');
 
-Route::get('/result', fn() => view('result'))->name('result');
+//Route::get('/result', fn() => view('result'))->name('result');
+
+Route::get('/send', [resultController::class, 'store'])->name('result');
 
 // Create and store new user
 Route::post('/create', [SampleController::class, 'store'])->name('object.store');
