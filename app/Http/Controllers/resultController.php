@@ -30,7 +30,7 @@ class resultController extends Controller
 //        $filePath = 'storage/app/public/Pl_ADHD.csv';
         $filePath = asset('Pl_ADHD.csv');
         $client = new Client();
-        $response = $client->request('POST', 'http://54.158.32.28/predict', [
+        $response = $client->request('POST', 'https://54.158.32.28/predict', [
             'multipart' => [
                 [
                     'name' => 'file',
