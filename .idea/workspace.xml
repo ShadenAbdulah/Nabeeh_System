@@ -8,6 +8,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="563aecd1-4cb7-4782-94b6-956d0343f605" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/resultController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/resultController.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -380,7 +381,7 @@
       <workItem from="1710537741270" duration="14823000" />
       <workItem from="1710793744221" duration="6754000" />
       <workItem from="1711134132970" duration="8178000" />
-      <workItem from="1711172711134" duration="6215000" />
+      <workItem from="1711172711134" duration="6548000" />
     </task>
     <servers />
   </component>

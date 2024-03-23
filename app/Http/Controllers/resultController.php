@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Test;
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
@@ -24,6 +25,7 @@ class resultController extends Controller
 
     /**
      * Store a newly created resource in storage.
+     * @throws GuzzleException
      */
     public function store(Request $request)
     {
