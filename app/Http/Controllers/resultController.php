@@ -27,7 +27,8 @@ class resultController extends Controller
      */
     public function store(Request $request)
     {
-        $filePath = 'storage/app/public/Pl_ADHD.csv';
+//        $filePath = 'storage/app/public/Pl_ADHD.csv';
+        $filePath = asset('Pl_ADHD.csv');
         $client = new Client();
         $response = $client->request('POST', 'http://54.158.32.28/predict', [
             'multipart' => [
@@ -37,15 +38,16 @@ class resultController extends Controller
                 ],
             ]
         ]);
-    
+
         // Convert the response body to a string and log it
         $responseBody = $response->getBody()->getContents();
         Log::info($responseBody);
-    
+
         $result = json_decode($responseBody, true);
-    
-        return view('layouts.result', ['result' => $result]);
-    }    
+
+        return view('result', ['result' => $result]);
+    }
+
     /**
      * Display the specified resource.
      */
