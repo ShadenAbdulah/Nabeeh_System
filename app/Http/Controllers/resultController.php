@@ -31,7 +31,7 @@ class resultController extends Controller
 //        54.158.32.28
         $filePath = asset('Pl_ADHD.csv');
         $client = new Client();
-        $response = $client->request('POST', 'https://system.nabeehtech.com/predict', [
+        $response = $client->request('POST', 'https://nabeehtech.com/predict', [
             'multipart' => [
                 [
                     'name' => 'file',
