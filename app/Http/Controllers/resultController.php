@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Test;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class resultController extends Controller
 {
@@ -28,7 +29,7 @@ class resultController extends Controller
     {
         $filePath = 'storage/app/public/Pl_ADHD.csv';
         $client = new Client();
-        $response = $client->$request('POST', 'http://python-server-address:5000/predict', [
+        $response = $client->request('POST', 'http://54.158.32.28/predict', [
             'multipart' => [
                 [
                     'name' => 'file',
@@ -36,11 +37,15 @@ class resultController extends Controller
                 ],
             ]
         ]);
-
-        $result = json_decode($response->getBody()->getContents(), true);
-        return $result;
-    }
-
+    
+        // Convert the response body to a string and log it
+        $responseBody = $response->getBody()->getContents();
+        Log::info($responseBody);
+    
+        $result = json_decode($responseBody, true);
+    
+        return view('layouts.result', ['result' => $result]);
+    }    
     /**
      * Display the specified resource.
      */
