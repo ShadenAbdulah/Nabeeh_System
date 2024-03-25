@@ -156,8 +156,23 @@ for (const ev of ['pointerup', 'pointerleave']) {
 }
 
 document.addEventListener('DOMContentLoaded', function () {
-    let countdown = 50;
 
+
+    // try to make train page counter different
+    let countdown;
+    const pageUrl = window.location.pathname;
+
+    // Check if the URL is for train.blade.php
+    if (pageUrl.includes('train')) {
+        countdown = 150;
+    }
+    // Check if the URL is for test.blade.php
+    else if (pageUrl.includes('test')) {
+        countdown = 50;
+    }
+
+
+    
     let interval = setInterval(() => {
         countdown--;
         if (countdown <= 0) {
