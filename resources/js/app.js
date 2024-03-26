@@ -164,10 +164,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Check if the URL is for train.blade.php
     if (pageUrl.includes('train')) {
-        countdown = 150;
+        countdown = 320;
     }
     // Check if the URL is for test.blade.php
-    else if (pageUrl.includes('test')) {
+    else {
         countdown = 50;
     }
 

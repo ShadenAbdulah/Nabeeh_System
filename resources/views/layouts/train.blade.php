@@ -34,9 +34,7 @@
         <form method="post" action="{{route('object.test', [$test, $sample])}}"
               id="submit_form"
               class="w-1/6 grid justify-items-end top-10 left-10 absolute"
-              x-data="{countdown: 320}"
-              x-init="setInterval(() => {countdown--;
-          if(countdown===0) {document.getElementById('submit_btn').click();}}, 1000);">
+              x-data="{countdown: 320}">
             @method('get')
             @csrf
             <x-primary-button class="w-full" type="submit" id="submit_btn">
