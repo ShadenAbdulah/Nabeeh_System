@@ -3,53 +3,127 @@
 namespace App\Http\Controllers;
 
 use App\Models\Test;
-use GuzzleHttp\Client;
-use GuzzleHttp\Exception\GuzzleException;
+use Aws\Lambda\LambdaClient;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
+// Make sure to import the S3Client
+
 class resultController extends Controller
 {
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     * @throws GuzzleException
-     */
     public function store(Request $request)
     {
-//        $filePath = 'storage/app/public/Pl_ADHD.csv';
-//        54.158.32.28
-        $filePath = asset('Pl_ADHD.csv');
-        $client = new Client();
-        $response = $client->request('POST', 'https://54.158.32.28/predict', [
-            'multipart' => [
-                [
-                    'name' => 'file',
-                    'contents' => fopen($filePath, 'r')
-                ],
-            ]
+
+// ...inside your store function after files are uploaded to S3
+
+// Initialize the Lambda client
+        $lambdaClient = new LambdaClient([
+            'version' => 'latest',
+            'region' => config('filesystems.disks.s3.region')
         ]);
 
-        // Convert the response body to a string and log it
-        $responseBody = $response->getBody()->getContents();
-        Log::info($responseBody);
+// Prepare the payload with file paths or any other needed parameters
+        $payload = json_encode([
+            // For example, send the S3 bucket name and file keys
+            'bucket' => 'nabeeh',
+            'files' => [
+                'system_users/' . $request->get('sampleID'),
+            ],
+        ]);
 
-        $result = json_decode($responseBody, true);
+        try {
+            $result = $lambdaClient->invoke([
+                'FunctionName' => 'your-lambda-function-name',
+                'Payload' => $payload,
+            ]);
 
-        return view('result', ['result' => $result]);
+            // Decode the output from the Lambda function
+            $lambdaOutput = json_decode($result->get('Payload')->getContents(), true);
+
+            Log::info('Lambda function executed successfully.', ['result' => $lambdaOutput]);
+
+            // Assuming your Lambda function returns the prediction results
+            // You can now return these results to the view or as a JSON response
+            return view('result', ['result' => $lambdaOutput]);
+        } catch (Exception $e) {
+            Log::error('Lambda execution failed: ' . $e->getMessage());
+            return response()->json(['error' => 'Failed to execute prediction model.'], 500);
+        }
+
     }
+
+//    public function store(Request $request)
+//    {
+//        // Log the incoming request data (useful for debugging)
+//        Log::debug('Request data: ', ['data' => $request->all()]);
+//
+//        // Define your paths and command
+//
+//        // $ZL_trace_1 = 'C:\Users\eanha\Documents\collage\GP_Phase2\Nabeeh_System\storage\app\system_users\1\1-ZL_trace.csv';
+//        // $ZL_trace_2 = 'C:\Users\eanha\Documents\collage\GP_Phase2\Nabeeh_System\storage\app\system_users\1\3-ZL_trace.csv';
+//        // $ZL_trace_3 = 'C:\Users\eanha\Documents\collage\GP_Phase2\Nabeeh_System\storage\app\system_users\1\5-ZL_trace.csv';
+//
+//        // $ZL_predict_1 = 'C:\Users\eanha\Documents\collage\GP_Phase2\Nabeeh_System\storage\app\system_users\1\2-ZL_predict.csv';
+//        // $ZL_predict_2 = 'C:\Users\eanha\Documents\collage\GP_Phase2\Nabeeh_System\storage\app\system_users\1\4-ZL_predict.csv';
+//        // $ZL_predict_3 = 'C:\Users\eanha\Documents\collage\GP_Phase2\Nabeeh_System\storage\app\system_users\1\6-ZL_predict.csv';
+//
+//        // $PL_trace_1 = 'C:\Users\eanha\Documents\collage\GP_Phase2\Nabeeh_System\storage\app\system_users\1\7-PL_trace.csv';
+//        // $PL_trace_2 = 'C:\Users\eanha\Documents\collage\GP_Phase2\Nabeeh_System\storage\app\system_users\1\9-PL_trace.csv';
+//        // $PL_trace_3 = 'C:\Users\eanha\Documents\collage\GP_Phase2\Nabeeh_System\storage\app\system_users\1\11-PL_trace.csv';
+//
+//        // $PL_predict_1 = 'C:\Users\eanha\Documents\collage\GP_Phase2\Nabeeh_System\storage\app\system_users\1\8-PL_predict.csv';
+//        // $PL_predict_2 = 'C:\Users\eanha\Documents\collage\GP_Phase2\Nabeeh_System\storage\app\system_users\1\10-PL_predict.csv';
+//        // $PL_predict_3 = 'C:\Users\eanha\Documents\collage\GP_Phase2\Nabeeh_System\storage\app\system_users\1\12-PL_predict.csv';
+//
+//        // u need to change the path with FULL path
+////        $pythonPath = 'C:\Python311\python.exe'; //windows
+//        $pythonPath = './opt/homebrew/bin/python3'; //mac
+////        $scriptPath = 'C:\Users\eanha\Documents\collage\GP_Phase2\Nabeeh_System\files\app.py';
+//        $scriptPath = '/Users/shaden/Desktop/nabeeh_system/files/app.py';
+////        $filesPath = 'C:\Users\eanha\Documents\collage\GP_Phase2\Nabeeh_System\storage\app\system_users\1';
+//        $filesPath = '/Users/shaden/Desktop/nabeeh_system/storage/app/system_users/1';
+////        $ModelPath = 'C:\Users\eanha\Documents\collage\GP_Phase2\Nabeeh_System\files\svm_model.joblib';
+//        $ModelPath = '/Users/shaden/Desktop/nabeeh_system/files/svm_model.joblib';
+//
+//        $command = [$pythonPath, $scriptPath, $filesPath, $ModelPath];
+//
+//        // Log the command to be executed
+//        Log::info('Executing command: ' . implode(' ', $command));
+//
+//        try {
+//            // Execute the command
+//            $process = new Process($command);
+//            $process->run();
+//
+//            // Check if the process is successful
+//            if (!$process->isSuccessful()) {
+//                // Log the error
+//                Log::error('Process failed: ' . $process->getErrorOutput());
+//                $errorOutput = $process->getErrorOutput();
+//                Log::debug('Process error output: ', ['error' => $errorOutput]);
+//
+//                throw new ProcessFailedException($process);
+//            }
+//
+//            // Process is successful, log this event
+//            Log::info('Process succeeded.');
+//
+//            // Decode the output to an associative array
+//            $result = json_decode($process->getOutput(), true);
+//
+//            // Log the output for debugging
+//            // Log the output for debugging
+//            Log::debug('Process output: ', is_array($result) ? $result : ['result' => $result]);
+//
+//            return view('result', ['result' => $result]);
+//        } catch (Exception $e) {
+//            // Catch any exception and log it
+//            Log::error('An error occurred: ' . $e->getMessage());
+//            // Optionally, return a response or view with an error message
+//            return response()->json(['error' => 'An unexpected error occurred.'], 500);
+//        }
+//    }
 
     /**
      * Display the specified resource.
