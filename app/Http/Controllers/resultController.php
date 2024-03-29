@@ -7,51 +7,69 @@ use Aws\Lambda\LambdaClient;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
-
-// Make sure to import the S3Client
+use Illuminate\Support\Facades\Http; 
 
 class resultController extends Controller
 {
+
     public function store(Request $request)
     {
-
-// ...inside your store function after files are uploaded to S3
-
-// Initialize the Lambda client
-        $lambdaClient = new LambdaClient([
-            'version' => 'latest',
-            'region' => config('filesystems.disks.s3.region')
-        ]);
-
-// Prepare the payload with file paths or any other needed parameters
-        $payload = json_encode([
-            // For example, send the S3 bucket name and file keys
-            'bucket' => 'nabeeh',
-            'files' => [
-                'system_users/' . $request->get('sampleID'),
-            ],
-        ]);
+        $id = $request->get('sampleID');
 
         try {
-            $result = $lambdaClient->invoke([
-                'FunctionName' => 'your-lambda-function-name',
-                'Payload' => $payload,
-            ]);
-
-            // Decode the output from the Lambda function
-            $lambdaOutput = json_decode($result->get('Payload')->getContents(), true);
-
-            Log::info('Lambda function executed successfully.', ['result' => $lambdaOutput]);
-
-            // Assuming your Lambda function returns the prediction results
-            // You can now return these results to the view or as a JSON response
+            // Assuming you have your API Gateway URL and it's expecting a GET request with a query parameter
+            $apiGatewayUrl = 'https://mpperrn8fg.execute-api.us-east-1.amazonaws.com/test/predict';
+            $response = Http::get($apiGatewayUrl, ['sampleID' => $id]);
+            
+            // Assuming the Lambda function returns JSON
+            $lambdaOutput = $response->json();
+            
             return view('result', ['result' => $lambdaOutput]);
         } catch (Exception $e) {
             Log::error('Lambda execution failed: ' . $e->getMessage());
             return response()->json(['error' => 'Failed to execute prediction model.'], 500);
         }
-
     }
+//     public function store(Request $request)
+//     {
+
+// // ...inside your store function after files are uploaded to S3
+
+// // Initialize the Lambda client
+//         $lambdaClient = new LambdaClient([
+//             'version' => 'latest',
+//             'region' => config('filesystems.disks.s3.region')
+//         ]);
+
+// // Prepare the payload with file paths or any other needed parameters
+//         $payload = json_encode([
+//             // For example, send the S3 bucket name and file keys
+//             'bucket' => 'nabeeh',
+//             'files' => [
+//                 'system_users/' . $request->get('sampleID'),
+//             ],
+//         ]);
+
+//         try {
+//             $result = $lambdaClient->invoke([
+//                 'FunctionName' => 'your-lambda-function-name',
+//                 'Payload' => $payload,
+//             ]);
+
+//             // Decode the output from the Lambda function
+//             $lambdaOutput = json_decode($result->get('Payload')->getContents(), true);
+
+//             Log::info('Lambda function executed successfully.', ['result' => $lambdaOutput]);
+
+//             // Assuming your Lambda function returns the prediction results
+//             // You can now return these results to the view or as a JSON response
+//             return view('result', ['result' => $lambdaOutput]);
+//         } catch (Exception $e) {
+//             Log::error('Lambda execution failed: ' . $e->getMessage());
+//             return response()->json(['error' => 'Failed to execute prediction model.'], 500);
+//         }
+
+//     }
 
 //    public function store(Request $request)
 //    {

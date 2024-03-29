@@ -6,8 +6,6 @@ import json
 import math
 import numpy as np
 import statistics as stat
-from scipy.stats import linregress
-from scipy.signal import find_peaks
 
 path = sys.argv[1]  # Get file path from command line argument
 model_filename = sys.argv[2]
@@ -66,6 +64,20 @@ def FeatureEng(df , exper1, exper2, exper3):
 
     df['TiltX'] = df['TiltX'] + 90
     df['TiltY'] = df['TiltY'] + 90
+
+    def find_peaks(series):
+        valleys = []
+        for i in range(1, len(series) - 1): 
+            if series.iloc[i] < series.iloc[i - 1] and series.iloc[i] < series.iloc[i + 1]:
+                valleys.append(i)
+        return valleys
+
+    def find_valleys(series):
+        valleys = []
+        for i in range(1, len(series) - 1): 
+            if series.iloc[i] < series.iloc[i - 1] and series.iloc[i] < series.iloc[i + 1]:
+                valleys.append(i)
+        return valleys
 
 
     w1 = (max(exper1['ClientX']) - min(exper1['ClientX']))
@@ -310,17 +322,11 @@ def FeatureEng(df , exper1, exper2, exper3):
     press = df['Pressure']
     press.at[len(press)] = 0
 
-    Pvalleys, _ = find_peaks(- df['Pressure'])
-    Pressure_valleys = df['Pressure'].iloc[Pvalleys]
+    valleys = find_valleys(press)
+    Pressure_valleys = df['Pressure'].iloc[valleys]
 
-    PeakpresMean = (Pressure_valleys).mean()
-
-    # print("Mean Peak Pressure at Minima:", PeakpresMean)
-
+    PeakpresMean = Pressure_valleys.mean()
     output.at[0, 'PeakpresMean']= PeakpresMean
-
-
-    timestamps = pd.to_datetime(df['timestamp'])
 
     error_timestamps = []
     minima_timestamps = []
@@ -347,19 +353,17 @@ def FeatureEng(df , exper1, exper2, exper3):
 
     output.at[0, 'ErrorStopTime']= ErrorStopTime
 
-
     df['TiltAngle'] = np.degrees(np.arctan2(df['TiltY'], df['TiltX']))
 
-    anglepeaks, _ = find_peaks(df['TiltAngle'])
-    anglevalleys, _ = find_peaks(-df['TiltAngle'])
+    anglepeaks = find_peaks(df['TiltAngle'])
+    anglevalleys = find_valleys(df['TiltAngle'])
 
     mean_angle_at_peaks = df['TiltAngle'].iloc[anglepeaks].mean()
     mean_angle_at_valleys = df['TiltAngle'].iloc[anglevalleys].mean()
 
     AngleMean = np.mean([mean_angle_at_peaks, mean_angle_at_valleys])
 
-    # print("Mean Angle:", AngleMean)
-
+    print("Mean Angle:", AngleMean)
     output.at[0, 'AngleMean']= AngleMean
 
 
@@ -385,8 +389,11 @@ def FeatureEng(df , exper1, exper2, exper3):
 
     col1, col2 = top_pairs[0]
 
-    ReglineSlope = linregress(df[col1], df[col2])[0]
-    ReglineIntercept = linregress(df[col1], df[col2])[1]
+    x = np.array(df[col1])
+    y = np.array(df[col2])
+
+    # Using polyfit for a linear model (degree 1 polynomial)
+    ReglineSlope, ReglineIntercept = np.polyfit(x, y, 1)
 
     # print(f"Regression Slope for {col1} vs {col2}: {ReglineSlope}")
     # print(f"Regression Intercept for {col1} vs {col2}: {ReglineIntercept}")
@@ -406,8 +413,8 @@ def FeatureEng(df , exper1, exper2, exper3):
     combined_velocities = pd.concat([velocities_exper1, velocities_exper2, velocities_exper3], ignore_index=True)
 
     # Find peaks and valleys in the combined velocities
-    Vpeaks, _ = find_peaks(combined_velocities)
-    Vvalleys, _ = find_peaks(-combined_velocities)
+    Vpeaks = find_peaks(combined_velocities)
+    Vvalleys = find_valleys(combined_velocities)
 
     # Extract velocities at peaks and valleys
     velocities_at_peaks = combined_velocities.iloc[Vpeaks]
@@ -417,9 +424,11 @@ def FeatureEng(df , exper1, exper2, exper3):
     mean_Velocity_at_peaks = velocities_at_peaks.mean()
     mean_Velocity_at_valleys = velocities_at_valleys.mean()
 
+    # Combine the mean velocities to get a single value
     AngleSpeed = np.mean([mean_Velocity_at_peaks, mean_Velocity_at_valleys])
 
-    # print("Mean of velocities at the edge of peaks and valleys:", AngleSpeed)
+    print("Mean of velocities at the edge of peaks and valleys:", AngleSpeed)
+    # Mean of velocities at the edge of peaks and valleys: 0.5077363572208352
 
     output.at[0, 'AngleSpeed']= AngleSpeed
 
@@ -459,18 +468,18 @@ def FeatureEng(df , exper1, exper2, exper3):
 PL_predict = FeatureEng(PL_predict_raw, PL_predict_exper1, PL_predict_exper2, PL_predict_exper3)
 # print(PL_predict)
 
-try:  
-    predictions = trained_model.predict(PL_predict)
+# try:  
+#     predictions = trained_model.predict(PL_predict)
 
-    if predictions[0] == 0:
-        result = {'message': 'File processed successfully', 'data': 'No ADHD'}
-    elif predictions[0] == 1:
-        result = {'message': 'File processed successfully', 'data': 'ADHD'}
+#     if predictions[0] == 0:
+#         result = {'message': 'File processed successfully', 'data': 'No ADHD'}
+#     elif predictions[0] == 1:
+#         result = {'message': 'File processed successfully', 'data': 'ADHD'}
 
-    # Serialize `result` to a JSON formatted string and print
-    print(json.dumps(result))
+#     # Serialize `result` to a JSON formatted string and print
+#     print(json.dumps(result))
 
-except Exception as e:
-    error_result = {'error': str(e)}
-    # Serialize `error_result` to a JSON formatted string and print
-    print(json.dumps(error_result))
+# except Exception as e:
+#     error_result = {'error': str(e)}
+#     # Serialize `error_result` to a JSON formatted string and print
+#     print(json.dumps(error_result))
