@@ -21,7 +21,9 @@ class resultController extends Controller
             // Assuming you have your API Gateway URL and it's expecting a GET request with a query parameter
             $apiGatewayUrl = 'https://mpperrn8fg.execute-api.us-east-1.amazonaws.com/test/predict';
             $response = Http::get($apiGatewayUrl, ['sampleID' => $id]);
-            
+            // Log the raw response for debugging
+            Log::info('Lambda response:', ['response' => $response->body()]);
+
             $probability = (float) $response->json()['body'];
             return view('result', ['body' => sprintf('%.2f%%', $probability * 100)]);
         
