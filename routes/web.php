@@ -17,7 +17,7 @@ Route::get('/info', fn() => view('info'))->name('info');
 
 //Route::get('/result', fn() => view('result'))->name('result');
 
-Route::get('/send', [resultController::class, 'store'])->name('result');
+Route::post('/send', [resultController::class, 'store'])->name('result');
 
 // Create and store new user
 Route::post('/create', [SampleController::class, 'store'])->name('object.store');

@@ -19,7 +19,9 @@ class resultController extends Controller
 
         try {
             // Assuming you have your API Gateway URL and it's expecting a GET request with a query parameter
-            $apiGatewayUrl = 'https://mpperrn8fg.execute-api.us-east-1.amazonaws.com/test/predict';
+            // $apiGatewayUrl = 'https://mpperrn8fg.execute-api.us-east-1.amazonaws.com/test/predict';
+            $apiGatewayUrl = 'https://mpperrn8fg.execute-api.us-east-1.amazonaws.com/test';
+
             $response = Http::get($apiGatewayUrl, ['sampleID' => $id]);
             // Log the raw response for debugging
             Log::info('Lambda response:', ['response' => $response->body()]);
