@@ -1,19 +1,13 @@
 @extends('layouts.app')
 @section('content')
 
-    <!-- <div
+    <div
         class="w-3/5 my-5 mx-auto grid grid-rows-3 gap-16 shadow-2xl shadow-[#6D6AB1]/10 p-10 rounded-3xl content-center text-center">
         <h1 class="font-extrabold text-4xl">النتيجــــــــة</h1>
-        <h1 class="font-medium text-2xl">التقييم الأولي يشير الى احتمالية الإصابة بــــ</h1>
-        <h1 class="font-extrabold text-6xl text-[#6D6AB1]">ADHD</h1>
-    </div> -->
+        <h1 class="font-medium text-2xl">التقييم الأولي يشير الى ان احتمالية اصابتك بـADHD هي:</h1>
+        <h1 class="font-extrabold text-6xl text-[#6D6AB1]"> <{{ $body }} /h1>
+    </div>
 
-    <div class="w-3/5 my-5 mx-auto grid grid-rows-3 gap-16 shadow-2xl shadow-[#6D6AB1]/10 p-10 rounded-3xl content-center text-center">
-    <h1 class="font-extrabold text-4xl">Result</h1>
-    <!-- Display the 'message' from the Flask response -->
-    <h2 class="font-medium text-2xl">{{ $result['message'] ?? 'ما يشتغل' }}</h2>
-    <!-- Display the 'data' from the Flask response -->
-    <p class="font-medium text-xl">{{ $result['data'] ?? 'الملف ما انرفع' }}</p>
 </div>
 
     <div class="mx-auto w-3/5 p-10 flex justify-between items-center">

@@ -14,17 +14,17 @@ class resultController extends Controller
 
     public function store(Request $request)
     {
-        $id = $request->get('sampleID');
+        // $id = $request->get('sampleID');
+        $id = 19;
 
         try {
             // Assuming you have your API Gateway URL and it's expecting a GET request with a query parameter
             $apiGatewayUrl = 'https://mpperrn8fg.execute-api.us-east-1.amazonaws.com/test/predict';
             $response = Http::get($apiGatewayUrl, ['sampleID' => $id]);
             
-            // Assuming the Lambda function returns JSON
-            $lambdaOutput = $response->json();
-            
-            return view('result', ['result' => $lambdaOutput]);
+            $probability = (float) $response->json()['body'];
+            return view('result', ['body' => sprintf('%.2f%%', $probability * 100)]);
+        
         } catch (Exception $e) {
             Log::error('Lambda execution failed: ' . $e->getMessage());
             return response()->json(['error' => 'Failed to execute prediction model.'], 500);
