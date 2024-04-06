@@ -154,6 +154,8 @@ namespace Aws;
  * @method \Aws\MultiRegionClient createMultiRegionCodeCatalyst(array $args = [])
  * @method \Aws\CodeCommit\CodeCommitClient createCodeCommit(array $args = [])
  * @method \Aws\MultiRegionClient createMultiRegionCodeCommit(array $args = [])
+ * @method \Aws\CodeConnections\CodeConnectionsClient createCodeConnections(array $args = [])
+ * @method \Aws\MultiRegionClient createMultiRegionCodeConnections(array $args = [])
  * @method \Aws\CodeDeploy\CodeDeployClient createCodeDeploy(array $args = [])
  * @method \Aws\MultiRegionClient createMultiRegionCodeDeploy(array $args = [])
  * @method \Aws\CodeGuruProfiler\CodeGuruProfilerClient createCodeGuruProfiler(array $args = [])
@@ -220,6 +222,8 @@ namespace Aws;
  * @method \Aws\MultiRegionClient createMultiRegionDataZone(array $args = [])
  * @method \Aws\DatabaseMigrationService\DatabaseMigrationServiceClient createDatabaseMigrationService(array $args = [])
  * @method \Aws\MultiRegionClient createMultiRegionDatabaseMigrationService(array $args = [])
+ * @method \Aws\Deadline\DeadlineClient createDeadline(array $args = [])
+ * @method \Aws\MultiRegionClient createMultiRegionDeadline(array $args = [])
  * @method \Aws\Detective\DetectiveClient createDetective(array $args = [])
  * @method \Aws\MultiRegionClient createMultiRegionDetective(array $args = [])
  * @method \Aws\DevOpsGuru\DevOpsGuruClient createDevOpsGuru(array $args = [])
@@ -358,8 +362,6 @@ namespace Aws;
  * @method \Aws\MultiRegionClient createMultiRegionIoTFleetWise(array $args = [])
  * @method \Aws\IoTJobsDataPlane\IoTJobsDataPlaneClient createIoTJobsDataPlane(array $args = [])
  * @method \Aws\MultiRegionClient createMultiRegionIoTJobsDataPlane(array $args = [])
- * @method \Aws\IoTRoboRunner\IoTRoboRunnerClient createIoTRoboRunner(array $args = [])
- * @method \Aws\MultiRegionClient createMultiRegionIoTRoboRunner(array $args = [])
  * @method \Aws\IoTSecureTunneling\IoTSecureTunnelingClient createIoTSecureTunneling(array $args = [])
  * @method \Aws\MultiRegionClient createMultiRegionIoTSecureTunneling(array $args = [])
  * @method \Aws\IoTSiteWise\IoTSiteWiseClient createIoTSiteWise(array $args = [])
@@ -702,6 +704,8 @@ namespace Aws;
  * @method \Aws\MultiRegionClient createMultiRegionSynthetics(array $args = [])
  * @method \Aws\Textract\TextractClient createTextract(array $args = [])
  * @method \Aws\MultiRegionClient createMultiRegionTextract(array $args = [])
+ * @method \Aws\TimestreamInfluxDB\TimestreamInfluxDBClient createTimestreamInfluxDB(array $args = [])
+ * @method \Aws\MultiRegionClient createMultiRegionTimestreamInfluxDB(array $args = [])
  * @method \Aws\TimestreamQuery\TimestreamQueryClient createTimestreamQuery(array $args = [])
  * @method \Aws\MultiRegionClient createMultiRegionTimestreamQuery(array $args = [])
  * @method \Aws\TimestreamWrite\TimestreamWriteClient createTimestreamWrite(array $args = [])
@@ -763,7 +767,7 @@ namespace Aws;
  */
 class Sdk
 {
-    const VERSION = '3.300.15';
+    const VERSION = '3.303.4';
 
     /** @var array Arguments for creating clients */
     private $args;

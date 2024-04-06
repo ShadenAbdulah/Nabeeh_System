@@ -51,7 +51,6 @@ class AwsS3V3Adapter implements FilesystemAdapter, PublicUrlGenerator, ChecksumP
         'ContentEncoding',
         'ContentLength',
         'ContentType',
-        'ContentMD5',
         'Expires',
         'GrantFullControl',
         'GrantRead',
@@ -69,11 +68,15 @@ class AwsS3V3Adapter implements FilesystemAdapter, PublicUrlGenerator, ChecksumP
         'Tagging',
         'WebsiteRedirectLocation',
         'ChecksumAlgorithm',
+        'CopySSECustomerAlgorithm',
+        'CopySSECustomerKey',
+        'CopySSECustomerKeyMD5',
     ];
     /**
      * @var string[]
      */
     public const MUP_AVAILABLE_OPTIONS = [
+        'add_content_md5',
         'before_upload',
         'concurrency',
         'mup_threshold',
@@ -99,8 +102,8 @@ class AwsS3V3Adapter implements FilesystemAdapter, PublicUrlGenerator, ChecksumP
         private S3ClientInterface $client,
         private string $bucket,
         string $prefix = '',
-        VisibilityConverter $visibility = null,
-        MimeTypeDetector $mimeTypeDetector = null,
+        ?VisibilityConverter $visibility = null,
+        ?MimeTypeDetector $mimeTypeDetector = null,
         private array $options = [],
         private bool $streamReads = true,
         private array $forwardedOptions = self::AVAILABLE_OPTIONS,

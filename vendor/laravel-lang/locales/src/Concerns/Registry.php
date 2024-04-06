@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  *
  * @author Andrey Helldar <helldar@dragon-code.pro>
- * @copyright 2023 Laravel Lang Team
+ * @copyright 2024 Laravel Lang Team
  * @license MIT
  *
  * @see https://laravel-lang.com
@@ -28,11 +28,7 @@ trait Registry
     {
         $key = $this->registryKey($key);
 
-        if (array_key_exists($key, $this->registry)) {
-            return $this->registry[$key];
-        }
-
-        return $this->registry[$key] = $callback();
+        return $this->registry[$key] ??= $callback();
     }
 
     protected function registryKey(array|string $key): string
