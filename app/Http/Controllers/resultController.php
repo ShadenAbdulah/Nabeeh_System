@@ -1,13 +1,13 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use App\Models\Test;
-use Aws\Lambda\LambdaClient;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Http; 
+use Symfony\Component\Process\Process;
+use Symfony\Component\Process\Exception\ProcessFailedException;
 
 class resultController extends Controller
 {
@@ -16,7 +16,31 @@ class resultController extends Controller
     {
         // $id = $request->get('sampleID');
         $id = 19;
+        try {
 
+            $pythonPath = 'C:\Python311\python.exe'; 
+            $scriptPath = 'C:\Users\eanha\Documents\collage\GP_Phase2\Nabeeh_System\files\app.py';
+            $command = [$pythonPath, $scriptPath, $id];
+            $process = new Process($command);
+            $process->run();
+ 
+            if (!$process->isSuccessful()) {
+                // Log the error
+                Log::error('Process failed: ' . $process->getErrorOutput());
+                $errorOutput = $process->getErrorOutput();
+                Log::debug('Process error output: ', ['error' => $errorOutput]);
+ 
+                throw new ProcessFailedException($process);
+            }
+ 
+            // Process is successful, log this event
+            Log::info('Process succeeded.');
+        } catch (Exception $e) {
+            // Catch any exception and log it
+            Log::error('An error occurred: ' . $e->getMessage());
+            // Optionally, return a response or view with an error message
+            return response()->json(['error' => 'An unexpected error occurred.'], 500);
+        }
         try {
             // Assuming you have your API Gateway URL and it's expecting a GET request with a query parameter
             $apiGatewayUrl = 'https://mpperrn8fg.execute-api.us-east-1.amazonaws.com/test/predict/';
@@ -106,44 +130,44 @@ class resultController extends Controller
 //        $filesPath = '/Users/shaden/Desktop/nabeeh_system/storage/app/system_users/1';
 ////        $ModelPath = 'C:\Users\eanha\Documents\collage\GP_Phase2\Nabeeh_System\files\svm_model.joblib';
 //        $ModelPath = '/Users/shaden/Desktop/nabeeh_system/files/svm_model.joblib';
-//
+//   C:\Python311\python.exe  C:\Users\eanha\Documents\collage\GP_Phase2\Nabeeh_System\files\app.py C:\Users\eanha\Documents\collage\GP_Phase2\Nabeeh_System\storage\app\system_users\1
 //        $command = [$pythonPath, $scriptPath, $filesPath, $ModelPath];
 //
 //        // Log the command to be executed
 //        Log::info('Executing command: ' . implode(' ', $command));
 //
-//        try {
-//            // Execute the command
-//            $process = new Process($command);
-//            $process->run();
-//
-//            // Check if the process is successful
-//            if (!$process->isSuccessful()) {
-//                // Log the error
-//                Log::error('Process failed: ' . $process->getErrorOutput());
-//                $errorOutput = $process->getErrorOutput();
-//                Log::debug('Process error output: ', ['error' => $errorOutput]);
-//
-//                throw new ProcessFailedException($process);
-//            }
-//
-//            // Process is successful, log this event
-//            Log::info('Process succeeded.');
-//
-//            // Decode the output to an associative array
-//            $result = json_decode($process->getOutput(), true);
-//
-//            // Log the output for debugging
-//            // Log the output for debugging
-//            Log::debug('Process output: ', is_array($result) ? $result : ['result' => $result]);
-//
-//            return view('result', ['result' => $result]);
-//        } catch (Exception $e) {
-//            // Catch any exception and log it
-//            Log::error('An error occurred: ' . $e->getMessage());
-//            // Optionally, return a response or view with an error message
-//            return response()->json(['error' => 'An unexpected error occurred.'], 500);
-//        }
+    //    try {
+    //        // Execute the command
+    //        $process = new Process($command);
+    //        $process->run();
+
+    //        // Check if the process is successful
+    //        if (!$process->isSuccessful()) {
+    //            // Log the error
+    //            Log::error('Process failed: ' . $process->getErrorOutput());
+    //            $errorOutput = $process->getErrorOutput();
+    //            Log::debug('Process error output: ', ['error' => $errorOutput]);
+
+    //            throw new ProcessFailedException($process);
+    //        }
+
+    //        // Process is successful, log this event
+    //        Log::info('Process succeeded.');
+
+    //        // Decode the output to an associative array
+    //        $result = json_decode($process->getOutput(), true);
+
+    //        // Log the output for debugging
+    //        // Log the output for debugging
+    //        Log::debug('Process output: ', is_array($result) ? $result : ['result' => $result]);
+
+    //        return view('result', ['result' => $result]);
+    //    } catch (Exception $e) {
+    //        // Catch any exception and log it
+    //        Log::error('An error occurred: ' . $e->getMessage());
+    //        // Optionally, return a response or view with an error message
+    //        return response()->json(['error' => 'An unexpected error occurred.'], 500);
+    //    }
 //    }
 
     /**
