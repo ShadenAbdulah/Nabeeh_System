@@ -196,6 +196,8 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 document.getElementById('submit_btn').addEventListener('click', function (event) {
+    event.preventDefault(); // Prevent default form submission
+
     if (sessionStorage.getItem('testID') === '12') {
         fetch('/append-to-s3', {
             method: 'POST',
@@ -212,6 +214,8 @@ document.getElementById('submit_btn').addEventListener('click', function (event)
             .then(response => response.json())
             .then(data => {
                 localStorage.removeItem('rawData');
+                window.location.href = "{{ route('result') }}";
+
             })
             .catch(error => {
                 console.error('Error:', error);
