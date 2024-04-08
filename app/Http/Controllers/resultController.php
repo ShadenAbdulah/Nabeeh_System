@@ -14,12 +14,12 @@ class resultController extends Controller
 
     public function store(Request $request)
     {
-        // $id = $request->get('sampleID');
-        $id = 19;
+        $id = $request->get('sampleID');
+        // $id = 19;
         try {
 
-            $pythonPath = 'C:\Python311\python.exe'; 
-            $scriptPath = 'C:\Users\eanha\Documents\collage\GP_Phase2\Nabeeh_System\files\app.py';
+            $pythonPath = 'python3'; 
+            $scriptPath = '/home/u894522242/public_html/system/files/app.py';
             $command = [$pythonPath, $scriptPath, $id];
             $process = new Process($command);
             $process->run();

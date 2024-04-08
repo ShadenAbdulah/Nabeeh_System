@@ -1,13 +1,14 @@
 # -*- coding: utf-8 -*-
 import pandas as pd
-from joblib import load
+# from joblib import load
 from Features import FeatureEng
 import sys 
 import os
+import pickle
 
 sampleID = sys.argv[1]  # Get file path from command line argument
-path = f'C:\\Users\\eanha\\Documents\\collage\\GP_Phase2\\Nabeeh_System\\storage\\app\\system_users\\{sampleID}'
-scalerPath = 'C:\\Users\\eanha\\Documents\\collage\\GP_Phase2\\Nabeeh_System\\files\\scalers'
+path = f'/home/u894522242/public_html/system/storage/app/system_users/{sampleID}'
+scalerPath = '/home/u894522242/public_html/system/files/scalers'
 # ZL_trace
 ZL_trace_exper1 = pd.read_csv(path+'/1-ZL_trace.csv').reset_index()
 ZL_trace_exper2 = pd.read_csv(path+'/3-ZL_trace.csv').reset_index()
@@ -54,8 +55,10 @@ PL_predict = FeatureEng(PL_predict_raw, PL_predict_exper1, PL_predict_exper2, PL
 #         return payload
 
 def scalerFun(taskdf, snum): 
-    scaler = load(scalerPath + f'/scaler{snum}.joblib')
-    
+
+    with open(scalerPath + f'/scaler{snum}.pickle', 'rb') as file:
+        scaler = pickle.load(file)
+        
     feature_indices = [[6, 7, 20, 28],[2, 6, 8, 20, 25],[4, 6, 10, 15, 22, 26, 27],[2, 3, 4, 6, 7, 8, 9, 14, 24]]
     x = taskdf.iloc[:, feature_indices[snum-1]]
     x_standardized = scaler.transform(x)
