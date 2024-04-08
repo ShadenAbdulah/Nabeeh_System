@@ -48,7 +48,8 @@ class CsvController extends Controller
 
 
 
-        $userFolderPath = 'system_users/' . $request->get('sampleID');
+        // $userFolderPath = 'system_users/' . $request->get('sampleID');
+        $userFolderPath = 'system_users/'+$id;
         // Get all files within the local folder
         $files = Storage::disk('local')->allFiles($userFolderPath);
 
