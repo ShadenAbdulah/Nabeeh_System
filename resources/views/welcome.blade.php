@@ -1,6 +1,11 @@
 @extends('layouts.app')
 @section('content')
 
+    <form action="{{route('pdf')}}" method="get" target="_blank">
+        @method('get') @csrf
+        <x-primary-button></x-primary-button>
+    </form>
+
     <div class="w-full flex items-center my-28 phones:my-16 justify-between phones:flex-row">
         <div class="phones:w-full tablet:w-1/2 tablet:space-y-28 phones:space-y-10 justify-between items-center">
             <p class="text-xl font-normal text-justify tracking-wide">

@@ -171,6 +171,9 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+//        Barryvdh\DomPDF\ServiceProvider::class,
+        Mccarlosen\LaravelMpdf\LaravelMpdfServiceProvider::class
+
     ])->replace([
         BaseTranslationServiceProvider::class => JsonTranslationServiceProvider::class,
 
@@ -189,6 +192,7 @@ return [
 
     'aliases' => Facade::defaultAliases()->merge([
         // 'Example' => App\Facades\Example::class,
+        "PDF" => Mccarlosen\LaravelMpdf\Facades\LaravelMpdf::class
     ])->toArray(),
 
 ];

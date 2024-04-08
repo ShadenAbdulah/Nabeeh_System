@@ -5,10 +5,10 @@ namespace App\Http\Controllers;
 
 use Exception;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
-use Symfony\Component\Process\Process;
-use Symfony\Component\Process\Exception\ProcessFailedException;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
+use Symfony\Component\Process\Exception\ProcessFailedException;
+use Symfony\Component\Process\Process;
 
 
 class CsvController extends Controller
@@ -19,24 +19,24 @@ class CsvController extends Controller
 
         // $id = $request->get('sampleID');
         $id = 2;
-        // preproccesing 
+        // preproccesing
         try {
 
-            $pythonPath = 'python3'; 
+            $pythonPath = 'python3';
             $scriptPath = '/home/u894522242/public_html/system/files/app.py';
             $command = [$pythonPath, $scriptPath, $id];
             $process = new Process($command);
             $process->run();
- 
+
             if (!$process->isSuccessful()) {
                 // Log the error
                 Log::error('Process failed: ' . $process->getErrorOutput());
                 $errorOutput = $process->getErrorOutput();
                 Log::debug('Process error output: ', ['error' => $errorOutput]);
- 
+
                 throw new ProcessFailedException($process);
             }
- 
+
             // Process is successful, log this event
             Log::info('Process succeeded.');
         } catch (Exception $e) {
@@ -47,9 +47,8 @@ class CsvController extends Controller
         }
 
 
-
         // $userFolderPath = 'system_users/' . $request->get('sampleID');
-        $userFolderPath = 'system_users/'+$id;
+        $userFolderPath = 'system_users/' . $id;
         // Get all files within the local folder
         $files = Storage::disk('local')->allFiles($userFolderPath);
 

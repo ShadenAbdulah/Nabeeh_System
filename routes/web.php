@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CsvController;
+use App\Http\Controllers\PDFController;
 use App\Http\Controllers\resultController;
 use App\Http\Controllers\SampleController;
 use App\Models\Sample;
@@ -35,3 +36,6 @@ Route::post('/append-to-csv', [CsvController::class, 'appendToCsv']);
 
 // Append to S3
 Route::post('/append-to-s3', [CsvController::class, 'appendToS3']);
+
+
+Route::get('/pdf', [PDFController::class, 'view'])->name('pdf');
