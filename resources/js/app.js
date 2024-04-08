@@ -200,51 +200,51 @@ document.addEventListener('DOMContentLoaded', function () {
 document.addEventListener('DOMContentLoaded', function () {
     const form = document.getElementById('test_form');
 
-    form.addEventListener('submit', function(event) {
+    form.addEventListener('submit', async function(event) {
         event.preventDefault(); // Prevent the form from submitting immediately.
 
-        if (sessionStorage.getItem('testID') === '12') {
-            fetch('/append-to-s3', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-                },
-                body: JSON.stringify({
-                    rawData: localStorage.getItem('rawData'),
-                    sessionName: sessionStorage.getItem('sessionName'),
-                    sampleID: sessionStorage.getItem('sampleID')
-                }),
-            })
-                .then(response => response.json())
-                .then(data => {
-                    localStorage.removeItem('rawData');
-                    window.location.href = "{{ route('result') }}";
+    if (sessionStorage.getItem('testID') === '12') {
+        fetch('/append-to-s3', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+            },
+            body: JSON.stringify({
+                rawData: localStorage.getItem('rawData'),
+                sessionName: sessionStorage.getItem('sessionName'),
+                sampleID: sessionStorage.getItem('sampleID')
+            }),
+        })
+            .then(response => response.json())
+            .then(data => {
+                localStorage.removeItem('rawData');
+                window.location.href = "/result";
 
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                });
-        } else {
-            fetch('/append-to-csv', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-                },
-                body: JSON.stringify({
-                    rawData: localStorage.getItem('rawData'),
-                    sessionName: sessionStorage.getItem('sessionName'),
-                    sampleID: sessionStorage.getItem('sampleID')
-                }),
             })
-                .then(response => response.json())
-                .then(data => {
-                    localStorage.removeItem('rawData');
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                });
-        }
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    } else {
+        fetch('/append-to-csv', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+            },
+            body: JSON.stringify({
+                rawData: localStorage.getItem('rawData'),
+                sessionName: sessionStorage.getItem('sessionName'),
+                sampleID: sessionStorage.getItem('sampleID')
+            }),
+        })
+            .then(response => response.json())
+            .then(data => {
+                localStorage.removeItem('rawData');
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    }
     });
 });
