@@ -12,8 +12,8 @@ class resultController extends Controller
 
     public function store(Request $request)
     {
-        $id = $request->get('sampleID');
-        // $id = 19;
+        // $id = $request->get('sampleID');
+        $id = 2;
         try {
             // Assuming you have your API Gateway URL and it's expecting a GET request with a query parameter
             $apiGatewayUrl = 'https://mpperrn8fg.execute-api.us-east-1.amazonaws.com/test/predict/';
