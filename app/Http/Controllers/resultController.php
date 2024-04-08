@@ -19,12 +19,28 @@ class resultController extends Controller
             $apiGatewayUrl = 'https://mpperrn8fg.execute-api.us-east-1.amazonaws.com/test/predict/';
 
             $response = Http::get($apiGatewayUrl, ['sampleID' => $id]);
-            // Log the raw response for debugging
+            // // Log the raw response for debugging
             Log::info('Lambda response:', ['response' => $response->body()]);
 
-            $probability = (float) $response->json()['body'];
-            return view('result', ['body' => sprintf('%.2f%%', $probability * 100)]);
-        
+            // $probability = (float) $response->json()['body'];
+            // return view('result', ['body' => sprintf('%.2f%%', $probability * 100)]);
+            
+
+
+
+            $data = $response->json();
+            $results = json_decode($data['body'], true);
+
+            // Check if there are enough elements in the array
+            if (count($results) >= 5) {
+                $fifthElement = $results[4];
+                $probability = (float) $fifthElement;
+                $formattedProbability = sprintf('%.2f%%', $probability * 100);
+                return view('result', ['body' => $formattedProbability]);
+            } else {
+                Log::error('Not enough data in the response.');
+                return view('error', ['message' => 'Insufficient data received from the API.']);
+            }
         } catch (Exception $e) {
             Log::error('Lambda execution failed: ' . $e->getMessage());
             return response()->json(['error' => 'Failed to execute prediction model.'], 500);
