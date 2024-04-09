@@ -25,7 +25,7 @@ class CsvController extends Controller
 //            $pythonPath = '/usr/bin/python3';
 //            $scriptPath = '/home/u894522242/public_html/system/public/files/app.py';
 
-            $pythonPath = public_path('.venv/bin/python3');
+            $pythonPath = public_path('...venv/bin/python3.11');
             $scriptPath = public_path('files/app.py');
             $command = [$pythonPath, $scriptPath, $id];
 
