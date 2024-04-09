@@ -9,12 +9,11 @@
     {{--    </htmlpagefooter>--}}
 
     <footer class="mt-auto">
-        <hr class="phones:mb-2">
         <div
-            class="text-base font-light tablet:grid tablet:grid-cols-3 phones:flex phones:flex-col-reverse phones:gap-y-5 phones:m-0 justify-between content-center my-2 container mx-auto items-center">
+            class="text-base font-light grid grid-cols-3 justify-between content-center my-2 container mx-auto items-center">
             <div class="text-start">سيــاسة الخصوصيــة</div>
             <div class="text-center">جميـع الحقوق محفوظــة © 2024</div>
-            <div class="flex flex-row-reverse gap-8 phones:justify-center">
+            <div class="flex flex-row-reverse gap-8">
                 <svg viewBox="0 0 48 48"
                      width="5%"
                      xmlns="http://www.w3.org/2000/svg"><title/>
