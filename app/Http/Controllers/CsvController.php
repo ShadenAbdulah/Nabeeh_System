@@ -24,39 +24,41 @@ class CsvController extends Controller
         // preproccesing
         // try {
 
-            $pythonPath = '/usr/bin/python3';
-            $scriptPath = '/home/u894522242/public_html/system/files/app.py';
+            // $pythonPath = '/usr/bin/python3';
+            // $scriptPath = '/home/u894522242/public_html/system/files/app.py';
 
-            $command = [$pythonPath, $scriptPath, $id];
+            // $command = [$pythonPath, $scriptPath, $id];
 
-            $process = new Process($command);
-            $process->setTimeout(3600); // Set timeout to 1 hour, adjust as necessary.
-            $process->run();
+            // $process = new Process($command);
+            // $process->setTimeout(3600); // Set timeout to 1 hour, adjust as necessary.
+            // $process->run();
 
-            try {
-                $process->mustRun();
+            // try {
+            //     $process->mustRun();
                 
-                // Output the script result
-                echo $process->getOutput();
-            } catch (ProcessFailedException $exception) {
-                // Process failed, handle the exception
-                echo 'Error: '.$exception->getMessage();
-            }
-            // Capture the output from stdout
-            $output = $process->getOutput();
-            Log::debug('Process output: ', ['output' => $output]);
+            //     // Output the script result
+            //     echo $process->getOutput();
+            // } catch (ProcessFailedException $exception) {
+            //     // Process failed, handle the exception
+            //     echo 'Error: '.$exception->getMessage();
+            // }
+            // // Capture the output from stdout
+            // $output = $process->getOutput();
+            // Log::debug('Process output: ', ['output' => $output]);
             
-            if (!$process->isSuccessful()) {
-                // Log the error
-                Log::error('Process failed: ' . $process->getErrorOutput());
-                $errorOutput = $process->getErrorOutput();
-                Log::debug('Process error output: ', ['error' => $errorOutput]);
+            // if (!$process->isSuccessful()) {
+            //     // Log the error
+            //     Log::error('Process failed: ' . $process->getErrorOutput());
+            //     $errorOutput = $process->getErrorOutput();
+            //     Log::debug('Process error output: ', ['error' => $errorOutput]);
             
-                throw new ProcessFailedException($process);
-            }
+            //     throw new ProcessFailedException($process);
+            // }
 
-            // Process is successful, log this event
-            Log::info('Process succeeded.');
+            // // Process is successful, log this event
+            // Log::info('Process succeeded.');
+
+            
         // } catch (Exception $e) {
         //     // Catch any exception and log it
         //     Log::error('An error occurred: ' . $e->getMessage());
