@@ -31,7 +31,7 @@ class CsvController extends Controller
             $command = escapeshellcmd("$pythonPath $scriptPath") . ' ' . escapeshellarg($id);
 
             // Execute the command
-            $output = shell_exec($command);
+            $output = exec($command);
 
             // Check if the command execution was successful
             if ($output !== null) {
