@@ -35,11 +35,28 @@ try:
     ZL_predict_raw = ZL_predict_experiment.drop(columns=['index'])
     print("ZL_predict data loaded and concatenated.")
 
+    # PL_trace    
+    print("Loading PL_trace data...")
+    PL_trace_exper1 = pd.read_csv(path+'/7-PL_trace.csv').reset_index()
+    PL_trace_exper2 = pd.read_csv(path+'/9-PL_trace.csv').reset_index()
+    PL_trace_exper3 = pd.read_csv(path+'/11-PL_trace.csv').reset_index()
+    PL_trace_experiment = pd.concat([PL_trace_exper1, PL_trace_exper2, PL_trace_exper3]).reset_index()
+    PL_trace_raw = PL_trace_experiment.drop(columns=['index'])
+
+    # PL_predict
+    print("Loading PL_predict data...")
+    PL_predict_exper1 = pd.read_csv(path+'/8-PL_predict.csv').reset_index()
+    PL_predict_exper2 = pd.read_csv(path+'/10-PL_predict.csv').reset_index()
+    PL_predict_exper3 = pd.read_csv(path+'/12-PL_predict.csv').reset_index()
+    PL_predict_experiment = pd.concat([PL_predict_exper1, PL_predict_exper2, PL_predict_exper3]).reset_index()
+    PL_predict_raw = PL_predict_experiment.drop(columns=['index'])
     # Feature Engineering
     print("Applying Feature Engineering...")
     from Features import FeatureEng  # Import here to catch any import errors
     ZL_trace = FeatureEng(ZL_trace_raw, ZL_trace_exper1, ZL_trace_exper2, ZL_trace_exper3)
     ZL_predict = FeatureEng(ZL_predict_raw, ZL_predict_exper1, ZL_predict_exper2, ZL_predict_exper3)
+    PL_trace = FeatureEng(PL_trace_raw, PL_trace_exper1, PL_trace_exper2, PL_trace_exper3)
+    PL_predict = FeatureEng(PL_predict_raw, PL_predict_exper1, PL_predict_exper2, PL_predict_exper3)
     print("Feature Engineering applied.")
 
     # Scaling function
