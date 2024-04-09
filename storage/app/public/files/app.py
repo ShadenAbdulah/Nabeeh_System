@@ -14,7 +14,7 @@ try:
     path = f'/home/u894522242/public_html/system/storage/app/system_users/{sampleID}'
     print(f"Data path set to: {path}")
 
-    scalerPath = '/home/u894522242/public_html/system/files/scalers'
+    scalerPath = '/home/u894522242/public_html/system/storage/app/public/files/scalers'
     print(f"Scaler path set to: {scalerPath}")
 
     # Loading and concatenating ZL_trace experiments
