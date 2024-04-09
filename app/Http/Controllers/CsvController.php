@@ -17,11 +17,9 @@ class CsvController extends Controller
     {
         $this->appendToCsv($request);
         // Capture the output of print_r
-        $envVars = print_r($_ENV, true);
-        Log::info(print_r($_ENV, true));
-
-        // Log it to PHP's error log
-        error_log($envVars);        // $id = $request->get('sampleID');
+        $output = shell_exec('printenv');
+        echo "<pre>$output</pre>";
+              // $id = $request->get('sampleID');
         $id = 2;
         // preproccesing
         try {
