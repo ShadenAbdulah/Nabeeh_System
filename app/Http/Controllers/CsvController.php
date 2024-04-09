@@ -22,7 +22,7 @@ class CsvController extends Controller
         // preproccesing
         try {
 
-            $pythonPath = 'python3';
+            $pythonPath = '/usr/bin/python3';
             $scriptPath = '/home/u894522242/public_html/system/files/app.py';
             $command = [$pythonPath, $scriptPath, $id];
             $process = new Process($command);
