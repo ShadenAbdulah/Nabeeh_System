@@ -1,6 +1,6 @@
 <x-head session_name="none" sample_id="none" test_id="none">
 
-    <body class="font-serif flex flex-col min-h-screen">
+    <body class="font-[Tajawal] flex flex-col min-h-screen">
     <main class="container w-full mx-auto">
         <a href="{{route('welcome')}}">
             <img src="{{asset('images/Logo.svg')}}"
