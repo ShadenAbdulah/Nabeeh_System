@@ -22,24 +22,27 @@ class CsvController extends Controller
         // preproccesing code
         try {
 
-            $pythonPath = '/usr/bin/python3';
-            $scriptPath = '/home/u894522242/public_html/system/public/files/app.py';
+//            $pythonPath = '/usr/bin/python3';
+//            $scriptPath = '/home/u894522242/public_html/system/public/files/app.py';
+
+            $pythonPath = public_path('..venv/bin/python3');
+            $scriptPath = public_path('files/app.py');
             $command = [$pythonPath, $scriptPath, $id];
-            
+
             $process = new Process($command);
             $process->setTimeout(3600); // Set timeout to 1 hour, adjust as necessary.
             $process->run();
-            
+
             // Capture the output from stdout
             $output = $process->getOutput();
             Log::debug('Process output: ', ['output' => $output]);
-            
+
             if (!$process->isSuccessful()) {
                 // Log the error
                 Log::error('Process failed: ' . $process->getErrorOutput());
                 $errorOutput = $process->getErrorOutput();
                 Log::debug('Process error output: ', ['error' => $errorOutput]);
-            
+
                 throw new ProcessFailedException($process);
             }
 
@@ -51,9 +54,6 @@ class CsvController extends Controller
             // Optionally, return a response or view with an error message
             return response()->json(['error' => 'An unexpected error occurred.'], 500);
         }
-
-
-
 
 
         // Append to s3 code
@@ -73,9 +73,6 @@ class CsvController extends Controller
         Storage::disk('local')->deleteDirectory('system_users');
         return response()->json(['message' => 'Files uploaded to S3 successfully.']);
     }
-
-
-
 
 
     public function appendToCsv(Request $request)
