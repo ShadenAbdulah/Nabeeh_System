@@ -17,6 +17,6 @@ class PDFController extends Controller
     public function view()
     {
         $pdf = PDF::loadView('pdf');
-        return $pdf->download('j.pdf');
+        return $pdf->stream('j.pdf');
     }
 }
