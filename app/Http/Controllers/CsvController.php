@@ -17,7 +17,7 @@ class CsvController extends Controller
         $this->appendToCsv($request);
 
 //         // $id = $request->get('sampleID');
-//         $id = 2;
+        $id = 2;
 
 //         // preproccesing code
 //         try {
@@ -57,8 +57,8 @@ class CsvController extends Controller
 
 
         // Append to s3 code
-        $userFolderPath = 'system_users/' . $request->get('sampleID');
-        // $userFolderPath = 'system_users/' . $id;
+        // $userFolderPath = 'system_users/' . $request->get('sampleID');
+        $userFolderPath = 'system_users/' . $id;
         // Get all files within the local folder
         $files = Storage::disk('local')->allFiles($userFolderPath);
 
