@@ -16,7 +16,7 @@ class CsvController extends Controller
     public function appendToS3(Request $request)
     {
         $this->appendToCsv($request);
-
+        print_r($_ENV);
         // $id = $request->get('sampleID');
         $id = 2;
         // // preproccesing
