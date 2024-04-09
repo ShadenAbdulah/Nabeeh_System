@@ -3,6 +3,7 @@ import pandas as pd
 import sys 
 import os
 import pickle
+import traceback
 
 print("Starting script... Environment variables:", os.environ)
 
@@ -82,4 +83,5 @@ try:
 
     print("Script executed successfully.")
 except Exception as e:
-    print(f"Script error: {str(e)}", file=sys.stderr)
+    print(f"Unhandled exception: {e}")
+    traceback.print_exc()
