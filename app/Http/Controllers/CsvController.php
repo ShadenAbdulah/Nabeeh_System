@@ -16,13 +16,13 @@ class CsvController extends Controller
     public function appendToS3(Request $request)
     {
         $this->appendToCsv($request);
-        // Capture the output of print_r
-        $output = shell_exec('printenv');
-        echo "<pre>$output</pre>";
+        // // Capture the output of print_r
+        // $output = shell_exec('printenv');
+        // echo "<pre>$output</pre>";
               // $id = $request->get('sampleID');
         $id = 2;
         // preproccesing
-        try {
+        // try {
 
             $pythonPath = '/usr/bin/python3';
             $scriptPath = '/home/u894522242/public_html/system/files/app.py';
@@ -32,6 +32,15 @@ class CsvController extends Controller
             $process->setTimeout(3600); // Set timeout to 1 hour, adjust as necessary.
             $process->run();
             
+            try {
+                $process->mustRun();
+                
+                // Output the script result
+                echo $process->getOutput();
+            } catch (ProcessFailedException $exception) {
+                // Process failed, handle the exception
+                echo 'Error: '.$exception->getMessage();
+            }
             // Capture the output from stdout
             $output = $process->getOutput();
             Log::debug('Process output: ', ['output' => $output]);
@@ -47,12 +56,12 @@ class CsvController extends Controller
 
             // Process is successful, log this event
             Log::info('Process succeeded.');
-        } catch (Exception $e) {
-            // Catch any exception and log it
-            Log::error('An error occurred: ' . $e->getMessage());
-            // Optionally, return a response or view with an error message
-            return response()->json(['error' => 'An unexpected error occurred.'], 500);
-        }
+        // } catch (Exception $e) {
+        //     // Catch any exception and log it
+        //     Log::error('An error occurred: ' . $e->getMessage());
+        //     // Optionally, return a response or view with an error message
+        //     return response()->json(['error' => 'An unexpected error occurred.'], 500);
+        // }
 
 
         // $userFolderPath = 'system_users/' . $request->get('sampleID');
