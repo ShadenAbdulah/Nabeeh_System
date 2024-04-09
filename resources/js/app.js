@@ -195,50 +195,27 @@ document.addEventListener('DOMContentLoaded', function () {
     }, 1000);
 });
 
-// document.getElementById('submit_btn').addEventListener('click', function (event) {
-//     if (sessionStorage.getItem('testID') === '12') {
-//         fetch('/append-to-s3', {
-//             method: 'POST',
-//             headers: {
-//                 'Content-Type': 'application/json',
-//                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-//             },
-//             body: JSON.stringify({
-//                 rawData: localStorage.getItem('rawData'),
-//                 sessionName: sessionStorage.getItem('sessionName'),
-//                 sampleID: sessionStorage.getItem('sampleID')
-//             }),
-//         })
-//             .then(response => response.json())
-//             .then(data => {
-//                 localStorage.removeItem('rawData');
-//             })
-//             .catch(error => {
-//                 console.error('Error:', error);
-//             });
-document.getElementById('submit_btn').addEventListener('click', async function (event) {
-    event.preventDefault(); // Prevent default action if necessary
-    if (sessionStorage.getItem('testID') === '12') {
-        try {
-            const response = await fetch('/append-to-s3', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-                },
-                body: JSON.stringify({
-                    rawData: localStorage.getItem('rawData'),
-                    sessionName: sessionStorage.getItem('sessionName'),
-                    sampleID: sessionStorage.getItem('sampleID')
-                }),
+document.getElementById('submit_btn').addEventListener('click', function (event) {
+    if (sessionStorage.getItem('testID') === '1') {
+        fetch('/append-to-s3', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+            },
+            body: JSON.stringify({
+                rawData: localStorage.getItem('rawData'),
+                sessionName: sessionStorage.getItem('sessionName'),
+                sampleID: sessionStorage.getItem('sampleID')
+            }),
+        })
+            .then(response => response.json())
+            .then(data => {
+                localStorage.removeItem('rawData');
+            })
+            .catch(error => {
+                console.error('Error:', error);
             });
-            const data = await response.json();
-            localStorage.removeItem('rawData');
-            // After successful completion, move to the next step here
-            window.location.href = "/result"; // Redirect or navigate to next step
-        } catch (error) {
-            console.error('Error:', error);
-        }
     } else {
         fetch('/append-to-csv', {
             method: 'POST',
