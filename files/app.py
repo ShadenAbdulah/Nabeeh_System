@@ -5,6 +5,7 @@ from Features import FeatureEng
 import sys 
 import os
 import pickle
+print(os.environ)
 
 sampleID = sys.argv[1]  # Get file path from command line argument
 path = f'/home/u894522242/public_html/system/storage/app/system_users/{sampleID}'
