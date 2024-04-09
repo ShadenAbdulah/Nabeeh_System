@@ -28,10 +28,10 @@ class CsvController extends Controller
             $scriptPath = '/home/u894522242/public_html/system/files/app.py';
             $command = [$pythonPath, $scriptPath, $id];
 
-            $process = new Process($command);
+            $process = new Process($command, null, getenv());
             $process->setTimeout(3600); // Set timeout to 1 hour, adjust as necessary.
             $process->run();
-            
+
             try {
                 $process->mustRun();
                 
