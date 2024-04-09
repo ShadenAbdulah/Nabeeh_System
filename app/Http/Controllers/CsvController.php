@@ -28,14 +28,17 @@ class CsvController extends Controller
             $process = new Process($command);
             $process->setTimeout(3600); // Set timeout to 1 hour, adjust as necessary.
             $process->run();
-            Log::debug('Process output: ', ['output' => $process->getOutput()]);
-
+            
+            // Capture the output from stdout
+            $output = $process->getOutput();
+            Log::debug('Process output: ', ['output' => $output]);
+            
             if (!$process->isSuccessful()) {
                 // Log the error
                 Log::error('Process failed: ' . $process->getErrorOutput());
                 $errorOutput = $process->getErrorOutput();
                 Log::debug('Process error output: ', ['error' => $errorOutput]);
-
+            
                 throw new ProcessFailedException($process);
             }
 
