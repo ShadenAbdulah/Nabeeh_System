@@ -9,27 +9,38 @@ use Illuminate\Support\Facades\Http;
 
 class resultController extends Controller
 {
-
     public function store(Request $request)
     {
         // $id = $request->get('sampleID');
         $id = 2;
-        try {
-            // Assuming you have your API Gateway URL and it's expecting a GET request with a query parameter
-            $apiGatewayUrl = 'https://mpperrn8fg.execute-api.us-east-1.amazonaws.com/test/predict/';
 
+    
+        try {
+            $apiGatewayUrl = 'https://mpperrn8fg.execute-api.us-east-1.amazonaws.com/test/predict/';
+    
             $response = Http::get($apiGatewayUrl, ['sampleID' => $id]);
             // Log the raw response for debugging
             Log::info('Lambda response:', ['response' => $response->body()]);
-
-            $probability = (float) $response->json()['body'];
-            return view('result', ['body' => sprintf('%.2f%%', $probability * 100)]);
+    
+            // Decode the JSON response body to access its elements
+            $responseBody = json_decode($response->body(), true);
+            $probability = $responseBody[0];
+    
+            // Check the first element's value to determine the result
+            $result = 'Not ADHD'; // Default to 'Not ADHD'
+            if ($probability >= 0.50) {
+                $result = 'ADHD';
+            }
+            $firstElement = $probability * 100;
+            // Pass the result to your view
+            return view('result', ['result' => $result,'probability' => $probability]);
         
         } catch (Exception $e) {
             Log::error('Lambda execution failed: ' . $e->getMessage());
             return response()->json(['error' => 'Failed to execute prediction model.'], 500);
         }
     }
+    
 //     public function store(Request $request)
 //     {
 

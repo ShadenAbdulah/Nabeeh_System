@@ -1,12 +1,24 @@
 @extends('layouts.app')
 @section('content')
 
-    <div
+    <!-- <div
         class="w-3/5 my-5 mx-auto grid grid-rows-3 gap-16 shadow-2xl shadow-[#6D6AB1]/10 p-10 rounded-3xl content-center text-center">
         <h1 class="font-extrabold text-4xl">النتيجــــــــة</h1>
         <h1 class="font-medium text-2xl">التقييم الأولي يشير الى ان احتمالية اصابتك بـADHD هي:</h1>
-        <h1 class="font-extrabold text-6xl text-[#6D6AB1]"> {{ $body }} </h1>
+        <h1 class="font-extrabold text-6xl text-[#6D6AB1]"> {{ $result }} </h1>
+    </div> -->
+    @if($result === 'ADHD')
+    <div class="w-3/5 my-5 mx-auto grid grid-rows-3 gap-16 shadow-2xl shadow-[#6D6AB1]/10 p-10 rounded-3xl content-center text-center">
+        <h1 class="font-extrabold text-4xl">النتيجــــــــة</h1>
+        <h1 class="font-extrabold text-6xl text-[#6D6AB1]">ADHD</h1>
+        <h1 class="font-medium text-2xl">التقييم الأولي يشير الى ان احتمالية اصابتك بـADHD عالية {{ $probability }}</h1>
     </div>
+    @else
+    <div class="w-3/5 my-5 mx-auto grid grid-rows-3 gap-16 shadow-2xl shadow-[#6D6AB1]/10 p-10 rounded-3xl content-center text-center">
+        <h1 class="font-extrabold text-4xl">النتيجــــــــة</h1>
+        <h1 class="font-medium text-2xl">التقييم الأولي يشير الى ان احتمالية اصابتك بـADHD منخفضة {{ $probability }}</h1>
+    </div>
+    @endif
 
 </div>
 
