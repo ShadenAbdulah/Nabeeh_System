@@ -18,7 +18,9 @@ class resultController extends Controller
         try {
             $apiGatewayUrl = 'https://mpperrn8fg.execute-api.us-east-1.amazonaws.com/test/predict/';
     
-            $response = Http::get($apiGatewayUrl, ['sampleID' => $id]);
+            // $response = Http::get($apiGatewayUrl, ['sampleID' => $id]);
+            $response = Http::timeout(150)->get($apiGatewayUrl, ['sampleID' => $id]);
+
             // Log the raw response for debugging
             Log::info('Lambda response:', ['response' => $response->body()]);
     
