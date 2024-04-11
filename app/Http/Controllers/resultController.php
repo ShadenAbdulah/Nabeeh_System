@@ -22,24 +22,9 @@ class resultController extends Controller
             // Log the raw response for debugging
             Log::info('Lambda response:', ['response' => $response->body()]);
             
-            // Decode the JSON response body to access its elements
             $responseBody = json_decode($response->body(), true);
 
-            // Given the error, double-check the structure of responseBody here:
-            if (!isset($responseBody['response'])) {
-                Log::error('Unexpected response structure.', ['responseBody' => $responseBody]);
-                return response()->json(['error' => 'Unexpected response structure.'], 500);
-            }
-
-            // Assuming 'response' is a JSON-encoded string as per the log
-            $dataArray = json_decode($responseBody['response'], true);
-
-            if (!is_array($dataArray) || !isset($dataArray[0])) {
-                Log::error('Data array is not as expected.', ['dataArray' => $dataArray]);
-                return response()->json(['error' => 'Data array is not as expected.'], 500);
-            }
-
-            $probability = $dataArray[0]; // Access the first element of the array
+            $probability = $responseBody[0]; // Correctly accessing the first element of the array
 
             // Continue with your logic...
             $result = 'Not ADHD'; // Default to 'Not ADHD'
