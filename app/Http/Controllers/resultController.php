@@ -13,7 +13,7 @@ class resultController extends Controller
     {
         // $id = $request->get('sampleID');
         $id = 2;
-
+        sleep(3); // Pause PHP execution for 5 seconds
     
         try {
             $apiGatewayUrl = 'https://2yv3ea5spjpdmcig2tuzcepqsm0bajyb.lambda-url.us-east-1.on.aws/';
@@ -38,6 +38,8 @@ class resultController extends Controller
 
         } catch (Exception $e) {
             Log::error('Lambda execution failed: ' . $e->getMessage());
+
+            // ERROR PAGE 
             return response()->json(['error' => 'Failed to execute prediction model.'], 500);
         }
 
