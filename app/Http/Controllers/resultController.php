@@ -24,14 +24,12 @@ class resultController extends Controller
 
             // Log the raw response for debugging
             Log::info('Lambda response:', ['response' => $response->body()]);
-    
+            
             // Decode the JSON response body to access its elements
             $responseBody = json_decode($response->body(), true);
 
-            // Then, decode the nested JSON string in 'body' to access the array
-            $dataArray = json_decode($responseBody['body'], true);
-            $probability = $dataArray[0]; // Now correctly accessing the first element of the array
-
+            // Access the array directly from the decoded response
+            $probability = $responseBody['response'][0]; // Adjusted to correctly access the first element of the array
             // Check the first element's value to determine the result
             $result = 'Not ADHD'; // Default to 'Not ADHD'
             if ($probability >= 0.50) {
