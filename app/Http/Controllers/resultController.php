@@ -13,7 +13,7 @@ class resultController extends Controller
     {
         // $id = $request->get('sampleID');
         $id = 2;
-        sleep(10); // Pause PHP execution for 5 seconds
+        // sleep(5); // Pause PHP execution for 5 seconds
     
         try {
             $apiGatewayUrl = 'https://2yv3ea5spjpdmcig2tuzcepqsm0bajyb.lambda-url.us-east-1.on.aws/';
