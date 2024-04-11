@@ -25,23 +25,29 @@ class resultController extends Controller
             // Decode the JSON response body to access its elements
             $responseBody = json_decode($response->body(), true);
 
-            // If the 'response' key holds a string that is JSON-encoded, decode it. Otherwise, this step is unnecessary.
-            if (is_string($responseBody['response'])) {
-                $dataArray = json_decode($responseBody['response'], true);
-            } else {
-                // If it's already an array (or if the structure is different), adjust accordingly.
-                // Based on the error, it seems the array might directly be the body or the structure assumed is incorrect.
-                $dataArray = $responseBody;
+            // Given the error, double-check the structure of responseBody here:
+            if (!isset($responseBody['response'])) {
+                Log::error('Unexpected response structure.', ['responseBody' => $responseBody]);
+                return response()->json(['error' => 'Unexpected response structure.'], 500);
             }
-            
-            $probability = $dataArray[0]; // Access the first element of the array directly
 
-            // Check the first element's value to determine the result
+            // Assuming 'response' is a JSON-encoded string as per the log
+            $dataArray = json_decode($responseBody['response'], true);
+
+            if (!is_array($dataArray) || !isset($dataArray[0])) {
+                Log::error('Data array is not as expected.', ['dataArray' => $dataArray]);
+                return response()->json(['error' => 'Data array is not as expected.'], 500);
+            }
+
+            $probability = $dataArray[0]; // Access the first element of the array
+
+            // Continue with your logic...
             $result = 'Not ADHD'; // Default to 'Not ADHD'
             if ($probability >= 0.50) {
                 $result = 'ADHD';
             }
-            $probability = $probability * 100;
+            $probability *= 100;
+
             // Pass the result to your view
             return view('result', ['result' => $result, 'probability' => $probability]);
 
@@ -49,6 +55,7 @@ class resultController extends Controller
             Log::error('Lambda execution failed: ' . $e->getMessage());
             return response()->json(['error' => 'Failed to execute prediction model.'], 500);
         }
+
 
     }
     
