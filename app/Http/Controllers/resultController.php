@@ -16,8 +16,9 @@ class resultController extends Controller
 
     
         try {
-            $apiGatewayUrl = 'https://mpperrn8fg.execute-api.us-east-1.amazonaws.com/test/predict/';
-    
+            // $apiGatewayUrl = 'https://mpperrn8fg.execute-api.us-east-1.amazonaws.com/test/predict/';
+            $apiGatewayUrl = 'https://2yv3ea5spjpdmcig2tuzcepqsm0bajyb.lambda-url.us-east-1.on.aws/';
+
             // $response = Http::get($apiGatewayUrl, ['sampleID' => $id]);
             $response = Http::timeout(150)->get($apiGatewayUrl, ['sampleID' => $id]);
 
