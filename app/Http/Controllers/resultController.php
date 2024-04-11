@@ -26,14 +26,17 @@ class resultController extends Controller
     
             // Decode the JSON response body to access its elements
             $responseBody = json_decode($response->body(), true);
-            $probability = $responseBody[0];
-    
+
+            // Then, decode the nested JSON string in 'body' to access the array
+            $dataArray = json_decode($responseBody['body'], true);
+            $probability = $dataArray[0]; // Now correctly accessing the first element of the array
+
             // Check the first element's value to determine the result
             $result = 'Not ADHD'; // Default to 'Not ADHD'
             if ($probability >= 0.50) {
                 $result = 'ADHD';
             }
-            $firstElement = $probability * 100;
+            $probability = $probability * 100;
             // Pass the result to your view
             return view('result', ['result' => $result,'probability' => $probability]);
         
