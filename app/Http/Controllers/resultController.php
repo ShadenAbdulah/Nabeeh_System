@@ -16,10 +16,7 @@ class resultController extends Controller
 
     
         try {
-            // $apiGatewayUrl = 'https://mpperrn8fg.execute-api.us-east-1.amazonaws.com/test/predict/';
             $apiGatewayUrl = 'https://2yv3ea5spjpdmcig2tuzcepqsm0bajyb.lambda-url.us-east-1.on.aws/';
-
-            // $response = Http::get($apiGatewayUrl, ['sampleID' => $id]);
             $response = Http::timeout(150)->get($apiGatewayUrl, ['sampleID' => $id]);
 
             // Log the raw response for debugging
@@ -28,8 +25,17 @@ class resultController extends Controller
             // Decode the JSON response body to access its elements
             $responseBody = json_decode($response->body(), true);
 
-            // Access the array directly from the decoded response
-            $probability = $responseBody['response'][0]; // Adjusted to correctly access the first element of the array
+            // If the 'response' key holds a string that is JSON-encoded, decode it. Otherwise, this step is unnecessary.
+            if (is_string($responseBody['response'])) {
+                $dataArray = json_decode($responseBody['response'], true);
+            } else {
+                // If it's already an array (or if the structure is different), adjust accordingly.
+                // Based on the error, it seems the array might directly be the body or the structure assumed is incorrect.
+                $dataArray = $responseBody;
+            }
+            
+            $probability = $dataArray[0]; // Access the first element of the array directly
+
             // Check the first element's value to determine the result
             $result = 'Not ADHD'; // Default to 'Not ADHD'
             if ($probability >= 0.50) {
@@ -37,12 +43,13 @@ class resultController extends Controller
             }
             $probability = $probability * 100;
             // Pass the result to your view
-            return view('result', ['result' => $result,'probability' => $probability]);
-        
+            return view('result', ['result' => $result, 'probability' => $probability]);
+
         } catch (Exception $e) {
             Log::error('Lambda execution failed: ' . $e->getMessage());
             return response()->json(['error' => 'Failed to execute prediction model.'], 500);
         }
+
     }
     
 //     public function store(Request $request)
