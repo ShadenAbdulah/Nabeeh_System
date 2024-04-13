@@ -12,26 +12,27 @@ class resultController extends Controller
     public function showResults()
     {
         // Return the initial view with the spinner
-        return view('results');
+        return view('result');
     }
 
     public function fetchResults(Request $request)
     {
-        $id = 2; // You might want to dynamically pass this or calculate it based on the session/user input
+        $id = 2; // Example ID
         try {
-            $apiGatewayUrl = 'https://2yv3ea5spjpdmcig2tuzcepqsm0bajyb.lambda-url.us-east-1.on.aws/';
+            $apiGatewayUrl = 'https://api.url.here';
             $response = Http::timeout(150)->get($apiGatewayUrl, ['sampleID' => $id]);
             Log::info('Lambda response:', ['response' => $response->body()]);
             $responseBody = json_decode($response->body(), true);
             $probability = $responseBody[0] * 100; // Assuming the response is structured this way
-
+    
             $result = $probability >= 50 ? 'ADHD' : 'Not ADHD';
-            return view('partials.result', ['result' => $result, 'probability' => $probability]);
+            return response()->json(['result' => $result, 'probability' => $probability]);
         } catch (Exception $e) {
             Log::error('Lambda execution failed: ' . $e->getMessage());
             return response()->json(['error' => 'Failed to execute prediction model.'], 500);
         }
     }
+    
     // public function store(Request $request)
     // {
     //     // $id = $request->get('sampleID');
