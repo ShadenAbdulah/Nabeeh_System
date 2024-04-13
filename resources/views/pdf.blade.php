@@ -14,7 +14,7 @@
     <title>pdf</title>
 
 </head>
-
+<body>
 <div>this is header</div>
 <footer class="mt-auto">
     <hr>
@@ -31,3 +31,5 @@
         </div>
     </div>
 </footer>
+</body>
+</html>
