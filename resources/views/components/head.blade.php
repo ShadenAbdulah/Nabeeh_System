@@ -18,7 +18,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@200;300;400;500;700;800;900&display=swap"
           rel="stylesheet">
 
-    <link rel="stylesheet" href="{{asset('build/assets/app-49ccf5c0.css')}}">
+    <link rel="stylesheet" href="{{asset('build/assets/app-8d1bbe8f.css')}}">
 
     {{--    <!-- Scripts -->--}}
     <script src="{{asset('build/assets/app-6f2e0410.js')}}" defer></script>
