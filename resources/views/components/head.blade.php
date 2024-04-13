@@ -15,8 +15,8 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    {{--    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@200;300;400;500;700;800;900&display=swap"--}}
-    {{--    rel="stylesheet">--}}
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@200;300;400;500;700;800;900&display=swap"
+          rel="stylesheet">
 
     <link rel="stylesheet" href="{{asset('build/assets/app-49ccf5c0.css')}}">
 
@@ -27,7 +27,6 @@
     <script defer src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/jquery@3.6.1/dist/jquery.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/fabric@5.2.4/dist/fabric.min.js"></script>
-
 
     <script>sessionStorage.setItem('sessionName', '{{$session_name}}');
         sessionStorage.setItem('sampleID', '{{$sample_id}}');
