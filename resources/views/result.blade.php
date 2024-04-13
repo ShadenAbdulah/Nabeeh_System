@@ -40,11 +40,12 @@
 <script>
 $(document).ready(function() {
     $.ajax({
-        url: '{{ route("fetch-results") }}',
-        type: 'GET',
-        success: function(data) {
-            $('#spinner').hide();
-            if (data.result === 'ADHD') {
+    url: '{{ route("fetch-results") }}',
+    type: 'GET',
+    success: function(data) {
+        $('#spinner').hide();
+        // success logic here
+        if (data.result === 'ADHD') {
                 $('#result').html(`
                     <h1 class="font-extrabold text-4xl">النتيجــــــــة</h1>
                     <h1 class="font-extrabold text-6xl text-[#6D6AB1]">ADHD</h1>
@@ -56,12 +57,37 @@ $(document).ready(function() {
                     <h1 class="font-medium text-2xl">التقييم الأولي يشير الى ان احتمالية اصابتك بـADHD منخفضة ${data.probability}%</h1>
                 `).show();
             }
-        },
-        error: function() {
-            $('#spinner').hide();
-            $('#result').html('<h1>Error occurred while fetching data.</h1>').show();
-        }
-    });
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+        $('#spinner').hide();
+        console.error('AJAX Error: ', textStatus, errorThrown);
+        $('#result').html('<h1>Error occurred while fetching data: ' + errorThrown + '</h1>').show();
+    }
+});
+
+    // $.ajax({
+    //     url: '{{ route("fetch-results") }}',
+    //     type: 'GET',
+    //     success: function(data) {
+    //         $('#spinner').hide();
+    //         if (data.result === 'ADHD') {
+    //             $('#result').html(`
+    //                 <h1 class="font-extrabold text-4xl">النتيجــــــــة</h1>
+    //                 <h1 class="font-extrabold text-6xl text-[#6D6AB1]">ADHD</h1>
+    //                 <h1 class="font-medium text-2xl">التقييم الأولي يشير الى ان احتمالية اصابتك بـADHD عالية ${data.probability}%</h1>
+    //             `).show();
+    //         } else {
+    //             $('#result').html(`
+    //                 <h1 class="font-extrabold text-4xl">النتيجــــــــة</h1>
+    //                 <h1 class="font-medium text-2xl">التقييم الأولي يشير الى ان احتمالية اصابتك بـADHD منخفضة ${data.probability}%</h1>
+    //             `).show();
+    //         }
+    //     },
+    //     error: function() {
+    //         $('#spinner').hide();
+    //         $('#result').html('<h1>Error occurred while fetching data.</h1>').show();
+    //     }
+    // });
 });
 </script>
 
