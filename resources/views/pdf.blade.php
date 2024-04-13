@@ -1,6 +1,7 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
+    <meta size="A4">
 
 
     <!-- Fonts -->
@@ -10,8 +11,10 @@
           rel="stylesheet">
 
     <link rel="stylesheet" href="{{asset('build/assets/app-71584e02.css')}}">
+    <title>pdf</title>
 
 </head>
+
 <div>this is header</div>
 <footer class="mt-auto">
     <hr>
