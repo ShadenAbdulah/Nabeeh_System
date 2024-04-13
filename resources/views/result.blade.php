@@ -1,5 +1,5 @@
-@extends('layouts.app')
-@section('content')
+<!-- @extends('layouts.app')
+@section('content') -->
 
     <!-- <div
         class="w-3/5 my-5 mx-auto grid grid-rows-3 gap-16 shadow-2xl shadow-[#6D6AB1]/10 p-10 rounded-3xl content-center text-center">
@@ -7,7 +7,7 @@
         <h1 class="font-medium text-2xl">التقييم الأولي يشير الى ان احتمالية اصابتك بـADHD هي:</h1>
         <h1 class="font-extrabold text-6xl text-[#6D6AB1]"> {{ $result }} </h1>
     </div> -->
-    @if($result === 'ADHD')
+    <!-- @if($result === 'ADHD')
     <div class="w-3/5 my-5 mx-auto grid grid-rows-3 gap-16 shadow-2xl shadow-[#6D6AB1]/10 p-10 rounded-3xl content-center text-center">
         <h1 class="font-extrabold text-4xl">النتيجــــــــة</h1>
         <h1 class="font-extrabold text-6xl text-[#6D6AB1]">ADHD</h1>
@@ -20,7 +20,52 @@
     </div>
     @endif
 
+</div> -->
+
+
+
+
+
+@extends('layouts.app')
+
+@section('content')
+<div id="spinner" class="w-3/5 my-5 mx-auto grid grid-rows-3 gap-16 shadow-2xl shadow-[#6D6AB1]/10 p-10 rounded-3xl content-center text-center" style="display: none;">
+    <h1 class="font-extrabold text-4xl">النتيجــــــــة</h1>
+    <div class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
 </div>
+
+<div id="result" class="w-3/5 my-5 mx-auto grid grid-rows-3 gap-16 shadow-2xl shadow-[#6D6AB1]/10 p-10 rounded-3xl content-center text-center" style="display: none;">
+    @if($result === 'ADHD')
+        <h1 class="font-extrabold text-4xl">النتيجــــــــة</h1>
+        <h1 class="font-extrabold text-6xl text-[#6D6AB1]">ADHD</h1>
+        <h1 class="font-medium text-2xl">التقييم الأولي يشير الى ان احتمالية اصابتك بـADHD عالية {{ $probability }}%</h1>
+    @else
+        <h1 class="font-extrabold text-4xl">النتيجــــــــة</h1>
+        <h1 class="font-medium text-2xl">التقييم الأولي يشير الى ان احتمالية اصابتك بـADHD منخفضة {{ $probability }}%</h1>
+    @endif
+</div>
+
+<script>
+    document.getElementById('result').style.display = 'none'; // Initially hide results
+    document.getElementById('spinner').style.display = 'block'; // Show spinner
+
+    window.onload = function() {
+        setTimeout(function() {
+            document.getElementById('spinner').style.display = 'none';
+            document.getElementById('result').style.display = 'block';
+        }, 5000); // Simulate delay for demonstration. Replace with actual request handling
+    };
+</script>
+
+
+
+
+
+
+
+
 
     <div class="mx-auto w-3/5 p-10 flex justify-between items-center">
         <svg class="w-1/12"
