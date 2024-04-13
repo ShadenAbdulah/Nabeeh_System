@@ -59,12 +59,12 @@ $(document).ready(function() {
                 $('#result').html(`
                     <h1 class="font-extrabold text-4xl">النتيجــــــــة</h1>
                     <h1 class="font-extrabold text-6xl text-[#6D6AB1]">ADHD</h1>
-                    <h1 class="font-medium text-2xl">التقييم الأولي يشير الى ان احتمالية اصابتك بـADHD عالية ${data.probability}%</h1>
+                    <h1 class="font-medium text-2xl">التقييم الأولي يشير الى ان احتمالية اصابتك بـADHD عالية.</h1>
                 `).show();
             } else {
                 $('#result').html(`
                     <h1 class="font-extrabold text-4xl">النتيجــــــــة</h1>
-                    <h1 class="font-medium text-2xl">التقييم الأولي يشير الى ان احتمالية اصابتك بـADHD منخفضة ${data.probability}%</h1>
+                    <h1 class="font-medium text-2xl">التقييم الأولي يشير الى ان احتمالية اصابتك بـADHD منخفضة.</h1>
                 `).show();
             }
         },
