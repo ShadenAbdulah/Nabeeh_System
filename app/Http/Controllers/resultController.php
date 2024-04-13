@@ -1,20 +1,21 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Models\Test;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Http; 
 
 class resultController extends Controller
 {
     public function showResults(Request $request)
     {
-        // $id = $request->get('sampleID');
-        $id = 2;
+        $id = $request->get('sampleID');
+//        $id = 2;
 
-        session(['sampleID' => $id]);  
+        session(['sampleID' => $id]);
         return view('result');
     }
 
@@ -33,26 +34,26 @@ class resultController extends Controller
             } else {
                 return response()->json(['error' => 'Failed to get a valid response from the API.'], 500);
             }
-    
+
         } catch (Exception $e) {
             Log::error('Lambda execution failed: ' . $e->getMessage());
             return response()->json(['error' => 'Failed to execute prediction model.'], 500);
         }
     }
-    
+
     // public function store(Request $request)
     // {
     //     // $id = $request->get('sampleID');
     //     $id = 2;
     //     // sleep(5); // Pause PHP execution for 5 seconds
-    
+
     //     try {
     //         $apiGatewayUrl = 'https://2yv3ea5spjpdmcig2tuzcepqsm0bajyb.lambda-url.us-east-1.on.aws/';
     //         $response = Http::timeout(150)->get($apiGatewayUrl, ['sampleID' => $id]);
 
     //         // Log the raw response for debugging
     //         Log::info('Lambda response:', ['response' => $response->body()]);
-            
+
     //         $responseBody = json_decode($response->body(), true);
 
     //         $probability = $responseBody[0]; // Correctly accessing the first element of the array
@@ -70,13 +71,13 @@ class resultController extends Controller
     //     } catch (Exception $e) {
     //         Log::error('Lambda execution failed: ' . $e->getMessage());
 
-    //         // ERROR PAGE 
+    //         // ERROR PAGE
     //         return response()->json(['error' => 'Failed to execute prediction model.'], 500);
     //     }
 
 
     // }
-    
+
 //     public function store(Request $request)
 //     {
 
