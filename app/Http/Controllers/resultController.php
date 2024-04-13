@@ -9,42 +9,65 @@ use Illuminate\Support\Facades\Http;
 
 class resultController extends Controller
 {
-    public function store(Request $request)
+    public function showResults()
     {
-        // $id = $request->get('sampleID');
-        $id = 2;
-        // sleep(5); // Pause PHP execution for 5 seconds
-    
+        // Return the initial view with the spinner
+        return view('results');
+    }
+
+    public function fetchResults(Request $request)
+    {
+        $id = 2; // You might want to dynamically pass this or calculate it based on the session/user input
         try {
             $apiGatewayUrl = 'https://2yv3ea5spjpdmcig2tuzcepqsm0bajyb.lambda-url.us-east-1.on.aws/';
             $response = Http::timeout(150)->get($apiGatewayUrl, ['sampleID' => $id]);
-
-            // Log the raw response for debugging
             Log::info('Lambda response:', ['response' => $response->body()]);
-            
             $responseBody = json_decode($response->body(), true);
+            $probability = $responseBody[0] * 100; // Assuming the response is structured this way
 
-            $probability = $responseBody[0]; // Correctly accessing the first element of the array
-
-            // Continue with your logic...
-            $result = 'Not ADHD'; // Default to 'Not ADHD'
-            if ($probability >= 0.50) {
-                $result = 'ADHD';
-            }
-            $probability *= 100;
-
-            // Pass the result to your view
-            return view('result', ['result' => $result, 'probability' => $probability]);
-
+            $result = $probability >= 50 ? 'ADHD' : 'Not ADHD';
+            return view('partials.result', ['result' => $result, 'probability' => $probability]);
         } catch (Exception $e) {
             Log::error('Lambda execution failed: ' . $e->getMessage());
-
-            // ERROR PAGE 
             return response()->json(['error' => 'Failed to execute prediction model.'], 500);
         }
-
-
     }
+    // public function store(Request $request)
+    // {
+    //     // $id = $request->get('sampleID');
+    //     $id = 2;
+    //     // sleep(5); // Pause PHP execution for 5 seconds
+    
+    //     try {
+    //         $apiGatewayUrl = 'https://2yv3ea5spjpdmcig2tuzcepqsm0bajyb.lambda-url.us-east-1.on.aws/';
+    //         $response = Http::timeout(150)->get($apiGatewayUrl, ['sampleID' => $id]);
+
+    //         // Log the raw response for debugging
+    //         Log::info('Lambda response:', ['response' => $response->body()]);
+            
+    //         $responseBody = json_decode($response->body(), true);
+
+    //         $probability = $responseBody[0]; // Correctly accessing the first element of the array
+
+    //         // Continue with your logic...
+    //         $result = 'Not ADHD'; // Default to 'Not ADHD'
+    //         if ($probability >= 0.50) {
+    //             $result = 'ADHD';
+    //         }
+    //         $probability *= 100;
+
+    //         // Pass the result to your view
+    //         return view('result', ['result' => $result, 'probability' => $probability]);
+
+    //     } catch (Exception $e) {
+    //         Log::error('Lambda execution failed: ' . $e->getMessage());
+
+    //         // ERROR PAGE 
+    //         return response()->json(['error' => 'Failed to execute prediction model.'], 500);
+    //     }
+
+
+    // }
     
 //     public function store(Request $request)
 //     {

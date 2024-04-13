@@ -18,7 +18,10 @@ Route::get('/info', fn() => view('info'))->name('info');
 
 //Route::get('/result', fn() => view('result'))->name('result');
 
-Route::get('/send', [resultController::class, 'store'])->name('result');
+// Route::get('/send', [resultController::class, 'store'])->name('result');
+Route::get('/send',[resultController::class, 'showResults'])->name('result');
+Route::get('/fetch-results',[resultController::class, 'fetchResults'])->name('fetch-results');
+
 
 // Create and store new user
 Route::post('/create', [SampleController::class, 'store'])->name('object.store');
