@@ -13,15 +13,18 @@
 
 </head>
 <div>this is header</div>
-<div
-    class="text-base font-light grid grid-cols-3 justify-between content-center my-2 container mx-auto items-center">
-    <div class="text-start">سيــاسة الخصوصيــة</div>
-    <div class="text-center">جميـع الحقوق محفوظــة © 2024</div>
-    <div class="flex flex-row-reverse gap-8">
+<footer class="mt-auto">
+    <hr>
+    <div
+        class="text-base font-light grid grid-cols-3 justify-between content-center my-2 container mx-auto items-center">
+        <div class="text-start">سيــاسة الخصوصيــة</div>
+        <div class="text-center">جميـع الحقوق محفوظــة © 2024</div>
+        <div class="flex flex-row-reverse gap-8">
 
-        <img src="{{asset('images/mail_icon.png')}}">
-        <img src="{{asset('images/whatsapp_icon.png')}}">
-        <img src="{{asset('images/X_icon.png')}}">
+            <img src="{{asset('images/mail_icon.png')}}">
+            <img src="{{asset('images/whatsapp_icon.png')}}">
+            <img src="{{asset('images/X_icon.png')}}">
 
+        </div>
     </div>
-</div>
+</footer>
