@@ -32,7 +32,7 @@ class SampleController extends Controller
         $sample = Sample::create($attr);
 
 //        return redirect()->route('object.test', ['test' => Test::first(), 'sample' => $sample]);
-        return redirect()->route('object.train');
+        return redirect()->route('object.train', ['test' => Test::first(), 'sample' => $sample]);
     }
 
     /**
