@@ -17,12 +17,12 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     {{--    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@200;300;400;500;700;800;900&display=swap"--}}
     {{--    rel="stylesheet">--}}
-    <link rel="stylesheet" href="{{asset('build/assets/app-eab06b2f.css')}}">
+    <link rel="stylesheet" href="{{asset('build/assets/app-49ccf5c0.css')}}">
 
     {{--    @vite(['resources/js/app.js', 'resources/css/app.css'])--}}
 
     {{--    <!-- Scripts -->--}}
-    <script src="{{asset('build/assets/app-397e09f0.js')}}" defer></script>
+    <script src="{{asset('build/assets/app-6f2e0410.js')}}" defer></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
     <script defer src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"></script>

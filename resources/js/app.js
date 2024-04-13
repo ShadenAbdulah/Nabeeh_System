@@ -172,7 +172,6 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
 
-    
     let interval = setInterval(() => {
         countdown--;
         if (countdown <= 0) {
@@ -196,7 +195,7 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 document.getElementById('submit_btn').addEventListener('click', function (event) {
-    if (sessionStorage.getItem('testID') === '1') {
+    if (sessionStorage.getItem('testID') === '12') {
         fetch('/append-to-s3', {
             method: 'POST',
             headers: {
