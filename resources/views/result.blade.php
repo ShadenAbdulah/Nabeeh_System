@@ -3,7 +3,6 @@
 @section('content')
 <div id="spinner" class="w-3/5 my-5 mx-auto grid grid-rows-3 gap-16 shadow-2xl shadow-[#6D6AB1]/10 p-10 rounded-3xl content-center text-center">
     <h1 class="font-extrabold text-4xl">النتيجــــــــة</h1>
-    <div class="d-flex justify-content-center">
     <div class="spinner-border text-dark" role="status">
   <span class="sr-only">Loading...</span>
 </div>
@@ -56,10 +55,15 @@ $(document).ready(function() {
                     <h1 class="font-extrabold text-6xl text-[#6D6AB1]">ADHD</h1>
                     <h1 class="font-medium text-2xl">التقييم الأولي يشير الى ان احتمالية اصابتك بـADHD عالية ${data.probability}%</h1>
                 `).show();
-            } else {
+            }else if(data.result === 'Not ADHD')  {
                 $('#result').html(`
                     <h1 class="font-extrabold text-4xl">النتيجــــــــة</h1>
                     <h1 class="font-medium text-2xl">التقييم الأولي يشير الى ان احتمالية اصابتك بـADHD منخفضة ${data.probability}%</h1>
+                `).show();
+            }else{
+                $('#result').html(`
+                    <h1 class="font-extrabold text-4xl">خطـــــــأ</h1>
+                    <h1 class="font-medium text-2xl">نعتذر حدث خطأ اثناء معالجة البيانات</h1>
                 `).show();
             }
     },
