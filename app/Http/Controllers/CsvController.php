@@ -2,12 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Exception;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
-use Symfony\Component\Process\Exception\ProcessFailedException;
-use Symfony\Component\Process\Process;
 
 
 class CsvController extends Controller
@@ -16,8 +12,7 @@ class CsvController extends Controller
     {
         $this->appendToCsv($request);
 
-//         // $id = $request->get('sampleID');
-        $id = 2;
+        $id = $request->get('sampleID');
 
 //         // preproccesing code
 //         try {
