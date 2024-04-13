@@ -22,7 +22,7 @@ class resultController extends Controller
     public function fetchResults()
     {
         try {
-            sleep(3);
+            sleep(5);
             $id = session('sampleID');
             $apiGatewayUrl = 'https://2yv3ea5spjpdmcig2tuzcepqsm0bajyb.lambda-url.us-east-1.on.aws/';
             $response = Http::timeout(150)->get($apiGatewayUrl, ['sampleID' => $id]);
@@ -31,14 +31,14 @@ class resultController extends Controller
                 $responseBody = json_decode($response->body(), true);
                 $probability = $responseBody[0] * 100;
                 $result = $probability >= 50 ? 'ADHD' : 'Not ADHD';
-                return response()->json(['result' => $result, 'probability' => $probability]);
+                return response()->json(['result' => $result]);
             } else {
                 return response()->json(['error' => 'Failed to get a valid response from the API.'], 500);
             }
 
         } catch (Exception $e) {
             Log::error('Lambda execution failed: ' . $e->getMessage());
-            return response()->json(['error' => 'Failed to execute prediction model.'], 500);
+            return response()->json(['error' => $response->body()], 500);
         }
     }
 

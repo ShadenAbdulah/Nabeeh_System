@@ -54,17 +54,24 @@ $(document).ready(function() {
             $('#spinner').hide();
             if (data.error) {
                 $('#result').html(`<h1 class="font-extrabold text-4xl">خطـــــــأ</h1>
-                                   <h1 class="font-medium text-2xl">نعتذر حدث خطأ اثناء معالجة البيانات: ${data.error}</h1>`).show();
+                                   <h1 class="font-medium text-2xl">نعتذر حدث خطأ اثناء معالجة البيانات: ${data.error}</h1>
+                                   <a href="{{route('welcome')}}"
+                                    class="phones:hidden">
+                                        <x-primary-button class="w-full font-semibold">
+                                            {{ __('الصفحة الرئيسية') }}
+                                        </x-primary-button>
+                                    </a>
+                                   `).show();
             } else if (data.result === 'ADHD') {
                 $('#result').html(`
                     <h1 class="font-extrabold text-4xl">النتيجــــــــة</h1>
                     <h1 class="font-extrabold text-6xl text-[#6D6AB1]">ADHD</h1>
-                    <h1 class="font-medium text-2xl">التقييم الأولي يشير الى ان احتمالية اصابتك بـADHD عالية ${data.probability}%</h1>
+                    <h1 class="font-medium text-2xl">التقييم الأولي يشير الى ان احتمالية اصابتك بـADHD عالية.</h1>
                 `).show();
             } else {
                 $('#result').html(`
                     <h1 class="font-extrabold text-4xl">النتيجــــــــة</h1>
-                    <h1 class="font-medium text-2xl">التقييم الأولي يشير الى ان احتمالية اصابتك بـADHD منخفضة ${data.probability}%</h1>
+                    <h1 class="font-medium text-2xl">التقييم الأولي يشير الى ان احتمالية اصابتك بـADHD منخفضة.</h1>
                 `).show();
             }
         },
