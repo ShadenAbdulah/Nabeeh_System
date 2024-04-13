@@ -17,7 +17,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     {{--    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@200;300;400;500;700;800;900&display=swap"--}}
     {{--    rel="stylesheet">--}}
-    <link rel="stylesheet" href="{{asset('build/assets/app-415f0eb1.css')}}">
+    <link rel="stylesheet" href="{{asset('build/assets/app-37e86996.css')}}">
 
 
     {{--    @vite(['resources/js/app.js', 'resources/css/app.css'])--}}
