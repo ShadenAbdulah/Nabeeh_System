@@ -70,6 +70,7 @@ $(document).ready(function() {
     url: '{{ route("fetch-results") }}',
     type: 'GET',
     success: function(data) {
+        console.log(data);
         $('#spinner').hide();
         // success logic here
         if (data.result === 'ADHD') {

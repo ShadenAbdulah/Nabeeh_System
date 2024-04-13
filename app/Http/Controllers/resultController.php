@@ -25,7 +25,7 @@ class resultController extends Controller
             $responseBody = json_decode($response->body(), true);
             $probability = $responseBody[0] * 100; // Assuming the response is structured this way
     
-            $result = $probability >= 50 ? 'ADHD' : 'Not ADHD';
+            $result = $probability >= 0.50 ? 'ADHD' : 'Not ADHD';
             return response()->json(['result' => $result, 'probability' => $probability]);
         } catch (Exception $e) {
             Log::error('Lambda execution failed: ' . $e->getMessage());
