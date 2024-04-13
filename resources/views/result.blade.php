@@ -26,7 +26,10 @@
 @section('content')
 <div id="spinner" class="w-3/5 my-5 mx-auto grid grid-rows-3 gap-16 shadow-2xl shadow-[#6D6AB1]/10 p-10 rounded-3xl content-center text-center">
     <h1 class="font-extrabold text-4xl">النتيجــــــــة</h1>
-    <div class="loader"></div> <!-- Spinner shown by default -->
+    <div class="d-flex justify-content-center">
+    <div class="spinner-border" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
 </div>
 
 <div id="result" class="w-3/5 my-5 mx-auto grid grid-rows-3 gap-16 shadow-2xl shadow-[#6D6AB1]/10 p-10 rounded-3xl content-center text-center" style="display: none;">

@@ -19,7 +19,7 @@ class resultController extends Controller
     {
         $id = 2; // Example ID
         try {
-            $apiGatewayUrl = 'https://api.url.here';
+            $apiGatewayUrl = 'https://2yv3ea5spjpdmcig2tuzcepqsm0bajyb.lambda-url.us-east-1.on.aws/';
             $response = Http::timeout(150)->get($apiGatewayUrl, ['sampleID' => $id]);
             Log::info('Lambda response:', ['response' => $response->body()]);
             $responseBody = json_decode($response->body(), true);
