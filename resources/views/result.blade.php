@@ -72,7 +72,7 @@ $(document).ready(function() {
             $('#spinner').hide();
             console.error('AJAX Error: ', textStatus, errorThrown);
             $('#result').html(`<h1 class="font-extrabold text-4xl">خطـــــــأ</h1>
-                               <h1 class="font-medium text-2xl">Error occurred while fetching data: ${errorThrown}</h1>`).show();
+                               <h1 class="font-medium text-2xl">نعتذر حدث خطأ اثناء معالجة البيانات نرجوا المعاوده لاحقًا والتواصل معنا في حال استمرار المشكلة ${errorThrown}</h1>`).show();
         }
     });
 });
