@@ -16,7 +16,7 @@
             class="text-base font-light grid grid-cols-3 justify-between content-center my-2 container mx-auto items-center">
             <div class="text-start">سيــاسة الخصوصيــة</div>
             <div class="text-center">جميـع الحقوق محفوظــة © 2024</div>
-            <div class="flex flex-row-reverse gap-8">
+            <div class="flex gap-8">
                 <svg viewBox="0 0 48 48"
                      width="5%"
                      xmlns="http://www.w3.org/2000/svg"><title/>
