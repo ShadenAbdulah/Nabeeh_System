@@ -4,7 +4,6 @@ use Illuminate\Support\Facades\Facade;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Translation\TranslationServiceProvider as BaseTranslationServiceProvider;
 use LaravelLang\JsonFallback\TranslationServiceProvider as JsonTranslationServiceProvider;
-use LaravelLang\LocaleList\Locale;
 
 
 return [
@@ -33,7 +32,7 @@ return [
     |
     */
 
-    'env' => env('APP_ENV', 'production'),
+    'env' => env('APP_ENV', 'local'),
 
     /*
     |--------------------------------------------------------------------------
@@ -87,9 +86,12 @@ return [
     |
     */
 
-//    'locale' => 'ar',
-    'locale' => [
-        Locale::options()
+    'locale' => 'ar',
+
+    'supported_locales' => [
+        'en' => 'English',
+        'es' => 'Spanish',
+        'ar' => 'Arabic'
     ],
 
     /*

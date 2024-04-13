@@ -1,12 +1,20 @@
 @extends('layouts.app')
 @section('content')
+    {{--    <form action="{{ route('lang') }}" method="post">--}}
+    {{--        @method('POST') @csrf--}}
+    {{--        <select name="language" onchange="this.form.submit()">--}}
+    {{--            <option value="en" {{ app()->getLocale() == 'en' ? 'selected' : '' }}>English</option>--}}
+    {{--            <option value="es" {{ app()->getLocale() == 'es' ? 'selected' : '' }}>Spanish</option>--}}
+    {{--        </select>--}}
+    {{--    </form>--}}
 
-    <form action="{{route('pdf')}}" method="get" target="_blank">
-        @method('get') @csrf
-        <x-primary-button></x-primary-button>
-    </form>
+    {{--    {{__('actions.accept')}}--}}
+    {{--    <form action="{{route('pdf')}}" method="get" target="_blank">--}}
+    {{--        @method('get') @csrf--}}
+    {{--        <x-primary-button></x-primary-button>--}}
+    {{--    </form>--}}
 
-    <div class="w-full flex items-center my-28 phones:my-16 justify-between phones:flex-row">
+    <div class="w-full flex items-center mt-28 phones:my-16 justify-between phones:flex-row">
         <div class="phones:w-full tablet:w-1/2 tablet:space-y-28 phones:space-y-10 justify-between items-center">
             <p class="text-xl font-normal text-justify tracking-wide">
                 <span class="font-bold text-5xl text-[#6D6AB1]">نَبيــه </span> هو أداة مساعدة أولية للتشخيص عن

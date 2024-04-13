@@ -1,6 +1,7 @@
+@php use Illuminate\Support\Facades\Session; @endphp
 @props(['session_name', 'sample_id', 'test_id'])
     <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html dir="rtl" lang="{{Session::get('locale')}}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">

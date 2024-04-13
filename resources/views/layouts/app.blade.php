@@ -1,17 +1,8 @@
+@php use Illuminate\Support\Facades\Config;use Illuminate\Support\Facades\Session; use LaravelLang\LocaleList\Locale; @endphp
 <x-head session_name="none" sample_id="none" test_id="none">
 
     <body class="font-[Tajawal] flex flex-col min-h-screen">
-    <ul>
-        @foreach(LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
-            <li>
-                <a rel="alternate" hreflang="{{ $localeCode }}"
-                   href="{{ LaravelLocalization::getLocalizedURL($localeCode, null, [], true) }}">
-                    {{ $properties['native'] }}
-                </a>
-            </li>
-        @endforeach
-    </ul>
-    <main class="container w-full mx-auto">
+    <main class="container w-full mx-auto my-auto">
         <a href="{{route('welcome')}}">
             <img src="{{asset('images/Logo.svg')}}"
                  class="mx-auto mt-10 tablet:w-1/6 phones:w-1/3"
@@ -19,9 +10,63 @@
         </a>
 
         @yield('content')
+
+        <div x-data="{ open: false }">
+            <button @click="open = true">Change Language</button>
+
+            <div x-show="open" @click.away="open = false"
+                 class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+                <div class="bg-white p-4 rounded-lg">
+                    <h2 class="text-lg">Select Language</h2>
+                    <select>
+                        @foreach(Locale::options() as $lang)
+                            <option value="{{$lang}}">{{$lang}}</option>
+                        @endforeach
+                    </select>
+                    {{--                    <button @click="open = false; $wire.setLocale('en')">English</button>--}}
+                    {{--                    <button @click="open = false; $wire.setLocale('es')">Español</button>--}}
+                </div>
+            </div>
+        </div>
+
+        @php
+            $locales = array_combine(Locale::names(), Locale::values());
+        @endphp
+
+
+        <div class="grid grid-cols-6 text-left">
+            @foreach($locales as $lang => $value)
+                <a href="{{route('lang', ['locale' => $value])}}"> {{ $lang }}</a>
+            @endforeach
+        </div>
     </main>
 
+    {{__('actions.accept')}}
+
     <footer class="mt-auto">
+        <div class="container mx-auto w-full flex justify-end gap-3 align-middle content-center text-justify my-5">
+            <svg viewBox="0 0 96 96" xmlns="http://www.w3.org/2000/svg"
+                 class="w-3">
+                <path
+                    d="M81.8457,25.3876a6.0239,6.0239,0,0,0-8.45.7676L48,56.6257l-25.396-30.47a5.999,5.999,0,1,0-9.2114,7.6879L43.3943,69.8452a5.9969,5.9969,0,0,0,9.2114,0L82.6074,33.8431A6.0076,6.0076,0,0,0,81.8457,25.3876Z"/>
+            </svg>
+            <span class="mt-1 font-bold text-[#6D6AB1]">{{strtoupper(Session::get('locale'))}}</span>
+
+            <svg viewBox="0 0 24 24"
+                 class="stroke-gray-300 stroke-[1.5] fill-none w-5"
+                 xmlns="http://www.w3.org/2000/svg">
+                <path
+                    d="M2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12Z"
+                    stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M13 2.04932C13 2.04932 16 5.99994 16 11.9999C16 17.9999 13 21.9506 13 21.9506"
+                      stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M11 21.9506C11 21.9506 8 17.9999 8 11.9999C8 5.99994 11 2.04932 11 2.04932"
+                      stroke="currentColor"
+                      stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M2.62964 15.5H21.3704" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M2.62964 8.5H21.3704" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </div>
         <hr class="phones:mb-2">
         <div
             class="text-base font-light tablet:grid tablet:grid-cols-3 phones:flex phones:flex-col-reverse phones:gap-y-5 phones:m-0 justify-between content-center my-2 container mx-auto items-center">
