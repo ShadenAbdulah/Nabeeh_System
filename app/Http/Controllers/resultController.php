@@ -11,7 +11,9 @@ class resultController extends Controller
 {
     public function showResults(Request $request)
     {
-        $id = $request->get('sampleID');
+        // $id = $request->get('sampleID');
+        $id = 2;
+
         session(['sampleID' => $id]);  
         return view('result');
     }
