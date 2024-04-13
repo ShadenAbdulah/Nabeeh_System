@@ -25,14 +25,15 @@ class resultController extends Controller
             $apiGatewayUrl = 'https://2yv3ea5spjpdmcig2tuzcepqsm0bajyb.lambda-url.us-east-1.on.aws/';
             $response = Http::timeout(150)->get($apiGatewayUrl, ['sampleID' => $id]);
             Log::info('Lambda response:', ['response' => $response->body()]);
-            $responseBody = json_decode($response->body(), true);
-            $probability = $responseBody[0] * 100; // Assuming the response is structured this way
-            $result = $probability >= 0.50 ? 'ADHD' : 'Not ADHD';
-
-            $return_array = compact('result', 'probability');
-            return json_encode($return_array);
-        
-            // return response()->json(['result' => $result, 'probability' => $probability]);
+            if ($response->successful()) {
+                $responseBody = json_decode($response->body(), true);
+                $probability = $responseBody[0] * 100;
+                $result = $probability >= 50 ? 'ADHD' : 'Not ADHD';
+                return response()->json(['result' => $result, 'probability' => $probability]);
+            } else {
+                return response()->json(['error' => 'Failed to get a valid response from the API.'], 500);
+            }
+    
         } catch (Exception $e) {
             Log::error('Lambda execution failed: ' . $e->getMessage());
             return response()->json(['error' => 'Failed to execute prediction model.'], 500);
