@@ -1,15 +1,3 @@
-<html lang="ar" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-
-    <link rel="stylesheet" href="{{asset('build/assets/app-eab06b2f.css')}}">
-    <script src="https://cdn.tailwindcss.com"></script>
-
-    <title></title>
-</head>
-<body class="font-[Tajawal] flex flex-col min-h-screen">
 <page size="A4">
     <div>
         <div
@@ -57,5 +45,3 @@
         </div>
     </div>
 </page>
-</body>
-</html>
