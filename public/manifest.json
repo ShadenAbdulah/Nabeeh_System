@@ -1,10 +1,10 @@
 {
-    "name": "Nabeeh app",
-    "short_name": "Nabeeh",
+    "name": "sys Nabeeh app",
+    "short_name": "sys Nabeeh",
     "start_url": "/index.php",
     "background_color": "#FFFFFF",
     "description": "Tutorial of Laravel Package",
-    "display": "standalone",
+    "display": "fullscreen",
     "orientation": "landscape-primary",
     "theme_color": "#6777ef",
     "icons": [

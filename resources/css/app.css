@@ -9,4 +9,8 @@ canvas {
     -moz-user-select: none; /* Firefox */
     -ms-user-select: none; /* Internet Explorer/Edge */
     user-select: none; /* Non-prefixed version, currently supported by Chrome, Opera, and Edge */
+    transform: scale(1);
+    transform-origin: 0 0;
   }  
+  html, body {touch-action: none;}
+

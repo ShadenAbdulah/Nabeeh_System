@@ -7,19 +7,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <style>
-        .error_body {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            height: 100vh;
-            width: 100%;
-            background: #f9f9f9;
+        body, html {
+            height: 100%; /* Ensure the full height of the window */
+            margin: 0; /* Remove default margin */
+            padding: 0; /* Remove default padding */
+            box-sizing: border-box; /* Adjust box-sizing */
         }
 
-        .error_container .error_heading {
+        .error_body {
+            display: flex; /* Use flexbox to align children */
+            align-items: center; /* Align children vertically in the center */
+            justify-content: center; /* Align children horizontally in the center */
+            height: 100vh; /* Full height of the viewport */
+            width: 100%; /* Full width */
+            background: #f9f9f9; /* Background color */
+        }
+
+        .error_container {
+            text-align: center; /* Center the text */
+            padding: 15px; /* Padding around the content */
+        }
+
+        .error_heading {
             color: transparent;
             font-size: 160px;
-            margin: 0;
             font-weight: 900;
             letter-spacing: 20px;
             background-size: 100% 100%;
@@ -30,37 +41,36 @@
         }
 
         @media (max-width: 540px) {
-            .error_container .error_heading {
+            .error_heading {
                 font-size: 120px;
                 letter-spacing: 10px;
             }
         }
 
-        .error_container .error_btn {
+        .error_btn {
             background-color: #6e749e !important;
             border: none;
             outline: none;
         }
 
-        .error_container .error_btn:focus {
+        .error_btn:focus {
             box-shadow: none !important;
         }
 
-        .error_container .error_message,
-        .error_container .error_paragraph {
+        .error_message,
+        .error_paragraph {
             color: #787878;
         }
     </style>
 </head>
 <body>
 <div class="error_body">
-    <div
-        class="container error_container d-flex justify-content-center align-items-center flex-column w-100 h-100 p-5 text-center">
-        <h2 class="error_message text-center mb-3">Boo! You don't have an internet connection</h2>
-        <p class="error_paragraph text-center mb-5">
-            Please check your network connection and try again.
+    <div class="error_container">
+        <h2 class="error_message">ليس لديك اتصال بالانترنت</h2>
+        <p class="error_paragraph">
+            نرجوا التحقق من اتصال الشبكة والمحاولة مرة اخرى.
         </p>
-        <a href="/" class="btn btn-primary error_btn">Back to Home Page</a>
+        <a href="/" class="btn btn-primary error_btn">الرجوع للصفحة الرئيسية</a>
     </div>
 </div>
 </body>
