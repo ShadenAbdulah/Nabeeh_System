@@ -22,9 +22,9 @@
         <div class="text-center">جميـع الحقوق محفوظــة © 2024</div>
         <div class="flex flex-row-reverse gap-8">
 
-            <img src="{{asset('images/mail_icon.png')}}" size="10x10">
+            <img src="{{asset('images/mail_icon.png')}}" sizes="10x10">
             <img src="{{asset('images/whatsapp_icon.png')}}" size="100">
-            <img src="{{asset('images/X_icon.png')}}" class="w-1 h-1">
+            <img src="{{asset('images/X_icon.png')}}" class="">
 
         </div>
     </div>
