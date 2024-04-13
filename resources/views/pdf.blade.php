@@ -1,8 +1,8 @@
-<html lang="ar" dir="rtl">
+<html lang="ar" dir="rtl" size="A4">
 <head>
     <meta charset="UTF-8">
-    <meta size="A4">
 
+    <title>pdf</title>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -11,8 +11,6 @@
           rel="stylesheet">
 
     <link rel="stylesheet" href="{{asset('build/assets/app-71584e02.css')}}">
-    <title>pdf</title>
-
 </head>
 <body>
 <div>this is header</div>
