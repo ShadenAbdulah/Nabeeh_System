@@ -195,7 +195,7 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 document.getElementById('submit_btn').addEventListener('click', function (event) {
-    if (sessionStorage.getItem('testID') === '12') {
+    if (sessionStorage.getItem('testID') === '1') {
         fetch('/append-to-s3', {
             method: 'POST',
             headers: {
