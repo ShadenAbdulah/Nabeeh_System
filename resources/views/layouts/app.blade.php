@@ -1,6 +1,16 @@
 <x-head session_name="none" sample_id="none" test_id="none">
 
     <body class="font-[Tajawal] flex flex-col min-h-screen">
+    <ul>
+        @foreach(LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
+            <li>
+                <a rel="alternate" hreflang="{{ $localeCode }}"
+                   href="{{ LaravelLocalization::getLocalizedURL($localeCode, null, [], true) }}">
+                    {{ $properties['native'] }}
+                </a>
+            </li>
+        @endforeach
+    </ul>
     <main class="container w-full mx-auto">
         <a href="{{route('welcome')}}">
             <img src="{{asset('images/Logo.svg')}}"
