@@ -9,16 +9,17 @@ use Illuminate\Support\Facades\Http;
 
 class resultController extends Controller
 {
-    public function showResults()
+    public function showResults(Request $request)
     {
-        // Return the initial view with the spinner
+        $id = $request->get('sampleID');
+        session(['sampleID' => $id]);  
         return view('result');
     }
 
-    public function fetchResults(Request $request)
+    public function fetchResults()
     {
-        $id = 2; // Example ID
         try {
+            $id = session('sampleID');
             $apiGatewayUrl = 'https://2yv3ea5spjpdmcig2tuzcepqsm0bajyb.lambda-url.us-east-1.on.aws/';
             $response = Http::timeout(150)->get($apiGatewayUrl, ['sampleID' => $id]);
             Log::info('Lambda response:', ['response' => $response->body()]);
