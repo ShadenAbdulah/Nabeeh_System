@@ -24,7 +24,7 @@
 
             <img src="{{asset('images/mail_icon.png')}}" size="10x10">
             <img src="{{asset('images/whatsapp_icon.png')}}" size="100">
-            <img src="{{asset('images/X_icon.png')}}" class="w-1 h-1">
+            <img src="{{asset('images/X_icon.svg')}}" class="w-1 h-1">
 
         </div>
     </div>
