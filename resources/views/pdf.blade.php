@@ -11,7 +11,7 @@
 </head>
 <body class="font-[Tajawal] flex flex-col min-h-screen">
 <page size="A4">
-    <footer>
+    <div>
         <div
             class="text-base font-light grid grid-cols-3 justify-between content-center my-2 container mx-auto items-center">
             <div class="text-start">سيــاسة الخصوصيــة</div>
@@ -55,7 +55,7 @@
                 </svg>
             </div>
         </div>
-    </footer>
+    </div>
 </page>
 </body>
 </html>
