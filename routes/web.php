@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Route;
 
 //use Illuminate\Config;
 
-Route::post('lang/{locale}', function (Request $request, $locale) {
+Route::get('lang/{locale}', function (Request $request, $locale) {
 //    $chosenLocale = $request->input('language');
     if (array_key_exists($locale, config('app.supported_locales'))) {
         session()->put('applocale', $locale);
