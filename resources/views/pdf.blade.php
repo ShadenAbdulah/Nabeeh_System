@@ -2,7 +2,7 @@
 <head>
     <meta charset="UTF-8">
 
-    <title>pdf</title>
+    <title>{{__('Result Report')}}</title>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -20,7 +20,7 @@
         class="text-base font-light grid grid-cols-3 justify-between content-center my-2 container mx-auto items-center">
         <div class="text-start">سيــاسة الخصوصيــة</div>
         <div class="text-center">جميـع الحقوق محفوظــة © 2024</div>
-        <div class="flex flex-row-reverse gap-8">
+        <div class="flex flex-row-reverse gap-8 p-10">
 
             <img src="{{asset('images/mail_icon.png')}}" sizes="10x10">
             <img src="{{asset('images/whatsapp_icon.png')}}" size="100">

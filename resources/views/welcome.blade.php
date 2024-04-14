@@ -2,7 +2,7 @@
 @section('content')
 
     {{--    {{__('actions.accept')}}--}}
-    <form action="{{route('pdf')}}" method="get" target="_blank">
+    <form action="{{route('pdf')}}" method="post" target="_blank">
         @method('get') @csrf
         <x-primary-button></x-primary-button>
     </form>
