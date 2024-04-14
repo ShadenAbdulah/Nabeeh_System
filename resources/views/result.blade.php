@@ -78,7 +78,14 @@ $(document).ready(function() {
         error: function(jqXHR, textStatus, errorThrown) {
             $('#spinner').hide();
             $('#result').html(`<h1 class="font-extrabold text-4xl">خطـــــــأ</h1>
-                               <h1 class="font-medium text-2xl">نعتذر حدث خطأ اثناء معالجة البيانات: ${textStatus}</h1>`).show();
+                               <h1 class="font-medium text-2xl">نعتذر حدث خطأ اثناء معالجة البيانات: ${textStatus}</h1>
+                               <a href="{{route('welcome')}}"
+                                    class="phones:hidden">
+                                        <x-primary-button class="w-full font-semibold">
+                                            {{ __('الصفحة الرئيسية') }}
+                                        </x-primary-button>
+                                    </a>
+                               `).show();
             console.error('AJAX Error: ', textStatus, errorThrown);
         }
     });
