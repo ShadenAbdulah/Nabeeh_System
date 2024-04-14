@@ -12,21 +12,21 @@
 
     <link rel="stylesheet" href="{{asset('build/assets/app-71584e02.css')}}">
 </head>
-<body>
-<div>this is header</div>
+<body class="container mx-auto">
+<img src="{{asset('images/Logo.svg')}}" class="w-20">
 <footer class="mt-auto">
     <hr>
     <div
         class="text-base font-light grid grid-cols-3 justify-between content-center my-2 container mx-auto items-center">
         <div class="text-start">سيــاسة الخصوصيــة</div>
         <div class="text-center">جميـع الحقوق محفوظــة © 2024</div>
-        <div class="flex flex-row-reverse gap-8 p-10">
+        {{--        <div class="flex flex-row-reverse gap-8 p-10">--}}
 
-            <img src="{{asset('images/mail_icon.png')}}" sizes="10x10">
-            <img src="{{asset('images/whatsapp_icon.png')}}" size="100">
-            <img src="{{asset('images/X_icon.png')}}" class="">
+        {{--            <img src="{{asset('images/mail_icon.png')}}" sizes="10x10">--}}
+        {{--            <img src="{{asset('images/whatsapp_icon.png')}}" size="100">--}}
+        {{--            <img src="{{asset('images/X_icon.png')}}" class="">--}}
 
-        </div>
+        {{--        </div>--}}
     </div>
 </footer>
 </body>
