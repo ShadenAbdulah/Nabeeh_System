@@ -1,6 +1,6 @@
 @php use Illuminate\Support\Facades\Config;use Illuminate\Support\Facades\Session; use LaravelLang\LocaleList\Locale; @endphp
 @php
-    $locales = array_combine(Locale::names(), Locale::values());
+    $locales = Config::get('app.supported_locales');
     $name = '';
     foreach(Locale::options() as $key => $value){
             if ($value === Config::get('app.locale')){
@@ -11,7 +11,6 @@
 <x-head session_name="none" sample_id="none" test_id="none">
 
     <body class="font-[Tajawal] flex flex-col min-h-screen">
-
     <main class="container w-full mx-auto my-auto">
         <a href="{{route('welcome')}}">
             <img src="{{asset('images/Logo.svg')}}"
@@ -54,7 +53,7 @@
 
             <div x-show="open" @click.away="open = false"
                  class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
-                <div class="bg-white p-4 rounded-lg w-3/4">
+                <div class="bg-white p-7 rounded-lg w-1/2">
                     <button @click="open = false"
                             class="float-right">
                         <svg viewBox="0 0 200 200"
@@ -64,12 +63,12 @@
                                 d="M114,100l49-49a9.9,9.9,0,0,0-14-14L100,86,51,37A9.9,9.9,0,0,0,37,51l49,49L37,149a9.9,9.9,0,0,0,14,14l49-49,49,49a9.9,9.9,0,0,0,14-14Z"/>
                         </svg>
                     </button>
-                    <div class="grid grid-cols-6  gap-y-2 text-left">
+                    <div class="grid grid-cols-4 gap-y-2 text-left">
                         @foreach($locales as $lang => $value)
-                            @if($lang === $name)
-                                <a class="font-bold text-[#6D6AB1]"> {{ $lang }}</a>
+                            @if($value === $name)
+                                <a class="font-bold text-[#6D6AB1]"> {{ $value }}</a>
                             @else
-                                <a href="{{route('lang', ['locale' => $value])}}"> {{ $lang }}</a>
+                                <a href="{{route('lang', ['locale' => $lang])}}"> {{ $value }}</a>
                             @endif
                         @endforeach
                     </div>

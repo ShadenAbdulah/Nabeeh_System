@@ -1,7 +1,9 @@
-@php use Illuminate\Support\Facades\Session; @endphp
+@php use Illuminate\Support\Facades\Config;use Illuminate\Support\Facades\Session;
+$dir = (Config::get('app.locale') === 'ar' or Config::get('app.locale') === 'ur')? 'rtl':'ltr';
+@endphp
 @props(['session_name', 'sample_id', 'test_id'])
     <!DOCTYPE html>
-<html dir="rtl" lang="{{Session::get('locale')}}">
+<html dir={{$dir}} lang="{{Session::get('locale')}}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">

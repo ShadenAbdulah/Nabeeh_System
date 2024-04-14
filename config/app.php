@@ -4,9 +4,6 @@ use Illuminate\Support\Facades\Facade;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Translation\TranslationServiceProvider as BaseTranslationServiceProvider;
 use LaravelLang\JsonFallback\TranslationServiceProvider as JsonTranslationServiceProvider;
-use LaravelLang\LocaleList\Locale;
-
-$locales = array_combine(Locale::values(), Locale::names());
 
 return [
 
@@ -90,13 +87,33 @@ return [
 
     'locale' => 'ar',
 
-    'supported_locales' => $locales,
+    'supported_locales' => [
+        "ar" => "Arabic",
+        "en" => "English",
+        "hi" => "Hindi",
+        "fr" => "French",
+        "bn" => "Bengali",
+        "ru" => "Russian",
+        "pt" => "Portuguese",
+        "ur" => "Urdu",
+        "id" => "Indonesian",
+        "de" => "German",
+        "ja" => "Japanese",
+        "mr" => "Marathi",
+        "te" => "Telugu",
+        "tr" => "Turkish",
+        "zh_CN" => "Chinese",
+        "ko" => "Korean",
+        "es" => "Spanish",
+        "sv" => "Swedish",
+        "vi" => "Vietnamese",
+        "fil" => "Pilipino"
+    ],
 
     /*
     |--------------------------------------------------------------------------
     | Application Fallback Locale
     |--------------------------------------------------------------------------
-    |
     | The fallback locale determines the locale to use when the current one
     | is not available. You may change the value to correspond to any of
     | the language folders that are provided through your application.

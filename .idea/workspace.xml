@@ -314,28 +314,28 @@
     <option name="showLibraryContents" value="true" />
     <option name="showScratchesAndConsoles" value="false" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
-    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.laravel-idea.update-module-directories&quot;: &quot;true&quot;,
-    &quot;code.cleanup.on.save&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/shaden/Desktop/Nabeeh_System&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;rearrange.code.on.save&quot;: &quot;true&quot;,
-    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.sourceCode.EditorConfig&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;/Applications/PhpStorm.app/Contents/plugins/javascript-impl/jsLanguageServicesImpl/external&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.laravel-idea.update-module-directories": "true",
+    "code.cleanup.on.save": "true",
+    "git-widget-placeholder": "main",
+    "last_opened_file_path": "/Users/shaden/Desktop/Nabeeh_System/resources/lang/bn",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "rearrange.code.on.save": "true",
+    "run.code.analysis.last.selected.profile": "pProject Default",
+    "settings.editor.selected.configurable": "preferences.sourceCode.EditorConfig",
+    "ts.external.directory.path": "/Applications/PhpStorm.app/Contents/plugins/javascript-impl/jsLanguageServicesImpl/external",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="QodanaCloudProjectLink">
     <option name="lastReportId" value="Vvedr" />
     <option name="linkedProjectId" value="Am54m" />
@@ -350,11 +350,11 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/resources/lang/bn" />
       <recent name="$PROJECT_DIR$/public" />
       <recent name="$PROJECT_DIR$/resources" />
       <recent name="$PROJECT_DIR$/resources/lang" />
       <recent name="$PROJECT_DIR$/resources/views" />
-      <recent name="$PROJECT_DIR$" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/public" />
@@ -407,7 +407,7 @@
       <workItem from="1712614187384" duration="5704000" />
       <workItem from="1712643735784" duration="6744000" />
       <workItem from="1713004189041" duration="24683000" />
-      <workItem from="1713055757959" duration="10898000" />
+      <workItem from="1713055757959" duration="17311000" />
     </task>
     <servers />
   </component>
