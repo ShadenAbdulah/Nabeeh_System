@@ -1,4 +1,7 @@
 @php use Illuminate\Support\Facades\Config;use Illuminate\Support\Facades\Session; use LaravelLang\LocaleList\Locale; @endphp
+@php
+    $locales = array_combine(Locale::names(), Locale::values());
+@endphp
 <x-head session_name="none" sample_id="none" test_id="none">
 
     <body class="font-[Tajawal] flex flex-col min-h-screen">
@@ -10,13 +13,6 @@
         </a>
 
         @yield('content')
-
-        {{__('actions.accept')}}
-        @lang('actions.accept')
-
-        @php
-            $locales = array_combine(Locale::names(), Locale::values());
-        @endphp
     </main>
 
     <footer class="mt-auto">
