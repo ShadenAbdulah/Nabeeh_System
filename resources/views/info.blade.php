@@ -17,11 +17,11 @@
                           value="{{(old('name'))?old('name'):null}}"
                           type="text"
                           name="name"
-                          placeholder="الاســم (اختياري)"/>
+                          placeholder="{{__('extra.name_optional')}}"/>
 
             <div class="flex my-16">
                 <div class="flex justify-between w-full tracking-wide">
-                    <label class="font-semibold ml-5">الجنــــــس</label>
+                    <label class="font-semibold ml-5">{{__('extra.gender')}}</label>
                     <div>
                         <input type="radio"
                                id="female"
@@ -29,14 +29,14 @@
                                value="female"
                         >
                         <label for="female"
-                               class="mr-1 ml-5">أنثــى</label></div>
+                               class="mr-1 ml-5">{{__('extra.female')}}</label></div>
                     <div>
                         <input type="radio"
                                id="male"
                                name="gender"
                                value="male">
                         <label for="male"
-                               class="mr-1">ذكــر</label>
+                               class="mr-1">{{__('extra.male')}}</label>
                     </div>
                 </div>
                 <x-input-error :messages="$errors->get('gender')"
@@ -53,7 +53,7 @@
                                   type="number"
                                   min="1" max="100"
                                   step="1"
-                                  placeholder="العمــر"/>
+                                  placeholder="{{__('extra.age')}}"/>
 
                     <x-input-error :messages="$errors->get('age')"
                                    class="absolute my-14"/>
@@ -61,7 +61,7 @@
 
                 <div class="w-3/6">
                     <x-primary-button class="w-full flex justify-between font-medium">
-                        {{ __('بدء التدريب') }}
+                        {{__('extra.')}}
                         <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" class="w-1/5 fill-white">
                             <title/>
                             <g data-name="Layer 2" id="Layer_2">

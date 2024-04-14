@@ -8,6 +8,8 @@ return [
     'entering_to_test' => 'Teste Giriliyor',
     'use_instructions' => 'Kullanım Talimatları',
     'name_optional' => 'İsim (isteğe bağlı)',
+    'start_to_train' => 'Eğitime başla',
+    'personal_information' => 'Kişisel bilgiler',
     'gender' => 'Cinsiyet',
     'male' => 'Erkek',
     'female' => 'Kadın',

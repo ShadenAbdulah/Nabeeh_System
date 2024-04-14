@@ -8,6 +8,8 @@ return [
     'entering_to_test' => 'الدخول للاختبار',
     'use_instructions' => 'تعليمات الاستخدام',
     'name_optional' => 'الاسم (اختياري)',
+    'start_to_train' => 'ابدأ التدريب',
+    'personal_information' => 'معلومات شخصية',
     'gender' => 'الجنس',
     'male' => 'ذكر',
     'female' => 'أنثى',

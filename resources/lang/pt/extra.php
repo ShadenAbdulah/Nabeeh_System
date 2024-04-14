@@ -8,6 +8,8 @@ return [
     'entering_to_test' => 'Entrando para testar',
     'use_instructions' => 'Instruções de uso',
     'name_optional' => 'Nome (opcional)',
+    'start_to_train' => 'Começar a treinar',
+    'personal_information' => 'Informações pessoais',
     'gender' => 'Gênero',
     'male' => 'Masculino',
     'female' => 'Feminino',

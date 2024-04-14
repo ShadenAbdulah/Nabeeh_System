@@ -8,6 +8,8 @@ return [
     'entering_to_test' => '进入测试',
     'use_instructions' => '使用说明',
     'name_optional' => '名称（可选）',
+    'start_to_train' => '开始训练',
+    'personal_information' => '个人信息',
     'gender' => '性别',
     'male' => '男',
     'female' => '女',

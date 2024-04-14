@@ -8,6 +8,8 @@ return [
     'entering_to_test' => 'Vào để kiểm tra',
     'use_instructions' => 'Hướng dẫn sử dụng',
     'name_optional' => 'Tên (tùy chọn)',
+    'start_to_train' => 'Bắt đầu tập luyện',
+    'personal_information' => 'Thông tin cá nhân',
     'gender' => 'Giới tính',
     'male' => 'Nam',
     'female' => 'Nữ',
