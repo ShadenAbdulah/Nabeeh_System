@@ -54,7 +54,7 @@ $(document).ready(function() {
             $('#spinner').hide();
             if (data.error) {
                 $('#result').html(`<h1 class="font-extrabold text-4xl">خطـــــــأ</h1>
-                                   <h1 class="font-medium text-2xl">نعتذر حدث خطأ اثناء معالجة البيانات: ${data.error}</h1>
+                                   <h1 class="font-medium text-2xl">نعتذر حدث خطأ اثناءdata.error معالجة البيانات: ${data.error}</h1>
                                    <a href="{{route('welcome')}}"
                                     class="phones:hidden">
                                         <x-primary-button class="w-full font-semibold">
@@ -79,7 +79,7 @@ $(document).ready(function() {
             $('#spinner').hide();
             console.error('AJAX Error: ', textStatus, errorThrown);
             $('#result').html(`<h1 class="font-extrabold text-4xl">خطـــــــأ</h1>
-                               <h1 class="font-medium text-2xl">نعتذر حدث خطأ اثناء معالجة البيانات نرجوا المعاوده لاحقًا والتواصل معنا في حال استمرار المشكلة ${errorThrown}</h1>`).show();
+                               <h1 class="font-medium text-2xl">نعتذر حدث خطأ اثناء معالجة البيانات نرجواerrorThrown المعاوده لاحقًا والتواصل معنا في حال استمرار المشكلة ${errorThrown}</h1>`).show();
         }
     });
 });
