@@ -44,7 +44,7 @@ class resultController extends Controller
 
         } catch (Exception $e) {
             Log::error('Lambda execution failed: ' . $e->getMessage());
-            return response()->json(['error' => 'Server error occurred'], 500);
+            return response()->json(['error' => $e->getMessage()], 500);
         }
     }
 
