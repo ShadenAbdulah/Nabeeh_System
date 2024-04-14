@@ -65,10 +65,10 @@
                                    <a href="{{route('welcome')}}"
                                     class="phones:hidden">
                                         <x-primary-button class="w-full font-semibold">
-                                            {{ __('الصفحة الرئيسية') }}
+                                            {{ __('العودة للصفحة الرئيسية') }}
                         </x-primary-button>
                     </a>
-`).show();
+                        `).show();
                     } else if (data.result === 'ADHD') {
                         $('#result').html(`
                     <h1 class="font-extrabold text-4xl">النتيجــــــــة</h1>
@@ -91,7 +91,7 @@
                                <a href="{{route('welcome')}}"
                                     class="phones:hidden">
                                         <x-primary-button class="w-full font-semibold">
-                                            {{ __('الصفحة الرئيسية') }}
+                                        {{ __('العودة للصفحة الرئيسية') }}
                     </x-primary-button>
                 </a>
 `).show();
