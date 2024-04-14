@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="{{asset('build/assets/app-71584e02.css')}}">
 </head>
 <body class="container mx-auto">
-<img src="{{asset('images/Logo.svg')}}" class="w-10 mx-auto" alt="logo">
+<img src="{{asset('images/Logo.svg')}}" class="w-10 mx-auto" alt="logo"/>
 <footer class="mt-auto">
     <hr>
     <div
