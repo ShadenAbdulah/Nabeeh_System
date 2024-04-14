@@ -54,11 +54,11 @@ $(document).ready(function() {
             $('#spinner').hide();
             if (data.error) {
                 $('#result').html(`<h1 class="font-extrabold text-4xl">خطـــــــأ</h1>
-                                   <h1 class="font-medium text-2xl">نعتذر حدث خطأ اثناء معالجة البيانات: ${data.error}</h1>
+                                   <h1 class="font-medium text-2xl">نعتذر، حدث خطأ أثناء معالجة البيانات: ${data.error}</h1>
                                    <a href="{{route('welcome')}}"
                                     class="phones:hidden">
                                         <x-primary-button class="w-full font-semibold">
-                                            {{ __('العودة للصفحة الرئيسية') }}
+                                            {{ __('الصفحة الرئيسية') }}
                                         </x-primary-button>
                                     </a>
                                    `).show();
@@ -66,26 +66,21 @@ $(document).ready(function() {
                 $('#result').html(`
                     <h1 class="font-extrabold text-4xl">النتيجــــــــة</h1>
                     <h1 class="font-extrabold text-6xl text-[#6D6AB1]">ADHD</h1>
-                    <h1 class="font-medium text-2xl">التقييم الأولي يشير الى ان احتمالية اصابتك بـADHD عالية.</h1>
+                    <h1 class="font-medium text-2xl">التقييم الأولي يشير إلى أن احتمالية إصابتك بـADHD عالية.</h1>
                 `).show();
             } else {
                 $('#result').html(`
                     <h1 class="font-extrabold text-4xl">النتيجــــــــة</h1>
-                    <h1 class="font-medium text-2xl">التقييم الأولي يشير الى ان احتمالية اصابتك بـADHD منخفضة.</h1>
+                    <h1 class="font-medium text-2xl">التقييم الأولي يشير إلى أن احتمالية إصابتك بـADHD منخفضة.</h1>
                 `).show();
             }
         },
         error: function(jqXHR, textStatus, errorThrown) {
             $('#spinner').hide();
+            var errorResponse = jqXHR.responseJSON; // Get JSON response if available
+            var errorMessage = errorResponse ? errorResponse.error : textStatus; // Use server-provided message if available
             $('#result').html(`<h1 class="font-extrabold text-4xl">خطـــــــأ</h1>
-                               <h1 class="font-medium text-2xl">نعتذر حدث خطأ اثناء معالجة البيانات: ${textStatus}</h1>
-                               <a href="{{route('welcome')}}"
-                                    class="phones:hidden">
-                                        <x-primary-button class="w-full font-semibold">
-                                        {{ __('العودة للصفحة الرئيسية') }}
-                                        </x-primary-button>
-                                    </a>
-                               `).show();
+                               <h1 class="font-medium text-2xl">نعتذر، حدث خطأ أثناء معالجة البيانات: ${errorMessage}</h1>`).show();
             console.error('AJAX Error: ', textStatus, errorThrown);
         }
     });
