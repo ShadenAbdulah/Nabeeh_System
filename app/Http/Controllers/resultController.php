@@ -22,10 +22,10 @@ class resultController extends Controller
     public function fetchResults()
     {
         try {
-            sleep(10);
+            sleep(5);
             $id = session('sampleID');
             $apiGatewayUrl = 'https://2yv3ea5spjpdmcig2tuzcepqsm0bajyb.lambda-url.us-east-1.on.aws/';
-            $response = Http::timeout(150)->get($apiGatewayUrl, ['sampleID' => $id]);
+            $response = Http::timeout(200)->get($apiGatewayUrl, ['sampleID' => $id]);
             Log::info('Lambda response:', ['response' => $response->body()]);
             
             if ($response->successful()) {
