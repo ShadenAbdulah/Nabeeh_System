@@ -14,6 +14,8 @@ class resultController extends Controller
     {
         $id = $request->get('sampleID');
 //        $id = 2;
+        Log::info('sampleID111:', ['id' => $id]);
+
 
         session(['sampleID' => (int)$id]);
         return view('result');
@@ -24,6 +26,7 @@ class resultController extends Controller
         try {
             sleep(5);
             $id = session('sampleID');
+            Log::info('sampleID2222:', ['id' => $id]);
             $apiGatewayUrl = 'https://2yv3ea5spjpdmcig2tuzcepqsm0bajyb.lambda-url.us-east-1.on.aws/';
             $response = Http::timeout(200)->get($apiGatewayUrl, ['sampleID' => $id]);
             Log::info('Lambda response:', ['response' => $response->body()]);
@@ -35,7 +38,7 @@ class resultController extends Controller
                 return response()->json(['result' => $result]);
             } else {
                 $errorResponse = json_decode($response->body(), true);
-                Log::error('Error from API:', ['response' => $response->body()]);
+                Log::error('Error from API:', ['response' => $response->body(), 'errorResponse'=> $errorResponse ]);
                 return response()->json(['error' => $errorResponse ?? 'Failed to get a valid response from the API.'], 500);
             }
     
