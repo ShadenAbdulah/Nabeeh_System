@@ -95,9 +95,15 @@ class CsvController extends Controller
             Storage::disk('local')->put($filePath, $headerRow);
         }
 
-        foreach ($rawData as $row) {
-            $csvData = implode(',', $row);
+        if ($rawData === null) {
+            $csvData = implode(',', [0, 0, 0, 0, 0, 0, 0, 0, 0]);
             Storage::disk('local')->append($filePath, $csvData);
+        } else {
+
+            foreach ($rawData as $row) {
+                $csvData = implode(',', $row);
+                Storage::disk('local')->append($filePath, $csvData);
+            }
         }
 
         return response()->json();
