@@ -37,8 +37,7 @@ class resultController extends Controller
                 $result = $probability >= 50 ? 'ADHD' : 'Not ADHD';
                 return response()->json(['result' => $result]);
             } else {
-                $errorResponse = json_decode($response->body(), true);
-                Log::error('Error from API:', ['response' => $response->body(), 'errorResponse' => $errorResponse]);
+                Log::error('Error from API:', ['response' => $response->body()]);
                 return response()->json(['error' =>$response->body() ?? 'Failed to get a valid response from the API.'], 500);
             }
 
