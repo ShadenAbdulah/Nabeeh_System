@@ -27,10 +27,7 @@ Route::get('/', function () {
 // Login page
 Route::get('/info', fn() => view('info'))->name('info');
 
-//Route::get('/result', fn() => view('result'))->name('result');
-
-// Route::get('/send', [resultController::class, 'store'])->name('result');
-Route::get('/send', [resultController::class, 'showResults'])->name('result');
+Route::get('/send/{id}', [resultController::class, 'showResults'])->name('result');
 Route::get('/fetch-results', [resultController::class, 'fetchResults'])->name('fetch-results');
 
 

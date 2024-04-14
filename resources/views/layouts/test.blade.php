@@ -30,7 +30,7 @@
     <form
         id="test_form"
         method="post"
-        action="{{($test->id+1 === 13)? route('result'): route('object.test', [$test->id+1, $sample])}}"
+        action="{{($test->id+1 === 13)? route('result', ['id' => $sample->id]): route('object.test', [$test->id+1, $sample])}}"
         x-show="!show"
         x-data="{ countdown: 30 }">
         @method('get')

@@ -10,9 +10,9 @@ use Illuminate\Support\Facades\Log;
 
 class resultController extends Controller
 {
-    public function showResults(Request $request)
+    public function showResults(Request $request, $id)
     {
-        $id = $request->get('sampleID');
+//        $id = $request->get('sampleID');
 //        $id = 2;
         Log::info('sampleID111:', ['id' => $id]);
 
@@ -21,16 +21,16 @@ class resultController extends Controller
         return view('result');
     }
 
-    public function fetchResults()
+    public function fetchResults(Request $request, $id)
     {
         try {
             sleep(5);
-            $id = session('sampleID');
+//            $id = session('sampleID');
             Log::info('sampleID2222:', ['id' => $id]);
             $apiGatewayUrl = 'https://2yv3ea5spjpdmcig2tuzcepqsm0bajyb.lambda-url.us-east-1.on.aws/';
             $response = Http::timeout(200)->get($apiGatewayUrl, ['sampleID' => $id]);
             Log::info('Lambda response:', ['response' => $response->body()]);
-            
+
             if ($response->successful()) {
                 $responseBody = json_decode($response->body(), true);
                 $probability = $responseBody[0] * 100;
@@ -38,16 +38,16 @@ class resultController extends Controller
                 return response()->json(['result' => $result]);
             } else {
                 $errorResponse = json_decode($response->body(), true);
-                Log::error('Error from API:', ['response' => $response->body(), 'errorResponse'=> $errorResponse ]);
+                Log::error('Error from API:', ['response' => $response->body(), 'errorResponse' => $errorResponse]);
                 return response()->json(['error' => $errorResponse ?? 'Failed to get a valid response from the API.'], 500);
             }
-    
+
         } catch (Exception $e) {
             Log::error('Lambda execution failed: ' . $e->getMessage());
             return response()->json(['error' => 'Server error occurred'], 500);
         }
     }
-    
+
 
     // public function store(Request $request)
     // {
