@@ -58,7 +58,7 @@ $(document).ready(function() {
                                    <a href="{{route('welcome')}}"
                                     class="phones:hidden">
                                         <x-primary-button class="w-full font-semibold">
-                                            {{ __('الصفحة الرئيسية') }}
+                                            {{ __('العودة للصفحة الرئيسية') }}
                                         </x-primary-button>
                                     </a>
                                    `).show();
@@ -82,7 +82,7 @@ $(document).ready(function() {
                                <a href="{{route('welcome')}}"
                                     class="phones:hidden">
                                         <x-primary-button class="w-full font-semibold">
-                                            {{ __('الصفحة الرئيسية') }}
+                                        {{ __('العودة للصفحة الرئيسية') }}
                                         </x-primary-button>
                                     </a>
                                `).show();
