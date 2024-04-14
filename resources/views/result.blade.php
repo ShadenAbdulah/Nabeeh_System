@@ -54,7 +54,7 @@
     <script>
         $(document).ready(function () {
             $.ajax({
-                url: '{{ route("fetch-results", ['id' => $id]) }}',
+                url: '{{ route("fetch-results") }}',
                 type: 'GET',
                 success: function (data) {
                     console.log(data);

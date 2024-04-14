@@ -17,15 +17,15 @@ class resultController extends Controller
         Log::info('sampleID111:', ['id' => $id]);
 
 
-        session(['sampleID' => (int)$id]);
+        session(['sampleID' => $id]);
         return view('result');
     }
 
-    public function fetchResults(Request $request, $id)
+    public function fetchResults()
     {
         try {
             sleep(5);
-//            $id = session('sampleID');
+            $id = request()->get('sampleID');
             Log::info('sampleID2222:', ['id' => $id]);
             $apiGatewayUrl = 'https://2yv3ea5spjpdmcig2tuzcepqsm0bajyb.lambda-url.us-east-1.on.aws/';
             $response = Http::timeout(200)->get($apiGatewayUrl, ['sampleID' => $id]);
