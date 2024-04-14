@@ -1,10 +1,17 @@
 @php use Illuminate\Support\Facades\Config;use Illuminate\Support\Facades\Session; use LaravelLang\LocaleList\Locale; @endphp
 @php
     $locales = array_combine(Locale::names(), Locale::values());
+    $name = '';
+    foreach(Locale::options() as $key => $value){
+            if ($value === Config::get('app.locale')){
+                $name = $key;
+            }
+    }
 @endphp
 <x-head session_name="none" sample_id="none" test_id="none">
 
     <body class="font-[Tajawal] flex flex-col min-h-screen">
+
     <main class="container w-full mx-auto my-auto">
         <a href="{{route('welcome')}}">
             <img src="{{asset('images/Logo.svg')}}"
@@ -25,7 +32,7 @@
                     <path
                         d="M81.8457,25.3876a6.0239,6.0239,0,0,0-8.45.7676L48,56.6257l-25.396-30.47a5.999,5.999,0,1,0-9.2114,7.6879L43.3943,69.8452a5.9969,5.9969,0,0,0,9.2114,0L82.6074,33.8431A6.0076,6.0076,0,0,0,81.8457,25.3876Z"/>
                 </svg>
-                <span class="mt-1 font-bold text-[#6D6AB1]">{{strtoupper(Session::get('locale'))}}</span>
+                <span class="mt-1 font-bold text-[#6D6AB1]">{{$name}}</span>
 
                 <svg viewBox="0 0 24 24"
                      class="stroke-gray-300 stroke-[1.5] fill-none w-5"
@@ -48,9 +55,22 @@
             <div x-show="open" @click.away="open = false"
                  class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
                 <div class="bg-white p-4 rounded-lg w-3/4">
+                    <button @click="open = false"
+                            class="float-right">
+                        <svg viewBox="0 0 200 200"
+                             class="w-5"
+                             xmlns="http://www.w3.org/2000/svg"><title/>
+                            <path
+                                d="M114,100l49-49a9.9,9.9,0,0,0-14-14L100,86,51,37A9.9,9.9,0,0,0,37,51l49,49L37,149a9.9,9.9,0,0,0,14,14l49-49,49,49a9.9,9.9,0,0,0,14-14Z"/>
+                        </svg>
+                    </button>
                     <div class="grid grid-cols-6  gap-y-2 text-left">
                         @foreach($locales as $lang => $value)
-                            <a href="{{route('lang', ['locale' => $value])}}"> {{ $lang }}</a>
+                            @if($lang === $name)
+                                <a class="font-bold text-[#6D6AB1]"> {{ $lang }}</a>
+                            @else
+                                <a href="{{route('lang', ['locale' => $value])}}"> {{ $lang }}</a>
+                            @endif
                         @endforeach
                     </div>
                 </div>

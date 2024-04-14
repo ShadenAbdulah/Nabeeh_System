@@ -4,7 +4,9 @@ use Illuminate\Support\Facades\Facade;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Translation\TranslationServiceProvider as BaseTranslationServiceProvider;
 use LaravelLang\JsonFallback\TranslationServiceProvider as JsonTranslationServiceProvider;
+use LaravelLang\LocaleList\Locale;
 
+$locales = array_combine(Locale::values(), Locale::names());
 
 return [
 
@@ -88,11 +90,7 @@ return [
 
     'locale' => 'ar',
 
-    'supported_locales' => [
-        'en' => 'English',
-        'es' => 'Spanish',
-        'ar' => 'Arabic'
-    ],
+    'supported_locales' => $locales,
 
     /*
     |--------------------------------------------------------------------------

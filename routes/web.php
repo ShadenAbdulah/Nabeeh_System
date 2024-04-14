@@ -16,7 +16,7 @@ Route::get('lang/{locale}', function (Request $request, $locale) {
     if (array_key_exists($locale, config('app.supported_locales'))) {
         session()->put('applocale', $locale);
     }
-    return back();
+    return back()->with('lang', session()->get('applocale'));
 })->name('lang');
 
 // Login page
