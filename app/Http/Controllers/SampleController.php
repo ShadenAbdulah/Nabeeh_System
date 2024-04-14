@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Sample;
 use App\Models\Test;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 class SampleController extends Controller
 {
@@ -56,7 +58,15 @@ class SampleController extends Controller
      */
     public function edit(Sample $sample)
     {
-        return view('layouts.train', ['test' => Test::first(), 'sample' => $sample]);
+        $apiGatewayUrl = 'https://hboras4vfn2de5azruvc2kdwem0ovckc.lambda-url.us-east-1.on.aws/';
+        $response = Http::timeout(20)->get($apiGatewayUrl);
+        Log::info('Lambda serverFun response:', ['response' => $response->body()]);
+
+        if ($response->successful()) {
+            return view('layouts.train', ['test' => Test::first(), 'sample' => $sample]);
+        }else{
+            return view('server500');   
+        }
     }
 
     /**

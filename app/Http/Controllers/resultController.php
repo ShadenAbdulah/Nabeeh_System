@@ -37,14 +37,13 @@ class resultController extends Controller
                 $result = $probability >= 50 ? 'ADHD' : 'Not ADHD';
                 return response()->json(['result' => $result]);
             } else {
-                $errorResponse = json_decode($response->body(), true);
-                Log::error('Error from API:', ['response' => $response->body(), 'errorResponse' => $errorResponse]);
-                return response()->json(['error' => $errorResponse ?? 'Failed to get a valid response from the API.'], 500);
+                Log::error('Error from API:', ['response' => $response->body()]);
+                return response()->json(['error' =>$response->body() ?? 'Failed to get a valid response from the API.'], 500);
             }
 
         } catch (Exception $e) {
             Log::error('Lambda execution failed: ' . $e->getMessage());
-            return response()->json(['error' => 'Server error occurred'], 500);
+            return response()->json(['error' => $e->getMessage()], 500);
         }
     }
 
