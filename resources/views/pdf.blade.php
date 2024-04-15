@@ -14,7 +14,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="container mx-auto font-[Tajawal]">
-<div class="w-full content-center">
+<div class="w-full content-center border">
     <img src="{{asset('images/Logo.svg')}}" class="w-10 mx-auto" alt="logo"/>
 </div>
 
