@@ -10,24 +10,21 @@
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@200;300;400;500;700;800;900&display=swap"
           rel="stylesheet">
 
-    <link rel="stylesheet" href="{{asset('build/assets/app-71584e02.css')}}">
+    <link rel="stylesheet" href="{{asset('build/assets/app-76f98719.css')}}">
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="container mx-auto font-[Tajawal]">
-<img src="{{asset('images/Logo.svg')}}" class="w-10 mx-auto" alt="logo"/>
+<div class="w-full content-center">
+    <img src="{{asset('images/Logo.svg')}}" class="w-10 mx-auto" alt="logo"/>
+</div>
+
+
 <footer class="mt-auto">
     <hr>
     <div
         class="text-base font-light grid grid-cols-3 justify-between content-center my-2 container mx-auto items-center">
         <div class="text-start">سيــاسة الخصوصيــة</div>
         <div class="text-center">جميـع الحقوق محفوظــة © 2024</div>
-        {{--        <div class="flex flex-row-reverse gap-8 p-10">--}}
-
-        {{--            <img src="{{asset('images/mail_icon.png')}}" sizes="10x10">--}}
-        {{--            <img src="{{asset('images/whatsapp_icon.png')}}" size="100">--}}
-        {{--            <img src="{{asset('images/X_icon.png')}}" class="">--}}
-
-        {{--        </div>--}}
     </div>
 </footer>
 </body>
