@@ -14,8 +14,8 @@
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="container mx-auto font-[Tajawal]">
-<div class="w-full mx-auto">
-    {{--    <img src="{{asset('images/pdf_header.png')}}" alt=""/>--}}
-</div>
+{{--<div class="w-full mx-auto">--}}
+{{--    --}}{{--    <img src="{{asset('images/pdf_header.png')}}" alt=""/>--}}
+{{--</div>--}}
 </body>
 </html>
