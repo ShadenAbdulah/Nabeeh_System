@@ -1,4 +1,4 @@
-<html lang="ar" dir="rtl" size="A4">
+<html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
 
@@ -15,17 +15,7 @@
 </head>
 <body class="container mx-auto font-[Tajawal]">
 <div class="w-full mx-auto">
-    <img src="{{asset('images/pdf_header.png')}}" class="w-24 mx-auto" alt="logo"/>
+    <img src="{{asset('images/pdf_header.png')}}" alt=""/>
 </div>
-
-
-{{--<footer class="mt-auto">--}}
-{{--    <hr>--}}
-{{--    <div--}}
-{{--        class="text-base font-light grid grid-cols-3 justify-between content-center my-2 container mx-auto items-center">--}}
-{{--        <div class="text-start">سيــاسة الخصوصيــة</div>--}}
-{{--        <div class="text-center">جميـع الحقوق محفوظــة © 2024</div>--}}
-{{--    </div>--}}
-{{--</footer>--}}
 </body>
 </html>
