@@ -15,7 +15,7 @@
 </head>
 <body class="container mx-auto font-[Tajawal]">
 <div class="w-full mx-auto">
-    <img src="{{asset('images/pdf_header.png')}}" alt=""/>
+    {{--    <img src="{{asset('images/pdf_header.png')}}" alt=""/>--}}
 </div>
 </body>
 </html>
