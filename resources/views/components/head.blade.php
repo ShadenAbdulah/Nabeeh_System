@@ -24,12 +24,13 @@ $dir = (Config::get('app.locale') === 'ar' or Config::get('app.locale') === 'ur'
     <link rel="stylesheet" href="{{asset('build/assets/app-71584e02.css')}}">
 
     {{--    <!-- Scripts -->--}}
-    <script src="{{asset('build/assets/app-6f2e0410.js')}}" defer></script>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
-    <script defer src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/jquery@3.6.1/dist/jquery.min.js"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/fabric@5.2.4/dist/fabric.min.js"></script>
+    <script rel="preconnect" defer src="{{asset('build/assets/app-6f2e0410.js')}}"></script>
+    <script rel="preconnect" defer src="https://cdn.tailwindcss.com"></script>
+    <script rel="preconnect" defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script rel="preconnect" defer
+            src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"></script>
+    <script rel="preconnect" defer src="https://cdn.jsdelivr.net/npm/jquery@3.6.1/dist/jquery.min.js"></script>
+    <script rel="preconnect" defer src="https://cdn.jsdelivr.net/npm/fabric@5.2.4/dist/fabric.min.js"></script>
 
     <script>sessionStorage.setItem('sessionName', '{{$session_name}}');
         sessionStorage.setItem('sampleID', '{{$sample_id}}');

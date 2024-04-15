@@ -11,14 +11,6 @@ use Illuminate\Support\Facades\Log;
 class SampleController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
@@ -33,24 +25,7 @@ class SampleController extends Controller
 
         $sample = Sample::create($attr);
 
-//        return redirect()->route('object.test', ['test' => Test::first(), 'sample' => $sample]);
         return redirect()->route('object.train', ['test' => Test::first(), 'sample' => $sample]);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show()
-    {
-        //
     }
 
     /**
@@ -64,24 +39,8 @@ class SampleController extends Controller
 
         if ($response->successful()) {
             return view('layouts.train', ['test' => Test::first(), 'sample' => $sample]);
-        }else{
-            return view('server500');   
+        } else {
+            return view('server500');
         }
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
     }
 }
