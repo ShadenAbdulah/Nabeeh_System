@@ -15,7 +15,7 @@
 </head>
 <body class="container mx-auto font-[Tajawal]">
 <div class="w-full mx-auto">
-    <img src="{{asset('images/pdf_header.svg')}}" class="w-24 mx-auto" alt="logo"/>
+    <img src="{{asset('images/pdf_header.png')}}" class="w-24 mx-auto" alt="logo"/>
 </div>
 
 
