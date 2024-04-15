@@ -21,7 +21,7 @@
             </p>
 
             <div class="tablet:w-1/2 phones:w-full mx-auto">
-                <a href="{{route('info')}}"
+                <a href="{{route('object.train')}}"
                    class="phones:hidden">
                     <x-primary-button class="w-full font-semibold">
                         {{ __('extra.entering_to_test') }}
