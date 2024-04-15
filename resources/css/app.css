@@ -7,6 +7,17 @@
     -moz-user-select: none; /* Firefox */
     -ms-user-select: none; /* Internet Explorer/Edge */
     user-select: none; /* Non-prefixed version, currently supported by Chrome, Opera, and Edge */
-  }  
-  html, body,canvas {touch-action: none;}
+}
+
+html, body, canvas {
+    touch-action: none;
+}
+
+body > .inner {
+    display: none;
+}
+
+body.pg-loaded > .inner {
+    display: block;
+}
 

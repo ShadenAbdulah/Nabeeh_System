@@ -11,6 +11,20 @@
 <x-head session_name="none" sample_id="none" test_id="none">
 
     <body class="font-[Tajawal] flex flex-col min-h-screen">
+
+    <div class="inner" ng-view>
+    </div>
+    <script type="text/javascript" src="{{asset('please-wait.min.js')}}"></script>
+    <script type="text/javascript">
+        window.loading_screen = window.pleaseWait({
+            logo: '{{asset("images/simple logo.svg")}}',
+            backgroundColor: '#fff',
+            loadingHtml: '<div class="spinner"><div class="cube1"></div><div class="cube2"></div> </div>'
+        });
+    </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.5/angular.min.js"></script>
+
+
     <main class="container w-full mx-auto my-auto">
         <a href="{{route('welcome')}}">
             <img src="{{asset('images/Logo.svg')}}"
@@ -31,7 +45,7 @@
                     <path
                         d="M81.8457,25.3876a6.0239,6.0239,0,0,0-8.45.7676L48,56.6257l-25.396-30.47a5.999,5.999,0,1,0-9.2114,7.6879L43.3943,69.8452a5.9969,5.9969,0,0,0,9.2114,0L82.6074,33.8431A6.0076,6.0076,0,0,0,81.8457,25.3876Z"/>
                 </svg>
-                <span class="mt-1 font-bold text-[#6D6AB1]">{{$name}}</span>
+                <span class="mt-1 font-bold text-[#6D6AB1]">{{($name == 'Arabic')? 'العربية': $name}}</span>
 
                 <svg viewBox="0 0 24 24"
                      class="stroke-gray-300 stroke-[1.5] fill-none w-5"
@@ -66,9 +80,9 @@
                     <div class="grid grid-cols-4 gap-y-2 text-left">
                         @foreach($locales as $lang => $value)
                             @if($value === $name)
-                                <a class="font-bold text-[#6D6AB1]"> {{ $value }}</a>
+                                <a class="font-bold text-[#6D6AB1]"> {{ ($value == 'Arabic')? 'العربية': $value}}</a>
                             @else
-                                <a href="{{route('lang', ['locale' => $lang])}}"> {{ $value }}</a>
+                                <a href="{{route('lang', ['locale' => $lang])}}"> {{ ($value == 'Arabic')? 'العربية': $value }}</a>
                             @endif
                         @endforeach
                     </div>
@@ -121,5 +135,11 @@
             </div>
         </div>
     </footer>
+    <script src="{{asset('please-wait.min.js')}}"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            window.loading_screen.finish();
+        });
+    </script>
     </body>
 </x-head>
