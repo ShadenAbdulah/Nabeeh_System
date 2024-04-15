@@ -42,7 +42,7 @@
                     <h1 class="phones:block tablet:hidden font-normal text-base mt-1.5">
                         لإجراء الإختبار، نرجو إستعمال جهاز
                         <br>
-                        <span class="font-bold">Galaxy Tab S6 Lite</span>
+                        <span class="font-bold">Galaxy Tab S6 Lite With sPen</span>
                     </h1>
                 </div>
             </div>
