@@ -11,7 +11,7 @@
               translate="yes"
               novalidate>
             @method("post") @csrf
-            <h1 class="font-bold text-2xl text-center mb-16">البيانات الشخصية</h1>
+            <h1 class="font-bold text-2xl text-center mb-16">{{__('extra.personal_information')}}</h1>
             <x-text-input id="name"
                           class="block mt-1 w-full my-16"
                           value="{{(old('name'))?old('name'):null}}"
@@ -61,7 +61,7 @@
 
                 <div class="w-3/6">
                     <x-primary-button class="w-full flex justify-between font-medium">
-                        {{__('extra.')}}
+                        {{__('extra.start_to_train')}}
                         <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" class="w-1/5 fill-white">
                             <title/>
                             <g data-name="Layer 2" id="Layer_2">

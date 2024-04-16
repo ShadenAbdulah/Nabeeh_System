@@ -93,8 +93,8 @@
         <hr class="phones:mb-2">
         <div
             class="text-base font-light tablet:grid tablet:grid-cols-3 phones:flex phones:flex-col-reverse phones:gap-y-5 phones:m-0 justify-between content-center my-2 container mx-auto items-center">
-            <div class="text-start">سيــاسة الخصوصيــة</div>
-            <div class="text-center">جميـع الحقوق محفوظــة © 2024</div>
+            <div class="text-start">{{__('extra.privacy_policy')}}</div>
+            <div class="text-center">{{__('extra.copyrights_saved')}} © 2024</div>
             <div class="flex flex-row-reverse gap-8 phones:justify-center">
                 <svg viewBox="0 0 48 48"
                      width="5%"
