@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
 use App\Models\Test;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
@@ -37,10 +37,10 @@ class UserController extends Controller
         $response = Http::timeout(20)->get($apiGatewayUrl);
         Log::info('Lambda serverFun response:', ['response' => $response->body()]);
 
-        if ($response->successful()) {
-            return view('layouts.train', ['test' => Test::first(), 'user' => $user]);
-        } else {
-            return view('server500');
-        }
+//        if ($response->successful()) {
+        return view('layouts.train', ['test' => Test::first(), 'user' => $user]);
+//        } else {
+//            return view('server500');
+//        }
     }
 }

@@ -14,9 +14,6 @@ return new class extends Migration {
         DB::statement('SET time_zone = "+03:00"');
         Schema::create('users', function (Blueprint $table) {
             $table->id()->autoIncrement();
-//            $table->string('name')->nullable();
-//            $table->integer('age');
-//            $table->string('gender');
             $table->timestamps();
         });
     }
