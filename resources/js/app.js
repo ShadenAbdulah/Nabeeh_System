@@ -205,7 +205,7 @@ document.getElementById('submit_btn').addEventListener('click', function (event)
             body: JSON.stringify({
                 rawData: localStorage.getItem('rawData'),
                 sessionName: sessionStorage.getItem('sessionName'),
-                sampleID: sessionStorage.getItem('sampleID')
+                userID: sessionStorage.getItem('userID')
             }),
         })
             .then(response => response.json())
@@ -225,7 +225,7 @@ document.getElementById('submit_btn').addEventListener('click', function (event)
             body: JSON.stringify({
                 rawData: localStorage.getItem('rawData'),
                 sessionName: sessionStorage.getItem('sessionName'),
-                sampleID: sessionStorage.getItem('sampleID')
+                userID: sessionStorage.getItem('userID')
             }),
         })
             .then(response => response.json())

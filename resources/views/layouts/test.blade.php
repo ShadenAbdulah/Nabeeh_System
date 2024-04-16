@@ -1,5 +1,5 @@
-<x-head session_name="{{$sample->id.'/'.$test->id.'-'.$test->session_name}}"
-        sample_id="{{$sample->id}}"
+<x-head session_name="{{$user->id.'/'.$test->id.'-'.$test->session_name}}"
+        user_id="{{$user->id}}"
         test_id="{{$test->id}}">
     <body class="p-10 font-[Tajawal]" x-data="{show: true}" id="body">
     <div class="w-1/3 mx-auto mt-32 bg-[#D9D9D9]/30 px-7 py-3 grid justify-items-center gap-y-5 rounded-2xl"
@@ -30,7 +30,7 @@
     <form
         id="test_form"
         method="post"
-        action="{{($test->id+1 === 13)? route('result', ['id' => $sample->id]): route('object.test', [$test->id+1, $sample])}}"
+        action="{{($test->id+1 === 13)? route('result', ['id' => $user->id]): route('user.test', [$test->id+1, $user])}}"
         x-show="!show"
         x-data="{ countdown: 30 }">
         @method('get')

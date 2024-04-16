@@ -11,7 +11,7 @@ class resultController extends Controller
 {
     public function showResults(Request $request, $id)
     {
-        session(['sampleID' => $id]);
+        session(['userID' => $id]);
         return view('result');
     }
 
@@ -20,11 +20,11 @@ class resultController extends Controller
         try {
             sleep(5);
 
-            $id = session()->get('sampleID');
+            $id = session()->get('userID');
 //            Log::info('sampleID2222:', ['id' => $id]);
 
             $apiGatewayUrl = 'https://2yv3ea5spjpdmcig2tuzcepqsm0bajyb.lambda-url.us-east-1.on.aws/';
-            $response = Http::timeout(200)->get($apiGatewayUrl, ['sampleID' => $id]);
+            $response = Http::timeout(200)->get($apiGatewayUrl, ['userID' => $id]);
 
             Log::info('Lambda response:', ['response' => $response->body()]);
 

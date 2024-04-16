@@ -12,11 +12,11 @@ return new class extends Migration {
     public function up(): void
     {
         DB::statement('SET time_zone = "+03:00"');
-        Schema::create('samples', function (Blueprint $table) {
+        Schema::create('users', function (Blueprint $table) {
             $table->id()->autoIncrement();
-            $table->string('name')->nullable();
-            $table->integer('age');
-            $table->string('gender');
+//            $table->string('name')->nullable();
+//            $table->integer('age');
+//            $table->string('gender');
             $table->timestamps();
         });
     }
@@ -26,6 +26,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('samples');
+        Schema::dropIfExists('users');
     }
 };

@@ -46,7 +46,7 @@ class SamplingHandler extends AbstractHandler implements ProcessableHandlerInter
      * @phpstan-param (Closure(LogRecord|null, HandlerInterface): HandlerInterface)|HandlerInterface $handler
      *
      * @param Closure|HandlerInterface $handler Handler or factory Closure($record|null, $samplingHandler).
-     * @param int                      $factor  Sample factor (e.g. 10 means every ~10th record is sampled)
+     * @param int $factor User factor (e.g. 10 means every ~10th record is sampled)
      */
     public function __construct(Closure|HandlerInterface $handler, int $factor)
     {
@@ -103,7 +103,7 @@ class SamplingHandler extends AbstractHandler implements ProcessableHandlerInter
             return $this;
         }
 
-        throw new \UnexpectedValueException('The nested handler of type '.get_class($handler).' does not support formatters.');
+        throw new \UnexpectedValueException('The nested handler of type ' . get_class($handler) . ' does not support formatters.');
     }
 
     /**
@@ -116,6 +116,6 @@ class SamplingHandler extends AbstractHandler implements ProcessableHandlerInter
             return $handler->getFormatter();
         }
 
-        throw new \UnexpectedValueException('The nested handler of type '.get_class($handler).' does not support formatters.');
+        throw new \UnexpectedValueException('The nested handler of type ' . get_class($handler) . ' does not support formatters.');
     }
 }

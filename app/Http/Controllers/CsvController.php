@@ -12,7 +12,7 @@ class CsvController extends Controller
     {
         $this->appendToCsv($request);
 
-        $id = $request->get('sampleID');
+        $id = $request->get('userID');
 
         $userFolderPath = 'system_users/' . $id;
 
@@ -34,7 +34,7 @@ class CsvController extends Controller
 
     public function appendToCsv(Request $request)
     {
-        $userFolderPath = 'system_users/' . $request->get('sampleID');
+        $userFolderPath = 'system_users/' . $request->get('userID');
 
         if (!Storage::disk('local')->exists($userFolderPath)) {
             Storage::disk('local')->makeDirectory($userFolderPath);

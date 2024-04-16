@@ -3,8 +3,8 @@
 use App\Http\Controllers\CsvController;
 use App\Http\Controllers\PDFController;
 use App\Http\Controllers\resultController;
-use App\Http\Controllers\SampleController;
-use App\Models\Sample;
+use App\Http\Controllers\UserController;
+use App\Models\User;
 use App\Models\Test;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -25,28 +25,25 @@ Route::get('/', function () {
 })->name('welcome');
 
 // Login page
-Route::get('/info', fn() => view('info'))->name('info');
+//Route::get('/info', fn() => view('info'))->name('info');
 
 Route::get('/send/{id}', [resultController::class, 'showResults'])->name('result');
 Route::get('/fetch-results', [resultController::class, 'fetchResults'])->name('fetch-results');
 
 
 // Create and store new user
-Route::post('/create', [SampleController::class, 'store'])->name('object.store');
+Route::post('/store', [UserController::class, 'store'])->name('user.store');
 
 // Start train
-Route::get('/object/train/{sample}', [SampleController::class, 'edit'])->name('object.train');
+Route::get('/train/{user}', [UserController::class, 'edit'])->name('user.train');
 
 // Test
-Route::get('/{test}/{sample}', function (Test $test, Sample $sample) {
-    return view('layouts.test', ['test' => $test, 'sample' => $sample]);
-})->name('object.test');
+Route::get('/{test}/{user}', function (Test $test, User $user) {
+    return view('layouts.test', ['test' => $test, 'user' => $user]);
+})->name('user.test');
 
 // Append to CSV
 Route::post('/append-to-csv', [CsvController::class, 'appendToCsv']);
 
 // Append to S3
 Route::post('/append-to-s3', [CsvController::class, 'appendToS3']);
-
-
-Route::get('/pdf', [PDFController::class, 'view'])->name('pdf');

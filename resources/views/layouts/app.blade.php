@@ -8,7 +8,7 @@
             }
     }
 @endphp
-<x-head session_name="none" sample_id="none" test_id="none">
+<x-head session_name="none" user_id="none" test_id="none">
 
     <body class="font-[Tajawal] flex flex-col min-h-screen">
 

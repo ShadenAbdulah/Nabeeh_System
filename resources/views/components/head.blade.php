@@ -1,7 +1,7 @@
 @php use Illuminate\Support\Facades\Config;use Illuminate\Support\Facades\Session;
 $dir = (Config::get('app.locale') === 'ar' or Config::get('app.locale') === 'ur')? 'rtl':'ltr';
 @endphp
-@props(['session_name', 'sample_id', 'test_id'])
+@props(['session_name', 'user_id', 'test_id'])
     <!DOCTYPE html>
 <html dir={{$dir}} lang="{{Session::get('locale')}}">
 <head>
@@ -33,7 +33,7 @@ $dir = (Config::get('app.locale') === 'ar' or Config::get('app.locale') === 'ur'
     <script defer src="https://cdn.jsdelivr.net/npm/fabric@5.2.4/dist/fabric.min.js"></script>
 
     <script>sessionStorage.setItem('sessionName', '{{$session_name}}');
-        sessionStorage.setItem('sampleID', '{{$sample_id}}');
+        sessionStorage.setItem('userID', '{{$user_id}}');
         sessionStorage.setItem('testID', '{{$test_id}}');</script>
 
     <!-- PWA -->

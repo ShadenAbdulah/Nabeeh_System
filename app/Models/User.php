@@ -8,11 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * @method static create(array $validate)
  */
-class Sample extends Model
+class User extends Model
 {
     use HasFactory;
 
-    protected $table = 'samples';
+    protected $table = 'users';
 
     protected $guarded = [];
 }

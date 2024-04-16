@@ -1,6 +1,6 @@
 <x-head
-    session_name="{{$sample->id.'/train'}}"
-    sample_id="{{$sample->id}}"
+    session_name="{{$user->id.'/train'}}"
+    user_id="{{$user->id}}"
     test_id="none">
 
     <body class="p-10 font-[Tajawal]" x-data="{ show: true}">
@@ -31,7 +31,7 @@
     <div x-show="!show">
         <img src="{{asset('images/train.png')}}" class="mt-10">
         <canvas id="canvas" class="w-full h-full absolute top-0 right-0"></canvas>
-        <form method="post" action="{{route('object.test', [$test, $sample])}}"
+        <form method="post" action="{{route('user.test', [$test, $user])}}"
               id="submit_form"
               class="w-1/6 grid justify-items-end top-10 left-10 absolute"
               x-data="{countdown: 320}">
