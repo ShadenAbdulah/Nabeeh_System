@@ -22,7 +22,7 @@
             @endfor
         </div>
         <h1 class="font-semibold"><span
-                class="text-[#6E65E8]">{{__('extra.'.$test->type}})}} </span>{{__($test->title)}}</h1>
+                class="text-[#6E65E8]">{{__('extra.'.$test->type)}} </span>{{__($test->title)}}</h1>
         <p class="font-medium text-justify">{{$test->content}} سيظهر لك خط متعرج والمطلوب منك هو إعادة رسم
             الخط دون رفع القلم عن الجهاز اللوحي وتكرار ذلك على السطور الخمسة التي ستظهر لك على الشاشة، خلال 30
             ثانية.</p>
