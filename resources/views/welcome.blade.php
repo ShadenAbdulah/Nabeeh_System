@@ -21,7 +21,7 @@
             </p>
 
             <div class="tablet:w-1/2 phones:w-full mx-auto">
-                <a href="{{route('info')}}"
+                <a href="{{route('object.train')}}"
                    class="phones:hidden">
                     <x-primary-button class="w-full font-semibold">
                         {{ __('extra.entering_to_test') }}
@@ -42,7 +42,7 @@
                     <h1 class="phones:block tablet:hidden font-normal text-base mt-1.5">
                         لإجراء الإختبار، نرجو إستعمال جهاز
                         <br>
-                        <span class="font-bold">Galaxy Tab S6 Lite</span>
+                        <span class="font-bold">Galaxy Tab S6 Lite With sPen</span>
                     </h1>
                 </div>
             </div>
