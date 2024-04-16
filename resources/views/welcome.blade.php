@@ -16,12 +16,13 @@
             </p>
 
             <div class="tablet:w-1/2 phones:w-full mx-auto">
-                <a href="{{route('user.store')}}"
-                   class="phones:hidden">
+                <form action="{{route('user.store')}}" method="post"
+                      class="phones:hidden">
+                    @csrf @method('post')
                     <x-primary-button class="w-full font-semibold">
                         {{ __('extra.entering_to_test') }}
                     </x-primary-button>
-                </a>
+                </form>
 
                 <div class="flex gap-2 mx-auto mt-6 tablet:w-fit phones:w-full phones:justify-center">
                     <svg class="tablet:w-6 phones:w-10"
