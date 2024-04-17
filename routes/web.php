@@ -4,8 +4,8 @@ use App\Http\Controllers\CsvController;
 use App\Http\Controllers\PDFController;
 use App\Http\Controllers\resultController;
 use App\Http\Controllers\UserController;
-use App\Models\User;
 use App\Models\Test;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 

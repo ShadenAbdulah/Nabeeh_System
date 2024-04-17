@@ -3,16 +3,16 @@
     <!-- server500 -->
     <div id="result"
          class="w-3/5 my-5 mx-auto grid grid-rows-3 gap-16 shadow-2xl shadow-[#6D6AB1]/10 p-10 rounded-3xl content-center text-center">
-        <h1 class="font-extrabold text-4xl"> {{ __('خطـــــــأ') }} </h1>
-        <h1 class="font-medium text-2xl">  {{ __('نعتذر،الخادم خارج الخدمة.') }}  </h1>
-        <h1 class="font-medium text-2xl">{{ __(' نرجو المحاولة مرة اخرى') }}</h1>
-        <a href="{{route('welcome')}}" class="phones:hidden">
+        <h1 class="font-extrabold text-4xl"> {{ __('extra.error') }} </h1>
+        <h1 class="font-medium text-2xl">  {{ __('extra.oops') }}  </h1>
+        {{--        <h1 class="font-medium text-2xl">{{ __('extra.t') }}</h1>--}}
+        <a href="{{route('welcome')}}">
             <x-primary-button class="w-full font-semibold">
-                {{ __('العودة للصفحة الرئيسية') }}
+                {{ __('extra.back_to_home_page') }}
             </x-primary-button>
         </a>
     </div>
-    {{ __('') }}
+    {{--    {{ __('') }}--}}
     <div class="mx-auto w-3/5 p-10 flex justify-between items-center">
         <svg class="w-1/12"
              data-name="Layer 1"

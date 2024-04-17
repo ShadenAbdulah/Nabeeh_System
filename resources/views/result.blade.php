@@ -2,7 +2,7 @@
 @section('content')
     <div id="spinner"
          class="w-3/5 my-5 mx-auto grid grid-rows-3 gap-16 shadow-2xl shadow-[#6D6AB1]/10 p-10 rounded-3xl content-center text-center">
-        <h1 class="font-extrabold text-4xl">النتيجــــــــة</h1>
+        <h1 class="font-extrabold text-4xl">{{__('extra.result')}}</h1>
         <div role="status">
             <svg aria-hidden="true" class="inline w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-purple-600"
                  viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -15,12 +15,8 @@
             </svg>
             <span class="sr-only">Loading...</span>
         </div>
-    </div>
 
-    <div id="result"
-         class="w-3/5 my-5 mx-auto grid grid-rows-3 gap-16 shadow-2xl shadow-[#6D6AB1]/10 p-10 rounded-3xl content-center text-center"
-         style="display: none;">
-        <!-- Results will be populated here via JavaScript -->
+        <div id="result"></div>
     </div>
 
     <div class="mx-auto w-3/5 p-10 flex justify-between items-center">
@@ -34,20 +30,11 @@
                 fill="#6D6AB1"/>
         </svg>
         <h1 class="font-medium w-5/6 tracking-wide text-justify">
-                <span
-                    class="text-[#6D6AB1] font-bold">
-                    نَبِيـــه
-                </span>
-            هو أداة مساعدة
-            للتشخيص
-            ولا
-            يمكن
-            الاعتماد
-            عليه لوحده
-            لإثبات
-            تشخيص الاصابة بالاضطراب،
-            إذا كان التقييم ايجابيًا ننصحك بزيارة مختص في العيادة النفسية للاطمئنان واتخاذ
-            الاجراء اللازم.</h1>
+            <span class="text-[#6D6AB1] font-bold">
+                {{__('extra.Nabeeh')}}
+            </span>
+            {{__('extra.note')}}
+        </h1>
     </div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -71,14 +58,7 @@
                         `).show();
                     } else if (data.result === 'ADHD') {
                         $('#result').html(`
-                    <h1 class="font-extrabold text-4xl">النتيجــــــــة</h1>
-                    <h1 class="font-extrabold text-6xl text-[#6D6AB1]">ADHD</h1>
-                    <h1 class="font-medium text-2xl">التقييم الأولي يشير إلى أن احتمالية إصابتك بـADHD عالية.</h1>
-                `).show();
-                    } else {
-                        $('#result').html(`
-                    <h1 class="font-extrabold text-4xl">النتيجــــــــة</h1>
-                    <h1 class="font-medium text-2xl">التقييم الأولي يشير إلى أن احتمالية إصابتك بـADHD منخفضة.</h1>
+                    <x-result width="${data.result[0]}" value="${data.result[1]}"></x-result>
                 `).show();
                     }
                 },

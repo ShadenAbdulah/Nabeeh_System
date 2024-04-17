@@ -21,11 +21,8 @@
             @endfor
         </div>
 
-        <h1 class="font-semibold">تهيئـــة</h1>
-        <p class="font-medium text-justify">
-            مهمة البداية ليست ضمن الاختبار، وهي للتدريب على آلية الاختبار والتعرف على بيئة الاختبار قبل البدء. ستظهر
-            صفحة تحتوي على رسومات والمطلوب منك هو اعادة رسم ما هو موجود خلال 5 دقائق كحد أقصى.
-        </p>
+        <h1 class="font-semibold">{{__('extra.Pre')}}</h1>
+        <p class="font-medium text-justify">{{__('extra.Pre_content')}}</p>
     </div>
 
     <div x-show="!show">
@@ -38,7 +35,7 @@
             @method('get')
             @csrf
             <x-primary-button class="w-full" type="submit" id="submit_btn">
-                {{ __('بدء الاختبــار') }}
+                {{ __('extra.') }}
             </x-primary-button>
         </form>
     </div>

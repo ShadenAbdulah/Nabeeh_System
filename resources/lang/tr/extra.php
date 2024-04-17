@@ -19,8 +19,6 @@ return [
     'oops' => 'Ops, bir şeyler ters gitti. Lütfen daha sonra tekrar deneyin.',
     'back_to_home_page' => 'Ana Sayfaya Dön',
     'initial_evaluation' => 'İlk değerlendirme, ADHD olasılığınızın',
-    'high' => 'Yüksek',
-    'low' => 'Düşük',
 
     'Trace' => 'İzle',
     'ZigZag' => 'Zigzag çizgi deseni',
@@ -38,4 +36,19 @@ return [
     'PL_4' => 'PL deseninin dördüncü adımında,',
     'PL_5' => 'PL deseninin beşinci adımında,',
     'PL_6' => 'PL deseninin altıncı adımında,',
+
+    'Pre' => 'Hazırlık',
+    'Pre_content' => 'Eğitim görevi testin bir parçası değildir ve başlamadan önce test mekanizmasını pratik yapmak ve test ortamıyla tanışmak için tasarlanmıştır. Çizimler içeren bir sayfa belirecek ve sizden oradaki şeyleri en fazla 5 dakika içinde yeniden çizmeniz istenecek.',
+    'start_test' => 'Testi Başlat',
+    'Nabeeh' => 'Nabeeh',
+    'nabeeh_content' => 'Yapay zeka teknikleri tarafından belirlenen desenleri kullanarak el yazısını analiz ederek ADHD teşhisi koymak için birincil araçtır.',
+    'note' => 'Bu bir teşhis aracıdır ve tek başına bozukluğun teşhisini kanıtlamak için güvenilir olamaz. Değerlendirme yüksekse, size bir zihinsel sağlık kliniğinde uzmana başvurmanızı ve gerekli önlemleri almanızı tavsiye ederiz.',
+
+    'v_low' => 'Çok düşük',
+    'low' => 'Düşük',
+    'intermediate' => 'Orta',
+    'high' => 'Yüksek',
+    'v_high' => 'Çok yüksek',
+
+    'test_info' => 'Karşınıza bir desen çıkacak ve tabletten kalemi kaldırmadan bu deseni yeniden çizmeniz ve ekranında belirecek beş çizgi üzerinde bunu 30 saniye içinde tekrarlamanız gerekmektedir.'
 ];

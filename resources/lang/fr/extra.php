@@ -19,8 +19,6 @@ return [
     'oops' => 'Oups, quelque chose a mal tourné. Veuillez réessayer plus tard.',
     'back_to_home_page' => 'Retour à la page d\'accueil',
     'initial_evaluation' => 'L\'évaluation initiale indique que la probabilité de TDAH est',
-    'high' => 'Élevée',
-    'low' => 'Faible',
 
     'Trace' => 'Trace',
     'ZigZag' => 'Motif de ligne en zigzag',
@@ -38,4 +36,20 @@ return [
     'PL_4' => 'Dans la quatrième étape du motif PL,',
     'PL_5' => 'Dans la cinquième étape du motif PL,',
     'PL_6' => 'Dans la sixième étape du motif PL,',
+
+    'Pre' => 'Préparer',
+    'Pre_content' => 'La tâche de formation n\'est pas une partie du test et sert à pratiquer le mécanisme de test et à se familiariser avec l\'environnement de test avant de commencer. Une page contenant des dessins apparaîtra, et vous devez redessiner ce qui est présenté dans un délai maximum de 5 minutes.',
+    'start_test' => 'Commencer le test',
+    'Nabeeh' => 'Nabeeh',
+    'nabeeh_content' => 'C\'est un outil principal pour diagnostiquer le TDAH en analysant l\'écriture à l\'aide de modèles identifiés par des techniques d\'intelligence artificielle.',
+    'note' => 'C\'est un outil diagnostique et il ne peut pas être utilisé seul pour prouver un diagnostic de trouble. Si l\'évaluation est élevée, nous vous conseillons de visiter un spécialiste dans une clinique de santé mentale pour être rassuré et prendre les mesures nécessaires.',
+
+    'v_low' => 'Très bas',
+    'low' => 'Bas',
+    'intermediate' => 'Intermédiaire',
+    'high' => 'Élevé',
+    'v_high' => 'Très élevé',
+
+    'test_info' => 'Un motif apparaîtra devant vous, et vous devez redessiner le motif sans lever le stylo de la tablette et répéter cela sur les cinq lignes qui apparaîtront à l\'écran, dans un délai de 30 secondes.'
+
 ];

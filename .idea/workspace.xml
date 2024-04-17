@@ -7,7 +7,45 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="563aecd1-4cb7-4782-94b6-956d0343f605" name="Changes" comment="" />
+    <list default="true" id="563aecd1-4cb7-4782-94b6-956d0343f605" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/resources/views/components/result.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/blade.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/commandlinetools/Laravel_4_14_24__3_45_AM.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/commandlinetools/schemas/frameworkDescriptionVersion1.1.4.xsd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/jsLibraryMappings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/laravel-idea.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/laravel-idea.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/phpunit.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/lang/ar/extra.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/lang/ar/extra.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/lang/bn/extra.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/lang/bn/extra.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/lang/de/extra.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/lang/de/extra.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/lang/en/extra.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/lang/en/extra.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/lang/es/extra.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/lang/es/extra.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/lang/fil/extra.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/lang/fil/extra.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/lang/fr/extra.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/lang/fr/extra.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/lang/hi/extra.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/lang/hi/extra.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/lang/id/extra.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/lang/id/extra.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/lang/ja/extra.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/lang/ja/extra.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/lang/ko/extra.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/lang/ko/extra.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/lang/mr/extra.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/lang/mr/extra.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/lang/pt/extra.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/lang/pt/extra.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/lang/ru/extra.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/lang/ru/extra.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/lang/sv/extra.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/lang/sv/extra.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/lang/te/extra.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/lang/te/extra.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/lang/tr/extra.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/lang/tr/extra.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/lang/ur/extra.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/lang/ur/extra.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/lang/vi/extra.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/lang/vi/extra.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/lang/zh_CN/extra.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/lang/zh_CN/extra.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/layouts/app.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/app.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/layouts/test.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/test.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/layouts/train.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/train.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/result.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/result.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/server500.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/server500.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -31,6 +69,18 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="RESET_MODE" value="HARD" />
   </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "ShadenAbdulah"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/ShadenAbdulah/Nabeeh_System.git",
+    "accountId": "a53ceff8-771c-4f91-9682-5ab39e992c3e"
+  }
+}]]></component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/storage/framework/views/a316d0012d5162c24dc40fc6d4c48e32.php" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" />
   </component>
@@ -302,28 +352,28 @@
     <option name="showLibraryContents" value="true" />
     <option name="showScratchesAndConsoles" value="false" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.laravel-idea.update-module-directories": "true",
-    "code.cleanup.on.save": "true",
-    "git-widget-placeholder": "main",
-    "last_opened_file_path": "/Users/shaden/Desktop/Nabeeh_System/resources/lang/bn",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "rearrange.code.on.save": "true",
-    "run.code.analysis.last.selected.profile": "pProject Default",
-    "settings.editor.selected.configurable": "preferences.sourceCode.EditorConfig",
-    "ts.external.directory.path": "/Applications/PhpStorm.app/Contents/plugins/javascript-impl/jsLanguageServicesImpl/external",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.laravel-idea.update-module-directories&quot;: &quot;true&quot;,
+    &quot;code.cleanup.on.save&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/shaden/Desktop/Nabeeh_System/resources/lang/bn&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;rearrange.code.on.save&quot;: &quot;true&quot;,
+    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.sourceCode.EditorConfig&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;/Applications/PhpStorm.app/Contents/plugins/javascript-impl/jsLanguageServicesImpl/external&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="QodanaCloudProjectLink">
     <option name="lastReportId" value="Vvedr" />
     <option name="linkedProjectId" value="Am54m" />
@@ -345,12 +395,13 @@
       <recent name="$PROJECT_DIR$/resources/views" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/resources/views/components" />
       <recent name="$PROJECT_DIR$/public" />
       <recent name="$PROJECT_DIR$/storage/app/public" />
       <recent name="$PROJECT_DIR$/resources/views/layouts" />
     </key>
   </component>
-  <component name="RunManager" selected="PHPUnit.Main">
+  <component name="RunManager">
     <configuration name="Main" type="PHPUnitRunConfigurationType" factoryName="PHPUnit">
       <TestRunner configuration_file="$PROJECT_DIR$/phpunit.xml" scope="XML" use_alternative_configuration_file="true" />
       <method v="2" />
@@ -395,7 +446,8 @@
       <workItem from="1712614187384" duration="5704000" />
       <workItem from="1712643735784" duration="6744000" />
       <workItem from="1713004189041" duration="24683000" />
-      <workItem from="1713055757959" duration="41374000" />
+      <workItem from="1713055757959" duration="44400000" />
+      <workItem from="1713340781766" duration="8864000" />
     </task>
     <servers />
   </component>
