@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
     <div
-        class="w-3/5 my-5 mx-auto grid gap-16 shadow-2xl shadow-[#6D6AB1]/10 p-10 rounded-3xl content-center text-center">
+        class="w-3/5 my-5 mx-auto grid gap-10 shadow-2xl shadow-[#6D6AB1]/10 p-10 rounded-3xl content-center text-center">
         <h1 class="font-extrabold text-4xl">{{__('extra.result')}}</h1>
         <div role="status" id="spinner">
             <svg aria-hidden="true" class="inline w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-purple-600"
@@ -19,7 +19,7 @@
 
     </div>
 
-    <div class="mx-auto w-3/5 p-10 flex justify-between items-center">
+    <div class="mx-auto w-3/5 p-5 flex justify-between items-center">
         <svg class="w-1/12"
              data-name="Layer 1"
              id="Layer_1"
@@ -58,7 +58,7 @@
 `).show();
                     } else {
                         $('#result').html(`
-                    <x-result width="${data.prop}" value="${data.value}"></x-result>
+                    <x-result width=${data.prop} value=${data.value}></x-result>
                         `).show();
                     }
                 },

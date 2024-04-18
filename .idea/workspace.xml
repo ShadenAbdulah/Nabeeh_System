@@ -8,18 +8,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="563aecd1-4cb7-4782-94b6-956d0343f605" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/public/build/assets/app-1db6f8f8.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/build/assets/app-efa1a0cc.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/build/assets/app-17b933f0.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/build/assets/app-a38966bd.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/resultController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/resultController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/build/assets/app-6f2e0410.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/build/assets/app-76f98719.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/build/assets/app-1db6f8f8.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/build/assets/app-efa1a0cc.js" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/public/build/manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/public/build/manifest.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/app.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/components/head.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/components/head.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/components/result.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/components/result.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/layouts/app.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/app.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/layouts/test.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/test.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/layouts/train.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/train.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/result.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/result.blade.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -424,7 +425,7 @@
       <workItem from="1713004189041" duration="24683000" />
       <workItem from="1713055757959" duration="44400000" />
       <workItem from="1713340781766" duration="14307000" />
-      <workItem from="1713445252492" duration="561000" />
+      <workItem from="1713445252492" duration="10286000" />
     </task>
     <servers />
   </component>

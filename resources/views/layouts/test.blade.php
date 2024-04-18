@@ -21,8 +21,6 @@
                 @endif
             @endfor
         </div>
-
-        {{gettype($test->type)}}
         <h1 class="font-semibold"><span
                 class="text-[#6E65E8]">{{__('extra.'.$test->type)}} </span>{{__('extra.'.$test->title)}}</h1>
         <p class="font-medium text-justify">{{__('extra.'.$test->content)}} {{__('extra.test_info')}}</p>

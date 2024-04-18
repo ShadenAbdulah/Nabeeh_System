@@ -33,11 +33,11 @@ class resultController extends Controller
                 $value = $responseBody[0];
                 $prop = $responseBody[1];
 
-                if ($prop >= 75) $value = 'extra.v_high';
-                elseif ($prop < 75 and $prop >= 60) $value = 'extra.high';
-                elseif ($prop < 60 and $prop >= 50) $value = 'extra.intermediate';
-                elseif ($prop < 50 and $prop >= 25) $value = 'extra.low';
-                elseif ($prop < 25 and $prop >= 0) $value = 'extra.v_low';
+                if ($prop >= 75) $value = 'مرتفعة جدًا';
+                elseif ($prop < 75 and $prop >= 60) $value = 'مرتفعة';
+                elseif ($prop < 60 and $prop >= 50) $value = 'متوسطة';
+                elseif ($prop < 50 and $prop >= 25) $value = 'منخفضة';
+                elseif ($prop < 25 and $prop >= 0) $value = 'منخفضة جدًا';
 
                 return response()->json(['value' => $value, 'prop' => $prop]);
             } else {

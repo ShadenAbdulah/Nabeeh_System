@@ -39,7 +39,7 @@
 
         <div x-data="{ open: false }" class="w-full">
             <div @click="open = true"
-                 class="container mx-auto w-full flex justify-end gap-3 align-middle content-center text-justify my-5">
+                 class="container mx-auto w-full flex justify-end gap-3 align-middle content-center text-justify mb-5">
                 <svg viewBox="0 0 96 96" xmlns="http://www.w3.org/2000/svg"
                      class="w-3">
                     <path
@@ -141,5 +141,6 @@
             window.loading_screen.finish();
         });
     </script>
+    @stack('scripts')
     </body>
 </x-head>

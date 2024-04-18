@@ -35,7 +35,7 @@
             @method('get')
             @csrf
             <x-primary-button class="w-full" type="submit" id="submit_btn">
-                {{ __('extra.') }}
+                {{ __('extra.start_test') }}
             </x-primary-button>
         </form>
     </div>
