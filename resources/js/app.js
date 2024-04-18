@@ -237,3 +237,16 @@ document.getElementById('submit_btn').addEventListener('click', function (event)
             });
     }
 });
+
+
+document.addEventListener('DOMContentLoaded', function () {
+    const progressBar = document.getElementById('progressBar');
+    const status = document.getElementById('status');
+    setTimeout(() => {
+        progressBar.style.width = `${data.prop * 100}`;
+    }, 1500); // Timeout can be adjusted or removed based on your needs
+
+    setTimeout(() => {
+        status.classList.toggle('hidden')
+    }, 2000); // Timeout can be adjusted or removed based on your needs
+});

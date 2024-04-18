@@ -30,9 +30,16 @@ class resultController extends Controller
 
             if ($response->successful()) {
                 $responseBody = json_decode($response->body(), true);
-                $probability = $responseBody[0] * 100;
-                $result = $probability >= 50 ? 'ADHD' : 'Not ADHD';
-                return response()->json(['result' => $result]);
+                $value = $responseBody[0];
+                $prop = $responseBody[1];
+
+                if ($prop >= 75) $value = 'extra.v_high';
+                elseif ($prop < 75 and $prop >= 60) $value = 'extra.high';
+                elseif ($prop < 60 and $prop >= 50) $value = 'extra.intermediate';
+                elseif ($prop < 50 and $prop >= 25) $value = 'extra.low';
+                elseif ($prop < 25 and $prop >= 0) $value = 'extra.v_low';
+
+                return response()->json(['value' => $value, 'prop' => $prop]);
             } else {
                 Log::error('Error from API:', ['response' => $response->body()]);
                 return response()->json(['error' => $response->body() ?? 'Failed to get a valid response from the API.'], 500);

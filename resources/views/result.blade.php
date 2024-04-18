@@ -1,9 +1,9 @@
 @extends('layouts.app')
 @section('content')
-    <div id="spinner"
-         class="w-3/5 my-5 mx-auto grid grid-rows-3 gap-16 shadow-2xl shadow-[#6D6AB1]/10 p-10 rounded-3xl content-center text-center">
+    <div
+        class="w-3/5 my-5 mx-auto grid gap-16 shadow-2xl shadow-[#6D6AB1]/10 p-10 rounded-3xl content-center text-center">
         <h1 class="font-extrabold text-4xl">{{__('extra.result')}}</h1>
-        <div role="status">
+        <div role="status" id="spinner">
             <svg aria-hidden="true" class="inline w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-purple-600"
                  viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path
@@ -15,8 +15,8 @@
             </svg>
             <span class="sr-only">Loading...</span>
         </div>
-
         <div id="result"></div>
+
     </div>
 
     <div class="mx-auto w-3/5 p-10 flex justify-between items-center">
@@ -55,11 +55,11 @@
                                             {{ __('العودة للصفحة الرئيسية') }}
                         </x-primary-button>
                     </a>
-                        `).show();
-                    } else if (data.result === 'ADHD') {
+`).show();
+                    } else {
                         $('#result').html(`
-                    <x-result width="${data.result[0]}" value="${data.result[1]}"></x-result>
-                `).show();
+                    <x-result width="${data.prop}" value="${data.value}"></x-result>
+                        `).show();
                     }
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
@@ -80,7 +80,5 @@
             });
         });
 
-
     </script>
-
 @endsection
