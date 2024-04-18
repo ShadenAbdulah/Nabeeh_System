@@ -1,5 +1,5 @@
 @props(['value', 'width'])
-<div class="my-10 transition-all">
+<div class="my-10">
     <div class="w-3/5 tracking-wider font-medium mx-auto text-xl mb-20">
         {{__('extra.initial_evaluation')}}
     </div>

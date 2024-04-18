@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
     <div
-        class="w-3/5 my-5 mx-auto grid gap-10 shadow-2xl shadow-[#6D6AB1]/10 p-10 rounded-3xl content-center text-center">
+        class="w-3/5 my-5 mx-auto grid gap-10 shadow-2xl shadow-[#6D6AB1]/10 p-10 rounded-3xl content-center text-center transition ease-in-out delay-150">
         <h1 class="font-extrabold text-4xl">{{__('extra.result')}}</h1>
         <div role="status" id="spinner">
             <svg aria-hidden="true" class="inline w-10 h-10 text-gray-200 animate-spin fill-[#6D6AB1]"
