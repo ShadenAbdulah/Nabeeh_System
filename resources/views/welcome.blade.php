@@ -10,14 +10,14 @@
 @endphp
 <x-head session_name="none" user_id="none" test_id="none">
     <body class="font-[Tajawal] flex flex-col min-h-screen">
-    <div class="inner" ng-view>
+    <div class="inner mx-auto" ng-view>
     </div>
     <script type="text/javascript" src="{{asset('please-wait.min.js')}}"></script>
     <script type="text/javascript">
         window.loading_screen = window.pleaseWait({
             logo: '{{asset("images/simple logo.svg")}}',
             backgroundColor: '#fff',
-            loadingHtml: '<div class="spinner"><div class="cube1"></div><div class="cube2"></div> </div>'
+            loadingHtml: '<div class="spinner"><div class="cube1"></div><div class="cube2"></div></div>'
         });
     </script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.5/angular.min.js"></script>

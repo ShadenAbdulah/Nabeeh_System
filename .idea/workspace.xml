@@ -8,6 +8,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="563aecd1-4cb7-4782-94b6-956d0343f605" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/public/build/assets/app-ad21287e.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/build/assets/app-ea095055.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/build/assets/app-17b933f0.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/build/assets/app-a38966bd.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/build/manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/public/build/manifest.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/please-wait.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/please-wait.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/components/head.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/components/head.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/welcome.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/welcome.blade.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -414,7 +423,7 @@
       <workItem from="1713340781766" duration="14307000" />
       <workItem from="1713445252492" duration="12539000" />
       <workItem from="1713553296750" duration="9127000" />
-      <workItem from="1713621631168" duration="2615000" />
+      <workItem from="1713621631168" duration="3891000" />
     </task>
     <servers />
   </component>
