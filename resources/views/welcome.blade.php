@@ -25,7 +25,7 @@
     <div class="block sm:block md:hidden lg:hidden xl:hidden 2xl:hidden">
         <img class="fixed z-50" src="{{asset('images/phones header.png')}}" alt="header">
 
-        <img src="{{asset('images/landing.svg')}}" alt="" class="overflow-y-scroll">
+        <img src="{{asset('images/landing.svg')}}" alt="" class="overflow-y-scroll mt-5">
 
         <div class="relative mx-auto">
             <img src="{{asset('images/footer.png')}}" alt="footer">
