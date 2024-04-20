@@ -31,15 +31,17 @@
             <img src="{{asset('images/footer.png')}}" alt="footer">
             <div class="absolute top-10 grid-rows-3 space-y-10">
                 <div class="grid grid-cols-3 space-x-32 text-center mr-24">
-                    <svg viewBox="0 0 48 48"
-                         width="30%"
-                         xmlns="http://www.w3.org/2000/svg"><title/>
-                        <g data-name="8-Email"
-                           id="_8-Email">
-                            <path
-                                d="M45,7H3a3,3,0,0,0-3,3V38a3,3,0,0,0,3,3H45a3,3,0,0,0,3-3V10A3,3,0,0,0,45,7Zm-.64,2L24,24.74,3.64,9ZM2,37.59V10.26L17.41,22.17ZM3.41,39,19,23.41l4.38,3.39a1,1,0,0,0,1.22,0L29,23.41,44.59,39ZM46,37.59,30.59,22.17,46,10.26Z"/>
-                        </g>
-                    </svg>
+                    <a href="mailto:info@nabeehtech.com">
+                        <svg viewBox="0 0 48 48"
+                             width="30%"
+                             xmlns="http://www.w3.org/2000/svg"><title/>
+                            <g data-name="8-Email"
+                               id="_8-Email">
+                                <path
+                                    d="M45,7H3a3,3,0,0,0-3,3V38a3,3,0,0,0,3,3H45a3,3,0,0,0,3-3V10A3,3,0,0,0,45,7Zm-.64,2L24,24.74,3.64,9ZM2,37.59V10.26L17.41,22.17ZM3.41,39,19,23.41l4.38,3.39a1,1,0,0,0,1.22,0L29,23.41,44.59,39ZM46,37.59,30.59,22.17,46,10.26Z"/>
+                            </g>
+                        </svg>
+                    </a>
 
                     <svg xmlns="http://www.w3.org/2000/svg"
                          width="30%"
