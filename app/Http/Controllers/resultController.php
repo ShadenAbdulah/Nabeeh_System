@@ -24,7 +24,7 @@ class resultController extends Controller
             Log::info('sampleID2222:', ['id' => $id]);
 
             $apiGatewayUrl = 'https://2yv3ea5spjpdmcig2tuzcepqsm0bajyb.lambda-url.us-east-1.on.aws/';
-            $response = Http::timeout(300)->get($apiGatewayUrl, ['userID' => $id]);
+            $response = Http::timeout(5000)->get($apiGatewayUrl, ['userID' => $id]);
 
             Log::info('Lambda response:', ['response' => $response->body()]);
 
