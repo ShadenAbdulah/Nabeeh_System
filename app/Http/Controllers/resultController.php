@@ -21,10 +21,10 @@ class resultController extends Controller
             sleep(5);
 
             $id = session()->get('userID');
-//            Log::info('sampleID2222:', ['id' => $id]);
+            Log::info('sampleID2222:', ['id' => $id]);
 
             $apiGatewayUrl = 'https://2yv3ea5spjpdmcig2tuzcepqsm0bajyb.lambda-url.us-east-1.on.aws/';
-            $response = Http::timeout(200)->get($apiGatewayUrl, ['userID' => $id]);
+            $response = Http::timeout(300)->get($apiGatewayUrl, ['userID' => $id]);
 
             Log::info('Lambda response:', ['response' => $response->body()]);
 
@@ -47,7 +47,7 @@ class resultController extends Controller
 
         } catch (Exception $e) {
             Log::error('Lambda execution failed: ' . $e->getMessage());
-            return response()->json(['error' => $e->getMessage()], 500);
+            return response()->json(['Server Error' => $e->getMessage()], 500);
         }
     }
 }
