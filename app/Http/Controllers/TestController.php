@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Test;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class TestController extends Controller
@@ -10,9 +11,9 @@ class TestController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Test $test, User $use)
     {
-        //
+        return view('layouts.test', ['test' => $test, 'user' => $user]);
     }
 
     /**
