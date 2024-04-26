@@ -8,8 +8,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="563aecd1-4cb7-4782-94b6-956d0343f605" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/resources/views/components/lg-footer.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/components/lg-footer.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/layouts/app.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/app.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -421,7 +420,7 @@
       <workItem from="1713761120063" duration="933000" />
       <workItem from="1713899396932" duration="1842000" />
       <workItem from="1714051097410" duration="1135000" />
-      <workItem from="1714128470394" duration="792000" />
+      <workItem from="1714128470394" duration="1935000" />
     </task>
     <servers />
   </component>
