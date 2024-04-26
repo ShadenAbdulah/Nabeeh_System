@@ -17,6 +17,10 @@ class resultController extends Controller
 
     public function fetchResults()
     {
+        ini_set('max_execution_time', 400);
+        ini_set('max_input_time', 400);
+        ini_set('post_max_size', '128M');
+
         try {
             sleep(5);
 
@@ -24,7 +28,7 @@ class resultController extends Controller
             Log::info('sampleID2222:', ['id' => $id]);
 
             $apiGatewayUrl = 'https://2yv3ea5spjpdmcig2tuzcepqsm0bajyb.lambda-url.us-east-1.on.aws/';
-            $response = Http::timeout(300)->get($apiGatewayUrl, ['userID' => $id]);
+            $response = Http::timeout(240)->get($apiGatewayUrl, ['userID' => $id]);
 
             Log::info('Lambda response:', ['response' => $response->body()]);
 
@@ -41,13 +45,15 @@ class resultController extends Controller
 
                 return response()->json(['value' => $value, 'prop' => $prop]);
             } else {
+                $errorResponse = json_decode($response->body(), true);
                 Log::error('Error from API:', ['response' => $response->body()]);
-                return response()->json(['error' => $response->body() ?? 'Failed to get a valid response from the API.'], 500);
+                return response()->json(['error' => $errorResponse ?? 'Failed to get a valid response from the API.'], 500);
             }
-
+    
         } catch (Exception $e) {
             Log::error('Lambda execution failed: ' . $e->getMessage());
-            return response()->json(['Server Error' => $e->getMessage()], 500);
+            return view('server500');
         }
     }
 }
+

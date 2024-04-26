@@ -46,34 +46,39 @@
                     console.log(data);
                     $('#spinner').hide();
                     if (data.error) {
-                        $('#result').html(`<h1 class="font-extrabold text-4xl">خطـــــــأ</h1>
-                                   <h1 class="font-medium text-2xl">نعتذر، حدث خطأ أثناء معالجة البيانات: ${data.error}</h1>
-                                   <a href="{{route('welcome')}}"
-                                    class="phones:hidden">
-                                        <x-primary-button class="w-full font-semibold">
-                                            {{ __('العودة للصفحة الرئيسية') }}
-                        </x-primary-button>
-                    </a>
-`).show();
+                        $('#result').html(`
+                                <h1 class="font-extrabold text-4xl">خطـــــــأ</h1>
+                                <h1 class="font-medium text-2xl">نعتذر، حدث خطأ أثناء معالجة البيانات: ${data.error}</h1>
+                                <a href="{{route('welcome')}}" class="phones:hidden">
+                                    <x-primary-button class="w-full font-semibold">
+                                        {{ __('العودة للصفحة الرئيسية') }}
+                                    </x-primary-button>
+                                </a>
+                                `).show();
                     } else {
                         $('#result').html(`
-                    <x-result width=${data.prop} value=${data.value}></x-result>
+                          <x-result width=${data.prop} value=${data.value}></x-result>
                         `).show();
                     }
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
+                    console.log('ERRROOOOR');
+                    console.log(jqXHR);
+                    console.log(textStatus);
+                    console.log(errorThrown);
+
                     $('#spinner').hide();
                     var errorResponse = jqXHR.responseJSON; // Get JSON response if available
                     var errorMessage = errorResponse ? errorResponse.error : textStatus; // Use server-provided message if available
-                    $('#result').html(`<h1 class="font-extrabold text-4xl">خطـــــــأ</h1>
-                               <h1 class="font-medium text-2xl">نعتذر، حدث خطأ أثناء معالجة البيانات: ${errorMessage}</h1>
-                               <a href="{{route('welcome')}}"
-                                    class="phones:hidden">
-                                        <x-primary-button class="w-full font-semibold">
-                                        {{ __('العودة للصفحة الرئيسية') }}
-                    </x-primary-button>
-                </a>
-`).show();
+                    $('#result').html(`
+                                <h1 class="font-extrabold text-4xl">خطـــــــأ</h1>
+                                <h1 class="font-medium text-2xl">نعتذر، حدث خطأ أثناء معالجة البيانات: ${errorMessage}</h1>
+                                <a href="{{route('welcome')}}" class="phones:hidden">
+                                    <x-primary-button class="w-full font-semibold">
+                                    {{ __('العودة للصفحة الرئيسية') }}
+                                    </x-primary-button>
+                                </a>
+                                `).show();
                     console.error('AJAX Error: ', textStatus, errorThrown);
                 }
             });
