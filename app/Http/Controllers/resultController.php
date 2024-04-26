@@ -17,6 +17,10 @@ class resultController extends Controller
 
     public function fetchResults()
     {
+        ini_set('max_execution_time', 400);
+        ini_set('max_input_time', 400);
+        ini_set('post_max_size', '128M');
+
         try {
             sleep(5);
 
