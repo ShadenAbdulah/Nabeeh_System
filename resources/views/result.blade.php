@@ -42,6 +42,7 @@
             $.ajax({
                 url: '{{ route("fetch-results") }}',
                 type: 'GET',
+                timeout: 300000, 
                 success: function (data) {
                     console.log(data);
                     $('#spinner').hide();
