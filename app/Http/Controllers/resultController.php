@@ -17,13 +17,8 @@ class resultController extends Controller
 
     public function fetchResults()
     {
-        ini_set('max_execution_time', 700);
-        ini_set('max_input_time', 700);
-        ini_set('post_max_size', '128M');
-
         try {
-            sleep(5);
-
+            set_time_limit(700);
             $id = session()->get('userID');
             Log::info('sampleID2222:', ['id' => $id]);
 
