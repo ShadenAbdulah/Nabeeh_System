@@ -1,0 +1,34 @@
+Index: app/Http/Controllers/resultController.php
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?php\n\nnamespace App\\Http\\Controllers;\n\nuse Exception;\nuse Illuminate\\Http\\Request;\nuse Illuminate\\Support\\Facades\\Http;\nuse Illuminate\\Support\\Facades\\Log;\n\nclass resultController extends Controller\n{\n    public function showResults(Request $request, $id)\n    {\n        session(['userID' => $id]);\n        return view('result');\n    }\n\n    public function fetchResults()\n    {\n        try {\n            sleep(5);\n\n            $id = session()->get('userID');\n\n            $apiGatewayUrl = 'https://2yv3ea5spjpdmcig2tuzcepqsm0bajyb.lambda-url.us-east-1.on.aws/';\n            $response = Http::timeout(200)->get($apiGatewayUrl, ['userID' => $id]);\n\n            Log::info('Lambda response:', ['response' => $response->body()]);\n\n            if ($response->successful()) {\n                $responseBody = json_decode($response->body(), true);\n                $value = $responseBody[0];\n                $prop = $responseBody[1];\n\n                if ($prop >= 75) $value = 'مرتفعة جدًا';\n                elseif ($prop < 75 and $prop >= 60) $value = 'مرتفعة';\n                elseif ($prop < 60 and $prop >= 50) $value = 'متوسطة';\n                elseif ($prop < 50 and $prop >= 25) $value = 'منخفضة';\n                elseif ($prop < 25 and $prop >= 0) $value = 'منخفضة جدًا';\n\n                return response()->json(['value' => $value, 'prop' => $prop]);\n            } else {\n                Log::error('Error from API:', ['response' => $response->body()]);\n                return response()->json(['error' => $response->body() ?? 'Failed to get a valid response from the API.'], 500);\n            }\n\n        } catch (Exception $e) {\n            Log::error('Lambda execution failed: ' . $e->getMessage());\n            return response()->json(['error' => $e->getMessage()], 500);\n        }\n    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/Http/Controllers/resultController.php b/app/Http/Controllers/resultController.php
+--- a/app/Http/Controllers/resultController.php	(revision 03e1728fae7179c2a498ab638f48f8096f3625d8)
++++ b/app/Http/Controllers/resultController.php	(date 1714051162264)
+@@ -21,9 +21,13 @@
+             sleep(5);
+ 
+             $id = session()->get('userID');
++<<<<<<< HEAD
++=======
++            Log::info('sampleID2222:', ['id' => $id]);
++>>>>>>> 16363bf652f9e553de555d89fb6be7ba328638f2
+ 
+             $apiGatewayUrl = 'https://2yv3ea5spjpdmcig2tuzcepqsm0bajyb.lambda-url.us-east-1.on.aws/';
+-            $response = Http::timeout(200)->get($apiGatewayUrl, ['userID' => $id]);
++            $response = Http::timeout(300)->get($apiGatewayUrl, ['userID' => $id]);
+ 
+             Log::info('Lambda response:', ['response' => $response->body()]);
+ 
+@@ -46,7 +50,7 @@
+ 
+         } catch (Exception $e) {
+             Log::error('Lambda execution failed: ' . $e->getMessage());
+-            return response()->json(['error' => $e->getMessage()], 500);
++            return response()->json(['Server Error' => $e->getMessage()], 500);
+         }
+     }
+ }
