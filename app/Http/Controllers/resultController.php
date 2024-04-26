@@ -17,8 +17,8 @@ class resultController extends Controller
 
     public function fetchResults()
     {
-        ini_set('max_execution_time', 400);
-        ini_set('max_input_time', 400);
+        ini_set('max_execution_time', 700);
+        ini_set('max_input_time', 700);
         ini_set('post_max_size', '128M');
 
         try {
@@ -28,7 +28,7 @@ class resultController extends Controller
             Log::info('sampleID2222:', ['id' => $id]);
 
             $apiGatewayUrl = 'https://2yv3ea5spjpdmcig2tuzcepqsm0bajyb.lambda-url.us-east-1.on.aws/';
-            $response = Http::timeout(240)->get($apiGatewayUrl, ['userID' => $id]);
+            $response = Http::timeout(700)->get($apiGatewayUrl, ['userID' => $id]);
 
             Log::info('Lambda response:', ['response' => $response->body()]);
 
