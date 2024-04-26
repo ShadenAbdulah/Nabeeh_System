@@ -1,3 +1,13 @@
+@php use Illuminate\Support\Facades\Config;use Illuminate\Support\Facades\Session; use LaravelLang\LocaleList\Locale; @endphp
+@php
+    $locales = Config::get('app.supported_locales');
+    $name = '';
+    foreach(Locale::options() as $key => $value){
+            if ($value === Config::get('app.locale')){
+                $name = $key;
+            }
+    }
+@endphp
 <footer class="mt-auto">
 
     <div x-data="{ open: false }" class="w-full">
