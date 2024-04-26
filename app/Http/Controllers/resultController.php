@@ -47,7 +47,7 @@ class resultController extends Controller
             } else {
                 $errorResponse = json_decode($response->body(), true);
                 Log::error('Error from API:', ['response' => $response->body()]);
-                return response()->json(['error' => $errorResponse ?? 'Failed to get a valid response from the API.'], 500);
+                return response()->json(['Error' => $errorResponse ?? 'Failed to get a valid response from the API.'], 500);
             }
     
         } catch (Exception $e) {
