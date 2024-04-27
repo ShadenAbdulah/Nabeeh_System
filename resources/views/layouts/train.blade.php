@@ -1,6 +1,6 @@
 <x-head
     session_name="{{$user->id.'/train'}}"
-    user_id="{{$user->id}}"
+    user_id="{{$test->id}}"
     test_id="none">
 
     <body class="p-10 font-[Tajawal]" x-data="{ show: true}">
