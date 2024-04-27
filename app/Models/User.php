@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * @method static create(array $validate)
+ * @method static latest()
  */
 class User extends Model
 {
