@@ -20,6 +20,18 @@ abstract class TestCase extends BaseTestCase
         Concerns\InteractsWithViews;
 
     /**
+     * Clean up the testing environment before the next test case.
+     *
+     * @return void
+     */
+    public static function tearDownAfterClass(): void
+    {
+        static::$latestResponse = null;
+
+        static::tearDownAfterClassUsingTestCase();
+    }
+
+    /**
      * Creates the application.
      *
      * Needs to be implemented by subclasses.
@@ -47,7 +59,7 @@ abstract class TestCase extends BaseTestCase
      */
     protected function refreshApplication()
     {
-        $this->app = $this->createApplication();
+//        $this->app = $this->createApplication();
     }
 
     /**
@@ -60,7 +72,7 @@ abstract class TestCase extends BaseTestCase
         try {
             $result = parent::runTest();
         } catch (Throwable $e) {
-            if (! is_null(static::$latestResponse)) {
+            if (!is_null(static::$latestResponse)) {
                 static::$latestResponse->transformNotSuccessfulException($e);
             }
 
@@ -80,17 +92,5 @@ abstract class TestCase extends BaseTestCase
     protected function tearDown(): void
     {
         $this->tearDownTheTestEnvironment();
-    }
-
-    /**
-     * Clean up the testing environment before the next test case.
-     *
-     * @return void
-     */
-    public static function tearDownAfterClass(): void
-    {
-        static::$latestResponse = null;
-
-        static::tearDownAfterClassUsingTestCase();
     }
 }
