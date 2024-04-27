@@ -12,7 +12,7 @@ class UserFlowTest extends TestCase
 
     public function testUserFlow()
     {
-        $user = User::class->factory()->create();
+        $user = User::factory()->create();
 
         // Simulate a user accessing the welcome page
         $response = $this->get('/');
