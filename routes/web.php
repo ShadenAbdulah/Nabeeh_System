@@ -25,7 +25,7 @@ Route::get('/sendHttp', [resultController::class, 'sendHttp'])->name('sendHttp')
 
 
 // Create and store new user
-Route::post('/store/{user}', [UserController::class, 'store'])->name('user.store');
+Route::post('/store/', [UserController::class, 'store'])->name('user.store');
 
 // Start train
 Route::get('/train/{user}', [UserController::class, 'edit'])->name('user.train');
