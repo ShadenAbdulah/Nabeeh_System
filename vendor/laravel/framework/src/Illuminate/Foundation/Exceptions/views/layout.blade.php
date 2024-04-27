@@ -46,8 +46,6 @@
     <div class="content">
         <div class="title">
             @yield('message')
-            ;;
-            <x-primary-button>{{__('extra.back_to_home_page')}}</x-primary-button>
         </div>
     </div>
 </div>
