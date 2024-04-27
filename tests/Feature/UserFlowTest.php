@@ -21,7 +21,7 @@ class UserFlowTest extends TestCase
         $response->assertSee(__('extra.entering_to_test'));
         $response->assertStatus(200);
 
-        $user = User::latest()->first();
+        $user = User::all()->last();
         $userId = $user->id;
 
         $response = $this->get('/train/' . $userId . '?test=1');
