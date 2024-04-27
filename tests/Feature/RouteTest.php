@@ -22,32 +22,22 @@ class RouteTest extends TestCase
     {
         $response = $this->get('/send/5');
         $response->assertStatus(200);
-        // Add more assertions as needed
     }
 
-//    public function testLangRoute()
-//    {
-//        $response = $this->get('lang/en');
-//        $response->assertStatus(200);
-//        // Add more assertions as needed
-//    }
+    public function testLangRoute()
+    {
+        $response = $this->get('lang/en');
 
-    // Add test methods for other routes...
+        // Assert that the response is a redirect
+        $response->assertStatus(302);
 
-    /**
-     * Test if all routes are defined.
-     */
-//    public function testRoutesAreDefined()
-//    {
-//        $routes = [
-//            '/',
-////            '/send/1',
-////            '/fetch-results',
-//            // Add more routes here
-//        ];
-//
-//        foreach ($routes as $route) {
-//            $this->assertTrue(Route::has($route), "Route $route is not defined.");
-//        }
-//    }
+        // Follow the redirection
+        $response->assertRedirect();
+
+        // Assert that the session contains the selected language
+        $this->assertTrue(session()->has('applocale'));
+
+        // Assert that the session contains the expected language
+        $this->assertEquals('en', session()->get('applocale'));
+    }
 }
