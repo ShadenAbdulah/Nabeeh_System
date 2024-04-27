@@ -11,7 +11,7 @@ class TestController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Test $test, User $use)
+    public function index(Test $test, User $user)
     {
         return view('layouts.test', ['test' => $test, 'user' => $user]);
     }
