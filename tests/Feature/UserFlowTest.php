@@ -15,17 +15,13 @@ class UserFlowTest extends TestCase
         $response = $this->get('/');
         $response->assertStatus(200);
 
-        // Simulate the user clicking on the exam button
-        $response = $this->get('/'); // Adjust the route to your exam page
+        // Simulate the user clicking on the test button
+        $response = $this->get('/');
         $response->assertSee('الدخول للاختبار');
         $response->assertStatus(200);
 
-        // Simulate the user starting the exam
-//        $response = $this->post('/store'); // Adjust the route and data as per your application
-//        $response->assertStatus(200); // Assuming successful start of the exam
-
-        // Simulate the user accessing the result view by exam ID
-        $response = $this->get("/send/5"); // Adjust the route to your result view route
+        // Simulate the user accessing the result view by user ID
+        $response = $this->get("/send/5");
         $response->assertStatus(200);
     }
 }

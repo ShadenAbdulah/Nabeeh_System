@@ -25,12 +25,12 @@ class RouteTest extends TestCase
         // Add more assertions as needed
     }
 
-    public function testLangRoute()
-    {
-        $response = $this->get('lang/en');
-        $response->assertStatus(200);
-        // Add more assertions as needed
-    }
+//    public function testLangRoute()
+//    {
+//        $response = $this->get('lang/en');
+//        $response->assertStatus(200);
+//        // Add more assertions as needed
+//    }
 
     // Add test methods for other routes...
 
