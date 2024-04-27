@@ -522,8 +522,7 @@
             </div>
         </div>
     </div>
-
-    <x-primary-button>{{__('extra.back_to_home_page')}}</x-primary-button>
 </div>
+<x-primary-button>{{__('extra.back_to_home_page')}}</x-primary-button>
 </body>
 </html>
