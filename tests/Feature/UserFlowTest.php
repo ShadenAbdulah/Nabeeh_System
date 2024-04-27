@@ -20,6 +20,8 @@ class UserFlowTest extends TestCase
         $response->assertSee('الدخول للاختبار');
         $response->assertStatus(200);
 
+        $response->assertSee('ابدأ الاختبار');
+
         // Simulate the user accessing the result view by user ID
         $response = $this->get("/send/5");
         $response->assertStatus(200);
