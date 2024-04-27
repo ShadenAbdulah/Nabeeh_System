@@ -15,9 +15,10 @@ class resultController extends Controller
         return view('result');
     }
 
-    public function sendHttp(Request $request, $id)
+    public function sendHttp()
     {
         try {
+            $id = session()->get('userID');
             $apiGatewayUrl = 'https://2yv3ea5spjpdmcig2tuzcepqsm0bajyb.lambda-url.us-east-1.on.aws/';
             Http::get($apiGatewayUrl, ['userID' => $id]);
             Log::info('Lambda first request Done'.$id);
