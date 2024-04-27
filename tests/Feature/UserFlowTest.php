@@ -20,7 +20,7 @@ class UserFlowTest extends TestCase
         $response->assertSee('الدخول للاختبار');
         $response->assertStatus(200);
 
-        $response = $this->get('/train/4?test=1');
+        $response = $this->get('/train/4');
         $response->assertSee(__('extra.start_test'));
         $response->assertStatus(200);
 
