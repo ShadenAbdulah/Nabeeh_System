@@ -7,4 +7,9 @@ use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 abstract class TestCase extends BaseTestCase
 {
     use CreatesApplication;
+
+    protected function refreshDatabase()
+    {
+        // Override and make this method a no-op
+    }
 }
