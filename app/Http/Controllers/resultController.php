@@ -15,31 +15,18 @@ class resultController extends Controller
         return view('result');
     }
 
-    public function sendHttp()
-    {
-        set_time_limit(400); // Time limit in seconds
-        try {
-            $id = session()->get('userID');
-            $apiGatewayUrl = 'https://2yv3ea5spjpdmcig2tuzcepqsm0bajyb.lambda-url.us-east-1.on.aws/';
-            Http::get($apiGatewayUrl, ['userID' => $id]);
-            Log::info('Lambda first request Done'.$id);
-            return response()->json([], 200);
-
-        } catch (Exception $e) {
-            Log::error('Lambda first request failed: ' . $e->getMessage());
-            return response()->json([], 500);
-        }
-    }
-
     public function fetchResults()
     {
-        set_time_limit(400); // Time limit in seconds
+        ini_set('max_execution_time', 700);
+        ini_set('max_input_time', 700);
+        ini_set('post_max_size', '128M');
+
         try {
             $id = session()->get('userID');
             Log::info('sampleID2222:', ['id' => $id]);
 
-            $apiGatewayUrl = 'https://hboras4vfn2de5azruvc2kdwem0ovckc.lambda-url.us-east-1.on.aws/';
-            $response = Http::get($apiGatewayUrl, ['userID' => $id]);
+            $apiGatewayUrl = 'https://2yv3ea5spjpdmcig2tuzcepqsm0bajyb.lambda-url.us-east-1.on.aws/';
+            $response = Http::timeout(700)->get($apiGatewayUrl, ['userID' => $id]);
 
             if ($response->successful()) {
                 $responseBody = json_decode($response->body(), true);
@@ -52,7 +39,7 @@ class resultController extends Controller
                 elseif ($prop < 50 && $prop >= 25) $value = 'منخفضة';
                 elseif ($prop < 25 && $prop >= 0) $value = 'منخفضة جدًا';
 
-                return response()->json(['value' => $value, 'prop' => $prop, 'complete' => true]);
+                return response()->json(['value' => $value, 'prop' => $prop]);
             } else {
                 $errorResponse = json_decode($response->body(), true);
                 Log::error('Error from API:', ['response' => $response->body()]);
