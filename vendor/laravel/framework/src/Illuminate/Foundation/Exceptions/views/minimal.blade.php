@@ -520,9 +520,10 @@
             <div class="ml-4 text-lg text-gray-500 uppercase tracking-wider">
                 @yield('message')
             </div>
-            <x-primary-button>{{__('extra.back_to_home_page')}}</x-primary-button>
         </div>
     </div>
+
+    <x-primary-button>{{__('extra.back_to_home_page')}}</x-primary-button>
 </div>
 </body>
 </html>
