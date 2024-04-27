@@ -7,7 +7,7 @@
             <main class="container w-full mx-auto my-auto">
                 <a href="{{route('welcome')}}">
                     <img src="{{asset('images/Logo.svg')}}"
-                         class="mx-auto mt-10 tablet:w-1/6 phones:w-1/3"
+                         class="mx-auto mt-10 w-1/6"
                          alt="logo"/>
                 </a>
 
