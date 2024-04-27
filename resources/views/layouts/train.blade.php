@@ -1,7 +1,9 @@
 <x-head
     session_name="{{$user->id.'/train'}}"
-    user_id="{{$test->id}}"
+    user_id="{{$user->id}}"
     test_id="none">
+
+    @dd($user->id)
 
     <body class="p-10 font-[Tajawal]" x-data="{ show: true}">
     <div class="w-1/3 mx-auto my-32 bg-[#D9D9D9]/30 px-7 py-3 grid justify-items-center gap-y-5 rounded-2xl"
