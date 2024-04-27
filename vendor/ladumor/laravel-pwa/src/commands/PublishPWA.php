@@ -2,26 +2,23 @@
 
 namespace Ladumor\LaravelPwa\commands;
 
-use Illuminate\Support\Facades\File;
 use Illuminate\Console\Command;
 
 class PublishPWA extends Command
 {
+    public $composer;
     /**
      * The console command name.
      *
      * @var string
      */
     protected $name = 'laravel-pwa:publish';
-
     /**
      * The console command description.
      *
      * @var string
      */
     protected $description = 'Publish Service Worker|Offline HTMl|manifest file for PWA application.';
-
-    public $composer;
 
     /**
      * Create a new command instance.
@@ -41,9 +38,9 @@ class PublishPWA extends Command
         $this->createFile($publicDir . DIRECTORY_SEPARATOR, 'manifest.json', $manifestTemplate);
         $this->info('manifest.json file is published.');
 
-        $offlineHtmlTemplate = file_get_contents(__DIR__ . '/../stubs/offline.stub');
-        $this->createFile($publicDir . DIRECTORY_SEPARATOR, 'offline.html', $offlineHtmlTemplate);
-        $this->info('offline.html file is published.');
+//        $offlineHtmlTemplate = file_get_contents(__DIR__ . '/../stubs/offline.stub');
+//        $this->createFile($publicDir . DIRECTORY_SEPARATOR, 'offline.html', $offlineHtmlTemplate);
+//        $this->info('offline.html file is published.');
 
         $swTemplate = file_get_contents(__DIR__ . '/../stubs/sw.stub');
         $this->createFile($publicDir . DIRECTORY_SEPARATOR, 'sw.js', $swTemplate);

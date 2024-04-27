@@ -35,12 +35,23 @@ const addToCache = function (request) {
     });
 };
 
+// const returnFromCache = function (request) {
+//     return caches.open("offline").then(function (cache) {
+//         return cache.match(request).then(function (matching) {
+//             if (!matching || matching.status === 404) {
+//                 return cache.match("offline.html");
+//             } else {
+//                 return matching;
+//             }
+//         });
+//     });
+// };
+
 const returnFromCache = function (request) {
     return caches.open("offline").then(function (cache) {
         return cache.match(request).then(function (matching) {
             if (!matching || matching.status === 404) {
-                // return cache.match("offline.html");
-                return reportError(404);
+                return fetch('/error/404').then();
             } else {
                 return matching;
             }
