@@ -33,14 +33,14 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        $apiGatewayUrl = 'https://hboras4vfn2de5azruvc2kdwem0ovckc.lambda-url.us-east-1.on.aws/';
-        $response = Http::timeout(20)->get($apiGatewayUrl);
-        Log::info('Lambda serverFun response:', ['response' => $response->body()]);
+        // $apiGatewayUrl = 'https://hboras4vfn2de5azruvc2kdwem0ovckc.lambda-url.us-east-1.on.aws/';
+        // $response = Http::timeout(20)->get($apiGatewayUrl);
+        // Log::info('Lambda serverFun response:', ['response' => $response->body()]);
 
-       if ($response->successful()) {
+    //    if ($response->successful()) {
         return view('layouts.train', ['test' => Test::first(), 'user' => $user]);
-       } else {
-           return view('server500');
-       }
+    //    } else {
+        //    return view('server500');
+    //    }
     }
 }

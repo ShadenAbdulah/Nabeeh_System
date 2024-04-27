@@ -21,6 +21,7 @@ Route::get('/', function () {
 
 Route::get('/send/{id}', [resultController::class, 'showResults'])->name('result');
 Route::get('/fetch-results', [resultController::class, 'fetchResults'])->name('fetch-results');
+Route::get('/sendHttp', [resultController::class, 'sendHttp'])->name('sendHttp');
 
 
 // Create and store new user
