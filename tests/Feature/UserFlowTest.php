@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -17,10 +18,13 @@ class UserFlowTest extends TestCase
 
         // Simulate the user clicking on the test button
         $response = $this->get('/');
-        $response->assertSee('الدخول للاختبار');
+        $response->assertSee(__('extra.entering_to_test'));
         $response->assertStatus(200);
 
-        $response = $this->get('/train/4');
+        $user = User::latest()->first();
+        $userId = $user->id;
+
+        $response = $this->get('/train/$userId?test=1');
         $response->assertSee(__('extra.start_test'));
         $response->assertStatus(200);
 
