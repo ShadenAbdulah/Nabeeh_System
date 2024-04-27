@@ -2,7 +2,9 @@
 
 namespace Illuminate\Foundation\Testing;
 
+use Mockery\Exception\InvalidCountException;
 use PHPUnit\Framework\TestCase as BaseTestCase;
+use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Throwable;
 
 abstract class TestCase extends BaseTestCase
@@ -36,7 +38,7 @@ abstract class TestCase extends BaseTestCase
      *
      * Needs to be implemented by subclasses.
      *
-     * @return \Symfony\Component\HttpKernel\HttpKernelInterface
+     * @return HttpKernelInterface
      */
     abstract public function createApplication();
 
@@ -87,7 +89,7 @@ abstract class TestCase extends BaseTestCase
      *
      * @return void
      *
-     * @throws \Mockery\Exception\InvalidCountException
+     * @throws InvalidCountException
      */
     protected function tearDown(): void
     {
