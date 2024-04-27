@@ -5,25 +5,15 @@ namespace App\Http\Controllers;
 use App\Models\Test;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Log;
 
 class UserController extends Controller
 {
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request, $user)
     {
-//        $attr =
-//            request()->validate([
-//                'age' => 'required|integer',
-//                'gender' => 'required',
-//            ]);
-//
-//        $attr['name'] = ($request->input('name')) ? $request->input('name') : null;
-
-        $user = User::create(request()->validate([]));
+        User::create(request()->validate([]));
 
         return redirect()->route('user.train', ['test' => Test::first(), 'user' => $user]);
     }
@@ -37,10 +27,10 @@ class UserController extends Controller
         // $response = Http::timeout(20)->get($apiGatewayUrl);
         // Log::info('Lambda serverFun response:', ['response' => $response->body()]);
 
-    //    if ($response->successful()) {
+        //    if ($response->successful()) {
         return view('layouts.train', ['test' => Test::first(), 'user' => $user]);
-    //    } else {
+        //    } else {
         //    return view('server500');
-    //    }
+        //    }
     }
 }
