@@ -19,6 +19,10 @@ Route::get('/', function () {
     return view('welcome');
 })->name('welcome');
 
+Route::get('/error/{e}', function ($e) {
+    abort($e->getStatusCode());
+});
+
 Route::get('/send/{id}', [resultController::class, 'showResults'])->name('result');
 Route::get('/fetch-results', [resultController::class, 'fetchResults'])->name('fetch-results');
 Route::get('/sendHttp', [resultController::class, 'sendHttp'])->name('sendHttp');
