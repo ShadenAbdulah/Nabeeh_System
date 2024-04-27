@@ -8,7 +8,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="563aecd1-4cb7-4782-94b6-956d0343f605" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/vendor/laravel/framework/src/Illuminate/Foundation/Testing/TestCase.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/laravel/framework/src/Illuminate/Foundation/Testing/TestCase.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/Feature/UserFlowTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/tests/Feature/UserFlowTest.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -421,7 +421,7 @@
       <workItem from="1713899396932" duration="1842000" />
       <workItem from="1714051097410" duration="1135000" />
       <workItem from="1714128470394" duration="7682000" />
-      <workItem from="1714222928807" duration="11050000" />
+      <workItem from="1714222928807" duration="11355000" />
     </task>
     <servers />
   </component>

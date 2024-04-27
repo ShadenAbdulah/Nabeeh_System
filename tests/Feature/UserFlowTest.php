@@ -24,15 +24,18 @@ class UserFlowTest extends TestCase
         $response->assertSee(__('extra.entering_to_test'));
         $response->assertStatus(200);
 
-//        $user = User::all()->last();
-//        $userId = $user->id;
-
         $response = $this->get('/train/' . $user->id . '?test=1');
         $response->assertSee(__('extra.start_test'));
         $response->assertStatus(200);
 
+        $response = $this->get('/1/' . $user->id);
+        $response->assertStatus(200);
+
+        $response = $this->get('/2/' . $user->id);
+        $response->assertStatus(200);
+
         // Simulate the user accessing the result view by user ID
-        $response = $this->get("/send/5");
+        $response = $this->get("/send/" . $user->id);
         $response->assertStatus(200);
     }
 }
