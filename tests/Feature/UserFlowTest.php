@@ -12,6 +12,8 @@ class UserFlowTest extends TestCase
 
     public function testUserFlow()
     {
+        $user = User::class->factory()->create();
+
         // Simulate a user accessing the welcome page
         $response = $this->get('/');
         $response->assertStatus(200);
@@ -21,10 +23,10 @@ class UserFlowTest extends TestCase
         $response->assertSee(__('extra.entering_to_test'));
         $response->assertStatus(200);
 
-        $user = User::all()->last();
-        $userId = $user->id;
+//        $user = User::all()->last();
+//        $userId = $user->id;
 
-        $response = $this->get('/train/' . $userId . '?test=1');
+        $response = $this->get('/train/' . $user->id . '?test=1');
         $response->assertSee(__('extra.start_test'));
         $response->assertStatus(200);
 
