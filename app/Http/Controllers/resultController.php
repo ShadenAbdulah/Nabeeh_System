@@ -17,6 +17,7 @@ class resultController extends Controller
 
     public function sendHttp()
     {
+        set_time_limit(400); // Time limit in seconds
         try {
             $id = session()->get('userID');
             $apiGatewayUrl = 'https://2yv3ea5spjpdmcig2tuzcepqsm0bajyb.lambda-url.us-east-1.on.aws/';
@@ -32,6 +33,7 @@ class resultController extends Controller
 
     public function fetchResults()
     {
+        set_time_limit(400); // Time limit in seconds
         try {
             $id = session()->get('userID');
             Log::info('sampleID2222:', ['id' => $id]);
