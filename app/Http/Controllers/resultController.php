@@ -15,17 +15,28 @@ class resultController extends Controller
         return view('result');
     }
 
+    public function sendHttp(Request $request, $id)
+    {
+        try {
+            $apiGatewayUrl = 'https://2yv3ea5spjpdmcig2tuzcepqsm0bajyb.lambda-url.us-east-1.on.aws/';
+            Http::get($apiGatewayUrl, ['userID' => $id]);
+            Log::info('Lambda first request Done'.$id);
+            return response()->json([], 200);
+
+        } catch (Exception $e) {
+            Log::error('Lambda first request failed: ' . $e->getMessage());
+            return response()->json([], 500);
+        }
+    }
+
     public function fetchResults()
     {
         try {
-            set_time_limit(700);
             $id = session()->get('userID');
             Log::info('sampleID2222:', ['id' => $id]);
 
-            $apiGatewayUrl = 'https://2yv3ea5spjpdmcig2tuzcepqsm0bajyb.lambda-url.us-east-1.on.aws/';
-            $response = Http::timeout(700)->get($apiGatewayUrl, ['userID' => $id]);
-
-            Log::info('Lambda response:', ['response' => $response->body()]);
+            $apiGatewayUrl = 'https://hboras4vfn2de5azruvc2kdwem0ovckc.lambda-url.us-east-1.on.aws/';
+            $response = Http::get($apiGatewayUrl, ['userID' => $id]);
 
             if ($response->successful()) {
                 $responseBody = json_decode($response->body(), true);
@@ -33,22 +44,23 @@ class resultController extends Controller
                 $prop = $responseBody[1];
 
                 if ($prop >= 75) $value = 'مرتفعة جدًا';
-                elseif ($prop < 75 and $prop >= 60) $value = 'مرتفعة';
-                elseif ($prop < 60 and $prop >= 50) $value = 'متوسطة';
-                elseif ($prop < 50 and $prop >= 25) $value = 'منخفضة';
-                elseif ($prop < 25 and $prop >= 0) $value = 'منخفضة جدًا';
+                elseif ($prop < 75 && $prop >= 60) $value = 'مرتفعة';
+                elseif ($prop < 60 && $prop >= 50) $value = 'متوسطة';
+                elseif ($prop < 50 && $prop >= 25) $value = 'منخفضة';
+                elseif ($prop < 25 && $prop >= 0) $value = 'منخفضة جدًا';
 
-                return response()->json(['value' => $value, 'prop' => $prop]);
+                return response()->json(['value' => $value, 'prop' => $prop, 'complete' => true]);
             } else {
                 $errorResponse = json_decode($response->body(), true);
                 Log::error('Error from API:', ['response' => $response->body()]);
-                return response()->json(['EEError' => $errorResponse ?? 'Failed to get a valid response from the API.'], 500);
+                return response()->json(['error' => $errorResponse ?? 'Failed to get a valid response from the API.'], 500);
             }
-    
+
         } catch (Exception $e) {
             Log::error('Lambda execution failed: ' . $e->getMessage());
-            return view('server500');
+            return response()->json(['error' => 'Failed to fetch results.'], 500);
         }
     }
+
 }
 

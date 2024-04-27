@@ -37,29 +37,33 @@
     </div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script>
-        $(document).ready(function () {
+    // Client-Side Code (JavaScript)
+
+<script>
+    $.ajax({
+        url: '{{ route("sendHttp") }}',
+        type: 'GET',
+        success: function (response) {
+            pollResults();
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.error('Error routing to sendHttp: ', textStatus, errorThrown);
+        }
+    });
+
+    $(document).ready(function () {
+        function pollResults() {
             $.ajax({
                 url: '{{ route("fetch-results") }}',
                 type: 'GET',
-                timeout: 300000, 
                 success: function (data) {
                     console.log(data);
-                    $('#spinner').hide();
-                    if (data.error) {
+                    if (data.complete) {
                         $('#result').html(`
-                                <h1 class="font-extrabold text-4xl">خطـــــــأ</h1>
-                                <h1 class="font-medium text-2xl">نعتذر، حدث خطأ أثناء معالجة البيانات: ${data.error}</h1>
-                                <a href="{{route('welcome')}}" class="phones:hidden">
-                                    <x-primary-button class="w-full font-semibold">
-                                        {{ __('العودة للصفحة الرئيسية') }}
-                                    </x-primary-button>
-                                </a>
-                                `).show();
-                    } else {
-                        $('#result').html(`
-                          <x-result width=${data.prop} value=${data.value}></x-result>
+                            <x-result width=${data.prop} value=${data.value}></x-result>
                         `).show();
+                    } else {
+                        setTimeout(pollResults, 10000); // Poll again after 5 seconds
                     }
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
@@ -67,23 +71,20 @@
                     console.log(jqXHR);
                     console.log(textStatus);
                     console.log(errorThrown);
-
-                    $('#spinner').hide();
-                    var errorResponse = jqXHR.responseJSON; // Get JSON response if available
-                    var errorMessage = errorResponse ? errorResponse.error : textStatus; // Use server-provided message if available
                     $('#result').html(`
-                                <h1 class="font-extrabold text-4xl">خطـــــــأ</h1>
-                                <h1 class="font-medium text-2xl">نعتذر، حدث خطأ أثناء معالجة البيانات: ${errorMessage}</h1>
-                                <a href="{{route('welcome')}}" class="phones:hidden">
-                                    <x-primary-button class="w-full font-semibold">
-                                    {{ __('العودة للصفحة الرئيسية') }}
-                                    </x-primary-button>
-                                </a>
-                                `).show();
+                        <h1 class="font-extrabold text-4xl">خطـــــــأ</h1>
+                        <h1 class="font-medium text-2xl">نعتذر، حدث خطأ أثناء معالجة البيانات.</h1>
+                        <a href="{{ route('welcome') }}" class="phones:hidden">
+                            <x-primary-button class="w-full font-semibold">
+                                {{ __('العودة للصفحة الرئيسية') }}
+                            </x-primary-button>
+                        </a>
+                    `).show();
                     console.error('AJAX Error: ', textStatus, errorThrown);
                 }
             });
-        });
-
-    </script>
+        }
+        pollResults(); // Start polling
+    });
+</script>
 @endsection
