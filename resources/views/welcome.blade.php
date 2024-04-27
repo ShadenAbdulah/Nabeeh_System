@@ -115,7 +115,9 @@
                 </div>
                 <img src="{{asset('images/logo_bg.png')}}"
                      alt="bg"
-                     class="w-1/2 -z-50 absolute left-0"/>
+                     class="w-1/2 -z-50 absolute {{(Config::get('app.locale') === 'ar' or Config::get('app.locale') === 'ur')? 'left-0': 'right-0'}}"
+
+                />
             </div>
         </main>
 

@@ -7,10 +7,7 @@ use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-//use Illuminate\Config;
-
 Route::get('lang/{locale}', function (Request $request, $locale) {
-//    $chosenLocale = $request->input('language');
     if (array_key_exists($locale, config('app.supported_locales'))) {
         session()->put('applocale', $locale);
     }
