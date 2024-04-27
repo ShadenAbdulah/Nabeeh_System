@@ -1,3 +1,4 @@
+const {view} = require("paper");
 const preLoad = function () {
     return caches.open("offline").then(function (cache) {
         // caching index and important routes
@@ -39,7 +40,7 @@ const returnFromCache = function (request) {
         return cache.match(request).then(function (matching) {
             if (!matching || matching.status === 404) {
                 // return cache.match("offline.html");
-                return fetch('/error/404');
+                return reportError(404);
             } else {
                 return matching;
             }
