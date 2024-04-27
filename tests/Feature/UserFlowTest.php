@@ -31,7 +31,7 @@ class UserFlowTest extends TestCase
         $response = $this->get('/1/' . $user->id);
         $response->assertStatus(200);
 
-        $response = $this->get('/2/' . $user->id);
+        $response = $this->get('/12/' . $user->id);
         $response->assertStatus(200);
 
         // Simulate the user accessing the result view by user ID
