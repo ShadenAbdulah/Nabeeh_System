@@ -12,7 +12,7 @@ self.addEventListener("install", function (event) {
 
 const filesToCache = [
     '/',
-    '/offline.stub'
+    '/offline.blade.php'
 ];
 
 const checkResponse = function (request) {
