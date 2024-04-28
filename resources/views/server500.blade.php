@@ -6,7 +6,7 @@
         <h1 class="font-extrabold text-4xl"> {{ __('extra.error') }} </h1>
         <h1 class="font-medium text-2xl">  {{ __('extra.oops') }}  </h1>
         <a href="{{route('welcome')}}">
-            <x-primary-button class="w-1/3 font-semibold">
+            <x-primary-button class="w-1/2 font-semibold">
                 {{ __('extra.back_to_home_page') }}
             </x-primary-button>
         </a>
