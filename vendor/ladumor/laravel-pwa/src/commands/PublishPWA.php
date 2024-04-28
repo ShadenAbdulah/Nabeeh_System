@@ -38,9 +38,9 @@ class PublishPWA extends Command
         $this->createFile($publicDir . DIRECTORY_SEPARATOR, 'manifest.json', $manifestTemplate);
         $this->info('manifest.json file is published.');
 
-//        $offlineHtmlTemplate = file_get_contents(__DIR__ . '/../stubs/offline.stub');
-//        $this->createFile($publicDir . DIRECTORY_SEPARATOR, 'offline.html', $offlineHtmlTemplate);
-//        $this->info('offline.html file is published.');
+        $offlineHtmlTemplate = file_get_contents(__DIR__ . '/../stubs/offline.stub');
+        $this->createFile($publicDir . DIRECTORY_SEPARATOR, 'offline.blade.php', $offlineHtmlTemplate);
+        $this->info('offline.html file is published.');
 
         $swTemplate = file_get_contents(__DIR__ . '/../stubs/sw.stub');
         $this->createFile($publicDir . DIRECTORY_SEPARATOR, 'sw.js', $swTemplate);

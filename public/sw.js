@@ -12,7 +12,7 @@ self.addEventListener("install", function (event) {
 
 const filesToCache = [
     '/',
-    '../../vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/views/404.blade.php'
+    '/offline.stub'
 ];
 
 const checkResponse = function (request) {
@@ -29,29 +29,17 @@ const checkResponse = function (request) {
 
 const addToCache = function (request) {
     return caches.open("offline").then(function (cache) {
-        return fetch('/error/404').then(function (response) {
+        return fetch(request).then(function (response) {
             return cache.put(request, response);
         });
     });
 };
 
-// const returnFromCache = function (request) {
-//     return caches.open("offline").then(function (cache) {
-//         return cache.match(request).then(function (matching) {
-//             if (!matching || matching.status === 404) {
-//                 return cache.match("offline.html");
-//             } else {
-//                 return matching;
-//             }
-//         });
-//     });
-// };
-
 const returnFromCache = function (request) {
     return caches.open("offline").then(function (cache) {
         return cache.match(request).then(function (matching) {
             if (!matching || matching.status === 404) {
-                return fetch('/error/404').then();
+                return cache.match("offline.html");
             } else {
                 return matching;
             }
