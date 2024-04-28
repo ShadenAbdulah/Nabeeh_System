@@ -12,7 +12,7 @@ self.addEventListener("install", function (event) {
 
 const filesToCache = [
     '/',
-    // '/offline.html'
+    '../../vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/views/404.blade.php'
 ];
 
 const checkResponse = function (request) {
@@ -29,7 +29,7 @@ const checkResponse = function (request) {
 
 const addToCache = function (request) {
     return caches.open("offline").then(function (cache) {
-        return fetch(request).then(function (response) {
+        return fetch('/error/404').then(function (response) {
             return cache.put(request, response);
         });
     });
