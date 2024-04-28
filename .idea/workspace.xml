@@ -8,8 +8,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="563aecd1-4cb7-4782-94b6-956d0343f605" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/UserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/UserController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/components/lg-footer.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/components/lg-footer.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/result.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/result.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/server500.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/server500.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/views/404.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/views/404.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/views/minimal.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/views/minimal.blade.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -423,7 +428,8 @@
       <workItem from="1713899396932" duration="1842000" />
       <workItem from="1714051097410" duration="1135000" />
       <workItem from="1714128470394" duration="7682000" />
-      <workItem from="1714222928807" duration="19594000" />
+      <workItem from="1714222928807" duration="21066000" />
+      <workItem from="1714315456549" duration="658000" />
     </task>
     <servers />
   </component>

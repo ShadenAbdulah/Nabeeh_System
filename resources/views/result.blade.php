@@ -14,7 +14,7 @@
                     fill="currentFill"/>
             </svg>
         </div>
-        <div id="result" class="my-10"></div>
+        <div id="result" class="flex flex-col gap-10 my-5"></div>
 
     </div>
 
@@ -69,9 +69,9 @@
                             var errorMessage = errorResponse ? errorResponse.error : textStatus; // Use server-provided message if available
                             $('#result').html(`
                         <h1 class="font-extrabold text-4xl">خطـــــــأ</h1>
-                        <h1 class="font-medium text-2xl">نعتذر، حدث خطأ أثناء معالجة البيانات: ${errorMessage}</h1>
+                        <h1 class="font-medium text-2xl">نعتذر، حدث خطأ أثناء معالجة البيانات</h1>
                         <a href="{{route('welcome')}}" class="phones:hidden">
-                            <x-primary-button class="w-full font-semibold">
+                            <x-primary-button class="w-1/3 font-semibold">
                             {{ __('العودة للصفحة الرئيسية') }}
                             </x-primary-button>
                         </a>

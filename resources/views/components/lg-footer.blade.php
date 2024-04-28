@@ -63,7 +63,7 @@
         </div>
     </div>
 
-    <hr class="phones:mb-2">
+    <hr class="my-4 border-[#6D6AB1]">
     <div
         class="text-base font-light tablet:grid tablet:grid-cols-3 phones:flex phones:flex-col-reverse phones:gap-y-5 phones:m-0 justify-between content-center my-2 container mx-auto items-center">
         <div class="text-start">{{__('extra.privacy_policy')}}</div>

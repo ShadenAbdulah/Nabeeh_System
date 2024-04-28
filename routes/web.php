@@ -20,9 +20,7 @@ Route::get('/', function () {
 })->name('welcome');
 
 Route::get('/error/{e}', function ($e) {
-//    abort($e->getStatusCode());
-
-    dd($e->getMessage());
+    abort($e->getStatusCode());
 });
 
 Route::get('/send/{id}', [resultController::class, 'showResults'])->name('result');
