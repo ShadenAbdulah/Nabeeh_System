@@ -8,6 +8,10 @@
             }
     }
 @endphp
+<!DOCTYPE html>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <x-head session_name="none" user_id="none" test_id="none">
     <body class="font-[Tajawal] flex flex-col min-h-screen bg-gray-100 dark:bg-gray-900">
     @extends('components.loading-script')
@@ -30,6 +34,6 @@
             <x-primary-button class="w-1/5 mx-auto py-2 my-0">{{__('extra.back_to_home_page')}}</x-primary-button>
         </main>
         <x-lg-footer class="bg-white"></x-lg-footer>
-    @endsection
+    @endsection 
     </body>
 </x-head>
