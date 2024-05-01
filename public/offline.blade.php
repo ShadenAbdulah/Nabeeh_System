@@ -29,7 +29,7 @@
             </div>
             <x-primary-button class="w-1/5 mx-auto py-2 my-0">{{__('extra.back_to_home_page')}}</x-primary-button>
         </main>
-        <x-lg-footer class="bg-white"></x-lg-footer>
+        <!-- <x-lg-footer class="bg-white"></x-lg-footer> -->
     @endsection
     </body>
 </x-head>
