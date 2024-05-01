@@ -1,4 +1,4 @@
-// const {view} = require("paper");
+const {view} = require("paper");
 const preLoad = function () {
     return caches.open("offline").then(function (cache) {
         // caching index and important routes
