@@ -12,7 +12,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<x-head session_name="none" user_id="none" test_id="none">
+<x-head session_name="none" user_id="none" test_id="none"></x-head>
     <body class="font-[Tajawal] flex flex-col min-h-screen bg-gray-100 dark:bg-gray-900">
     @extends('components.loading-script')
     @section('js-content')
@@ -36,4 +36,4 @@
         <x-lg-footer class="bg-white"></x-lg-footer>
     @endsection 
     </body>
-</x-head>
+
