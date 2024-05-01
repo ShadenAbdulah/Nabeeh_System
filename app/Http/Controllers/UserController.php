@@ -29,10 +29,10 @@ class UserController extends Controller
         $response = Http::timeout(20)->get($apiGatewayUrl);
         Log::info('Lambda serverFun response:', ['response' => $response->body()]);
 
-        if ($response->successful()) {
+        // if ($response->successful()) {
             return view('layouts.train', ['test' => Test::first(), 'user' => $user]);
-        } else {
-            return view('server500');
-        }
+        // } else {
+        //     return view('server500');
+        // }
     }
 }
