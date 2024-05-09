@@ -112,7 +112,6 @@ for (const ev of ['pointermove']) {
                 rawData1.push([
                     e.clientX,
                     e.clientY,
-                    e.altitudeAngle, e.azimuthAngle,
                     e.tiltX, e.tiltY,
                     e.pressure,
                     timestamp

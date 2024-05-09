@@ -46,7 +46,6 @@ class CsvController extends Controller
         if (!Storage::disk('local')->exists($filePath)) {
             $headers = [
                 'ClientX', 'ClientY',
-                'altitudeAngle', 'azimuthAngle',
                 'TiltX', 'TiltY',
                 'Pressure',
                 'timestamp',

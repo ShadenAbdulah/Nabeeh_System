@@ -22,11 +22,11 @@ $dir = (Config::get('app.locale') === 'ar' or Config::get('app.locale') === 'ur'
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@200;300;400;500;700;800;900&display=swap"
           rel="stylesheet">
 
-    <link rel="stylesheet" href="{{asset('build/assets/app-ea095055.css')}}">
+    <link rel="stylesheet" href="{{asset('build/assets/app-bb3c736c.css')}}">
     <link href="{{asset('please-wait.css')}}" rel="stylesheet">
 
     {{--    <!-- Scripts -->--}}
-    <script defer src="{{asset('build/assets/app-ad21287e.js')}}"></script>
+    <script defer src="{{asset('build/assets/app-76f5901f.js')}}"></script>
     <script defer src="https://cdn.tailwindcss.com"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <script defer src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"></script>
