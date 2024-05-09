@@ -27,7 +27,7 @@ class resultController extends Controller
 
             if ($response->successful()) {
                 $responseBody = json_decode($response->body(), true);
-                $prop = $responseBody[0];
+                $prop = $responseBody;
             
                 if ($prop == 100) $value = 'الإحتمالية مؤكدة';
                 elseif ($prop <= 99 && $prop >= 81) $value = 'مرتفعة جدًا';
