@@ -17,10 +17,6 @@ class resultController extends Controller
 
     public function fetchResults()
     {
-        ini_set('max_execution_time', 700);
-        ini_set('max_input_time', 700);
-        ini_set('post_max_size', '128M');
-
         try {
             $id = session()->get('userID');
             Log::info('sampleID2222:', ['id' => $id]);
@@ -31,17 +27,16 @@ class resultController extends Controller
 
             if ($response->successful()) {
                 $responseBody = json_decode($response->body(), true);
-                $value = $responseBody[0];
-                $prop = $responseBody[1];
-
+                $prop = $responseBody[0];
+            
                 if ($prop == 100) $value = 'الإحتمالية مؤكدة';
-                elseif ($prop < 100 && $prop >= 80) $value = 'مرتفعة جدًا';
-                elseif ($prop < 80 && $prop >= 60) $value = 'مرتفعة';
-                elseif ($prop < 60 && $prop >= 40) $value = 'متوسطة';
-                elseif ($prop < 40 && $prop >= 20) $value = 'منخفضة';
-                elseif ($prop < 20 && $prop > 0) $value = 'منخفضة جدًا';
-                if ($prop == 0) $value = 'الإحتمالية معدومة';
-
+                elseif ($prop <= 99 && $prop >= 81) $value = 'مرتفعة جدًا';
+                elseif ($prop <= 80 && $prop >= 61) $value = 'مرتفعة';
+                elseif ($prop <= 60 && $prop >= 41) $value = 'متوسطة';
+                elseif ($prop <= 40 && $prop >= 21) $value = 'منخفضة';
+                elseif ($prop <= 20 && $prop >= 1) $value = 'منخفضة جدًا';
+                elseif ($prop == 0) $value = 'الإحتمالية معدومة';
+    
                 return response()->json(['value' => $value, 'prop' => $prop]);
             } else {
                 $errorResponse = json_decode($response->body(), true);
