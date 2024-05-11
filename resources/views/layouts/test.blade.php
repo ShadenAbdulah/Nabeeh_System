@@ -50,7 +50,7 @@
         {{--        <p class="font-medium text-justify">{{__('extra.'.$test->content)}} {{__('extra.test_info')}}</p>--}}
     </div>
 
-    <video class="w-5/6 mx-auto" autoplay muted loop>
+    <video class="w-1/3 mx-auto" autoplay muted loop>
         <source src="{{asset('videos/'.$test->session_name.'.mov')}}" type="video/mp4">
         Your browser does not support the video tag.
     </video>
