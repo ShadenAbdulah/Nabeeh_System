@@ -45,13 +45,19 @@
         </div>
         <h1 class="font-semibold"><span
                 class="text-[#6E65E8]">{{__('extra.'.$test->type)}} </span>{{__('extra.'.$test->title)}}</h1>
-        <p class="font-medium text-justify">{{__('extra.'.$test->content)}} {{__('extra.test_info')}}</p>
+
+
+        {{--        <p class="font-medium text-justify">{{__('extra.'.$test->content)}} {{__('extra.test_info')}}</p>--}}
+        <video class="w-5/6 mx-auto" controls loop>
+            <source src="{{asset('videos/'.$test->session_name.'.mov')}}" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
     </div>
 
     <form
         id="test_form"
         method="post"
-        action="{{($test->id+3 === 13)? route('result', ['id' => $user->id]): route('user.test', [$test->id+3, $user])}}"
+        action="{{($test->id+3 >= 13)? route('result', ['id' => $user->id]): route('user.test', [$test->id+3, $user])}}"
         x-show="!show"
         x-data="{ countdown: 30 }">
         @method('get')
