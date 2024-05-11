@@ -14,7 +14,7 @@
                     fill="currentFill"/>
             </svg>
         </div>
-        <div id="result" class="flex flex-col gap-10 my-5"></div>
+        <div id="result" class="flex flex-col gap-10 my-5 py-5"></div>
 
     </div>
 
