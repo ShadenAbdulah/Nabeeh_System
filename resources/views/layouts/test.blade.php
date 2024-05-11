@@ -2,7 +2,7 @@
         user_id="{{$user->id}}"
         test_id="{{$test->id}}">
     <body class="p-10 font-[Tajawal]" x-data="{show: true}" id="body">
-    <div class="w-1/2 mx-auto mt-32 bg-[#D9D9D9]/30 px-7 py-3 grid justify-items-center gap-y-5 rounded-2xl"
+    <div class="w-1/3 mx-auto mt-32 bg-[#D9D9D9]/30 px-7 py-3 grid justify-items-center gap-y-5 rounded-2xl"
          x-show="show">
         <div
             class="border-[5px] border-[#6E65E8] bg-white w-16 h-16 -mt-10 rounded-full text-center text-lg p-4 font-bold mb-2">
@@ -48,11 +48,12 @@
 
 
         {{--        <p class="font-medium text-justify">{{__('extra.'.$test->content)}} {{__('extra.test_info')}}</p>--}}
-        <video class="w-5/6 mx-auto" autoplay muted loop>
-            <source src="{{asset('videos/'.$test->session_name.'.mov')}}" type="video/mp4">
-            Your browser does not support the video tag.
-        </video>
     </div>
+
+    <video class="w-5/6 mx-auto" autoplay muted loop>
+        <source src="{{asset('videos/'.$test->session_name.'.mov')}}" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
 
     <form
         id="test_form"
