@@ -2,7 +2,7 @@
         user_id="{{$user->id}}"
         test_id="{{$test->id}}">
     <body class="p-10 font-[Tajawal]" x-data="{show: true}" id="body">
-    <div class="w-2/3 mx-auto mt-32 bg-[#D9D9D9]/30 px-7 py-3 grid justify-items-center gap-y-5 rounded-2xl"
+    <div class="w-1/2 mx-auto mt-32 bg-[#D9D9D9]/30 px-7 py-3 grid justify-items-center gap-y-5 rounded-2xl"
          x-show="show">
         <div
             class="border-[5px] border-[#6E65E8] bg-white w-16 h-16 -mt-10 rounded-full text-center text-lg p-4 font-bold mb-2">
