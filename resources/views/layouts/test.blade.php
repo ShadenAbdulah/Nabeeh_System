@@ -48,12 +48,11 @@
 
 
         {{--        <p class="font-medium text-justify">{{__('extra.'.$test->content)}} {{__('extra.test_info')}}</p>--}}
+        <video class="w-1/3 mx-auto bg-white" autoplay muted loop>
+            <source src="{{asset('videos/'.$test->session_name.'.mov')}}" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
     </div>
-
-    <video class="w-1/3 mx-auto" autoplay muted loop>
-        <source src="{{asset('videos/'.$test->session_name.'.mov')}}" type="video/mp4">
-        Your browser does not support the video tag.
-    </video>
 
     <form
         id="test_form"
