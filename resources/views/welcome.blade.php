@@ -18,7 +18,7 @@
             <img src="{{asset('images/landing1.svg')}}" alt="" class="mt-5">
 
             <iframe class="my-auto mx-auto"
-                    src="https://www.youtube.com/embed/UrJaH9ODW6c?si=Fm78UZTO7IgA5KkD&autoplay=1&loop=1&amp;controls=0"
+                    src="https://www.youtube.com/embed/UrJaH9ODW6c?si=Fm78UZTO7IgA5KkD&autoplay=1&mute=1&loop=1&amp;controls=0"
                     title="What is Nabeeh" frameborder="0"
                     allow="accelerometer; autoplay; loop; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                     referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
