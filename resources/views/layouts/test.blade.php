@@ -51,7 +51,7 @@
     <form
         id="test_form"
         method="post"
-        action="{{($test->id+3 === 13)? route('result', ['id' => $user->id]): route('user.test', [$test->id+1, $user])}}"
+        action="{{($test->id+3 === 13)? route('result', ['id' => $user->id]): route('user.test', [$test->id+3, $user])}}"
         x-show="!show"
         x-data="{ countdown: 30 }">
         @method('get')
