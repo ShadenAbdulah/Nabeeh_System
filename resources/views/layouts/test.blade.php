@@ -13,13 +13,35 @@
             </div>
         </div>
         <div class="flex gap-x-0.5">
-            @for($i=0; $i<6; $i++)
-                @if($i<$test->dots)
-                    <div class="w-2 h-2 rounded-full bg-[#6E65E8]"></div>
-                @else
-                    <div class="w-2 h-2 rounded-full bg-[#D9D9D9]"></div>
-                @endif
-            @endfor
+            {{--            @for($i=0; $i<6; $i++)--}}
+            {{--                @if($i<$test->dots)--}}
+            {{--                    <div class="w-2 h-2 rounded-full bg-[#6E65E8]"></div>--}}
+            {{--                @else--}}
+            {{--                    <div class="w-2 h-2 rounded-full bg-[#D9D9D9]"></div>--}}
+            {{--                @endif--}}
+            {{--            @endfor--}}
+
+            @if($test->id === 1)
+                <div class="w-2 h-2 rounded-full bg-[#6E65E8]"></div>
+                <div class="w-2 h-2 rounded-full bg-[#D9D9D9]"></div>
+                <div class="w-2 h-2 rounded-full bg-[#D9D9D9]"></div>
+                <div class="w-2 h-2 rounded-full bg-[#D9D9D9]"></div>
+            @elseif($test->id === 4)
+                <div class="w-2 h-2 rounded-full bg-[#6E65E8]"></div>
+                <div class="w-2 h-2 rounded-full bg-[#6E65E8]"></div>
+                <div class="w-2 h-2 rounded-full bg-[#D9D9D9]"></div>
+                <div class="w-2 h-2 rounded-full bg-[#D9D9D9]"></div>
+            @elseif($test->id === 7)
+                <div class="w-2 h-2 rounded-full bg-[#6E65E8]"></div>
+                <div class="w-2 h-2 rounded-full bg-[#6E65E8]"></div>
+                <div class="w-2 h-2 rounded-full bg-[#6E65E8]"></div>
+                <div class="w-2 h-2 rounded-full bg-[#D9D9D9]"></div>
+            @elseif($test->id === 7)
+                <div class="w-2 h-2 rounded-full bg-[#6E65E8]"></div>
+                <div class="w-2 h-2 rounded-full bg-[#6E65E8]"></div>
+                <div class="w-2 h-2 rounded-full bg-[#6E65E8]"></div>
+                <div class="w-2 h-2 rounded-full bg-[#6E65E8]"></div>
+            @endif
         </div>
         <h1 class="font-semibold"><span
                 class="text-[#6E65E8]">{{__('extra.'.$test->type)}} </span>{{__('extra.'.$test->title)}}</h1>
@@ -29,7 +51,7 @@
     <form
         id="test_form"
         method="post"
-        action="{{($test->id+1 === 13)? route('result', ['id' => $user->id]): route('user.test', [$test->id+1, $user])}}"
+        action="{{($test->id+3 === 13)? route('result', ['id' => $user->id]): route('user.test', [$test->id+1, $user])}}"
         x-show="!show"
         x-data="{ countdown: 30 }">
         @method('get')

@@ -12,7 +12,7 @@
     <body class="font-[Tajawal] flex flex-col min-h-screen">
     @extends('components.loading-script')
     @section('js-content')
-        <div class="block sm:block md:hidden lg:hidden xl:hidden 2xl:hidden">
+        <div class="block overflow-y-scroll sm:block md:hidden lg:hidden xl:hidden 2xl:hidden">
             <img class="fixed z-50" src="{{asset('images/phones header.png')}}" alt="header">
 
             <img src="{{asset('images/landing1.svg')}}" alt="" class="mt-5">
@@ -23,7 +23,7 @@
                     allow="accelerometer; autoplay; loop; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                     referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
-            <img src="{{asset('images/landing2.svg')}}" alt="" class="overflow-y-scroll mt-5">
+            <img src="{{asset('images/landing2.svg')}}" alt="" class="mt-5">
 
             <div class="relative mx-auto">
                 <img src="{{asset('images/footer.png')}}" alt="footer">
